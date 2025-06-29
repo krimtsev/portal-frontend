@@ -1,0 +1,20 @@
+{
+    "mc": {
+        "common": {
+            "login": "Логин",
+            "password": "Пароль",
+            "remember": "Запомнить",
+            "enter": "Войти"
+        },
+        "placeholder": {
+            "name": "ivan"
+        },
+        "auth": {
+            "entry": "Вход",
+            "errors": {
+                "login": "Введите логин.",
+                "password": "Введите пароль."
+            }
+        }
+    }
+}

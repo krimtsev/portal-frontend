@@ -1,0 +1,55 @@
+// Переменные
+$columns: 12;
+$gap: 8px;
+$row-height: minmax(100px, auto);
+
+$breakpoints: (
+    "mobile": 0,
+    "desktop": 1025px,
+    "max": 1920px
+);
+
+// Grid контейнер
+.grid {
+    display: grid;
+    grid-template-columns: repeat($columns, 1fr);
+    grid-auto-rows: $row-height;
+    gap: $gap;
+}
+
+// Миксин для генерации колонок и отступов
+@mixin generate-columns($prefix: "") {
+    @for $i from 1 through $columns {
+        .#{$prefix}col-#{$i} {
+            grid-column: span $i;
+        }
+
+        .#{$prefix}offset-#{$i} {
+            grid-column-start: $i + 1;
+        }
+
+        @for $i from 1 through $columns {
+            .#{$prefix}row-span-#{$i} {
+                grid-row: span $i;
+            }
+        }
+    }
+}
+
+// Базовые стили (по умолчанию)
+@include generate-columns();
+
+// Мобильные (до 1024px)
+@media (max-width: 1024px) {
+    @include generate-columns("mob-");
+}
+
+// Десктоп (от 1025px до 1919px)
+@media (min-width: 1025px) and (max-width: 1919px) {
+    @include generate-columns("desk-");
+}
+
+// Максимальные (1920px и выше)
+@media (min-width: 1920px) {
+    @include generate-columns("max-");
+}

@@ -1,0 +1,48 @@
+{
+  "name": "portal",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=develop node builder/build.js",
+    "generate": "cross-env NODE_ENV=develop node builder/build.js",
+    "build": "cross-env NODE_ENV=production node builder/build.js && vite build",
+    "preview": "vite preview",
+    "lint": "eslint 'src/**/*.{js,ts,vue}'",
+    "lint:fix": "eslint 'src/**/*.{js,ts,vue}' --fix"
+  },
+  "dependencies": {
+    "@primeuix/themes": "1.0.1",
+    "@primevue/forms": "4.3.5",
+    "axios": "1.9.0",
+    "normalize.css": "8.0.1",
+    "pinia": "3.0.2",
+    "primeicons": "7.0.0",
+    "primevue": "4.3.3",
+    "qs": "6.14.0",
+    "vue": "3.5.13",
+    "vue-i18n": "10",
+    "vue-router": "4"
+  },
+  "devDependencies": {
+    "@types/node": "22.14.0",
+    "@types/qs": "6.14.0",
+    "@typescript-eslint/eslint-plugin": "8.31.0",
+    "@typescript-eslint/parser": "8.31.0",
+    "@vitejs/plugin-vue": "^5.2.1",
+    "@vue/eslint-config-typescript": "^14.5.0",
+    "@vue/tsconfig": "^0.7.0",
+    "chokidar": "3.5.3",
+    "concurrently": "8.2.2",
+    "cross-env": "7.0.3",
+    "deepmerge": "4.3.1",
+    "eslint": "9.25.1",
+    "eslint-plugin-vue": "10.0.0",
+    "recursive-copy": "2.0.14",
+    "sass-embedded": "1.87.0",
+    "typescript": "5.8.3",
+    "vite": "6.2.6",
+    "vite-plugin-eslint": "1.8.1",
+    "vue-tsc": "2.2.4"
+  }
+}
