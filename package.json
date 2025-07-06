@@ -3,6 +3,11 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": "Please use pnpm",
+    "yarn": "Please use pnpm"
+  },
   "scripts": {
     "dev": "cross-env NODE_ENV=develop node builder/build.js",
     "generate": "cross-env NODE_ENV=develop node builder/build.js",

@@ -20,8 +20,8 @@ interface Auth {
 }
 
 const initialValues = reactive<Auth>({
-    login: "ice",
-    password: "WwK6K2jqPPDwVgp",
+    login: "",
+    password: "",
     remember: false
 });
 
