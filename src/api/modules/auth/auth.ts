@@ -4,7 +4,7 @@ import type {
     AuthData
 } from "@/api/modules/auth/definitions/auth.ts"
 // @ts-ignore
-import env from "~/env.js"
+import env from "~/env"
 
 export async function csrf() {
     return await http.get("sanctum/csrf-cookie", {

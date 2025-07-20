@@ -3,8 +3,9 @@ import { useRouter } from "vue-router"
 import BIcon from "@c/common/b-icon/b-icon.vue"
 
 const props = defineProps<{
-    title: string,
+    title?: string,
     path?: string
+    menuTitle?: boolean
 }>()
 
 const router = useRouter()
@@ -12,8 +13,16 @@ const onClick = () => router.push({ path: props.path })
 </script>
 
 <template>
-    <div class="portal-card">
-        <div class="card-title title-lg">{{ props.title }}</div>
+    <div
+        class="portal-card"
+        :class="{ 'menu-title': menuTitle }"
+    >
+        <div
+            v-if="props.title"
+            class="card-title title-lg"
+        >
+            {{ props.title }}
+        </div>
         <div class="card-content">
             <slot />
         </div>
@@ -35,26 +44,36 @@ const onClick = () => router.push({ path: props.path })
 
 <style lang="scss" scoped>
 .portal-card {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
     padding: $indent-x4 ;
-    background: rgba(17, 17, 17, 1);
+    background: var(--p-portal-card-background);
     border-radius: $indent-x4;
-    min-height: 192px;
-    height: 100%;
 
     .card {
         &-title {
-            color: rgba(255, 255, 255, 0.9);
-            margin-bottom: $indent-x5;
-            padding-left: $indent-x3;
+            @include card-title(rgba(255, 255, 255, 0.9));
+
+            margin-bottom: $indent-x2;
         }
 
         &-content {
+            flex-grow: 1;
             overflow: hidden;
         }
 
         &-footer {
             display: flex;
             justify-content: flex-end;
+            margin-top: auto;
+        }
+    }
+
+    &.menu-title {
+        .card-title {
+            padding-left: $indent-x3;
+            margin-bottom: $indent-x5;
         }
     }
 

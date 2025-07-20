@@ -7,8 +7,8 @@ import type  {
 } from "axios"
 import qs from "qs"
 import { Queue } from "@/api/queue"
-// @ts-ignore
-import env from "~/env.js"
+
+import env from "~/env"
 
 export class HttpError {
     code: number

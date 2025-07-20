@@ -11,15 +11,10 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
-    console.log({
-        to,
-        from,
-        next
-    })
+    console.log({ to, from })
 
     const authStore = useAuthStore()
 
-    console.log(authStore)
     if (authStore.isLoading) {
         const result = await authStore.getUserData(true)
         if (!result) {
@@ -28,7 +23,7 @@ router.beforeEach(async (to, from, next) => {
     }
 
     if (authStore.isAuthenticated) {
-        if (to.name === CommonRouteName.Auth) {
+        if (to.name === CommonRouteName.Auth || !to.name) {
             return next({ path: portalPaths.Home })
         }
 

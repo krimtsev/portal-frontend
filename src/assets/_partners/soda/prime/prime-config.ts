@@ -20,6 +20,36 @@ export default {
         button: {
             paddingY: "0.797rem",
             paddingX: "1.1429rem",
+        },
+        datatable: {
+            colorScheme: {
+                dark: {
+                    header: {
+                        cell: {
+                            border: {
+                                color: "{surface.600}"
+                            }
+                        }
+                    },
+                    body: {
+                        cell: {
+                            border: {
+                                color: "{surface.600}"
+                            }
+                        }
+                    }
+                }
+            },
+        },
+        toast: {
+            colorScheme: {
+                dark: {
+                    error: {
+                        color: "{red.50}",
+                        background: "{red.500}"
+                    }
+                }
+            }
         }
     },
     semantic: {

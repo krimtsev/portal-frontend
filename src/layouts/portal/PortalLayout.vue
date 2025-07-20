@@ -71,8 +71,8 @@ body {
 
     .wrapper {
         margin: 0 auto;
-        max-width: $portal-layout-max-width;
-        width: $portal-layout-max-width;
+        max-width: $layout-max-width;
+        width: $layout-max-width;
         padding: $indent-x4 $indent-x1 $indent-x1;
     }
 

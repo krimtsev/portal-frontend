@@ -5,8 +5,10 @@ import PrimeImage from "primevue/image"
 
 const props = defineProps<{
     src: string,
+    local?: boolean,
     width?: string,
     height?: string
+    rounded?: boolean
 }>()
 
 const images = import.meta.glob('@a/images/**/*', {
@@ -16,7 +18,7 @@ const images = import.meta.glob('@a/images/**/*', {
 });
 
 const src = computed(() => {
-    if (props.src.startsWith('http')) return props.src;
+    if (props.src.startsWith('http') || props.local) return props.src;
 
     const matchingEntry = Object.entries(images).find(([key]) =>
         key.endsWith(`/${props.src}`)
@@ -29,7 +31,12 @@ const src = computed(() => {
 </script>
 
 <template>
-    <div class="b-image">
+    <div
+        class="b-image"
+        :class="{
+            'rounded': props.rounded,
+        }"
+    >
         <prime-image
             :src="src"
             :width="props.width"
@@ -37,3 +44,13 @@ const src = computed(() => {
         />
     </div>
 </template>
+
+<style scoped lang="scss">
+.b-image {
+    &.rounded {
+        :deep(img) {
+            border-radius: $indent-x2;
+        }
+    }
+}
+</style>

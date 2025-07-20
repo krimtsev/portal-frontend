@@ -8,10 +8,13 @@ import BInputPassword from "@c/common/b-input-password/b-input-password.vue"
 import BCheckbox from "@c/common/b-checkbox/b-checkbox.vue"
 import BButton from "@c/common/b-button/b-button.vue"
 import BImage from "@c/common/b-image/b-image.vue"
-import useAuthStore from "~/src/store/auth/auth"
+import useAuthStore from "@s/auth/auth"
+import { useNotify } from "@h/notify/notify"
+import { HttpError } from "@/api"
 
 const { t } = useI18n()
 const authStore = useAuthStore()
+const notify = useNotify()
 
 interface Auth {
     login: string
@@ -47,9 +50,16 @@ async function resolver(options: FormResolverOptions) {
 }
 
 async function onFormSubmit(event: FormSubmitEvent): Promise<void> {
+    authStore.isLoading = true
+
     const values = event.values as Auth
     await authStore.csrf()
-    await authStore.login(values)
+    const resp = await authStore.login(values)
+    if (resp instanceof HttpError) {
+        notify.error()
+    }
+
+    authStore.isLoading = false
 }
 </script>
 
@@ -76,6 +86,7 @@ async function onFormSubmit(event: FormSubmitEvent): Promise<void> {
                             ? $form.login.error?.message
                             : ''
                         "
+                        :disabled="authStore.isLoading"
                         name="login"
                     />
 
@@ -85,6 +96,7 @@ async function onFormSubmit(event: FormSubmitEvent): Promise<void> {
                             ? $form.password.error?.message
                             : ''
                         "
+                        :disabled="authStore.isLoading"
                         name="password"
                         label-colon
                     />
@@ -92,6 +104,7 @@ async function onFormSubmit(event: FormSubmitEvent): Promise<void> {
                     <div class="flex-center">
                         <b-checkbox
                             :label="t('mc.common.remember')"
+                            :disabled="authStore.isLoading"
                             name="remember"
                             class="checkbox"
                         />
@@ -101,6 +114,8 @@ async function onFormSubmit(event: FormSubmitEvent): Promise<void> {
                         :label="t('mc.common.enter')"
                         width-full
                         type="submit"
+                        :disabled="authStore.isLoading"
+                        :loading="authStore.isLoading"
                     />
                 </Form>
             </div>

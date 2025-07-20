@@ -20,6 +20,36 @@ export default {
         button: {
             paddingY: "0.797rem",
             paddingX: "1.1429rem",
+        },
+        datatable: {
+            colorScheme: {
+                dark: {
+                    header: {
+                        cell: {
+                            border: {
+                                color: "{surface.600}"
+                            }
+                        }
+                    },
+                    body: {
+                        cell: {
+                            border: {
+                                color: "{surface.600}"
+                            }
+                        }
+                    }
+                }
+            },
+        },
+        toast: {
+            colorScheme: {
+                dark: {
+                    error: {
+                        color: "{red.50}",
+                        background: "{red.500}"
+                    }
+                }
+            }
         }
     },
     semantic: {
@@ -77,6 +107,11 @@ export default {
                     invalidBorderColor: "{red.500}",
                     background: "{surface.0}"
                 },
+                portal: {
+                    card: {
+                        background: "#111111"
+                    }
+                }
             },
             dark: {
                 surface: {
@@ -100,6 +135,11 @@ export default {
                     invalidPlaceholderColor: "{surface.500}",
                     invalidBorderColor: "{red.500}",
                     background: "{surface.950}"
+                },
+                portal: {
+                    card: {
+                        background: "#111111"
+                    }
                 }
             }
         }

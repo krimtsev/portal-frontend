@@ -13,6 +13,7 @@ const props = withDefaults(defineProps<{
     toggleMask?: boolean
     feedback?: boolean
     placeholder: string
+    disabled?: boolean
 }>(), {
     toggleMask: true,
     feedback: false,
@@ -43,6 +44,7 @@ const label = computed(() => {
             :toggle-mask="props.toggleMask"
             :feedback="props.feedback"
             :placeholder="props.placeholder"
+            :disabled="props.disabled"
             class="password"
         />
 

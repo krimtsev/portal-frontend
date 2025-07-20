@@ -1,5 +1,5 @@
-@use "@a/styles/variables" as *;
-@use "@a/styles/mixins" as *;
+@use "variables" as *;
+@use "mixins" as *;
 
 .flex-row {
     @include flex-start;
@@ -192,4 +192,12 @@
     .ma-n#{$i} {
         margin: -$i * $indent !important;
     }
+}
+
+/**
+ * Components
+ */
+.portal-card + .portal-card,
+.portal-accordion-panel + .portal-accordion-panel {
+    margin-top: $indent-x1;
 }

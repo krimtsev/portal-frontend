@@ -7,6 +7,8 @@ const props = defineProps<{
     label: string,
     type?: ButtonType
     widthFull?: boolean
+    disabled?: boolean
+    loading?: boolean
 }>()
 </script>
 
@@ -15,6 +17,8 @@ const props = defineProps<{
         <prime-button
             :label="props.label"
             :type="props.type"
+            :disabled="props.disabled"
+            :loading="props.loading"
             class="button"
             :class="{
                 'width-full': props.widthFull

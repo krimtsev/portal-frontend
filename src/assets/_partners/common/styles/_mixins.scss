@@ -1,3 +1,6 @@
+@use "typography" as *;
+@use "variables" as *;
+
 @mixin flex-center {
     display: flex;
     justify-content: center;
@@ -16,8 +19,67 @@
     align-items: flex-end;
 }
 
-@mixin text-overflow() {
+@mixin text-overflow {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+@mixin remove-table-outer-borders {
+    td:first-child,
+    th:first-child {
+        border-left: none;
+    }
+
+    td:last-child,
+    th:last-child {
+        border-right: none;
+    }
+
+    tr:first-child td,
+    tr:first-child th {
+        border-top: none;
+    }
+
+    tr:last-child td {
+        border-bottom: none;
+    }
+}
+
+@mixin text-content {
+    p {
+        @include p();
+
+        margin-bottom: $indent-x2;
+    }
+
+    ol {
+        @include p();
+
+        list-style-type: decimal;
+        margin-bottom: $indent-x2;
+
+        li {
+            margin-left: $indent-x3;
+
+            ol, ul {
+                margin-top: 0;
+            }
+        }
+    }
+
+    ul {
+        @include p();
+
+        list-style-type: disc;
+        margin-bottom: $indent-x2;
+
+        li {
+            margin-left: $indent-x3;
+
+            ol, ul {
+                margin-top: 0;
+            }
+        }
+    }
 }

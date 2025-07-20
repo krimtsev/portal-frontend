@@ -1,15 +1,11 @@
 <script setup lang="ts">
-enum Variants {
-    Sm = "sm",
-    Md = "md",
-    Lg = "lg"
-}
+type Variants = "sm" | "md" | "lg" | "xl"
 
 const props = withDefaults(defineProps<{
     title: string,
     variant?: Variants
 }>(), {
-    variant: Variants.Md
+    variant: "md"
 })
 </script>
 
@@ -17,9 +13,10 @@ const props = withDefaults(defineProps<{
     <div
         class="b-title"
         :class="{
-            'variant-sm': props.variant === Variants.Sm,
-            'variant-md': props.variant === Variants.Md,
-            'variant-lg': props.variant === Variants.Lg
+            'variant-sm': props.variant === 'sm',
+            'variant-md': props.variant === 'md',
+            'variant-lg': props.variant === 'lg',
+            'variant-xl': props.variant === 'xl'
         }"
     >
         {{ props.title }}
@@ -29,21 +26,19 @@ const props = withDefaults(defineProps<{
 <style scoped lang="scss">
 .b-title {
     &.variant-sm {
-        font-weight: 500;
-        font-size: 1.2857rem; // 18px
-        line-height: 1.7143rem; // 24px
+        @include h4();
     }
 
     &.variant-md {
-        font-weight: 500;
-        font-size: 1.7143rem; // 24px
-        line-height: 2.2857rem; // 32px
+        @include h3();
     }
 
     &.variant-lg {
-        font-weight: 500;
-        font-size: 2.2857rem; // 32px
-        line-height: 2.8571rem; // 40px
+        @include h2();
+    }
+
+    &.variant-xl {
+        @include h1();
     }
 }
 </style>

@@ -1,4 +1,4 @@
-import {computed, reactive, ref} from "vue"
+import { computed, reactive, ref } from "vue"
 import { defineStore } from "pinia"
 import type {
     UserData,
@@ -39,14 +39,14 @@ const useAuthStore = defineStore("auth", () => {
 
         if (authData instanceof HttpError) {
             await reset(false)
-            return
+            return authData
         }
 
         user = authData.user
         isAuthenticated.value = true
         isLoading.value = false
 
-        await router.push({ name: PortalRouteName.PortalHome })
+        await router.push({ name: PortalRouteName.Home })
     }
 
     async function logout() {
@@ -76,6 +76,16 @@ const useAuthStore = defineStore("auth", () => {
         return true
     }
 
+    async function reset(redirect: boolean) {
+        user = defaultUserData()
+        isAuthenticated.value = false
+        isLoading.value = false
+
+        if (redirect) {
+            await router.push({ name: CommonRouteName.Auth })
+        }
+    }
+
     return {
         user: computed(() => user),
         isAuthenticated,
@@ -85,16 +95,6 @@ const useAuthStore = defineStore("auth", () => {
         login,
         logout,
         hasToken
-    }
-
-    async function reset(redirect: boolean) {
-        user = defaultUserData()
-        isAuthenticated.value = false
-        isLoading.value = false
-
-        if (redirect) {
-            await router.push({ name: CommonRouteName.Auth })
-        }
     }
 })
 

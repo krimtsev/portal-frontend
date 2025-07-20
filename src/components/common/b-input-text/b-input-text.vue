@@ -11,6 +11,7 @@ const props = withDefaults(defineProps<{
     label?: string,
     labelColon?: boolean
     error?: string
+    disabled?: boolean
 }>(), {
     placeholder: "",
     labelColon: false,
@@ -37,6 +38,7 @@ const label = computed(() => {
             v-model="model"
             :name="props.name"
             :placeholder="props.placeholder"
+            :disabled="props.disabled"
             type="text"
             class="input"
         />

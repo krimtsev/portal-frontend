@@ -1,0 +1,43 @@
+@mixin title($color: var(--p-surface-0)) {
+    color: $color;
+    font-weight: 500;
+    font-size: 1.4286rem;
+    line-height: 1.7143rem;
+}
+
+@mixin card-title($color: var(--p-surface-0)) {
+    color: $color;
+    font-weight: 500;
+    font-size: 1.7143rem;
+    line-height: 1.9286rem;
+}
+
+@mixin p() {
+    font-weight: 500;
+    font-size: 1.1429rem; // 16px
+    line-height: 1.7143rem; // 24px
+}
+
+@mixin h4() {
+    font-weight: 500;
+    font-size: 1.2857rem; // 18px
+    line-height: 1.7143rem; // 24px
+}
+
+@mixin h3() {
+    font-weight: 500;
+    font-size: 1.7143rem; // 24px
+    line-height: 2.2857rem; // 32px
+}
+
+@mixin h2() {
+    font-weight: 500;
+    font-size: 2.2857rem; // 32px
+    line-height: 2.8571rem; // 40px
+}
+
+@mixin h1() {
+    font-weight: 500;
+    font-size: 2.8571rem; // 40px
+    line-height: 3.4286rem; // 48px
+}

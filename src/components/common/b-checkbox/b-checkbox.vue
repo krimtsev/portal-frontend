@@ -7,6 +7,7 @@ const props = withDefaults(defineProps<{
     name: string,
     label?: string,
     binary?: boolean
+    disabled?: boolean
 }>(), {
     binary: true
 })
@@ -19,6 +20,7 @@ const props = withDefaults(defineProps<{
             :name="props.name"
             :binary="props.binary"
             :input-id="props.name"
+            :disabled="props.disabled"
             class="checkbox"
         />
         <label

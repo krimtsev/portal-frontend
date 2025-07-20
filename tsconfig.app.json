@@ -18,6 +18,7 @@
       "@v/*": ["./src/views/*"],
       "@r/*": ["./src/router/*"],
       "@s/*": ["./src/store/*"],
+      "@h/*": ["./src/hooks/*"],
       "@a/*": ["./.generated/assets/*"]
     }
   },

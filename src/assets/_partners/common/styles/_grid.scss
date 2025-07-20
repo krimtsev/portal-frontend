@@ -22,6 +22,8 @@ $breakpoints: (
     @for $i from 1 through $columns {
         .#{$prefix}col-#{$i} {
             grid-column: span $i;
+            display: flex;
+            flex-direction: column;
         }
 
         .#{$prefix}offset-#{$i} {
