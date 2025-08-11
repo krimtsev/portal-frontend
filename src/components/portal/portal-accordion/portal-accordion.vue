@@ -1,12 +1,19 @@
 <script setup lang="ts">
-import Accordion from "primevue/accordion"
+import { useAttrs } from "vue"
+import PrimeAccordion, { type AccordionProps } from "primevue/accordion"
+
+const attrs = useAttrs()
+const props = defineProps<AccordionProps>()
 </script>
 
 <template>
-    <Accordion
+    <prime-accordion
+        :multiple="props.multiple"
+        v-bind="attrs"
         class="portal-accordion"
-        expandIcon="pi pi-plus" collapseIcon="pi pi-times"
+        expand-icon="pi pi-plus"
+        collapse-icon="pi pi-times"
     >
         <slot />
-    </Accordion>
+    </prime-accordion>
 </template>

@@ -5,7 +5,6 @@ import DataTable from "primevue/datatable"
 import Column from "primevue/column"
 import { subscriptionData } from "@v/portal/_britva/documents/subscription/data/subscription-data"
 import BImage from "@c/common/b-image/b-image.vue"
-import exampleImage from "@v/portal/_britva/documents/subscription/images/example.png"
 </script>
 
 <template>
@@ -88,8 +87,7 @@ import exampleImage from "@v/portal/_britva/documents/subscription/images/exampl
                     />
 
                     <b-image
-                        :src="exampleImage"
-                        local
+                        src="portal/abik_example.png"
                         rounded
                     />
                 </portal-card>
@@ -147,7 +145,9 @@ import exampleImage from "@v/portal/_britva/documents/subscription/images/exampl
             </div>
 
             <div class="col-4">
-                <!-- TODO: блок под изображение -->
+                <div class="flex-center">
+                    <b-image src="portal/abik.png" />
+                </div>
             </div>
         </div>
     </div>
@@ -160,13 +160,13 @@ import exampleImage from "@v/portal/_britva/documents/subscription/images/exampl
     }
 
     :deep(.p-datatable) {
+        @include remove-table-outer-borders;
+
         .p-datatable-header-cell,
         .p-datatable-tbody > tr {
             background: transparent;
 
         }
-
-        @include remove-table-outer-borders;
     }
 
 }

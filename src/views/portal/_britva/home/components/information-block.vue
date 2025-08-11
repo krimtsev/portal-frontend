@@ -76,10 +76,22 @@ const sections: Section[] = [
     {
         title: "Дополнительные услуги",
         items: [
-            { label: "Платные услуги ЦО" },
-            { label: "Подписка Яндекс.Карты и 2ГИС" },
-            { label: "Сервис пропущенных звонков" },
-            { label: "Сервис аналитики показателей" }
+            {
+                label: "Платные услуги ЦО",
+                path:  portalPaths.ServicePaidCO,
+            },
+            {
+                label: "Подписка Яндекс.Карты и 2ГИС",
+                path:  portalPaths.ServiceSubscription,
+            },
+            {
+                label: "Сервис пропущенных звонков",
+                path:  portalPaths.ServiceMissedCalls,
+            },
+            {
+                label: "Сервис аналитики показателей",
+                path:  portalPaths.ServiceUserAnalytics,
+            }
         ]
     },
     {

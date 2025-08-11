@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import { computed } from "vue"
 import PrimeButton from "primevue/button"
 
 type ButtonType = "submit" | "reset" | "button"
+type ButtonVariant = "primary" | "secondary"
 
 const props = defineProps<{
     label: string,
@@ -9,7 +11,14 @@ const props = defineProps<{
     widthFull?: boolean
     disabled?: boolean
     loading?: boolean
+    variant?: ButtonVariant
+    outline?: boolean
 }>()
+
+const severity = computed(() => {
+    if (props.outline) return "secondary"
+    return props.variant ?? "primary"
+})
 </script>
 
 <template>
@@ -20,8 +29,10 @@ const props = defineProps<{
             :disabled="props.disabled"
             :loading="props.loading"
             class="button"
+            :severity="severity"
             :class="{
-                'width-full': props.widthFull
+                'width-full': props.widthFull,
+                'outline': props.outline,
             }"
         />
     </div>
@@ -34,6 +45,11 @@ const props = defineProps<{
 
         &.width-full {
             width: 100%;
+        }
+
+        &.outline {
+            background: transparent;
+            border: 1px solid var(--p-portal-button-outline-border-color);
         }
     }
 }

@@ -1,3 +1,47 @@
+<script setup>
+import { ref, onMounted, onBeforeUnmount } from 'vue'
+import Button from 'primevue/button'
+import { useRouter } from 'vue-router'
+
+const isCollapsed = ref(false)
+const sidebarVisible = ref(false)
+const isMobile = ref(false)
+
+const updateIsMobile = () => {
+    isMobile.value = window.innerWidth <= 768
+    if (isMobile.value) {
+        isCollapsed.value = false
+    }
+}
+
+onMounted(() => {
+    updateIsMobile()
+    window.addEventListener('resize', updateIsMobile)
+})
+onBeforeUnmount(() => {
+    window.removeEventListener('resize', updateIsMobile)
+})
+
+const toggleCollapse = () => {
+    isCollapsed.value = !isCollapsed.value
+}
+const toggleSidebar = () => {
+    sidebarVisible.value = !sidebarVisible.value
+}
+
+const router = useRouter()
+const navigate = (item) => {
+    if (item.to) router.push(item.to)
+    if (isMobile.value) sidebarVisible.value = false
+}
+
+const menuItems = [
+    { label: 'Главная', icon: 'pi pi-home', to: '/dashboard' },
+    { label: 'Профиль', icon: 'pi pi-user', to: '/profile' },
+    { label: 'Настройки', icon: 'pi pi-cog', to: '/settings' }
+]
+</script>
+
 <template>
     <div class="app-layout">
         <!-- Sidebar -->
@@ -43,50 +87,6 @@
         </div>
     </div>
 </template>
-
-<script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue'
-import Button from 'primevue/button'
-import { useRouter } from 'vue-router'
-
-const isCollapsed = ref(false)
-const sidebarVisible = ref(false)
-const isMobile = ref(false)
-
-const updateIsMobile = () => {
-    isMobile.value = window.innerWidth <= 768
-    if (isMobile.value) {
-        isCollapsed.value = false
-    }
-}
-
-onMounted(() => {
-    updateIsMobile()
-    window.addEventListener('resize', updateIsMobile)
-})
-onBeforeUnmount(() => {
-    window.removeEventListener('resize', updateIsMobile)
-})
-
-const toggleCollapse = () => {
-    isCollapsed.value = !isCollapsed.value
-}
-const toggleSidebar = () => {
-    sidebarVisible.value = !sidebarVisible.value
-}
-
-const router = useRouter()
-const navigate = (item) => {
-    if (item.to) router.push(item.to)
-    if (isMobile.value) sidebarVisible.value = false
-}
-
-const menuItems = [
-    { label: 'Главная', icon: 'pi pi-home', to: '/dashboard' },
-    { label: 'Профиль', icon: 'pi pi-user', to: '/profile' },
-    { label: 'Настройки', icon: 'pi pi-cog', to: '/settings' }
-]
-</script>
 
 <style scoped>
 .app-layout {

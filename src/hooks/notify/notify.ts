@@ -8,7 +8,7 @@ export function useNotify() {
         toast.add({
             severity: "error",
             summary: summary ?? i18n.global.t("mc.notify.error"),
-            life: 95000,
+            life: 5000,
             closable: false
         });
     }

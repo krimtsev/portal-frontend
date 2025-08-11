@@ -26,6 +26,8 @@ const src = computed(() => {
 
     if (!matchingEntry) return ""
 
+    console.log(matchingEntry[1])
+
     return matchingEntry[1] as string
 });
 </script>

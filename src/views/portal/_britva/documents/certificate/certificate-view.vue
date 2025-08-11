@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import BTitle from "@c/common/b-title/b-title.vue"
 import PortalCard from "@c/portal/portal-card/portal-card.vue"
+import BImage from "@c/common/b-image/b-image.vue"
 </script>
 
 <template>
@@ -145,7 +146,9 @@ import PortalCard from "@c/portal/portal-card/portal-card.vue"
             </div>
 
             <div class="col-4">
-                <!-- TODO: блок под изображение -->
+                <div class="flex-center">
+                    <b-image src="portal/gift.png" />
+                </div>
             </div>
         </div>
     </div>

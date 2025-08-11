@@ -5,4 +5,8 @@ export enum PortalRouteName {
     DocumentFines = "PortalDocumentFines",
     DocumentFinesAudit = "PortalDocumentFinesAudit",
     DocumentMangoAudit = "PortalDocumentMangoAudit",
+    ServicePaidCO = "ServicePaidCO",
+    ServiceSubscription = "ServiceSubscription",
+    ServiceUserAnalytics = "ServiceUserAnalytics",
+    ServiceMissedCalls = "ServiceMissedCalls",
 }

@@ -1,11 +1,16 @@
 <script setup lang="ts">
-import AccordionHeader from "primevue/accordionheader"
+import PrimeAccordionHeader from "primevue/accordionheader"
+
+const props = defineProps<{ disable?: boolean }>()
 </script>
 
 <template>
-    <AccordionHeader class="portal-accordion-header">
+    <prime-accordion-header
+        class="portal-accordion-header"
+        :class="{ disable: props.disable }"
+    >
         <slot />
-    </AccordionHeader>
+    </prime-accordion-header>
 </template>
 
 <style lang="scss" scoped>
@@ -20,6 +25,12 @@ import AccordionHeader from "primevue/accordionheader"
 
     :deep(.p-accordionheader-toggle-icon) {
         font-size: 1.7142rem;
+    }
+
+    &.disable {
+        :deep(.p-accordionheader-toggle-icon) {
+            visibility: hidden !important;
+        }
     }
 }
 </style>

@@ -2,6 +2,9 @@
 import Menubar from "primevue/menubar"
 import BImage from "@c/common/b-image/b-image.vue"
 import BLink from "@c/common/b-link/b-link.vue"
+import { useRouter } from "vue-router"
+import { PortalRouteName } from "@r/portal/route-names"
+const router = useRouter()
 
 const menuItems = [
     {
@@ -35,6 +38,10 @@ const menuItems = [
         }
     }
 ]
+
+function goToHome() {
+    router.push({ name: PortalRouteName.Home })
+}
 </script>
 
 <template>
@@ -42,7 +49,11 @@ const menuItems = [
         <div class="wrapper">
             <Menubar :model="menuItems">
                 <template #start>
-                    <b-image src="logos/logo.png" />
+                    <b-image
+                        src="logos/logo.png"
+                        class="cursor-pointer"
+                        @click="goToHome"
+                    />
                 </template>
                 <template #end>
                     <b-link label="Профиль" variant="link" :ripple="false" plain /> |

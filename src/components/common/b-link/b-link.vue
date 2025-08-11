@@ -28,7 +28,6 @@ const isExternal = computed(() => {
             :class="{
                 'simple': props.simple
             }"
-
         />
     </div>
 </template>

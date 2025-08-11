@@ -9,6 +9,7 @@ import CertificateView from "@v/portal/_britva/documents/certificate/certificate
 import FinesView from "@v/portal/_britva/documents/fines/fines-view.vue"
 import FinesAuditView from "@v/portal/_britva/documents/fines-audit/fines-audit-view.vue"
 import MangoAuditView from "@v/portal/_britva/documents/mango-audit/mango-audit-view.vue"
+import ServiceSubscription  from "@v/portal/_britva/services/subscription/subscription-view.vue"
 
 
 const routes: RouteRecordRaw[] = [
@@ -72,6 +73,46 @@ const routes: RouteRecordRaw[] = [
             {
                 path: portalPaths.DocumentMangoAudit,
                 name: PortalRouteName.DocumentMangoAudit,
+                components: {
+                    default: MangoAuditView,
+                },
+                meta: {
+                    roles: [Roles.USER, Roles.ADMIN, Roles.SYSADMIN],
+                }
+            },
+            {
+                path: portalPaths.ServicePaidCO,
+                name: PortalRouteName.ServicePaidCO,
+                components: {
+                    default: MangoAuditView,
+                },
+                meta: {
+                    roles: [Roles.USER, Roles.ADMIN, Roles.SYSADMIN],
+                }
+            },
+            {
+                path: portalPaths.ServiceSubscription,
+                name: PortalRouteName.ServiceSubscription,
+                components: {
+                    default: ServiceSubscription,
+                },
+                meta: {
+                    roles: [Roles.USER, Roles.ADMIN, Roles.SYSADMIN],
+                }
+            },
+            {
+                path: portalPaths.ServiceMissedCalls,
+                name: PortalRouteName.ServiceMissedCalls,
+                components: {
+                    default: MangoAuditView,
+                },
+                meta: {
+                    roles: [Roles.USER, Roles.ADMIN, Roles.SYSADMIN],
+                }
+            },
+            {
+                path: portalPaths.ServiceUserAnalytics,
+                name: PortalRouteName.ServiceUserAnalytics,
                 components: {
                     default: MangoAuditView,
                 },

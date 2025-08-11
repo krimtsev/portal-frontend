@@ -1,18 +1,19 @@
 <script setup lang="ts">
 import { useAttrs } from "vue"
-import AccordionPanel, { type AccordionPanelProps } from "primevue/accordionpanel"
+import PrimeAccordionPanel, { type AccordionPanelProps } from "primevue/accordionpanel"
+
 const props = defineProps<AccordionPanelProps>()
 const attrs = useAttrs()
 </script>
 
 <template>
-    <AccordionPanel
+    <prime-accordion-panel
         class="portal-accordion-panel"
         :value="props.value"
         v-bind="attrs"
     >
         <slot />
-    </AccordionPanel>
+    </prime-accordion-panel>
 </template>
 
 <style scoped lang="scss">

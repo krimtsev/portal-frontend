@@ -65,7 +65,6 @@ const menuItems = [
                         :label="item.label"
                         :icon="item.icon"
                         class="menu-item"
-                        text
                         @click="navigate(item)"
                     />
                 </li>

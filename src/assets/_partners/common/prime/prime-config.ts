@@ -107,6 +107,18 @@ export default {
                     invalidBorderColor: "{red.500}",
                     background: "{surface.0}"
                 },
+                portal: {
+                    card: {
+                        background: "#111111"
+                    },
+                    button: {
+                        outline: {
+                            border: {
+                                color: "{surface.300}"
+                            },
+                        }
+                    }
+                }
             },
             dark: {
                 surface: {
@@ -130,6 +142,18 @@ export default {
                     invalidPlaceholderColor: "{surface.500}",
                     invalidBorderColor: "{red.500}",
                     background: "{surface.950}"
+                },
+                portal: {
+                    card: {
+                        background: "#111111"
+                    },
+                    button: {
+                        outline: {
+                            border: {
+                                color: "#2b2b2b"
+                            },
+                        }
+                    }
                 }
             }
         }

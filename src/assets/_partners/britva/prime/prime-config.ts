@@ -110,8 +110,15 @@ export default {
                 portal: {
                     card: {
                         background: "#111111"
+                    },
+                    button: {
+                        outline: {
+                            border: {
+                                color: "{surface.300}"
+                            },
+                        }
                     }
-                }
+                },
             },
             dark: {
                 surface: {
@@ -139,6 +146,13 @@ export default {
                 portal: {
                     card: {
                         background: "#111111"
+                    },
+                    button: {
+                        outline: {
+                            border: {
+                                color: "#2b2b2b"
+                            },
+                        }
                     }
                 }
             }
