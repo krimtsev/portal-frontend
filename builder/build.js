@@ -42,11 +42,11 @@ async function build() {
     logInfo(`⚙️ Start build for ${partner}:`);
 
     mergeLocales()
-    await copyPrimeConfig()
-    await copyStyles()
-    mergeImages()
+    await copyFilesToAssets("prime", partner)
+    await copyFilesToAssets("styles")
+    await copyFilesToAssets("fonts")
+    mergeFiles("images")
     await copyPublic()
-    await copyFonts()
 }
 
 (async () => {
@@ -58,7 +58,6 @@ async function build() {
 })()
 
 function mergeLocales() {
-    logInfo(`Merge locales:`);
     const commonDir = path.resolve(partnersAssetsDir, "common", "locales")
     const partnerDir = path.resolve(partnersAssetsDir, partner, "locales")
     const outDir = path.resolve(generatedDir, "assets", "locales")
@@ -80,48 +79,28 @@ function mergeLocales() {
         const merged = deepMerge(commonJson, partnerJson)
 
         fs.writeFileSync(outputPath, JSON.stringify(merged, null, 2), 'utf8');
-        logInfo(`✔️ Merged ${locale}`);
+        logInfo(`✔️ locale: ${locale} merged`);
     }
 }
 
-async function copyStyles() {
-    logInfo(`Copy styles:`);
+async function copyFilesToAssets(dir, partner = "common") {
+    const sourceDir = path.resolve(partnersAssetsDir, partner, dir)
+    const outputDir = path.resolve(generatedDir, "assets", dir)
 
-    const stylesDir = path.resolve(partnersAssetsDir, "common", "styles")
-    const outputStyle = path.resolve(generatedDir, "assets", "styles")
-
-    createDirectory(outputStyle)
+    createDirectory(outputDir)
 
     try {
-        const results = await copy(stylesDir, outputStyle, defaultCopyOptions)
-        logInfo(`✔️ ${results.length} files copied`)
+        const results = await copy(sourceDir, outputDir, defaultCopyOptions)
+        logInfo(`✔️ ${dir}: ${results.length} files copied`)
     } catch (error) {
         throwError(`Error copying files ${error}`)
     }
 }
 
-async function copyPrimeConfig() {
-    logInfo(`Copy prime config:`);
-
-    const partnerDir = path.resolve(partnersAssetsDir, partner, "prime")
-    const outDir = path.resolve(generatedDir, "assets", "prime")
-
-    createDirectory(outDir)
-
-    try {
-        const results = await copy(partnerDir, outDir, defaultCopyOptions)
-        logInfo(`✔️ ${results.length} files copied`)
-    } catch (error) {
-        throwError(`Error copying files ${error}`)
-    }
-}
-
-function mergeImages() {
-    logInfo(`Merge images:`);
-
-    const commonDir = path.resolve(partnersAssetsDir, "common", "images");
-    const partnerDir = path.resolve(partnersAssetsDir, partner, "images");
-    const outDir = path.resolve(generatedDir, "assets", "images");
+function mergeFiles(type) {
+    const commonDir = path.resolve(partnersAssetsDir, "common", type);
+    const partnerDir = path.resolve(partnersAssetsDir, partner, type);
+    const outDir = path.resolve(generatedDir, "assets", type);
 
     createDirectory(outDir);
 
@@ -165,12 +144,10 @@ function mergeImages() {
         }
     }
 
-    logInfo(`✔️ Merged images ${allFiles.size}`);
+    logInfo(`✔️ ${type}: ${allFiles.size} merged`);
 }
 
 async function copyPublic() {
-    logInfo(`Copy public files:`);
-
     const partnerDir = path.resolve(partnersAssetsDir, partner, "public")
     const outDir = path.resolve(__dirname, "..", "public", "partner")
 
@@ -178,23 +155,7 @@ async function copyPublic() {
 
     try {
         const results = await copy(partnerDir, outDir, defaultCopyOptions)
-        logInfo(`✔️ ${results.length} files copied`)
-    } catch (error) {
-        throwError(`Error copying files ${error}`)
-    }
-}
-
-async function copyFonts() {
-    logInfo(`Copy fonts files:`);
-
-    const fontsDir = path.resolve(partnersAssetsDir, "common", "fonts")
-    const outDir = path.resolve(generatedDir, "assets", "fonts")
-
-    createDirectory(outDir)
-
-    try {
-        const results = await copy(fontsDir, outDir, defaultCopyOptions)
-        logInfo(`✔️ ${results.length} files copied`)
+        logInfo(`✔️ public: ${results.length} files copied`)
     } catch (error) {
         throwError(`Error copying files ${error}`)
     }
@@ -213,6 +174,18 @@ async function watchDevChanges() {
         shell: true
     });
 
+    const cleanExit = () => {
+        logInfo('🛑 Terminating watcher and Vite...');
+        watcher.close();
+        vite.kill();
+        process.exit(0);
+    };
+
+    process.on('SIGINT', cleanExit);
+    process.on('SIGTERM', cleanExit);
+    process.on('SIGHUP', cleanExit); // Завершам при закрытии редактора
+    process.on('exit', cleanExit); // Завершение при нажатии Ctrl+C или завершении процесса
+
     vite.on('close', (code) => {
         console.log(`Vite process exited with code ${code}`);
     });
@@ -220,15 +193,18 @@ async function watchDevChanges() {
     watcher
         .on('add', (filePath) => {
             console.log(`File added: ${filePath}`);
-            rebuild(filePath); // Запуск сборки при добавлении нового файла
+            // Запуск сборки при добавлении нового файла
+            rebuild(filePath);
         })
         .on('change', (filePath, stats, prevStats, prevPath) => {
             console.log(`File changed: ${filePath}`);
-            rebuild(filePath); // Запуск сборки при изменении файла
+            // Запуск сборки при изменении файла
+            rebuild(filePath);
         })
         .on('unlink', (filePath) => {
             console.log(`File removed: ${filePath}`);
-            rebuild(filePath); // Запуск сборки при удалении файла
+            // Запуск сборки при удалении файла
+            rebuild(filePath);
         })
         .on('error', (error) => {
             console.error(`Watcher error: ${error}`);
@@ -246,13 +222,16 @@ async function rebuild(filePath) {
             await mergeLocales()
             break;
         case "styles":
-            await copyStyles()
+            await copyFilesToAssets(dirName)
             break;
         case "prime":
-            await copyPrimeConfig()
+            await copyFilesToAssets(dirName, partner)
             break;
         case "images":
-            await mergeImages()
+            await mergeFiles(dirName)
+            break;
+        case "docs":
+            await mergeFiles(dirName)
             break;
         case "public":
             await copyPublic()
@@ -260,5 +239,4 @@ async function rebuild(filePath) {
         default:
             await build()
     }
-
 }

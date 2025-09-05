@@ -4,30 +4,38 @@ import { computed } from "vue"
 
 const props = defineProps<{
     label: string
-    target?: string
     href?: string
-    simple?: boolean
+    asInternal?: boolean
 }>()
 
-// Определяем ссылку как внешнюю
-const isExternal = computed(() => {
-    return !!props.href
-})
+const buttonProps = computed(() => {
+    const isExternal = !!props.href
 
+    return {
+        variant: "link",
+        ripple: false,
+        class: [
+            "button-link",
+            { external: isExternal && !props.asInternal }
+        ],
+        ...(isExternal
+            ? {
+                target: "_blank",
+                as: "a",
+                iconPos: "right",
+                icon: "pi pi-arrow-up-right"
+            }
+            : {})
+    }
+})
 </script>
 
 <template>
     <div class="b-link">
         <prime-button
+            v-bind="buttonProps"
             :label="props.label"
             :href="props.href"
-            :target="isExternal ? '_blank' : undefined"
-            :as="isExternal ? 'a' : undefined"
-            variant="link"
-            class="button-link"
-            :class="{
-                'simple': props.simple
-            }"
         />
     </div>
 </template>
@@ -41,24 +49,38 @@ const isExternal = computed(() => {
         display: none;
     }
 
-    // Основной стиль "ссылки-кнопки"
-    :deep(.p-button.button-link) {
-        color: var(--p-surface-0);
-        text-decoration: none;
-        padding: 0;
-
-        .p-button-label {
+    :deep(.p-button) {
+        // Основной стиль "ссылки-кнопки"
+        &.button-link {
+            color: var(--p-surface-0);
             text-decoration: none;
+            padding: 0;
+            border-radius: 0;
+
+            &.external {
+                color: var(--p-primary-600);
+            }
+
+            .p-button-label {
+                text-decoration: none;
+                text-align: start;
+                white-space: nowrap;
+            }
+        }
+
+        &.button-link:hover,
+        &.button-link:focus-visible {
+            color: var(--p-primary-600);
+        }
+
+        &.button-link:active {
+            color: var(--p-primary-700);
         }
     }
 
-    :deep(.p-button.button-link:hover),
-    :deep(.p-button.button-link:focus-visible) {
-        color: var(--p-primary-600);
-    }
-
-    :deep(.p-button.button-link:active) {
-        color: var(--p-primary-700);
+    :deep(.p-button-icon-right) {
+        padding-right: calc($indent-x1 / 2);
+        font-size: 0.75rem;
     }
 }
 </style>

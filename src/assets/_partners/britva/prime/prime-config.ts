@@ -50,7 +50,7 @@ export default {
                     }
                 }
             }
-        }
+        },
     },
     semantic: {
         border: {
@@ -119,6 +119,16 @@ export default {
                         }
                     }
                 },
+                divider: {
+                    border: {
+                        color: "{content.border.color}"
+                    },
+                },
+                content: {
+                    border: {
+                        color: "{surface.600}"
+                    }
+                },
             },
             dark: {
                 surface: {
@@ -154,7 +164,17 @@ export default {
                             },
                         }
                     }
-                }
+                },
+                divider: {
+                    border: {
+                        color: "{content.border.color}"
+                    },
+                },
+                content: {
+                    border: {
+                        color: "{surface.600}"
+                    }
+                },
             }
         }
     },

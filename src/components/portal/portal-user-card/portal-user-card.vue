@@ -1,17 +1,11 @@
 <script lang="ts" setup>
-import { computed } from "vue"
 import BImage from "@c/common/b-image/b-image.vue"
-import { formatPhone } from "@/lib/format-phone"
+import BTelnum from "@c/common/b-telnum/b-telnum.vue"
 
 const props = defineProps<{
     avatar?: string,
     telnum?: string,
 }>()
-
-const telnum = computed(() => {
-    if (!props.telnum) return ""
-    return formatPhone(props.telnum, { plus: true })
-})
 </script>
 
 <template>
@@ -23,6 +17,12 @@ const telnum = computed(() => {
             <b-image
                 :src="props.avatar"
                 class="avatar"
+                :image-style="{
+                    'object-fit': 'cover',
+                    'width': '100%',
+                    'height': '100%',
+                    'max-width': '172px'
+                }"
             />
         </div>
 
@@ -34,7 +34,7 @@ const telnum = computed(() => {
             v-if="props.telnum"
             class="telnum"
         >
-            <a :href="`tel: ${telnum}`"> {{ telnum }}</a>
+            <b-telnum :value="props.telnum" />
         </div>
 
         <div class="social">

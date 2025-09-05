@@ -1,0 +1,6 @@
+@use "variables" as *;
+
+.portal-card + .portal-card,
+.portal-accordion-panel + .portal-accordion-panel {
+    margin-top: $indent-x1;
+}

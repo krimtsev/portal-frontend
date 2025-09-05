@@ -7,6 +7,9 @@ const routes: RouteRecordRaw[] = [
     {
         path: "/",
         component: PortalLayout,
+        meta: {
+            title: "mc.partner.name"
+        },
         redirect: {
             name: PortalRouteName.Home
         },

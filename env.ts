@@ -5,6 +5,8 @@ export type Partner = "britva" | "soda"
 export interface Env {
     app: {
         partner: Partner
+        host: string
+        port: number
     }
     api: string
 }

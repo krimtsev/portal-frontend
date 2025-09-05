@@ -10,7 +10,7 @@ export function useNotify() {
             summary: summary ?? i18n.global.t("mc.notify.error"),
             life: 5000,
             closable: false
-        });
+        })
     }
 
     function success (summary?: string) {

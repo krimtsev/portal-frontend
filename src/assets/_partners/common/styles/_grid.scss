@@ -5,7 +5,7 @@ $row-height: minmax(100px, auto);
 
 $breakpoints: (
     "mobile": 0,
-    "desktop": 1025px,
+    "desktop": 1336px,
     "max": 1920px
 );
 
@@ -41,17 +41,23 @@ $breakpoints: (
 // Базовые стили (по умолчанию)
 @include generate-columns();
 
-// Мобильные (до 1024px)
-@media (max-width: 1024px) {
+// Мобильные (до 1336px)
+@media (max-width: 1336px) {
     @include generate-columns("mob-");
 }
 
-// Десктоп (от 1025px до 1919px)
-@media (min-width: 1025px) and (max-width: 1919px) {
+// Десктоп (от 1337px до 1919px)
+@media (min-width: 1337px) and (max-width: 1919px) {
     @include generate-columns("desk-");
 }
 
 // Максимальные (1920px и выше)
 @media (min-width: 1920px) {
     @include generate-columns("max-");
+}
+
+@media (max-width: 1337px) {
+    [class*="mob-hidden"] {
+        display: none !important;
+    }
 }

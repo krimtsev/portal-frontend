@@ -9,4 +9,10 @@ export enum PortalRouteName {
     ServiceSubscription = "ServiceSubscription",
     ServiceUserAnalytics = "ServiceUserAnalytics",
     ServiceMissedCalls = "ServiceMissedCalls",
+    InstructionMangoRedirect = "InstructionMangoRedirect",
+    InstructionYclientNotifications = "InstructionYclientNotifications",
+    AdditionallyDiscount = "AdditionallyDiscount",
+    ContactCentralOffice = "ContactCentralOffice",
+    ContactFranchisee = "ContactFranchisee",
+    ContactPartners = "ContactPartners",
 }

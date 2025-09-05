@@ -3,9 +3,7 @@ import { defineConfig, loadEnv } from "vite"
 import vue from "@vitejs/plugin-vue"
 import Components from "unplugin-vue-components/vite"
 import { PrimeVueResolver } from "@primevue/auto-import-resolver"
-
-//TODO: переделать на ip и порт из конфига
-//import env from "env.js"
+import env from "./env"
 
 export default ({ mode }: { mode: never }) => {
     process.env = {
@@ -46,6 +44,7 @@ export default ({ mode }: { mode: never }) => {
                     additionalData: `
                         @use "@a/styles/_fonts.scss" as *;
                         @use "@a/styles/_variables.scss" as *;
+                        @use "@a/styles/_gradients.scss" as *;
                         @use "@a/styles/_typography.scss" as *;
                         @use "@a/styles/_mixins.scss" as *;
                     `
@@ -60,8 +59,8 @@ export default ({ mode }: { mode: never }) => {
         },
 
         server: {
-            host: "localhost",
-            port: 8001,
+            host: env.app.host,
+            port: env.app.port,
             cors: false,
         },
     })

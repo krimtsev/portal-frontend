@@ -8,33 +8,33 @@ const router = useRouter()
 
 const menuItems = [
     {
-        label: 'Информация',
+        label: "Информация",
         command: () => {
-            console.log('Перейти на главную')
+            console.log("Перейти на главную")
         }
     },
     {
-        label: 'Заявки',
+        label: "Заявки",
         command: () => {
-            console.log('Перейти в профиль')
+            console.log("Перейти в профиль")
         }
     },
     {
-        label: 'Поиск сертификатов',
+        label: "Поиск сертификатов",
         command: () => {
-            console.log('Перейти в настройки')
+            console.log("Перейти в настройки")
         }
     },
     {
-        label: 'Доп. услуги',
+        label: "Доп. услуги",
         command: () => {
-            console.log('Перейти в настройки')
+            console.log("Перейти в настройки")
         }
     },
     {
-        label: 'Контакты',
+        label: "Контакты",
         command: () => {
-            console.log('Перейти в настройки')
+            console.log("Перейти в настройки")
         }
     }
 ]
@@ -56,9 +56,16 @@ function goToHome() {
                     />
                 </template>
                 <template #end>
-                    <b-link label="Профиль" variant="link" :ripple="false" plain /> |
-                    <b-link label="Панель администратора" variant="link" severity="success" /> |
-                    <b-link label="Выйти"  />
+                    <b-link
+                        label="Профиль"
+                        as-internal
+                    /> |
+                    <b-link
+                        label="Панель администратора"
+                    /> |
+                    <b-link
+                        label="Выйти"
+                    />
                 </template>
             </Menubar>
 
@@ -83,7 +90,6 @@ body {
     .wrapper {
         margin: 0 auto;
         max-width: $layout-max-width;
-        width: $layout-max-width;
         padding: $indent-x4 $indent-x1 $indent-x1;
     }
 

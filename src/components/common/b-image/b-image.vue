@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed } from "vue"
-
 import PrimeImage from "primevue/image"
 
 const props = defineProps<{
@@ -9,27 +8,27 @@ const props = defineProps<{
     width?: string,
     height?: string
     rounded?: boolean
+    full?: boolean
+    imageStyle?: any
 }>()
 
-const images = import.meta.glob('@a/images/**/*', {
+const images = import.meta.glob("@a/images/**/*", {
     eager: true,
-    query: '?url',
-    import: 'default',
-});
+    query: "?url",
+    import: "default",
+})
 
 const src = computed(() => {
-    if (props.src.startsWith('http') || props.local) return props.src;
+    if (props.src.startsWith("http") || props.local) return props.src
 
     const matchingEntry = Object.entries(images).find(([key]) =>
         key.endsWith(`/${props.src}`)
-    );
+    )
 
     if (!matchingEntry) return ""
 
-    console.log(matchingEntry[1])
-
     return matchingEntry[1] as string
-});
+})
 </script>
 
 <template>
@@ -37,12 +36,14 @@ const src = computed(() => {
         class="b-image"
         :class="{
             'rounded': props.rounded,
+            'full': props.full,
         }"
     >
         <prime-image
             :src="src"
             :width="props.width"
             :height="props.height"
+            :image-style="props.imageStyle"
         />
     </div>
 </template>
@@ -52,6 +53,14 @@ const src = computed(() => {
     &.rounded {
         :deep(img) {
             border-radius: $indent-x2;
+        }
+    }
+    &.full {
+        :deep(img) {
+            width: 100%;
+            min-width: 100%;
+            height: auto;
+            object-fit: cover;
         }
     }
 }

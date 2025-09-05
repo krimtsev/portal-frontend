@@ -4,13 +4,29 @@ import { Roles } from "@/shared/roles/roles"
 import { portalPaths } from "@r/portal/path"
 import PortalLayout from "@l/portal/PortalLayout.vue"
 import HomeView from "@v/portal/_britva/home/home-view.vue"
+
 import SubscriptionView from "@v/portal/_britva/documents/subscription/subscription-view.vue"
 import CertificateView from "@v/portal/_britva/documents/certificate/certificate-view.vue"
 import FinesView from "@v/portal/_britva/documents/fines/fines-view.vue"
 import FinesAuditView from "@v/portal/_britva/documents/fines-audit/fines-audit-view.vue"
 import MangoAuditView from "@v/portal/_britva/documents/mango-audit/mango-audit-view.vue"
-import ServiceSubscription  from "@v/portal/_britva/services/subscription/subscription-view.vue"
 
+import ServicePaidCO  from "@v/portal/_britva/services/paid-co/paid-co-view.vue"
+import ServiceSubscription  from "@v/portal/_britva/services/subscription/subscription-view.vue"
+import ServiceMissedCalls  from "@v/portal/_britva/services/missed-calls/missed-calls-view.vue"
+import ServiceUserAnalytics from "@v/portal/_britva/services/user-analytics/user-analytics-view.vue"
+
+import InstructionMangoRedirect from "@v/portal/instructions/mango-redirect/mango-redirect-view.vue"
+import InstructionYclientNotifications from "@v/portal/instructions/yclient-notifications/yclient-notifications-view.vue"
+
+import AdditionallyDiscounts from "@v/portal/_britva/additionally/discounts/discounts-view.vue"
+
+import ContactCentralOffice from "@v/portal/_britva/contacts/central-office/central-office-view.vue"
+import ContactFranchisee from "@v/portal/_britva/contacts/franchisee/franchisee-view.vue"
+import ContactPartners from "@v/portal/_britva/contacts/partners/partners-view.vue"
+
+
+const roles = [Roles.USER, Roles.ADMIN, Roles.SYSADMIN]
 
 const routes: RouteRecordRaw[] = [
     {
@@ -18,6 +34,9 @@ const routes: RouteRecordRaw[] = [
         component: PortalLayout,
         redirect: {
             name: PortalRouteName.Home
+        },
+        meta: {
+            title: "mc.partner.name"
         },
         children: [
             {
@@ -27,7 +46,7 @@ const routes: RouteRecordRaw[] = [
                     default: HomeView,
                 },
                 meta: {
-                    roles: [Roles.USER, Roles.ADMIN, Roles.SYSADMIN],
+                    roles,
                 }
             },
             {
@@ -37,7 +56,7 @@ const routes: RouteRecordRaw[] = [
                     default: SubscriptionView,
                 },
                 meta: {
-                    roles: [Roles.USER, Roles.ADMIN, Roles.SYSADMIN],
+                    roles,
                 }
             },
             {
@@ -47,7 +66,7 @@ const routes: RouteRecordRaw[] = [
                     default: CertificateView,
                 },
                 meta: {
-                    roles: [Roles.USER, Roles.ADMIN, Roles.SYSADMIN],
+                    roles,
                 }
             },
             {
@@ -57,7 +76,7 @@ const routes: RouteRecordRaw[] = [
                     default: FinesView,
                 },
                 meta: {
-                    roles: [Roles.USER, Roles.ADMIN, Roles.SYSADMIN],
+                    roles,
                 }
             },
             {
@@ -67,7 +86,7 @@ const routes: RouteRecordRaw[] = [
                     default: FinesAuditView,
                 },
                 meta: {
-                    roles: [Roles.USER, Roles.ADMIN, Roles.SYSADMIN],
+                    roles,
                 }
             },
             {
@@ -77,17 +96,17 @@ const routes: RouteRecordRaw[] = [
                     default: MangoAuditView,
                 },
                 meta: {
-                    roles: [Roles.USER, Roles.ADMIN, Roles.SYSADMIN],
+                    roles,
                 }
             },
             {
                 path: portalPaths.ServicePaidCO,
                 name: PortalRouteName.ServicePaidCO,
                 components: {
-                    default: MangoAuditView,
+                    default: ServicePaidCO,
                 },
                 meta: {
-                    roles: [Roles.USER, Roles.ADMIN, Roles.SYSADMIN],
+                    roles,
                 }
             },
             {
@@ -97,29 +116,89 @@ const routes: RouteRecordRaw[] = [
                     default: ServiceSubscription,
                 },
                 meta: {
-                    roles: [Roles.USER, Roles.ADMIN, Roles.SYSADMIN],
+                    roles,
                 }
             },
             {
                 path: portalPaths.ServiceMissedCalls,
                 name: PortalRouteName.ServiceMissedCalls,
                 components: {
-                    default: MangoAuditView,
+                    default: ServiceMissedCalls,
                 },
                 meta: {
-                    roles: [Roles.USER, Roles.ADMIN, Roles.SYSADMIN],
+                    roles,
                 }
             },
             {
                 path: portalPaths.ServiceUserAnalytics,
                 name: PortalRouteName.ServiceUserAnalytics,
                 components: {
-                    default: MangoAuditView,
+                    default: ServiceUserAnalytics,
                 },
                 meta: {
-                    roles: [Roles.USER, Roles.ADMIN, Roles.SYSADMIN],
+                    roles,
                 }
-            }
+            },
+            {
+                path: portalPaths.InstructionMangoRedirect,
+                name: PortalRouteName.InstructionMangoRedirect,
+                components: {
+                    default: InstructionMangoRedirect,
+                },
+                meta: {
+                    roles,
+                }
+            },
+            {
+                path: portalPaths.InstructionYclientNotifications,
+                name: PortalRouteName.InstructionYclientNotifications,
+                components: {
+                    default: InstructionYclientNotifications,
+                },
+                meta: {
+                    roles,
+                }
+            },
+            {
+                path: portalPaths.AdditionallyDiscount,
+                name: PortalRouteName.AdditionallyDiscount,
+                components: {
+                    default: AdditionallyDiscounts,
+                },
+                meta: {
+                    roles,
+                }
+            },
+            {
+                path: portalPaths.ContactCentralOffice,
+                name: PortalRouteName.ContactCentralOffice,
+                components: {
+                    default: ContactCentralOffice,
+                },
+                meta: {
+                    roles,
+                }
+            },
+            {
+                path: portalPaths.ContactFranchisee,
+                name: PortalRouteName.ContactFranchisee,
+                components: {
+                    default: ContactFranchisee,
+                },
+                meta: {
+                    roles,
+                }
+            },
+            {
+                path: portalPaths.ContactPartners,
+                name: PortalRouteName.ContactPartners,
+                components: {
+                    default: ContactPartners,
+                },
+                meta: {
+                    roles,
+                }
+            },
         ]
     }
 ]

@@ -1,17 +1,26 @@
-import { createWebHistory, createRouter } from "vue-router"
+import {
+    createWebHistory,
+    createRouter,
+    type RouteLocationNormalized
+} from "vue-router"
 import routes from "@r/routes"
 import useAuthStore from "~/src/store/auth/auth"
 import { CommonRouteName } from "@r/common/route-names"
 import { portalPaths } from "@r/portal/path"
-// import { dashboardPaths } from "@r/dashboard/path"
+import i18n from "@/plugins/i18n"
 
 const router = createRouter({
     history: createWebHistory(),
     routes,
 })
 
-router.beforeEach(async (to, from, next) => {
+router.beforeEach(async (to: RouteLocationNormalized, from, next) => {
     console.log({ to, from })
+
+    if (to.meta?.title) {
+        const { t } = i18n.global
+        document.title = t(to.meta.title)
+    }
 
     const authStore = useAuthStore()
 
@@ -27,21 +36,13 @@ router.beforeEach(async (to, from, next) => {
             return next({ path: portalPaths.Home })
         }
 
-        if (to.meta && Array.isArray(to.meta.roles)) {
-            if (!to.meta.roles.includes(authStore.user.role)) {
-                return next({ name: CommonRouteName.Auth })
-            }
+        if (to.meta?.roles && !to.meta.roles.includes(authStore.user.role)) {
+            return next({ name: CommonRouteName.Auth })
         }
     }
 
-    // Проверка, что маршрут существует
     if (!to.matched.length) {
-        // if (to.path.startsWith(portalPaths.Portal)) {
-        //     return next({ path: portalPaths.Portal })
-        // } else if (to.path.startsWith(dashboardPaths.Dashboard)) {
-        //     return next({ path: dashboardPaths.Dashboard })
-        // }
-        return next({ path: '/' })
+        return next({ path: "/" })
     }
 
     next()

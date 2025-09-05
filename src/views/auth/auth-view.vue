@@ -26,14 +26,14 @@ const initialValues = reactive<Auth>({
     login: "",
     password: "",
     remember: false
-});
+})
 
 async function resolver(options: FormResolverOptions) {
     const values = options.values
     const errors: {
-        login?: Array<{ message: string }>;
-        password?: Array<{ message: string }>;
-    } = {};
+        login?: Array<{ message: string }>
+        password?: Array<{ message: string }>
+    } = {}
 
     if (!values.login) {
         errors.login = [{ message: t("mc.auth.errors.login") }]
@@ -124,10 +124,6 @@ async function onFormSubmit(event: FormSubmitEvent): Promise<void> {
 </template>
 
 <style scoped lang="scss">
-$gradient-color-1: var(--p-form-field-background); // #0A0A0A
-$gradient-color-2: var(--p-primary-500); // #63A408
-$gradient-color-3: var(--p-primary-200); // #E4FF46
-
 .auth-view {
     @include flex-center;
 
@@ -140,7 +136,7 @@ $gradient-color-3: var(--p-primary-200); // #E4FF46
 
         width: 100%;
         height: 100%;
-        background: radial-gradient(104.99% 104.99% at 50% 101.58%, $gradient-color-1 60%, $gradient-color-2 84.89%, $gradient-color-3 100%);
+        background: $partner-gradient;
         border-radius: $indent-x4;
         padding: $indent-x2;
     }

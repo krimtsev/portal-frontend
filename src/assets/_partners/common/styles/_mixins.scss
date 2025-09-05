@@ -72,6 +72,10 @@
         li {
             margin-left: $indent-x3;
 
+            p {
+                margin-bottom: 0;
+            }
+
             ol, ul {
                 margin-top: 0;
             }
@@ -87,9 +91,17 @@
         li {
             margin-left: $indent-x3;
 
+            p {
+                margin-bottom: 0;
+            }
+
             ol, ul {
                 margin-top: 0;
             }
         }
+    }
+
+    .b-image {
+        margin-bottom: $indent-x2;
     }
 }

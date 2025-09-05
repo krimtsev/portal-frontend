@@ -6,7 +6,7 @@ import BImage from "@c/common/b-image/b-image.vue"
 <template>
     <div class="fines-right-section">
         <portal-card class="pt-x0">
-            <b-image src="portal/fines.png" />
+            <b-image src="template/fines.png" />
 
             <div class="title mb-x3"> Контроль качества </div>
 

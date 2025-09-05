@@ -12,6 +12,9 @@ const routes: RouteRecordRaw[] = [
         redirect: {
             name: DashboardRouteName.DashboardPanel
         },
+        meta: {
+            title: "mc.partner.name"
+        },
         children: [
             {
                 path:      dashboardPaths.Panel,

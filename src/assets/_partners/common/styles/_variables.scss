@@ -10,6 +10,9 @@ $indent-x6: $indent * 6; // = 48px
 $indent-x7: $indent * 7; // = 56px
 $indent-x8: $indent * 8; // = 64px
 
-$portal-layout-max-width: 1920px;
 $layout-max-width: 1920px;
-$layout-desktop-width: 1024px;
+$layout-desktop-width: 1600px;
+$layout-mobile-width: 1336px;
+$layout-middle-width: calc(($layout-desktop-width + $layout-mobile-width) / 2);
+
+$portal-layout-max-width: $layout-max-width;

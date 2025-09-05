@@ -1,18 +1,7 @@
-interface FinesAuditContent {
-    text: string
-    price: number
-    point?: string
-}
-
-interface FinesAuditData {
-    id: number
-    header: string
-    content: FinesAuditContent[]
-}
+import type { FinesAuditData } from "@v/portal/_britva/documents/fines-audit/definitions/fines-audit"
 
 export const finesAuditData: FinesAuditData[] = [
     {
-        id: 0,
         header: "Рабочее место барбера",
         content: [
             { text: "Грязный инструмент", price: 2000, point: "за единицу" },
@@ -36,7 +25,6 @@ export const finesAuditData: FinesAuditData[] = [
         ]
     },
     {
-        id: 1,
         header: "Уборная",
         content: [
             { text: "Отсутствие чистых полотенец в туалете (бумажные/махровые)", price: 1000 },
@@ -51,8 +39,7 @@ export const finesAuditData: FinesAuditData[] = [
         ]
     },
     {
-        id: 2,
-        header: "Зона Мойки",
+        header: "Зона мойки",
         content: [
             { text: "Грязная/поврежденная мойка", price: 2500 },
             { text: "Грязные шампуни/кондиционеры на мойке", price: 500, point: "за единицу" },
@@ -65,8 +52,7 @@ export const finesAuditData: FinesAuditData[] = [
         ]
     },
     {
-        id: 3,
-        header: "Входная Группа",
+        header: "Входная группа",
         content: [
             { text: "Грязная урна возле барбершопа", price: 2000 },
             { text: "Бычки/мусор возле входа", price: 2000 },
@@ -77,8 +63,7 @@ export const finesAuditData: FinesAuditData[] = [
         ]
     },
     {
-        id: 4,
-        header: "Зона Администратора",
+        header: "Зона администратора",
         content: [
             { text: "Пыль на товарных полках", price: 1000 },
             { text: "Пыль на стойке администратора", price: 1000 },
@@ -95,8 +80,7 @@ export const finesAuditData: FinesAuditData[] = [
         ]
     },
     {
-        id: 5,
-        header: "Общий Зал",
+        header: "Общий зал",
         content: [
             { text: "Посторонние предметы в зале барбершопа (бутылки, стройматериалы, мусор, пустые коробки, и т.п)", price: 2000 },
             { text: "Грязный воскоплав", price: 2000 },
@@ -109,4 +93,7 @@ export const finesAuditData: FinesAuditData[] = [
             { text: "Грязь/мусор под подушками дивана", price: 2000 },
         ]
     }
-]
+].map((item, index) => ({
+    id: index + 1,
+    ...item,
+}))

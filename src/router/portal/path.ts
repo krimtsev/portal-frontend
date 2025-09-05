@@ -9,4 +9,10 @@ export const portalPaths = {
     ServiceSubscription: "/services/subscription",
     ServiceUserAnalytics: "/services/user-analytics",
     ServiceMissedCalls: "/services/missed-calls",
+    InstructionMangoRedirect: "/instruction/mango-redirect",
+    InstructionYclientNotifications: "/instruction/yclient-notifications",
+    AdditionallyDiscount: "/additionally/discount",
+    ContactCentralOffice: "/contacts/central-office",
+    ContactFranchisee: "/contacts/franchisee",
+    ContactPartners: "/contacts/partners",
 }

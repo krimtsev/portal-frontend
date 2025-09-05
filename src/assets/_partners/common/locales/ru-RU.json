@@ -1,5 +1,8 @@
 {
     "mc": {
+        "partner": {
+            "name": "Portal"
+        },
         "common": {
             "login": "Логин",
             "password": "Пароль",

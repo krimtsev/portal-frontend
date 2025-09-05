@@ -1,15 +1,8 @@
 import { ContentType } from "@/shared/content/content"
-
-interface MangoAuditData {
-    id: number
-    header: string
-    content?: string | string[]
-    contentType?: ContentType
-}
+import type { MangoAuditData } from "@v/portal/_britva/documents/mango-audit/definitions/mango-audit"
 
 export const mangoAuditData: MangoAuditData[] = [
     {
-        id: 0,
         header: "Эмоциональное состояние админа во время приветствия и разговора по телефону, поддержание диалога",
         content: [
             "Безэмоциональное/сонное/приветствие и общение- 2 балла",
@@ -19,7 +12,6 @@ export const mangoAuditData: MangoAuditData[] = [
         contentType: ContentType.Bulleted
     },
     {
-        id: 1,
         header: "Правильность приветствия админа (назвал свое имя, филиал и поприветствовал гостя).",
         content: [
             "Отсутствует имя, филиал в большинстве записях или админ говорит 'слушаю Вас', вместо того, чтобы поздороваться - 2 балла",
@@ -28,7 +20,6 @@ export const mangoAuditData: MangoAuditData[] = [
         contentType: ContentType.Bulleted
     },
     {
-        id: 2,
         header: "Умение правильно донести условия акций/стоимость услуг/описания самих услуг.",
         content: [
             "Админ не знает цены, очень долго их ищет, либо долго считает общую стоимость (от 20 сек) - 1 балл",
@@ -39,7 +30,6 @@ export const mangoAuditData: MangoAuditData[] = [
         contentType: ContentType.Bulleted
     },
     {
-        id: 3,
         header: "Время ожидания клиента во время звонка, процесс записи (админ отошел, админ тупит, админ медленно работает).",
         content: [
             "Админ долго записывает/смотрит свободные окна (от 15 сек) - 1 балл",
@@ -51,7 +41,6 @@ export const mangoAuditData: MangoAuditData[] = [
         contentType: ContentType.Bulleted
     },
     {
-        id: 4,
         header: "Проговорить основные детали записи в конце разговора (к какому мастеру записал, на какие услуги, время).",
         content: [
             "Админ неполноценно дублирует детали записи в конце разговора - 1 балл",
@@ -59,7 +48,6 @@ export const mangoAuditData: MangoAuditData[] = [
         contentType: ContentType.Bulleted
     },
     {
-        id: 5,
         header: "Этикет общения (общение на «вы», слова паразиты не используются, грамотная русская речь).",
         content: [
             "Админ переходит на 'ты' во время общения по телефону - 2 балла",
@@ -69,7 +57,6 @@ export const mangoAuditData: MangoAuditData[] = [
         contentType: ContentType.Bulleted
     },
     {
-        id: 6,
         header: "Запись на 21:30 (админ отказывает клиенту при записи на 21:30).",
         content: [
             "Отказ в записи в 21:30 (если администратор категорически отказывает, по причине того, что барбершоп скоро закрывается - это будет считаться грубой ошибкой) - 2 балла.",
@@ -77,7 +64,6 @@ export const mangoAuditData: MangoAuditData[] = [
         contentType: ContentType.Bulleted
     },
     {
-        id: 7,
         header: "Предложение дополнительных услуг (воск, уходовые процедуры).",
         content: [
             "не штрафуем.",
@@ -85,11 +71,13 @@ export const mangoAuditData: MangoAuditData[] = [
         contentType: ContentType.Bulleted
     },
     {
-        id: 8,
         header: "Предпочтение по мастерам.",
         content: [
             "не штрафуем.",
         ],
         contentType: ContentType.Bulleted
     },
-]
+].map((item, index) => ({
+    id: index + 1,
+    ...item,
+}))

@@ -22,6 +22,15 @@ const props = defineProps<ContentProps>()
                 </li>
             </ol>
 
+            <ul v-else-if="props.contentType == ContentType.Bulleted">
+                <li
+                    v-for="(content, index) in props.content"
+                    :key="index"
+                >
+                    {{ $sanitizeHtml(content) }}
+                </li>
+            </ul>
+
             <template v-else>
                 <p
                     v-for="(content, index) in props.content"

@@ -9,6 +9,9 @@ const routes: RouteRecordRaw[] = [
     {
         path: "/",
         component: GuestLayout,
+        meta: {
+            title: "mc.partner.name"
+        },
         children: [
             {
                 path:       commonPaths.Auth,

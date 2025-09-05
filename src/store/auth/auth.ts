@@ -32,7 +32,7 @@ const useAuthStore = defineStore("auth", () => {
         await authAPI.csrf()
     }
 
-    const hasToken = computed(() => !!getCookie('XSRF-TOKEN'))
+    const hasToken = computed(() => !!getCookie("XSRF-TOKEN"))
 
     async function login(credentials: LoginCredentials) {
         const authData = await authAPI.login(credentials)

@@ -3,7 +3,7 @@ import Aura from "@primeuix/themes/aura"
 import partnerConfig from "@a/prime/prime-config"
 
 //@ts-ignore
-const preset = definePreset(Aura, partnerConfig);
+const preset = definePreset(Aura, partnerConfig)
 
 export const themeConfig = {
     theme: {

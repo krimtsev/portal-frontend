@@ -1,10 +1,10 @@
-<script setup>
+<script setup lang="ts">
 import { ref } from "vue"
 import { useRouter } from "vue-router"
 import logoSrc from "@a/images/logos/logo.png"
 import BImage from "@c/common/b-image/b-image.vue"
 import BButton from "@c/common/b-button/b-button.vue"
-import BIcon from "@c/common/b-icon/b-icon.vue";
+import BIcon from "@c/common/b-icon/b-icon.vue"
 
 const isCollapsed = ref(false)
 const sidebarVisible = ref(false)
@@ -18,8 +18,12 @@ const toggleSidebar = () => {
 
 const handleMenuClick = () => {
     // Приоритет overlay-режима на мобильных
-    const isMobile = window.matchMedia('(max-width: 768px)').matches
-    isMobile ? toggleSidebar() : toggleCollapse()
+    const isMobile = window.matchMedia("(max-width: 768px)").matches
+    if (isMobile) {
+        toggleSidebar()
+    } else {
+        toggleCollapse()
+    }
 }
 
 const router = useRouter()
@@ -29,16 +33,17 @@ const navigate = (item) => {
 }
 
 const menuItems = [
-    { label: 'Главная', icon: 'pi pi-home', to: '/dashboard' },
-    { label: 'Профиль', icon: 'pi pi-user', to: '/profile' },
-    { label: 'Настройки', icon: 'pi pi-cog', to: '/settings' }
+    { label: "Главная", icon: "pi pi-home", to: "/dashboard" },
+    { label: "Профиль", icon: "pi pi-user", to: "/profile" },
+    { label: "Настройки", icon: "pi pi-cog", to: "/settings" }
 ]
 </script>
 
 <template>
     <div class="dashboard-layout">
-        <div class="sidebar"
-             :class="{
+        <div
+            class="sidebar"
+            :class="{
                 collapsed: isCollapsed,
                 visible: sidebarVisible
             }"

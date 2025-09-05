@@ -39,6 +39,10 @@
     display: flex;
 }
 
+.flex-grow {
+    flex-grow: 1;
+}
+
 .justify-between {
     justify-content: space-between;
 }
@@ -216,12 +220,4 @@
     .ma-n#{$i} {
         margin: -$i * $indent !important;
     }
-}
-
-/**
- * Components
- */
-.portal-card + .portal-card,
-.portal-accordion-panel + .portal-accordion-panel {
-    margin-top: $indent-x1;
 }
