@@ -12,7 +12,7 @@ const props = defineProps<{
 
 const avatar = computed(() => {
     if (props.user.avatar) return props.user.avatar
-    return "template/default-avatar.png"
+    return "template/first-avatar.png"
 })
 
 </script>

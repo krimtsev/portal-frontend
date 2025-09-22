@@ -4,6 +4,8 @@ import BImage from "@c/common/b-image/b-image.vue"
 import BLink from "@c/common/b-link/b-link.vue"
 import { useRouter } from "vue-router"
 import { PortalRouteName } from "@r/portal/route-names"
+import { portalPaths } from "@r/portal/path"
+import { openExternalLink } from "@/lib/link"
 const router = useRouter()
 
 const menuItems = [
@@ -22,7 +24,7 @@ const menuItems = [
     {
         label: "Поиск сертификатов",
         command: () => {
-            console.log("Перейти в настройки")
+            router.push(portalPaths.Certificates)
         }
     },
     {
@@ -34,7 +36,16 @@ const menuItems = [
     {
         label: "Контакты",
         command: () => {
-            console.log("Перейти в настройки")
+            router.push(portalPaths.ContactCentralOffice)
+        }
+    },
+    {
+        label: "Админам",
+        icon: "pi pi-arrow-up-right",
+        class: "right-icon",
+        command: () => {
+            openExternalLink("https://britva.tech/britva")
+
         }
     }
 ]
@@ -116,6 +127,13 @@ body {
                 .p-menubar-item-link {
                     padding: calc($indent-x2 - 2px)  $indent-x2;
                 }
+            }
+
+            &.right-icon .p-menubar-item-link {
+                display: flex;
+                flex-direction: row-reverse;
+                justify-content: space-between;
+                align-items: center;
             }
         }
     }

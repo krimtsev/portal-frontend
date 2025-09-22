@@ -1,4 +1,10 @@
 export enum PortalRouteName {
+    //common
+    Certificates = "PortalCertificates",
+    InstructionMangoRedirect = "InstructionMangoRedirect",
+    InstructionYclientNotifications = "InstructionYclientNotifications",
+
+    //partner
     Home = "PortalHome",
     DocumentSubscription = "PortalDocumentSubscription",
     DocumentCertificate = "PortalDocumentCertificate",
@@ -9,8 +15,6 @@ export enum PortalRouteName {
     ServiceSubscription = "ServiceSubscription",
     ServiceUserAnalytics = "ServiceUserAnalytics",
     ServiceMissedCalls = "ServiceMissedCalls",
-    InstructionMangoRedirect = "InstructionMangoRedirect",
-    InstructionYclientNotifications = "InstructionYclientNotifications",
     AdditionallyDiscount = "AdditionallyDiscount",
     ContactCentralOffice = "ContactCentralOffice",
     ContactFranchisee = "ContactFranchisee",

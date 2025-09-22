@@ -2,7 +2,8 @@
 import PortalCard from "@c/portal/portal-card/portal-card.vue"
 import BImage from "@c/common/b-image/b-image.vue"
 import PortalInformationMenu from "@c/portal/portal-information-menu/portal-information-menu.vue"
-import { sections } from "@v/portal/_britva/home/data/home-data.ts"
+import { sections } from "@v/portal/_britva/home/data/home-data"
+import { portalPaths } from "@r/portal/path"
 </script>
 
 <template>
@@ -15,11 +16,13 @@ import { sections } from "@v/portal/_britva/home/data/home-data.ts"
             <div class="col-4 mob-col-12">
                 <portal-card
                     title="Поиск сертификатов"
-                    path="/portal/certificates/search"
+                    :path="portalPaths.Certificates"
                     menu-title
                     class="certificate-block"
                 >
-                    <b-image src="template/gift-card.png" full />
+                    <div class="image-block">
+                        <b-image src="template/gift-card.png" full />
+                    </div>
                 </portal-card>
             </div>
 
@@ -109,9 +112,22 @@ $min-height: 195px;
 
                 img {
                     max-height: 195px;
-                    width: auto;
                 }
             }
+        }
+    }
+
+    .certificate-block {
+        :deep(.p-image) {
+            img {
+                width: auto;
+            }
+        }
+
+        .image-block {
+            @include flex-center;
+
+            height: 100%;
         }
     }
 

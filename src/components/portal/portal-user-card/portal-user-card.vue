@@ -1,11 +1,14 @@
 <script lang="ts" setup>
-import BImage from "@c/common/b-image/b-image.vue"
+import { computed } from "vue"
 import BTelnum from "@c/common/b-telnum/b-telnum.vue"
+import { imageSrc } from "@h/images/images"
 
 const props = defineProps<{
     avatar?: string,
     telnum?: string,
 }>()
+
+const src = computed(() => imageSrc(props.avatar))
 </script>
 
 <template>
@@ -14,15 +17,9 @@ const props = defineProps<{
             v-if="props.avatar"
             class="header"
         >
-            <b-image
-                :src="props.avatar"
+            <img
+                :src="src"
                 class="avatar"
-                :image-style="{
-                    'object-fit': 'cover',
-                    'width': '100%',
-                    'height': '100%',
-                    'max-width': '172px'
-                }"
             />
         </div>
 
@@ -60,6 +57,9 @@ const props = defineProps<{
             overflow: hidden;
             border-radius: $indent-x4;
             border: 1px solid var(--p-primary-500);
+            object-fit: cover;
+            width: 172px;
+            height: 172px;
         }
     }
 

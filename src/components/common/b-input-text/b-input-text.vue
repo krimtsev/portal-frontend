@@ -5,6 +5,8 @@ import PrimeMessage from "primevue/message"
 
 const model = defineModel<string>()
 
+const emit = defineEmits(["change"])
+
 const props = withDefaults(defineProps<{
     name: string,
     placeholder?: string
@@ -41,6 +43,7 @@ const label = computed(() => {
             :disabled="props.disabled"
             type="text"
             class="input"
+            @change="emit('change', model)"
         />
 
         <prime-message

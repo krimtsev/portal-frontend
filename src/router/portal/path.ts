@@ -1,4 +1,10 @@
 export const portalPaths = {
+    //common
+    Certificates: "/certificates",
+    InstructionMangoRedirect: "/instruction/mango-redirect",
+    InstructionYclientNotifications: "/instruction/yclient-notifications",
+
+    //partner
     Home: "/home",
     DocumentSubscription: "/documents/subscription",
     DocumentCertificate: "/documents/certificate",
@@ -9,8 +15,6 @@ export const portalPaths = {
     ServiceSubscription: "/services/subscription",
     ServiceUserAnalytics: "/services/user-analytics",
     ServiceMissedCalls: "/services/missed-calls",
-    InstructionMangoRedirect: "/instruction/mango-redirect",
-    InstructionYclientNotifications: "/instruction/yclient-notifications",
     AdditionallyDiscount: "/additionally/discount",
     ContactCentralOffice: "/contacts/central-office",
     ContactFranchisee: "/contacts/franchisee",

@@ -51,6 +51,16 @@ export default {
                 }
             }
         },
+        skeleton: {
+            colorScheme: {
+                dark: {
+                    root: {
+                        background: "rgba(255, 255, 255, 0.2)",
+                        animationBackground: "rgba(255, 255, 255, 0.1)"
+                    }
+                }
+            },
+        },
     },
     semantic: {
         border: {
