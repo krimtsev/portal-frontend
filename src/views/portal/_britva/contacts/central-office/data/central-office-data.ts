@@ -3,6 +3,7 @@ import { ContentType } from "@/shared/content/content"
 
 export const centralOfficeData: CentralOfficeUser[] = [
     {
+        avatar: "employees/second-avatar.png",
         name: "Дмитрий Кормильцев",
         description: "генеральный директор сети, часы работы: пн-пт c 11:00 до 22:00",
         content: [
