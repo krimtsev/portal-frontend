@@ -9,7 +9,7 @@ import PortalButtonNavigation from "@c/portal/portal-button-navigation/portal-bu
 <template>
     <portal-page
         class="central-office-view"
-        title="Контакты"
+        title="Контакты сотрудников центрального офиса"
     >
         <template #top-side>
             <portal-button-navigation :buttons="buttonNavigation" />

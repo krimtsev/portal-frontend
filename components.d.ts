@@ -22,7 +22,6 @@ declare module 'vue' {
     BSkeleton: typeof import('./src/components/common/b-skeleton/b-skeleton.vue')['default']
     BTelnum: typeof import('./src/components/common/b-telnum/b-telnum.vue')['default']
     BTitle: typeof import('./src/components/common/b-title/b-title.vue')['default']
-    Column: typeof import('primevue/column')['default']
     PortalAccordion: typeof import('./src/components/portal/portal-accordion/portal-accordion.vue')['default']
     PortalAccordionContent: typeof import('./src/components/portal/portal-accordion/portal-accordion-content.vue')['default']
     PortalAccordionHeader: typeof import('./src/components/portal/portal-accordion/portal-accordion-header.vue')['default']
@@ -35,6 +34,5 @@ declare module 'vue' {
     PortalUserCard: typeof import('./src/components/portal/portal-user-card/portal-user-card.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    Skeleton: typeof import('primevue/skeleton')['default']
   }
 }

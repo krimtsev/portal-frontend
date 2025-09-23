@@ -7,7 +7,7 @@ import PortalButtonNavigation from "@c/portal/portal-button-navigation/portal-bu
 <template>
     <portal-page
         class="franchisee-view"
-        title="Франчайзи"
+        title="Контакты наших любимых франчайзи"
     >
         <template #top-side>
             <portal-button-navigation :buttons="buttonNavigation" />

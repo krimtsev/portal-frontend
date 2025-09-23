@@ -102,12 +102,12 @@ import PortalPage from "@c/portal/portal-page/portal-page.vue"
 
             <div class="col-4">
                 <portal-user-card
-                    avatar="template/service_avatar.png"
+                    avatar="employees/lushnikova.JPG"
                     telnum="79833130820"
                 >
                     <div class="text-center">
                         <p class="mb-x0">Для подключения напишите</p>
-                        <p class="mb-x0">Кате Лушниковой</p>
+                        <p class="mb-x0">Екатерине Лушниковой</p>
                     </div>
                 </portal-user-card>
             </div>

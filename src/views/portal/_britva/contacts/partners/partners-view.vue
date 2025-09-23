@@ -10,23 +10,20 @@ import BTelnum from "@c/common/b-telnum/b-telnum.vue"
 <template>
     <portal-page
         class="partners-view"
-        title="Партнеры"
+        title="Контакты партнеров с которыми мы взаимодействуем"
     >
         <template #top-side>
             <portal-button-navigation :buttons="buttonNavigation" />
         </template>
 
-        <portal-card title="Вопросы по картам:">
+        <portal-card title="Карты:">
             <div class="content">
                 <ul>
                     <li>
-                        Яндекс, Наталья Маленко, заявки писать
-                        <b-link label="k.mango-office.ru" href="http://lk.mango-office.ru/"/>
-                        (номер рекламной компании 36409936)
+                        Яндекс, Наталья Маленко, заявки писать в <b-link label="форму заявки" href="https://forms.yandex.ru/surveys/10034022.63a13acfcba7c7fdf5501636cc161efa6d3c5a3b/"/> (номер рекламной компании 36409936)
                     </li>
                     <li>
-                        2GIS, Данила Егоров, рабочий номер. <b-telnum value="74956041055" />  доб. 17715,
-                        личный номер <b-telnum value="79800052362" />
+                        2GIS, Данила Егоров, рабочий номер. <b-telnum value="74956041055" />  доб. 17715, личный номер <b-telnum value="79800052362" />
                     </li>
                 </ul>
             </div>
@@ -41,7 +38,7 @@ import BTelnum from "@c/common/b-telnum/b-telnum.vue"
                             <b-telnum value="88005050475" /> или в чаты поддержки.
                         </p>
                         <p>Быстрый чат расположен на экране справа внизу - желтый кружок.</p>
-                        <p>Контакты менеджера сети в разделе Обзор-Сводка.</p>
+                        <p>Контакты менеджера сети в разделе Обзор -> Сводка.</p>
                     </li>
                     <li>
                         Наш персональный менеджер отдела сопровождения Анна Горбачева, <b-telnum value="88005050475" />
