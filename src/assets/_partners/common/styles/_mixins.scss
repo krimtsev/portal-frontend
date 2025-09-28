@@ -35,7 +35,7 @@
     max-width: $w;
 }
 
-@mixin remove-table-outer-borders {
+@mixin table-outer-borders {
     td:first-child,
     th:first-child {
         border-left: none;
@@ -53,6 +53,49 @@
 
     tr:last-child td {
         border-bottom: none;
+    }
+}
+
+@mixin table-outer-header {
+    .p-datatable-header-cell {
+        border-width:  0;
+        background: transparent;
+    }
+
+    .p-datatable-tbody > tr {
+        background: transparent;
+
+        &:first-child {
+            td {
+                border-width:  1px !important;
+            }
+
+            td:first-child {
+                border-top-left-radius: $indent-x2;
+            }
+
+            td:last-child {
+                border-top-right-radius: $indent-x2;
+            }
+        }
+
+        &:last-child {
+            td:first-child {
+                border-bottom-left-radius: $indent-x2;
+            }
+
+            td:last-child {
+                border-bottom-right-radius: $indent-x2;
+            }
+        }
+    }
+
+    .p-datatable-paginator-bottom {
+        border-width: 0;
+
+        .p-paginator {
+            background: transparent;
+        }
     }
 }
 

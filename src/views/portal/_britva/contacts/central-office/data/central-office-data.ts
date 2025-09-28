@@ -3,7 +3,7 @@ import { ContentType } from "@/shared/content/content"
 
 export const centralOfficeData: CentralOfficeUser[] = [
     {
-        avatar: "employees/kormiltsev.JPG",
+        avatar: "employees/kormiltsev.jpg",
         name: "Дмитрий Кормильцев",
         description: "генеральный директор сети, часы работы: пн-пт c 11:00 до 22:00",
         content: [
@@ -14,7 +14,7 @@ export const centralOfficeData: CentralOfficeUser[] = [
         telnum: "79151253330"
     },
     {
-		avatar: "employees/bezludnyj.JPG",
+		avatar: "employees/bezludnyj.jpg",
         name: "Валерий Безлюдный",
         description: "исполнительный директор сети, часы работы: пн-пт c 10:00 до 20:00",
         content: [
@@ -26,29 +26,27 @@ export const centralOfficeData: CentralOfficeUser[] = [
         telnum: "79686740219"
     },
 	{
-		avatar: "employees/kurkin.JPG",
+		avatar: "employees/kurkin.jpg",
         name: "Александр Куркин",
         description: "",
-        content: [
-            ""
-        ],
+        content: "Нам пока ничего не известно",
         contentType: ContentType.Bulleted,
         telnum: "79991234567"
     },
 	{
-		avatar: "employees/milyaeva.JPG",
+		avatar: "employees/milyaeva.jpg",
         name: "Екатерина Миляева",
         description: "кайфолог",
         content: [
 			"Событийный маркетинг: курирование мероприятий и совместных активностей с ключевыми партнёрами.",
-			"Корпоративные программы: организация поездок BRITVA.TRAVEL, турниров и спортивных инициатив BRITVA.SPORT.", 
+			"Корпоративные программы: организация поездок BRITVA.TRAVEL, турниров и спортивных инициатив BRITVA.SPORT.",
 			"Командный климат: выезды и консультации по внутренней атмосфере в коллективах, поддержка корпоративных мероприятий."
         ],
         contentType: ContentType.Bulleted,
         telnum: "79067033979"
     },
     {
-		avatar: "employees/lushnikova.JPG",
+		avatar: "employees/lushnikova.jpg",
         name: "Екатерина Лушникова",
         description: "отдел маркетинга сети, часы работы: пн-пт с 10:00 до 20:00",
         content: [
@@ -63,7 +61,7 @@ export const centralOfficeData: CentralOfficeUser[] = [
         telnum: "79833130820"
     },
     {
-		avatar: "employees/rybochkin.JPG",
+		avatar: "employees/rybochkin.jpg",
         name: "Александр Рыбочкин",
         description: "руководитель отдела сопровождения франшизы, часы работы: пн-пт с 10:00 до 20:00",
         content: [
@@ -78,8 +76,8 @@ export const centralOfficeData: CentralOfficeUser[] = [
         contentType: ContentType.Bulleted,
         telnum: "79057106040"
     },
-    {	
-		avatar: "employees/kuznetsov.JPG",
+    {
+		avatar: "employees/kuznetsov.jpg",
         name: "Кирилл Кузнецов",
         description: "отдел сопровождения франшизы, часы работы: пн-пт с 10:00 до 20:00",
         content: [
@@ -93,7 +91,7 @@ export const centralOfficeData: CentralOfficeUser[] = [
         telnum: "79962052321"
     },
     {
-		avatar: "employees/grechishnikov.JPG",
+		avatar: "employees/grechishnikov.jpg",
         name: "Глеб Гречишников",
         description: "отдел сопровождения франшизы, часы работы: пн-пт с 10:00 до 20:00",
         content: [
@@ -121,7 +119,7 @@ export const centralOfficeData: CentralOfficeUser[] = [
         telnum: "79152303099"
     },
     {
-		avatar: "employees/smelyanskij.JPG",
+		avatar: "employees/smelyanskij.jpg",
         name: "Смелянский Владислав",
         description: "руководитель отдела администраторов сети BRITVA, часы работы: ПН-ПТ с 10:00 до 20:00",
         content: [
@@ -134,7 +132,7 @@ export const centralOfficeData: CentralOfficeUser[] = [
         telnum: "79857955525"
     },
     {
-		avatar: "employees/udovichenko.JPG",
+		avatar: "employees/udovichenko.jpg",
         name: "Удовиченко Александр",
         description: "Старший мастер сети BRITVA, часы работы: ПН-ЧТ с 10:00 до 20:00",
         content: [
@@ -149,7 +147,7 @@ export const centralOfficeData: CentralOfficeUser[] = [
         telnum: "79153263958"
     },
 	{
-		avatar: "employees/daler.JPG",
+		avatar: "employees/daler.jpg",
         name: "Далер Уралов",
         description: "",
         content: [
@@ -161,7 +159,7 @@ export const centralOfficeData: CentralOfficeUser[] = [
         telnum: "79879523738"
     },
 	{
-		avatar: "employees/rybochkina.JPG",
+		avatar: "employees/rybochkina.jpg",
         name: "Снежанна Рыбочкина",
         description: "офис-менеджер, часы работы: пн-пт с 10:00 до 20:00",
         content: [
@@ -193,7 +191,7 @@ export const centralOfficeData: CentralOfficeUser[] = [
         telnum: "79994845484"
     },
     {
-		avatar: "employees/larionov.JPG",
+		avatar: "employees/larionov.jpg",
         name: "Михаил Ларионов",
         description: "руководитель отдела развития франшизы, часы работы: пн-пт с 10:00 до 20:00",
         content: [
@@ -205,7 +203,7 @@ export const centralOfficeData: CentralOfficeUser[] = [
         telnum: "79671056520"
     },
     {
-		avatar: "employees/chervonyashaya.JPG",
+		avatar: "employees/chervonyashaya.jpg",
         name: "Евгения Червонящая",
         description: "отдел развития франшизы, часы работы: пн-пт с 10:00 до 20:00",
         content: [],
@@ -213,7 +211,7 @@ export const centralOfficeData: CentralOfficeUser[] = [
         telnum: "79104478582"
     },
     {
-		avatar: "employees/savchuk.JPG",
+		avatar: "employees/savchuk.jpg",
         name: "Владимир Савчук",
         description: "отдел развития франшизы, часы работы: пн-пт с 10:00 до 20:00",
         content: [],
@@ -221,7 +219,7 @@ export const centralOfficeData: CentralOfficeUser[] = [
         telnum: "79260625418"
     },
     {
-		avatar: "employees/kapranov.JPG",
+		avatar: "employees/kapranov.jpg",
         name: "Данила Капранов",
         description: "отдел развития франшизы, часы работы: пн-пт с 10:00 до 20:00",
         content: [],
@@ -229,7 +227,7 @@ export const centralOfficeData: CentralOfficeUser[] = [
         telnum: "79152256080"
     },
     {
-		avatar: "employees/shaligin.JPG",
+		avatar: "employees/shaligin.jpg",
         name: " Вадим Шалыгин",
         description: "отдел развития франшизы, часы работы: пн-пт с 10:00 до 20:00",
         content: [],

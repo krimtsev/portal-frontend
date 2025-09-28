@@ -65,7 +65,7 @@ const { n } = useI18n()
 <style scoped lang="scss">
 .fines-audit-view {
     :deep(.p-datatable) {
-        @include remove-table-outer-borders;
+        @include table-outer-borders;
 
         .p-datatable-header-cell,
         .p-datatable-tbody > tr {

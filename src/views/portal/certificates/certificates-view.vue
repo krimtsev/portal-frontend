@@ -2,7 +2,7 @@
 import { ref, computed, onMounted } from "vue"
 import PortalPage from "@c/portal/portal-page/portal-page.vue"
 import { HttpError } from "@/api"
-import * as certificatesAPI from "@/api/modules/sheet/certificates/certificates"
+import * as sheetAPI from "@/api/modules/sheet/sheet.ts"
 import DataTable from "primevue/datatable"
 import Column from "primevue/column"
 import type { CertificateItem } from "@v/portal/certificates/definitions/certificates"
@@ -12,7 +12,9 @@ import BEmptyResult from "@c/common/b-empty-result/b-empty-result.vue"
 import BInputSearch from "@c/common/b-input-search/b-input-search.vue"
 import { useI18n } from "vue-i18n"
 import PortalUserCard from "@c/portal/portal-user-card/portal-user-card.vue"
+import { useNotify } from "@h/notify/notify"
 
+const notify = useNotify()
 const { t, n } = useI18n()
 
 const paginationFilter = ref(defaultPaginationFilter())
@@ -32,9 +34,10 @@ async function getData() {
     isLoading.value = true
     setInitialData()
 
-    const data = await certificatesAPI.get(paginationFilter.value)
+    const data = await sheetAPI.get(paginationFilter.value)
 
     if (data instanceof HttpError) {
+        notify.error()
         return false
     }
 
@@ -125,21 +128,30 @@ const firstPage = computed(() => {
                 <column field="price" header="Номинал" class="price">
                     <template #body="slotProps">
                         <span v-if="!isLoading">{{ slotProps.data.price }}</span>
-                        <b-skeleton v-else />
+                        <b-skeleton
+                            v-else
+                            width="25%"
+                        />
                     </template>
                 </column>
 
                 <column field="identifier" header="Номер" class="identifier">
                     <template #body="slotProps">
                         <span v-if="!isLoading">{{ slotProps.data.identifier }}</span>
-                        <b-skeleton v-else />
+                        <b-skeleton
+                            v-else
+                            width="33%"
+                        />
                     </template>
                 </column>
 
                 <column field="partner" header="Филиал" class="partner">
                     <template #body="slotProps">
                         <span v-if="!isLoading">{{ slotProps.data.partner }}</span>
-                        <b-skeleton v-else />
+                        <b-skeleton
+                            v-else
+                            width="47%"
+                        />
                     </template>
                 </column>
             </data-table>
@@ -188,22 +200,7 @@ const firstPage = computed(() => {
     //}
 
     :deep(.p-datatable) {
-        .p-datatable-header-cell {
-            border-width: 0 0 1px 0;
-            background: transparent;
-        }
-
-        .p-datatable-tbody > tr {
-            background: transparent;
-        }
-
-        .p-datatable-paginator-bottom {
-            border-width: 0;
-
-            .p-paginator {
-                background: transparent;
-            }
-        }
+        @include table-outer-header;
 
         .price, .identifier, .partner {
             width: calc(100% / 3);

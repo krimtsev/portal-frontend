@@ -16,7 +16,6 @@ import ServiceMissedCalls  from "@v/portal/_britva/services/missed-calls/missed-
 import ServiceUserAnalytics from "@v/portal/_britva/services/user-analytics/user-analytics-view.vue"
 import AdditionallyDiscounts from "@v/portal/_britva/additionally/discounts/discounts-view.vue"
 import ContactCentralOffice from "@v/portal/_britva/contacts/central-office/central-office-view.vue"
-import ContactFranchisee from "@v/portal/_britva/contacts/franchisee/franchisee-view.vue"
 import ContactPartners from "@v/portal/_britva/contacts/partners/partners-view.vue"
 
 
@@ -148,16 +147,6 @@ const routes: RouteRecordRaw[] = [
                 name: PortalRouteName.ContactCentralOffice,
                 components: {
                     default: ContactCentralOffice,
-                },
-                meta: {
-                    roles,
-                }
-            },
-            {
-                path: portalPaths.ContactFranchisee,
-                name: PortalRouteName.ContactFranchisee,
-                components: {
-                    default: ContactFranchisee,
                 },
                 meta: {
                     roles,

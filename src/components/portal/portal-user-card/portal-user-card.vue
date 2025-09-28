@@ -20,6 +20,7 @@ const src = computed(() => imageSrc(props.avatar))
             <img
                 :src="src"
                 class="avatar"
+                alt=""
             />
         </div>
 

@@ -6,6 +6,7 @@ import { portalPaths } from "@r/portal/path"
 import CertificatesView from "@v/portal/certificates/certificates-view.vue"
 import InstructionMangoRedirect from "@v/portal/instructions/mango-redirect/mango-redirect-view.vue"
 import InstructionYclientNotifications from "@v/portal/instructions/yclient-notifications/yclient-notifications-view.vue"
+import ContactFranchisee from "@v/portal/contacts/franchisee/franchisee-view.vue"
 
 const roles = [Roles.USER, Roles.ADMIN, Roles.SYSADMIN]
 
@@ -42,6 +43,16 @@ const routes: RouteRecordRaw[] = [
                 name: PortalRouteName.Certificates,
                 components: {
                     default: CertificatesView,
+                },
+                meta: {
+                    roles,
+                }
+            },
+            {
+                path: portalPaths.ContactFranchisee,
+                name: PortalRouteName.ContactFranchisee,
+                components: {
+                    default: ContactFranchisee,
                 },
                 meta: {
                     roles,

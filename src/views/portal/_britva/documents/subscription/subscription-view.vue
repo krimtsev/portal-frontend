@@ -164,7 +164,7 @@ import PortalPage from "@c/portal/portal-page/portal-page.vue"
     }
 
     :deep(.p-datatable) {
-        @include remove-table-outer-borders;
+        @include table-outer-borders;
 
         .p-datatable-header-cell,
         .p-datatable-tbody > tr {

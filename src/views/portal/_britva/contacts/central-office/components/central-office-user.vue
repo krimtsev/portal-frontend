@@ -24,6 +24,7 @@ const avatar = computed(() => {
                 :src="avatar"
                 :alt="props.user.name"
                 full
+                lazy
             />
         </div>
 
