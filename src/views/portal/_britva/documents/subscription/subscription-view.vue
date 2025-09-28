@@ -11,7 +11,7 @@ import PortalPage from "@c/portal/portal-page/portal-page.vue"
 <template>
     <portal-page
         class="subscription-view"
-        title="Абонименты"
+        title="Абонементы"
         right-image="template/abik.png"
     >
 

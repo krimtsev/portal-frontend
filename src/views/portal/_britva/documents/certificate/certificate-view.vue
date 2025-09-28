@@ -9,10 +9,15 @@ import PortalPage from "@c/portal/portal-page/portal-page.vue"
         class="certificate-view"
         title="Подарочные сертификаты"
         right-image="template/gift.png"
-    >
+    >	
+		<b-title
+            title="Что такое подарочный сертификат BRITVA"
+            class="mt-x2 mb-x3"
+        />
+		
         <div class="grid">
             <div class="col-6">
-                <portal-card title="Годовой абонемент на стрижки и уход">
+                <portal-card title="Физический сертификат">
                     <div class="content">
                         <ul>
                             <li>Физическая карта, выданная Центральным офисом</li>
@@ -107,7 +112,7 @@ import PortalPage from "@c/portal/portal-page/portal-page.vue"
                     <div class="content">
                         <ol>
                             <li>Откройте вкладку «Поиск по сертификатам»</li>
-                            <li>Введите номер сертификата без начальных нулей</li>
+                            <li>Начните набирать необходимый код и нажмите Enter</li>
                             <li>Система отобразит:
                                 <ul>
                                     <li>номинал или услугу</li>
@@ -116,7 +121,6 @@ import PortalPage from "@c/portal/portal-page/portal-page.vue"
                             </li>
                         </ol>
 
-                        <p>Таблица доступна только для просмотра, редактирование закрыто</p>
                         <p>
                             Если возникают ошибки при пробитии в Yclients, таблица поможет
                             проверить корректность и выявить расхождения.
@@ -142,7 +146,7 @@ import PortalPage from "@c/portal/portal-page/portal-page.vue"
                         </ul>
 
                         <p>Если есть проблемы по физическим сертификатам, можете писать Диме</p>
-                        <p>Если есть проблемы по физическим сертификатам, можете писать Артему</p>
+                        <p>Если есть проблемы по электронными сертификатам, можете писать Артему</p>
                     </div>
                 </portal-card>
             </div>

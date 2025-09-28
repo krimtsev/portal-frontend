@@ -148,8 +148,8 @@ const firstPage = computed(() => {
         <template #right-side>
             <div class="users-info">
                 <portal-user-card
-                    avatar="template/first-avatar.png"
-                    telnum="79833130820"
+                    avatar="employees/krimtsev.jpg"
+                    telnum="79994845317"
                 >
                     <div class="text-center">
                         <p class="mb-x0">
@@ -160,12 +160,13 @@ const firstPage = computed(() => {
                 </portal-user-card>
 
                 <portal-user-card
-                    avatar="template/second-avatar.png"
+                    avatar="employees/osipov.png"
+					telnum="79652914902"
                 >
                     <div class="text-center">
                         <p class="mb-x0">
                             Не можете найти электронный сертификат?
-                            Пишите Теме Осипову, он что-нибудь придумает.
+                            Пишите Артему Осипову, он что-нибудь придумает.
                         </p>
                     </div>
                 </portal-user-card>
