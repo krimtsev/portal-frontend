@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import PortalCard from "@c/portal/portal-card/portal-card.vue"
 import BTitle from "@c/common/b-title/b-title.vue"
-import DataTable from "primevue/datatable"
-import Column from "primevue/column"
+import PrimeDataTable from "primevue/datatable"
+import PrimeColumn from "primevue/column"
 import { subscriptionData } from "@v/portal/_britva/documents/subscription/data/subscription-data"
 import BImage from "@c/common/b-image/b-image.vue"
 import PortalPage from "@c/portal/portal-page/portal-page.vue"
@@ -41,17 +41,17 @@ import PortalPage from "@c/portal/portal-page/portal-page.vue"
 
         <portal-card title="Варианты абонементов:">
             <div class="content">
-                <data-table
+                <prime-data-table
                     :value="subscriptionData"
                     show-gridlines
                     class="table"
                 >
-                    <column field="service" header="Услуга"></column>
-                    <column field="barber" header="Барбер"></column>
-                    <column field="topBarber" header="Топ-барбер"></column>
-                    <column field="brandBarber" header="Бренд-барбер"></column>
-                    <column field="brandBarberPlus" header="Бренд-барбер +"></column>
-                </data-table>
+                    <prime-column field="service" header="Услуга"></prime-column>
+                    <prime-column field="barber" header="Барбер"></prime-column>
+                    <prime-column field="topBarber" header="Топ-барбер"></prime-column>
+                    <prime-column field="brandBarber" header="Бренд-барбер"></prime-column>
+                    <prime-column field="brandBarberPlus" header="Бренд-барбер +"></prime-column>
+                </prime-data-table>
             </div>
         </portal-card>
 

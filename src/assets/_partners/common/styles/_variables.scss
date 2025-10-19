@@ -16,3 +16,15 @@ $layout-mobile-width: 1336px;
 $layout-middle-width: calc(($layout-desktop-width + $layout-mobile-width) / 2);
 
 $portal-layout-max-width: $layout-max-width;
+
+$font-size-h1: 2.8571rem; // 40px
+$font-size-h2: 2.2857rem; // 32px
+$font-size-h3: 1.7143rem; // 24px
+$font-size-h4: 1.2857rem; // 18px
+$font-size-p: 1.1429rem; // 16px
+
+$line-height-h1: 3.4286rem; // 48px
+$line-height-h2: 2.8571rem; // 40px
+$line-height-h3: 2.2857rem; // 32px
+$line-height-h4: 1.7143rem; // 24px
+$line-height-p: 1.7143rem; // 24px

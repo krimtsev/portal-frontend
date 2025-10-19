@@ -9,6 +9,15 @@
 
 @font-face {
     font-family: "Akzidenz-Grotesk Pro";
+    src: url("@a/fonts/AkzidenzGroteskPro-Medium.woff2") format("woff2"),
+    url("@a/fonts/AkzidenzGroteskPro-Medium.woff") format("woff");
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Akzidenz-Grotesk Pro";
     src: url("@a/fonts/AkzidenzGroteskPro-Bold.woff2") format("woff2"),
         url("@a/fonts/AkzidenzGroteskPro-Bold.woff") format("woff");
     font-weight: 700;

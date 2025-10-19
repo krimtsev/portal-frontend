@@ -1,30 +1,46 @@
 <script setup lang="ts">
-import { ref } from "vue"
+import { computed } from "vue"
 import PrimeInputText from "primevue/inputtext"
 import PrimeButton from "primevue/button"
 
+// Это и есть связь с внешним v-model
 const model = defineModel<string>()
-const showButton = ref(false)
 
-const emit = defineEmits(["change"])
+const emit = defineEmits<{
+    (e: "change", value: string): void
+}>()
 
-const props = withDefaults(defineProps<{
-    placeholder?: string
-}>(), {
-    placeholder: "",
-})
+const props = withDefaults(
+    defineProps<{
+        placeholder?: string
+        pattern?: RegExp
+        disabled?: boolean
+    }>(),
+    {
+        placeholder: "",
+        pattern: undefined,
+        disabled: false,
+    }
+)
 
-function onChange() {
-    const trimmed = model.value?.trim() ?? ""
-    model.value = trimmed
-    emit("change", trimmed)
-    showButton.value = !!trimmed
+const showButton = computed(() => !!model.value?.trim())
+
+function onChange(evt: Event): void {
+    const target = evt.target as HTMLInputElement
+    const trimmed = target.value?.trim() ?? ""
+
+    if (!props.pattern || props.pattern.test(trimmed)) {
+        model.value = trimmed
+    } else {
+        model.value = ""
+    }
+
+    emit("change", model.value)
 }
 
 function onClear() {
     model.value = ""
     emit("change", "")
-    showButton.value = false
 }
 </script>
 
@@ -33,12 +49,15 @@ function onClear() {
         <prime-input-text
             v-model="model"
             :placeholder="props.placeholder"
+            :disabled="props.disabled"
             type="text"
             class="input"
             @change="onChange"
         />
+
         <prime-button
             v-if="showButton"
+            :disabled="props.disabled"
             icon="pi pi-times"
             size="small"
             rounded

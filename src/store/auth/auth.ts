@@ -50,10 +50,13 @@ const useAuthStore = defineStore("auth", () => {
     }
 
     async function logout() {
-        await authAPI.logout()
-            .then(async()=> {
-                await reset(true)
-            })
+        const res = await authAPI.logout()
+
+        if (res instanceof HttpError) {
+            return res
+        }
+
+        await reset(true)
     }
 
     async function getUserData(checkToken: boolean): Promise<boolean> {

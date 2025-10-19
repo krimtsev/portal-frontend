@@ -6,12 +6,12 @@ const images: ImagesMap = import.meta.glob("@a/images/**/*", {
     import: "default",
 })
 
-export const imageSrc = (avatar?: string) => {
-    if (!avatar) return ""
-    if (avatar?.startsWith("http")) return avatar
+export const imageSrc = (scr?: string) => {
+    if (!scr) return ""
+    if (scr?.startsWith("http")) return scr
 
     const matchingEntry = Object.entries(images).find(([key]) =>
-        key.endsWith(`/${avatar}`)
+        key.endsWith(`/${scr}`)
     )
 
     if (!matchingEntry) return ""

@@ -3,6 +3,8 @@ export enum PortalRouteName {
     Certificates = "PortalCertificates",
     InstructionMangoRedirect = "InstructionMangoRedirect",
     InstructionYclientNotifications = "InstructionYclientNotifications",
+    Cloud = "Cloud",
+    Profile = "Profile",
 
     //partner
     Home = "PortalHome",

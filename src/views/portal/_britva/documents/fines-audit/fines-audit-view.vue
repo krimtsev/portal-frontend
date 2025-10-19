@@ -5,8 +5,8 @@ import PortalAccordionPanel from "@c/portal/portal-accordion/portal-accordion-pa
 import PortalAccordionContent from "@c/portal/portal-accordion/portal-accordion-content.vue"
 import FinesRightSection from "@v/portal/_britva/documents/components/fines-right-section/fines-right-section.vue"
 import { finesAuditData } from "@v/portal/_britva/documents/fines-audit/data/fines-audit-data"
-import DataTable from "primevue/datatable"
-import Column from "primevue/column"
+import PrimeDataTable from "primevue/datatable"
+import PrimeColumn from "primevue/column"
 import { useI18n } from "vue-i18n"
 import PortalPage from "@c/portal/portal-page/portal-page.vue"
 import { buttonNavigation } from "@v/portal/_britva/documents/data/button-navigation"
@@ -41,20 +41,20 @@ const { n } = useI18n()
 
                 <portal-accordion-content v-if="data.content">
                     <div class="content mx-x1">
-                        <data-table
+                        <prime-data-table
                             :value="data.content"
                             show-gridlines
                             class="table"
                         >
-                            <column field="text" header="Причина" />
-                            <column field="price" header="Штраф" class="price">
+                            <prime-column field="text" header="Причина" />
+                            <prime-column field="price" header="Штраф" class="price">
                                 <template #body="{ data }">
                                     <div class="price">
                                         {{ n(data.price, "currency") }} {{ data.point }}
                                     </div>
                                 </template>
-                            </column>
-                        </data-table>
+                            </prime-column>
+                        </prime-data-table>
                     </div>
                 </portal-accordion-content>
             </portal-accordion-panel>

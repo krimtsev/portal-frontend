@@ -4,54 +4,24 @@ import BImage from "@c/common/b-image/b-image.vue"
 import BLink from "@c/common/b-link/b-link.vue"
 import { useRouter } from "vue-router"
 import { PortalRouteName } from "@r/portal/route-names"
-import { portalPaths } from "@r/portal/path"
-import { openExternalLink } from "@/lib/link"
+import useAuthStore from "@s/auth/auth"
+import BAvatar from "@c/common/b-avatar/b-avatar.vue"
+import { menuData } from "@l/portal/data/menu"
+
 const router = useRouter()
-
-const menuItems = [
-    {
-        label: "Информация",
-        command: () => {
-            console.log("Перейти на главную")
-        }
-    },
-    {
-        label: "Заявки",
-        command: () => {
-            console.log("Перейти в профиль")
-        }
-    },
-    {
-        label: "Поиск сертификатов",
-        command: () => {
-            router.push(portalPaths.Certificates)
-        }
-    },
-    {
-        label: "Доп. услуги",
-        command: () => {
-            console.log("Перейти в настройки")
-        }
-    },
-    {
-        label: "Контакты",
-        command: () => {
-            router.push(portalPaths.ContactCentralOffice)
-        }
-    },
-    {
-        label: "Админам",
-        icon: "pi pi-arrow-up-right",
-        class: "right-icon",
-        command: () => {
-            openExternalLink("https://britva.tech/britva")
-
-        }
-    }
-]
+const authStore = useAuthStore()
+const menuItems = menuData()
 
 function goToHome() {
     router.push({ name: PortalRouteName.Home })
+}
+
+function goToProfile() {
+    router.push({ name: PortalRouteName.Profile })
+}
+
+async function onLogout() {
+    await authStore.logout()
 }
 </script>
 
@@ -67,20 +37,29 @@ function goToHome() {
                     />
                 </template>
                 <template #end>
-                    <b-link
-                        label="Профиль"
-                        as-internal
-                    /> |
-                    <b-link
-                        label="Панель администратора"
-                    /> |
-                    <b-link
-                        label="Выйти"
-                    />
+                    <div class="right-section">
+                        <div class="right-section-item">
+                            <b-avatar
+                                class="pointer"
+                                @click="goToProfile"
+                            />
+
+                            <b-link
+                                label="Профиль"
+                                as-internal
+                                @click="goToProfile"
+                            />
+                        </div>
+                        <div class="right-section-item">
+                            <b-link
+                                label="Выйти"
+                                @click="onLogout"
+                            />
+                        </div>
+                    </div>
                 </template>
             </Menubar>
 
-            <!-- Main Content -->
             <div class="p-4">
                 <router-view />
             </div>
@@ -102,6 +81,22 @@ body {
         margin: 0 auto;
         max-width: $layout-max-width;
         padding: $indent-x4 $indent-x1 $indent-x1;
+    }
+
+    .right-section {
+        display: flex;
+        align-items: center;
+
+        &-item {
+            display: flex;
+            align-items: center;
+            gap: $indent-x2;
+
+            &:not(:last-child)::after {
+                content: "|";
+                margin-right: $indent-x2;
+            }
+        }
     }
 
     :deep(.p-menubar) {

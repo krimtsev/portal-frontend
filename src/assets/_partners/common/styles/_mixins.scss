@@ -148,3 +148,37 @@
         margin-bottom: $indent-x2;
     }
 }
+
+/**
+ * Цвета для расширения файлов
+ */
+$cloud-file-types: (
+        (jpg, jpeg, png, tif): --p-green-500,
+        (pdf): --p-red-500,
+        (doc, docx): --p-blue-500,
+        (zip): --p-orange-500,
+        (xlsx, xls): --p-teal-500,
+        (txt): --p-gray-500,
+        (ai): --p-purple-500,
+        (pptx): --p-pink-500,
+        (mp4, mov, avi, m4a, ogg): --p-yellow-500
+);
+
+@mixin file-colors($ext-map: $cloud-file-types) {
+    @each $exts, $color in $ext-map {
+        @each $ext in $exts {
+            .icon.#{$ext} {
+                border-color: var(#{$color});
+                color: var(#{$color});
+            }
+
+            &:hover {
+                .icon.#{$ext} {
+                    background-color: var(#{$color});
+                    color: var(--p-surface-950);
+                }
+            }
+
+        }
+    }
+}

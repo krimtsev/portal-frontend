@@ -2,6 +2,7 @@ import vue from "eslint-plugin-vue"
 import tseslint from "@typescript-eslint/eslint-plugin"
 import tsparser from "@typescript-eslint/parser"
 import vueParser from "vue-eslint-parser"
+import unicorn from "eslint-plugin-unicorn" // ExperimentalWarning: Importing JSON modules is an experimental feature and might change at any time
 
 export default [
     {
@@ -71,11 +72,27 @@ export default [
     },
     {
         files: ["**/*.{js,ts,vue}"],
+        plugins: {
+            unicorn,
+        },
         rules: {
-            "quotes": ["warn", "double", { "avoidEscape": true }],
+            quotes: ["warn", "double", { avoidEscape: true }],
             "quote-props": ["warn", "as-needed"],
-            "object-curly-spacing": ["error", "always"]
-            // ...добавьте остальные общие правила по необходимости
+            "object-curly-spacing": ["error", "always"],
+            "unicorn/filename-case": [
+                "error",
+                {
+                    cases: {
+                        kebabCase: true,
+                    },
+                    ignore: [
+                        "App.vue",
+                        "DashboardLayout.vue",
+                        "PortalLayout.vue",
+                        "GuestLayout.vue"
+                    ]
+                },
+            ],
         },
     },
 ]

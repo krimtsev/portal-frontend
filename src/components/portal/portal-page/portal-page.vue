@@ -3,6 +3,7 @@ import { computed } from "vue"
 import BTitle from "@c/common/b-title/b-title.vue"
 import type { PortalPage } from "@c/portal/portal-page/definitions/portal-page"
 import BImage from "@c/common/b-image/b-image.vue"
+import BSkeleton from "@c/common/b-skeleton/b-skeleton.vue"
 
 const props = defineProps<PortalPage>()
 
@@ -14,11 +15,17 @@ const rightImageSrc = computed(() => {
 
 <template>
     <div class="portal-page">
-        <b-title
-            :title="props.title"
-            variant="xl"
-            class="mb-x2"
-        />
+        <div class="title mb-x2">
+            <div v-if="props.isLoading">
+                <b-skeleton variant="xl" />
+            </div>
+
+            <b-title
+                v-else
+                :title="props.title"
+                variant="xl"
+            />
+        </div>
 
         <slot name="top-side" />
 
@@ -39,9 +46,3 @@ const rightImageSrc = computed(() => {
         </div>
     </div>
 </template>
-
-<style scoped lang="scss">
-.portal-page {
-
-}
-</style>

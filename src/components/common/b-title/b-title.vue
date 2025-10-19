@@ -1,5 +1,5 @@
 <script setup lang="ts">
-type Variants = "sm" | "md" | "lg" | "xl"
+import type { Variants } from "@/shared/content/content"
 
 const props = withDefaults(defineProps<{
     title: string,

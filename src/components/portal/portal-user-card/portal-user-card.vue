@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script setup lang="ts" >
 import { computed } from "vue"
 import BTelnum from "@c/common/b-telnum/b-telnum.vue"
 import { imageSrc } from "@h/images/images"

@@ -3,10 +3,12 @@ import { PortalRouteName } from "@r/portal/route-names"
 import PortalLayout from "@l/portal/PortalLayout.vue"
 import { Roles } from "@/shared/roles/roles"
 import { portalPaths } from "@r/portal/path"
+import ProfileView from "@v/profile/profile-view.vue"
 import CertificatesView from "@v/portal/certificates/certificates-view.vue"
-import InstructionMangoRedirect from "@v/portal/instructions/mango-redirect/mango-redirect-view.vue"
-import InstructionYclientNotifications from "@v/portal/instructions/yclient-notifications/yclient-notifications-view.vue"
-import ContactFranchisee from "@v/portal/contacts/franchisee/franchisee-view.vue"
+import InstructionMangoRedirectView from "@v/portal/instructions/mango-redirect/mango-redirect-view.vue"
+import InstructionYclientNotificationsView from "@v/portal/instructions/yclient-notifications/yclient-notifications-view.vue"
+import ContactFranchiseeView from "@v/portal/contacts/franchisee/franchisee-view.vue"
+import CloudView from "@v/portal/cloud/cloud-view.vue"
 
 const roles = [Roles.USER, Roles.ADMIN, Roles.SYSADMIN]
 
@@ -19,10 +21,20 @@ const routes: RouteRecordRaw[] = [
         },
         children: [
             {
+                path: portalPaths.Profile,
+                name: PortalRouteName.Profile,
+                components: {
+                    default: ProfileView,
+                },
+                meta: {
+                    roles,
+                }
+            },
+            {
                 path: portalPaths.InstructionMangoRedirect,
                 name: PortalRouteName.InstructionMangoRedirect,
                 components: {
-                    default: InstructionMangoRedirect,
+                    default: InstructionMangoRedirectView,
                 },
                 meta: {
                     roles,
@@ -32,7 +44,7 @@ const routes: RouteRecordRaw[] = [
                 path: portalPaths.InstructionYclientNotifications,
                 name: PortalRouteName.InstructionYclientNotifications,
                 components: {
-                    default: InstructionYclientNotifications,
+                    default: InstructionYclientNotificationsView,
                 },
                 meta: {
                     roles,
@@ -52,11 +64,21 @@ const routes: RouteRecordRaw[] = [
                 path: portalPaths.ContactFranchisee,
                 name: PortalRouteName.ContactFranchisee,
                 components: {
-                    default: ContactFranchisee,
+                    default: ContactFranchiseeView,
                 },
                 meta: {
                     roles,
                 }
+            },
+            {
+                path: portalPaths.Cloud,
+                name: PortalRouteName.Cloud,
+                components: {
+                    default: CloudView,
+                },
+                meta: {
+                    roles,
+                },
             },
         ]
     }

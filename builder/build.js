@@ -3,6 +3,7 @@ import path from "node:path"
 import url from "node:url"
 import deepMerge from "deepmerge"
 import copy from "recursive-copy"
+import { createServer } from "vite"
 import {
     throwError,
     logInfo,
@@ -27,7 +28,7 @@ const defaultCopyOptions = {
     dot: true,
     overwrite: true,
     filter: [
-        '**/*',
+        "**/*",
     ]
 }
 
@@ -45,6 +46,7 @@ async function build() {
     await copyFilesToAssets("prime", partner)
     await copyFilesToAssets("styles")
     await copyFilesToAssets("fonts")
+    await copyFilesToAssets("svg")
     mergeFiles("images")
     await copyPublic()
 }
@@ -71,14 +73,14 @@ function mergeLocales() {
         const partnerPath = path.join(partnerDir, locale)
         const outputPath = path.join(outDir, locale)
 
-        const commonJson = JSON.parse(fs.readFileSync(commonPath, 'utf8'))
+        const commonJson = JSON.parse(fs.readFileSync(commonPath, "utf8"))
         const partnerJson = fs.existsSync(partnerPath)
-            ? JSON.parse(fs.readFileSync(partnerPath, 'utf8'))
+            ? JSON.parse(fs.readFileSync(partnerPath, "utf8"))
             : {};
 
         const merged = deepMerge(commonJson, partnerJson)
 
-        fs.writeFileSync(outputPath, JSON.stringify(merged, null, 2), 'utf8');
+        fs.writeFileSync(outputPath, JSON.stringify(merged, null, 2), "utf8");
         logInfo(`✔️ locale: ${locale} merged`);
     }
 }
@@ -105,7 +107,7 @@ function mergeFiles(type) {
     createDirectory(outDir);
 
     // Рекурсивно собираем все файлы из директории
-    function collectFilesRecursively(dir, base = '') {
+    function collectFilesRecursively(dir, base = "") {
         const entries = fs.readdirSync(dir, { withFileTypes: true });
         let files = [];
 
@@ -169,44 +171,43 @@ async function watchDevChanges() {
     });
 
     // Стартуем Vite
-    const vite = spawn('npx', ['vite'], {
-        stdio: 'inherit', // чтобы видеть вывод Vite в консоли
-        shell: true
+    const vite = spawn("npx", ["vite"], {
+        stdio: "inherit", // показываем логи Vite в терминале
+        shell: true,      // чтобы работало одинаково на Windows и Unix
+        detached: false   // не отделяем от родительского процесса
     });
 
     const cleanExit = () => {
-        logInfo('🛑 Terminating watcher and Vite...');
+        logInfo("🛑 Terminating watcher and Vite...");
+
+        // Останавливаем файловый watcher
         watcher.close();
         vite.kill();
         process.exit(0);
     };
 
-    process.on('SIGINT', cleanExit);
-    process.on('SIGTERM', cleanExit);
-    process.on('SIGHUP', cleanExit); // Завершам при закрытии редактора
-    process.on('exit', cleanExit); // Завершение при нажатии Ctrl+C или завершении процесса
-
-    vite.on('close', (code) => {
-        console.log(`Vite process exited with code ${code}`);
-    });
+    process.on("SIGINT", cleanExit);
+    process.on("SIGTERM", cleanExit);
+    process.on("SIGHUP", cleanExit); // Завершам при закрытии редактора
+    process.on("exit", cleanExit); // Завершение при нажатии Ctrl+C или завершении процесса
 
     watcher
-        .on('add', (filePath) => {
+        .on("add", (filePath) => {
             console.log(`File added: ${filePath}`);
             // Запуск сборки при добавлении нового файла
             rebuild(filePath);
         })
-        .on('change', (filePath, stats, prevStats, prevPath) => {
+        .on("change", (filePath, stats, prevStats, prevPath) => {
             console.log(`File changed: ${filePath}`);
             // Запуск сборки при изменении файла
             rebuild(filePath);
         })
-        .on('unlink', (filePath) => {
+        .on("unlink", (filePath) => {
             console.log(`File removed: ${filePath}`);
             // Запуск сборки при удалении файла
             rebuild(filePath);
         })
-        .on('error', (error) => {
+        .on("error", (error) => {
             console.error(`Watcher error: ${error}`);
         });
 

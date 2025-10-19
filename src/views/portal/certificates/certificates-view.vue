@@ -3,12 +3,12 @@ import { ref, computed, onMounted } from "vue"
 import PortalPage from "@c/portal/portal-page/portal-page.vue"
 import { HttpError } from "@/api"
 import * as sheetAPI from "@/api/modules/sheet/sheet.ts"
-import DataTable from "primevue/datatable"
-import Column from "primevue/column"
+import PrimeDataTable from "primevue/datatable"
+import PrimeColumn from "primevue/column"
 import type { CertificateItem } from "@v/portal/certificates/definitions/certificates"
 import { defaultPaginationFilter, defaultPaginationPage } from "@/shared/pagination/pagination"
 import BSkeleton from "@c/common/b-skeleton/b-skeleton.vue"
-import BEmptyResult from "@c/common/b-empty-result/b-empty-result.vue"
+import BEmptyResult from "@c/common/b-empty/b-empty-result.vue"
 import BInputSearch from "@c/common/b-input-search/b-input-search.vue"
 import { useI18n } from "vue-i18n"
 import PortalUserCard from "@c/portal/portal-user-card/portal-user-card.vue"
@@ -103,7 +103,7 @@ const firstPage = computed(() => {
                 @change="onSearchChange"
             />
 
-            <data-table
+            <prime-data-table
                 :value="certificates"
                 :rows="paginationPage.perPage"
                 :total-records="paginationPage.total"
@@ -125,7 +125,7 @@ const firstPage = computed(() => {
                     <b-empty-result />
                 </template>
 
-                <column field="price" header="Номинал" class="price">
+                <prime-column field="price" header="Номинал" class="price">
                     <template #body="slotProps">
                         <span v-if="!isLoading">{{ slotProps.data.price }}</span>
                         <b-skeleton
@@ -133,9 +133,9 @@ const firstPage = computed(() => {
                             width="25%"
                         />
                     </template>
-                </column>
+                </prime-column>
 
-                <column field="identifier" header="Номер" class="identifier">
+                <prime-column field="identifier" header="Номер" class="identifier">
                     <template #body="slotProps">
                         <span v-if="!isLoading">{{ slotProps.data.identifier }}</span>
                         <b-skeleton
@@ -143,9 +143,9 @@ const firstPage = computed(() => {
                             width="33%"
                         />
                     </template>
-                </column>
+                </prime-column>
 
-                <column field="partner" header="Филиал" class="partner">
+                <prime-column field="partner" header="Филиал" class="partner">
                     <template #body="slotProps">
                         <span v-if="!isLoading">{{ slotProps.data.partner }}</span>
                         <b-skeleton
@@ -153,8 +153,8 @@ const firstPage = computed(() => {
                             width="47%"
                         />
                     </template>
-                </column>
-            </data-table>
+                </prime-column>
+            </prime-data-table>
         </div>
 
         <template #right-side>
@@ -173,7 +173,7 @@ const firstPage = computed(() => {
 
                 <portal-user-card
                     avatar="employees/osipov.png"
-					telnum="79652914902"
+                    telnum="79652914902"
                 >
                     <div class="text-center">
                         <p class="mb-x0">

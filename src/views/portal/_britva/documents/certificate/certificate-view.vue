@@ -9,12 +9,12 @@ import PortalPage from "@c/portal/portal-page/portal-page.vue"
         class="certificate-view"
         title="Подарочные сертификаты"
         right-image="template/gift.png"
-    >	
-		<b-title
+    >
+        <b-title
             title="Что такое подарочный сертификат BRITVA"
             class="mt-x2 mb-x3"
         />
-		
+
         <div class="grid">
             <div class="col-6">
                 <portal-card title="Физический сертификат">

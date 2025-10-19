@@ -4,6 +4,7 @@ import BImage from "@c/common/b-image/b-image.vue"
 import PortalInformationMenu from "@c/portal/portal-information-menu/portal-information-menu.vue"
 import { sections } from "@v/portal/_britva/home/data/home-data"
 import { portalPaths } from "@r/portal/path"
+import { PortalRouteName } from "@r/portal/route-names"
 </script>
 
 <template>
@@ -31,7 +32,11 @@ import { portalPaths } from "@r/portal/path"
                     <div class="col-12">
                         <portal-card
                             title="Облако файлов"
+                            :path="{
+                                 name: PortalRouteName.Cloud
+                            }"
                             menu-title
+                            path-position-left
                             class="files-block"
                         >
                             <b-image src="template/files.png" height="195px" />

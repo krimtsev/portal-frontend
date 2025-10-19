@@ -1,3 +1,5 @@
+@use "variables" as *;
+
 @mixin title($color: var(--p-surface-0)) {
     color: $color;
     font-weight: 500;
@@ -12,32 +14,38 @@
     line-height: 1.9286rem;
 }
 
+@mixin small-text() {
+    font-weight: 500;
+    font-size: 0.85714rem; // 12px
+    line-height: 1.7143rem; // 24px
+}
+
 @mixin p() {
     font-weight: 500;
-    font-size: 1.1429rem; // 16px
-    line-height: 1.7143rem; // 24px
+    font-size: $font-size-p; // 16px
+    line-height: $line-height-p; // 24px
 }
 
 @mixin h4() {
     font-weight: 500;
-    font-size: 1.2857rem; // 18px
-    line-height: 1.7143rem; // 24px
+    font-size: $font-size-h4; // 18px
+    line-height: $line-height-h4; // 24px
 }
 
 @mixin h3() {
     font-weight: 500;
-    font-size: 1.7143rem; // 24px
-    line-height: 2.2857rem; // 32px
+    font-size: $font-size-h3; // 24px
+    line-height: $line-height-h3; // 32px
 }
 
 @mixin h2() {
     font-weight: 500;
-    font-size: 2.2857rem; // 32px
-    line-height: 2.8571rem; // 40px
+    font-size: $font-size-h2; // 32px
+    line-height: $line-height-h2; // 40px
 }
 
 @mixin h1() {
     font-weight: 500;
-    font-size: 2.8571rem; // 40px
-    line-height: 3.4286rem; // 48px
+    font-size: $font-size-h1; // 40px
+    line-height: $line-height-h1; // 48px
 }

@@ -14,13 +14,13 @@ export function normalizeData(data: FranchiseeItemRaw[]): FranchiseeItem[] {
                 names: [],
                 telnums: [],
                 id: item.id
-            };
+            }
         }
 
         telnums.forEach(telnum => {
             if (telnum.name) acc[item.name].names.push(telnum.name)
             if (telnum.number) acc[item.name].telnums.push(telnum.number)
-        });
+        })
 
         return acc
     }, {} as Record<string, FranchiseeItem>)

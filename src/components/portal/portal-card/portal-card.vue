@@ -1,26 +1,41 @@
-<script lang="ts" setup>
+<script setup lang="ts" >
 import { useRouter } from "vue-router"
 import BIcon from "@c/common/b-icon/b-icon.vue"
 import BImage from "@c/common/b-image/b-image.vue"
 import { openExternalLink } from "@/lib/link"
+import { PortalRouteName } from "@r/portal/route-names"
+
+interface Route {
+    name: PortalRouteName
+    params?: Record<string, any>
+    query?: Record<string, any>
+}
 
 const props = defineProps<{
     title?: string,
-    path?: string
+    path?: string | Route
     menuTitle?: boolean
     background?: {
         height: string
         src: string
     }
+    pathPositionLeft?: boolean
 }>()
 
 const router = useRouter()
 const onClick = () => {
-    if (props.path?.startsWith("http")) {
-        openExternalLink(props.path)
-        return
+    if (!props.path) return
+
+    if (typeof props.path === "string") {
+        if (props.path?.startsWith("http")) {
+            openExternalLink(props.path)
+            return
+        }
+
+        router.push({ path: props.path })
     }
-    router.push({ path: props.path })
+
+    router.push(props.path)
 }
 </script>
 
@@ -41,6 +56,7 @@ const onClick = () => {
         <div
             v-if="props.path"
             class="card-footer"
+            :class="{ 'left': props.pathPositionLeft }"
         >
             <b-icon
                 icon="pi pi-angle-right"
@@ -90,12 +106,17 @@ const onClick = () => {
             justify-content: flex-end;
             margin-top: auto;
             z-index: 2;
+
+            &.left {
+                justify-content: flex-start;
+                padding-left: $indent-x2;
+            }
         }
     }
 
     &.menu-title {
         .card-title {
-            padding-left: $indent-x3;
+            padding-left: $indent-x2;
             margin-bottom: $indent-x5;
         }
     }
@@ -115,13 +136,17 @@ const onClick = () => {
     .card-background {
         z-index: 1;
 
-        :deep(img) {
-            position: absolute;
-            margin-left: auto;
-            margin-right: auto;
-            left: 0;
-            right: 0;
-            bottom: 0;
+        :deep(.b-image) {
+            position: inherit;
+
+            img {
+                position: absolute;
+                margin-left: auto;
+                margin-right: auto;
+                left: 0;
+                right: 0;
+                bottom: 0;
+            }
         }
     }
 }

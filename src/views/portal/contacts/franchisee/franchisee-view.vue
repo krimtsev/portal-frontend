@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {computed, onMounted, ref} from "vue"
+import { computed, onMounted, ref } from "vue"
 import PortalPage from "@c/portal/portal-page/portal-page.vue"
 import { buttonNavigation } from "@v/portal/_britva/contacts/data/button-navigation.ts"
 import PortalButtonNavigation from "@c/portal/portal-button-navigation/portal-button-navigation.vue"
@@ -7,18 +7,18 @@ import * as contactsAPI from "@/api/modules/contacts/contacts"
 import { HttpError } from "@/api"
 import type { FranchiseeItem } from "@v/portal/contacts/franchisee/definitions/franchisee"
 import { useNotify } from "@h/notify/notify"
-import DataTable from "primevue/datatable"
+import PrimeDataTable from "primevue/datatable"
 import BSkeleton from "@c/common/b-skeleton/b-skeleton.vue"
-import BEmptyResult from "@c/common/b-empty-result/b-empty-result.vue"
-import Column from "primevue/column"
+import BEmptyResult from "@c/common/b-empty/b-empty-result.vue"
+import PrimeColumn from "primevue/column"
 import {
     defaultPaginationFilter,
     defaultPaginationPage
 } from "@/shared/pagination/pagination"
 import { useI18n } from "vue-i18n"
-import { normalizeData } from "@v/portal/contacts/franchisee/utils/franchisee"
+import { normalizeData } from "@v/portal/contacts/franchisee/utils/franchisee.ts"
 import BTelnum from "@c/common/b-telnum/b-telnum.vue"
-import BInputSearch from "@c/common/b-input-search/b-input-search.vue";
+import BInputSearch from "@c/common/b-input-search/b-input-search.vue"
 
 const notify = useNotify()
 const { t, n } = useI18n()
@@ -35,8 +35,6 @@ const setInitialData = () => {
         telnums: [],
     })
 }
-
-
 
 async function getData() {
     isLoading.value = true
@@ -110,7 +108,7 @@ const firstPage = computed(() => {
                 @change="onSearchChange"
             />
 
-            <data-table
+            <prime-data-table
                 :value="franchisee"
                 :rows="paginationPage.perPage"
                 :total-records="paginationPage.total"
@@ -132,7 +130,7 @@ const firstPage = computed(() => {
                     <b-empty-result />
                 </template>
 
-                <column field="filial" header="Филиал" class="filial">
+                <prime-column field="filial" header="Филиал" class="filial">
                     <template #body="slotProps">
                         <div v-if="!isLoading"> {{ slotProps.data.filial }} </div>
                         <b-skeleton
@@ -140,9 +138,9 @@ const firstPage = computed(() => {
                             width="75%"
                         />
                     </template>
-                </column>
+                </prime-column>
 
-                <column field="names" header="Имя" class="names">
+                <prime-column field="names" header="Имя" class="names">
                     <template #body="slotProps">
                         <div v-if="!isLoading">
                             <template v-if="slotProps.data.names.length">
@@ -157,12 +155,12 @@ const firstPage = computed(() => {
                             width="45%"
                         />
                     </template>
-                </column>
+                </prime-column>
 
-                <column field="telnums" header="Контакт" class="telnums">
+                <prime-column field="telnums" header="Контакт" class="telnums">
                     <template #body="slotProps">
                         <span v-if="!isLoading">
-                             <template v-if="slotProps.data.telnums.length">
+                            <template v-if="slotProps.data.telnums.length">
                                 <div v-for="(telnum, index) in slotProps.data.telnums" :key="`${slotProps.data.id}_${index}`">
                                     <b-telnum
                                         :value="telnum || '—'"
@@ -177,8 +175,8 @@ const firstPage = computed(() => {
                             width="45%"
                         />
                     </template>
-                </column>
-            </data-table>
+                </prime-column>
+            </prime-data-table>
         </div>
     </portal-page>
 </template>

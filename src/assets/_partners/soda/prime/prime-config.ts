@@ -61,6 +61,13 @@ export default {
                 }
             },
         },
+        avatar: {
+            root: {
+                width: "2.643rem",
+                height: "2.643rem",
+                fontSize: "1.3rem",
+            }
+        }
     },
     semantic: {
         border: {

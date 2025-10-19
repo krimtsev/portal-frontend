@@ -8,11 +8,20 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    _bInputSearch: typeof import('./src/components/common/b-input-search/_b-input-search.vue')['default']
+    _bSkeleton: typeof import('./src/components/common/b-skeleton/_b-skeleton.vue')['default']
+    Avatar: typeof import('primevue/avatar')['default']
+    BAvatar: typeof import('./src/components/common/b-avatar/b-avatar.vue')['default']
+    BBlocked: typeof import('./src/components/common/b-blocked/b-blocked.vue')['default']
     BBlockquote: typeof import('./src/components/common/b-blockquote/b-blockquote.vue')['default']
+    BBlockUi: typeof import('./src/components/common/b-blocked/b-block-ui.vue')['default']
+    BBreadcrumb: typeof import('./src/components/common/b-breadcrumb/b-breadcrumb.vue')['default']
+    BBreadcrumbSkeleton: typeof import('./src/components/common/b-breadcrumb/b-breadcrumb-skeleton.vue')['default']
     BButton: typeof import('./src/components/common/b-button/b-button.vue')['default']
     BCheckbox: typeof import('./src/components/common/b-checkbox/b-checkbox.vue')['default']
     BDivider: typeof import('./src/components/common/b-divider/b-divider.vue')['default']
-    BEmptyResult: typeof import('./src/components/common/b-empty-result/b-empty-result.vue')['default']
+    BEmptyResult: typeof import('./src/components/common/b-empty/b-empty-result.vue')['default']
+    BEmptySearch: typeof import('./src/components/common/b-empty/b-empty-search.vue')['default']
     BIcon: typeof import('./src/components/common/b-icon/b-icon.vue')['default']
     BImage: typeof import('./src/components/common/b-image/b-image.vue')['default']
     BInputPassword: typeof import('./src/components/common/b-input-password/b-input-password.vue')['default']
@@ -20,6 +29,10 @@ declare module 'vue' {
     BInputText: typeof import('./src/components/common/b-input-text/b-input-text.vue')['default']
     BLink: typeof import('./src/components/common/b-link/b-link.vue')['default']
     BSkeleton: typeof import('./src/components/common/b-skeleton/b-skeleton.vue')['default']
+    BSkeletonTitle: typeof import('./src/components/common/b-skeleton/b-skeleton-title.vue')['default']
+    BSpiner: typeof import('./src/components/common/b-spinner/b-spiner.vue')['default']
+    BSpinner: typeof import('./src/components/common/b-spinner/b-spinner.vue')['default']
+    BSvg: typeof import('./src/components/common/b-svg/b-svg.vue')['default']
     BTelnum: typeof import('./src/components/common/b-telnum/b-telnum.vue')['default']
     BTitle: typeof import('./src/components/common/b-title/b-title.vue')['default']
     PortalAccordion: typeof import('./src/components/portal/portal-accordion/portal-accordion.vue')['default']
@@ -32,7 +45,10 @@ declare module 'vue' {
     PortalInformationMenu: typeof import('./src/components/portal/portal-information-menu/portal-information-menu.vue')['default']
     PortalPage: typeof import('./src/components/portal/portal-page/portal-page.vue')['default']
     PortalUserCard: typeof import('./src/components/portal/portal-user-card/portal-user-card.vue')['default']
+    ProgressBar: typeof import('primevue/progressbar')['default']
+    ProgressSpinner: typeof import('primevue/progressspinner')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Skeleton: typeof import('primevue/skeleton')['default']
   }
 }

@@ -6,16 +6,21 @@ const { t } = useI18n()
 
 const props = defineProps<{
     title?: string
+    widthBorder?: boolean
 }>()
 
 const title = computed(() => {
     return props.title || t("mc.search.title")
 })
-
 </script>
 
 <template>
-    <div class="b-empty-result">
+    <div
+        class="b-empty-result"
+        :class="{
+            'border': widthBorder
+        }"
+    >
         <div class="image-container">
             <i class="pi pi-times-circle" style="font-size: 2rem"></i>
         </div>
@@ -37,6 +42,11 @@ const title = computed(() => {
     min-height: 296px;
     padding: $indent-x3 $indent-x2;
     gap: $indent-x2;
+
+    &.border {
+        border: 1px solid var(--p-divider-border-color);
+        border-radius: $indent-x2;
+    }
 
     .text-container {
         @include flex-center;

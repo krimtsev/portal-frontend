@@ -62,7 +62,7 @@ const props = defineProps<{
             display: block;
             width: 100%;
             margin-bottom: $indent-x2;
-            padding-left: $indent-x3;
+            padding-left: $indent-x2;
         }
     }
 
