@@ -6,7 +6,7 @@ import type {
 
 export function normalizeData(data: FranchiseeItemRaw[]): FranchiseeItem[] {
     const grouped = data.reduce((acc, item) => {
-        const telnums: FranchiseeTelnums[] = item.telnums ? JSON.parse(item.telnums) : []
+        const telnums: FranchiseeTelnums[] = item.telnums ?? []
 
         if (!acc[item.name]) {
             acc[item.name] = {

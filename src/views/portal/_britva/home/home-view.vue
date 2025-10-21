@@ -5,6 +5,7 @@ import PortalInformationMenu from "@c/portal/portal-information-menu/portal-info
 import { sections } from "@v/portal/_britva/home/data/home-data"
 import { portalPaths } from "@r/portal/path"
 import { PortalRouteName } from "@r/portal/route-names"
+import PortalUserAnalyticsChart from "@c/portal/portal-charts/portal-user-analytics-chart.vue"
 </script>
 
 <template>
@@ -22,7 +23,10 @@ import { PortalRouteName } from "@r/portal/route-names"
                     class="certificate-block"
                 >
                     <div class="image-block">
-                        <b-image src="template/gift-card.png" full />
+                        <b-image
+                            src="template/gift-card.png"
+                            full
+                         />
                     </div>
                 </portal-card>
             </div>
@@ -57,10 +61,10 @@ import { PortalRouteName } from "@r/portal/route-names"
 
             <div class="col-4 mob-col-12 row-span">
                 <portal-card
-                    title="Аналитика показателей"
+                    title="Аналитика показателей (в разработке)"
                     menu-title
                 >
-                    <p>В разработке.</p>
+                    <portal-user-analytics-chart />
                 </portal-card>
             </div>
 
@@ -105,21 +109,6 @@ $min-height: 195px;
 
     :deep(.portal-card) {
         height: 100%;
-    }
-
-    @media (max-width: $layout-mobile-width) {
-        .certificate-block {
-            max-height: $min-height * 2;
-
-            :deep(.p-image) {
-                display: flex;
-                justify-content: center;
-
-                img {
-                    max-height: 195px;
-                }
-            }
-        }
     }
 
     .certificate-block {

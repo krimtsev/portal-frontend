@@ -49,7 +49,7 @@ const props = defineProps<{
 
 <style scoped lang="scss">
 .portal-information-menu {
-    @media (min-width: $layout-middle-width) {
+    @media (min-width: $layout-mobile-width) {
         display: block;
         column-count: 3;
         column-gap: calc($indent-x1 * 8);

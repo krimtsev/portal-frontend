@@ -1,7 +1,7 @@
 export interface FranchiseeItemRaw {
     id: string
     name: string
-    telnums: string | null // FranchiseeTelnums
+    telnums: FranchiseeTelnums[] | null
 }
 
 export interface FranchiseeTelnums {

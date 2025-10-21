@@ -16,9 +16,9 @@ export function menuData(): MenuItem[] {
 
     return [
     {
-        label: "Информация",
+        label: "Облако файлов",
         command: () => {
-            console.log("Перейти на главную")
+            router.push({ name: PortalRouteName.Cloud })
         }
     },
     {
@@ -31,12 +31,6 @@ export function menuData(): MenuItem[] {
         label: "Поиск сертификатов",
         command: () => {
             router.push({ name: PortalRouteName.Certificates })
-        }
-    },
-    {
-        label: "Доп. услуги",
-        command: () => {
-            console.log("Перейти в настройки")
         }
     },
     {

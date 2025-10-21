@@ -165,6 +165,7 @@ const firstPage = computed(() => {
                                     <b-telnum
                                         :value="telnum || '—'"
                                         class="cell-value"
+                                        icon
                                     />
                                 </div>
                             </template>

@@ -8,8 +8,6 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    _bInputSearch: typeof import('./src/components/common/b-input-search/_b-input-search.vue')['default']
-    _bSkeleton: typeof import('./src/components/common/b-skeleton/_b-skeleton.vue')['default']
     Avatar: typeof import('primevue/avatar')['default']
     BAvatar: typeof import('./src/components/common/b-avatar/b-avatar.vue')['default']
     BBlocked: typeof import('./src/components/common/b-blocked/b-blocked.vue')['default']
@@ -44,9 +42,9 @@ declare module 'vue' {
     PortalContent: typeof import('./src/components/portal/portal-content/portal-content.vue')['default']
     PortalInformationMenu: typeof import('./src/components/portal/portal-information-menu/portal-information-menu.vue')['default']
     PortalPage: typeof import('./src/components/portal/portal-page/portal-page.vue')['default']
+    PortalUserAnalytics: typeof import('./src/components/portal/portal-charts/portal-user-analytics-chart.vue')['default']
+    PortalUserAnalyticsChart: typeof import('./src/components/portal/portal-charts/portal-user-analytics-chart.vue')['default']
     PortalUserCard: typeof import('./src/components/portal/portal-user-card/portal-user-card.vue')['default']
-    ProgressBar: typeof import('primevue/progressbar')['default']
-    ProgressSpinner: typeof import('primevue/progressspinner')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Skeleton: typeof import('primevue/skeleton')['default']

@@ -86,6 +86,7 @@ const home = ref({
 
 const onNavigate = (item: CloudFolderBreadcrumb) => {
     if (item.route) {
+        onSearchChange("")
         routePath.pushMath(item.route)
     }
 }

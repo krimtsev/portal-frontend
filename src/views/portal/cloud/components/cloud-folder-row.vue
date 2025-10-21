@@ -21,7 +21,7 @@ function onClick() {
             @click="onClick"
         >
             <div class="icon">
-                <b-svg name="folder" />
+                <b-svg name="folder-34" />
             </div>
 
             <div class="name">
