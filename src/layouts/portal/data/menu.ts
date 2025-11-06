@@ -6,9 +6,10 @@ type MenuCommand = () => void
 
 interface MenuItem {
     label: string
-    command: MenuCommand
+    command?: MenuCommand
     icon?: string
     class?: string
+    items?: MenuItem[]
 }
 
 export function menuData(): MenuItem[] {
@@ -23,9 +24,32 @@ export function menuData(): MenuItem[] {
     },
     {
         label: "Заявки",
-        command: () => {
-            console.log("Перейти в заявки")
-        }
+        items: [
+            {
+                label: "Заявка на макет",
+                command: () => {
+                    router.push({ name: PortalRouteName.TicketDesign })
+                }
+            },
+            {
+                label: "Заявка на сертификат",
+                command: () => {
+                    router.push({ name: PortalRouteName.TicketCertificate })
+                }
+            },
+            {
+                label: "Заявка на специалиста",
+                command: () => {
+                    router.push({ name: PortalRouteName.TicketSpecialist })
+                }
+            },
+            {
+                label: "Заявка черный список",
+                command: () => {
+                    router.push({ name: PortalRouteName.TicketBlacklist })
+                }
+            },
+        ]
     },
     {
         label: "Поиск сертификатов",
@@ -35,9 +59,26 @@ export function menuData(): MenuItem[] {
     },
     {
         label: "Контакты",
-        command: () => {
-            router.push({ name: PortalRouteName.ContactCentralOffice })
-        }
+        items: [
+            {
+                label: "Центральный офис",
+                command: () => {
+                    router.push({ name: PortalRouteName.ContactCentralOffice })
+                }
+            },
+            {
+                label: "Франчайзи",
+                command: () => {
+                    router.push({ name: PortalRouteName.ContactFranchisee })
+                }
+            },
+            {
+                label: "Партнеры",
+                command: () => {
+                    router.push({ name: PortalRouteName.ContactPartners })
+                }
+            }
+        ]
     },
     {
         label: "Админам",

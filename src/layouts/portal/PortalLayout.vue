@@ -28,7 +28,10 @@ async function onLogout() {
 <template>
     <div class="portal-layout">
         <div class="wrapper">
-            <Menubar :model="menuItems">
+            <Menubar
+                :model="menuItems"
+                breakpoint="1024px"
+            >
                 <template #start>
                     <b-image
                         src="logos/logo.png"
@@ -129,6 +132,13 @@ body {
                 flex-direction: row-reverse;
                 justify-content: space-between;
                 align-items: center;
+            }
+        }
+
+        .p-menubar-submenu {
+            .p-menubar-item {
+                border: none;
+                border-radius: $indent-x1;
             }
         }
     }

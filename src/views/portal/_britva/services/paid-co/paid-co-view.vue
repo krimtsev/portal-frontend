@@ -1,80 +1,60 @@
 <script setup lang="ts">
-import { ref, computed, watch, nextTick, onBeforeUnmount } from "vue"
-import VuePdfEmbed, { useVuePdfEmbed } from "vue-pdf-embed"
-import { getPublicLink } from "@/lib/link"
 import PortalPage from "@c/portal/portal-page/portal-page.vue"
+import PortalCard from "@c/portal/portal-card/portal-card.vue"
+import BButton from "@c/common/b-button/b-button.vue"
+import { getPublicLink } from "@/lib/link"
+import { downloadFile } from "@/lib/files"
 
-const { doc } = useVuePdfEmbed({
-    source: getPublicLink("docs/co-price.pdf")
-})
-
-const pageRefs = ref<HTMLElement[]>([])
-const pageVisibility = ref<Record<number, boolean>>({})
-
-let pageIntersectionObserver: IntersectionObserver | null = null
-
-const pageNums = computed<number[]>(() =>
-    doc.value ? [...Array(doc.value.numPages + 1).keys()].slice(1) : []
-)
-
-const resetPageIntersectionObserver = () => {
-    pageIntersectionObserver?.disconnect()
-    pageIntersectionObserver = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-                const index = pageRefs.value.indexOf(entry.target as HTMLElement)
-                const pageNum = pageNums.value[index]
-                if (pageNum !== undefined) {
-                    pageVisibility.value[pageNum] = true
-                }
-            }
-        })
-    })
-    pageRefs.value.forEach((element) => {
-        if (element) {
-            pageIntersectionObserver?.observe(element)
-        }
-    })
+async function handleDownload() {
+    const url = getPublicLink("docs/co-price.pdf")
+    downloadFile(url, "co-price.pdf")
 }
-
-watch(pageNums, (newPageNums) => {
-    if (newPageNums.length > 0) {
-        pageVisibility.value = { [newPageNums[0]]: true }
-        nextTick(resetPageIntersectionObserver)
-    }
-})
-
-onBeforeUnmount(() => {
-    pageIntersectionObserver?.disconnect()
-})
 </script>
 
 <template>
     <portal-page
         class="paid-co-view"
-        title="Платные услуги ЦО"
+        title="Платные услуги центрального офиса"
     >
-        <div class="pdf-scroll-container">
-            <div
-                v-for="pageNum in pageNums"
-                :key="pageNum"
-                ref="pageRefs"
-                class="pdf-page-wrapper"
-            >
-                <vue-pdf-embed
-                    v-if="pageVisibility[pageNum]"
-                    :source="doc"
-                    :page="pageNum"
+        <portal-card>
+            <div class="content">
+                <p> Документ, посвящённый платным услугам для партнеров сети барбершопов BRITVA! </p>
+
+                <p>
+                    Мы ценим каждое сотрудничество и понимаем, как важно для наших партнеров не только поддерживать
+                    высокий уровень обслуживания, но и постоянно развивать свой бизнес. В этом файле мы собрали
+                    информацию о платных услугах, которые помогут вам значительно повысить прибыль и улучшить
+                    клиентский опыт.
+                </p>
+
+                <p>
+                    Платные услуги — это не просто способ увеличить доход, но и возможность предложить вашим клиентам
+                    больше ценного и уникального. Мы уверены, что внедрение этих услуг в вашем барбершопе станет
+                    отличным дополнением к стандартным предложениям, а также поможет выделиться на фоне конкурентов и
+                    укрепить лояльность клиентов.
+                </p>
+
+                <p>
+                    Мы всегда готовы поддержать вас в этом процессе, предлагая подробные инструкции и помощь на всех
+                    этапах. Ведь ваш успех — это наш успех, и мы уверены, что с помощью этих дополнительных
+                    возможностей мы сможем сделать ваш бизнес ещё более прибыльным и успешным. Желаем удачи и роста
+                    вашему бизнесу!
+                </p>
+
+                <b-button
+                    label="Презентация"
+                    download
+                    @click="handleDownload"
                 />
             </div>
-        </div>
+        </portal-card>
     </portal-page>
 </template>
 
 <style scoped lang="scss">
 .paid-co-view {
-    .pdf-page-wrapper {
-        padding-bottom: $indent-x1;
+    .content {
+        @include text-content;
     }
 }
 </style>

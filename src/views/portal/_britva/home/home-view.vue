@@ -6,6 +6,7 @@ import { sections } from "@v/portal/_britva/home/data/home-data"
 import { portalPaths } from "@r/portal/path"
 import { PortalRouteName } from "@r/portal/route-names"
 import PortalUserAnalyticsChart from "@c/portal/portal-charts/portal-user-analytics-chart.vue"
+import BButton from "@c/common/b-button/b-button.vue";
 </script>
 
 <template>
@@ -61,8 +62,9 @@ import PortalUserAnalyticsChart from "@c/portal/portal-charts/portal-user-analyt
 
             <div class="col-4 mob-col-12 row-span">
                 <portal-card
-                    title="Аналитика показателей (в разработке)"
+                    title="Аналитика показателей"
                     menu-title
+                    class-content="d-flex align-items-end"
                 >
                     <portal-user-analytics-chart />
                 </portal-card>
@@ -86,11 +88,28 @@ import PortalUserAnalyticsChart from "@c/portal/portal-charts/portal-user-analyt
 
                     <div class="col-12">
                         <portal-card
-                            title="Отправить заявку"
+                            title="Популярные заявки"
                             menu-title
                             class="request-block"
                         >
-
+                            <div class="buttons-wrapper">
+                                <b-button
+                                    label="Заявка на топ-мастера"
+                                    outline
+                                />
+                                <b-button
+                                    label="Заявка на бренд-мастера"
+                                    outline
+                                />
+                                <b-button
+                                    label="Заявка на сертификат"
+                                    outline
+                                />
+                                <b-button
+                                    label="Заявка на индивидуальное согласование"
+                                    outline
+                                />
+                            </div>
                         </portal-card>
                     </div>
                 </div>
@@ -127,6 +146,14 @@ $min-height: 195px;
 
     .request-block {
         min-height: $min-height;
+
+        .buttons-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: $indent-x1;
+            max-height: calc(2 * 40px + $indent-x1);
+            overflow: hidden;
+        }
     }
 
     .files-block {

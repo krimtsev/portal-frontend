@@ -21,4 +21,8 @@ export const portalPaths = {
     ContactCentralOffice: "contacts/central-office",
     ContactFranchisee: "contacts/franchisee",
     ContactPartners: "contacts/partners",
+    TicketDesign: "ticket/design",
+    TicketCertificate: "ticket/certificate",
+    TicketSpecialist: "ticket/specialist",
+    TicketBlacklist: "ticket/blacklist",
 }

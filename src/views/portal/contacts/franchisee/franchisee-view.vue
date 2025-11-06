@@ -5,7 +5,10 @@ import { buttonNavigation } from "@v/portal/_britva/contacts/data/button-navigat
 import PortalButtonNavigation from "@c/portal/portal-button-navigation/portal-button-navigation.vue"
 import * as contactsAPI from "@/api/modules/contacts/contacts"
 import { HttpError } from "@/api"
-import type { FranchiseeItem } from "@v/portal/contacts/franchisee/definitions/franchisee"
+import {
+    type FranchiseeItem,
+    FranchiseeSortBy
+} from "@v/portal/contacts/franchisee/definitions/franchisee"
 import { useNotify } from "@h/notify/notify"
 import PrimeDataTable from "primevue/datatable"
 import BSkeleton from "@c/common/b-skeleton/b-skeleton.vue"
@@ -25,7 +28,7 @@ const { t, n } = useI18n()
 
 const isLoading = ref(true)
 const franchisee = ref<FranchiseeItem[]>([])
-const paginationFilter = ref(defaultPaginationFilter())
+const paginationFilter = ref(defaultPaginationFilter({ sortBy: FranchiseeSortBy.Name }))
 const paginationPage = ref(defaultPaginationPage())
 
 const setInitialData = () => {

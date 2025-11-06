@@ -94,7 +94,7 @@ import PortalPage from "@c/portal/portal-page/portal-page.vue"
             />
 
             <b-image
-                src="portal/abik_example.png"
+                src="portal/abik-example.png"
                 rounded
             />
         </portal-card>

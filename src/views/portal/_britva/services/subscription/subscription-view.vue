@@ -10,7 +10,7 @@ import PortalPage from "@c/portal/portal-page/portal-page.vue"
     <portal-page
         class="subscription-view"
         title="Подписка Яндекс.Карты и 2GIS"
-        right-image="template/two_gis_side.png"
+        right-image="template/two-gis-side.png"
     >
         <portal-card title="Репутационная поддержка карточки филиала на картах от ЦО">
             <div class="content">
@@ -67,7 +67,7 @@ import PortalPage from "@c/portal/portal-page/portal-page.vue"
             <div class="col-4">
                 <portal-card>
                     <div class="tariff">
-                        <b-image src="template/two_gis.png" />
+                        <b-image src="template/two-gis.png" />
 
                         <b-title
                             title="Пакет Бизнес"
@@ -85,7 +85,7 @@ import PortalPage from "@c/portal/portal-page/portal-page.vue"
             <div class="col-4">
                 <portal-card>
                     <div class="tariff">
-                        <b-image src="template/two_gis_arrow.png" />
+                        <b-image src="template/two-gis-arrow.png" />
 
                         <b-title
                             title="Пакет Премиум"

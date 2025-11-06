@@ -21,4 +21,8 @@ export enum PortalRouteName {
     ContactCentralOffice = "ContactCentralOffice",
     ContactFranchisee = "ContactFranchisee",
     ContactPartners = "ContactPartners",
+    TicketDesign = "TicketDesign",
+    TicketCertificate = "TicketCertificate",
+    TicketSpecialist = "TicketSpecialist",
+    TicketBlacklist = "TicketBlacklist",
 }

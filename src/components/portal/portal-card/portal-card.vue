@@ -20,6 +20,7 @@ const props = defineProps<{
         src: string
     }
     pathPositionLeft?: boolean
+    classContent?: string | string[]
 }>()
 
 const router = useRouter()
@@ -50,7 +51,10 @@ const onClick = () => {
         >
             {{ props.title }}
         </div>
-        <div class="card-content">
+        <div
+            class="card-content"
+            :class="classContent"
+        >
             <slot />
         </div>
         <div

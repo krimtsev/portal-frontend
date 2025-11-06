@@ -77,7 +77,7 @@ async function handleDownload() {
             <div class="col-4">
                 <portal-card>
                     <div class="tariff">
-                        <b-image src="template/two_gis.png" />
+                        <b-image src="template/two-gis.png" />
 
                         <b-title
                             title="Звонки"

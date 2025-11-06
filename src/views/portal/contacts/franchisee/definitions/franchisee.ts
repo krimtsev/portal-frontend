@@ -15,3 +15,7 @@ export interface FranchiseeItem {
     names: string[]
     telnums: string[]
 }
+
+export enum FranchiseeSortBy {
+    Name = "name"
+}

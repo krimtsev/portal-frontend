@@ -21,13 +21,13 @@ export interface PaginationFilter {
 }
 
 
-export function defaultPaginationFilter(): PaginationFilter {
+export function defaultPaginationFilter(params?: Partial<PaginationFilter>): PaginationFilter {
     return {
-        page: 1,
-        sortBy: "asc",
-        sortOrder: "id",
-        perPage: 20,
-        search: ""
+        page: params?.page ?? 1,
+        sortBy: params?.sortBy ?? "id",
+        sortOrder: params?.sortOrder ?? "asc",
+        perPage: params?.perPage ?? 20,
+        search: params?.search ?? ""
     }
 }
 

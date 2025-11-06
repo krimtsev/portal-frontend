@@ -59,6 +59,11 @@ const commonProps = computed(() => {
 
 <style scoped lang="scss">
 .b-button {
+    :deep(.p-button) {
+        white-space: nowrap;
+        box-sizing: border-box;
+    }
+
     .button {
         min-width: 104px;
         text-decoration: none;

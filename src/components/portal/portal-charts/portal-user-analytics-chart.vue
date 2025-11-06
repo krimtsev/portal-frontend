@@ -4,8 +4,8 @@
     </div>
 </template>
 
-<script setup>
-import { ref, onMounted } from "vue"
+<script setup lang="ts">
+import { ref, onMounted, onBeforeUnmount } from "vue"
 import {
     Chart,
     BarController,
@@ -19,6 +19,7 @@ import {
 Chart.register(BarController, BarElement, CategoryScale, LinearScale, Tooltip, Legend)
 
 const chartCanvas = ref(null)
+let chart = null
 
 function createDiagonalPattern(ctx, color = "rgba(255,255,255,0.08)") {
     const patternCanvas = document.createElement("canvas")
@@ -73,12 +74,11 @@ function drawBadge(ctx, x, y, text) {
     ctx.fillText(text, x, rectY + rectHeight / 2)
 }
 
-onMounted(() => {
-    const ctx = chartCanvas.value.getContext("2d")
+function createChart(ctx) {
     const pattern = createDiagonalPattern(ctx)
     const gradient = createGradient(ctx)
 
-    const chart = new Chart(ctx, {
+    return new Chart(ctx, {
         type: "bar",
         data: {
             labels: ["Февраль", "Март", "Апрель", "Май"],
@@ -150,8 +150,12 @@ onMounted(() => {
             },
         ],
     })
+}
 
-    // равная ширина и 8px отступ
+onMounted(() => {
+    const ctx = chartCanvas.value.getContext("2d")
+    chart = createChart(ctx)
+
     chart.options.scales.x.barPercentage = 1
     chart.options.scales.x.categoryPercentage = 1
     chart.data.datasets[0].barThickness = () => {
@@ -161,12 +165,19 @@ onMounted(() => {
         return (chartWidth - totalSpacing) / totalBars
     }
 })
+
+onBeforeUnmount(() => {
+    if (chart) {
+        chart.destroy()
+        chart = null
+    }
+})
 </script>
 
 <style scoped lang="scss">
 .chart-container {
     width: 100%;
-    height: 250px;
+    min-height: 250px;
     padding: $indent-x1 $indent-x3 0;
 }
 </style>

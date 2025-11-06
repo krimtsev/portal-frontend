@@ -9,11 +9,11 @@ const props = defineProps<{
 }>()
 
 const images: Record<string, string> = {
-    "docs":              "template/cloud_document.png",
-    "makets":            "template/cloud_image.png",
-    "video":             "template/cloud_video.png",
-    "digests":           "template/cloud_document.png",
-    "video-instruction": "template/cloud_video.png",
+    "docs":              "template/cloud-document.png",
+    "makets":            "template/cloud-image.png",
+    "video":             "template/cloud-video.png",
+    "digests":           "template/cloud-document.png",
+    "video-instruction": "template/cloud-video.png",
 }
 
 const imageSrc = computed(() => images[props.item.slug] ?? images.docs)
