@@ -8,6 +8,7 @@ import ToastService from "primevue/toastservice"
 import { themeConfig } from "./plugins/prime-vue"
 import "@a/styles/index.scss"
 import "primeicons/primeicons.css"
+import GlowDirective from "@/directives/glow"
 
 const pinia = createPinia()
 
@@ -17,4 +18,5 @@ createApp(App)
     .use(ToastService)
     .use(i18n)
     .use(router)
+    .directive("glow", GlowDirective)
     .mount("#app")

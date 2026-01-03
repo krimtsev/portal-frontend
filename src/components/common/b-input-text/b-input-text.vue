@@ -70,11 +70,11 @@ const label = computed(() => {
     }
 
     .label {
-        margin-bottom: $indent;
+        margin-bottom: $indent-x1;
     }
 
     .error {
-        margin-top: $indent;
+        margin-top: $indent-x1;
     }
 }
 </style>

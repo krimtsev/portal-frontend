@@ -13,11 +13,11 @@ const routes: RouteRecordRaw[] = [
             name: DashboardRouteName.DashboardPanel
         },
         meta: {
-            title: "mc.partner.name"
+            title: "mc.partner.title"
         },
         children: [
             {
-                path:      dashboardPaths.Panel,
+                path:      dashboardPaths.DashboardPanel,
                 name:      DashboardRouteName.DashboardPanel,
                 components: {
                     default: DashboardPanelView,

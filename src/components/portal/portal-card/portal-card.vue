@@ -1,9 +1,9 @@
 <script setup lang="ts" >
 import { useRouter } from "vue-router"
-import BIcon from "@c/common/b-icon/b-icon.vue"
 import BImage from "@c/common/b-image/b-image.vue"
 import { openExternalLink } from "@/lib/link"
 import { PortalRouteName } from "@r/portal/route-names"
+import BButtonIcon from "@c/common/b-button-icon/b-button-icon.vue"
 
 interface Route {
     name: PortalRouteName
@@ -20,7 +20,9 @@ const props = defineProps<{
         src: string
     }
     pathPositionLeft?: boolean
+    classTitle?: string | string[]
     classContent?: string | string[]
+    mobileWrapForm?: boolean
 }>()
 
 const router = useRouter()
@@ -43,11 +45,15 @@ const onClick = () => {
 <template>
     <div
         class="portal-card"
-        :class="{ 'menu-title': menuTitle }"
+        :class="{
+            'menu-title': menuTitle,
+            'mobile-wrap-form': props.mobileWrapForm
+        }"
     >
         <div
             v-if="props.title"
             class="card-title title-lg"
+            :class="classTitle"
         >
             {{ props.title }}
         </div>
@@ -62,7 +68,7 @@ const onClick = () => {
             class="card-footer"
             :class="{ 'left': props.pathPositionLeft }"
         >
-            <b-icon
+            <b-button-icon
                 icon="pi pi-angle-right"
                 severity="contrast"
                 variant="text"
@@ -85,13 +91,10 @@ const onClick = () => {
 
 <style lang="scss" scoped>
 .portal-card {
-    display: flex;
+    @include portal-card();
+
     flex-direction: column;
     flex-grow: 1;
-    padding: $indent-x4 ;
-    background: var(--p-portal-card-background);
-    border-radius: $indent-x4;
-    overflow: hidden;
 
     .card {
         &-title {
@@ -125,7 +128,7 @@ const onClick = () => {
         }
     }
 
-    :deep(.b-icon) {
+    :deep(.b-button-icon) {
         .p-button {
             border-color: rgba(255, 255, 255, 0.16);
             width: 38px;
@@ -153,5 +156,18 @@ const onClick = () => {
             }
         }
     }
+
+    &.mobile-wrap-form {
+        :deep(.portal-form-item) {
+            @media (max-width: $layout-mobile-width) {
+                flex-wrap: wrap;
+
+                .portal-form-item-content {
+                    margin-top: $indent-x1;
+                }
+            }
+        }
+    }
+
 }
 </style>

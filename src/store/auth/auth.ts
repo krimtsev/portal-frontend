@@ -59,11 +59,14 @@ const useAuthStore = defineStore("auth", () => {
         await reset(true)
     }
 
-    async function getUserData(checkToken: boolean): Promise<boolean> {
-        if (checkToken && !hasToken.value) {
+    async function getUserData(): Promise<boolean> {
+        if (!hasToken.value) {
             await reset(false)
             return false
         }
+
+        // Обновляем CSRF токен при каждой авторизации
+        await csrf()
 
         const userData = await authAPI.userData()
 

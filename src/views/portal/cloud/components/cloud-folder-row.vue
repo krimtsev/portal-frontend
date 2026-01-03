@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import BSvg from "@c/common/b-svg/b-svg.vue"
 import type { CloudFolderItem } from "@v/portal/cloud/definitions/cloud"
-import { useRoutePath } from "@h/route/route"
+import { useRoutePath } from "@/composables/route/use-route-path"
 
 const props = defineProps<{
     item: CloudFolderItem

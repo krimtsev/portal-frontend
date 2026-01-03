@@ -1,5 +1,5 @@
 import { PortalRouteName } from "@r/portal/route-names"
-import { openExternalLink } from "@/lib/link"
+import { ProfileRouteName } from "@r/profile/route-names"
 import { useRouter } from "vue-router"
 
 type MenuCommand = () => void
@@ -28,25 +28,31 @@ export function menuData(): MenuItem[] {
             {
                 label: "Заявка на макет",
                 command: () => {
-                    router.push({ name: PortalRouteName.TicketDesign })
+                    router.push({ name: ProfileRouteName.ProfileTicketDesign })
                 }
             },
             {
                 label: "Заявка на сертификат",
                 command: () => {
-                    router.push({ name: PortalRouteName.TicketCertificate })
+                    router.push({ name: ProfileRouteName.ProfileTicketCertificate })
                 }
             },
             {
                 label: "Заявка на специалиста",
                 command: () => {
-                    router.push({ name: PortalRouteName.TicketSpecialist })
+                    router.push({ name: ProfileRouteName.ProfileTicketSpecialist })
                 }
             },
             {
                 label: "Заявка черный список",
                 command: () => {
-                    router.push({ name: PortalRouteName.TicketBlacklist })
+                    router.push({ name: ProfileRouteName.ProfileTicketBlacklist })
+                }
+            },
+            {
+                label: "Общая заявка",
+                command: () => {
+                    router.push({ name: ProfileRouteName.ProfileTicketGeneral })
                 }
             },
         ]
@@ -80,12 +86,4 @@ export function menuData(): MenuItem[] {
             }
         ]
     },
-    {
-        label: "Админам",
-        icon: "pi pi-arrow-up-right",
-        class: "right-icon",
-        command: () => {
-            openExternalLink("https://britva.tech/britva")
-        }
-    }
 ]}

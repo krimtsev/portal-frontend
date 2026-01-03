@@ -3,10 +3,10 @@ import { ref } from "vue"
 import type { CloudFileItem } from "@v/portal/cloud/definitions/cloud"
 import * as cloudAPI from "@/api/modules/cloud/cloud"
 import { HttpError } from "@/api"
-import { useNotify } from "@h/notify/notify.ts"
+import { useNotify } from "@/composables/notify/use-notify"
 import { downloadExternalFile } from "@/lib/files"
 import BSpinner from "@c/common/b-spinner/b-spinner.vue"
-import BBlocked from "@c/common/b-blocked/b-blocked.vue";
+import BBlocked from "@c/common/b-blocked/b-blocked.vue"
 
 const notify = useNotify()
 
@@ -36,29 +36,29 @@ async function onClick() {
 </script>
 
 <template>
-<div class="cloud-file-row">
-    <b-blocked :blocked="isLoading">
-        <div
-            class="wrapper"
-            @click="onClick"
-        >
+    <div class="cloud-file-row">
+        <b-blocked :blocked="isLoading">
             <div
-                class="icon"
-                :class="props.item.ext"
+                class="wrapper"
+                @click="onClick"
             >
-                <b-spinner v-if="isLoading" />
+                <div
+                    class="icon"
+                    :class="props.item.ext"
+                >
+                    <b-spinner v-if="isLoading" />
 
-                <template v-else>
-                    {{ props.item.ext }}
-                </template>
-            </div>
+                    <template v-else>
+                        {{ props.item.ext }}
+                    </template>
+                </div>
 
-            <div class="name">
-                {{ props.item.title }}
+                <div class="name">
+                    {{ props.item.title }}
+                </div>
             </div>
-        </div>
-    </b-blocked>
-</div>
+        </b-blocked>
+    </div>
 </template>
 
 <style scoped lang="scss">

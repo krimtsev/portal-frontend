@@ -25,7 +25,7 @@ router.beforeEach(async (to: RouteLocationNormalized, from, next) => {
     const authStore = useAuthStore()
 
     if (authStore.isLoading) {
-        const result = await authStore.getUserData(true)
+        const result = await authStore.getUserData()
         if (!result) {
             return next({ name: CommonRouteName.Auth })
         }

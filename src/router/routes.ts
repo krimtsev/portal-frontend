@@ -1,4 +1,5 @@
 import commonRoutes from "@r/common/routes"
+import profileRoutes from "@r/profile/routes"
 import dashboardRoutes from "@r/dashboard/routes"
 import britvaPortalRoutes from "@r/portal/_britva/routes"
 import sodaPortalRoutes from "@r/portal/_soda/routes"
@@ -19,6 +20,7 @@ const portalRoutes = [
 
 const routes = [
     ...commonRoutes,
+    ...profileRoutes,
     ...portalRoutes,
     ...dashboardRoutes,
 ]

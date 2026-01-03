@@ -3,23 +3,23 @@ import BSkeleton from "@c/common/b-skeleton/b-skeleton.vue"
 </script>
 
 <template>
-<div class="cloud-file-row-skeleton">
-    <div class="wrapper">
-        <div class="icon">
-            <b-skeleton
-                size="39px"
-                shape="circle"
-            />
-        </div>
+    <div class="cloud-file-row-skeleton">
+        <div class="wrapper">
+            <div class="icon">
+                <b-skeleton
+                    size="39px"
+                    shape="circle"
+                />
+            </div>
 
-        <div class="name">
-            <b-skeleton
-                height="1rem"
-                width="20rem"
-            />
+            <div class="name">
+                <b-skeleton
+                    height="1rem"
+                    width="20rem"
+                />
+            </div>
         </div>
     </div>
-</div>
 </template>
 
 <style scoped lang="scss">

@@ -124,7 +124,7 @@ function createChart(ctx) {
                     const ctx = chart.ctx
                     const meta = chart.getDatasetMeta(0)
                     const labels = chart.data.labels
-                    const dataset = chart.data.datasets[0]
+                    //const dataset = chart.data.datasets[0]
 
                     ctx.save()
                     ctx.font = "14px 'Akzidenz-Grotesk Pro'"

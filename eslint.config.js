@@ -21,6 +21,10 @@ export default [
             "semi": ["error", "never"],
             "quotes": ["warn", "double", { "avoidEscape": true }],
             "quote-props": ["warn", "as-needed"],
+            "no-unused-vars": "off",
+            "@typescript-eslint/no-unused-vars": ["warn", {
+                argsIgnorePattern: "^_",
+            }],
         },
     },
     {
@@ -64,7 +68,10 @@ export default [
             "semi": ["error", "never"],
             "quotes": ["warn", "double", { "avoidEscape": true }],
             "quote-props": ["warn", "as-needed"],
-            "no-unused-vars": ["warn"],
+            "no-unused-vars": "off",
+            "@typescript-eslint/no-unused-vars": ["warn", {
+                argsIgnorePattern: "^_",
+            }],
             "no-unused-expressions": "error",
             "camelcase": "off",
             "array-callback-return": "warn"

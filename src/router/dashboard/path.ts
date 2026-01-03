@@ -1,4 +1,4 @@
 export const dashboardPaths = {
     Dashboard: "/dashboard",
-    Panel: "/dashboard/panel",
+    DashboardPanel: "/dashboard/panel",
 }

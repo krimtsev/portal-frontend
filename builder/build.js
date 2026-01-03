@@ -1,18 +1,20 @@
 import fs from "node:fs"
 import path from "node:path"
 import url from "node:url"
+import { spawn } from "node:child_process"
 import deepMerge from "deepmerge"
 import copy from "recursive-copy"
-import { createServer } from "vite"
 import {
     throwError,
     logInfo,
+    logDebug,
     createDirectory,
-    removeDirectory
+    removeDirectory,
+    killPort,
 } from "./utils/utils.js"
 import env from "./../env.js"
 import chokidar from "chokidar"
-import { spawn } from "child_process"
+
 
 const isProduction = process.env.NODE_ENV === "production"
 const isDevelop = process.env.NODE_ENV === "develop"
@@ -164,6 +166,8 @@ async function copyPublic() {
 }
 
 async function watchDevChanges() {
+    killPort(env.app.port)
+
     const watcher = chokidar.watch(partnersAssetsDir, {
         persistent: true, // держим процесс работы
         ignoreInitial: true, // игнорируем события при старте
@@ -182,7 +186,9 @@ async function watchDevChanges() {
 
         // Останавливаем файловый watcher
         watcher.close();
-        vite.kill();
+        if (!vite.killed) {
+            vite.kill();
+        }
         process.exit(0);
     };
 
@@ -190,6 +196,16 @@ async function watchDevChanges() {
     process.on("SIGTERM", cleanExit);
     process.on("SIGHUP", cleanExit); // Завершам при закрытии редактора
     process.on("exit", cleanExit); // Завершение при нажатии Ctrl+C или завершении процесса
+
+    vite.on("error", (err) => {
+        console.error("❌ Vite process error:", err);
+        cleanExit();
+    });
+
+    vite.on("exit", (code, signal) => {
+        console.log(`⚡ Vite exited with code ${code} and signal ${signal}`);
+        cleanExit();
+    });
 
     watcher
         .on("add", (filePath) => {
@@ -212,6 +228,7 @@ async function watchDevChanges() {
         });
 
     logInfo(`💫 Watching for file changes in ...`);
+    logDebug(`▶️ Vite started with PID: ${vite.pid}`);
 }
 
 // Функция для перезапуска сборки

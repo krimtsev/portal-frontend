@@ -5,12 +5,14 @@ import type { Variants } from "@/shared/content/content"
 
 interface ISkeletonProps extends SkeletonProps {
     variant?: Variants
+    invert?: boolean
 }
 
 const props = withDefaults(defineProps<ISkeletonProps>(), {
     height: "1.15rem",
     variant: undefined,
     width: "20rem",
+    invert: false,
 })
 
 const variantClass = computed(() => props.variant ? `variant-${props.variant}` : "")
@@ -18,10 +20,15 @@ const variantClass = computed(() => props.variant ? `variant-${props.variant}` :
 
 <template>
     <prime-skeleton
-        class="b-skeleton"
         v-bind="props"
         :width="props.width"
-        :class="variantClass"
+        class="b-skeleton"
+        :class="[
+            variantClass,
+            {
+                'invert': props.invert
+            }
+        ]"
     />
 </template>
 
@@ -38,6 +45,10 @@ const variantClass = computed(() => props.variant ? `variant-${props.variant}` :
     }
     &.variant-xl {
         height: $line-height-h1 !important;
+    }
+
+    &.invert {
+        background: var(--p-skeleton-invert-background);
     }
 }
 </style>

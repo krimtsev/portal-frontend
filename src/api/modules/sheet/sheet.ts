@@ -3,5 +3,5 @@ import type { Pagination, PaginationFilter } from "@/shared/pagination/paginatio
 import type { CertificateItem } from "@v/portal/certificates/definitions/certificates"
 
 export async function get(paginationFilter: PaginationFilter) {
-    return await http.get<Pagination<CertificateItem[]>>("certificates", { params: paginationFilter })
+    return await http.post<Pagination<CertificateItem[]>>("certificates", paginationFilter)
 }

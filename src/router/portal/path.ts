@@ -4,7 +4,6 @@ export const portalPaths = {
     InstructionMangoRedirect: "instruction/mango-redirect",
     InstructionYclientNotifications: "instruction/yclient-notifications",
     Cloud: "cloud/:pathMatch(.*)*",
-    Profile: "profile",
 
     //partner
     Home: "/home",
@@ -21,8 +20,4 @@ export const portalPaths = {
     ContactCentralOffice: "contacts/central-office",
     ContactFranchisee: "contacts/franchisee",
     ContactPartners: "contacts/partners",
-    TicketDesign: "ticket/design",
-    TicketCertificate: "ticket/certificate",
-    TicketSpecialist: "ticket/specialist",
-    TicketBlacklist: "ticket/blacklist",
 }

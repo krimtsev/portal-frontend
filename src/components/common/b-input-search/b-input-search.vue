@@ -3,7 +3,6 @@ import { computed } from "vue"
 import PrimeInputText from "primevue/inputtext"
 import PrimeButton from "primevue/button"
 
-// Это и есть связь с внешним v-model
 const model = defineModel<string>()
 
 const emit = defineEmits<{

@@ -18,20 +18,23 @@ export interface PaginationFilter {
     sortOrder: string,
     perPage: number,
     search: string,
+    filters: Record<string, string[]>,
 }
 
 
-export function defaultPaginationFilter(params?: Partial<PaginationFilter>): PaginationFilter {
+export function defaultPaginationFilter(params: Partial<PaginationFilter> = {}): PaginationFilter {
     return {
-        page: params?.page ?? 1,
-        sortBy: params?.sortBy ?? "id",
-        sortOrder: params?.sortOrder ?? "asc",
-        perPage: params?.perPage ?? 20,
-        search: params?.search ?? ""
+        page: 1,
+        sortBy: "id",
+        sortOrder: "asc",
+        perPage: 20,
+        search: "",
+        filters: {},
+        ...params
     }
 }
 
-export function defaultPaginationPage(): PaginationPage {
+export function defaultPaginationPage(params: Partial<PaginationPage> = {}): PaginationPage {
     return {
         currentPage: 1,
         lastPage: 1,
@@ -39,5 +42,6 @@ export function defaultPaginationPage(): PaginationPage {
         total: 0,
         from: 0,
         to: 0,
+        ...params
     }
 }

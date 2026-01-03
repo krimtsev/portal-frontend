@@ -4,7 +4,7 @@ import { useRouter } from "vue-router"
 import logoSrc from "@a/images/logos/logo.png"
 import BImage from "@c/common/b-image/b-image.vue"
 import BButton from "@c/common/b-button/b-button.vue"
-import BIcon from "@c/common/b-icon/b-icon.vue"
+import BButtonIcon from "@c/common/b-button-icon/b-button-icon.vue"
 
 const isCollapsed = ref(false)
 const sidebarVisible = ref(false)
@@ -55,7 +55,7 @@ const menuItems = [
                         width="80px"
                     />
                 </span>
-                <b-icon
+                <b-button-icon
                     icon="pi pi-bars"
                     variant="text"
                     size="large"
@@ -78,7 +78,7 @@ const menuItems = [
 
         <div class="main-content">
             <div class="header">
-                <b-icon
+                <b-button-icon
                     icon="pi pi-bars"
                     variant="text"
                     size="large"

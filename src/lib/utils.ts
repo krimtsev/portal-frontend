@@ -11,3 +11,9 @@ export function getUnlocalizedFileName(path: string) {
     const localizedFileName = filePath.split("/").pop() || ""
     return localizedFileName.replace(/\{.+}(\..+)$/, "$1")
 }
+
+export function valueOrDash(val?: string | number | null): string {
+    if (val === 0) return "0"
+    if (!val) return "—"
+    return String(val)
+}

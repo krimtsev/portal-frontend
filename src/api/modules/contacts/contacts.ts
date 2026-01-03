@@ -3,5 +3,5 @@ import type { FranchiseeItemRaw } from "@v/portal/contacts/franchisee/definition
 import type { Pagination, PaginationFilter } from "@/shared/pagination/pagination"
 
 export async function get(paginationFilter: PaginationFilter) {
-    return await http.get<Pagination<FranchiseeItemRaw[]>>("contacts/franchisee", { params: paginationFilter })
+    return await http.post<Pagination<FranchiseeItemRaw[]>>("contacts/franchisee", paginationFilter)
 }

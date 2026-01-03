@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from "vue"
-import Button from "primevue/button"
+import PrimeButton from "primevue/button"
 import { useRouter } from "vue-router"
 
 const isCollapsed = ref(false)
@@ -55,7 +55,7 @@ const menuItems = [
         >
             <div class="sidebar-header">
                 <span class="logo">My App</span>
-                <Button
+                <prime-button
                     v-if="isMobile"
                     icon="pi pi-times"
                     class="close-btn"
@@ -65,7 +65,7 @@ const menuItems = [
             </div>
             <ul class="menu">
                 <li v-for="item in menuItems" :key="item.label">
-                    <Button
+                    <prime-button
                         :label="item.label"
                         :icon="item.icon"
                         class="menu-item"
@@ -79,7 +79,7 @@ const menuItems = [
         <!-- Main Content -->
         <div class="main-content">
             <div class="header">
-                <Button
+                <prime-button
                     icon="pi pi-bars"
                     class="menu-toggle"
                     text

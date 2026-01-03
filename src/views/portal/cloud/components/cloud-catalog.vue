@@ -2,17 +2,17 @@
 import { computed } from "vue"
 import BImage from "@c/common/b-image/b-image.vue"
 import type { CloudFolderItem } from "@v/portal/cloud/definitions/cloud"
-import { useRoutePath } from "@h/route/route"
+import { useRoutePath } from "@/composables/route/use-route-path"
 
 const props = defineProps<{
     item: CloudFolderItem
 }>()
 
 const images: Record<string, string> = {
-    "docs":              "template/cloud-document.png",
-    "makets":            "template/cloud-image.png",
-    "video":             "template/cloud-video.png",
-    "digests":           "template/cloud-document.png",
+    docs:                "template/cloud-document.png",
+    makets:              "template/cloud-image.png",
+    video:               "template/cloud-video.png",
+    digests:             "template/cloud-document.png",
     "video-instruction": "template/cloud-video.png",
 }
 
@@ -45,6 +45,8 @@ function onClick() {
 
 <style scoped lang="scss">
 .cloud-catalog {
+    @include box-shadow;
+
     position: relative;
     min-width: 406px;
     min-height: calc(279px + 30px);
@@ -81,27 +83,17 @@ function onClick() {
         }
     }
 
-    .shadow {
-        position: absolute;
-        bottom: -20px;
-        left: 5%;      // ширина тени меньше контейнера
-        width: 90%;
-        height: 40px;   // высота тени
-        background-color: var(--p-primary-500);
-        opacity: 0;
-        filter: blur(10px); // размытие
-        pointer-events: none;
-        transition: opacity 0.3s;
-        z-index: 1;
-        border-radius: 50%; // чтобы края тени были мягкими
-    }
-
-    &:hover .shadow {
-        opacity: 0.2; // появление тени при наведении
-    }
-
-    &:hover .title {
-        color: var(--p-primary-500);
-    }
+    //.shadow {
+    //    @include box-shadow;
+    //    @include box-shadow-position;
+    //}
+    //
+    //&:hover .shadow {
+    //    @include box-shadow-hover;
+    //}
+    //
+    //&:hover .title {
+    //    color: var(--p-primary-500);
+    //}
 }
 </style>

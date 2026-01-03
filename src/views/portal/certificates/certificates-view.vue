@@ -2,7 +2,7 @@
 import { ref, computed, onMounted } from "vue"
 import PortalPage from "@c/portal/portal-page/portal-page.vue"
 import { HttpError } from "@/api"
-import * as sheetAPI from "@/api/modules/sheet/sheet.ts"
+import * as sheetAPI from "@/api/modules/sheet/sheet"
 import PrimeDataTable from "primevue/datatable"
 import PrimeColumn from "primevue/column"
 import type { CertificateItem } from "@v/portal/certificates/definitions/certificates"
@@ -12,7 +12,7 @@ import BEmptyResult from "@c/common/b-empty/b-empty-result.vue"
 import BInputSearch from "@c/common/b-input-search/b-input-search.vue"
 import { useI18n } from "vue-i18n"
 import PortalUserCard from "@c/portal/portal-user-card/portal-user-card.vue"
-import { useNotify } from "@h/notify/notify"
+import { useNotify } from "@/composables/notify/use-notify"
 
 const notify = useNotify()
 const { t, n } = useI18n()
@@ -75,7 +75,8 @@ const paginationInfo = computed(() => {
 })
 
 const showPaginator = computed(() => {
-    return !!certificates.value.length
+    return !!certificates.value.length &&
+        paginationPage.value.total > paginationPage.value.perPage
 })
 
 const firstPage = computed(() => {
@@ -119,7 +120,7 @@ const firstPage = computed(() => {
                     {{ paginationInfo }}
                 </template>
 
-                <template #loading></template>
+                <template #loading />
 
                 <template #empty>
                     <b-empty-result />
@@ -162,6 +163,7 @@ const firstPage = computed(() => {
                 <portal-user-card
                     avatar="employees/krimtsev.jpg"
                     telnum="79994845317"
+                    v-glow="{ position: 'bottom-left' }"
                 >
                     <div class="text-center">
                         <p class="mb-x0">

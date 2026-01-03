@@ -7,14 +7,14 @@ const slots = useSlots()
 </script>
 
 <template>
-<prime-breadcrumb
-    v-bind="attrs"
-    class="b-breadcrumb"
->
-    <template v-for="(_, name) in slots" #[name]="slotProps">
-        <slot :name="name" v-bind="slotProps" />
-    </template>
-</prime-breadcrumb>
+    <prime-breadcrumb
+        v-bind="attrs"
+        class="b-breadcrumb"
+    >
+        <template v-for="(_, name) in slots" #[name]="slotProps">
+            <slot :name="name" v-bind="slotProps" />
+        </template>
+    </prime-breadcrumb>
 </template>
 
 <style scoped lang="scss">

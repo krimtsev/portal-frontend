@@ -15,6 +15,7 @@ const props = defineProps<{
     <portal-card
         title="Информация"
         menu-title
+        v-glow="{ position: 'top-left' }"
     >
         <div class="portal-information-menu grid">
             <div class="col-12" v-for="(section, index) in props.sections" :key="index">

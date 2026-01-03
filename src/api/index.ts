@@ -47,25 +47,6 @@ async function authGuard(error: any) {
     }
 }
 
-// function pickUpAbortControllerConfigFromCustomConfig(customConfig?: CustomAxiosRequestConfig) {
-//     let abortController: AbortController
-//     let internal = false
-//
-//     if (customConfig?.abortController) {
-//         abortController = customConfig.abortController
-//     } else {
-//         abortController = new AbortController()
-//         internal = true
-//     }
-//
-//     customConfig = { ...(customConfig || {}), abortController }
-//
-//     return {
-//         config:                toNativeConfig(customConfig),
-//         abortControllerConfig: { controller: abortController, internal },
-//     }
-// }
-
 function toNativeConfig(customConfig?: CustomAxiosRequestConfig): AxiosRequestConfig | undefined {
     const config: CustomAxiosRequestConfig & AxiosRequestConfig | undefined = customConfig
 

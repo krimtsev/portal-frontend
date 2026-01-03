@@ -9,7 +9,7 @@ import BCheckbox from "@c/common/b-checkbox/b-checkbox.vue"
 import BButton from "@c/common/b-button/b-button.vue"
 import BImage from "@c/common/b-image/b-image.vue"
 import useAuthStore from "@s/auth/auth"
-import { useNotify } from "@h/notify/notify"
+import { useNotify } from "@/composables/notify/use-notify"
 import { HttpError } from "@/api"
 
 const { t } = useI18n()
@@ -99,6 +99,7 @@ async function onFormSubmit(event: FormSubmitEvent): Promise<void> {
                         :disabled="authStore.isLoading"
                         name="password"
                         label-colon
+                        full-width
                     />
 
                     <div class="flex-center">

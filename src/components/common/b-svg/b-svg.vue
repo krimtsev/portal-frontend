@@ -2,7 +2,15 @@
 import { computed } from "vue"
 import { svgSrc } from "@h/svg/svg"
 
-const props = defineProps<{ name: string }>()
+/**
+ * svg - пытаемся найти кастомную иконку
+ * если ее нет, подставляем как класс иконку из набора prime
+ */
+
+const props = defineProps<{
+    name?: string
+    size?: string
+}>()
 
 const svg = computed(() => {
     return svgSrc(props.name)
@@ -11,8 +19,15 @@ const svg = computed(() => {
 
 <template>
     <span
+        v-if="svg"
         v-html="svg"
         class="b-svg"
+    />
+    <span
+        v-else
+        class="b-svg pi"
+        :class="props.name"
+        :style="{ fontSize: props.size }"
     />
 </template>
 

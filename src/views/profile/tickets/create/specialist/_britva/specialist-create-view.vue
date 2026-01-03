@@ -1,0 +1,249 @@
+<script setup lang="ts">
+import { computed, onMounted, ref } from "vue"
+import PortalPage from "@c/portal/portal-page/portal-page.vue"
+import BButton from "@c/common/b-button/b-button.vue"
+import BTextarea from "@c/common/b-textarea/b-textarea.vue"
+import BInputText from "@c/common/b-input-text/b-input-text.vue"
+import BFileUpload from "@c/common/b-upload-file/b-file-upload.vue"
+import PrimeSelect from "primevue/select"
+import { useNotify } from "@/composables/notify/use-notify"
+import { type UserPartners } from "@/api/modules/partner/partner"
+import { cloneDeep, isEqual } from "lodash"
+import * as z from "zod"
+import {
+    employeeNameSchema,
+    employmentDurationSchema,
+    employmentStatisticsSchema,
+    messageSchema,
+    partnerIdSchema,
+    phoneSchema,
+    urlSchema
+} from "@v/profile/tickets/schemas/ticket-schemas"
+import { filesSchema } from "@/schemas/zod"
+import { useZodResolver } from "@/composables/zod/use-zod-resolver"
+import * as partnerAPI from "@/api/modules/partner/partner"
+import { HttpError } from "@/api"
+import { Qualification, type TicketSpecialist } from "@v/profile/tickets/create/specialist/_britva/definitions/specialist"
+import BButtonGroups from "@c/common/b-button-groups/b-button-groups.vue"
+import { qualificationName, TRANSLATIONS } from "@v/profile/tickets/create/specialist/_britva/utils/specialist"
+
+const notify = useNotify()
+
+const isFirstLoading = ref(true)
+const isLoading = ref(false)
+
+const userPartners = ref<UserPartners>({
+    partner_id: null,
+    partners:   []
+})
+
+function defaultState(): TicketSpecialist {
+    return {
+        title:       "",
+        partner_id:  null,
+        category_id: null,
+        message:     "",
+        files:       [],
+        attributes:  {
+            qualification: Qualification.BarberPlus,
+            name:          "",
+            phone:         "",
+            experience:    "",
+            statistics:    "",
+            linkToWorks:   "",
+        },
+    }
+}
+
+const initialState = ref<TicketSpecialist>(defaultState())
+const currentState = ref<TicketSpecialist>(defaultState())
+
+const isChanged = computed(() => {
+    return !isEqual(initialState.value, currentState.value)
+})
+
+const isDisabled = computed(() => {
+    return isFirstLoading.value || isLoading.value
+})
+
+const qualificationItems = Object.values(Qualification).map(value => ({
+    value,
+    label: qualificationName(value)
+}))
+
+/** Валидация */
+const attributesSchema = z.object({
+    qualification: z.enum(Qualification),
+    name:          employeeNameSchema,
+    phone:         phoneSchema,
+    experience:    employmentDurationSchema,
+    statistics:    employmentStatisticsSchema,
+    linkToWorks:   urlSchema
+})
+
+const formSchema = z.object({
+    attributes:  attributesSchema,
+    message:     messageSchema,
+    partner_id:  partnerIdSchema,
+    files:       filesSchema,
+})
+
+type FormSchemaType = z.infer<typeof formSchema>
+const { errors, submit, watchChanges } = useZodResolver<FormSchemaType>(formSchema)
+
+watchChanges(currentState)
+
+onMounted(async () => {
+    isFirstLoading.value = true
+
+    const partners = await partnerAPI.userPartners()
+
+    if (partners instanceof HttpError) {
+        notify.error()
+        return
+    }
+
+    userPartners.value = partners
+
+    initialState.value.partner_id = userPartners.value.partner_id
+    currentState.value = cloneDeep(initialState.value)
+
+    isFirstLoading.value = false
+})
+
+async function onSave() {
+    const isValid = submit(currentState.value)
+    if (!isValid) return
+    if (!isChanged.value) return
+
+    isLoading.value = true
+
+    // const resp = await userPartnerAPI.change(values)
+
+    isLoading.value = false
+
+    // if (resp instanceof HttpError) {
+    //     notify.error()
+    //     return
+    // }
+}
+</script>
+
+<template>
+    <portal-page
+        title="Заявка на специалиста"
+        right-image="template/ticket-specialist.png"
+        class="specialist-create-view"
+    >
+        <div class="ticket-wrapper">
+            <div class="form">
+                <div class="grid grid-reset-rows gap-x-2 gap-y-3">
+                    <div class="col-6 mobile-col-12">
+                        <prime-select
+                            v-model="currentState.partner_id"
+                            :options="userPartners.partners"
+                            :loading="isFirstLoading"
+                            :disabled="isFirstLoading"
+                            :error="errors.partner_id"
+                            optionLabel="name"
+                            optionValue="partner_id"
+                            placeholder="Филиал"
+                            name="partner_id"
+                        />
+                    </div>
+
+                    <div class="col-6 mobile-hidden" />
+
+                    <div class="col-12 py-x2">
+                        <b-button-groups
+                            v-model="currentState.attributes.qualification"
+                            :items="qualificationItems"
+                            :disabled="isFirstLoading"
+                            name="qualification"
+                        />
+                    </div>
+
+                    <div class="col-6 mobile-col-12">
+                        <b-input-text
+                            v-model="currentState.attributes.name"
+                            :error="errors.attributes?.name"
+                            :disabled="isFirstLoading"
+                            :placeholder="TRANSLATIONS.name"
+                            name="name"
+                        />
+                    </div>
+
+                    <div class="col-6 mobile-col-12">
+                        <b-input-text
+                            v-model="currentState.attributes.phone"
+                            :error="errors.attributes?.phone"
+                            :disabled="isFirstLoading"
+                            :placeholder="TRANSLATIONS.phone"
+                            name="phone"
+                        />
+                    </div>
+
+                    <div class="col-6 mobile-col-12">
+                        <b-input-text
+                            v-model="currentState.attributes.experience"
+                            :error="errors.attributes?.experience"
+                            :disabled="isFirstLoading"
+                            :placeholder="TRANSLATIONS.experience"
+                            name="experience"
+                        />
+                    </div>
+
+                    <div class="col-6 mobile-col-12">
+                        <b-input-text
+                            v-model="currentState.attributes.statistics"
+                            :error="errors.attributes?.statistics"
+                            :disabled="isFirstLoading"
+                            :placeholder="TRANSLATIONS.statistics"
+                            name="statistics"
+                        />
+                    </div>
+
+                    <div class="col-6 mobile-col-12">
+                        <b-input-text
+                            v-model="currentState.attributes.linkToWorks"
+                            :error="errors.attributes?.linkToWorks"
+                            :disabled="isFirstLoading"
+                            :placeholder="TRANSLATIONS.linkToWorks"
+                            name="linkToWorks"
+                        />
+                    </div>
+
+                    <div class="col-12 mobile-col-12">
+                        <b-textarea
+                            v-model="currentState.message"
+                            :error="errors.message"
+                            :disabled="isFirstLoading"
+                            :placeholder="TRANSLATIONS.message"
+                            full-width
+                            name="message"
+                        />
+                    </div>
+
+                    <div class="col-12 mobile-col-12">
+                        <b-file-upload
+                            v-model="currentState.files"
+                            :error="errors.files"
+                            :disabled="isFirstLoading"
+                            :placeholder="TRANSLATIONS.files"
+                        />
+                    </div>
+
+                    <div class="col-12">
+                        <b-button
+                            label="Отправить"
+                            width-full
+                            :disabled="isDisabled"
+                            :loading="isLoading"
+                            @click="onSave"
+                        />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </portal-page>
+</template>

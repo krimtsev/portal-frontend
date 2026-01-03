@@ -97,6 +97,11 @@
             background: transparent;
         }
     }
+
+    .p-datatable-mask {
+        border-radius: $indent-x2;
+    }
+
 }
 
 @mixin text-content {
@@ -183,19 +188,35 @@ $cloud-file-types: (
     }
 }
 
-.glow {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 157px;
-    height: 157px;
-    transform: translate(-50%, -50%);
-    background: radial-gradient(
-            circle,
-            rgb(255, 255, 255) 0%,
-            rgb(255, 255, 255) 100%
-    );
-    filter: blur(280px);
-    z-index: 0;
-    pointer-events: none;
+@mixin box-shadow() {
+    .shadow {
+        background-color: var(--p-primary-500);
+        opacity: 0;
+        filter: blur(10px);
+        pointer-events: none;
+        transition: opacity 0.3s;
+        z-index: 1;
+        border-radius: 50%;
+        position: absolute;
+        bottom: -20px;
+        left: 5%;
+        width: 90%;
+        height: 40px;
+    }
+
+    &:hover .shadow {
+        opacity: 0.2;
+    }
+
+    &:hover .title {
+        color: var(--p-primary-500);
+    }
+}
+
+@mixin portal-card() {
+    display: flex;
+    padding: $indent-x4 ;
+    background: var(--p-portal-card-background);
+    border-radius: $indent-x4;
+    //overflow: hidden;
 }

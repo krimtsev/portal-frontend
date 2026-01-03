@@ -1,13 +1,16 @@
+@use "variables" as *;
+
 // Переменные
 $columns: 12;
 $gap: 8px;
 $row-height: minmax(100px, auto);
 
-$breakpoints: (
-    "mobile": 0,
-    "desktop": 1336px,
-    "max": 1920px
-);
+//$breakpoints: (
+//    "mobile": 0,
+//    "tablet": $layout-mobile-width, // 992px,
+//    "desktop": $layout-tablet-width, // 1336px,
+//    "wide": $layout-max-width, // 1920px;
+//);
 
 // Grid контейнер
 .grid {
@@ -17,47 +20,67 @@ $breakpoints: (
     gap: $gap;
 }
 
+// Выравнивание всех колонок по высоте
+.grid-stretch-rows {
+    grid-template-rows: 1fr 1fr;
+}
+
+.grid-reset-rows {
+    grid-auto-rows: inherit;
+}
+
 // Миксин для генерации колонок и отступов
 @mixin generate-columns($prefix: "") {
     @for $i from 1 through $columns {
         .#{$prefix}col-#{$i} {
-            grid-column: span $i;
+            grid-column: span #{$i};
             display: flex;
             flex-direction: column;
         }
 
         .#{$prefix}offset-#{$i} {
-            grid-column-start: $i + 1;
+            grid-column-start: #{$i + 1};
         }
 
-        @for $i from 1 through $columns {
-            .#{$prefix}row-span-#{$i} {
-                grid-row: span $i;
+        @for $j from 1 through $columns {
+            .#{$prefix}row-span-#{$j} {
+                grid-row: span #{$j};
             }
         }
     }
 }
 
-// Базовые стили (по умолчанию)
+// Базовые стили (mobile-first) — всегда
 @include generate-columns();
 
-// Мобильные (до 1336px)
-@media (max-width: 1336px) {
-    @include generate-columns("mob-");
+// Mobile (0 до tablet)
+@media (max-width: $breakpoints-md) {
+    @include generate-columns("mobile-");
 }
 
-// Десктоп (от 1337px до 1919px)
-@media (min-width: 1337px) and (max-width: 1919px) {
-    @include generate-columns("desk-");
+// Tablet (от tablet до desktop)
+@media (min-width: $breakpoints-md) and (max-width: $breakpoints-lg) {
+    @include generate-columns("tablet-");
 }
 
-// Максимальные (1920px и выше)
-@media (min-width: 1920px) {
-    @include generate-columns("max-");
+// Desktop (от desktop до wide)
+@media (min-width: $breakpoints-lg) and (max-width: $breakpoints-xxl) {
+    @include generate-columns("desktop-");
 }
 
-@media (max-width: 1337px) {
-    [class*="mob-hidden"] {
+// Wide (1920px и выше)
+@media (min-width: $breakpoints-xxl) {
+    @include generate-columns("wide-");
+}
+
+@media (max-width: $breakpoints-md) {
+    [class*="mobile-hidden"] {
+        display: none !important;
+    }
+}
+
+@media (max-width: $breakpoints-lg) {
+    [class*="tablet-hidden"] {
         display: none !important;
     }
 }

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from "vue"
+import { computed, useAttrs } from "vue"
 import PrimePassword from "primevue/password"
 import PrimeMessage from "primevue/message"
 
@@ -14,6 +14,8 @@ const props = withDefaults(defineProps<{
     feedback?: boolean
     placeholder: string
     disabled?: boolean
+    hint?: string
+    fullWidth?: boolean,
 }>(), {
     toggleMask: true,
     feedback: false,
@@ -26,10 +28,17 @@ const label = computed(() => {
     if (props.labelColon) return `${props.label}:`
     return props.label
 })
+
+const attrs = useAttrs()
 </script>
 
 <template>
-    <div class="b-input-password">
+    <div
+        class="b-input-password"
+        :class="{
+            'full-width': props.fullWidth
+        }"
+    >
         <label
             v-if="label"
             :for="props.name"
@@ -40,6 +49,7 @@ const label = computed(() => {
 
         <prime-password
             v-model="model"
+            v-bind="attrs"
             :name="props.name"
             :toggle-mask="props.toggleMask"
             :feedback="props.feedback"
@@ -57,6 +67,13 @@ const label = computed(() => {
         >
             {{ props.error }}
         </prime-message>
+
+        <div
+            v-if="props.hint"
+            class="hint"
+        >
+            {{ props.hint }}
+        </div>
     </div>
 </template>
 
@@ -66,9 +83,21 @@ $icon-size: calc(var(--p-icon-size) * 1.2);
 .b-input-password {
     display: flex;
     flex-direction: column;
+    width: 296px;
+
+    &.full-width {
+        width: 100%;
+    }
 
     .label {
         margin-bottom: $indent;
+    }
+
+    .hint {
+        @include small-text();
+
+        padding-top: $indent-x1;
+        color: var(--p-surface-400);
     }
 
     :deep(.p-password-input) {

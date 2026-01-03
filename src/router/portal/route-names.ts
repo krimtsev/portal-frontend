@@ -1,18 +1,17 @@
 export enum PortalRouteName {
     //common
-    Certificates = "PortalCertificates",
+    Certificates = "Certificates",
     InstructionMangoRedirect = "InstructionMangoRedirect",
     InstructionYclientNotifications = "InstructionYclientNotifications",
     Cloud = "Cloud",
-    Profile = "Profile",
 
     //partner
-    Home = "PortalHome",
-    DocumentSubscription = "PortalDocumentSubscription",
-    DocumentCertificate = "PortalDocumentCertificate",
-    DocumentFines = "PortalDocumentFines",
-    DocumentFinesAudit = "PortalDocumentFinesAudit",
-    DocumentMangoAudit = "PortalDocumentMangoAudit",
+    Home = "Home",
+    DocumentSubscription = "DocumentSubscription",
+    DocumentCertificate = "DocumentCertificate",
+    DocumentFines = "DocumentFines",
+    DocumentFinesAudit = "DocumentFinesAudit",
+    DocumentMangoAudit = "DocumentMangoAudit",
     ServicePaidCO = "ServicePaidCO",
     ServiceSubscription = "ServiceSubscription",
     ServiceUserAnalytics = "ServiceUserAnalytics",
@@ -21,8 +20,4 @@ export enum PortalRouteName {
     ContactCentralOffice = "ContactCentralOffice",
     ContactFranchisee = "ContactFranchisee",
     ContactPartners = "ContactPartners",
-    TicketDesign = "TicketDesign",
-    TicketCertificate = "TicketCertificate",
-    TicketSpecialist = "TicketSpecialist",
-    TicketBlacklist = "TicketBlacklist",
 }

@@ -61,8 +61,19 @@
 
 // gap
 @for $i from 1 through 3 {
-    .gap-#{$i} {
-        gap: #{$i * $indent}px;
+    .gap-#{$i},
+    .grid.gap-#{$i} {
+        gap: calc($i * $indent);
+    }
+
+    .gap-x-#{$i},
+    .grid.gap-x-#{$i} {
+        row-gap: calc($i * $indent);
+    }
+
+    .gap-y-#{$i},
+    .grid.gap-y-#{$i} {
+        column-gap: calc($i * $indent);
     }
 }
 

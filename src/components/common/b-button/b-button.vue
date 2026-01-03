@@ -62,6 +62,7 @@ const commonProps = computed(() => {
     :deep(.p-button) {
         white-space: nowrap;
         box-sizing: border-box;
+
     }
 
     .button {
@@ -75,6 +76,11 @@ const commonProps = computed(() => {
         &.outline {
             background: transparent;
             border: 1px solid var(--p-portal-button-outline-border-color);
+
+            &[disabled] {
+                background: var(--p-inputtext-disabled-background);
+                color: var(--p-inputtext-disabled-color);
+            }
         }
 
         :deep(.p-button-icon-right) {

@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { RouterView } from "vue-router"
-import Toast from "primevue/toast"
+import PrimeToast from "primevue/toast"
 </script>
 
 <template>
-    <toast position="top-center" />
+    <prime-toast position="top-center" />
     <router-view />
 </template>

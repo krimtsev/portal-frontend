@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import Menubar from "primevue/menubar"
+import PrimeMenubar from "primevue/menubar"
 import BImage from "@c/common/b-image/b-image.vue"
 import BLink from "@c/common/b-link/b-link.vue"
 import { useRouter } from "vue-router"
 import { PortalRouteName } from "@r/portal/route-names"
+import { ProfileRouteName } from "@r/profile/route-names"
 import useAuthStore from "@s/auth/auth"
-import BAvatar from "@c/common/b-avatar/b-avatar.vue"
+// import BAvatar from "@c/common/b-avatar/b-avatar.vue"
 import { menuData } from "@l/portal/data/menu"
 
 const router = useRouter()
@@ -17,7 +18,7 @@ function goToHome() {
 }
 
 function goToProfile() {
-    router.push({ name: PortalRouteName.Profile })
+    router.push({ name: ProfileRouteName.Profile })
 }
 
 async function onLogout() {
@@ -28,9 +29,9 @@ async function onLogout() {
 <template>
     <div class="portal-layout">
         <div class="wrapper">
-            <Menubar
+            <prime-menubar
                 :model="menuItems"
-                breakpoint="1024px"
+                breakpoint="1336px"
             >
                 <template #start>
                     <b-image
@@ -42,10 +43,10 @@ async function onLogout() {
                 <template #end>
                     <div class="right-section">
                         <div class="right-section-item">
-                            <b-avatar
-                                class="pointer"
-                                @click="goToProfile"
-                            />
+<!--                            <b-avatar-->
+<!--                                class="pointer"-->
+<!--                                @click="goToProfile"-->
+<!--                            />-->
 
                             <b-link
                                 label="Профиль"
@@ -61,7 +62,7 @@ async function onLogout() {
                         </div>
                     </div>
                 </template>
-            </Menubar>
+            </prime-menubar>
 
             <div class="p-4">
                 <router-view />
@@ -79,6 +80,7 @@ body {
 <style scoped lang="scss">
 .portal-layout {
     width: 100%;
+    overflow: hidden; // обрезаем glow
 
     .wrapper {
         margin: 0 auto;
@@ -103,10 +105,12 @@ body {
     }
 
     :deep(.p-menubar) {
+        position: relative;
         background: transparent;
         border: none;
         border-radius: 0;
         margin-bottom: 64px;
+        z-index: 3;
 
         .p-menubar-start {
             margin-right: 64px;
@@ -139,6 +143,23 @@ body {
             .p-menubar-item {
                 border: none;
                 border-radius: $indent-x1;
+            }
+        }
+
+        @media (max-width: $layout-desktop-width) {
+            .p-menubar-root-list {
+                padding: 0;
+                gap: 0;
+                overflow: hidden;
+            }
+
+            .p-menubar-item {
+                border-width: 0 0 1px 0;
+                border-radius: 0;
+            }
+
+            .p-menubar-item:last-child {
+                border-width: 0;
             }
         }
     }

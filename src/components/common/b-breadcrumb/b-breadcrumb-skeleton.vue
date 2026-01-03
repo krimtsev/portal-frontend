@@ -1,7 +1,7 @@
 <template>
-<div class="b-breadcrumb-skeleton">
-    <Skeleton height="1rem" width="30rem" />
-</div>
+    <div class="b-breadcrumb-skeleton">
+        <Skeleton height="1rem" width="30rem" />
+    </div>
 </template>
 
 <style scoped lang="scss">

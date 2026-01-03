@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue"
 import PortalPage from "@c/portal/portal-page/portal-page.vue"
-import { buttonNavigation } from "@v/portal/_britva/contacts/data/button-navigation.ts"
+import { buttonNavigation } from "@v/portal/contacts/_britva/data/button-navigation"
 import PortalButtonNavigation from "@c/portal/portal-button-navigation/portal-button-navigation.vue"
 import * as contactsAPI from "@/api/modules/contacts/contacts"
 import { HttpError } from "@/api"
@@ -9,7 +9,7 @@ import {
     type FranchiseeItem,
     FranchiseeSortBy
 } from "@v/portal/contacts/franchisee/definitions/franchisee"
-import { useNotify } from "@h/notify/notify"
+import { useNotify } from "@/composables/notify/use-notify"
 import PrimeDataTable from "primevue/datatable"
 import BSkeleton from "@c/common/b-skeleton/b-skeleton.vue"
 import BEmptyResult from "@c/common/b-empty/b-empty-result.vue"
@@ -19,8 +19,8 @@ import {
     defaultPaginationPage
 } from "@/shared/pagination/pagination"
 import { useI18n } from "vue-i18n"
-import { normalizeData } from "@v/portal/contacts/franchisee/utils/franchisee.ts"
-import BTelnum from "@c/common/b-telnum/b-telnum.vue"
+import { normalizeData } from "@v/portal/contacts/franchisee/utils/franchisee"
+import BTelnumLink from "@c/common/b-telnum-link/b-telnum-link.vue"
 import BInputSearch from "@c/common/b-input-search/b-input-search.vue"
 
 const notify = useNotify()
@@ -84,7 +84,8 @@ const paginationInfo = computed(() => {
 })
 
 const showPaginator = computed(() => {
-    return !!franchisee.value.length
+    return !!franchisee.value.length &&
+        paginationPage.value.total > paginationPage.value.perPage
 })
 
 const firstPage = computed(() => {
@@ -164,15 +165,23 @@ const firstPage = computed(() => {
                     <template #body="slotProps">
                         <span v-if="!isLoading">
                             <template v-if="slotProps.data.telnums.length">
-                                <div v-for="(telnum, index) in slotProps.data.telnums" :key="`${slotProps.data.id}_${index}`">
-                                    <b-telnum
+                                <div
+                                    v-for="(telnum, index) in slotProps.data.telnums"
+                                    :key="`${slotProps.data.id}_${index}`"
+                                    class="cell-value"
+                                >
+                                    <b-telnum-link
                                         :value="telnum || '—'"
-                                        class="cell-value"
                                         icon
                                     />
                                 </div>
                             </template>
-                            <div v-else class="cell-value"> — </div>
+                            <div
+                                v-else
+                                class="cell-value"
+                            >
+                                —
+                            </div>
                         </span>
                         <b-skeleton
                             v-else

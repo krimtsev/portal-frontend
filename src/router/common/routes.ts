@@ -10,7 +10,7 @@ const routes: RouteRecordRaw[] = [
         path: "/",
         component: GuestLayout,
         meta: {
-            title: "mc.partner.name"
+            title: "mc.partner.title"
         },
         children: [
             {

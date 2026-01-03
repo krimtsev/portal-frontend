@@ -10,10 +10,17 @@ $indent-x6: $indent * 6; // = 48px
 $indent-x7: $indent * 7; // = 56px
 $indent-x8: $indent * 8; // = 64px
 
-$layout-max-width: 1920px;
-$layout-desktop-width: 1600px;
-$layout-tablet-width: 1336px;
-$layout-mobile-width: 768px;
+$breakpoints-xxl: 1920px;
+$breakpoints-xl: 1600px;
+$breakpoints-lg: 1336px;
+$breakpoints-md: 992px;
+$breakpoints-sm: 768px;
+$breakpoints-xs: 0;
+
+$layout-max-width: $breakpoints-xxl;
+$layout-desktop-width: $breakpoints-lg;
+$layout-tablet-width: $breakpoints-md;
+$layout-mobile-width: $breakpoints-sm;
 
 $portal-layout-max-width: $layout-max-width;
 
@@ -28,3 +35,5 @@ $line-height-h2: 2.8571rem; // 40px
 $line-height-h3: 2.2857rem; // 32px
 $line-height-h4: 1.7143rem; // 24px
 $line-height-p: 1.7143rem; // 24px
+
+$portal-card-min-height: 195px;

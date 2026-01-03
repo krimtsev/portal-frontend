@@ -1,6 +1,6 @@
 <script setup lang="ts" >
 import { computed } from "vue"
-import BTelnum from "@c/common/b-telnum/b-telnum.vue"
+import BTelnumLink from "@c/common/b-telnum-link/b-telnum-link.vue"
 import { imageSrc } from "@h/images/images"
 
 const props = defineProps<{
@@ -32,7 +32,7 @@ const src = computed(() => imageSrc(props.avatar))
             v-if="props.telnum"
             class="telnum"
         >
-            <b-telnum :value="props.telnum" />
+            <b-telnum-link :value="props.telnum" />
         </div>
 
         <div class="social">

@@ -4,7 +4,7 @@ import PortalPage from "@c/portal/portal-page/portal-page.vue"
 import BInputSearch from "@c/common/b-input-search/b-input-search.vue"
 import * as cloudAPI from "@/api/modules/cloud/cloud"
 import { HttpError } from "@/api"
-import { useNotify } from "@h/notify/notify"
+import { useNotify } from "@/composables/notify/use-notify"
 import type {
     CloudFileItem,
     CloudFolderBreadcrumb,
@@ -20,7 +20,7 @@ import BBreadcrumb from "@c/common/b-breadcrumb/b-breadcrumb.vue"
 import BBreadcrumbSkeleton from "@c/common/b-breadcrumb/b-breadcrumb-skeleton.vue"
 import BEmptyResult from "@c/common/b-empty/b-empty-result.vue"
 import { normalizeBreadcrumbs } from "@v/portal/cloud/utils/cloud"
-import { useRoutePath } from "@h/route/route"
+import { useRoutePath } from "@/composables/route/use-route-path"
 import BEmptySearch from "@c/common/b-empty/b-empty-search.vue"
 
 
@@ -99,7 +99,7 @@ const isEmptyResult = computed(() => {
 <template>
     <portal-page
         :title="title"
-        :is-loading="isLoading"
+        :is-loading-title="isLoading"
         class="cloud-view mb-x4"
         right-image="template/cloud.png"
     >

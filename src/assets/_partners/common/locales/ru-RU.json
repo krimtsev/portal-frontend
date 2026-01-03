@@ -1,6 +1,7 @@
 {
     "mc": {
         "partner": {
+            "title": "Портал",
             "name": "Portal"
         },
         "common": {
@@ -14,13 +15,14 @@
             "success": "Настройки успешно сохранены"
         },
         "placeholder": {
-            "name": "ivan"
+            "name": "ivan",
+            "input": "Введите текст"
         },
         "auth": {
             "entry": "Вход",
             "errors": {
-                "login": "Введите логин.",
-                "password": "Введите пароль."
+                "login": "@:mc.errors.login",
+                "password": "@:mc.errors.password"
             }
         },
         "pagination" : {
@@ -30,6 +32,15 @@
             "notFound": "По вашему запросу «{search}» ничего не найдено.",
             "title": "Не найдено",
             "reset": "Сбросить поиск"
+        },
+        "roles": {
+            "user": "Пользователь",
+            "admin": "Администратор",
+            "sysadmin": "Системный администратор"
+        },
+        "errors": {
+            "login": "Введите логин.",
+            "password": "Введите пароль."
         }
     }
 }

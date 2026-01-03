@@ -1,6 +1,6 @@
 import DOMPurify from "dompurify"
 
-export function $sanitizeHtml (dirty: string, escape: boolean = false): string {
+export function $sanitizeHtml(dirty: string, escape: boolean = false): string {
 
     if (escape) {
          dirty = dirty

@@ -1,5 +1,8 @@
 export interface PortalPage {
     title: string;
     rightImage?: string
-    isLoading?: boolean
+    isSubmitting?: boolean // Прелоадер для отправки данных
+    isLoading?: boolean // Прелоадер для загрузки страницы
+    isLoadingTitle?: boolean
+    isLoadingContent?: boolean
 }

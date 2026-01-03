@@ -55,9 +55,15 @@ export default {
             colorScheme: {
                 dark: {
                     root: {
+                        background: "rgba(150, 150, 150, 0.2)",
+                        animationBackground: "rgba(255, 255, 255, 0.1)",
+                    },
+                },
+                light: {
+                    root: {
                         background: "rgba(255, 255, 255, 0.2)",
-                        animationBackground: "rgba(255, 255, 255, 0.1)"
-                    }
+                        animationBackground: "rgba(255, 255, 255, 0.1)",
+                    },
                 }
             },
         },
@@ -146,6 +152,11 @@ export default {
                         color: "{surface.600}"
                     }
                 },
+                skeleton: {
+                    invert: {
+                        background: "rgba(0,0,0,0.2)"
+                    }
+                }
             },
             dark: {
                 surface: {
@@ -192,6 +203,11 @@ export default {
                         color: "{surface.600}"
                     }
                 },
+                skeleton: {
+                    invert: {
+                        background: "rgba(0,0,0,0.2)"
+                    }
+                }
             }
         }
     },
