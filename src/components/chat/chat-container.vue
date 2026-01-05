@@ -27,9 +27,8 @@ defineExpose({ scrollToBottom })
     overflow-y: auto;
     background: var(--p-surface-800);
     padding: $indent-x2;
-    border-radius: var(--p-textarea-border-radius);
+    border-radius: 20px;
     outline-color: transparent;
-    box-shadow: var(--p-textarea-shadow);
     scrollbar-width: thin;
     scrollbar-color: var(--p-surface-600) var(--p-surface-800);
 }
