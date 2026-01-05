@@ -3,7 +3,7 @@ import { computed } from "vue"
 import PrimeButton from "primevue/button"
 
 type ButtonType = "submit" | "reset" | "button"
-type ButtonVariant = "primary" | "secondary"
+type ButtonVariant = "primary" | "secondary" | "danger"
 
 const props = defineProps<{
     label: string,
@@ -62,7 +62,6 @@ const commonProps = computed(() => {
     :deep(.p-button) {
         white-space: nowrap;
         box-sizing: border-box;
-
     }
 
     .button {

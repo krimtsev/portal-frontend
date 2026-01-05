@@ -23,10 +23,13 @@ import {
     urlSchema
 } from "@v/profile/tickets/schemas/ticket-schemas"
 import BTitle from "@c/common/b-title/b-title.vue"
-import { TRANSLATIONS } from "@v/profile/tickets/create/design/utils/design"
+import * as ticketAPI from "@/api/modules/profile/tickets/tickets"
+import { TicketType } from "@v/profile/tickets/edit/definitions/ticket"
+import { useI18n } from "vue-i18n"
 
 
 const notify = useNotify()
+const { t } = useI18n()
 
 const isFirstLoading = ref(true)
 const isLoading = ref(false)
@@ -38,7 +41,8 @@ const userPartners = ref<UserPartners>({
 
 function defaultState(): TicketDesign {
     return {
-        title:       "",
+        title:       t("mc.ticket.design.title"),
+        type:        TicketType.Design,
         partner_id:  null,
         category_id: null,
         message:     "",
@@ -116,22 +120,26 @@ async function onSave() {
     if (!isValid) return
     if (!isChanged.value) return
 
-    isLoading.value = true
+    const params = cloneDeep(currentState.value)
+    params.title = t("mc.ticket.design.title")
 
-    // const resp = await userPartnerAPI.change(values)
+    const resp = await ticketAPI.create(params)
 
     isLoading.value = false
 
-    // if (resp instanceof HttpError) {
-    //     notify.error()
-    //     return
-    // }
+    if (resp instanceof HttpError) {
+        notify.error()
+        return
+    }
+
+    currentState.value = cloneDeep(initialState.value)
+    notify.success(t("mc.ticket.notify.success"))
 }
 </script>
 
 <template>
     <portal-page
-        title="Заявка на макет"
+        :title="t('mc.ticket.design.title')"
         right-image="template/ticket-design.png"
         class="design-create-view"
     >
@@ -149,7 +157,7 @@ async function onSave() {
                             v-model="currentState.attributes.name"
                             :error="errors.attributes?.name"
                             :disabled="isFirstLoading"
-                            :placeholder="TRANSLATIONS.name"
+                            :placeholder="t('mc.ticket.design.placeholder.name')"
                             name="name"
                         />
                     </div>
@@ -159,7 +167,7 @@ async function onSave() {
                             v-model="currentState.attributes.phone"
                             :error="errors.attributes?.phone"
                             :disabled="isFirstLoading"
-                            :placeholder="TRANSLATIONS.phone"
+                            :placeholder="t('mc.ticket.design.placeholder.phone')"
                             name="phone"
                         />
                     </div>
@@ -181,7 +189,7 @@ async function onSave() {
                             :error="errors.partner_id"
                             optionLabel="name"
                             optionValue="partner_id"
-                            placeholder="Филиал"
+                            :placeholder="t('mc.common.partner')"
                             name="partner_id"
                         />
                     </div>
@@ -193,7 +201,7 @@ async function onSave() {
                             v-model="currentState.attributes.website"
                             :error="errors.attributes?.website"
                             :disabled="isFirstLoading"
-                            :placeholder="TRANSLATIONS.website"
+                            :placeholder="t('mc.ticket.design.placeholder.website')"
                             name="website"
                         />
                     </div>
@@ -203,7 +211,7 @@ async function onSave() {
                             v-model="currentState.attributes.registration"
                             :error="errors.attributes?.registration"
                             :disabled="isFirstLoading"
-                            :placeholder="TRANSLATIONS.registration"
+                            :placeholder="t('mc.ticket.design.placeholder.registration')"
                             name="registration"
                         />
                     </div>
@@ -213,7 +221,7 @@ async function onSave() {
                             v-model="currentState.attributes.yandexMap"
                             :error="errors.attributes?.yandexMap"
                             :disabled="isFirstLoading"
-                            :placeholder="TRANSLATIONS.yandexMap"
+                            :placeholder="t('mc.ticket.design.placeholder.yandexMap')"
                             name="yandexMap"
                         />
                     </div>
@@ -223,7 +231,7 @@ async function onSave() {
                             v-model="currentState.attributes.twoGisMap"
                             :error="errors.attributes?.twoGisMap"
                             :disabled="isFirstLoading"
-                            :placeholder="TRANSLATIONS.twoGisMap"
+                            :placeholder="t('mc.ticket.design.placeholder.twoGisMap')"
                             name="twoGisMap"
                         />
                     </div>
@@ -233,7 +241,7 @@ async function onSave() {
                             v-model="currentState.attributes.instagram"
                             :error="errors.attributes?.instagram"
                             :disabled="isFirstLoading"
-                            :placeholder="TRANSLATIONS.instagram"
+                            :placeholder="t('mc.ticket.design.placeholder.instagram')"
                             name="instagram"
                         />
                     </div>
@@ -251,7 +259,7 @@ async function onSave() {
                             v-model="currentState.attributes.format"
                             :error="errors.attributes?.format"
                             :disabled="isFirstLoading"
-                            :placeholder="TRANSLATIONS.format"
+                            :placeholder="t('mc.ticket.design.placeholder.format')"
                             hint="Какой формат, для чего будет использоваться, размер, цвета? Если вам необходим стартовый набор, напишите в поле “Стартовый набор”."
                             full-width
                         />
@@ -262,7 +270,7 @@ async function onSave() {
                             v-model="currentState.attributes.promotion"
                             :error="errors.attributes?.promotion"
                             :disabled="isFirstLoading"
-                            :placeholder="TRANSLATIONS.promotion"
+                            :placeholder="t('mc.ticket.design.placeholder.promotion')"
                             hint="Промокод, срок действия, размер скидки. Если вам необходим стартовый набор, напишите в поле “Стартовый набор”."
                             full-width
                         />
@@ -273,7 +281,7 @@ async function onSave() {
                             v-model="currentState.message"
                             :error="errors.message"
                             :disabled="isFirstLoading"
-                            :placeholder="TRANSLATIONS.message"
+                            :placeholder="t('mc.ticket.design.placeholder.message')"
                             full-width
                         />
                     </div>
@@ -283,14 +291,14 @@ async function onSave() {
                             v-model="currentState.files"
                             :error="errors.files"
                             :disabled="isFirstLoading"
-                            :placeholder="TRANSLATIONS.files"
+                            :placeholder="t('mc.ticket.design.placeholder.files')"
                             name="files"
                         />
                     </div>
 
                     <div class="col-12">
                         <b-button
-                            label="Отправить"
+                            :label="t('mc.common.send')"
                             width-full
                             :disabled="isDisabled"
                             :loading="isLoading"

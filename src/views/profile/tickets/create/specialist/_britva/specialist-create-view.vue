@@ -25,9 +25,13 @@ import * as partnerAPI from "@/api/modules/partner/partner"
 import { HttpError } from "@/api"
 import { Qualification, type TicketSpecialist } from "@v/profile/tickets/create/specialist/_britva/definitions/specialist"
 import BButtonGroups from "@c/common/b-button-groups/b-button-groups.vue"
-import { qualificationName, TRANSLATIONS } from "@v/profile/tickets/create/specialist/_britva/utils/specialist"
+import { qualificationName } from "@v/profile/tickets/create/specialist/_britva/utils/specialist"
+import * as ticketAPI from "@/api/modules/profile/tickets/tickets"
+import { TicketType } from "@v/profile/tickets/edit/definitions/ticket"
+import { useI18n } from "vue-i18n"
 
 const notify = useNotify()
+const { t } = useI18n()
 
 const isFirstLoading = ref(true)
 const isLoading = ref(false)
@@ -39,7 +43,8 @@ const userPartners = ref<UserPartners>({
 
 function defaultState(): TicketSpecialist {
     return {
-        title:       "",
+        title:       t('mc.ticket.specialist.title'),
+        type:        TicketType.Specialist,
         partner_id:  null,
         category_id: null,
         message:     "",
@@ -116,22 +121,26 @@ async function onSave() {
     if (!isValid) return
     if (!isChanged.value) return
 
-    isLoading.value = true
+    const params = cloneDeep(currentState.value)
+    params.title = t("mc.ticket.specialist.title")
 
-    // const resp = await userPartnerAPI.change(values)
+    const resp = await ticketAPI.create(params)
 
     isLoading.value = false
 
-    // if (resp instanceof HttpError) {
-    //     notify.error()
-    //     return
-    // }
+    if (resp instanceof HttpError) {
+        notify.error()
+        return
+    }
+
+    currentState.value = cloneDeep(initialState.value)
+    notify.success(t("mc.ticket.notify.success"))
 }
 </script>
 
 <template>
     <portal-page
-        title="Заявка на специалиста"
+        :title="t('mc.ticket.specialist.title')"
         right-image="template/ticket-specialist.png"
         class="specialist-create-view"
     >
@@ -147,7 +156,7 @@ async function onSave() {
                             :error="errors.partner_id"
                             optionLabel="name"
                             optionValue="partner_id"
-                            placeholder="Филиал"
+                            p:placeholder="t('mc.common.partner')"
                             name="partner_id"
                         />
                     </div>
@@ -168,7 +177,7 @@ async function onSave() {
                             v-model="currentState.attributes.name"
                             :error="errors.attributes?.name"
                             :disabled="isFirstLoading"
-                            :placeholder="TRANSLATIONS.name"
+                            :placeholder="t('mc.ticket.specialist.placeholder.name')"
                             name="name"
                         />
                     </div>
@@ -178,7 +187,7 @@ async function onSave() {
                             v-model="currentState.attributes.phone"
                             :error="errors.attributes?.phone"
                             :disabled="isFirstLoading"
-                            :placeholder="TRANSLATIONS.phone"
+                            :placeholder="t('mc.ticket.specialist.placeholder.phone')"
                             name="phone"
                         />
                     </div>
@@ -188,7 +197,7 @@ async function onSave() {
                             v-model="currentState.attributes.experience"
                             :error="errors.attributes?.experience"
                             :disabled="isFirstLoading"
-                            :placeholder="TRANSLATIONS.experience"
+                            :placeholder="t('mc.ticket.specialist.placeholder.experience')"
                             name="experience"
                         />
                     </div>
@@ -198,7 +207,7 @@ async function onSave() {
                             v-model="currentState.attributes.statistics"
                             :error="errors.attributes?.statistics"
                             :disabled="isFirstLoading"
-                            :placeholder="TRANSLATIONS.statistics"
+                            :placeholder="t('mc.ticket.specialist.placeholder.statistics')"
                             name="statistics"
                         />
                     </div>
@@ -208,7 +217,7 @@ async function onSave() {
                             v-model="currentState.attributes.linkToWorks"
                             :error="errors.attributes?.linkToWorks"
                             :disabled="isFirstLoading"
-                            :placeholder="TRANSLATIONS.linkToWorks"
+                            :placeholder="t('mc.ticket.specialist.placeholder.linkToWorks')"
                             name="linkToWorks"
                         />
                     </div>
@@ -218,7 +227,7 @@ async function onSave() {
                             v-model="currentState.message"
                             :error="errors.message"
                             :disabled="isFirstLoading"
-                            :placeholder="TRANSLATIONS.message"
+                            :placeholder="t('mc.ticket.specialist.placeholder.message')"
                             full-width
                             name="message"
                         />
@@ -229,13 +238,13 @@ async function onSave() {
                             v-model="currentState.files"
                             :error="errors.files"
                             :disabled="isFirstLoading"
-                            :placeholder="TRANSLATIONS.files"
+                            :placeholder="t('mc.ticket.specialist.placeholder.files')"
                         />
                     </div>
 
                     <div class="col-12">
                         <b-button
-                            label="Отправить"
+                            :label="t('mc.common.send')"
                             width-full
                             :disabled="isDisabled"
                             :loading="isLoading"

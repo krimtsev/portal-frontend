@@ -2,7 +2,8 @@
     "mc": {
         "partner": {
             "title": "Портал для франчайзи SODA",
-            "name": "SODA"
+            "name": "SODA",
+            "assistant": "Клифф"
         }
     }
 }

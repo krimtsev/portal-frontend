@@ -1,53 +1,137 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from "vue"
+import { computed, onMounted, ref, nextTick } from "vue"
+import type { ComponentPublicInstance } from "vue"
 import PortalPage from "@c/portal/portal-page/portal-page.vue"
 import { useNotify } from "@/composables/notify/use-notify"
-import type {Ticket, TicketItem} from "@v/profile/tickets/edit/definitions/ticket"
+import {
+    type Ticket,
+    type TicketDetails,
+    type TicketMessage,
+    TicketMessageType, TicketState,
+    TicketType
+} from "@v/profile/tickets/edit/definitions/ticket"
 import { cloneDeep, isEqual } from "lodash"
 import * as z from "zod"
-import { messageSchema } from "@v/profile/tickets/schemas/ticket-schemas"
+import { requiredMessageSchema } from "@v/profile/tickets/schemas/ticket-schemas"
 import { filesSchema } from "@/schemas/zod"
 import { useZodResolver } from "@/composables/zod/use-zod-resolver"
 import { HttpError } from "@/api"
 import BButton from "@c/common/b-button/b-button.vue"
 import * as ticketAPI from "@/api/modules/profile/tickets/tickets"
 import { useRoute } from "vue-router"
+import BText from "@c/common/b-text/b-text.vue"
+import PortalFormItem from "@c/portal/portal-form-item/portal-form-item.vue"
+import PortalCard from "@c/portal/portal-card/portal-card.vue"
+import { stateName } from "@v/profile/tickets/list/utils/ticket"
+import { useI18n } from "vue-i18n"
+import BTextarea from "@c/common/b-textarea/b-textarea.vue"
+import BFileUpload from "@c/common/b-upload-file/b-file-upload.vue"
+import ChatContainer from "@c/chat/chat-container.vue"
+import ChatMessage from "@c/chat/chat-message.vue"
+import { createSystemMessage } from "@v/profile/tickets/edit/utils/ticket"
+import { type ChatMessageFile, ChatMessageType} from "@c/chat/definitions/chat-message"
+import { downloadExternalFile } from "@/lib/files"
+import ChatFiles from "@c/chat/chat-files.vue"
+
+enum LoadingState {
+    Save = "save",
+    Remove = "remove"
+}
 
 const route = useRoute()
 const notify = useNotify()
+const { t } = useI18n()
 
 const isFirstLoading = ref(true)
-const isLoading = ref(false)
+const isLoadingFile = ref(false)
+const loadingState = ref<LoadingState | null>(null)
 
-function defaultState(): TicketItem {
+const chatRef = ref<ComponentPublicInstance<{ scrollToBottom: () => void }> | null>(null)
+
+function defaultState(): Ticket {
     return {
         title:       "",
+        type:        TicketType.General,
         partner_id:  null,
         category_id: null,
         message:     "",
         files:       [],
-        attributes:  {},
     }
 }
 
-const initialState = ref<TicketItem>(defaultState())
-const currentState = ref<TicketItem>(defaultState())
+const initialState = ref<Ticket>(defaultState())
+const currentState = ref<Ticket>(defaultState())
+
+const ticketDetails = ref<TicketDetails>({
+    id:       0,
+    title:    "",
+    type:     TicketType.General,
+    category: null,
+    partner:  null,
+    user:     null,
+    state:    TicketState.New,
+    attributes: {},
+    timeline:   [],
+})
+
+const attributes = computed(() => {
+    return Object.entries(ticketDetails.value?.attributes || {})
+})
 
 const isChanged = computed(() => {
     return !isEqual(initialState.value, currentState.value)
 })
 
-const isDisabled = computed(() => {
-    return isFirstLoading.value || isLoading.value
+const isDisabled = computed((): boolean => {
+    return isFirstLoading.value || !!loadingState.value
+})
+
+const getAttributeLabel = (key?: string): string => {
+    const type = ticketDetails.value.type
+    if (!type || !key) return ""
+
+    return t(`mc.ticket.${type}.placeholder.${key}`)
+}
+
+function getChatMessageType(item: TicketMessage) {
+    return ticketDetails.value.user?.login === item.user.login
+        ? ChatMessageType.Sent
+        : ChatMessageType.Received
+}
+
+async function download(item: ChatMessageFile) {
+    if (isLoadingFile.value) return
+
+    isLoadingFile.value = true
+
+    const data = await ticketAPI.download(ticketDetails.value.id, item.name)
+
+    if (data instanceof HttpError) {
+        notify.error()
+        isLoadingFile.value = false
+        return false
+    }
+
+    const { title, ext } = item
+    downloadExternalFile(data, `${title}.${ext}`)
+    isLoadingFile.value = false
+}
+
+const isEditable = computed(() => {
+    return [
+        TicketState.New,
+        TicketState.Waiting,
+        TicketState.InProgress
+    ].includes(ticketDetails.value.state)
 })
 
 const formSchema = z.object({
-    message: messageSchema,
+    message: requiredMessageSchema,
     files:   filesSchema,
 })
 
 type FormSchemaType = z.infer<typeof formSchema>
-const { errors, submit, watchChanges } = useZodResolver<FormSchemaType>(formSchema)
+const { errors, submit, watchChanges, reset } = useZodResolver<FormSchemaType>(formSchema)
 
 watchChanges(currentState)
 
@@ -65,10 +149,16 @@ onMounted(async () => {
         return
     }
 
+    ticketDetails.value = ticketData.data
+
     initialState.value = {
         ...initialState.value,
-
+        title: ticketDetails.value.title,
+        partner_id: ticketDetails.value.partner?.id || null,
+        category_id: ticketDetails.value.category?.id || null,
+        type: ticketDetails.value.type || null,
     }
+    currentState.value = cloneDeep(initialState.value)
 
     isFirstLoading.value = false
 })
@@ -78,33 +168,195 @@ async function onSave() {
     if (!isValid) return
     if (!isChanged.value) return
 
-    isLoading.value = true
+    loadingState.value = LoadingState.Save
 
-    isLoading.value = false
+    const ticketData = await ticketAPI.updateMessage(
+        ticketDetails.value.id,
+        currentState.value
+    )
+
+    if (ticketData instanceof HttpError) {
+        notify.error()
+        loadingState.value = null
+        return
+    }
+
+    ticketDetails.value = ticketData.data
+    currentState.value.message = ""
+    reset()
+
+    loadingState.value = null
+    nextTick(() => chatRef.value?.scrollToBottom())
+}
+
+async function onRemove() {
+    if (loadingState.value) return
+
+    loadingState.value = LoadingState.Remove
+
+    const data = await ticketAPI.remove(ticketDetails.value.id)
+
+    if (data instanceof HttpError) {
+        notify.error()
+        loadingState.value = null
+        return
+    }
+
+    loadingState.value = null
+    ticketDetails.value.state = TicketState.Closed
+
+    notify.success("Заявка успешно закрыта")
 }
 </script>
 
 <template>
     <portal-page
-        title="Заявка на специалиста"
-        right-image="template/ticket-specialist.png"
+        :title="currentState.title"
         class="ticket-edit-view"
+        :is-loading-title="isFirstLoading"
     >
         <div class="ticket-wrapper">
             <div class="form">
-                <div class="grid grid-reset-rows gap-x-2 gap-y-3">
-                    <div class="col-6 mobile-col-12">
+                <portal-card
+                    title="Данные филиала"
+                    mobile-wrap-form
+                    class="mb-x2"
+                >
+                    <portal-form-item
+                        label="Филиал"
+                        class="label-align-top"
+                    >
+                        <b-text
+                            :is-loading="isFirstLoading"
+                            :value="ticketDetails.partner?.name"
+                        />
+                    </portal-form-item>
 
+                    <portal-form-item
+                        label="Отдел"
+                        class="label-align-top"
+                    >
+                        <b-text
+                            :is-loading="isFirstLoading"
+                            :value="ticketDetails.category?.title"
+                        />
+                    </portal-form-item>
+
+                    <portal-form-item
+                        label="Статус"
+                        class="label-align-top"
+                    >
+                        <b-text
+                            :is-loading="isFirstLoading"
+                            :value="stateName(ticketDetails.state)"
+                        />
+                    </portal-form-item>
+                </portal-card>
+
+                <portal-card
+                    v-if="attributes.length"
+                    title="Дополнительная информация"
+                    mobile-wrap-form
+                    class="mb-x2"
+                >
+                    <portal-form-item
+                        v-for="([key, value]) in attributes"
+                        :key="key"
+                        :label="getAttributeLabel(key)"
+                        class="label-align-top"
+                    >
+                        <b-text
+                            :is-loading="isFirstLoading"
+                            :value="value"
+                        />
+                    </portal-form-item>
+                </portal-card>
+
+                <chat-container
+                    v-if="ticketDetails.timeline.length"
+                    class="mb-x2"
+                    ref="chatRef"
+                >
+                    <div
+                        v-for="(item, idx) in ticketDetails.timeline"
+                        :key="idx"
+                    >
+                        <template v-if="item.type === TicketMessageType.Message">
+                            <chat-message
+                                avatar="avatars/default.png"
+                                :type="getChatMessageType(item)"
+                                :name="item.user.name"
+                                :text="item.text"
+                                :stamp="item.created_at"
+                            >
+                                <template
+                                    v-if="item.files.length"
+                                    #files
+                                >
+                                    <chat-files
+                                        :items="item.files"
+                                        @click="download"
+                                    />
+                                </template>
+                            </chat-message>
+                        </template>
+
+                        <template v-else>
+                            <chat-message
+                                avatar="avatars/barber_system.png"
+                                :type="ChatMessageType.System"
+                                :name="t('mc.partner.assistant')"
+                                :text="createSystemMessage(item)"
+                            />
+                        </template>
+                     </div>
+                </chat-container>
+
+                <div
+                    v-if="isEditable && !isFirstLoading"
+                    class="grid grid-reset-rows gap-x-2 gap-y-3"
+                >
+                    <div class="col-12 mobile-col-12">
+                        <b-textarea
+                            v-model="currentState.message"
+                            :error="errors.message"
+                            :disabled="isFirstLoading"
+                            :placeholder="t('mc.ticket.general.placeholder.message')"
+                            full-width
+                            name="message"
+                        />
+                    </div>
+
+                    <div class="col-12 mobile-col-12">
+                        <b-file-upload
+                            v-model="currentState.files"
+                            :error="errors.files"
+                            :disabled="isFirstLoading"
+                            :placeholder="t('mc.ticket.general.placeholder.files')"
+                            name="files"
+                        />
                     </div>
 
                     <div class="col-12">
-                        <b-button
-                            label="Отправить"
-                            width-full
-                            :disabled="isDisabled"
-                            :loading="isLoading"
-                            @click="onSave"
-                        />
+                        <div class="footer">
+                            <b-button
+                                :label="t('mc.common.send')"
+                                :disabled="isDisabled"
+                                :loading="loadingState === LoadingState.Save"
+                                width-full
+                                class="flex-2"
+                                @click="onSave"
+                            />
+                            <b-button
+                                label="Закрыть"
+                                :disabled="isDisabled"
+                                :loading="loadingState === LoadingState.Remove"
+                                variant="danger"
+                                width-full
+                                class="flex-1"
+                                @click="onRemove"
+                            />
+                        </div>
                     </div>
                 </div>
             </div>
@@ -114,6 +366,28 @@ async function onSave() {
 
 <style scoped lang="scss">
 .ticket-edit-view {
+    margin-bottom: $indent-x4;
 
+    :deep(.portal-card) {
+        padding: 0;
+        background: transparent;
+
+        .card-title {
+            @include h4();
+        }
+    }
+
+    .footer {
+        display: flex;
+        gap: $indent-x1;
+
+        .flex-1 {
+            flex: 1;
+        }
+
+        .flex-2 {
+            flex: 2;
+        }
+    }
 }
 </style>

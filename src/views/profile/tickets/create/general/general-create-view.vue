@@ -12,7 +12,7 @@ import * as partnerAPI from "@/api/modules/partner/partner"
 import * as ticketsAPI from "@/api/modules/profile/tickets/tickets"
 import { HttpError } from "@/api"
 import { useNotify } from "@/composables/notify/use-notify"
-import type { TicketCategoriesItem } from "@v/profile/tickets/list/definitions/tickets-list"
+import type { TicketCategoriesItem } from "@v/profile/tickets/edit/definitions/ticket-category"
 import * as z from "zod"
 import { useZodResolver } from "@/composables/zod/use-zod-resolver"
 import { filesSchema } from "@/schemas/zod"
@@ -23,9 +23,12 @@ import {
     titleSchema
 } from "@v/profile/tickets/schemas/ticket-schemas"
 import type { TicketGeneral } from "@v/profile/tickets/create/general/definitions/general"
-import { TRANSLATIONS } from "@v/profile/tickets/create/general/utils/general"
+import * as ticketAPI from "@/api/modules/profile/tickets/tickets"
+import { TicketType } from "@v/profile/tickets/edit/definitions/ticket"
+import { useI18n } from "vue-i18n"
 
 const notify = useNotify()
+const { t } = useI18n()
 
 /** Начальное состояние */
 const isFirstLoading = ref(true)
@@ -41,6 +44,7 @@ const ticketCategories = ref<TicketCategoriesItem[]>([])
 function defaultState(): TicketGeneral {
     return {
         title:       "",
+        type:        TicketType.General,
         message:     "",
         partner_id:  null,
         category_id: null,
@@ -105,22 +109,25 @@ async function onSave() {
     if (!isValid) return
     if (!isChanged.value) return
 
-    isLoading.value = true
+    const params = cloneDeep(currentState.value)
 
-    // const resp = await userPartnerAPI.change(values)
+    const resp = await ticketAPI.create(params)
 
     isLoading.value = false
 
-    // if (resp instanceof HttpError) {
-    //     notify.error()
-    //     return
-    // }
+    if (resp instanceof HttpError) {
+        notify.error()
+        return
+    }
+
+    currentState.value = cloneDeep(initialState.value)
+    notify.success(t("mc.ticket.notify.success"))
 }
 </script>
 
 <template>
     <portal-page
-        title="Общая заявка"
+        :title="t('mc.ticket.general.title')"
         right-image="template/ticket-general.png"
         class="general-create-view"
     >
@@ -136,7 +143,7 @@ async function onSave() {
                             :error="errors.partner_id"
                             optionLabel="name"
                             optionValue="partner_id"
-                            placeholder="Филиал"
+                            :placeholder="t('mc.common.partner')"
                             name="partner_id"
                         />
                     </div>
@@ -148,7 +155,7 @@ async function onSave() {
                             v-model="currentState.title"
                             :error="errors.title"
                             :disabled="isFirstLoading"
-                            :placeholder="TRANSLATIONS.title"
+                            :placeholder="t('mc.ticket.general.placeholder.title')"
                             name="title"
                         />
                     </div>
@@ -162,7 +169,7 @@ async function onSave() {
                             :disabled="isFirstLoading"
                             optionLabel="title"
                             optionValue="id"
-                            placeholder="Отдел"
+                            :placeholder="t('mc.ticket.category')"
                             name="category_id"
                         />
                     </div>
@@ -173,7 +180,7 @@ async function onSave() {
                             v-model="currentState.message"
                             :error="errors.message"
                             :disabled="isFirstLoading"
-                            :placeholder="TRANSLATIONS.message"
+                            :placeholder="t('mc.ticket.general.placeholder.message')"
                             full-width
                             name="message"
                         />
@@ -184,17 +191,17 @@ async function onSave() {
                             v-model="currentState.files"
                             :error="errors.files"
                             :disabled="isFirstLoading"
-                            :placeholder="TRANSLATIONS.files"
+                            :placeholder="t('mc.ticket.general.placeholder.files')"
                             name="files"
                         />
                     </div>
 
                     <div class="col-12">
                         <b-button
-                            label="Отправить"
-                            width-full
+                            :label="t('mc.common.send')"
                             :disabled="isDisabled"
                             :loading="isLoading"
+                            width-full
                             @click="onSave"
                         />
                     </div>

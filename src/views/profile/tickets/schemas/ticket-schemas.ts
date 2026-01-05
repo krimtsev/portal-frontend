@@ -12,8 +12,12 @@ export const nameSchema = z.string()
     .nonempty()
 
 export const messageSchema = z.string()
-    .max(1275, { message: "Сообщениеи слишком длиннкое" })
+    .max(500, { message: "Сообщениеи слишком длиннкое" })
     .optional()
+
+export const requiredMessageSchema = z.string()
+    .min(3, { message: "Минимальная длина 3 символа" })
+    .max(500, { message: "Сообщениеи слишком длиннкое" })
 
 export const partnerIdSchema =  z.number({ message: "Выберите филиал" })
 

@@ -1,59 +1,94 @@
+// Базовый интерфейс, наследуется экземплярами заявлений
 export interface Ticket {
-    title: string
-    partner_id: number | null
+    title:       string
+    type:        TicketType
+    partner_id:  number | null
     category_id: number | null
-    message: string
-    files: File[]
+    message:     string
+    files:       File[]
 }
 
-export interface TicketItem extends Ticket {
-    attributes: Record<string, string>
+export enum TicketType {
+    General     = "general",
+    Blacklist   = "blacklist",
+    Certificate = "certificate",
+    Design      = "design",
+    Specialist  = "specialist",
 }
 
-export interface TicketCategoriesItem {
-    id: number
+export enum TicketState {
+    New        = "new",
+    InProgress = "in_progress",
+    Waiting    = "waiting",
+    Success    = "success",
+    Closed     = "closed",
+    Cancel     = "cancel",
+}
+
+
+export enum TicketMessageType {
+    Message = "message",
+    Event   = "event",
+}
+
+interface TicketCategory {
+    id:    number
     title: string
-    slug: string
 }
 
-export interface TicketCategoriesResponse {
-    list: TicketCategoriesItem[]
+interface TicketPartner {
+    id:   number
+    name: string
 }
 
-export interface TicketCategoryResponse {
-    data: TicketCategoriesItem
+interface TicketUser {
+    login: string
+    name:  string
 }
 
-export interface TicketListItem {
-    id: string
+export interface TicketFile {
+    id:    number
     title: string
-    category: {
-        id: number,
-        title: string
-    } | null
-    partner: {
-        id: number,
-        title: string
-    } | null
-    user: {
-        id: number,
-        title: string
-    } | null
-    state: {
-        key: string,
-        value: string
-    }
+    name:  string
+    ext:   string
+    path:  string
+}
+
+export interface TicketMessage {
+    id:         number
+    type:       TicketMessageType.Message
+    text:       string
+    created_at: string
+    user:       TicketUser
+    files:      TicketFile[]
+}
+
+export interface TicketChangeField {
+    old: string | number
+    new: string | number
+}
+
+export interface TicketEvent {
+    id:         number
+    type:       TicketMessageType.Event
+    changes:    Record<string, TicketChangeField>
+    created_at: string
+    user:       TicketUser
+}
+
+export interface TicketDetails {
+    id:       number
+    title:    string
+    type:     TicketType
+    category: TicketCategory | null
+    partner:  TicketPartner | null
+    user:     TicketUser | null
+    state:    TicketState
     attributes?: Record<string, string>
+    timeline:    TicketMessage[] | TicketEvent[]
 }
 
-export enum TicketCategorySlug {
-    FRANCHISE = "franchise",
-    BUILD = "build",
-    MARKETING = "marking",
-    NETWORK_ADMIN = "network_admin",
-    NETWORK_BARBERING = "network_barbering",
-    COMMUNITY = "community",
-    OFFICE_MANAGER = "office_manager",
-    IT_DEPARTMENT = "it_department",
-    ACCOUNTING = "accounting",
+export interface TicketResponse {
+    data: TicketDetails
 }
+

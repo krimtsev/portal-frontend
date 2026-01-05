@@ -11,13 +11,14 @@ import BEmptyResult from "@c/common/b-empty/b-empty-result.vue"
 import PrimeColumn from "primevue/column"
 import BText from "@c/common/b-text/b-text.vue"
 import type { TicketListItem } from "@v/profile/tickets/list/definitions/tickets-list"
-import { stateName } from "@v/profile/tickets/list/utils/ticket"
 import { useRouter } from "vue-router"
 import { ProfileRouteName } from "@r/profile/route-names"
 import PrimeMultiSelect from "primevue/multiselect"
 import PrimeFloatLabel from "primevue/floatlabel"
-import type { TicketCategoriesItem } from "@v/profile/tickets/edit/definitions/ticket"
+import type { TicketCategoriesItem } from "@v/profile/tickets/edit/definitions/ticket-category"
 import { cloneDeep, isEqual } from "lodash"
+import TicketState from "@v/profile/tickets/list/components/ticket-state.vue"
+import { TicketType } from "@v/profile/tickets/edit/definitions/ticket"
 
 
 const notify = useNotify()
@@ -46,12 +47,13 @@ onMounted(() => {
 
 const setInitialData = () => {
     tickets.value = new Array(paginationPage.value.perPage).fill({
-        id: 0,
-        title: "",
+        id:       0,
+        title:    "",
+        type:     TicketType.General,
         category: null,
-        partner: null,
-        user: null,
-        state: 1,
+        partner:  null,
+        user:     null,
+        state:    {},
     })
 }
 
@@ -169,6 +171,7 @@ const goTo = (id: string) => router.push({ name: ProfileRouteName.ProfileTicket,
                     class="category"
                     selectedItemsLabel="{0} выбрано"
                     append-to="self"
+                    input-id="category"
                     @hide="onChangeFilter"
                 />
                 <label for="category">Отдел</label>
@@ -238,11 +241,9 @@ const goTo = (id: string) => router.push({ name: ProfileRouteName.ProfileTicket,
 
                 <prime-column field="state" class="state" header="Статус">
                     <template #body="slotProps">
-                        <b-text
-                            v-if="slotProps.data.state"
-                            :value="stateName(slotProps.data.state.key)"
+                        <ticket-state
                             :is-loading="isLoading"
-                            :classes="`badge badge-${slotProps.data.state.value}`"
+                            :value="slotProps.data.state"
                         />
                     </template>
                 </prime-column>
@@ -252,8 +253,6 @@ const goTo = (id: string) => router.push({ name: ProfileRouteName.ProfileTicket,
 </template>
 
 <style scoped lang="scss">
-$half-indent: calc($indent-x1 / 2);
-
 .tickets-list-view {
     .filter {
         margin-bottom: $indent-x2;
@@ -283,31 +282,6 @@ $half-indent: calc($indent-x1 / 2);
             @include col-width(250px);
         }
 
-        .badge {
-            padding: $half-indent $indent-x1;
-            border-radius: $indent-x2;
-            background: var(--p-gray-800);
-            color: var(--p-surface-0);
-
-            &.badge-new {
-                background: var(--p-blue-900);
-            }
-            &.badge-in-progress {
-                background: var(--p-amber-600);
-            }
-            &.badge-waiting {
-                background: var(--p-amber-600);
-            }
-            &.badge-success {
-                background: var(--p-green-600);
-            }
-            &.badge-closed {
-                background: var(--p-neutral-600);
-            }
-            &.badge-cancel {
-                background: var(--p-red-900);
-            }
-        }
     }
 
     :deep(.p-multiselect) {

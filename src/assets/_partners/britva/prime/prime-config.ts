@@ -156,6 +156,17 @@ export default {
                     invert: {
                         background: "rgba(0,0,0,0.2)"
                     }
+                },
+                chat: {
+                    sent: {
+                        color: "{primary.300}"
+                    },
+                    received: {
+                        color: "{slate.300}"
+                    },
+                    system: {
+                        color: "{surface.300}"
+                    }
                 }
             },
             dark: {
@@ -207,7 +218,18 @@ export default {
                     invert: {
                         background: "rgba(0,0,0,0.2)"
                     }
-                }
+                },
+                chat: {
+                    sent: {
+                        color: "{primary.300}"
+                    },
+                    received: {
+                        color: "{slate.300}"
+                    },
+                    system: {
+                        color: "{surface.300}"
+                    }
+                },
             }
         }
     },

@@ -24,11 +24,13 @@ import {
     partnerIdSchema,
     phoneSchema
 } from "@v/profile/tickets/schemas/ticket-schemas"
-import { TICKET_TITLE, TRANSLATIONS } from "@v/profile/tickets/create/blacklist/utils/blacklist"
 import BInputTelnum from "@c/common/b-input-telnum/b-input-telnum.vue"
-import { type TicketCategoriesItem, TicketCategorySlug } from "@v/profile/tickets/edit/definitions/ticket"
+import { type TicketCategoriesItem, TicketCategorySlug } from "@v/profile/tickets/edit/definitions/ticket-category"
+import { TicketType } from "@v/profile/tickets/edit/definitions/ticket"
+import { useI18n } from "vue-i18n"
 
 const notify = useNotify()
+const { t } = useI18n()
 
 const isFirstLoading = ref(true)
 const isLoading = ref(false)
@@ -42,7 +44,8 @@ const ticketCategory = ref<TicketCategoriesItem>()
 
 function defaultState(): TicketBlacklist {
     return {
-        title:       "",
+        title:       t('mc.ticket.blacklist.title'),
+        type:        TicketType.Blacklist,
         partner_id:  null,
         category_id: null,
         message:     "",
@@ -119,7 +122,7 @@ async function onSave() {
     isLoading.value = true
 
     const params = cloneDeep(currentState.value)
-    params.title = TICKET_TITLE
+    params.title = t("mc.ticket.blacklist.title")
 
     const resp = await ticketAPI.create(params)
 
@@ -131,15 +134,13 @@ async function onSave() {
     }
 
     currentState.value = cloneDeep(initialState.value)
-    notify.success("Заявка успешно отправлена")
-
-
+    notify.success(t("mc.ticket.notify.success"))
 }
 </script>
 
 <template>
     <portal-page
-        title="Заявка на черный список"
+        :title="t('mc.ticket.blacklist.title')"
         right-image="template/ticket-blacklist.png"
         class="blacklist-create-view"
     >
@@ -155,7 +156,7 @@ async function onSave() {
                             :error="errors.partner_id"
                             optionLabel="name"
                             optionValue="partner_id"
-                            placeholder="Филиал"
+                            :placeholder="t('mc.common.partner')"
                             name="partner_id"
                         />
                     </div>
@@ -167,7 +168,7 @@ async function onSave() {
                             v-model="currentState.attributes.name"
                             :error="errors.attributes?.name"
                             :disabled="isFirstLoading"
-                            :placeholder="TRANSLATIONS.name"
+                            :placeholder="t('mc.ticket.blacklist.placeholder.name')"
                             name="name"
                         />
                     </div>
@@ -177,7 +178,7 @@ async function onSave() {
                             v-model="currentState.attributes.phone"
                             :error="errors.attributes?.phone"
                             :disabled="isFirstLoading"
-                            :placeholder="TRANSLATIONS.phone"
+                            :placeholder="t('mc.ticket.blacklist.placeholder.phone')"
                             name="phone"
                         />
                     </div>
@@ -187,7 +188,7 @@ async function onSave() {
                             v-model="currentState.attributes.duration"
                             :error="errors.attributes?.duration"
                             :disabled="isFirstLoading"
-                            :placeholder="TRANSLATIONS.duration"
+                            :placeholder="t('mc.ticket.blacklist.placeholder.duration')"
                             name="duration"
                         />
                     </div>
@@ -197,7 +198,7 @@ async function onSave() {
                             v-model="currentState.message"
                             :error="errors.message"
                             :disabled="isFirstLoading"
-                            :placeholder="TRANSLATIONS.message"
+                            :placeholder="t('mc.ticket.blacklist.placeholder.message')"
                             full-width
                             name="message"
                         />
@@ -208,17 +209,17 @@ async function onSave() {
                             v-model="currentState.files"
                             :error="errors.files"
                             :disabled="isFirstLoading"
-                            :placeholder="TRANSLATIONS.files"
+                            :placeholder="t('mc.ticket.blacklist.placeholder.files')"
                             name="files"
                         />
                     </div>
 
                     <div class="col-12">
                         <b-button
-                            label="Отправить"
-                            width-full
+                            :label="t('mc.common.send')"
                             :disabled="isDisabled"
                             :loading="isLoading"
+                            width-full
                             @click="onSave"
                         />
                     </div>

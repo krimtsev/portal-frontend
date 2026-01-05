@@ -1,37 +1,23 @@
 import { Qualification } from "@v/profile/tickets/create/specialist/_britva/definitions/specialist"
-
-/**
- * Ключи используются для переводов шаблонов.
- */
-export const TRANSLATIONS = {
-    name: "Имя сотрудника",
-    phone: "Телефон сотрудника",
-    experience: "Стаж работы",
-    statistics: "Статистика",
-    message: "Дополнительные комментарии",
-    linkToWorks: "Ссылка на работы",
-    files: "Добавить файлы"
-}
-
-export const TICKET_TITLE = "Заявка на специалиста"
+import i18n from "@/plugins/i18n"
 
 export function qualificationName(value: Qualification): string {
     switch (value) {
         case Qualification.BarberPlus:
-            return "Барбер +"
+            return i18n.global.t("mc.ticket.qualification.barberPlus")
         case Qualification.TobBarber:
-            return "Топ-Барбер"
+            return i18n.global.t("mc.ticket.qualification.tobBarber")
         case Qualification.TobBarberPlus:
-            return "Топ-Барбер +"
+            return i18n.global.t("mc.ticket.qualification.tobBarberPlus")
         case Qualification.BrandBarber:
-            return "Бренд-Барбер"
+            return i18n.global.t("mc.ticket.qualification.brandBarber")
         case Qualification.BrandBarberPlus:
-            return "Бренд-Барбер +"
+            return i18n.global.t("mc.ticket.qualification.brandBarberPlus")
         case Qualification.BrandBarberPro:
-            return "Бренд-Барбер ПРО"
+            return i18n.global.t("mc.ticket.qualification.brandBarberPro")
         case Qualification.Expert:
-            return "Эксперт"
+            return i18n.global.t("mc.ticket.qualification.expert")
+        default:
+            return value
     }
-
-    return value
 }

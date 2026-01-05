@@ -25,10 +25,13 @@ import {
 } from "@v/profile/tickets/schemas/ticket-schemas"
 import { filesSchema } from "@/schemas/zod"
 import type { TicketCertificate } from "@v/profile/tickets/create/certificate/definitions/certificate"
-import { TRANSLATIONS } from "@v/profile/tickets/create/certificate/utils/certificate"
+import * as ticketAPI from "@/api/modules/profile/tickets/tickets"
+import { TicketType } from "@v/profile/tickets/edit/definitions/ticket"
+import { useI18n } from "vue-i18n"
 
 
 const notify = useNotify()
+const { t } = useI18n()
 
 const isFirstLoading = ref(true)
 const isLoading = ref(false)
@@ -40,7 +43,8 @@ const userPartners = ref<UserPartners>({
 
 function defaultState(): TicketCertificate {
     return {
-        title:       "",
+        title:       t("mc.ticket.certificate.title"),
+        type:        TicketType.Certificate,
         partner_id:  null,
         category_id: null,
         message:     "",
@@ -108,22 +112,26 @@ async function onSave() {
     if (!isValid) return
     if (!isChanged.value) return
 
-    isLoading.value = true
+    const params = cloneDeep(currentState.value)
+    params.title = t("mc.ticket.certificate.title")
 
-    // const resp = await userPartnerAPI.change(values)
+    const resp = await ticketAPI.create(params)
 
     isLoading.value = false
 
-    // if (resp instanceof HttpError) {
-    //     notify.error()
-    //     return
-    // }
+    if (resp instanceof HttpError) {
+        notify.error()
+        return
+    }
+
+    currentState.value = cloneDeep(initialState.value)
+    notify.success(t("mc.ticket.notify.success"))
 }
 </script>
 
 <template>
     <portal-page
-        title="Заявка на сертификат"
+        :title="t('mc.ticket.certificate.title')"
         right-image="template/ticket-certificate.png"
         class="certificate-create-view"
     >
@@ -139,7 +147,7 @@ async function onSave() {
                             :error="errors.partner_id"
                             optionLabel="name"
                             optionValue="partner_id"
-                            placeholder="Филиал"
+                            :placeholder="t('mc.common.partner')"
                             name="partner_id"
                         />
                     </div>
@@ -151,7 +159,7 @@ async function onSave() {
                             v-model="currentState.attributes.code"
                             :error="errors.attributes?.code"
                             :disabled="isFirstLoading"
-                            :placeholder="TRANSLATIONS.code"
+                            :placeholder="t('mc.ticket.certificate.placeholder.code')"
                             name="code"
                         />
                     </div>
@@ -161,7 +169,7 @@ async function onSave() {
                             v-model="currentState.attributes.sum"
                             :error="errors.attributes?.sum"
                             :disabled="isFirstLoading"
-                            :placeholder="TRANSLATIONS.sum"
+                            :placeholder="t('mc.ticket.certificate.placeholder.sum')"
                             full-width
                             name="sum"
                         />
@@ -172,7 +180,7 @@ async function onSave() {
                             v-model="currentState.attributes.paymentDate"
                             :error="errors.attributes?.paymentDate"
                             :disabled="isFirstLoading"
-                            :placeholder="TRANSLATIONS.paymentDate"
+                            :placeholder="t('mc.ticket.certificate.placeholder.paymentDate')"
                             hour-format="24"
                             show-time
                             full-width
@@ -186,7 +194,7 @@ async function onSave() {
                             v-model="currentState.attributes.name"
                             :error="errors.attributes?.name"
                             :disabled="isFirstLoading"
-                            :placeholder="TRANSLATIONS.name"
+                            :placeholder="t('mc.ticket.certificate.placeholder.name')"
                             name="name"
                         />
                     </div>
@@ -196,7 +204,7 @@ async function onSave() {
                             v-model="currentState.message"
                             :error="errors.message"
                             :disabled="isFirstLoading"
-                            :placeholder="TRANSLATIONS.message"
+                            :placeholder="t('mc.ticket.certificate.placeholder.message')"
                             full-width
                             name="message"
                         />
@@ -207,17 +215,17 @@ async function onSave() {
                             v-model="currentState.files"
                             :error="errors.files"
                             :disabled="isFirstLoading"
-                            :placeholder="TRANSLATIONS.files"
+                            :placeholder="t('mc.ticket.certificate.placeholder.files')"
                             name="files"
                         />
                     </div>
 
                     <div class="col-12">
                         <b-button
-                            label="Отправить"
-                            width-full
+                            :label="t('mc.common.send')"
                             :disabled="isDisabled"
                             :loading="isLoading"
+                            width-full
                             @click="onSave"
                         />
                     </div>

@@ -2,7 +2,19 @@
     "mc": {
         "partner": {
             "title": "Портал для франчайзи BRITVA",
-            "name": "BRITVA"
+            "name": "BRITVA",
+            "assistant": "Клифф"
+        },
+        "ticket": {
+            "qualification": {
+                "barberPlus": "Барбер +",
+                "tobBarber": "Топ-Барбер",
+                "tobBarberPlus": "Топ-Барбер +",
+                "brandBarber": "Бренд-Барбер",
+                "brandBarberPlus": "Бренд-Барбер +",
+                "brandBarberPro": "Бренд-Барбер ПРО",
+                "expert": "Эксперт"
+            }
         }
     }
 }
