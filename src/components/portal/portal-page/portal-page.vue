@@ -5,7 +5,7 @@ import type { PortalPage } from "@c/portal/portal-page/definitions/portal-page"
 import BImage from "@c/common/b-image/b-image.vue"
 import BSkeleton from "@c/common/b-skeleton/b-skeleton.vue"
 import BButton from "@c/common/b-button/b-button.vue"
-import BSpinner from "@c/common/b-spinner/b-spinner.vue"
+import BSpinnerWide from "@c/common/b-spinner/b-spinner-wide.vue"
 
 const props = defineProps<PortalPage>()
 const emit = defineEmits(["save", "cancel"])
@@ -59,7 +59,7 @@ const isLoadingContent = computed(() => {
                     v-if="isLoadingContent"
                     class="content flex-center"
                 >
-                    <b-spinner />
+                    <b-spinner-wide />
                 </div>
 
                 <template v-else>
