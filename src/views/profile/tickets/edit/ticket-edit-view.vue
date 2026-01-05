@@ -7,7 +7,8 @@ import {
     type Ticket,
     type TicketDetails,
     type TicketMessage,
-    TicketMessageType, TicketState,
+    TicketMessageType,
+    TicketState,
     TicketType
 } from "@v/profile/tickets/edit/definitions/ticket"
 import { cloneDeep, isEqual } from "lodash"
@@ -32,6 +33,10 @@ import { createSystemMessage } from "@v/profile/tickets/edit/utils/ticket"
 import { type ChatMessageFile, ChatMessageType} from "@c/chat/definitions/chat-message"
 import { downloadExternalFile } from "@/lib/files"
 import ChatFiles from "@c/chat/chat-files.vue"
+import { ProfileRouteName } from "@r/profile/route-names"
+import { useRouter } from "vue-router"
+
+const router = useRouter()
 
 enum LoadingState {
     Save = "save",
@@ -206,6 +211,8 @@ async function onRemove() {
     ticketDetails.value.state = TicketState.Closed
 
     notify.success("Заявка успешно закрыта")
+
+    await router.push({name: ProfileRouteName.ProfileTickets})
 }
 </script>
 

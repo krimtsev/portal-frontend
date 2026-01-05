@@ -17,8 +17,8 @@ import PrimeMultiSelect from "primevue/multiselect"
 import PrimeFloatLabel from "primevue/floatlabel"
 import type { TicketCategoriesItem } from "@v/profile/tickets/edit/definitions/ticket-category"
 import { cloneDeep, isEqual } from "lodash"
-import TicketState from "@v/profile/tickets/list/components/ticket-state.vue"
-import { TicketType } from "@v/profile/tickets/edit/definitions/ticket"
+import { TicketState, TicketType } from "@v/profile/tickets/edit/definitions/ticket"
+import TicketStateBadge from "@v/profile/tickets/list/components/ticket-state-badge.vue"
 
 
 const notify = useNotify()
@@ -53,7 +53,7 @@ const setInitialData = () => {
         category: null,
         partner:  null,
         user:     null,
-        state:    {},
+        state:    TicketState.New
     })
 }
 
@@ -241,7 +241,7 @@ const goTo = (id: string) => router.push({ name: ProfileRouteName.ProfileTicket,
 
                 <prime-column field="state" class="state" header="Статус">
                     <template #body="slotProps">
-                        <ticket-state
+                        <ticket-state-badge
                             :is-loading="isLoading"
                             :value="slotProps.data.state"
                         />

@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import { computed } from "vue"
 import { stateName } from "@v/profile/tickets/list/utils/ticket"
 import BText from "@c/common/b-text/b-text.vue"
-import {computed} from "vue";
 
 const props = defineProps<{
     isLoading?: boolean,
@@ -12,13 +12,13 @@ const ticketValue = computed(() => stateName(props.value || ""))
 const ticketType = computed(() => {
     if (!props.value) return ""
 
-    const type = props.value.replace("_", "-")
+    const type = props.value?.replace("_", "-")
     return `badge-${type}`
 })
 </script>
 
 <template>
-   <div class="ticket-state">
+   <div class="ticket-state-badge">
        <b-text
            :is-loading="isLoading"
            :value="ticketValue"
@@ -29,7 +29,7 @@ const ticketType = computed(() => {
 </template>
 
 <style scoped lang="scss">
-.ticket-state {
+.ticket-state-badge {
     .badge {
         padding: calc($indent-x1 / 2) $indent-x1;
         border-radius: $indent-x2;
