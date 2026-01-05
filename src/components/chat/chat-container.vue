@@ -30,5 +30,7 @@ defineExpose({ scrollToBottom })
     border-radius: var(--p-textarea-border-radius);
     outline-color: transparent;
     box-shadow: var(--p-textarea-shadow);
+    scrollbar-width: thin;
+    scrollbar-color: var(--p-surface-600) var(--p-surface-800);
 }
 </style>
