@@ -215,8 +215,12 @@ $cloud-file-types: (
 
 @mixin portal-card() {
     display: flex;
-    padding: $indent-x4 ;
+    padding: $indent-x4;
     background: var(--p-portal-card-background);
     border-radius: $indent-x4;
-    //overflow: hidden;
+}
+
+@mixin list-view {
+    border-radius: $indent-x2;
+    background-color: var(--p-dashboard-card-background);
 }

@@ -6,7 +6,7 @@ import { imageSrc } from "@h/images/images"
 
 const props = withDefaults(defineProps<{
     src?: string,
-    size?: "normal" | "large" | "xlarge",
+    size?: "large" | "xlarge",
     shape?: "square" | "circle",
 }>(), {
     src: "avatars/default.png",

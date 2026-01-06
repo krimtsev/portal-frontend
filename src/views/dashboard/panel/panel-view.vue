@@ -3,6 +3,6 @@
 </script>
 
 <template>
-    <h1>Dashboard</h1>
+    <h2> Добро пожаловать в панель администратора! </h2>
 </template>
 

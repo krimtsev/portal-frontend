@@ -1,13 +1,17 @@
 <script setup lang="ts">
+import { computed } from "vue"
 import PrimeMenubar from "primevue/menubar"
+import PrimeAvatar from "primevue/avatar"
 import BImage from "@c/common/b-image/b-image.vue"
 import BLink from "@c/common/b-link/b-link.vue"
 import { useRouter } from "vue-router"
 import { PortalRouteName } from "@r/portal/route-names"
 import { ProfileRouteName } from "@r/profile/route-names"
+import { DashboardRouteName } from "@r/dashboard/route-names"
 import useAuthStore from "@s/auth/auth"
-// import BAvatar from "@c/common/b-avatar/b-avatar.vue"
 import { menuData } from "@l/portal/data/menu"
+import { Roles } from "@/shared/roles/roles"
+
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -21,9 +25,22 @@ function goToProfile() {
     router.push({ name: ProfileRouteName.Profile })
 }
 
+function goToDashboard() {
+    router.push({ name: DashboardRouteName.DashboardPanel })
+}
+
 async function onLogout() {
     await authStore.logout()
 }
+
+const hasDashboard = computed(() => {
+    return [Roles.ADMIN, Roles.SYSADMIN].includes(authStore.user.role)
+})
+
+const avatarLabel = computed(() => {
+    const login = authStore.user.login
+    return login[0].toUpperCase()
+})
 </script>
 
 <template>
@@ -43,15 +60,26 @@ async function onLogout() {
                 <template #end>
                     <div class="right-section">
                         <div class="right-section-item">
-<!--                            <b-avatar-->
-<!--                                class="pointer"-->
-<!--                                @click="goToProfile"-->
-<!--                            />-->
+                            <prime-avatar
+                                :label="avatarLabel"
+                                class="mr-2"
+                                shape="circle"
+                            />
 
                             <b-link
                                 label="Профиль"
                                 as-internal
                                 @click="goToProfile"
+                            />
+                        </div>
+                        <div
+                            v-if="hasDashboard"
+                            class="right-section-item"
+                        >
+                            <b-link
+                                label="Панель"
+                                as-internal
+                                @click="goToDashboard"
                             />
                         </div>
                         <div class="right-section-item">

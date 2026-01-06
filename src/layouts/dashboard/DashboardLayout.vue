@@ -1,60 +1,156 @@
 <script setup lang="ts">
-import { ref } from "vue"
-import { useRouter } from "vue-router"
-import BButtonIcon from "@c/common/b-button-icon/b-button-icon.vue"
+import { ref, onMounted, onBeforeUnmount, computed } from "vue"
 import DashboardSidebar from "@l/dashboard/DashboardSidebar.vue"
+import PrimeButton from "primevue/button"
+import PrimeAvatar from "primevue/avatar"
+import PrimeMenu from "primevue/menu"
+import useAuthStore from "@s/auth/auth"
+import { useRouter } from "vue-router"
+import { ProfileRouteName } from "@r/profile/route-names"
+import { PortalRouteName } from "@r/portal/route-names"
+import { useI18n } from "vue-i18n"
 
-const isCollapsed = ref(false)
-const sidebarVisible = ref(false)
+const { t } = useI18n()
+const authStore = useAuthStore()
+const router = useRouter()
 
-const toggleCollapse = () => {
-    isCollapsed.value = !isCollapsed.value
+const isMobile = ref(window.innerWidth <= 991)
+const sidebarActive = ref(!isMobile.value)
+let desktopSidebarActive = true
+
+const sidebarRef = ref<any>(null)
+
+const avatarLabel = computed(() => {
+    const login = authStore.user.login
+    return login[0].toUpperCase()
+})
+const updateViewport = () => {
+    const mobile = window.innerWidth <= 991
+
+    if (mobile !== isMobile.value) {
+        if (mobile) {
+            sidebarActive.value = false
+        } else {
+            sidebarActive.value = desktopSidebarActive
+        }
+    }
+
+    isMobile.value = mobile
 }
-const toggleSidebar = () => {
-    sidebarVisible.value = !sidebarVisible.value
+
+const handleMenuClick = () => {
+    sidebarActive.value = !sidebarActive.value
+    if (!isMobile.value) {
+        desktopSidebarActive = sidebarActive.value
+    }
 }
 
-// const handleMenuClick = () => {
-//     // Приоритет overlay-режима на мобильных
-//     const isMobile = window.matchMedia("(max-width: 768px)").matches
-//     if (isMobile) {
-//         toggleSidebar()
-//     } else {
-//         toggleCollapse()
-//     }
-// }
-//
-// const router = useRouter()
-// const navigate = (item) => {
-//     if (item.to) router.push(item.to)
-//     sidebarVisible.value = false // Скрываем оверлей на мобилках
-// }
+const handleOutsideClick = (event: MouseEvent) => {
+    if (!isMobile.value || !sidebarActive.value) return
 
-// const menuItems = [
-//     { label: "Главная", icon: "pi pi-home", to: "/dashboard" },
-//     { label: "Профиль", icon: "pi pi-user", to: "/profile" },
-//     { label: "Настройки", icon: "pi pi-cog", to: "/settings" }
-// ]
+    const target = event.target as Node
+    const sidebarComponent = sidebarRef.value
+
+    const sidebarEl = sidebarComponent?.$el || sidebarComponent
+    if (!sidebarEl) return
+
+    if (!sidebarEl.contains(target)) {
+        sidebarActive.value = false
+    }
+}
+
+onMounted(() => {
+    window.addEventListener("resize", updateViewport)
+    document.addEventListener("click", handleOutsideClick)
+})
+
+onBeforeUnmount(() => {
+    window.removeEventListener("resize", updateViewport)
+    document.removeEventListener("click", handleOutsideClick)
+})
+
+const menuRef  = ref<any>(null)
+const profileItems = ref([
+    {
+        label: t("mc.common.profile"),
+        icon:  "pi pi-user",
+        command: () => {
+            router.push({ name: ProfileRouteName.Profile })
+        }
+    },
+    {
+        label: t("mc.common.portal"),
+        icon:  "pi pi-reply",
+        command: () => {
+            router.push({ name: PortalRouteName.Home })
+        }
+    },
+    {
+        label: t("mc.common.exit"),
+        icon:  "pi pi-sign-out",
+        command: async () => {
+            await authStore.logout()
+        }
+    },
+])
+const toggleMenu = (event: PointerEvent) => {
+    menuRef.value.toggle(event)
+}
 </script>
 
 <template>
-    <div class="dashboard-layout">
-        <dashboard-sidebar collapsed mobile />
+    <div
+        class="dashboard-layout"
+        :class="{
+            'layout-desktop-inactive': !isMobile && !sidebarActive,
+            'layout-mobile-active': isMobile && sidebarActive
+        }"
+    >
+        <dashboard-sidebar ref="sidebarRef" />
 
-        <div class="main-content">
-<!--            <div class="header">-->
-<!--                <b-button-icon-->
-<!--                    icon="pi pi-bars"-->
-<!--                    variant="text"-->
-<!--                    size="large"-->
-<!--                    class="menu-toggle"-->
-<!--                    rounded-->
-<!--                    @click="handleMenuClick"-->
-<!--                />-->
-<!--                <span class="header-title">Welcome</span>-->
-<!--            </div>-->
+        <div class="layout-wrapper">
+            <div class="layout-topbar" >
+                <div class="topbar-start">
+                    <prime-button
+                        icon="pi pi-bars"
+                        size="large"
+                        variant="text"
+                        @click.stop="handleMenuClick"
+                    />
 
-            <div class="content">
+                    <div class="topbar-title">
+                        Dashboard
+                    </div>
+                </div>
+
+                <div class="topbar-end">
+                    <prime-avatar
+                        :label="avatarLabel"
+                        class="mr-2 cursor-pointer"
+                        @click="toggleMenu"
+                    />
+                    <prime-menu
+                        ref="menuRef"
+                        :model="profileItems"
+                        :popup="true"
+                    >
+                        <template #item="{ item, props }">
+                            <router-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" custom>
+                                <a v-ripple :href="href" v-bind="props.action" @click="navigate">
+                                    <span :class="item.icon" />
+                                    <span class="ml-2">{{ item.label }}</span>
+                                </a>
+                            </router-link>
+                            <a v-else v-ripple :href="item.url" :target="item.target" v-bind="props.action">
+                                <span :class="item.icon" />
+                                <span class="ml-2">{{ item.label }}</span>
+                            </a>
+                        </template>
+                    </prime-menu>
+                </div>
+            </div>
+
+            <div class="layout-content">
                 <router-view />
             </div>
         </div>
@@ -69,126 +165,81 @@ const toggleSidebar = () => {
     width: 100%;
     overflow: hidden;
     position: relative;
+
+    :deep(.p-button-icon-only) {
+        width: var(--p-avatar-width);
+        height: var(--p-avatar-height);
+        border-radius: var(--p-avatar-border-radius);
+    }
 }
 
-.main-content {
-    flex: 1;
+/* ===== DESKTOP ===== */
+@media (min-width: 992px) {
+    .layout-wrapper {
+        margin-left: 21rem;
+        transition: margin-left .3s cubic-bezier(0,0,.2,1);
+    }
+
+    .layout-desktop-inactive {
+        .layout-wrapper {
+            margin-left: 0;
+        }
+
+        .dashboard-sidebar {
+            transform: translateX(-100%);
+        }
+    }
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 991px) {
+    .layout-wrapper {
+        margin-left: 0;
+        padding: 1rem;
+    }
+
+    .dashboard-sidebar {
+        transform: translateX(-100%);
+        z-index: 999;
+    }
+
+    .layout-mobile-active {
+        .dashboard-sidebar {
+            transform: translateX(0);
+            box-shadow: 2px 0 10px rgba(0,0,0,.3);
+            background: var(--p-surface-900);
+        }
+    }
+}
+
+/* ===== ULTRA-WIDE ===== */
+@media (min-width: 1960px) {
+    .layout-content,
+    .layout-topbar {
+        width: 1504px;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+}
+
+.layout-wrapper {
     display: flex;
+    flex: 1;
     flex-direction: column;
+    padding: 2rem;
 }
 
-.content {
+.layout-topbar {
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
+    .topbar-start {
+        display: flex;
+        align-items: center;
+        position: relative;
+        gap: 1.5rem;
+    }
 }
-
-///* Sidebar */
-//.sidebar {
-//    display: flex;
-//    flex-direction: column;
-//    flex-shrink: 0;
-//    position: relative;
-//    width: 300px;
-//    transition: transform 0.3s ease;
-//    z-index: 1000;
-//    height: 100%;
-//
-//    background-color: #2c3e50;
-//    //color: #ecf0f1;
-//
-//    &-header {
-//        display: flex;
-//        justify-content: center;
-//        align-items: center;
-//        height: 64px;
-//    }
-//
-//}
-//
-///* Sidebar header */
-//.close-btn {
-//    color: #ecf0f1;
-//    display: none;
-//}
-//
-///* Menu */
-//.menu {
-//    list-style: none;
-//    padding: 0;
-//    margin: $indent-x4 0 0 0;
-//    flex-grow: 1;
-//}
-//.menu-item {
-//    width: 100%;
-//    justify-content: flex-start;
-//    padding: 0.75rem 1rem;
-//    color: #ecf0f1;
-//}
-//.menu-item:hover {
-//    background-color: #34495e;
-//}
-
-/* Main Content */
-//.main-content {
-//    flex: 1;
-//    display: flex;
-//    flex-direction: column;
-//    background: #f5f5f5;
-//    transition: all 0.3s ease;
-//}
-//.header {
-//    display: flex;
-//    align-items: center;
-//    padding: 0 1rem;
-//    height: 64px;
-//    border-bottom: 1px solid var(--p-content-border-color);
-//}
-//.menu-toggle {
-//    margin-right: 1rem;
-//    border-right: 1px solid var(--p-content-border-color);
-//}
-//.header-title {
-//    font-weight: bold;
-//    font-size: 1.2rem;
-//}
-//.content {
-//    padding: 1rem;
-//    overflow-y: auto;
-//    flex-grow: 1;
-//}
-
-/* Collapsed (desktop only) */
-//@media (min-width: 769px) {
-//    .sidebar.collapsed {
-//        position: absolute;
-//        transform: translateX(-100%);
-//    }
-//    .sidebar.visible {
-//        /* Ignored */
-//    }
-//    .close-btn {
-//        display: none;
-//    }
-//}
-
-/* Mobile overlay */
-//@media (max-width: 768px) {
-//    .sidebar {
-//        position: fixed;
-//        top: 0;
-//        bottom: 0;
-//        left: 0;
-//        transform: translateX(-100%);
-//    }
-//    .sidebar.visible {
-//        transform: translateX(0);
-//        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.4);
-//    }
-//    .close-btn {
-//        display: inline-flex;
-//    }
-//    .sidebar.collapsed {
-//        /* On mobile, collapsed state doesn't matter */
-//        transform: translateX(-100%);
-//    }
-//}
 </style>

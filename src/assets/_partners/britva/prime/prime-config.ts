@@ -142,6 +142,11 @@ export default {
                         }
                     }
                 },
+                dashboard: {
+                    card: {
+                        background: "#111111"
+                    },
+                },
                 divider: {
                     border: {
                         color: "{content.border.color}"

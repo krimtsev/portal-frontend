@@ -310,3 +310,9 @@ async function onSave() {
         </div>
     </portal-page>
 </template>
+
+<style scoped lang="scss">
+.design-create-view {
+    margin-bottom: $indent-x4;
+}
+</style>

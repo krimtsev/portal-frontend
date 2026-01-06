@@ -282,6 +282,8 @@ async function onSave() {
 
 <style scoped lang="scss">
 .blacklist-create-view {
+    margin-bottom: $indent-x4;
+
     .form {
         margin-bottom: $indent-x2;
     }

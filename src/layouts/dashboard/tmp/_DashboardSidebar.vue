@@ -2,30 +2,26 @@
 import { ref } from "vue"
 import BImage from "@c/common/b-image/b-image.vue"
 import { useRouter } from "vue-router"
-import { DashboardRouteName } from "@r/dashboard/route-names"
-import { dashboardPaths } from "@r/dashboard/path"
+import { DashboardRouteName } from "@r/dashboard/route-names.ts"
+import { dashboardPaths } from "@r/dashboard/path.ts"
 import PrimePanelMenu from "primevue/panelmenu"
-import { useI18n } from "vue-i18n"
-import { PortalRouteName } from "@r/portal/route-names"
 
-const { t } = useI18n()
 const router = useRouter()
 
 const items = ref([
     {
-        label: t("mc.dashboard.sidebar.home"),
-        icon:  "pi pi-home",
+        label: 'Главная',
+        icon: 'pi pi-home',
         route: dashboardPaths.DashboardPanel,
     },
     {
-        label: t("mc.dashboard.sidebar.tickets"),
-        icon:  "pi pi-comments",
+        label: 'Заявки',
+        icon: 'pi pi-comments',
         route: dashboardPaths.DashboardTickets,
     },
 ])
 
 const goToHome = () => router.push({ name: DashboardRouteName.DashboardPanel })
-const goToPortal = () => router.push({ name: PortalRouteName.Home })
 </script>
 
 <template>
@@ -43,13 +39,7 @@ const goToPortal = () => router.push({ name: PortalRouteName.Home })
         <div class="sidebar-menu">
             <prime-panel-menu :model="items">
                 <template #item="{ item }">
-                    <router-link
-                        v-if="item.route"
-                        v-slot="{ href, navigate }"
-                        v-ripple
-                        :to="item.route"
-                        custom
-                    >
+                    <router-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" custom>
                         <a
                             class="sidebar-menu-item"
                             :href="href"
@@ -70,7 +60,7 @@ const goToPortal = () => router.push({ name: PortalRouteName.Home })
     position: fixed;
     top: 0;
     left: 0;
-    width: 20rem;
+    width: 21rem;
     height: 100%;
     border-right: 1px solid var(--p-surface-700);
     transform: translateX(0);
