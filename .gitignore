@@ -25,3 +25,5 @@ dist-ssr
 
 env.js
 .generated
+.token_github.token_github
+.token_github

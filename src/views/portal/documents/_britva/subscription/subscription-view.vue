@@ -46,10 +46,12 @@ import PortalPage from "@c/portal/portal-page/portal-page.vue"
                     class="table"
                 >
                     <prime-column field="service" header="Услуга"></prime-column>
-                    <prime-column field="barber" header="Барбер"></prime-column>
-                    <prime-column field="topBarber" header="Топ-барбер"></prime-column>
-                    <prime-column field="brandBarber" header="Бренд-барбер"></prime-column>
-                    <prime-column field="brandBarberPlus" header="Бренд-барбер +"></prime-column>
+                    <prime-column field="barber" header="БАРБЕР"></prime-column>
+                    <prime-column field="topBarber" header="ТОП-БАРБЕР"></prime-column>
+                    <prime-column field="topBarberPlus" header="ТОП-БАРБЕР+"></prime-column>
+                    <prime-column field="brandBarber" header="БРЕНД-БАРБЕР"></prime-column>
+                    <prime-column field="brandBarberPlus" header="БРЕНД-БАРБЕР+"></prime-column>
+                    <prime-column field="brandBarberPro" header="БРЕНД-БАРБЕР ПРО"></prime-column>
                 </prime-data-table>
             </div>
         </portal-card>
@@ -61,8 +63,8 @@ import PortalPage from "@c/portal/portal-page/portal-page.vue"
             <div class="content">
                 <ul>
                     <li>Абонемент действителен только в том филиале, где он был приобретён.</li>
-                    <li>Использование в другом филиале невозможно.</li>
-                    <li>При покупке администраторы и мастера не получают процент от продажи.</li>
+                    <li>Использование в другом филиале запрещено.</li>
+                    <li>При продаже абонемента администраторы и мастера не получают процент от продажи.</li>
                     <li>
                         Вознаграждение сотрудников составляет 40% от стоимости конкретной услуги,
                         оплаченной по абонементу.
@@ -84,8 +86,9 @@ import PortalPage from "@c/portal/portal-page/portal-page.vue"
                     <li>Внутри категории находятся все доступные типы абонементов.</li>
                     <li>От продажи этих товаров 0% идет для сотрудников (админов и мастеров).</li>
                     <li>
-                        Необходимо обновить схемы расчёта: — от продажи товаров (кроме абонементов) —
-                        10% — от продажи абонементов — 0%
+                        Необходимо обновить схемы расчёта: <br>
+						— от продажи всех товаров — 10% <br>
+						— от продажи абонементов — 0% <br>
                     </li>
                 </ul>
             </div>
@@ -152,7 +155,7 @@ import PortalPage from "@c/portal/portal-page/portal-page.vue"
                     <li>Откройте карточку клиента</li>
                     <li>
                         Перейдите во вкладку «Лояльность» — там отображается количество оставшихся
-                        стрижек по абонементу
+                        услуг по абонементу
                     </li>
                 </ul>
             </div>
