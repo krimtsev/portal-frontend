@@ -26,9 +26,12 @@ import type { TicketGeneral } from "@v/profile/tickets/create/general/definition
 import * as ticketAPI from "@/api/modules/profile/tickets/tickets"
 import { TicketType } from "@v/profile/tickets/edit/definitions/ticket"
 import { useI18n } from "vue-i18n"
+import { useRouter } from "vue-router"
+import { ProfileRouteName } from "@r/profile/route-names"
 
 const notify = useNotify()
 const { t } = useI18n()
+const router = useRouter()
 
 /** Начальное состояние */
 const isFirstLoading = ref(true)
@@ -73,7 +76,12 @@ const formSchema = z.object({
 })
 
 type FormSchemaType = z.infer<typeof formSchema>
-const { errors, submit, watchChanges } = useZodResolver<FormSchemaType>(formSchema)
+const {
+    errors,
+    submit,
+    watchChanges,
+    resetErrors
+} = useZodResolver<FormSchemaType>(formSchema)
 
 watchChanges(currentState)
 
@@ -122,6 +130,9 @@ async function onSave() {
 
     currentState.value = cloneDeep(initialState.value)
     notify.success(t("mc.ticket.notify.success"))
+    resetErrors()
+
+    await router.push({ name: ProfileRouteName.ProfileTickets })
 }
 </script>
 

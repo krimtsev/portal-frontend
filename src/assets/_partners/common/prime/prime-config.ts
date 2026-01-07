@@ -18,8 +18,8 @@ export default {
             }
         },
         button: {
-            paddingY: "0.797rem",
-            paddingX: "1.1429rem",
+            paddingX: "{button.paddingX}",
+            paddingY: "{button.paddingY}"
         },
         datatable: {
             colorScheme: {
@@ -79,6 +79,7 @@ export default {
         border: {
             radius: {
                 none: "0px",
+                xs: "4px",
                 sm: "8px",
                 md: "12px",
                 lg: "16px",
@@ -105,6 +106,10 @@ export default {
             800: "#144177",
             900: "#0e2f57",
             950: "#091e36"
+        },
+        button: {
+            paddingX: "1.1429rem",
+            paddingY: "0.797rem"
         },
         colorScheme: {
             light: {

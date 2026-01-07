@@ -105,7 +105,7 @@ export function useZodResolver<T>(schema: ZodTypeAny) {
         )
     }
 
-    function reset() {
+    function resetErrors() {
         errors.value = {}
         touched.value = false
     }
@@ -117,6 +117,6 @@ export function useZodResolver<T>(schema: ZodTypeAny) {
         touched,
         watchChanges,
         nativeError,
-        reset
+        resetErrors
     }
 }

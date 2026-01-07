@@ -18,8 +18,8 @@ export default {
             }
         },
         button: {
-            paddingY: "0.797rem",
-            paddingX: "1.1429rem",
+            paddingX: "{button.paddingX}",
+            paddingY: "{button.paddingY}"
         },
         datatable: {
             colorScheme: {
@@ -36,6 +36,11 @@ export default {
                             border: {
                                 color: "{surface.600}"
                             }
+                        }
+                    },
+                    row: {
+                        hover: {
+                            background: "{surface.700}"
                         }
                     }
                 }
@@ -73,17 +78,22 @@ export default {
                 height: "2.643rem",
                 fontSize: "1.3rem",
             }
-        }
+        },
     },
     semantic: {
         border: {
             radius: {
                 none: "0px",
+                xs: "4px",
                 sm: "8px",
                 md: "12px",
                 lg: "16px",
-                xl: "20px"
+                xl: "20px",
             }
+        },
+        button: {
+            paddingX: "1.1429rem",
+            paddingY: "0.797rem"
         },
         formField: {
             border: {

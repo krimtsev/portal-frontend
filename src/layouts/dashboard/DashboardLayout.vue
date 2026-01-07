@@ -9,6 +9,9 @@ import { useRouter } from "vue-router"
 import { ProfileRouteName } from "@r/profile/route-names"
 import { PortalRouteName } from "@r/portal/route-names"
 import { useI18n } from "vue-i18n"
+import { useDashboardStyle } from "@/composables/dashboard-style/use-dashboard-style"
+
+useDashboardStyle()
 
 const { t } = useI18n()
 const authStore = useAuthStore()
@@ -119,7 +122,7 @@ const toggleMenu = (event: PointerEvent) => {
                     />
 
                     <div class="topbar-title">
-                        Dashboard
+                        Панель администратора
                     </div>
                 </div>
 
@@ -156,7 +159,6 @@ const toggleMenu = (event: PointerEvent) => {
         </div>
     </div>
 </template>
-
 
 <style scoped lang="scss">
 .dashboard-layout {

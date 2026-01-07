@@ -30,7 +30,8 @@ const goToPortal = () => router.push({ name: PortalRouteName.Home })
 
 <template>
     <aside class="dashboard-sidebar">
-        <div class="sidebar-header">
+        <div class="sidebar-wrapper">
+            <div class="sidebar-header">
             <span class="logo">
                 <b-image
                     src="logos/logo.png"
@@ -38,29 +39,30 @@ const goToPortal = () => router.push({ name: PortalRouteName.Home })
                     @click="goToHome"
                 />
             </span>
-        </div>
+            </div>
 
-        <div class="sidebar-menu">
-            <prime-panel-menu :model="items">
-                <template #item="{ item }">
-                    <router-link
-                        v-if="item.route"
-                        v-slot="{ href, navigate }"
-                        v-ripple
-                        :to="item.route"
-                        custom
-                    >
-                        <a
-                            class="sidebar-menu-item"
-                            :href="href"
-                            @click="navigate"
+            <div class="sidebar-menu">
+                <prime-panel-menu :model="items">
+                    <template #item="{ item }">
+                        <router-link
+                            v-if="item.route"
+                            v-slot="{ href, navigate }"
+                            v-ripple
+                            :to="item.route"
+                            custom
                         >
-                            <span :class="item.icon" />
-                            <span class="ml-x2">{{ item.label }}</span>
-                        </a>
-                    </router-link>
-                </template>
-            </prime-panel-menu>
+                            <a
+                                class="sidebar-menu-item"
+                                :href="href"
+                                @click="navigate"
+                            >
+                                <span :class="item.icon" />
+                                <span class="ml-x2">{{ item.label }}</span>
+                            </a>
+                        </router-link>
+                    </template>
+                </prime-panel-menu>
+            </div>
         </div>
     </aside>
 </template>
@@ -76,6 +78,12 @@ const goToPortal = () => router.push({ name: PortalRouteName.Home })
     transform: translateX(0);
     transition: transform .3s cubic-bezier(0, 0, .2, 1);
     z-index: 100;
+    background: #181819;
+
+    .sidebar-wrapper {
+        padding: 0 1.5rem;
+        height: 100%;
+    }
 
     .sidebar-header {
         padding: 2rem 0;
@@ -85,9 +93,6 @@ const goToPortal = () => router.push({ name: PortalRouteName.Home })
     }
 
     .sidebar-menu {
-        padding: 0 1.5rem;
-        height: 100%;
-
         .sidebar-menu-item {
             display: flex;
             align-items: center;

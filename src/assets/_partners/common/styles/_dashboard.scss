@@ -1,0 +1,14 @@
+html[data-layout="dashboard"] {
+    --p-form-field-border-radius: var(--p-border-radius-md);
+    --p-checkbox-border-radius: var(--p-border-radius-xs);
+    --p-datatable-header-cell-background: transparent;
+    --p-datatable-row-background: transparent;
+
+    .p-datatable-tbody > tr {
+        &:last-child {
+            td {
+                border: none;
+            }
+        }
+    }
+}

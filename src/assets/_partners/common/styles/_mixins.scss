@@ -101,7 +101,6 @@
     .p-datatable-mask {
         border-radius: $indent-x2;
     }
-
 }
 
 @mixin text-content {
@@ -223,4 +222,5 @@ $cloud-file-types: (
 @mixin list-view {
     border-radius: $indent-x2;
     background-color: var(--p-dashboard-card-background);
+    padding: 0 $indent-x2 $indent-x3 $indent-x2;
 }

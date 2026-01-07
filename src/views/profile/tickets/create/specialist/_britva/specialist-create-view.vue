@@ -29,9 +29,17 @@ import { qualificationName } from "@v/profile/tickets/create/specialist/_britva/
 import * as ticketAPI from "@/api/modules/profile/tickets/tickets"
 import { TicketType } from "@v/profile/tickets/edit/definitions/ticket"
 import { useI18n } from "vue-i18n"
+import { useRouter } from "vue-router"
+import { ProfileRouteName } from "@r/profile/route-names"
+import {
+    type TicketCategoriesItem,
+    TicketCategorySlug
+} from "@v/profile/tickets/edit/definitions/ticket-category"
+
 
 const notify = useNotify()
 const { t } = useI18n()
+const router = useRouter()
 
 const isFirstLoading = ref(true)
 const isLoading = ref(false)
@@ -40,6 +48,8 @@ const userPartners = ref<UserPartners>({
     partner_id: null,
     partners:   []
 })
+
+const ticketCategory = ref<TicketCategoriesItem>()
 
 function defaultState(): TicketSpecialist {
     return {
@@ -94,23 +104,31 @@ const formSchema = z.object({
 })
 
 type FormSchemaType = z.infer<typeof formSchema>
-const { errors, submit, watchChanges } = useZodResolver<FormSchemaType>(formSchema)
+const { errors, submit, watchChanges, resetErrors } = useZodResolver<FormSchemaType>(formSchema)
 
 watchChanges(currentState)
 
 onMounted(async () => {
     isFirstLoading.value = true
 
-    const partners = await partnerAPI.userPartners()
+    const [partners, category] = await Promise.all([
+        partnerAPI.userPartners(),
+        ticketAPI.category(TicketCategorySlug.FRANCHISE)
+    ])
 
-    if (partners instanceof HttpError) {
+    if (
+        partners instanceof HttpError ||
+        category instanceof HttpError
+    ) {
         notify.error()
         return
     }
 
     userPartners.value = partners
+    ticketCategory.value = category.data
 
     initialState.value.partner_id = userPartners.value.partner_id
+    initialState.value.category_id = ticketCategory.value.id
     currentState.value = cloneDeep(initialState.value)
 
     isFirstLoading.value = false
@@ -135,6 +153,9 @@ async function onSave() {
 
     currentState.value = cloneDeep(initialState.value)
     notify.success(t("mc.ticket.notify.success"))
+    resetErrors()
+
+    await router.push({ name: ProfileRouteName.ProfileTickets })
 }
 </script>
 

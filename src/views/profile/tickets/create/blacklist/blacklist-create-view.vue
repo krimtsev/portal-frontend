@@ -25,12 +25,19 @@ import {
     phoneSchema
 } from "@v/profile/tickets/schemas/ticket-schemas"
 import BInputTelnum from "@c/common/b-input-telnum/b-input-telnum.vue"
-import { type TicketCategoriesItem, TicketCategorySlug } from "@v/profile/tickets/edit/definitions/ticket-category"
+import {
+    type TicketCategoriesItem,
+    TicketCategorySlug
+} from "@v/profile/tickets/edit/definitions/ticket-category"
 import { TicketType } from "@v/profile/tickets/edit/definitions/ticket"
 import { useI18n } from "vue-i18n"
+import { useRouter } from "vue-router"
+import {ProfileRouteName} from "@r/profile/route-names"
+
 
 const notify = useNotify()
 const { t } = useI18n()
+const router = useRouter()
 
 const isFirstLoading = ref(true)
 const isLoading = ref(false)
@@ -84,7 +91,12 @@ const formSchema = z.object({
 })
 
 type FormSchemaType = z.infer<typeof formSchema>
-const { errors, submit, watchChanges } = useZodResolver<FormSchemaType>(formSchema)
+const {
+    errors,
+    submit,
+    watchChanges,
+    resetErrors
+} = useZodResolver<FormSchemaType>(formSchema)
 
 watchChanges(currentState)
 
@@ -135,6 +147,9 @@ async function onSave() {
 
     currentState.value = cloneDeep(initialState.value)
     notify.success(t("mc.ticket.notify.success"))
+    resetErrors()
+
+    await router.push({ name: ProfileRouteName.ProfileTickets })
 }
 </script>
 

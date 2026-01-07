@@ -38,8 +38,13 @@ export const phoneSchema = z.string()
     .regex(reg.mobileTelnum, "Некорректный номер телефона")
     .optional()
 
-export const codeSchema =  z.number({ message: "Укажите код сертификата" })
+export const codeSchema =  z.string({ message: "Укажите код сертификата" })
 
-export const paymentDateSchema =  z.number({ message: "Укажите дату списания" })
+export const paymentDateSchema = z.date({ message: "Укажите дату списания" })
+    .transform((date) => {
+        const d = new Date(date);
+        d.setHours(0, 0, 0, 0);
+        return d;
+    });
 
 export const sumSchema =  z.number({ message: "Укажите сумму списания" })

@@ -136,7 +136,7 @@ const formSchema = z.object({
 })
 
 type FormSchemaType = z.infer<typeof formSchema>
-const { errors, submit, watchChanges, reset } = useZodResolver<FormSchemaType>(formSchema)
+const { errors, submit, watchChanges, resetErrors } = useZodResolver<FormSchemaType>(formSchema)
 
 watchChanges(currentState)
 
@@ -188,7 +188,7 @@ async function onSave() {
 
     ticketDetails.value = ticketData.data
     currentState.value.message = ""
-    reset()
+    resetErrors()
 
     loadingState.value = null
     nextTick(() => chatRef.value?.scrollToBottom())

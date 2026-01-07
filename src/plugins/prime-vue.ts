@@ -12,8 +12,10 @@ export const themeConfig = {
             prefix: "p",
             darkModeSelector: ".dark-mode",
         },
-        dark: true
+        dark: true,
     },
     ripple: true,
-    inputVariant: "outlined"
+    inputVariant: "outlined",
+    locale: {}
 }
+

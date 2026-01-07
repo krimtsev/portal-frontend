@@ -157,7 +157,6 @@ const goTo = (id: string) => router.push({ name: ProfileRouteName.ProfileTicket,
         class="tickets-list-view"
     >
         <div class="filter">
-
             <prime-float-label variant="on">
                 <prime-multi-select
                     v-model="paginationFilter.filters.category_id"
