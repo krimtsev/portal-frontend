@@ -10,6 +10,7 @@ import { ProfileRouteName } from "@r/profile/route-names"
 import { PortalRouteName } from "@r/portal/route-names"
 import { useI18n } from "vue-i18n"
 import { useDashboardStyle } from "@/composables/dashboard-style/use-dashboard-style"
+import Breadcrumbs from "@l/dashboard/components/breadcrumbs.vue"
 
 useDashboardStyle()
 
@@ -122,7 +123,7 @@ const toggleMenu = (event: PointerEvent) => {
                     />
 
                     <div class="topbar-title">
-                        Панель администратора
+                        <breadcrumbs />
                     </div>
                 </div>
 
@@ -167,6 +168,8 @@ const toggleMenu = (event: PointerEvent) => {
     width: 100%;
     overflow: hidden;
     position: relative;
+
+    overflow-x: auto; // fix mobile
 
     :deep(.p-button-icon-only) {
         width: var(--p-avatar-width);

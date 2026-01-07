@@ -4,5 +4,7 @@ declare module "vue-router" {
     interface RouteMeta {
         title?: string
         roles?: string[]
+        breadcrumb?: string
+        breadcrumbHidden?: boolean
     }
 }

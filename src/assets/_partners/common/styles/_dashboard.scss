@@ -4,11 +4,17 @@ html[data-layout="dashboard"] {
     --p-datatable-header-cell-background: transparent;
     --p-datatable-row-background: transparent;
 
-    .p-datatable-tbody > tr {
-        &:last-child {
-            td {
-                border: none;
+    .p-datatable {
+        .p-datatable-tbody > tr {
+            &:last-child {
+                td {
+                    border: none;
+                }
             }
+        }
+
+        .p-datatable-table-container[data-p="empty"] {
+            display: none;
         }
     }
 }

@@ -175,7 +175,7 @@ const onRowSelect = (value: DataTableRowSelectEvent) => {
                 />
             </b-toolbar-item>
 
-            <b-toolbar-item header="Статаус">
+            <b-toolbar-item header="Статус">
                 <prime-multi-select
                     v-model="paginationFilter.filters.state"
                     :options="ticketStateList"
@@ -214,7 +214,7 @@ const onRowSelect = (value: DataTableRowSelectEvent) => {
                 </template>
 
                 <template v-else-if="!isLoading && !tickets.length">
-                    <b-empty-result />
+                    <b-empty-result title="Нет заявок" />
                 </template>
 
                 <template v-else>

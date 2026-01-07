@@ -26,6 +26,7 @@ const routes: RouteRecordRaw[] = [
                 },
                 meta: {
                     roles:  [Roles.ADMIN, Roles.SYSADMIN],
+                    breadcrumb: "mc.dashboard.sidebar.home"
                 }
             },
             {
@@ -36,6 +37,7 @@ const routes: RouteRecordRaw[] = [
                 },
                 meta: {
                     roles:  [Roles.ADMIN, Roles.SYSADMIN],
+                    breadcrumb: "mc.dashboard.sidebar.tickets"
                 }
             },
             {
@@ -46,6 +48,7 @@ const routes: RouteRecordRaw[] = [
                 },
                 meta: {
                     roles:  [Roles.ADMIN, Roles.SYSADMIN],
+                    breadcrumb: "mc.dashboard.sidebar.tickets"
                 }
             }
         ]
