@@ -17,7 +17,7 @@ import {
     messageSchema,
     partnerIdSchema,
     phoneSchema,
-    urlSchema
+    urlSchemaOptional,
 } from "@v/profile/tickets/schemas/ticket-schemas"
 import { filesSchema } from "@/schemas/zod"
 import { useZodResolver } from "@/composables/zod/use-zod-resolver"
@@ -94,7 +94,7 @@ const attributesSchema = z.object({
     phone:         phoneSchema,
     experience:    employmentDurationSchema,
     statistics:    employmentStatisticsSchema,
-    linkToWorks:   urlSchema
+    linkToWorks:   urlSchemaOptional,
 })
 
 const formSchema = z.object({

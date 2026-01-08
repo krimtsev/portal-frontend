@@ -13,7 +13,10 @@ import { HttpError } from "@/api"
 import { useNotify } from "@/composables/notify/use-notify"
 import PortalMessages from "@c/portal/portal-messages/portal-messages.vue"
 import { PortalRouteName } from "@r/portal/route-names"
+import { useRouter } from "vue-router"
+import {ProfileRouteName} from "@r/profile/route-names.ts";
 
+const router = useRouter()
 const notify = useNotify()
 
 const messages = ref<MessageItem[]>([])
@@ -116,18 +119,22 @@ onMounted(async () => {
                         <b-button
                             label="Заявка на топ-мастера"
                             outline
+                            @click="router.push({ name: ProfileRouteName.ProfileTicketSpecialist })"
                         />
                         <b-button
                             label="Заявка на бренд-мастера"
                             outline
+                            @click="router.push({ name: ProfileRouteName.ProfileTicketSpecialist })"
                         />
                         <b-button
                             label="Заявка на сертификат"
                             outline
+                            @click="router.push({ name: ProfileRouteName.ProfileTicketCertificate })"
                         />
                         <b-button
                             label="Заявка на индивидуальное согласование"
                             outline
+                            @click="router.push({ name: ProfileRouteName.ProfileTicketGeneral })"
                         />
                     </div>
                 </portal-card>

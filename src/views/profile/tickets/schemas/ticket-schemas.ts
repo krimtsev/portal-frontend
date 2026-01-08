@@ -32,7 +32,14 @@ export const employmentDurationSchema = z.string()
 export const employmentStatisticsSchema = z.string()
     .min(1, { message: "Укажите статистику" })
 
-export const urlSchema = z.url({ message: "Укажите правильный формат URL" }).optional()
+export const urlSchema = z
+    .url({ message: "Укажите правильный формат URL" })
+
+export const urlSchemaOptional = z.union([
+    z.string().url({ message: "Укажите правильный формат URL" }),
+    z.literal(""),
+    z.undefined()
+]);
 
 export const phoneSchema = z.string()
     .regex(reg.mobileTelnum, "Некорректный номер телефона")

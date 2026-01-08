@@ -20,7 +20,8 @@ import {
     nameSchema,
     partnerIdSchema,
     phoneSchema,
-    urlSchema
+    urlSchema,
+    urlSchemaOptional
 } from "@v/profile/tickets/schemas/ticket-schemas"
 import BTitle from "@c/common/b-title/b-title.vue"
 import * as ticketAPI from "@/api/modules/profile/tickets/tickets"
@@ -65,6 +66,7 @@ function defaultState(): TicketDesign {
             yandexMap:    "",
             twoGisMap:    "",
             instagram:    "",
+            telegram:     "",
             format:       "",
             promotion:    "",
         },
@@ -90,7 +92,8 @@ const attributesSchema = z.object({
     registration: urlSchema,
     yandexMap:    urlSchema,
     twoGisMap:    urlSchema,
-    instagram:    urlSchema,
+    instagram:    urlSchemaOptional,
+    telegram:     urlSchemaOptional,
     format:       z.string().optional(),
     promotion:    z.string().optional(),
 })
@@ -269,6 +272,16 @@ async function onSave() {
                             :disabled="isFirstLoading"
                             :placeholder="t('mc.ticket.design.placeholder.instagram')"
                             name="instagram"
+                        />
+                    </div>
+
+                    <div class="col-6 mobile-col-12">
+                        <b-input-text
+                            v-model="currentState.attributes.telegram"
+                            :error="errors.attributes?.telegram"
+                            :disabled="isFirstLoading"
+                            :placeholder="t('mc.ticket.design.placeholder.telegram')"
+                            name="telegram"
                         />
                     </div>
                 </div>
