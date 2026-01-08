@@ -29,13 +29,19 @@ import BTextarea from "@c/common/b-textarea/b-textarea.vue"
 import BFileUpload from "@c/common/b-upload-file/b-file-upload.vue"
 import ChatContainer from "@c/chat/chat-container.vue"
 import ChatMessage from "@c/chat/chat-message.vue"
-import { formatChanges } from "@v/profile/tickets/edit/utils/ticket"
-import { type ChatMessageFile, ChatMessageType} from "@c/chat/definitions/chat-message"
+import {
+    formatChanges,
+    hasTimelineMessage,
+    normalizeAttributes
+} from "@v/profile/tickets/edit/utils/ticket"
+import {
+    type ChatMessageFile,
+    ChatMessageType
+} from "@c/chat/definitions/chat-message"
 import { downloadExternalFile } from "@/lib/files"
 import ChatFiles from "@c/chat/chat-files.vue"
 import { ProfileRouteName } from "@r/profile/route-names"
 import { useRouter } from "vue-router"
-import { DateTime } from "luxon"
 
 const router = useRouter()
 
@@ -88,46 +94,17 @@ const isDisabled = computed((): boolean => {
     return isFirstLoading.value || !!loadingState.value
 })
 
-const attributes = computed(() => {
-    return Object.entries(ticketDetails.value?.attributes || {})
-        .map(([label, value]) => {
-            if (
-                ticketDetails.value?.type === TicketType.Certificate &&
-                label === "paymentDate"
-            ) {
-                value = DateTime.fromISO(value, { zone: "utc" })
-                    .toFormat("dd.MM.yyyy H:mm:ss")
-            }
-
-            if (
-                ticketDetails.value.type === TicketType.Specialist &&
-                label === "qualification"
-            ) {
-                const qualification = value[0].toLowerCase() + value.slice(1)
-                value = t(`mc.ticket.qualification.${qualification}`)
-            }
-
-            return {
-                label: attributeLabel(label),
-                value
-            }
-        })
-})
-
-const attributeLabel = (key?: string): string => {
-    if (!ticketDetails.value) return ""
-
-    const type = ticketDetails.value.type
-    if (!type || !key) return ""
-
-    return t(`mc.ticket.${type}.placeholder.${key}`)
-}
+const attributes = computed(() => normalizeAttributes(ticketDetails.value))
 
 function getChatMessageType(item: TicketMessage) {
     return ticketDetails.value.user?.login === item.user.login
         ? ChatMessageType.Sent
         : ChatMessageType.Received
 }
+
+const hasMessages = computed(() => {
+    return hasTimelineMessage(ticketDetails.value.timeline)
+})
 
 async function download(item: ChatMessageFile) {
     if (isLoadingFile.value) return
@@ -307,6 +284,7 @@ async function onRemove() {
                 <chat-container
                     v-if="ticketDetails.timeline.length"
                     class="mb-x2"
+                    :empty-messages="!hasMessages"
                     ref="chatRef"
                 >
                     <div

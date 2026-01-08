@@ -22,6 +22,7 @@ import { cloneDeep, isEqual } from "lodash"
 import type { PartnerShortListItem } from "@v/dashboard/partners/definitions/partners"
 import BEmptyResult from "@c/common/b-empty/b-empty-result.vue"
 import ListLoadingState from "@c/common/b-loading-state/list-loading-state.vue"
+import BTextDate from "@c/common/b-text/b-text-date.vue"
 
 
 const notify = useNotify()
@@ -204,6 +205,7 @@ const onRowSelect = (value: DataTableRowSelectEvent) => {
                 @rowSelect="onRowSelect"
                 selectionMode="single"
                 dataKey="id"
+                scrollable
             >
                 <template #paginatorstart>
                     {{ paginationInfo }}
@@ -265,9 +267,22 @@ const onRowSelect = (value: DataTableRowSelectEvent) => {
                     </prime-column>
 
                     <prime-column
+                        field="last_message_at"
+                        header="Активность"
+                        class="table-message-date"
+                    >
+                        <template #body="slotProps">
+                            <b-text-date
+                                :value="slotProps.data.last_message_at"
+                                diff
+                            />
+                        </template>
+                    </prime-column>
+
+                    <prime-column
                         field="created_at"
                         header="Дата создания"
-                        class="table-date"
+                        class="table-create-date"
                     >
                         <template #body="slotProps">
                             <b-text :value="slotProps.data.created_at" />

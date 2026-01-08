@@ -29,7 +29,7 @@ import { qualificationName } from "@v/profile/tickets/create/specialist/_britva/
 import * as ticketAPI from "@/api/modules/profile/tickets/tickets"
 import { TicketType } from "@v/profile/tickets/edit/definitions/ticket"
 import { useI18n } from "vue-i18n"
-import { useRouter } from "vue-router"
+import { useRoute, useRouter } from "vue-router"
 import { ProfileRouteName } from "@r/profile/route-names"
 import {
     type TicketCategoriesItem,
@@ -41,6 +41,7 @@ import BInputTelnum from "@c/common/b-input-telnum/b-input-telnum.vue"
 const notify = useNotify()
 const { t } = useI18n()
 const router = useRouter()
+const route = useRoute()
 
 const isFirstLoading = ref(true)
 const isLoading = ref(false)
@@ -53,6 +54,12 @@ const userPartners = ref<UserPartners>({
 const ticketCategory = ref<TicketCategoriesItem>()
 
 function defaultState(): TicketSpecialist {
+    const queryQualification = route.query.qualification as string | undefined
+
+    const qualification = queryQualification && Object.values(Qualification).includes(queryQualification as Qualification)
+        ? (queryQualification as Qualification)
+        : Qualification.BarberPlus
+
     return {
         title:       t('mc.ticket.specialist.title'),
         type:        TicketType.Specialist,
@@ -61,7 +68,7 @@ function defaultState(): TicketSpecialist {
         message:     "",
         files:       [],
         attributes:  {
-            qualification: Qualification.BarberPlus,
+            qualification,
             name:          "",
             phone:         "",
             experience:    "",
@@ -130,8 +137,8 @@ onMounted(async () => {
 
     initialState.value.partner_id = userPartners.value.partner_id
     initialState.value.category_id = ticketCategory.value.id
-    currentState.value = cloneDeep(initialState.value)
 
+    currentState.value = cloneDeep(initialState.value)
     isFirstLoading.value = false
 })
 

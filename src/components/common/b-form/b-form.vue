@@ -123,7 +123,19 @@ const onSave = () => {
             height: 56px;
 
             :deep(.b-svg) {
-                color: var(--p-surface-100)
+                color: var(--p-surface-100);
+            }
+
+            &:hover {
+                :deep(.b-svg) {
+                    color: var(--p-button-primary-hover-background);
+                }
+            }
+
+            &:active {
+                :deep(.b-svg) {
+                    color: var(--p-button-primary-active-background);
+                }
             }
         }
     }

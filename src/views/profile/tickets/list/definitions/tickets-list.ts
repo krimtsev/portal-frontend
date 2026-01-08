@@ -26,4 +26,5 @@ export interface TicketListItem {
         key: string
         value: string
     }
+    last_message_at: string
 }

@@ -12,9 +12,10 @@ import * as messagesAPI from "@/api/modules/messages/messages"
 import { HttpError } from "@/api"
 import { useNotify } from "@/composables/notify/use-notify"
 import PortalMessages from "@c/portal/portal-messages/portal-messages.vue"
-import { PortalRouteName } from "@r/portal/route-names"
 import { useRouter } from "vue-router"
-import {ProfileRouteName} from "@r/profile/route-names.ts";
+import { ProfileRouteName } from "@r/profile/route-names"
+import { PortalRouteName } from "@r/portal/route-names"
+import { Qualification } from "@v/profile/tickets/create/specialist/_britva/definitions/specialist"
 
 const router = useRouter()
 const notify = useNotify()
@@ -119,12 +120,22 @@ onMounted(async () => {
                         <b-button
                             label="Заявка на топ-мастера"
                             outline
-                            @click="router.push({ name: ProfileRouteName.ProfileTicketSpecialist })"
+                            @click="router.push({
+                                name: ProfileRouteName.ProfileTicketSpecialist,
+                                query: {
+                                    qualification: Qualification.TobBarber
+                                }
+                            })"
                         />
                         <b-button
                             label="Заявка на бренд-мастера"
                             outline
-                            @click="router.push({ name: ProfileRouteName.ProfileTicketSpecialist })"
+                            @click="router.push({
+                                name: ProfileRouteName.ProfileTicketSpecialist,
+                                query: {
+                                    qualification: Qualification.BrandBarber
+                                }
+                            })"
                         />
                         <b-button
                             label="Заявка на сертификат"

@@ -180,7 +180,7 @@ const toggleMenu = (event: PointerEvent) => {
 /* ===== DESKTOP ===== */
 @media (min-width: 992px) {
     .layout-wrapper {
-        margin-left: 21rem;
+        margin-left: 19rem;
         transition: margin-left .3s cubic-bezier(0,0,.2,1);
     }
 

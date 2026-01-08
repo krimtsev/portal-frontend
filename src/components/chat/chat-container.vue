@@ -1,5 +1,12 @@
 <script setup lang="ts">
 import { ref } from "vue"
+import { useI18n } from "vue-i18n"
+
+const { t } = useI18n()
+
+defineProps<{
+    emptyMessages?: boolean
+}>()
 
 const containerRef = ref<HTMLElement | null>(null)
 
@@ -17,7 +24,16 @@ defineExpose({ scrollToBottom })
         class="chat-container"
         ref="containerRef"
     >
-        <slot />
+        <div
+            v-if="emptyMessages"
+            class="empty"
+        >
+            {{ t('mc.chat.empty') }}
+        </div>
+
+        <div v-else>
+            <slot />
+        </div>
     </div>
 </template>
 
@@ -31,5 +47,9 @@ defineExpose({ scrollToBottom })
     outline-color: transparent;
     scrollbar-width: thin;
     scrollbar-color: var(--p-surface-600) var(--p-surface-800);
+
+    .empty {
+        color: var(--p-surface-500);
+    }
 }
 </style>

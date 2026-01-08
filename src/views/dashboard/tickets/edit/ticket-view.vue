@@ -25,9 +25,15 @@ import {
 import { cloneDeep } from "lodash"
 import type { TicketStateData } from "@v/dashboard/tickets/edit/definitions/ticket"
 import { useI18n } from "vue-i18n"
-import { DateTime } from "luxon"
-import {type ChatMessageFile, ChatMessageType} from "@c/chat/definitions/chat-message"
-import { formatChanges } from "@v/profile/tickets/edit/utils/ticket"
+import {
+    type ChatMessageFile,
+    ChatMessageType
+} from "@c/chat/definitions/chat-message"
+import {
+    formatChanges,
+    hasTimelineMessage,
+    normalizeAttributes
+} from "@v/profile/tickets/edit/utils/ticket"
 import ChatMessage from "@c/chat/chat-message.vue"
 import ChatContainer from "@c/chat/chat-container.vue"
 import ChatFiles from "@c/chat/chat-files.vue"
@@ -120,45 +126,17 @@ onMounted(async () => {
     isFirstLoading.value = false
 })
 
-const attributes = computed(() => {
-    return Object.entries(ticketDetails.value?.attributes || {})
-        .map(([label, value]) => {
-            if (
-                ticketDetails.value.type === TicketType.Certificate &&
-                label === "paymentDate"
-            ) {
-                value = DateTime.fromISO(value, { zone: "utc" })
-                    .toFormat("dd.MM.yyyy H:mm:ss")
-            }
-
-            if (
-                ticketDetails.value.type === TicketType.Specialist &&
-                label === "qualification"
-            ) {
-                value = t(`mc.ticket.qualification.${value}`)
-            }
-
-            return {
-                label: attributeLabel(label),
-                value
-            }
-        })
-})
-
-const attributeLabel = (key?: string): string => {
-    if (!ticketDetails.value) return ""
-
-    const type = ticketDetails.value.type
-    if (!type || !key) return ""
-
-    return t(`mc.ticket.${type}.placeholder.${key}`)
-}
+const attributes = computed(() => normalizeAttributes(ticketDetails.value))
 
 function getChatMessageType(item: TicketMessage) {
     return ticketDetails.value.user?.login === item.user.login
         ? ChatMessageType.Sent
         : ChatMessageType.Received
 }
+
+const hasMessages = computed(() => {
+    return hasTimelineMessage(ticketDetails.value.timeline)
+})
 
 async function download(item: ChatMessageFile) {
     if (isLoadingFile.value) return
@@ -290,6 +268,7 @@ async function onSave() {
                 <chat-container
                     v-if="ticketDetails.timeline.length"
                     ref="chatRef"
+                    :empty-messages="!hasMessages"
                     class="chat"
                 >
                     <div

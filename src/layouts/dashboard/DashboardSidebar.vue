@@ -6,12 +6,15 @@ import { DashboardRouteName } from "@r/dashboard/route-names"
 import { dashboardPaths } from "@r/dashboard/path"
 import PrimePanelMenu from "primevue/panelmenu"
 import { useI18n } from "vue-i18n"
-import { PortalRouteName } from "@r/portal/route-names"
+import { useRoute } from "vue-router"
+import type { MenuItem } from "primevue/menuitem"
+import sidebarBg from "@a/images/dashboard/sidebar.jpg"
 
 const { t } = useI18n()
 const router = useRouter()
+const route = useRoute()
 
-const items = ref([
+const items = ref<MenuItem[]>([
     {
         label: t("mc.dashboard.sidebar.home"),
         icon:  "pi pi-home",
@@ -21,16 +24,36 @@ const items = ref([
         label: t("mc.dashboard.sidebar.tickets"),
         icon:  "pi pi-comments",
         route: dashboardPaths.DashboardTickets,
+        activeNames: [
+            DashboardRouteName.DashboardTickets,
+            DashboardRouteName.DashboardTicket
+        ]
     },
 ])
 
 const goToHome = () => router.push({ name: DashboardRouteName.DashboardPanel })
-const goToPortal = () => router.push({ name: PortalRouteName.Home })
+
+const isActive = (item: MenuItem) => {
+    if (!item.route) return false
+
+    if (item.activeNames?.length) {
+        return item.activeNames.includes(route.name as string)
+    }
+
+    if (typeof item.route === "object" && "name" in item.route) {
+        return route.name === item.route.name
+    }
+
+    return route.path.startsWith(item.route)
+}
 </script>
 
 <template>
     <aside class="dashboard-sidebar">
-        <div class="sidebar-wrapper">
+        <div
+            class="sidebar-wrapper"
+            :style="{ '--sidebar-bg': `url(${sidebarBg})` }"
+        >
             <div class="sidebar-header">
             <span class="logo">
                 <b-image
@@ -54,6 +77,7 @@ const goToPortal = () => router.push({ name: PortalRouteName.Home })
                             <a
                                 class="sidebar-menu-item"
                                 :href="href"
+                                :class="{ 'active': isActive(item) }"
                                 @click="navigate"
                             >
                                 <span :class="item.icon" />
@@ -72,17 +96,33 @@ const goToPortal = () => router.push({ name: PortalRouteName.Home })
     position: fixed;
     top: 0;
     left: 0;
-    width: 20rem;
+    width: 18rem;
     height: 100%;
-    border-right: 1px solid var(--p-surface-700);
     transform: translateX(0);
     transition: transform .3s cubic-bezier(0, 0, .2, 1);
     z-index: 100;
-    background: #181819;
+    //border-right: 1px solid var(--p-surface-700);
+    //background: #181819;
 
     .sidebar-wrapper {
+        position: relative;
         padding: 0 1.5rem;
         height: 100%;
+
+        &::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-image: var(--sidebar-bg);
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: top;
+            opacity: 0.15;
+        }
     }
 
     .sidebar-header {
@@ -103,6 +143,12 @@ const goToPortal = () => router.push({ name: PortalRouteName.Home })
             color: var(--text-color);
             text-decoration: none;
             border-radius: 8px;
+            border-left: 8px solid transparent;
+
+            &.active {
+                background-color: var(--p-dashboard-card-background);
+                border-left: 8px solid var(--p-primary-500);
+            }
         }
     }
 
