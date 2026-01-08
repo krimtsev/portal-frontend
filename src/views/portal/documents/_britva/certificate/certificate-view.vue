@@ -2,6 +2,7 @@
 import BTitle from "@c/common/b-title/b-title.vue"
 import PortalCard from "@c/portal/portal-card/portal-card.vue"
 import PortalPage from "@c/portal/portal-page/portal-page.vue"
+import BLink from "@c/common/b-link/b-link.vue"
 </script>
 
 <template>
@@ -20,7 +21,7 @@ import PortalPage from "@c/portal/portal-page/portal-page.vue"
                 <portal-card title="Физический сертификат">
                     <div class="content">
                         <ul>
-                            <li>Физическая карта, выданная Центральным офисом</li>
+                            <li>Физическая карта, выданная центральным офисом</li>
                             <li>Идентифицируется по номеру на обратной стороне</li>
                             <li>Активируется при продаже в системе Yclients</li>
                         </ul>
@@ -43,14 +44,14 @@ import PortalPage from "@c/portal/portal-page/portal-page.vue"
                     <div class="content">
                         <ul>
                             <li>Заказан и оплачен онлайн через сайт britvabarber.ru</li>
-                            <li>Отправляется по e-mail</li>
+                            <li>Отправляется по SMS</li>
                             <li>Автоматически активируется в Yclients при оплате через сайт</li>
                         </ul>
 
                         <p>Каждый электронный сертификат:</p>
 
                         <ul>
-                            <li>Отправляется клиенту в виде СМС с ссылкой</li>
+                            <li>Отправляется клиенту в виде SMS с ссылкой</li>
                             <li>По ссылке открывается страница сертификата на сайте</li>
                             <li>На странице указан номинал, срок действия и код</li>
                         </ul>
@@ -64,11 +65,8 @@ import PortalPage from "@c/portal/portal-page/portal-page.vue"
                 <portal-card title="Как продаются и активируются бумажные сертификаты">
                     <div class="content">
                         <ul>
-                            <li>Физический сертификат активируется только после пробития в Yclients</li>
-                            <li>
-                                У каждого филиала — своя нумерация, которая записана в таблице
-                                "Поиск по сертификатам"
-                            </li>
+                            <li>Физический сертификат активируется только после продажи в Yclients</li>
+                            <li>У каждого филиала — своя нумерация, которая записана в таблице <b-link label="Поиск по сертификатам" href="https://my.britva.tech/certificates"/></li>
                             <li>Подробная инструкция по пробитию — в видео-уроке по Yclients</li>
                         </ul>
                     </div>
@@ -111,7 +109,7 @@ import PortalPage from "@c/portal/portal-page/portal-page.vue"
                 <portal-card title="Как работать с таблицей сертификатов">
                     <div class="content">
                         <ol>
-                            <li>Откройте вкладку «Поиск по сертификатам»</li>
+                            <li>Откройте вкладку <b-link label="Поиск по сертификатам" href="https://my.britva.tech/certificates"/></li>
                             <li>Начните набирать необходимый код и нажмите Enter</li>
                             <li>Система отобразит:
                                 <ul>
