@@ -35,6 +35,7 @@ import {
     type TicketCategoriesItem,
     TicketCategorySlug
 } from "@v/profile/tickets/edit/definitions/ticket-category"
+import BInputTelnum from "@c/common/b-input-telnum/b-input-telnum.vue"
 
 
 const notify = useNotify()
@@ -204,7 +205,7 @@ async function onSave() {
                     </div>
 
                     <div class="col-6 mobile-col-12">
-                        <b-input-text
+                        <b-input-telnum
                             v-model="currentState.attributes.phone"
                             :error="errors.attributes?.phone"
                             :disabled="isFirstLoading"
