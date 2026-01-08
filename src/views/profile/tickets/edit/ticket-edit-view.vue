@@ -99,6 +99,14 @@ const attributes = computed(() => {
                     .toFormat("dd.MM.yyyy H:mm:ss")
             }
 
+            if (
+                ticketDetails.value.type === TicketType.Specialist &&
+                label === "qualification"
+            ) {
+                const qualification = value[0].toLowerCase() + value.slice(1)
+                value = t(`mc.ticket.qualification.${qualification}`)
+            }
+
             return {
                 label: attributeLabel(label),
                 value
@@ -305,7 +313,7 @@ async function onRemove() {
                         v-for="(item, idx) in ticketDetails.timeline"
                         :key="idx"
                     >
-                        <template v-if="item.type === TicketMessageType.Message">
+                        <template v-if="item.type === TicketMessageType.Message && (item.text || item.files.length)">
                             <chat-message
                                 :type="getChatMessageType(item)"
                                 :name="item.user.name"
@@ -326,7 +334,7 @@ async function onRemove() {
                             </chat-message>
                         </template>
 
-                        <template v-else>
+                        <template v-else-if="item.type === TicketMessageType.Event">
                             <chat-message
                                 avatar="avatars/barber_system.png"
                                 :type="ChatMessageType.System"

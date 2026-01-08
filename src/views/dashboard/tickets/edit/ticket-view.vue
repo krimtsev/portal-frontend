@@ -18,7 +18,6 @@ import { useRoute } from "vue-router"
 import {
     type TicketDetails,
     type TicketMessage,
-    type TicketEvent,
     TicketMessageType,
     TicketState,
     TicketType,
@@ -113,6 +112,7 @@ onMounted(async () => {
         partner_id:  ticketDetails.value.partner?.id || null,
         category_id: ticketDetails.value.category?.id || null,
         type:        ticketDetails.value.type || null,
+        state:       ticketDetails.value.state
     }
     currentState.value = cloneDeep(initialState.value)
 
@@ -129,6 +129,13 @@ const attributes = computed(() => {
             ) {
                 value = DateTime.fromISO(value, { zone: "utc" })
                     .toFormat("dd.MM.yyyy H:mm:ss")
+            }
+
+            if (
+                ticketDetails.value.type === TicketType.Specialist &&
+                label === "qualification"
+            ) {
+                value = t(`mc.ticket.qualification.${value}`)
             }
 
             return {
@@ -289,7 +296,7 @@ async function onSave() {
                         v-for="(item, idx) in ticketDetails.timeline"
                         :key="idx"
                     >
-                        <template v-if="item.type === TicketMessageType.Message">
+                        <template v-if="item.type === TicketMessageType.Message && (item.text || item.files.length)">
                             <chat-message
                                 :type="getChatMessageType(item)"
                                 :name="item.user.name"
@@ -309,7 +316,7 @@ async function onSave() {
                             </chat-message>
                         </template>
 
-                        <template v-else>
+                        <template v-else-if="item.type === TicketMessageType.Event">
                             <chat-message
                                 avatar="avatars/barber_system.png"
                                 :type="ChatMessageType.System"
