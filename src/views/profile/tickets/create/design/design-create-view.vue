@@ -94,8 +94,8 @@ const attributesSchema = z.object({
     twoGisMap:    urlSchema,
     instagram:    urlSchemaOptional,
     telegram:     urlSchemaOptional,
-    format:       z.string().optional(),
-    promotion:    z.string().optional(),
+    format:       z.string(),
+    promotion:    z.string(),
 })
 
 const formSchema = z.object({
