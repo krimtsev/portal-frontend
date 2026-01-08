@@ -177,7 +177,7 @@ async function onSave() {
                             :error="errors.partner_id"
                             optionLabel="name"
                             optionValue="partner_id"
-                            p:placeholder="t('mc.common.partner')"
+                            :placeholder="t('mc.common.partner')"
                             name="partner_id"
                         />
                     </div>

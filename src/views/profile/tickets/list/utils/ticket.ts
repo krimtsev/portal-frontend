@@ -2,9 +2,9 @@ const stateMap: Record<string, string> = {
     new: "Новый",
     in_progress: "В работе",
     waiting: "Ожидание",
-    success: "Успешно",
-    closed: "Закрыт",
-    cancel: "Отменён",
+    success: "Решено",
+    closed: "Закрыто",
+    cancel: "Откланено",
 }
 
 export function stateName(state: string): string {
@@ -16,5 +16,5 @@ export function stateList(): { label: string; value: string }[] {
         .map(([value, label]) => ({
             label,
             value,
-        })).sort((a, b) => a.label.localeCompare(b.label))
+        }))
 }

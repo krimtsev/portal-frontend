@@ -99,7 +99,7 @@ export const sections: Section[] = [
         title: "Контакты",
         items: [
             {
-                label: "Центральный офис",
+                label: "Сотрудников центрального офиса",
                 path:  portalPaths.ContactCentralOffice,
             },
             {

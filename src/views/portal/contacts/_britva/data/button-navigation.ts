@@ -3,11 +3,11 @@ import type { PortalRouteButton } from "@c/portal/portal-button-navigation/defin
 
 export const buttonNavigation: PortalRouteButton[] = [
     {
-        label: "Центральный офис",
+        label: "Сотрудников центрального офиса",
         route: PortalRouteName.ContactCentralOffice
     },
     {
-        label: "Франчайзи",
+        label: "Владельцев франшиз",
         route: PortalRouteName.ContactFranchisee
     },
     {

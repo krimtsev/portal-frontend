@@ -18,8 +18,8 @@ export function menuData(): MenuItem[] {
     return [
     {
         label: "Облако файлов",
-        command: () => {
-            router.push({ name: PortalRouteName.Cloud })
+        command: async () => {
+            await router.push({ name: PortalRouteName.Cloud })
         }
     },
     {
@@ -27,61 +27,61 @@ export function menuData(): MenuItem[] {
         items: [
             {
                 label: "Заявка на макет",
-                command: () => {
-                    router.push({ name: ProfileRouteName.ProfileTicketDesign })
+                command: async () => {
+                    await router.push({ name: ProfileRouteName.ProfileTicketDesign })
+                }
+            },
+            {
+                label: "Заявка на мастера",
+                command: async () => {
+                    await router.push({ name: ProfileRouteName.ProfileTicketSpecialist })
                 }
             },
             {
                 label: "Заявка на сертификат",
-                command: () => {
-                    router.push({ name: ProfileRouteName.ProfileTicketCertificate })
+                command: async () => {
+                    await router.push({ name: ProfileRouteName.ProfileTicketCertificate })
                 }
             },
             {
-                label: "Заявка на специалиста",
-                command: () => {
-                    router.push({ name: ProfileRouteName.ProfileTicketSpecialist })
+                label: "Заявка на черный список",
+                command: async () => {
+                    await router.push({ name: ProfileRouteName.ProfileTicketBlacklist })
                 }
             },
             {
-                label: "Заявка черный список",
-                command: () => {
-                    router.push({ name: ProfileRouteName.ProfileTicketBlacklist })
-                }
-            },
-            {
-                label: "Общая заявка",
-                command: () => {
-                    router.push({ name: ProfileRouteName.ProfileTicketGeneral })
+                label: "Индивидуальное согласование",
+                command: async () => {
+                    await router.push({ name: ProfileRouteName.ProfileTicketGeneral })
                 }
             },
         ]
     },
     {
         label: "Поиск сертификатов",
-        command: () => {
-            router.push({ name: PortalRouteName.Certificates })
+        command: async () => {
+            await router.push({ name: PortalRouteName.Certificates })
         }
     },
     {
         label: "Контакты",
         items: [
             {
-                label: "Центральный офис",
-                command: () => {
-                    router.push({ name: PortalRouteName.ContactCentralOffice })
+                label: "Сотрудников центрального офиса",
+                command: async () => {
+                    await router.push({ name: PortalRouteName.ContactCentralOffice })
                 }
             },
             {
-                label: "Франчайзи",
-                command: () => {
-                    router.push({ name: PortalRouteName.ContactFranchisee })
+                label: "Владельцев франшиз",
+                command: async () => {
+                    await router.push({ name: PortalRouteName.ContactFranchisee })
                 }
             },
             {
                 label: "Партнеры",
-                command: () => {
-                    router.push({ name: PortalRouteName.ContactPartners })
+                command: async () => {
+                    await router.push({ name: PortalRouteName.ContactPartners })
                 }
             }
         ]
