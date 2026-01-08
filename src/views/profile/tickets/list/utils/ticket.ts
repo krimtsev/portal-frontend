@@ -16,5 +16,5 @@ export function stateList(): { label: string; value: string }[] {
         .map(([value, label]) => ({
             label,
             value,
-        }))
+        })).sort((a, b) => a.label.localeCompare(b.label))
 }

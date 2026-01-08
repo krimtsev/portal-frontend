@@ -224,3 +224,8 @@ $cloud-file-types: (
     background-color: var(--p-dashboard-card-background);
     padding: 0 $indent-x2 $indent-x3 $indent-x2;
 }
+
+@mixin input-width($w: $input-width) {
+    width: $w;
+    min-width: $w;
+}

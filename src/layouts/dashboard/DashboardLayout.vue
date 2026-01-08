@@ -166,7 +166,6 @@ const toggleMenu = (event: PointerEvent) => {
     display: flex;
     height: 100vh;
     width: 100%;
-    overflow: hidden;
     position: relative;
 
     overflow-x: auto; // fix mobile

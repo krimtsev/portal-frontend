@@ -26,7 +26,8 @@ const { breadcrumbs } = useBreadcrumbs()
 
 .breadcrumb-item {
     position: relative;
-    font-weight: 600;
+    font-size: $font-size-h4;
+    font-weight: 500;
     color: var(--p-surface-300);
 
     &::after {

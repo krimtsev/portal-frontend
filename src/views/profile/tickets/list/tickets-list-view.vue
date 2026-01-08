@@ -214,7 +214,7 @@ const goTo = (id: string) => router.push({ name: ProfileRouteName.ProfileTicket,
                         <b-text
                             :value="slotProps.data.title"
                             :is-loading="isLoading"
-                            as-link
+                            variant="link"
                             @click="goTo(slotProps.data.id)"
                         />
                     </template>

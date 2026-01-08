@@ -10,6 +10,9 @@ $indent-x6: $indent * 6; // = 48px
 $indent-x7: $indent * 7; // = 56px
 $indent-x8: $indent * 8; // = 64px
 
+$left-part-width: 208px;
+$input-width: 296px;
+
 $breakpoints-xxl: 1920px;
 $breakpoints-xl: 1600px;
 $breakpoints-lg: 1336px;
@@ -35,8 +38,10 @@ $line-height-h2: 2.8571rem; // 40px
 $line-height-h3: 2.2857rem; // 32px
 $line-height-h4: 1.7143rem; // 24px
 $line-height-p: 1.7143rem; // 24px
+$line-height-form: 2rem; // 28px
 
 $portal-card-min-height: 195px;
 
 /** Dashboard */
-$border-radius: $indent-x2
+$border-radius: $indent-x2;
+

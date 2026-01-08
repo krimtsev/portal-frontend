@@ -20,8 +20,8 @@ import TicketStateBadge from "@v/profile/tickets/list/components/ticket-state-ba
 import { stateList } from "@v/profile/tickets/list/utils/ticket"
 import { cloneDeep, isEqual } from "lodash"
 import type { PartnerShortListItem } from "@v/dashboard/partners/definitions/partners"
-import BEmptyResult from "@c/common/b-empty/b-empty-result.vue";
-import ListLoadingState from "@c/common/b-loading-state/list-loading-state.vue";
+import BEmptyResult from "@c/common/b-empty/b-empty-result.vue"
+import ListLoadingState from "@c/common/b-loading-state/list-loading-state.vue"
 
 
 const notify = useNotify()

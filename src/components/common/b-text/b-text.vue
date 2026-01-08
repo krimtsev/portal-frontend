@@ -1,14 +1,16 @@
 <script setup lang="ts">
+import { computed } from "vue"
 import BSkeleton from "@c/common/b-skeleton/b-skeleton.vue"
 import { valueOrDash } from "@/lib/utils"
 
+type TextVariant = "link" | "p"
 
 interface BText {
     isLoading?: boolean
     value?: string | number | null
     preloadWidth?: string
     classes?: string | string[]
-    asLink?: boolean
+    variant?: TextVariant
 }
 
 const props = withDefaults(defineProps<BText>(), {
@@ -16,6 +18,8 @@ const props = withDefaults(defineProps<BText>(), {
     isLoading: false,
     preloadWidth: "25%"
 })
+
+const variantClass = computed(() => props.variant ?? "")
 </script>
 
 <template>
@@ -26,12 +30,7 @@ const props = withDefaults(defineProps<BText>(), {
     <span
         v-else
         class="b-text"
-        :class="[
-            classes,
-            {
-                'as-link': props.asLink
-            }
-        ]"
+        :class="[classes, variantClass]"
     >
         {{ valueOrDash(props.value) }}
     </span>
@@ -41,7 +40,11 @@ const props = withDefaults(defineProps<BText>(), {
 .b-text {
     display: inline-block;
 
-    &.as-link {
+    &.p {
+        @include p();
+    }
+
+    &.link {
         cursor: pointer;
         color: var(--p-button-primary-background);
 

@@ -1,13 +1,13 @@
 import type { TicketEvent } from "@v/profile/tickets/edit/definitions/ticket"
-import {stateName} from "@v/profile/tickets/list/utils/ticket.ts";
+import { stateName } from "@v/profile/tickets/list/utils/ticket"
 
 const FIELD_LABELS: Record<string, string> = {
     state: "Статус",
-    category_id: "Отдел",
-    partner_id: "Партнёр",
+    category: "Отдел",
+    partner: "Партнёр",
 };
 
-export function createSystemMessage(item: TicketEvent): string[] {
+export function formatChanges(item: TicketEvent): string[] {
     const message: string[] = []
 
     if (item.user?.name) {

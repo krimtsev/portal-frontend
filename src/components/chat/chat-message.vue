@@ -6,21 +6,25 @@ import {
     type ChatMessageFile,
     ChatMessageType
 } from "@c/chat/definitions/chat-message"
+import PrimeAvatar from "primevue/avatar"
 
 const props = defineProps<{
     text: string | string[]
     type?: ChatMessageType
     name?: string
+    login?: string
     avatar?: string
     stamp?: string
     files?: ChatMessageFile[]
+    rounded?: boolean
 }>()
 
 const type = computed<ChatMessageType>(() => props.type ?? ChatMessageType.Received)
 
 const isSystemType = computed(() => props.type === ChatMessageType.System)
 
-const avatar = computed(() => imageSrc(props.avatar))
+const avatarImage = computed(() => imageSrc(props.avatar))
+const avatarLabel = computed(() => props.login ? props.login[0].toUpperCase() : "")
 
 const stamp = computed(() => {
     if (!props.stamp) return ""
@@ -33,6 +37,8 @@ const messages = computed((): string[] => {
     if (Array.isArray(props.text)) return props.text
     return [props.text]
 })
+
+const shape = computed((): string =>  props.rounded ? "circle" : "square")
 </script>
 
 <template>
@@ -43,14 +49,21 @@ const messages = computed((): string[] => {
         ]"
     >
         <div class="container">
-            <img
-                v-if="avatar"
-                :src="avatar"
-                :class="[
-                    'avatar',
-                    `avatar-${type}`,
-                ]"
-            />
+            <div class="avatar-container">
+                <img
+                    v-if="avatarImage"
+                    :src="avatarImage"
+                    class="avatar"
+                    :class="[
+                        `avatar-${type}`,
+                    ]"
+                />
+                <prime-avatar
+                    v-else-if="avatarLabel"
+                    :label="avatarLabel"
+                    :shape="shape"
+                />
+            </div>
 
             <div>
                 <div
@@ -153,25 +166,29 @@ const messages = computed((): string[] => {
         text-align: right;
     }
 
-    .avatar {
-        border-radius: 50%;
-        width: 40px;
-        height: 40px;
-        min-width: 40px;
+    .avatar-container {
         margin-right: 8px;
-        border-style: solid;
-        border-width: 2px;
 
-        &-received {
-            border-color: var(--p-chat-received-color);
-        }
+        .avatar {
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            min-width: 40px;
 
-        &-sent {
-            border-color: var(--p-chat-sent-color);
-        }
+            border-style: solid;
+            border-width: 2px;
 
-        &-system {
-            border-color: var(--p-chat-system-color);
+            &-received {
+                border-color: var(--p-chat-received-color);
+            }
+
+            &-sent {
+                border-color: var(--p-chat-sent-color);
+            }
+
+            &-system {
+                border-color: var(--p-chat-system-color);
+            }
         }
     }
 }

@@ -29,12 +29,13 @@ import BTextarea from "@c/common/b-textarea/b-textarea.vue"
 import BFileUpload from "@c/common/b-upload-file/b-file-upload.vue"
 import ChatContainer from "@c/chat/chat-container.vue"
 import ChatMessage from "@c/chat/chat-message.vue"
-import { createSystemMessage } from "@v/profile/tickets/edit/utils/ticket"
+import { formatChanges } from "@v/profile/tickets/edit/utils/ticket"
 import { type ChatMessageFile, ChatMessageType} from "@c/chat/definitions/chat-message"
 import { downloadExternalFile } from "@/lib/files"
 import ChatFiles from "@c/chat/chat-files.vue"
 import { ProfileRouteName } from "@r/profile/route-names"
 import { useRouter } from "vue-router"
+import { DateTime } from "luxon"
 
 const router = useRouter()
 
@@ -79,10 +80,6 @@ const ticketDetails = ref<TicketDetails>({
     timeline:   [],
 })
 
-const attributes = computed(() => {
-    return Object.entries(ticketDetails.value?.attributes || {})
-})
-
 const isChanged = computed(() => {
     return !isEqual(initialState.value, currentState.value)
 })
@@ -91,7 +88,27 @@ const isDisabled = computed((): boolean => {
     return isFirstLoading.value || !!loadingState.value
 })
 
-const getAttributeLabel = (key?: string): string => {
+const attributes = computed(() => {
+    return Object.entries(ticketDetails.value?.attributes || {})
+        .map(([label, value]) => {
+            if (
+                ticketDetails.value?.type === TicketType.Certificate &&
+                label === "paymentDate"
+            ) {
+                value = DateTime.fromISO(value, { zone: "utc" })
+                    .toFormat("dd.MM.yyyy H:mm:ss")
+            }
+
+            return {
+                label: attributeLabel(label),
+                value
+            }
+        })
+})
+
+const attributeLabel = (key?: string): string => {
+    if (!ticketDetails.value) return ""
+
     const type = ticketDetails.value.type
     if (!type || !key) return ""
 
@@ -158,10 +175,10 @@ onMounted(async () => {
 
     initialState.value = {
         ...initialState.value,
-        title: ticketDetails.value.title,
-        partner_id: ticketDetails.value.partner?.id || null,
+        title:       ticketDetails.value.title,
+        partner_id:  ticketDetails.value.partner?.id || null,
         category_id: ticketDetails.value.category?.id || null,
-        type: ticketDetails.value.type || null,
+        type:        ticketDetails.value.type || null,
     }
     currentState.value = cloneDeep(initialState.value)
 
@@ -191,7 +208,7 @@ async function onSave() {
     resetErrors()
 
     loadingState.value = null
-    nextTick(() => chatRef.value?.scrollToBottom())
+    await nextTick(() => chatRef.value?.scrollToBottom())
 }
 
 async function onRemove() {
@@ -267,9 +284,9 @@ async function onRemove() {
                     class="mb-x2"
                 >
                     <portal-form-item
-                        v-for="([key, value]) in attributes"
-                        :key="key"
-                        :label="getAttributeLabel(key)"
+                        v-for="{ label, value } in attributes"
+                        :key="label"
+                        :label="label"
                         class="label-align-top"
                     >
                         <b-text
@@ -290,11 +307,12 @@ async function onRemove() {
                     >
                         <template v-if="item.type === TicketMessageType.Message">
                             <chat-message
-                                avatar="avatars/default.png"
                                 :type="getChatMessageType(item)"
                                 :name="item.user.name"
+                                :login="item.user.login"
                                 :text="item.text"
                                 :stamp="item.created_at"
+                                rounded
                             >
                                 <template
                                     v-if="item.files.length"
@@ -313,7 +331,7 @@ async function onRemove() {
                                 avatar="avatars/barber_system.png"
                                 :type="ChatMessageType.System"
                                 :name="t('mc.partner.assistant')"
-                                :text="createSystemMessage(item)"
+                                :text="formatChanges(item)"
                             />
                         </template>
                      </div>

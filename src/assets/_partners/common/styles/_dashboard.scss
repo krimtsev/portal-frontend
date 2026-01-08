@@ -3,6 +3,10 @@ html[data-layout="dashboard"] {
     --p-checkbox-border-radius: var(--p-border-radius-xs);
     --p-datatable-header-cell-background: transparent;
     --p-datatable-row-background: transparent;
+    --p-progressspinner-color-one: var(--p-primary-100);
+    --p-progressspinner-color-two: var(--p-primary-300);
+    --p-progressspinner-color-three: var(--p-primary-500);
+    --p-progressspinner-color-four: var(--p-primary-700);
 
     .p-datatable {
         .p-datatable-tbody > tr {
