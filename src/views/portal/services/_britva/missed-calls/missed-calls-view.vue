@@ -94,8 +94,8 @@ async function handleDownload() {
 
             <div class="col-4">
                 <portal-user-card
-                    avatar="template/first-avatar.png"
-                    telnum="79833130820"
+                    avatar="employees/krimtsev.jpg"
+                    telnum="79994845317"
                 >
                     <div class="text-center">
                         <p class="mb-x0">Для подключения напишите</p>
