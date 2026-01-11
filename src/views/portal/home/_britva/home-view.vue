@@ -78,7 +78,7 @@ onMounted(async () => {
                 class="col-4 tablet-col-6 mobile-col-12 row-span-2"
             >
                 <portal-card
-                    title="Аналитика показателей"
+                    title="Аналитика показателей (заработает позже)"
                     menu-title
                     class="card-height-x2"
                     class-content="d-flex align-items-end"
@@ -89,7 +89,7 @@ onMounted(async () => {
 
             <div class="col-4 mobile-col-12 tablet-col-6">
                 <portal-card
-                    title="Админам"
+                    title="Страница для администраторов"
                     menu-title
                     class="admin-block card-height"
                     :background="{
