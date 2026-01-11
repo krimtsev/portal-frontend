@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import BDivider from "@c/common/b-divider/b-divider.vue"
 import BImage from "@c/common/b-image/b-image.vue"
-import BBlockquote from "@c/common/b-blockquote/b-blockquote.vue"
 import PortalPage from "@c/portal/portal-page/portal-page.vue"
 import PortalCard from "@c/portal/portal-card/portal-card.vue"
 </script>
@@ -11,7 +9,7 @@ import PortalCard from "@c/portal/portal-card/portal-card.vue"
         class="ip-telephony-troubleshoot-view"
         title="Что делать, если IP-телефония не работает"
     >
-						
+
             <portal-card>
                 <div class="content">
                     <p>
@@ -23,7 +21,7 @@ import PortalCard from "@c/portal/portal-card/portal-card.vue"
 
                 </div>
             </portal-card>
-			
+
 			<portal-card>
                 <div class="content">
                     <b-image
@@ -32,7 +30,7 @@ import PortalCard from "@c/portal/portal-card/portal-card.vue"
 					/>
                 </div>
             </portal-card>
-			
+
 			<portal-card title="1. Проверка индикации на базовом блоке">
                 <div class="content">
                     <p>
@@ -115,7 +113,7 @@ import PortalCard from "@c/portal/portal-card/portal-card.vue"
 				</div>
 			</portal-card>
 
-			
+
 			<portal-card title="4. Проверка трубки">
 				<div class="content">
 					<p>
@@ -143,7 +141,7 @@ import PortalCard from "@c/portal/portal-card/portal-card.vue"
 				</div>
 			</portal-card>
 
-			
+
 			<portal-card title="5. Аккумуляторы">
 				<div class="content">
 					<p>
@@ -161,7 +159,7 @@ import PortalCard from "@c/portal/portal-card/portal-card.vue"
 				</div>
 			</portal-card>
 
-			
+
 			<portal-card title="6. Когда и куда обращаться за помощью">
 				<div class="content">
 					<p>

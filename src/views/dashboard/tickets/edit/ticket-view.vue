@@ -1,5 +1,11 @@
 <script setup lang="ts">
-import {type ComponentPublicInstance, computed, nextTick, onMounted, ref} from "vue"
+import {
+    type ComponentPublicInstance,
+    computed,
+    nextTick,
+    onMounted,
+    ref
+} from "vue"
 import BForm from "@c/common/b-form/b-form.vue"
 import BFormCard from "@c/common/b-form/b-form-card.vue"
 import BFormItem from "@c/common/b-form/b-form-item.vue"

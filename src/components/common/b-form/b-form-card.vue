@@ -11,7 +11,7 @@ const props = defineProps<{
         <section>
             <div
                 v-if="props.title"
-                 class="title"
+                class="title"
             >
                 <b-title
                     :title="props.title"
