@@ -56,12 +56,13 @@ const ticketCategory = ref<TicketCategoriesItem>()
 function defaultState(): TicketSpecialist {
     const queryQualification = route.query.qualification as string | undefined
 
-    const qualification = queryQualification && Object.values(Qualification).includes(queryQualification as Qualification)
-        ? (queryQualification as Qualification)
-        : Qualification.BarberPlus
+    const qualification = queryQualification &&
+        Object.values(Qualification).includes(queryQualification as Qualification)
+            ? (queryQualification as Qualification)
+            : Qualification.BarberPlus
 
     return {
-        title:       t('mc.ticket.specialist.title'),
+        title:       t("mc.ticket.specialist.title"),
         type:        TicketType.Specialist,
         partner_id:  null,
         category_id: null,

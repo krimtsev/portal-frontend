@@ -7,18 +7,22 @@ export const sections: Section[] = [
         items: [
             {
                 label: "Настройка переадресации MANGO",
-                path: portalPaths.InstructionMangoRedirect
+                path:  portalPaths.InstructionMangoRedirect
             },
             {
                 label: "Всплывающие уведомления YCLIENTS",
-                path: portalPaths.InstructionYclientNotifications
+                path:  portalPaths.InstructionYclientNotifications
             },
             {
-                label: "Настройка WAHELP",
+                label: "Решение проблем телефонии",
+                path:  portalPaths.IpTelephonyTroubleshooting
+            },
+            {
+                label:    "Настройка WAHELP",
                 external: "https://youtube.com/playlist?list=PLhU6BmCA9pdCwapNa44e3BWdPe0EnvJJ2"
             },
             {
-                label: "Настройка изменения цен ЭВОТОР",
+                label:    "Настройка изменения цен ЭВОТОР",
                 external: "https://youtu.be/6cy9sEyNDXU?si=3x0R0pmKIRHM08YO"
             }
         ]

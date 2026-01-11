@@ -32,7 +32,7 @@ import {
 import { TicketType } from "@v/profile/tickets/edit/definitions/ticket"
 import { useI18n } from "vue-i18n"
 import { useRouter } from "vue-router"
-import {ProfileRouteName} from "@r/profile/route-names"
+import { ProfileRouteName } from "@r/profile/route-names"
 
 
 const notify = useNotify()
@@ -51,7 +51,7 @@ const ticketCategory = ref<TicketCategoriesItem>()
 
 function defaultState(): TicketBlacklist {
     return {
-        title:       t('mc.ticket.blacklist.title'),
+        title:       t("mc.ticket.blacklist.title"),
         type:        TicketType.Blacklist,
         partner_id:  null,
         category_id: null,

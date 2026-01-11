@@ -13,7 +13,7 @@ const FIELD_LABELS: Record<string, string> = {
     state: "Статус",
     category: "Отдел",
     partner: "Партнёр",
-};
+}
 
 export function formatChanges(item: TicketEvent): string[] {
     const message: string[] = []

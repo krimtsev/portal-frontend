@@ -3,6 +3,7 @@ export const portalPaths = {
     Certificates: "certificates",
     InstructionMangoRedirect: "instruction/mango-redirect",
     InstructionYclientNotifications: "instruction/yclient-notifications",
+    IpTelephonyTroubleshooting: "instruction/ip-telephony-troubleshooting",
     Cloud: "cloud/:pathMatch(.*)*",
 
     //partner

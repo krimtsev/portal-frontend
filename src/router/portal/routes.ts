@@ -6,6 +6,7 @@ import { portalPaths } from "@r/portal/path"
 import CertificatesView from "@v/portal/certificates/certificates-view.vue"
 import InstructionMangoRedirectView from "@v/portal/instructions/mango-redirect/mango-redirect-view.vue"
 import InstructionYclientNotificationsView from "@v/portal/instructions/yclient-notifications/yclient-notifications-view.vue"
+import IpTelephonyTroubleshootingView from "@v/portal/instructions/ip-telephony-troubleshooting/ip-telephony-troubleshooting-view.vue"
 import ContactFranchiseeView from "@v/portal/contacts/franchisee/franchisee-view.vue"
 import CloudView from "@v/portal/cloud/cloud-view.vue"
 
@@ -35,6 +36,16 @@ const routes: RouteRecordRaw[] = [
                 name: PortalRouteName.InstructionYclientNotifications,
                 components: {
                     default: InstructionYclientNotificationsView,
+                },
+                meta: {
+                    roles,
+                }
+            },
+            {
+                path: portalPaths.IpTelephonyTroubleshooting,
+                name: PortalRouteName.IpTelephonyTroubleshooting,
+                components: {
+                    default: IpTelephonyTroubleshootingView,
                 },
                 meta: {
                     roles,

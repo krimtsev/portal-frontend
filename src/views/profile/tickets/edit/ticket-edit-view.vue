@@ -214,7 +214,7 @@ async function onRemove() {
 
     notify.success("Заявка успешно закрыта")
 
-    await router.push({name: ProfileRouteName.ProfileTickets})
+    await router.push({ name: ProfileRouteName.ProfileTickets })
 }
 </script>
 
@@ -320,7 +320,7 @@ async function onRemove() {
                                 :text="formatChanges(item)"
                             />
                         </template>
-                     </div>
+                    </div>
                 </chat-container>
 
                 <div

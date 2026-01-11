@@ -18,14 +18,14 @@ const ticketType = computed(() => {
 </script>
 
 <template>
-   <div class="ticket-state-badge">
-       <b-text
-           :is-loading="isLoading"
-           :value="ticketValue"
-           :classes="`badge ${ticketType}`"
-           preload-width="50%"
-       />
-   </div>
+    <div class="ticket-state-badge">
+        <b-text
+            :is-loading="isLoading"
+            :value="ticketValue"
+            :classes="`badge ${ticketType}`"
+            preload-width="50%"
+        />
+    </div>
 </template>
 
 <style scoped lang="scss">

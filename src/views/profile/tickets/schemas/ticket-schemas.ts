@@ -39,7 +39,7 @@ export const urlSchemaOptional = z.union([
     z.string().url({ message: "Укажите правильный формат URL" }),
     z.literal(""),
     z.undefined()
-]);
+])
 
 export const phoneSchema = z.string()
     .regex(reg.mobileTelnum, "Некорректный номер телефона")
@@ -49,9 +49,9 @@ export const codeSchema =  z.string({ message: "Укажите код серти
 
 export const paymentDateSchema = z.date({ message: "Укажите дату списания" })
     .transform((date) => {
-        const d = new Date(date);
-        d.setHours(0, 0, 0, 0);
-        return d;
-    });
+        const d = new Date(date)
+        d.setHours(0, 0, 0, 0)
+        return d
+    })
 
 export const sumSchema =  z.number({ message: "Укажите сумму списания" })
