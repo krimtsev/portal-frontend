@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import BDivider from "@c/common/b-divider/b-divider.vue"
 import BImage from "@c/common/b-image/b-image.vue"
+import BLink from "@c/common/b-link/b-link.vue"
 import BBlockquote from "@c/common/b-blockquote/b-blockquote.vue"
 import PortalPage from "@c/portal/portal-page/portal-page.vue"
 import PortalCard from "@c/portal/portal-card/portal-card.vue"
@@ -153,6 +154,7 @@ import PortalCard from "@c/portal/portal-card/portal-card.vue"
 					<ul>
 						<li>обычные батарейки использовать нельзя;</li>
 						<li>если трубка быстро разряжается или выключается — замените аккумуляторы.</li>
+						<li>ищите на маркетплейсах по запросу "aaa gp 650 rechargeable"</li>
 					</ul>
 
 					<p>
@@ -166,7 +168,7 @@ import PortalCard from "@c/portal/portal-card/portal-card.vue"
 				<div class="content">
 					<p>
 						Если интернет работает, индикация в норме, но звонки по-прежнему не проходят —
-						обратитесь к Диме Крымцеву.
+						обратитесь к <b-link label="Диме Крымцеву" href="http://wa.me/79994845317"/>.
 					</p>
 
 					<p>
