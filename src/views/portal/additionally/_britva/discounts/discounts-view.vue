@@ -19,6 +19,20 @@ const { n } = useI18n()
                 </ul>
             </div>
         </portal-card>
+		
+		<portal-card title="Партнерство BRITVA x Massage by SODA:">
+            <div class="content">
+				<p> 
+					Massage by Soda — ваши уютные студии массажа рядом с домом. Проект от создателей BRITVA и Soda: здесь вы найдёте покой, комфорт и истинное расслабление среди городской суеты.
+				</p>
+			
+                <ul>
+                    <li>франчайзи BRITVA предоставляется скидка 20% на услуги массажа</li>
+                    <li>сотрудникам BRITVA предоставляется скидка 20% на услуги массажа</li>
+					<p>*кроме сеансов comfort zone</p>
+                </ul>
+            </div>
+        </portal-card>
 
         <portal-card title="Корпоративные тарифы на апрель Москва и Санкт Петербург:">
             <div class="content">
