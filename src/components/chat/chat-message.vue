@@ -2,10 +2,7 @@
 import { computed } from "vue"
 import { imageSrc } from "@h/images/images"
 import { DateTime } from "luxon"
-import {
-    type ChatMessageFile,
-    ChatMessageType
-} from "@c/chat/definitions/chat-message"
+import { ChatMessageType } from "@c/chat/definitions/chat-message"
 import PrimeAvatar from "primevue/avatar"
 
 const props = defineProps<{
@@ -15,7 +12,6 @@ const props = defineProps<{
     login?: string
     avatar?: string
     stamp?: string
-    files?: ChatMessageFile[]
     rounded?: boolean
 }>()
 

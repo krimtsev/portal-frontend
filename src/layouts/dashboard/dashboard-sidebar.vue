@@ -55,13 +55,13 @@ const isActive = (item: MenuItem) => {
             :style="{ '--sidebar-bg': `url(${sidebarBg})` }"
         >
             <div class="sidebar-header">
-            <span class="logo">
-                <b-image
-                    src="logos/logo.png"
-                    class="cursor-pointer"
-                    @click="goToHome"
-                />
-            </span>
+                <span class="logo">
+                    <b-image
+                        src="logos/logo.png"
+                        class="cursor-pointer"
+                        @click="goToHome"
+                    />
+                </span>
             </div>
 
             <div class="sidebar-menu">

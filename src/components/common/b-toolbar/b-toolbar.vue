@@ -7,20 +7,20 @@ withDefaults(defineProps<{
 </script>
 
 <template>
-<div
-    class="b-toolbar"
-    :class="{
-        'no-paddings': noPaddings,
-    }"
->
-    <div class="b-toolbar-wrapper">
-        <slot />
+    <div
+        class="b-toolbar"
+        :class="{
+            'no-paddings': noPaddings,
+        }"
+    >
+        <div class="b-toolbar-wrapper">
+            <slot />
 
-        <div class="right-side">
-            <slot name="right-side" />
+            <div class="right-side">
+                <slot name="right-side" />
+            </div>
         </div>
     </div>
-</div>
 </template>
 
 <style scoped lang="scss">

@@ -17,7 +17,6 @@ const props = defineProps<{
     isFirstLoading?: boolean
     hideFooter?: boolean
     hideSaveButton?: boolean
-    hideSaveAndCancelButtons?: boolean
     pathBack?: string
 }>()
 

@@ -2,7 +2,6 @@
 import { computed } from "vue"
 
 const props = defineProps<{
-    label: string
     text: string | string[]
     sent?: boolean
     name?: string

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount, computed } from "vue"
-import DashboardSidebar from "@l/dashboard/DashboardSidebar.vue"
+import DashboardSidebar from "@l/dashboard/dashboard-sidebar.vue"
 import PrimeButton from "primevue/button"
 import PrimeAvatar from "primevue/avatar"
 import PrimeMenu from "primevue/menu"
@@ -139,13 +139,29 @@ const toggleMenu = (event: PointerEvent) => {
                         :popup="true"
                     >
                         <template #item="{ item, props }">
-                            <router-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" custom>
-                                <a v-ripple :href="href" v-bind="props.action" @click="navigate">
+                            <router-link
+                                v-if="item.route"
+                                v-slot="{ href, navigate }"
+                                :to="item.route"
+                                custom
+                            >
+                                <a
+                                    v-ripple
+                                    :href="href"
+                                    v-bind="props.action"
+                                    @click="navigate"
+                                >
                                     <span :class="item.icon" />
                                     <span class="ml-2">{{ item.label }}</span>
                                 </a>
                             </router-link>
-                            <a v-else v-ripple :href="item.url" :target="item.target" v-bind="props.action">
+                            <a
+                                v-else
+                                v-ripple
+                                :href="item.url"
+                                :target="item.target"
+                                v-bind="props.action"
+                            >
                                 <span :class="item.icon" />
                                 <span class="ml-2">{{ item.label }}</span>
                             </a>
