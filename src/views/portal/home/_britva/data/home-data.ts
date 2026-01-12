@@ -6,11 +6,11 @@ export const sections: Section[] = [
         title: "Инструкции",
         items: [
             {
-                label: "Настройка переадресации MANGO",
+                label: "Настройка переадресации Mango",
                 path:  portalPaths.InstructionMangoRedirect
             },
             {
-                label: "Всплывающие уведомления YCLIENTS",
+                label: "Всплывающие уведомления Yclients",
                 path:  portalPaths.InstructionYclientNotifications
             },
             {
@@ -73,7 +73,7 @@ export const sections: Section[] = [
                 path:  portalPaths.DocumentFinesAudit,
             },
             {
-                label: "Бальная система по манго-аудиту",
+                label: "Бальная система по mango-аудиту",
                 path:  portalPaths.DocumentMangoAudit,
             }
         ]
@@ -92,6 +92,14 @@ export const sections: Section[] = [
             {
                 label: "Сервис пропущенных звонков",
                 path:  portalPaths.ServiceMissedCalls,
+            },
+            {
+                label: "Поиск сотрудников на замену",
+                path:  portalPaths.ServiceSearchStaff,
+            },
+            {
+                label: "Внеплановый разбор филиала",
+                path:  portalPaths.ServiceBranchReview,
             },
             // {
             //     label: "Сервис аналитики показателей",

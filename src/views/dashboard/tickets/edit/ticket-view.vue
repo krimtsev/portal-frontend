@@ -316,6 +316,7 @@ async function onSave() {
             <b-form-item label="Сообщение">
                 <prime-textarea
                     v-model="currentState.message"
+                    :disabled="isLoading"
                     rows="5"
                     class="message"
                     placeholder="Введите сообщение"
@@ -326,6 +327,7 @@ async function onSave() {
             <b-form-item label="Загрузить файл">
                 <b-file-upload
                     v-model="currentState.files"
+                    :disabled="isLoading"
                     :placeholder="t('mc.ticket.general.placeholder.files')"
                     name="files"
                     class="files"

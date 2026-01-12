@@ -11,7 +11,7 @@ export const buttonNavigation: PortalRouteButton[] = [
         route: PortalRouteName.DocumentFinesAudit
     },
     {
-        label: "Манго-аудит",
+        label: "Mango-аудит",
         route: PortalRouteName.DocumentMangoAudit
     }
 ]

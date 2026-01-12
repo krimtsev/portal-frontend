@@ -206,6 +206,7 @@ const onRowSelect = (value: DataTableRowSelectEvent) => {
                 selectionMode="single"
                 dataKey="id"
                 scrollable
+                lazy
             >
                 <template #paginatorstart>
                     {{ paginationInfo }}

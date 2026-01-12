@@ -17,6 +17,8 @@ export const portalPaths = {
     ServiceSubscription: "services/subscription",
     ServiceUserAnalytics: "services/user-analytics",
     ServiceMissedCalls: "services/missed-calls",
+    ServiceSearchStaff: "services/search-staff",
+    ServiceBranchReview: "services/branch-review",
     AdditionallyDiscount: "additionally/discount",
     ContactCentralOffice: "contacts/central-office",
     ContactFranchisee: "contacts/franchisee",

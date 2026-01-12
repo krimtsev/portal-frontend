@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import PortalCard from "@c/portal/portal-card/portal-card.vue"
 import BImage from "@c/common/b-image/b-image.vue"
+import BTelnumLink from "@c/common/b-telnum-link/b-telnum-link.vue"
 </script>
 
 <template>
@@ -17,8 +18,8 @@ import BImage from "@c/common/b-image/b-image.vue"
                 </p>
 
                 <p class="mb-x3">
-                    Отчеты по манго аудированию высылает <br/>
-                    <span class="telnum"> Екатерина (+79067019944) </span>
+                    Отчеты по mango аудированию высылает <br/>
+                    Екатерина <b-telnum-link value="+79067019944" />
                 </p>
 
                 <p>
