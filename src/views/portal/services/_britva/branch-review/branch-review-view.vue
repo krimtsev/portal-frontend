@@ -13,18 +13,18 @@ import PortalCard from "@c/portal/portal-card/portal-card.vue"
             <div class="employees">
                 <b-image
                     src="employees/grechishnikov.jpg"
-                    width="120"
-                    height="120"
+                    width="150"
+                    height="150"
                     rounded
                 />
 
                 <b-image
                     src="employees/filippov.jpg"
-                    width="120"
-                    height="120"
+                    width="150"
+                    height="150"
                     rounded
                 />
-
+				
                 <div class="content">
                     <ul>
                         <li>Длительность — до 4 часов</li>
@@ -32,6 +32,9 @@ import PortalCard from "@c/portal/portal-card/portal-card.vue"
                         <li>Присутствие владельца обязательно.</li>
                     </ul>
                 </div>
+				
+				Глеб Гречишников
+				Влад Филиппов
             </div>
 
             <div class="content">

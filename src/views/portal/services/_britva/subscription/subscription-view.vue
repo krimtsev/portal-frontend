@@ -9,14 +9,14 @@ import PortalPage from "@c/portal/portal-page/portal-page.vue"
 <template>
     <portal-page
         class="subscription-view"
-        title="Подписка Яндекс.Карты и 2GIS"
+        title="Подписка Яндекс.Карты и 2ГИС"
         right-image="template/two-gis-side.png"
     >
         <portal-card title="Репутационная поддержка карточки филиала на картах от ЦО">
             <div class="content">
                 <ol>
                     <li>Контроль карточки филиала</li>
-                    <li>Яндекс.Карты и 2GIS + бонус Яндекс.Навигатор</li>
+                    <li>Яндекс.Карты и 2ГИС + бонус Яндекс.Навигатор</li>
                 </ol>
             </div>
         </portal-card>
@@ -95,14 +95,14 @@ import PortalPage from "@c/portal/portal-page/portal-page.vue"
 
                         <p>2900 рублей</p>
 
-                        <p>Яндекс.Карты + 2GIS + Яндекс.Навигатор</p>
+                        <p>Яндекс.Карты + 2ГИС + Яндекс.Навигатор</p>
                     </div>
                 </portal-card>
             </div>
 
             <div class="col-4">
                 <portal-user-card
-                    avatar="employees/lushnikova.JPG"
+                    avatar="employees/lushnikova.jpg"
                     telnum="79833130820"
                 >
                     <div class="text-center">

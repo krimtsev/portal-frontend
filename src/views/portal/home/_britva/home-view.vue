@@ -118,7 +118,7 @@ onMounted(async () => {
                 >
                     <div class="buttons-wrapper">
                         <b-button
-                            label="Заявка на топ-мастера"
+                            label="Заявка на ТОП-МАСТЕРА"
                             outline
                             @click="router.push({
                                 name: ProfileRouteName.ProfileTicketSpecialist,
@@ -128,7 +128,7 @@ onMounted(async () => {
                             })"
                         />
                         <b-button
-                            label="Заявка на бренд-мастера"
+                            label="Заявка на БРЕНД-МАСТЕРА"
                             outline
                             @click="router.push({
                                 name: ProfileRouteName.ProfileTicketSpecialist,

@@ -6,23 +6,19 @@ export const sections: Section[] = [
         title: "Инструкции",
         items: [
             {
-                label: "Настройка переадресации Mango",
+                label: "Как сделать переадресацию звонков?",
                 path:  portalPaths.InstructionMangoRedirect
             },
             {
-                label: "Всплывающие уведомления Yclients",
+                label: "Как включить всплывающие уведомления?",
                 path:  portalPaths.InstructionYclientNotifications
             },
             {
-                label: "Решение проблем телефонии",
+                label: "Что делать, если телефония не работает?",
                 path:  portalPaths.IpTelephonyTroubleshooting
             },
             {
-                label:    "Настройка WAHELP",
-                external: "https://youtube.com/playlist?list=PLhU6BmCA9pdCwapNa44e3BWdPe0EnvJJ2"
-            },
-            {
-                label:    "Настройка изменения цен ЭВОТОР",
+                label: "Как изменить цены на ЭВОТОР?",
                 external: "https://youtu.be/6cy9sEyNDXU?si=3x0R0pmKIRHM08YO"
             }
         ]
@@ -48,7 +44,7 @@ export const sections: Section[] = [
                 external: "https://docs.google.com/spreadsheets/d/1Y9zxXV-NZZvFHJNnESGBDiipCMNM1jjqQEzHqj8KRg0"
             },
             {
-                label: "Таблица маркет. сбора",
+                label: "Таблица маркетингово сбора",
                 external: "https://docs.google.com/spreadsheets/d/1ka8_eTE18gQNr-LCCiKYKd_u0rG6dJ5R7oGFTQg6pdM"
             }
         ]
@@ -73,7 +69,7 @@ export const sections: Section[] = [
                 path:  portalPaths.DocumentFinesAudit,
             },
             {
-                label: "Бальная система по mango-аудиту",
+                label: "Бальная система по аудиту телефонии",
                 path:  portalPaths.DocumentMangoAudit,
             }
         ]

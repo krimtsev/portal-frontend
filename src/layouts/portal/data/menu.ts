@@ -67,13 +67,13 @@ export function menuData(): MenuItem[] {
         label: "Контакты",
         items: [
             {
-                label: "Сотрудников центрального офиса",
+                label: "Сотрудники центрального офиса",
                 command: async () => {
                     await router.push({ name: PortalRouteName.ContactCentralOffice })
                 }
             },
             {
-                label: "Владельцев франшиз",
+                label: "Владельцы франшиз",
                 command: async () => {
                     await router.push({ name: PortalRouteName.ContactFranchisee })
                 }

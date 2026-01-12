@@ -8,7 +8,7 @@ import PortalCard from "@c/portal/portal-card/portal-card.vue"
 <template>
     <portal-page
         class="ip-telephony-troubleshoot-view"
-        title="Что делать, если IP-телефония не работает"
+        title="Что делать, если телефония не работает?"
     >
 
             <portal-card>
