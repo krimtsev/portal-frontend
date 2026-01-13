@@ -151,6 +151,7 @@ const shape = computed((): string =>  props.rounded ? "circle" : "square")
 
     .text-content {
         color: var(--p-surface-950);
+        white-space: pre-wrap;
     }
 
     .stamp {
