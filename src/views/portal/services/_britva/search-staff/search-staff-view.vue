@@ -28,15 +28,15 @@ import BLink from "@c/common/b-link/b-link.vue"
                     Он описывает порядок взаимодействия, обязанности сторон и меры ответственности.
                 </p>
 
-                <b-link label="Перейти в канал" href="https://t.me/britva_search"/>.
+                <b-link label="Перейти в канал" href="https://t.me/britva_search"/>
             </div>
         </portal-card>
 
         <portal-card title="Координаторы группы">
             <div class="content">
                 <ul>
-					<li>Смелянский Владислав <b-telnum-link value="79857955525" /></li>
-					<li>Вискушенко Георгий <b-telnum-link value="79774895899" /></li>
+					<li>Смелянский Владислав - +7 (985) 795-55-25</li>
+					<li>Вискушенко Георгий - +7 (977) 489-58-99</li>
                 </ul>
             </div>
         </portal-card>
