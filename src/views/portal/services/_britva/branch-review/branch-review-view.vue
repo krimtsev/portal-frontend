@@ -33,8 +33,6 @@ import PortalCard from "@c/portal/portal-card/portal-card.vue"
                     </ul>
                 </div>
 				
-				Глеб Гречишников
-				Влад Филиппов
             </div>
 
             <div class="content">

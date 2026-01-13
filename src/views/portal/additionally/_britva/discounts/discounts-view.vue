@@ -60,7 +60,7 @@ const { n } = useI18n()
             </div>
         </portal-card>
 
-        <portal-card title="Корпоративные тарифы на апрель для Регионов:">
+        <portal-card title="Корпоративные тарифы для регионов:">
             <div class="content">
                 <p>Годовой абонемент: {{ n(23000, "currency") }}</p>
                 <ul>

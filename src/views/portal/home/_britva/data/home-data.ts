@@ -107,15 +107,15 @@ export const sections: Section[] = [
         title: "Контакты",
         items: [
             {
-                label: "Сотрудников центрального офиса",
+                label: "Сотрудники центрального офиса",
                 path:  portalPaths.ContactCentralOffice,
             },
             {
-                label: "Франчайзи",
+                label: "Владельцы франшиз",
                 path:  portalPaths.ContactFranchisee,
             },
             {
-                label: "Партнеров",
+                label: "Партнеры",
                 path:  portalPaths.ContactPartners,
             },
         ]
