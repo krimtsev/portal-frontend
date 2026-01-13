@@ -20,7 +20,7 @@ import * as ticketsAPI from "@/api/modules/dashboard/tickets/tickets"
 import * as partnersAPI from "@/api/modules/dashboard/partners/partners"
 import { HttpError } from "@/api"
 import { useNotify } from "@/composables/notify/use-notify"
-import { useRoute } from "vue-router"
+import { useRoute, useRouter } from "vue-router"
 import {
     type TicketDetails,
     type TicketMessage,
@@ -46,9 +46,11 @@ import ChatFiles from "@c/chat/chat-files.vue"
 import BFileUpload from "@c/common/b-upload-file/b-file-upload.vue"
 import * as ticketAPI from "@/api/modules/dashboard/tickets/tickets"
 import { downloadExternalFile } from "@/lib/files"
+import { DashboardRouteName } from "@r/dashboard/route-names"
 
 const notify = useNotify()
 const route = useRoute()
+const router = useRouter()
 const { t } = useI18n()
 
 function defaultState(): TicketStateData {
@@ -110,6 +112,7 @@ onMounted(async () => {
         partnersData instanceof HttpError
     ) {
         notify.error()
+        await router.push({ name: DashboardRouteName.DashboardTickets })
         return
     }
 

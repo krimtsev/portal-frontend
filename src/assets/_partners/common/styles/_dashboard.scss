@@ -20,5 +20,9 @@ html[data-layout="dashboard"] {
         .p-datatable-table-container[data-p="empty"] {
             display: none;
         }
+
+        .p-datatable-empty-message[data-pc-section="emptymessage"] {
+            display: none;
+        }
     }
 }

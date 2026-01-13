@@ -153,6 +153,7 @@ onMounted(async () => {
 
     if (ticketData instanceof HttpError) {
         notify.error()
+        await router.push({ name: ProfileRouteName.ProfileTickets })
         return
     }
 
