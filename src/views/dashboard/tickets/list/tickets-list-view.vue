@@ -23,7 +23,7 @@ import type { PartnerShortListItem } from "@v/dashboard/partners/definitions/par
 import BEmptyResult from "@c/common/b-empty/b-empty-result.vue"
 import ListLoadingState from "@c/common/b-loading-state/list-loading-state.vue"
 import BTextDate from "@c/common/b-text/b-text-date.vue"
-import { TicketState } from "@v/profile/tickets/edit/definitions/ticket"
+import { checkActiveState } from "@v/profile/tickets/edit/utils/ticket"
 
 
 const notify = useNotify()
@@ -139,14 +139,6 @@ function onChangeFilter() {
 
 const onRowSelect = (value: DataTableRowSelectEvent) => {
     router.push({ name: DashboardRouteName.DashboardTicket, params: { id: value.data.id } })
-}
-
-function checkActiveState(value: TicketState) {
-    return [
-        TicketState.New,
-        TicketState.Waiting,
-        TicketState.InProgress
-    ].includes(value)
 }
 </script>
 

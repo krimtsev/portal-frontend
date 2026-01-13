@@ -2,6 +2,7 @@ import {
     type TicketDetails,
     type TicketEvent,
     TicketMessageType,
+    TicketState,
     type TicketTimeline,
     TicketType
 } from "@v/profile/tickets/edit/definitions/ticket"
@@ -78,4 +79,12 @@ export function normalizeAttributes(details: TicketDetails) {
                 value
             }
         })
+}
+
+export function checkActiveState(value: TicketState) {
+    return [
+        TicketState.New,
+        TicketState.Waiting,
+        TicketState.InProgress
+    ].includes(value)
 }

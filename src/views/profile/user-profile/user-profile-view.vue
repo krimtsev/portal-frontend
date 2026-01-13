@@ -77,16 +77,6 @@ onMounted(async () => {
                     :value="getRoleName(user.role)"
                 />
             </portal-form-item>
-
-            <portal-form-item
-                label="Почта"
-                class="label-align-top"
-            >
-                <b-text
-                    :is-loading="isLoading"
-                    :value="user.email"
-                />
-            </portal-form-item>
         </portal-card>
 
         <portal-card
@@ -109,31 +99,10 @@ onMounted(async () => {
             </portal-form-item>
 
             <portal-form-item
-                label="Адрес организации"
-                class="label-align-top"
-            >
-                <b-text :value="partner.address" />
-            </portal-form-item>
-
-            <portal-form-item
-                label="Номер договора"
-                class="label-align-top"
-            >
-                <b-text :value="partner.contract_number" />
-            </portal-form-item>
-
-            <portal-form-item
                 label="ИНН"
                 class="label-align-top"
             >
                 <b-text :value="partner.inn" />
-            </portal-form-item>
-
-            <portal-form-item
-                label="ОГРНИП"
-                class="label-align-top"
-            >
-                <b-text :value="partner.ogrnip" />
             </portal-form-item>
 
             <portal-form-item
@@ -151,7 +120,7 @@ onMounted(async () => {
             </portal-form-item>
 
             <portal-form-item
-                label="Mango телефон"
+                label="Номер телефона"
                 class="label-align-top"
             >
                 <b-text :value="partner.mango_telnum" />
