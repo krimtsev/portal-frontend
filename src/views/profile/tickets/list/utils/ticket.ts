@@ -4,7 +4,7 @@ const stateMap: Record<string, string> = {
     waiting: "Ожидание",
     success: "Решено",
     closed: "Закрыто",
-    cancel: "Откланено",
+    cancel: "Отклонено",
 }
 
 export function stateName(state: string): string {
