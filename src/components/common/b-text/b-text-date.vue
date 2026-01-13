@@ -30,7 +30,12 @@ const display = computed(() => {
         const hours = Math.floor(diff.hours ?? 0)
         const minutes = Math.floor(diff.minutes ?? 0)
 
-        return `${days} д. ${hours} ч. ${minutes} м.`
+        const parts = []
+        if (days > 0) parts.push(`${days} д.`)
+        if (hours > 0) parts.push(`${hours} ч.`)
+        if (minutes > 0) parts.push(`${minutes} м.`)
+
+        return parts.length ? parts.join(" ") : "0 м."
     } else {
         return dateTime.value.toFormat("dd.MM.yyyy HH:mm:ss")
     }
