@@ -26,14 +26,6 @@ export const centralOfficeData: CentralOfficeUser[] = [
         telnum: "79686740219"
     },
 	{
-		avatar: "employees/kurkin.jpg",
-        name: "Александр Куркин",
-        description: "",
-        content: "Нам пока ничего не известно",
-        contentType: ContentType.Bulleted,
-        telnum: "79991234567"
-    },
-	{
 		avatar: "employees/milyaeva.jpg",
         name: "Екатерина Миляева",
         description: "кайфолог",
@@ -190,6 +182,14 @@ export const centralOfficeData: CentralOfficeUser[] = [
         contentType: ContentType.Bulleted,
         telnum: "79994845484"
     },
+	{
+		avatar: "employees/kurkin.jpg",
+        name: "Александр Куркин",
+        description: "",
+        content: "Информация здесь сейчас обновляется...",
+        contentType: ContentType.Bulleted,
+        telnum: "79991234567"
+    },
     {
 		avatar: "employees/larionov.jpg",
         name: "Михаил Ларионов",
@@ -206,7 +206,7 @@ export const centralOfficeData: CentralOfficeUser[] = [
 		avatar: "employees/chervonyashaya.jpg",
         name: "Евгения Червонящая",
         description: "отдел развития франшизы, часы работы: пн-пт с 10:00 до 20:00",
-        content: [],
+        content: ["Информация здесь сейчас обновляется..."],
         contentType: ContentType.Bulleted,
         telnum: "79104478582"
     },
@@ -214,7 +214,7 @@ export const centralOfficeData: CentralOfficeUser[] = [
 		avatar: "employees/savchuk.jpg",
         name: "Владимир Савчук",
         description: "отдел развития франшизы, часы работы: пн-пт с 10:00 до 20:00",
-        content: [],
+        content: ["Информация здесь сейчас обновляется..."],
         contentType: ContentType.Bulleted,
         telnum: "79260625418"
     },
@@ -222,7 +222,7 @@ export const centralOfficeData: CentralOfficeUser[] = [
 		avatar: "employees/kapranov.jpg",
         name: "Данила Капранов",
         description: "отдел развития франшизы, часы работы: пн-пт с 10:00 до 20:00",
-        content: [],
+        content: ["Информация здесь сейчас обновляется..."],
         contentType: ContentType.Bulleted,
         telnum: "79152256080"
     },
@@ -230,7 +230,7 @@ export const centralOfficeData: CentralOfficeUser[] = [
 		avatar: "employees/shaligin.jpg",
         name: " Вадим Шалыгин",
         description: "отдел развития франшизы, часы работы: пн-пт с 10:00 до 20:00",
-        content: [],
+        content: ["Информация здесь сейчас обновляется..."],
         contentType: ContentType.Bulleted,
         telnum: "79198312811"
     },

@@ -66,7 +66,9 @@ async function handleDownload() {
             class="my-x4"
         />
 
-        <b-image src="services/missed-calls.png" />
+        <b-image src="services/missed-calls.png" 
+		full
+		/>
 
         <b-title
             title="Сколько это стоит?"
@@ -80,14 +82,12 @@ async function handleDownload() {
                         <b-image src="template/two-gis.png" />
 
                         <b-title
-                            title="Звонки"
+                            title="1900 рублей"
                             variant="md"
                             class="mb-x2"
                         />
-
-                        <p>1600 рублей</p>
-
-                        <p>Всего по стоимости 1 мужской стрижки</p>
+	
+                        <p>Оплата на Р\С, реквизиты будут позже</p>
                     </div>
                 </portal-card>
             </div>

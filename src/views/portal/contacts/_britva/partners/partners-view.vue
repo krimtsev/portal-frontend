@@ -23,7 +23,7 @@ import BTelnumLink from "@c/common/b-telnum-link/b-telnum-link.vue"
                         Яндекс, Наталья Маленко, заявки писать в <b-link label="форму заявки" href="https://forms.yandex.ru/surveys/10034022.63a13acfcba7c7fdf5501636cc161efa6d3c5a3b/"/> (номер рекламной компании 36409936)
                     </li>
                     <li>
-                        2GIS, Данила Егоров, рабочий номер. <b-telnum-link value="74956041055" />  доб. 17715, личный номер <b-telnum value="79800052362" />
+                        2GIS, Данила Егоров, рабочий номер. <b-telnum-link value="74956041055" />  доб. 17715, личный номер <b-telnum-link value="79800052362" />
                     </li>
                 </ul>
             </div>
@@ -48,7 +48,7 @@ import BTelnumLink from "@c/common/b-telnum-link/b-telnum-link.vue"
             </div>
         </portal-card>
 
-        <portal-card title="Mango:">
+        <portal-card title="Mango-Office:">
             <div class="content">
                 <ul>
                     <li>
@@ -56,8 +56,8 @@ import BTelnumLink from "@c/common/b-telnum-link/b-telnum-link.vue"
                         на горячую линию <b-telnum-link value="88005555424" /> круглосуточно.
                     </li>
                     <li>
-                        Наш персональный менеджер Исай Мария, <b-telnum-link value="88005555669" />,
-                        доб. 1151 или m.isay@mangotele.com
+                        Наш персональный менеджер Сафиуллин Илья, <b-telnum-link value="88005555669" />,
+                        доб. 1348 или i.safiullin@mangotele.com
                     </li>
                 </ul>
             </div>
@@ -77,6 +77,18 @@ import BTelnumLink from "@c/common/b-telnum-link/b-telnum-link.vue"
                 </ul>
             </div>
         </portal-card>
+		
+		<portal-card title="РАО и ВОИС (авторские права):">
+            <div class="content">
+                <ul>
+                    <li>
+                        Наш менеджер сопровождения Павел Фомин,
+                        <b-telnum-link value="79096281245" /> (личный номер)
+                    </li>
+                </ul>
+            </div>
+        </portal-card>
+		
     </portal-page>
 </template>
 
