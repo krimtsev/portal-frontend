@@ -316,7 +316,10 @@ async function onSave() {
                 </chat-container>
             </b-form-item>
 
-            <b-form-item label="Сообщение">
+            <b-form-item
+                label="Сообщение"
+                required
+            >
                 <prime-textarea
                     v-model="currentState.message"
                     :disabled="isLoading"

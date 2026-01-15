@@ -43,10 +43,11 @@ defineExpose({ scrollToBottom })
     overflow-y: auto;
     background: var(--p-surface-800);
     padding: $indent-x2;
-    border-radius: 20px;
+    border-radius: var(--p-inputtext-border-radius);
     outline-color: transparent;
     scrollbar-width: thin;
     scrollbar-color: var(--p-surface-600) var(--p-surface-800);
+    background: var(--p-select-background);
 
     .empty {
         color: var(--p-surface-500);
