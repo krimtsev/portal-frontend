@@ -277,7 +277,7 @@ async function onSave() {
                 <chat-container
                     v-if="ticketDetails.timeline.length"
                     ref="chatRef"
-                    :empty-messages="!hasMessages"
+                    :empty="!hasMessages"
                     class="chat"
                 >
                     <div
@@ -310,6 +310,7 @@ async function onSave() {
                                 :type="ChatMessageType.System"
                                 :name="t('mc.partner.assistant')"
                                 :text="formatChanges(item)"
+                                :stamp="item.created_at"
                             />
                         </template>
                     </div>

@@ -5,7 +5,7 @@ import { useI18n } from "vue-i18n"
 const { t } = useI18n()
 
 defineProps<{
-    emptyMessages?: boolean
+    empty?: boolean
 }>()
 
 const containerRef = ref<HTMLElement | null>(null)
@@ -25,7 +25,7 @@ defineExpose({ scrollToBottom })
         ref="containerRef"
     >
         <div
-            v-if="emptyMessages"
+            v-if="empty"
             class="empty"
         >
             {{ t('mc.chat.empty') }}

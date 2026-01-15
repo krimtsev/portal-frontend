@@ -17,8 +17,6 @@ const props = defineProps<{
 
 const type = computed<ChatMessageType>(() => props.type ?? ChatMessageType.Received)
 
-const isSystemType = computed(() => props.type === ChatMessageType.System)
-
 const avatarImage = computed(() => imageSrc(props.avatar))
 const avatarLabel = computed(() => props.login ? props.login[0].toUpperCase() : "")
 
@@ -86,7 +84,7 @@ const shape = computed((): string =>  props.rounded ? "circle" : "square")
                         <slot name="files" />
 
                         <div
-                            v-if="stamp && !isSystemType"
+                            v-if="stamp"
                             class="stamp"
                         >
                             {{ stamp }}

@@ -43,6 +43,7 @@ const onUpload = (event: FileUploadUploadEvent) => {
 }
 
 const onSelect = (event: FileUploadSelectEvent) => {
+    console.log(props)
     model.value = event.files
 }
 
@@ -195,7 +196,7 @@ const removeFile = (index: number, removeFileCallback: (index: number) => void) 
             justify-content: center;
             gap: $indent-x1;
             border: 1px dashed var(--p-fileupload-border-color);
-            border-radius: var(--p-inputtext-border-radius);
+            border-radius: var(--p-form-field-border-radius);
             padding: $indent-x2;
             min-height: 160px;
             cursor: pointer;
@@ -222,14 +223,14 @@ const removeFile = (index: number, removeFileCallback: (index: number) => void) 
 
         .p-fileupload-content {
             padding: 0;
-            border-radius: var(--p-inputtext-border-radius);
+            border-radius: var(--p-form-field-border-radius);
         }
     }
 
     &.disabled {
         :deep(.p-fileupload) {
             .p-fileupload-content {
-                background: var(--p-inputtext-disabled-background);
+                background: var(--p-form-field-disabled-background);
             }
 
             .upload {

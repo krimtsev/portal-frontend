@@ -283,9 +283,8 @@ async function onRemove() {
                 </portal-card>
 
                 <chat-container
-                    v-if="ticketDetails.timeline.length"
+                    v-if="ticketDetails.timeline.length && hasMessages"
                     class="mb-x2"
-                    :empty-messages="!hasMessages"
                     ref="chatRef"
                 >
                     <div
@@ -319,20 +318,21 @@ async function onRemove() {
                                 :type="ChatMessageType.System"
                                 :name="t('mc.partner.assistant')"
                                 :text="formatChanges(item)"
+                                :stamp="item.created_at"
                             />
                         </template>
                     </div>
                 </chat-container>
 
                 <div
-                    v-if="isEditable && !isFirstLoading"
+                    v-if="isEditable"
                     class="grid grid-reset-rows gap-x-2 gap-y-3"
                 >
                     <div class="col-12 mobile-col-12">
                         <b-textarea
                             v-model="currentState.message"
                             :error="errors.message"
-                            :disabled="isFirstLoading"
+                            :disabled="isDisabled"
                             :placeholder="t('mc.ticket.general.placeholder.message')"
                             full-width
                             name="message"
@@ -343,13 +343,17 @@ async function onRemove() {
                         <b-file-upload
                             v-model="currentState.files"
                             :error="errors.files"
-                            :disabled="isFirstLoading"
+                            :disabled="isDisabled"
                             :placeholder="t('mc.ticket.general.placeholder.files')"
                             name="files"
+                            class="files"
                         />
                     </div>
 
-                    <div class="col-12">
+                    <div
+                        v-if="!isFirstLoading"
+                        class="col-12"
+                    >
                         <div class="footer">
                             <b-button
                                 :label="t('mc.common.send')"
