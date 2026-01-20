@@ -3,6 +3,7 @@ import { computed, ref } from "vue"
 import {
     defaultPaginationFilter,
     defaultPaginationPage,
+    type PaginationFilter,
     type PaginationPage,
 } from "@/shared/pagination/pagination.ts"
 import { isEqual, cloneDeep } from "lodash"
@@ -20,7 +21,9 @@ export const useTicketsStore = defineStore("tickets", () => {
         }),
     )
 
-    const currentFilter = cloneDeep(initialFilter)
+    const currentFilter = ref<PaginationFilter>(
+        cloneDeep(initialFilter.value)
+    )
 
     const pagination = ref(defaultPaginationPage({ perPage: 20 }))
 
