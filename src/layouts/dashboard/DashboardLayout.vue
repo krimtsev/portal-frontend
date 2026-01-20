@@ -11,6 +11,7 @@ import { PortalRouteName } from "@r/portal/route-names"
 import { useI18n } from "vue-i18n"
 import { useDashboardStyle } from "@/composables/dashboard-style/use-dashboard-style"
 import Breadcrumbs from "@l/dashboard/components/breadcrumbs.vue"
+import sidebarBg from "@a/images/dashboard/sidebar.jpg"
 
 useDashboardStyle()
 
@@ -109,6 +110,7 @@ const toggleMenu = (event: PointerEvent) => {
             'layout-desktop-inactive': !isMobile && !sidebarActive,
             'layout-mobile-active': isMobile && sidebarActive
         }"
+        :style="{ '--sidebar-bg': `url(${sidebarBg})` }"
     >
         <dashboard-sidebar ref="sidebarRef" />
 
@@ -183,13 +185,29 @@ const toggleMenu = (event: PointerEvent) => {
     height: 100vh;
     width: 100%;
     position: relative;
-
     overflow-x: auto; // fix mobile
 
     :deep(.p-button-icon-only) {
         width: var(--p-avatar-width);
         height: var(--p-avatar-height);
         border-radius: var(--p-avatar-border-radius);
+    }
+
+    .layout-wrapper {
+        &::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 18rem;
+            height: 100%;
+            z-index: -1;
+            background-image: var(--sidebar-bg);
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: top;
+            opacity: 0.15;
+        }
     }
 }
 

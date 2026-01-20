@@ -12,18 +12,18 @@ import PortalCard from "@c/portal/portal-card/portal-card.vue"
 import { isEqual, cloneDeep } from "lodash"
 import * as z from "zod"
 import { useZodResolver } from "@/composables/zod/use-zod-resolver"
-import { filesSchema } from "@/schemas/zod"
+import { FilesSchema } from "@/schemas/zod.schema"
 import * as partnerAPI from "@/api/modules/partner/partner"
 import * as ticketAPI from "@/api/modules/profile/tickets/tickets"
 import { HttpError } from "@/api"
 import type { TicketBlacklist } from "@v/profile/tickets/create/blacklist/definitions/blacklist"
 import {
-    employeeNameSchema,
-    employmentDurationSchema,
-    messageSchema,
-    partnerIdSchema,
-    phoneSchema
-} from "@v/profile/tickets/schemas/ticket-schemas"
+    EmployeeNameSchema,
+    EmploymentDurationSchema,
+    MessageSchema,
+    PartnerIdSchema,
+    PhoneSchema
+} from "@v/profile/tickets/schemas/ticket.schema"
 import BInputTelnum from "@c/common/b-input-telnum/b-input-telnum.vue"
 import {
     type TicketCategoriesItem,
@@ -77,17 +77,17 @@ const isDisabled = computed(() => {
 })
 
 /** Валидация */
-const attributesSchema = z.object({
-    name:     employeeNameSchema,
-    duration: employmentDurationSchema,
-    phone:    phoneSchema,
+const AttributesSchema = z.object({
+    name:     EmployeeNameSchema,
+    duration: EmploymentDurationSchema,
+    phone:    PhoneSchema,
 })
 
 const formSchema = z.object({
-    attributes:  attributesSchema,
-    message:     messageSchema,
-    partner_id:  partnerIdSchema,
-    files:       filesSchema,
+    attributes:  AttributesSchema,
+    message:     MessageSchema,
+    partner_id:  PartnerIdSchema,
+    files:       FilesSchema,
 })
 
 type FormSchemaType = z.infer<typeof formSchema>

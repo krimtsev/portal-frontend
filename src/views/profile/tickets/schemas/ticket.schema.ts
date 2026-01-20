@@ -1,57 +1,57 @@
 import * as z from "zod"
 import { reg } from "@/lib/validator"
 
-export const titleSchema = z.string()
+export const TitleSchema = z.string()
     .min(3, { message: "Минимальная длина 3 символа" })
     .max(125, { message: "Максимальная длина 100 символов" })
     .nonempty()
 
-export const nameSchema = z.string()
+export const NameSchema = z.string()
     .min(3, { message: "Минимальная длина 3 символа" })
     .max(125, { message: "Максимальная длина 100 символов" })
     .nonempty()
 
-export const messageSchema = z.string()
+export const MessageSchema = z.string()
     .max(500, { message: "Сообщениеи слишком длиннкое" })
     .optional()
 
-export const requiredMessageSchema = z.string()
+export const RequiredMessageSchema = z.string()
     .min(3, { message: "Минимальная длина 3 символа" })
     .max(500, { message: "Сообщениеи слишком длиннкое" })
 
-export const partnerIdSchema =  z.number({ message: "Выберите филиал" })
+export const PartnerIdSchema =  z.number({ message: "Выберите филиал" })
 
-export const categoryIdSchema = z.number({ message: "Выберите отдел" })
+export const CategoryIdSchema = z.number({ message: "Выберите отдел" })
 
-export const employeeNameSchema = z.string()
+export const EmployeeNameSchema = z.string()
     .min(1, { message: "Введите имя сотрудника" })
 
-export const employmentDurationSchema = z.string()
+export const EmploymentDurationSchema = z.string()
     .min(1, { message: "Укажите стаж работы в филиале" })
 
-export const employmentStatisticsSchema = z.string()
+export const EmploymentStatisticsSchema = z.string()
     .min(1, { message: "Укажите статистику" })
 
-export const urlSchema = z
+export const UrlSchema = z
     .url({ message: "Укажите правильный формат URL" })
 
-export const urlSchemaOptional = z.union([
+export const UrlSchemaOptional = z.union([
     z.string().url({ message: "Укажите правильный формат URL" }),
     z.literal(""),
     z.undefined()
 ])
 
-export const phoneSchema = z.string()
+export const PhoneSchema = z.string()
     .regex(reg.mobileTelnum, "Некорректный номер телефона")
     .optional()
 
-export const codeSchema =  z.string({ message: "Укажите код сертификата" })
+export const CodeSchema =  z.string({ message: "Укажите код сертификата" })
 
-export const paymentDateSchema = z.date({ message: "Укажите дату списания" })
+export const PaymentDateSchema = z.date({ message: "Укажите дату списания" })
     .transform((date) => {
         const d = new Date(date)
         d.setHours(0, 0, 0, 0)
         return d
     })
 
-export const sumSchema =  z.number({ message: "Укажите сумму списания" })
+export const SumSchema =  z.number({ message: "Укажите сумму списания" })

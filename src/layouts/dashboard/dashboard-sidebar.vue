@@ -8,7 +8,6 @@ import PrimePanelMenu from "primevue/panelmenu"
 import { useI18n } from "vue-i18n"
 import { useRoute } from "vue-router"
 import type { MenuItem } from "primevue/menuitem"
-import sidebarBg from "@a/images/dashboard/sidebar.jpg"
 
 const { t } = useI18n()
 const router = useRouter()
@@ -50,10 +49,7 @@ const isActive = (item: MenuItem) => {
 
 <template>
     <aside class="dashboard-sidebar">
-        <div
-            class="sidebar-wrapper"
-            :style="{ '--sidebar-bg': `url(${sidebarBg})` }"
-        >
+        <div class="sidebar-wrapper">
             <div class="sidebar-header">
                 <span class="logo">
                     <b-image
@@ -101,28 +97,11 @@ const isActive = (item: MenuItem) => {
     transform: translateX(0);
     transition: transform .3s cubic-bezier(0, 0, .2, 1);
     z-index: 100;
-    //border-right: 1px solid var(--p-surface-700);
-    //background: #181819;
 
     .sidebar-wrapper {
         position: relative;
         padding: 0 1.5rem;
         height: 100%;
-
-        &::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background-image: var(--sidebar-bg);
-            background-repeat: no-repeat;
-            background-size: cover;
-            background-position: top;
-            opacity: 0.15;
-        }
     }
 
     .sidebar-header {

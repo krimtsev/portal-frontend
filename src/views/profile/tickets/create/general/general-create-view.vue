@@ -15,13 +15,13 @@ import { useNotify } from "@/composables/notify/use-notify"
 import type { TicketCategoriesItem } from "@v/profile/tickets/edit/definitions/ticket-category"
 import * as z from "zod"
 import { useZodResolver } from "@/composables/zod/use-zod-resolver"
-import { filesSchema } from "@/schemas/zod"
+import { FilesSchema } from "@/schemas/zod.schema"
 import {
-    categoryIdSchema,
-    messageSchema,
-    partnerIdSchema,
-    titleSchema
-} from "@v/profile/tickets/schemas/ticket-schemas"
+    CategoryIdSchema,
+    MessageSchema,
+    PartnerIdSchema,
+    TitleSchema
+} from "@v/profile/tickets/schemas/ticket.schema"
 import type { TicketGeneral } from "@v/profile/tickets/create/general/definitions/general"
 import * as ticketAPI from "@/api/modules/profile/tickets/tickets"
 import { TicketType } from "@v/profile/tickets/edit/definitions/ticket"
@@ -68,11 +68,11 @@ const isDisabled = computed(() => {
 
 /** Валидация */
 const formSchema = z.object({
-    title:       titleSchema,
-    message:     messageSchema,
-    partner_id:  partnerIdSchema,
-    category_id: categoryIdSchema,
-    files:       filesSchema,
+    title:       TitleSchema,
+    message:     MessageSchema,
+    partner_id:  PartnerIdSchema,
+    category_id: CategoryIdSchema,
+    files:       FilesSchema,
 })
 
 type FormSchemaType = z.infer<typeof formSchema>

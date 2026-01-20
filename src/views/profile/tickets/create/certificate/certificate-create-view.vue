@@ -16,14 +16,14 @@ import { HttpError } from "@/api"
 import * as z from "zod"
 import { useZodResolver } from "@/composables/zod/use-zod-resolver"
 import {
-    codeSchema,
-    employeeNameSchema,
-    messageSchema,
-    partnerIdSchema,
-    paymentDateSchema,
-    sumSchema,
-} from "@v/profile/tickets/schemas/ticket-schemas"
-import { filesSchema } from "@/schemas/zod"
+    CodeSchema,
+    EmployeeNameSchema,
+    MessageSchema,
+    PartnerIdSchema,
+    PaymentDateSchema,
+    SumSchema,
+} from "@v/profile/tickets/schemas/ticket.schema"
+import { FilesSchema } from "@/schemas/zod.schema"
 import type { TicketCertificate } from "@v/profile/tickets/create/certificate/definitions/certificate"
 import * as ticketAPI from "@/api/modules/profile/tickets/tickets"
 import { TicketType } from "@v/profile/tickets/edit/definitions/ticket"
@@ -79,18 +79,18 @@ const isDisabled = computed(() => {
 })
 
 /** Валидация */
-const attributesSchema = z.object({
-    name:         employeeNameSchema,
-    sum:          sumSchema,
-    paymentDate:  paymentDateSchema,
-    code:         codeSchema,
+const AttributesSchema = z.object({
+    name:         EmployeeNameSchema,
+    sum:          SumSchema,
+    paymentDate:  PaymentDateSchema,
+    code:         CodeSchema,
 })
 
 const formSchema = z.object({
-    attributes:  attributesSchema,
-    message:     messageSchema,
-    partner_id:  partnerIdSchema,
-    files:       filesSchema,
+    attributes:  AttributesSchema,
+    message:     MessageSchema,
+    partner_id:  PartnerIdSchema,
+    files:       FilesSchema,
 })
 
 type FormSchemaType = z.infer<typeof formSchema>

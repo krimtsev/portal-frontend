@@ -13,8 +13,8 @@ import {
 } from "@v/profile/tickets/edit/definitions/ticket"
 import { cloneDeep, isEqual } from "lodash"
 import * as z from "zod"
-import { requiredMessageSchema } from "@v/profile/tickets/schemas/ticket-schemas"
-import { filesSchema } from "@/schemas/zod"
+import { RequiredMessageSchema } from "@v/profile/tickets/schemas/ticket.schema"
+import { FilesSchema } from "@/schemas/zod.schema"
 import { useZodResolver } from "@/composables/zod/use-zod-resolver"
 import { HttpError } from "@/api"
 import BButton from "@c/common/b-button/b-button.vue"
@@ -133,8 +133,8 @@ const isEditable = computed(() => {
 })
 
 const formSchema = z.object({
-    message: requiredMessageSchema,
-    files:   filesSchema,
+    message: RequiredMessageSchema,
+    files:   FilesSchema,
 })
 
 type FormSchemaType = z.infer<typeof formSchema>

@@ -11,15 +11,15 @@ import { type UserPartners } from "@/api/modules/partner/partner"
 import { cloneDeep, isEqual } from "lodash"
 import * as z from "zod"
 import {
-    employeeNameSchema,
-    employmentDurationSchema,
-    employmentStatisticsSchema,
-    messageSchema,
-    partnerIdSchema,
-    phoneSchema,
-    urlSchemaOptional,
-} from "@v/profile/tickets/schemas/ticket-schemas"
-import { filesSchema } from "@/schemas/zod"
+    EmployeeNameSchema,
+    EmploymentDurationSchema,
+    EmploymentStatisticsSchema,
+    MessageSchema,
+    PartnerIdSchema,
+    PhoneSchema,
+    UrlSchemaOptional,
+} from "@v/profile/tickets/schemas/ticket.schema"
+import { FilesSchema } from "@/schemas/zod.schema"
 import { useZodResolver } from "@/composables/zod/use-zod-resolver"
 import * as partnerAPI from "@/api/modules/partner/partner"
 import { HttpError } from "@/api"
@@ -96,20 +96,20 @@ const qualificationItems = Object.values(Qualification).map(value => ({
 }))
 
 /** Валидация */
-const attributesSchema = z.object({
+const AttributesSchema = z.object({
     qualification: z.enum(Qualification),
-    name:          employeeNameSchema,
-    phone:         phoneSchema,
-    experience:    employmentDurationSchema,
-    statistics:    employmentStatisticsSchema,
-    linkToWorks:   urlSchemaOptional,
+    name:          EmployeeNameSchema,
+    phone:         PhoneSchema,
+    experience:    EmploymentDurationSchema,
+    statistics:    EmploymentStatisticsSchema,
+    linkToWorks:   UrlSchemaOptional,
 })
 
 const formSchema = z.object({
-    attributes:  attributesSchema,
-    message:     messageSchema,
-    partner_id:  partnerIdSchema,
-    files:       filesSchema,
+    attributes:  AttributesSchema,
+    message:     MessageSchema,
+    partner_id:  PartnerIdSchema,
+    files:       FilesSchema,
 })
 
 type FormSchemaType = z.infer<typeof formSchema>

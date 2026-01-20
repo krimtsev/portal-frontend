@@ -35,6 +35,7 @@ const ticketType = computed(() => {
         border-radius: $indent-x2;
         background: var(--p-gray-800);
         color: var(--p-surface-0);
+        text-wrap: nowrap;
 
         &.badge-new {
             background: var(--p-blue-900);

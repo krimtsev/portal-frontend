@@ -11,18 +11,18 @@ import type { UserPartners } from "@/api/modules/partner/partner"
 import { isEqual, cloneDeep } from "lodash"
 import * as z from "zod"
 import { useZodResolver } from "@/composables/zod/use-zod-resolver"
-import { filesSchema } from "@/schemas/zod"
+import { FilesSchema } from "@/schemas/zod.schema"
 import * as partnerAPI from "@/api/modules/partner/partner"
 import { HttpError } from "@/api"
 import type { TicketDesign } from "@v/profile/tickets/create/design/definitions/design"
 import {
-    messageSchema,
-    nameSchema,
-    partnerIdSchema,
-    phoneSchema,
-    urlSchema,
-    urlSchemaOptional
-} from "@v/profile/tickets/schemas/ticket-schemas"
+    MessageSchema,
+    NameSchema,
+    PartnerIdSchema,
+    PhoneSchema,
+    UrlSchema,
+    UrlSchemaOptional
+} from "@v/profile/tickets/schemas/ticket.schema"
 import BTitle from "@c/common/b-title/b-title.vue"
 import * as ticketAPI from "@/api/modules/profile/tickets/tickets"
 import { TicketType } from "@v/profile/tickets/edit/definitions/ticket"
@@ -85,24 +85,24 @@ const isDisabled = computed(() => {
 })
 
 /** Валидация */
-const attributesSchema = z.object({
-    name:         nameSchema,
-    phone:        phoneSchema,
-    website:      urlSchema,
-    registration: urlSchema,
-    yandexMap:    urlSchema,
-    twoGisMap:    urlSchema,
-    instagram:    urlSchemaOptional,
-    telegram:     urlSchemaOptional,
+const AttributesSchema = z.object({
+    name:         NameSchema,
+    phone:        PhoneSchema,
+    website:      UrlSchema,
+    registration: UrlSchema,
+    yandexMap:    UrlSchema,
+    twoGisMap:    UrlSchema,
+    instagram:    UrlSchemaOptional,
+    telegram:     UrlSchemaOptional,
     format:       z.string(),
     promotion:    z.string(),
 })
 
 const formSchema = z.object({
-    attributes:  attributesSchema,
-    message:     messageSchema,
-    partner_id:  partnerIdSchema,
-    files:       filesSchema,
+    attributes:  AttributesSchema,
+    message:     MessageSchema,
+    partner_id:  PartnerIdSchema,
+    files:       FilesSchema,
 })
 
 type FormSchemaType = z.infer<typeof formSchema>
