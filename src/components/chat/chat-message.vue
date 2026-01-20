@@ -22,7 +22,7 @@ const avatarLabel = computed(() => props.login ? props.login[0].toUpperCase() : 
 
 const stamp = computed(() => {
     if (!props.stamp) return ""
-    return DateTime.fromISO(props.stamp, { zone: "utc" })
+    return DateTime.fromISO(props.stamp)
         .toFormat("dd.MM.yyyy H:mm:ss")
 })
 
