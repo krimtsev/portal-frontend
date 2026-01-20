@@ -116,8 +116,21 @@ function onChangeFilter() {
     refreshTickets()
 }
 
-const onRowSelect = (value: DataTableRowSelectEvent) => {
-    router.push({ name: DashboardRouteName.DashboardTicket, params: { id: value.data.id } })
+const onRowClick = (event: DataTableRowSelectEvent) => {
+    const mouseEvent = event.originalEvent as MouseEvent
+    const { id } = event.data
+
+    if (mouseEvent.ctrlKey || mouseEvent.metaKey) {
+        const route = router.resolve({
+            name:   DashboardRouteName.DashboardTicket,
+            params: { id }
+        })
+
+        window.open(route.href, "_blank")
+        return
+    }
+
+    router.push({ name: DashboardRouteName.DashboardTicket, params: { id } })
 }
 </script>
 
@@ -182,9 +195,9 @@ const onRowSelect = (value: DataTableRowSelectEvent) => {
                 :paginator="showPaginator"
                 class="table"
                 @page="onPageChange"
-                @rowSelect="onRowSelect"
-                selectionMode="single"
-                dataKey="id"
+                @row-select="onRowClick"
+                selection-mode="single"
+                data-key="id"
                 scrollable
                 lazy
             >
