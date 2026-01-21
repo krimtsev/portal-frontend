@@ -1,3 +1,5 @@
+@use "variables" as *;
+
 html[data-layout="dashboard"] {
     --p-form-field-border-radius: var(--p-border-radius-md);
     --p-checkbox-border-radius: var(--p-border-radius-xs);
@@ -23,6 +25,10 @@ html[data-layout="dashboard"] {
 
         .p-datatable-empty-message[data-pc-section="emptymessage"] {
             display: none;
+        }
+
+        .p-datatable-paginator-bottom {
+            padding-top: $indent-x2;
         }
     }
 }
