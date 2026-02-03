@@ -21,9 +21,6 @@ export const AttributesSchema = z.object({
         .min(1, { message: "Поле обязательно для заполнения" })
         .max(50, { message: "Максимальное значение 50" }),
 
-    staffCertifications: z.string()
-        .min(1, { message: "Поле обязательно для заполнения" }),
-
     cosmeticBrands: z.string()
         .min(1, { message: "Поле обязательно для заполнения" }),
 
