@@ -13,17 +13,11 @@ import type { UserPartners } from "@/api/modules/partner/partner"
 import { cloneDeep, isEqual } from "lodash"
 import * as partnerAPI from "@/api/modules/partner/partner"
 import { HttpError } from "@/api"
-import * as z from "zod"
 import { useZodResolver } from "@/composables/zod/use-zod-resolver"
 import {
-    CodeSchema,
-    EmployeeNameSchema,
-    MessageSchema,
-    PartnerIdSchema,
-    PaymentDateSchema,
-    SumSchema,
-} from "@v/profile/tickets/schemas/ticket.schema"
-import { FilesSchema } from "@/schemas/zod.schema"
+    type FormSchemaType,
+    FormSchema,
+} from "@v/profile/tickets/create/certificate/schemas/certificate.schema"
 import type { TicketCertificate } from "@v/profile/tickets/create/certificate/definitions/certificate"
 import * as ticketAPI from "@/api/modules/profile/tickets/tickets"
 import { TicketType } from "@v/profile/tickets/edit/definitions/ticket"
@@ -79,27 +73,12 @@ const isDisabled = computed(() => {
 })
 
 /** Валидация */
-const AttributesSchema = z.object({
-    name:         EmployeeNameSchema,
-    sum:          SumSchema,
-    paymentDate:  PaymentDateSchema,
-    code:         CodeSchema,
-})
-
-const formSchema = z.object({
-    attributes:  AttributesSchema,
-    message:     MessageSchema,
-    partner_id:  PartnerIdSchema,
-    files:       FilesSchema,
-})
-
-type FormSchemaType = z.infer<typeof formSchema>
 const {
     errors,
     submit,
     watchChanges,
     resetErrors
-} = useZodResolver<FormSchemaType>(formSchema)
+} = useZodResolver<FormSchemaType>(FormSchema)
 
 watchChanges(currentState)
 
@@ -136,6 +115,8 @@ async function onSave() {
 
     const params = cloneDeep(currentState.value)
     params.title = t("mc.ticket.certificate.title")
+
+    isLoading.value = true
 
     const resp = await ticketAPI.create(params)
 

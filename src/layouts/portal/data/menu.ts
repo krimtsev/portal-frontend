@@ -24,6 +24,7 @@ export function menuData(): MenuItem[] {
     },
     {
         label: "Заявки",
+        // class: "two-columns",
         items: [
             {
                 label: "Заявка на макет",
@@ -38,6 +39,12 @@ export function menuData(): MenuItem[] {
                 }
             },
             {
+                label: "Заявка на администратора",
+                command: async () => {
+                    await router.push({ name: ProfileRouteName.ProfileTicketAdministrator })
+                }
+            },
+            {
                 label: "Заявка на сертификат",
                 command: async () => {
                     await router.push({ name: ProfileRouteName.ProfileTicketCertificate })
@@ -47,6 +54,12 @@ export function menuData(): MenuItem[] {
                 label: "Заявка на черный список",
                 command: async () => {
                     await router.push({ name: ProfileRouteName.ProfileTicketBlacklist })
+                }
+            },
+            {
+                label: "Заявка на FLAGMAN",
+                command: async () => {
+                    await router.push({ name: ProfileRouteName.ProfileTicketFlagman })
                 }
             },
             {

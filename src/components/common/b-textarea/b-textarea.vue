@@ -83,7 +83,7 @@ const hint = computed(() => {
 
     :deep(.p-textarea)  {
         &.p-invalid {
-            border-color: var(--p-inputtext-invalid-border-color);
+            border-color: var(--p-form-field-invalid-border-color);
         }
     }
 

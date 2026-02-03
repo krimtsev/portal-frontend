@@ -66,9 +66,7 @@ async function handleDownload() {
             class="my-x4"
         />
 
-        <b-image src="services/missed-calls.png" 
-		full
-		/>
+        <b-image src="services/missed-calls.png" full />
 
         <b-title
             title="Сколько это стоит?"
@@ -86,7 +84,7 @@ async function handleDownload() {
                             variant="md"
                             class="mb-x2"
                         />
-	
+
                         <p>Оплата на Р\С, реквизиты будут позже</p>
                     </div>
                 </portal-card>

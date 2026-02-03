@@ -1,3 +1,5 @@
+@use "variables" as *;
+
 html[data-layout="dashboard"] {
     --p-form-field-border-radius: var(--p-border-radius-md);
     --p-checkbox-border-radius: var(--p-border-radius-xs);
@@ -7,6 +9,7 @@ html[data-layout="dashboard"] {
     --p-progressspinner-color-two: var(--p-primary-300);
     --p-progressspinner-color-three: var(--p-primary-500);
     --p-progressspinner-color-four: var(--p-primary-700);
+    --p-tag-border-radius: var(--p-border-radius-sm);
 
     .p-datatable {
         .p-datatable-tbody > tr {
@@ -23,6 +26,10 @@ html[data-layout="dashboard"] {
 
         .p-datatable-empty-message[data-pc-section="emptymessage"] {
             display: none;
+        }
+
+        .p-datatable-paginator-bottom {
+            padding-top: $indent-x2;
         }
     }
 }

@@ -73,7 +73,34 @@ export default {
                 height: "2.643rem",
                 fontSize: "1.3rem",
             }
-        }
+        },
+        tag: {
+            root: {
+                fontWeight: 600
+            },
+            colorScheme: {
+                light: {
+                    disabled: {
+                        background: "{surface.200}",
+                        color: "{surface.500}"
+                    },
+                    active: {
+                        background: "{violet.100}",
+                        color: "{violet.600}"
+                    },
+                },
+                dark: {
+                    disabled: {
+                        background: "{surface.700}",
+                        color: "{surface.400}"
+                    },
+                    active: {
+                        background: "rgba(139, 92, 246, 0.2)",
+                        color: "{violet.300}"
+                    }
+                }
+            }
+        },
     },
     semantic: {
         border: {

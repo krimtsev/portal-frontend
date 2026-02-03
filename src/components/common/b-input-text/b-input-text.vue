@@ -65,7 +65,7 @@ const label = computed(() => {
 
     :deep(.p-inputtext)  {
         &.p-invalid {
-            border-color: var(--p-inputtext-invalid-border-color);
+            border-color: var(--p-form-field-invalid-border-color);
         }
     }
 

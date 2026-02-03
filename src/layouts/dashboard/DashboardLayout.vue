@@ -194,6 +194,10 @@ const toggleMenu = (event: PointerEvent) => {
     }
 
     .layout-wrapper {
+        .layout-content {
+            padding-bottom: $indent-x2;
+        }
+
         &::after {
             content: "";
             position: absolute;
@@ -272,6 +276,7 @@ const toggleMenu = (event: PointerEvent) => {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 1.5rem;
 
     .topbar-start {
         display: flex;

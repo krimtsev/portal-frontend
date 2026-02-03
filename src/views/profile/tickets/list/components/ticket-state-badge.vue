@@ -1,60 +1,64 @@
 <script setup lang="ts">
+import PrimeTag from "primevue/tag"
+import BSkeleton from "@c/common/b-skeleton/b-skeleton.vue"
 import { computed } from "vue"
 import { stateName } from "@v/profile/tickets/list/utils/ticket"
-import BText from "@c/common/b-text/b-text.vue"
 
 const props = defineProps<{
-    isLoading?: boolean,
-    value?: string,
+    isLoading?: boolean
+    value?: string
+    rounded?: boolean
 }>()
 
 const ticketValue = computed(() => stateName(props.value || ""))
-const ticketType = computed(() => {
-    if (!props.value) return ""
 
-    const type = props.value?.replace("_", "-")
-    return `badge-${type}`
+const ticketSeverity = computed(() => {
+    if (!props.value) return "disabled"
+
+    switch (props.value) {
+        case "new":
+            return "info"
+        case "in_progress":
+            return "warn"
+        case "waiting":
+            return "active"
+        case "success":
+            return "success"
+        case "closed":
+            return "disabled"
+        case "cancel":
+            return "danger"
+        default:
+            return "disabled"
+    }
 })
 </script>
 
 <template>
     <div class="ticket-state-badge">
-        <b-text
-            :is-loading="isLoading"
+        <b-skeleton
+            v-if="isLoading"
+            width="100px"
+        />
+        <prime-tag
+            v-else
             :value="ticketValue"
-            :classes="`badge ${ticketType}`"
-            preload-width="50%"
+            :severity="ticketSeverity"
+            :rounded="props.rounded"
         />
     </div>
 </template>
 
 <style scoped lang="scss">
 .ticket-state-badge {
-    .badge {
-        padding: calc($indent-x1 / 2) $indent-x1;
-        border-radius: $indent-x2;
-        background: var(--p-gray-800);
-        color: var(--p-surface-0);
-        text-wrap: nowrap;
+    :deep(.p-tag[data-p*="disabled"]) {
+        background: var(--p-tag-disabled-background);
+        color: var(--p-tag-disabled-color);
+    }
 
-        &.badge-new {
-            background: var(--p-blue-900);
-        }
-        &.badge-in-progress {
-            background: var(--p-amber-600);
-        }
-        &.badge-waiting {
-            background: var(--p-amber-600);
-        }
-        &.badge-success {
-            background: var(--p-green-600);
-        }
-        &.badge-closed {
-            background: var(--p-neutral-600);
-        }
-        &.badge-cancel {
-            background: var(--p-red-900);
-        }
+    :deep(.p-tag[data-p*="active"]) {
+        background: var(--p-tag-active-background);
+        color: var(--p-tag-active-color);
     }
 }
 </style>

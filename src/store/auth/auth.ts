@@ -27,6 +27,7 @@ const useAuthStore = defineStore("auth", () => {
     let user =  reactive<UserData>(defaultUserData())
     let isAuthenticated = ref(false)
     let isLoading = ref(true)
+    const isSysAdmin = computed(() => user.role === Roles.SYSADMIN)
 
     async function csrf() {
         await authAPI.csrf()
@@ -96,6 +97,7 @@ const useAuthStore = defineStore("auth", () => {
         user: computed(() => user),
         isAuthenticated,
         isLoading,
+        isSysAdmin,
         getUserData,
         csrf,
         login,

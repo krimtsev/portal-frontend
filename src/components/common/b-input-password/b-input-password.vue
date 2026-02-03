@@ -104,7 +104,7 @@ $icon-size: calc(var(--p-icon-size) * 1.2);
         width: 100%;
 
         &.p-invalid {
-            border-color: var(--p-inputtext-invalid-border-color);
+            border-color: var(--p-form-field-invalid-border-color);
         }
     }
 

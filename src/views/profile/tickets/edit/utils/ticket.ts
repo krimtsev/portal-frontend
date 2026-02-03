@@ -66,12 +66,25 @@ export function normalizeAttributes(details: TicketDetails) {
                     .toFormat("dd.MM.yyyy H:mm:ss")
             }
 
+            if (details.type === TicketType.Flagman && label === "openingDate") {
+                value = DateTime.fromISO(value, { zone: "utc" })
+                    .toFormat("dd.MM.yyyy")
+            }
+
             if (
                 details.type === TicketType.Specialist &&
                 label === "qualification"
             ) {
                 const qualification = value[0].toLowerCase() + value.slice(1)
-                value = i18n.global.t(`mc.ticket.qualification.${qualification}`)
+                value = i18n.global.t(`mc.ticket.barberQualification.${qualification}`)
+            }
+
+            if (
+                details.type === TicketType.Administrator &&
+                label === "qualification"
+            ) {
+                const qualification = value[0].toLowerCase() + value.slice(1)
+                value = i18n.global.t(`mc.ticket.adminQualification.${qualification}`)
             }
 
             return {

@@ -77,8 +77,8 @@ import BTelnumLink from "@c/common/b-telnum-link/b-telnum-link.vue"
                 </ul>
             </div>
         </portal-card>
-		
-		<portal-card title="РАО и ВОИС (авторские права):">
+
+        <portal-card title="РАО и ВОИС (авторские права):">
             <div class="content">
                 <ul>
                     <li>
@@ -88,7 +88,7 @@ import BTelnumLink from "@c/common/b-telnum-link/b-telnum-link.vue"
                 </ul>
             </div>
         </portal-card>
-		
+
     </portal-page>
 </template>
 

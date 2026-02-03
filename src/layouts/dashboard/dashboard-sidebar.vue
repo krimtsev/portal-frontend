@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue"
+import { computed } from "vue"
 import BImage from "@c/common/b-image/b-image.vue"
 import { useRouter } from "vue-router"
 import { DashboardRouteName } from "@r/dashboard/route-names"
@@ -8,27 +8,56 @@ import PrimePanelMenu from "primevue/panelmenu"
 import { useI18n } from "vue-i18n"
 import { useRoute } from "vue-router"
 import type { MenuItem } from "primevue/menuitem"
+import useAuthStore from "@s/auth/auth"
+
 
 const { t } = useI18n()
 const router = useRouter()
 const route = useRoute()
+const authStore = useAuthStore()
 
-const items = ref<MenuItem[]>([
-    {
-        label: t("mc.dashboard.sidebar.home"),
-        icon:  "pi pi-home",
-        route: dashboardPaths.DashboardPanel,
-    },
-    {
-        label: t("mc.dashboard.sidebar.tickets"),
-        icon:  "pi pi-comments",
-        route: dashboardPaths.DashboardTickets,
-        activeNames: [
-            DashboardRouteName.DashboardTickets,
-            DashboardRouteName.DashboardTicket
-        ]
-    },
-])
+const items = computed<MenuItem[]>(() => {
+    const menu = [
+        {
+            label: t("mc.dashboard.sidebar.home"),
+            icon:  "pi pi-home",
+            route: dashboardPaths.DashboardPanel,
+        },
+        {
+            label: t("mc.dashboard.sidebar.tickets"),
+            icon:  "pi pi-comments",
+            route: dashboardPaths.DashboardTickets,
+            activeNames: [
+                DashboardRouteName.DashboardTickets,
+                DashboardRouteName.DashboardTicket
+            ]
+        }
+    ]
+
+    if (authStore.isSysAdmin) {
+        menu.push({
+            label: t("mc.dashboard.sidebar.users"),
+            icon:  "pi pi-users",
+            route: dashboardPaths.DashboardUsers,
+            activeNames: [
+                DashboardRouteName.DashboardUsers,
+                DashboardRouteName.DashboardUser
+            ]
+        })
+
+        menu.push({
+            label: t("mc.dashboard.sidebar.partners"),
+            icon:  "pi pi-briefcase",
+            route: dashboardPaths.DashboardPartners,
+            activeNames: [
+                DashboardRouteName.DashboardPartners,
+                DashboardRouteName.DashboardPartner
+            ]
+        })
+    }
+
+    return menu
+})
 
 const goToHome = () => router.push({ name: DashboardRouteName.DashboardPanel })
 

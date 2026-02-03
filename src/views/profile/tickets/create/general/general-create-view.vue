@@ -13,15 +13,11 @@ import * as ticketsAPI from "@/api/modules/profile/tickets/tickets"
 import { HttpError } from "@/api"
 import { useNotify } from "@/composables/notify/use-notify"
 import type { TicketCategoriesItem } from "@v/profile/tickets/edit/definitions/ticket-category"
-import * as z from "zod"
 import { useZodResolver } from "@/composables/zod/use-zod-resolver"
-import { FilesSchema } from "@/schemas/zod.schema"
 import {
-    CategoryIdSchema,
-    MessageSchema,
-    PartnerIdSchema,
-    TitleSchema
-} from "@v/profile/tickets/schemas/ticket.schema"
+    type FormSchemaType,
+    FormSchema,
+} from "@v/profile/tickets/create/general/schemas/general.schema"
 import type { TicketGeneral } from "@v/profile/tickets/create/general/definitions/general"
 import * as ticketAPI from "@/api/modules/profile/tickets/tickets"
 import { TicketType } from "@v/profile/tickets/edit/definitions/ticket"
@@ -67,21 +63,12 @@ const isDisabled = computed(() => {
 })
 
 /** Валидация */
-const formSchema = z.object({
-    title:       TitleSchema,
-    message:     MessageSchema,
-    partner_id:  PartnerIdSchema,
-    category_id: CategoryIdSchema,
-    files:       FilesSchema,
-})
-
-type FormSchemaType = z.infer<typeof formSchema>
 const {
     errors,
     submit,
     watchChanges,
     resetErrors
-} = useZodResolver<FormSchemaType>(formSchema)
+} = useZodResolver<FormSchemaType>(FormSchema)
 
 watchChanges(currentState)
 
@@ -118,6 +105,8 @@ async function onSave() {
     if (!isChanged.value) return
 
     const params = cloneDeep(currentState.value)
+
+    isLoading.value = true
 
     const resp = await ticketAPI.create(params)
 

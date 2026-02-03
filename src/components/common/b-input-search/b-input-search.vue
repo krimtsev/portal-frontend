@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { computed } from "vue"
+import PrimeIconField from "primevue/iconfield"
+import PrimeInputIcon from "primevue/inputicon"
 import PrimeInputText from "primevue/inputtext"
-import PrimeButton from "primevue/button"
 
 const model = defineModel<string>()
 
@@ -22,7 +23,7 @@ const props = withDefaults(
     }
 )
 
-const showButton = computed(() => !!model.value?.trim())
+const isShowClear = computed(() => !!model.value?.trim())
 
 function onChange(evt: Event): void {
     const target = evt.target as HTMLInputElement
@@ -44,33 +45,37 @@ function onClear() {
 </script>
 
 <template>
-    <div class="b-input-search">
+    <prime-icon-field class="b-input-search">
         <prime-input-text
             v-model="model"
             :placeholder="props.placeholder"
             :disabled="props.disabled"
-            type="text"
             class="input"
             @change="onChange"
         />
 
-        <prime-button
-            v-if="showButton"
-            :disabled="props.disabled"
-            icon="pi pi-times"
-            size="small"
-            rounded
+        <prime-input-icon
+            v-if="isShowClear"
+            class="pi pi-times close"
             @click="onClear"
         />
-    </div>
+
+        <prime-input-icon
+            v-else
+            class="pi pi-search search"
+        />
+    </prime-icon-field>
 </template>
 
 <style scoped lang="scss">
 .b-input-search {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: $indent-x1;
+    .close {
+        cursor: pointer;
+
+        &:hover {
+            color: var(--p-surface-200);
+        }
+    }
 
     .input {
         width: 100%;

@@ -15,7 +15,7 @@ import PrimeTextarea from "primevue/textarea"
 import { dashboardPaths } from "@r/dashboard/path"
 import { stateList } from "@v/profile/tickets/list/utils/ticket"
 import type { TicketCategoriesItem } from "@v/profile/tickets/edit/definitions/ticket-category"
-import type { PartnerShortListItem } from "@v/dashboard/partners/definitions/partners"
+import type { PartnerShortListItem } from "@v/dashboard/partners/list/definitions/partners"
 import * as ticketsAPI from "@/api/modules/dashboard/tickets/tickets"
 import * as partnersAPI from "@/api/modules/dashboard/partners/partners"
 import { HttpError } from "@/api"
@@ -266,7 +266,7 @@ async function onSave() {
                 v-for="({label, value}) in attributes"
                 :key="label"
                 :label="label"
-                class="label-align-center"
+                class="label-align-center short-gap"
             >
                 <span> {{ value }} </span>
             </b-form-item>

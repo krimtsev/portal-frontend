@@ -9,17 +9,10 @@ import PrimeSelect from "primevue/select"
 import { useNotify } from "@/composables/notify/use-notify"
 import { type UserPartners } from "@/api/modules/partner/partner"
 import { cloneDeep, isEqual } from "lodash"
-import * as z from "zod"
 import {
-    EmployeeNameSchema,
-    EmploymentDurationSchema,
-    EmploymentStatisticsSchema,
-    MessageSchema,
-    PartnerIdSchema,
-    PhoneSchema,
-    UrlSchemaOptional,
-} from "@v/profile/tickets/schemas/ticket.schema"
-import { FilesSchema } from "@/schemas/zod.schema"
+    type FormSchemaType,
+    FormSchema,
+} from "@v/profile/tickets/create/specialist/_britva/schemas/specialist.schema"
 import { useZodResolver } from "@/composables/zod/use-zod-resolver"
 import * as partnerAPI from "@/api/modules/partner/partner"
 import { HttpError } from "@/api"
@@ -96,24 +89,7 @@ const qualificationItems = Object.values(Qualification).map(value => ({
 }))
 
 /** Валидация */
-const AttributesSchema = z.object({
-    qualification: z.enum(Qualification),
-    name:          EmployeeNameSchema,
-    phone:         PhoneSchema,
-    experience:    EmploymentDurationSchema,
-    statistics:    EmploymentStatisticsSchema,
-    linkToWorks:   UrlSchemaOptional,
-})
-
-const formSchema = z.object({
-    attributes:  AttributesSchema,
-    message:     MessageSchema,
-    partner_id:  PartnerIdSchema,
-    files:       FilesSchema,
-})
-
-type FormSchemaType = z.infer<typeof formSchema>
-const { errors, submit, watchChanges, resetErrors } = useZodResolver<FormSchemaType>(formSchema)
+const { errors, submit, watchChanges, resetErrors } = useZodResolver<FormSchemaType>(FormSchema)
 
 watchChanges(currentState)
 
@@ -150,6 +126,8 @@ async function onSave() {
 
     const params = cloneDeep(currentState.value)
     params.title = t("mc.ticket.specialist.title")
+
+    isLoading.value = true
 
     const resp = await ticketAPI.create(params)
 
