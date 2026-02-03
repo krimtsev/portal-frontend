@@ -5,7 +5,6 @@ export interface TicketAttributes {
     auditScore: string
     mastersCount: string
     openingDate: Date | null
-    staffCertifications: string
     yandexMap: string
     twoGisMap: string
     cosmeticBrands: string

@@ -56,7 +56,6 @@ function defaultState(): TicketFlagman {
             auditScore:          "",
             mastersCount:        "",
             openingDate:         null,
-            staffCertifications: "",
             yandexMap:           "",
             twoGisMap:           "",
             cosmeticBrands:      "",
@@ -208,21 +207,21 @@ async function onSave() {
 
                     <div class="col-6 mobile-col-12">
                         <b-input-text
-                            v-model="currentState.attributes.staffCertifications"
-                            :error="errors.attributes?.staffCertifications"
-                            :disabled="isFirstLoading"
-                            :placeholder="t('mc.ticket.flagman.placeholder.staffCertifications')"
-                            name="staffCertifications"
-                        />
-                    </div>
-
-                    <div class="col-6 mobile-col-12">
-                        <b-input-text
                             v-model="currentState.attributes.cosmeticBrands"
                             :error="errors.attributes?.cosmeticBrands"
                             :disabled="isFirstLoading"
                             :placeholder="t('mc.ticket.flagman.placeholder.cosmeticBrands')"
                             name="cosmeticBrands"
+                        />
+                    </div>
+
+                    <div class="col-6 mobile-col-12">
+                        <b-input-text
+                            v-model="currentState.attributes.missedReports"
+                            :error="errors.attributes?.missedReports"
+                            :disabled="isFirstLoading"
+                            :placeholder="t('mc.ticket.flagman.placeholder.missedReports')"
+                            name="missedReports"
                         />
                     </div>
 
@@ -246,16 +245,6 @@ async function onSave() {
                         />
                     </div>
 
-                    <div class="col-6 mobile-col-12">
-                        <b-input-text
-                            v-model="currentState.attributes.missedReports"
-                            :error="errors.attributes?.missedReports"
-                            :disabled="isFirstLoading"
-                            :placeholder="t('mc.ticket.flagman.placeholder.missedReports')"
-                            name="missedReports"
-                        />
-                    </div>
-
                     <div class="col-12 mobile-col-12">
                         <b-textarea
                             v-model="currentState.message"
@@ -268,6 +257,13 @@ async function onSave() {
                     </div>
 
                     <div class="col-12 mobile-col-12">
+                        <div class="content">
+                            <p class="mb-x0"> Прикрепите: </p>
+                            <ul>
+                                <li>Пройденные аттестации мастеров и админов</li>
+                            </ul>
+                        </div>
+
                         <b-file-upload
                             v-model="currentState.files"
                             :error="errors.files"
@@ -295,5 +291,9 @@ async function onSave() {
 <style scoped lang="scss">
 .flagman-create-view {
     margin-bottom: $indent-x4;
+
+    .content {
+        @include text-content;
+    }
 }
 </style>
