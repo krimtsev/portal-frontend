@@ -19,9 +19,9 @@ const ticketSeverity = computed(() => {
         case "new":
             return "info"
         case "in_progress":
-            return "active"
-        case "waiting":
             return "warn"
+        case "waiting":
+            return "active"
         case "success":
             return "success"
         case "closed":
