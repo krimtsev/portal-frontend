@@ -10,11 +10,13 @@ import ChangePasswordView from "@v/profile/change-password/change-password-view.
 import AnalyticsView from "@v/profile/analytics/analytics-view.vue"
 import TicketEditView from "@v/profile/tickets/edit/ticket-edit-view.vue"
 import TicketsListView from "@v/profile/tickets/list/tickets-list-view.vue"
-import TicketCreateGeneral from "@v/profile/tickets/create/general/general-create-view.vue"
-import TicketCreateDesign from "@v/profile/tickets/create/design/design-create-view.vue"
-import TicketCreateCertificate from "@v/profile/tickets/create/certificate/certificate-create-view.vue"
-import TicketCreateSpecialist from "@v/profile/tickets/create/specialist/_britva/specialist-create-view.vue"
-import TicketCreateBlacklist from "@v/profile/tickets/create/blacklist/blacklist-create-view.vue"
+import TicketCreateGeneralView from "@v/profile/tickets/create/general/general-create-view.vue"
+import TicketCreateDesignView from "@v/profile/tickets/create/design/design-create-view.vue"
+import TicketCreateCertificateView from "@v/profile/tickets/create/certificate/certificate-create-view.vue"
+import TicketCreateSpecialistView from "@v/profile/tickets/create/specialist/_britva/specialist-create-view.vue"
+import TicketCreateBlacklistView from "@v/profile/tickets/create/blacklist/blacklist-create-view.vue"
+import TicketCreateFlagmanView from "@v/profile/tickets/create/flagman/flagman-create.view.vue"
+import TicketCreateAdministratorView from "@v/profile/tickets/create/administrator/_britva/administrator-create-view.vue"
 
 
 const roles = [Roles.USER, Roles.ADMIN, Roles.SYSADMIN]
@@ -101,7 +103,7 @@ const routes: RouteRecordRaw[] = [
                 path: profilePaths.ProfileTicketGeneral,
                 name: ProfileRouteName.ProfileTicketGeneral,
                 components: {
-                    default: TicketCreateGeneral,
+                    default: TicketCreateGeneralView,
                 },
                 meta: {
                     roles,
@@ -111,7 +113,7 @@ const routes: RouteRecordRaw[] = [
                 path: profilePaths.ProfileTicketDesign,
                 name: ProfileRouteName.ProfileTicketDesign,
                 components: {
-                    default: TicketCreateDesign,
+                    default: TicketCreateDesignView,
                 },
                 meta: {
                     roles,
@@ -121,7 +123,7 @@ const routes: RouteRecordRaw[] = [
                 path: profilePaths.ProfileTicketCertificate,
                 name: ProfileRouteName.ProfileTicketCertificate,
                 components: {
-                    default: TicketCreateCertificate,
+                    default: TicketCreateCertificateView,
                 },
                 meta: {
                     roles,
@@ -131,7 +133,7 @@ const routes: RouteRecordRaw[] = [
                 path: profilePaths.ProfileTicketSpecialist,
                 name: ProfileRouteName.ProfileTicketSpecialist,
                 components: {
-                    default: TicketCreateSpecialist,
+                    default: TicketCreateSpecialistView,
                 },
                 meta: {
                     roles,
@@ -141,7 +143,27 @@ const routes: RouteRecordRaw[] = [
                 path: profilePaths.ProfileTicketBlacklist,
                 name: ProfileRouteName.ProfileTicketBlacklist,
                 components: {
-                    default: TicketCreateBlacklist,
+                    default: TicketCreateBlacklistView,
+                },
+                meta: {
+                    roles,
+                },
+            },
+            {
+                path: profilePaths.ProfileTicketFlagman,
+                name: ProfileRouteName.ProfileTicketFlagman,
+                components: {
+                    default: TicketCreateFlagmanView,
+                },
+                meta: {
+                    roles,
+                },
+            },
+            {
+                path: profilePaths.ProfileTicketAdministrator,
+                name: ProfileRouteName.ProfileTicketAdministrator,
+                components: {
+                    default: TicketCreateAdministratorView,
                 },
                 meta: {
                     roles,

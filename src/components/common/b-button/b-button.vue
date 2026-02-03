@@ -77,8 +77,8 @@ const commonProps = computed(() => {
             border: 1px solid var(--p-portal-button-outline-border-color);
 
             &[disabled] {
-                background: var(--p-inputtext-disabled-background);
-                color: var(--p-inputtext-disabled-color);
+                background: var(--p-form-field-disabled-background);
+                color: var(--p-form-field-disabled-color);
             }
         }
 

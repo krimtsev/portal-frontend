@@ -57,6 +57,7 @@ const avatarLabel = computed(() => {
                         @click="goToHome"
                     />
                 </template>
+
                 <template #end>
                     <div class="right-section">
                         <div class="right-section-item">
@@ -188,6 +189,22 @@ body {
 
             .p-menubar-item:last-child {
                 border-width: 0;
+            }
+        }
+
+        @media (min-width: $layout-desktop-width) {
+            .two-columns[data-p-active="true"] {
+                > .p-menubar-submenu {
+                    display: grid !important;
+                    grid-template-columns: repeat(2, 1fr);
+                    min-width: max-content;
+                }
+            }
+
+            .two-columns[data-p-active="false"] {
+                > .p-menubar-submenu {
+                    display: none !important;
+                }
             }
         }
     }

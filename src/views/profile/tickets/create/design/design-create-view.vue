@@ -9,20 +9,14 @@ import BInputText from "@c/common/b-input-text/b-input-text.vue"
 import { useNotify } from "@/composables/notify/use-notify"
 import type { UserPartners } from "@/api/modules/partner/partner"
 import { isEqual, cloneDeep } from "lodash"
-import * as z from "zod"
 import { useZodResolver } from "@/composables/zod/use-zod-resolver"
-import { FilesSchema } from "@/schemas/zod.schema"
 import * as partnerAPI from "@/api/modules/partner/partner"
 import { HttpError } from "@/api"
 import type { TicketDesign } from "@v/profile/tickets/create/design/definitions/design"
 import {
-    MessageSchema,
-    NameSchema,
-    PartnerIdSchema,
-    PhoneSchema,
-    UrlSchema,
-    UrlSchemaOptional
-} from "@v/profile/tickets/schemas/ticket.schema"
+    type FormSchemaType,
+    FormSchema,
+} from "@v/profile/tickets/create/design/schemas/design.schema"
 import BTitle from "@c/common/b-title/b-title.vue"
 import * as ticketAPI from "@/api/modules/profile/tickets/tickets"
 import { TicketType } from "@v/profile/tickets/edit/definitions/ticket"
@@ -85,33 +79,12 @@ const isDisabled = computed(() => {
 })
 
 /** Валидация */
-const AttributesSchema = z.object({
-    name:         NameSchema,
-    phone:        PhoneSchema,
-    website:      UrlSchema,
-    registration: UrlSchema,
-    yandexMap:    UrlSchema,
-    twoGisMap:    UrlSchema,
-    instagram:    UrlSchemaOptional,
-    telegram:     UrlSchemaOptional,
-    format:       z.string(),
-    promotion:    z.string(),
-})
-
-const formSchema = z.object({
-    attributes:  AttributesSchema,
-    message:     MessageSchema,
-    partner_id:  PartnerIdSchema,
-    files:       FilesSchema,
-})
-
-type FormSchemaType = z.infer<typeof formSchema>
 const {
     errors,
     submit,
     watchChanges,
     resetErrors
-} = useZodResolver<FormSchemaType>(formSchema)
+} = useZodResolver<FormSchemaType>(FormSchema)
 
 watchChanges(currentState)
 
@@ -148,6 +121,8 @@ async function onSave() {
 
     const params = cloneDeep(currentState.value)
     params.title = t("mc.ticket.design.title")
+
+    isLoading.value = true
 
     const resp = await ticketAPI.create(params)
 

@@ -3,24 +3,29 @@ import { computed } from "vue"
 import { DateTime } from "luxon"
 
 interface Props {
-    value: string | Date
+    value: string | Date | null
     diff?: boolean
 }
 
 const props = defineProps<Props>()
 
 const dateTime = computed(() => {
+    if (!props.value) {
+        return null
+    }
+
     if (props.value instanceof Date) {
         return DateTime.fromJSDate(props.value)
-    } else {
-        // предполагаем формат "yyyy-MM-dd HH:mm:ss"
-        return DateTime.fromFormat(props.value, "yyyy-MM-dd HH:mm:ss")
     }
+
+    return DateTime.fromFormat(props.value, "yyyy-MM-dd HH:mm:ss")
 })
 
 // Вычисляем отображение
 const display = computed(() => {
-    if (!dateTime.value.isValid) return "Invalid date"
+    if (!dateTime.value || !dateTime.value.isValid) {
+        return "—"
+    }
 
     if (props.diff) {
         const now = DateTime.now()

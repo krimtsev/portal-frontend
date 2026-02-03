@@ -41,13 +41,12 @@ defineExpose({ scrollToBottom })
 .chat-container {
     max-height: 500px;
     overflow-y: auto;
-    background: var(--p-surface-800);
     padding: $indent-x2;
-    border-radius: var(--p-inputtext-border-radius);
+    border-radius: var(--p-form-field-border-radius);
+    background: var(--p-form-field-background);
     outline-color: transparent;
     scrollbar-width: thin;
-    scrollbar-color: var(--p-surface-600) var(--p-surface-800);
-    background: var(--p-select-background);
+    scrollbar-color: var(--p-surface-600) var(--p-form-field-background);
 
     .empty {
         color: var(--p-surface-500);

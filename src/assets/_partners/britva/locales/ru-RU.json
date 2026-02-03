@@ -6,14 +6,18 @@
             "assistant": "Клифф"
         },
         "ticket": {
-            "qualification": {
-                "barberPlus": "Барбер +",
-                "tobBarber": "Топ-Барбер",
-                "tobBarberPlus": "Топ-Барбер +",
-                "brandBarber": "Бренд-Барбер",
-                "brandBarberPlus": "Бренд-Барбер +",
-                "brandBarberPro": "Бренд-Барбер ПРО",
-                "expert": "Эксперт"
+            "barberQualification": {
+                "barberPlus": "БАРБЕР+",
+                "tobBarber": "ТОП-БАРБЕР",
+                "tobBarberPlus": "ТОП-БАРБЕР+",
+                "brandBarber": "БРЕНД-БАРБЕР",
+                "brandBarberPlus": "БРЕНД-БАРБЕР+",
+                "brandBarberPro": "БРЕНД-БАРБЕР ПРО",
+                "expert": "ЭКСПЕРТ"
+            },
+            "adminQualification": {
+                "senior": "Старший администратор",
+                "manager": "Руководитель филиала"
             }
         }
     }

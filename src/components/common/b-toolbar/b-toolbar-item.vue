@@ -24,7 +24,11 @@ withDefaults(defineProps<{
     @include flex-start;
 
     flex-direction: column;
-    margin-right: $indent-x2;
+
+    & ~ .b-toolbar-item ,
+    & ~ * > .b-toolbar-item  {
+        margin-left: $indent-x2;
+    }
 
     .header {
         @include flex-start;

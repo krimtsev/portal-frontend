@@ -12,4 +12,6 @@ export enum ProfileRouteName {
     ProfileTicketCertificate = "ProfileTicketCertificate",
     ProfileTicketSpecialist = "ProfileTicketSpecialist",
     ProfileTicketBlacklist = "ProfileTicketBlacklist",
+    ProfileTicketFlagman = "ProfileTicketFlagman",
+    ProfileTicketAdministrator = "ProfileTicketAdministrator",
 }

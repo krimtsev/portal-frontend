@@ -37,12 +37,12 @@ withDefaults(defineProps<{
 
     &-wrapper {
         display: flex;
-        justify-content: flex-start;
+        justify-content: space-between;
         align-items: flex-end;
         width: 100%;
 
         .right-side {
-            @include flex-start;
+            @include flex-end;
 
             flex-grow: 1;
             align-items: center;

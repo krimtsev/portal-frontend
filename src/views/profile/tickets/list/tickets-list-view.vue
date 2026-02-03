@@ -200,49 +200,88 @@ const goTo = (id: string) => router.push({ name: ProfileRouteName.ProfileTicket,
                     <b-empty-result />
                 </template>
 
-                <prime-column field="id" class="id" header="#">
+                <prime-column
+                    field="id"
+                    class="id"
+                    header="#"
+                >
                     <template #body="slotProps">
                         <b-text
-                            :value="slotProps.data.id"
                             :is-loading="isLoading"
+                            :value="slotProps.data.id"
+                            preload-width="20px"
                         />
                     </template>
                 </prime-column>
 
-                <prime-column field="title" class="subject" header="Тема запроса">
+                <prime-column
+                    field="title"
+                    class="subject"
+                    header="Тема запроса"
+                >
                     <template #body="slotProps">
                         <b-text
                             :value="slotProps.data.title"
                             :is-loading="isLoading"
                             variant="link"
                             @click="goTo(slotProps.data.id)"
+                            preload-width="180px"
                         />
                     </template>
                 </prime-column>
 
-                <prime-column field="category" class="category" header="Отдел">
+                <prime-column
+                    field="category"
+                    class="category"
+                    header="Отдел"
+                >
                     <template #body="slotProps">
                         <b-text
                             :value="slotProps.data?.category?.title"
                             :is-loading="isLoading"
+                            preload-width="120px"
                         />
                     </template>
                 </prime-column>
 
-                <prime-column field="partner" class="partner" header="Филиал">
+                <prime-column
+                    field="partner"
+                    class="partner"
+                    header="Филиал"
+                >
                     <template #body="slotProps">
                         <b-text
                             :value="slotProps.data?.partner?.name"
                             :is-loading="isLoading"
+                            preload-width="100px"
                         />
                     </template>
                 </prime-column>
 
-                <prime-column field="state" class="state" header="Статус">
+                <prime-column
+                    field="state"
+                    class="state"
+                    header="Статус"
+                >
                     <template #body="slotProps">
                         <ticket-state-badge
                             :is-loading="isLoading"
                             :value="slotProps.data.state"
+                            rounded
+                        />
+                    </template>
+                </prime-column>
+
+                <prime-column
+                    field="created_at"
+                    header="Дата создания"
+                    class="table-create-date"
+                >
+                    <template #body="slotProps">
+                        <b-text
+                            :is-loading="isLoading"
+                            :value="slotProps.data.created_at"
+                            preload-width="120px"
                         />
                     </template>
                 </prime-column>

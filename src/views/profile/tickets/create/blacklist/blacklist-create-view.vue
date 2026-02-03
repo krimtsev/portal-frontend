@@ -10,20 +10,15 @@ import { useNotify } from "@/composables/notify/use-notify"
 import type { UserPartners } from "@/api/modules/partner/partner"
 import PortalCard from "@c/portal/portal-card/portal-card.vue"
 import { isEqual, cloneDeep } from "lodash"
-import * as z from "zod"
 import { useZodResolver } from "@/composables/zod/use-zod-resolver"
-import { FilesSchema } from "@/schemas/zod.schema"
 import * as partnerAPI from "@/api/modules/partner/partner"
 import * as ticketAPI from "@/api/modules/profile/tickets/tickets"
 import { HttpError } from "@/api"
 import type { TicketBlacklist } from "@v/profile/tickets/create/blacklist/definitions/blacklist"
 import {
-    EmployeeNameSchema,
-    EmploymentDurationSchema,
-    MessageSchema,
-    PartnerIdSchema,
-    PhoneSchema
-} from "@v/profile/tickets/schemas/ticket.schema"
+    type FormSchemaType,
+    FormSchema,
+} from "@v/profile/tickets/create/blacklist/schemas/blacklist.schema"
 import BInputTelnum from "@c/common/b-input-telnum/b-input-telnum.vue"
 import {
     type TicketCategoriesItem,
@@ -77,26 +72,12 @@ const isDisabled = computed(() => {
 })
 
 /** Валидация */
-const AttributesSchema = z.object({
-    name:     EmployeeNameSchema,
-    duration: EmploymentDurationSchema,
-    phone:    PhoneSchema,
-})
-
-const formSchema = z.object({
-    attributes:  AttributesSchema,
-    message:     MessageSchema,
-    partner_id:  PartnerIdSchema,
-    files:       FilesSchema,
-})
-
-type FormSchemaType = z.infer<typeof formSchema>
 const {
     errors,
     submit,
     watchChanges,
     resetErrors
-} = useZodResolver<FormSchemaType>(formSchema)
+} = useZodResolver<FormSchemaType>(FormSchema)
 
 watchChanges(currentState)
 
@@ -131,10 +112,10 @@ async function onSave() {
     if (!isValid) return
     if (!isChanged.value) return
 
-    isLoading.value = true
-
     const params = cloneDeep(currentState.value)
     params.title = t("mc.ticket.blacklist.title")
+
+    isLoading.value = true
 
     const resp = await ticketAPI.create(params)
 

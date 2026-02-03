@@ -29,6 +29,7 @@ const { breadcrumbs } = useBreadcrumbs()
     font-size: $font-size-h4;
     font-weight: 500;
     color: var(--p-surface-300);
+    text-wrap: nowrap;
 
     &::after {
         content: "/";

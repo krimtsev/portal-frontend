@@ -13,8 +13,10 @@ import {
 } from "@v/profile/tickets/edit/definitions/ticket"
 import { cloneDeep, isEqual } from "lodash"
 import * as z from "zod"
-import { RequiredMessageSchema } from "@v/profile/tickets/schemas/ticket.schema"
-import { FilesSchema } from "@/schemas/zod.schema"
+import {
+    RequiredMessageSchema,
+    FilesSchema,
+} from "@v/profile/tickets/schemas/ticket.schema"
 import { useZodResolver } from "@/composables/zod/use-zod-resolver"
 import { HttpError } from "@/api"
 import BButton from "@c/common/b-button/b-button.vue"
@@ -385,12 +387,13 @@ async function onRemove() {
     margin-bottom: $indent-x4;
 
     :deep(.portal-card) {
-        padding: 0;
-        background: transparent;
-
         .card-title {
             @include h4();
         }
+    }
+
+    :deep(.chat-container) {
+        border: 1px solid var(--p-form-field-border-color);
     }
 
     .footer {

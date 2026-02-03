@@ -12,4 +12,6 @@ export const profilePaths = {
     ProfileTicketCertificate: "profile/ticket/certificate",
     ProfileTicketSpecialist: "profile/ticket/specialist",
     ProfileTicketBlacklist: "profile/ticket/blacklist",
+    ProfileTicketFlagman: "profile/ticket/flagman",
+    ProfileTicketAdministrator: "profile/ticket/administrator",
 }

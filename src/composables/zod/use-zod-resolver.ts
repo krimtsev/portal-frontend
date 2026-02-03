@@ -10,11 +10,13 @@ type ZodErrorTree = {
 }
 
 export type FieldErrors<T> = {
-    [K in keyof T]?: T[K] extends readonly (infer U)[]
-        ? FieldErrors<U>[]
-        : T[K] extends object
-            ? FieldErrors<T[K]>
-            : string
+    [K in keyof T]?: T[K] extends Date
+        ? string
+        : T[K] extends readonly (infer U)[]
+            ? FieldErrors<U>[]
+            : T[K] extends object
+                ? FieldErrors<T[K]>
+                : string
 }
 
 function mapZodTreeToErrors<T>(

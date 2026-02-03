@@ -28,6 +28,24 @@ const items = ref<MenuItem[]>([
             DashboardRouteName.DashboardTicket
         ]
     },
+    {
+        label: t("mc.dashboard.sidebar.users"),
+        icon:  "pi pi-users",
+        route: dashboardPaths.DashboardUsers,
+        activeNames: [
+            DashboardRouteName.DashboardUsers,
+            DashboardRouteName.DashboardUser
+        ]
+    },
+    {
+        label: t("mc.dashboard.sidebar.partners"),
+        icon:  "pi pi-briefcase",
+        route: dashboardPaths.DashboardPartners,
+        activeNames: [
+            DashboardRouteName.DashboardPartners,
+            DashboardRouteName.DashboardPartner
+        ]
+    },
 ])
 
 const goToHome = () => router.push({ name: DashboardRouteName.DashboardPanel })

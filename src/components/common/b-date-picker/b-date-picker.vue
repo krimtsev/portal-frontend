@@ -5,7 +5,7 @@ import PrimeMessage from "primevue/message"
 interface DatePicker {
     name: string
     label: string
-    error: string
+    error?: string
     fullWidth: boolean
     placeholder: string
     disabled: boolean
@@ -17,7 +17,8 @@ interface DatePicker {
 }
 
 const props = withDefaults(defineProps<Partial<DatePicker>>(), {
-    manualInput: false
+    manualInput: false,
+    dateFormat: "dd-mm-yy"
 })
 
 const model = defineModel<Date | Date[] | (Date | null)[] | null | undefined>()
@@ -65,7 +66,7 @@ const model = defineModel<Date | Date[] | (Date | null)[] | null | undefined>()
 
     :deep(.p-inputtext)  {
         &.p-invalid {
-            border-color: var(--p-inputtext-invalid-border-color);
+            border-color: var(--p-form-field-invalid-border-color);
         }
     }
 

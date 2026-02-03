@@ -9,11 +9,13 @@ export interface Ticket {
 }
 
 export enum TicketType {
-    General     = "general",
-    Blacklist   = "blacklist",
-    Certificate = "certificate",
-    Design      = "design",
-    Specialist  = "specialist",
+    General       = "general",
+    Blacklist     = "blacklist",
+    Certificate   = "certificate",
+    Design        = "design",
+    Specialist    = "specialist",
+    Flagman       = "flagman",
+    Administrator = "administrator",
 }
 
 export enum TicketState {

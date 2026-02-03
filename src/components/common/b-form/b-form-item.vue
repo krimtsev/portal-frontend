@@ -50,6 +50,12 @@ const labelText = computed(() => {
         margin-top: $indent-x3;
     }
 
+    &.short-gap {
+        & + .b-form-item {
+            margin-top: $indent-x1;
+        }
+    }
+
     &.label-align-top {
         align-items: flex-start;
 

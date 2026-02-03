@@ -17,7 +17,7 @@ import BText from "@c/common/b-text/b-text.vue"
 import { DashboardRouteName } from "@r/dashboard/route-names"
 import TicketStateBadge from "@v/profile/tickets/list/components/ticket-state-badge.vue"
 import { stateList } from "@v/profile/tickets/list/utils/ticket"
-import type { PartnerShortListItem } from "@v/dashboard/partners/definitions/partners"
+import type { PartnerShortListItem } from "@v/dashboard/partners/list/definitions/partners"
 import BEmptyResult from "@c/common/b-empty/b-empty-result.vue"
 import ListLoadingState from "@c/common/b-loading-state/list-loading-state.vue"
 import BTextDate from "@c/common/b-text/b-text-date.vue"
@@ -135,7 +135,7 @@ const onRowClick = (event: DataTableRowSelectEvent) => {
 </script>
 
 <template>
-    <div class="ticket-view">
+    <div class="tickets-list-view">
         <b-toolbar no-paddings>
             <b-toolbar-item header="Отдел">
                 <prime-multi-select
@@ -291,7 +291,7 @@ const onRowClick = (event: DataTableRowSelectEvent) => {
 </template>
 
 <style scoped lang="scss">
-.ticket-view {
+.tickets-list-view {
     @include list-view;
 
     padding-top: $indent-x2;

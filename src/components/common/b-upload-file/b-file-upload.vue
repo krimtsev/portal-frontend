@@ -152,7 +152,7 @@ const removeFile = (index: number, removeFileCallback: (index: number) => void) 
 .b-file-upload {
     :deep(.p-fileupload) {
         border: none;
-        border-radius: 0; // var(--p-inputtext-border-radius);
+        border-radius: 0;
         background: transparent;
         overflow: hidden;
 
