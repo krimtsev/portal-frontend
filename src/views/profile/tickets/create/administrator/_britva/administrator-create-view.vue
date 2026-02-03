@@ -147,7 +147,7 @@ async function onSave() {
 <template>
     <portal-page
         :title="t('mc.ticket.administrator.title')"
-        right-image="template/ticket-administrator.png"
+        right-image="template/ticket-specialist.png"
         class="administrator-create-view"
     >
         <div class="ticket-wrapper">
