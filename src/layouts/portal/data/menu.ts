@@ -24,7 +24,7 @@ export function menuData(): MenuItem[] {
     },
     {
         label: "Заявки",
-        class: "two-columns",
+        // class: "two-columns",
         items: [
             {
                 label: "Заявка на макет",
@@ -57,15 +57,15 @@ export function menuData(): MenuItem[] {
                 }
             },
             {
-                label: "Индивидуальное согласование",
+                label: "Заявка на FLAGMAN",
                 command: async () => {
-                    await router.push({ name: ProfileRouteName.ProfileTicketGeneral })
+                    await router.push({ name: ProfileRouteName.ProfileTicketFlagman })
                 }
             },
             {
-                label: "Заявка на Flagman",
+                label: "Индивидуальное согласование",
                 command: async () => {
-                    await router.push({ name: ProfileRouteName.ProfileTicketFlagman })
+                    await router.push({ name: ProfileRouteName.ProfileTicketGeneral })
                 }
             },
         ]

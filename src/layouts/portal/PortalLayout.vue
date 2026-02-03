@@ -193,6 +193,9 @@ body {
         }
 
         @media (min-width: $layout-desktop-width) {
+            /*
+             * two-columns - отрисовать в две колонки
+             */
             .two-columns[data-p-active="true"] {
                 > .p-menubar-submenu {
                     display: grid !important;
