@@ -10,26 +10,23 @@ import { useRoute } from "vue-router"
 import type { MenuItem } from "primevue/menuitem"
 import useAuthStore from "@s/auth/auth"
 
+interface DashboardMenuItem extends MenuItem {
+    activeNames?: string[]
+}
 
 const { t } = useI18n()
 const router = useRouter()
 const route = useRoute()
 const authStore = useAuthStore()
 
-const items = computed<MenuItem[]>(() => {
+const items = computed<DashboardMenuItem[]>(() => {
     const menu = [
         {
             label: t("mc.dashboard.sidebar.home"),
             icon:  "pi pi-home",
             route: dashboardPaths.DashboardPanel,
-        },
-        {
-            label: t("mc.dashboard.sidebar.tickets"),
-            icon:  "pi pi-comments",
-            route: dashboardPaths.DashboardTickets,
             activeNames: [
-                DashboardRouteName.DashboardTickets,
-                DashboardRouteName.DashboardTicket
+                DashboardRouteName.DashboardPanel
             ]
         }
     ]
@@ -56,12 +53,22 @@ const items = computed<MenuItem[]>(() => {
         })
     }
 
+    menu.push({
+        label: t("mc.dashboard.sidebar.tickets"),
+        icon:  "pi pi-comments",
+        route: dashboardPaths.DashboardTickets,
+        activeNames: [
+            DashboardRouteName.DashboardTickets,
+            DashboardRouteName.DashboardTicket
+        ]
+    })
+
     return menu
 })
 
 const goToHome = () => router.push({ name: DashboardRouteName.DashboardPanel })
 
-const isActive = (item: MenuItem) => {
+const isActive = (item: DashboardMenuItem) => {
     if (!item.route) return false
 
     if (item.activeNames?.length) {

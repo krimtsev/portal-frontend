@@ -27,23 +27,24 @@ const initialValues = reactive<ChangePassword>({
 const isSubmitting = ref(false)
 
 async function resolver(options: FormResolverOptions) {
-    const values = options.values
+    const { password, confirmPassword } = options.values
+
     const errors: {
         confirmPassword?: Array<{ message: string }>
     } = {}
 
-    if (!values.confirmPassword) {
+    if (!confirmPassword) {
         errors.confirmPassword = [{ message: "Введите пароль." }]
-    } else if (!isPassword(values.confirmPassword)) {
+    } else if (!isPassword(confirmPassword)) {
         errors.confirmPassword = [{ message: "Пароль может состоять из букв, цифр и быть строкой без пробелов." }]
-    } else if (values.confirmPassword.length < 8) {
+    } else if (confirmPassword.length < 8) {
         errors.confirmPassword = [{ message: "Пароль должен содержать не менее 8 символов." }]
-    } else if (values.confirmPassword !== values.password) {
+    } else if (confirmPassword !== password) {
         errors.confirmPassword = [{ message: "Пароли не совпадают." }]
     }
 
     return {
-        values,
+        values: options.values,
         errors
     }
 }
