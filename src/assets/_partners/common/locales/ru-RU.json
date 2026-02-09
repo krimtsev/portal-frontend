@@ -159,7 +159,9 @@
                 "home": "Главная",
                 "tickets": "Заявки",
                 "users": "Пользователи",
-                "partners": "Филиалы"
+                "partners": "Филиалы",
+                "partnerList": "Список",
+                "partnerGroups": "Группы"
             }
         }
     }

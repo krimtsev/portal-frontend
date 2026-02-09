@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from "vue"
+import { ref, computed, watch } from "vue"
 import BImage from "@c/common/b-image/b-image.vue"
 import { useRouter } from "vue-router"
 import { DashboardRouteName } from "@r/dashboard/route-names"
@@ -12,6 +12,9 @@ import useAuthStore from "@s/auth/auth"
 
 interface DashboardMenuItem extends MenuItem {
     activeNames?: string[]
+    items?: DashboardMenuItem[]
+    key: string;
+    highlightOnExpand?: boolean
 }
 
 const { t } = useI18n()
@@ -19,9 +22,14 @@ const router = useRouter()
 const route = useRoute()
 const authStore = useAuthStore()
 
+const HIGHLIGHT_PARENT = false
+
+const expandedKeys = ref<Record<string, boolean>>({})
+
 const items = computed<DashboardMenuItem[]>(() => {
-    const menu = [
+    const menu: DashboardMenuItem[] = [
         {
+            key:  "home",
             label: t("mc.dashboard.sidebar.home"),
             icon:  "pi pi-home",
             route: dashboardPaths.DashboardPanel,
@@ -33,6 +41,7 @@ const items = computed<DashboardMenuItem[]>(() => {
 
     if (authStore.isSysAdmin) {
         menu.push({
+            key:   "users",
             label: t("mc.dashboard.sidebar.users"),
             icon:  "pi pi-users",
             route: dashboardPaths.DashboardUsers,
@@ -43,17 +52,41 @@ const items = computed<DashboardMenuItem[]>(() => {
         })
 
         menu.push({
+            key:   "partners_root",
             label: t("mc.dashboard.sidebar.partners"),
             icon:  "pi pi-briefcase",
-            route: dashboardPaths.DashboardPartners,
             activeNames: [
                 DashboardRouteName.DashboardPartners,
                 DashboardRouteName.DashboardPartner
+            ],
+            highlightOnExpand: false,
+            items: [
+                {
+                    key:   "partner_list",
+                    label: t("mc.dashboard.sidebar.partnerList"),
+                    icon:  "pi pi-list",
+                    route: dashboardPaths.DashboardPartners,
+                    activeNames: [
+                        DashboardRouteName.DashboardPartners,
+                        DashboardRouteName.DashboardPartner
+                    ],
+                },
+                {
+                    key:   "partner_group",
+                    label: t("mc.dashboard.sidebar.partnerGroups"),
+                    icon:  "pi pi-th-large",
+                    route: dashboardPaths.DashboardPartnerGroups,
+                    activeNames: [
+                        DashboardRouteName.DashboardPartnerGroups,
+                        DashboardRouteName.DashboardPartnerGroup
+                    ],
+                }
             ]
         })
     }
 
     menu.push({
+        key:  "tickets",
         label: t("mc.dashboard.sidebar.tickets"),
         icon:  "pi pi-comments",
         route: dashboardPaths.DashboardTickets,
@@ -68,19 +101,48 @@ const items = computed<DashboardMenuItem[]>(() => {
 
 const goToHome = () => router.push({ name: DashboardRouteName.DashboardPanel })
 
-const isActive = (item: DashboardMenuItem) => {
-    if (!item.route) return false
+const isActive = (item: any): boolean => {
+    const currentName = route.name as string
 
-    if (item.activeNames?.length) {
-        return item.activeNames.includes(route.name as string)
+    if (item.items?.length) {
+        const hasActiveChild = item.items.some((child: any) =>
+            child.activeNames?.includes(currentName)
+        )
+
+        if (HIGHLIGHT_PARENT) {
+            const isExpanded = !!expandedKeys.value[item.key]
+            return isExpanded || hasActiveChild
+        }
+
+        return hasActiveChild
     }
 
-    if (typeof item.route === "object" && "name" in item.route) {
-        return route.name === item.route.name
-    }
-
-    return route.path.startsWith(item.route)
+    return item.activeNames?.includes(currentName)
 }
+
+const autoExpand = () => {
+    const newExpandedKeys: Record<string, boolean> = {}
+
+    items.value.forEach(parent => {
+        if (parent.items?.length) {
+            const hasActiveChild = parent.items.some(child =>
+                child.activeNames?.includes(route.name as string)
+            );
+
+            if (hasActiveChild) {
+                newExpandedKeys[parent.key] = true
+            }
+        }
+    })
+
+    expandedKeys.value = newExpandedKeys
+}
+
+watch(
+    () => route.name,
+    () => autoExpand(),
+    { immediate: true }
+)
 </script>
 
 <template>
@@ -97,7 +159,10 @@ const isActive = (item: DashboardMenuItem) => {
             </div>
 
             <div class="sidebar-menu">
-                <prime-panel-menu :model="items">
+                <prime-panel-menu
+                    :model="items"
+                    v-model:expandedKeys="expandedKeys"
+                >
                     <template #item="{ item }">
                         <router-link
                             v-if="item.route"
@@ -107,15 +172,34 @@ const isActive = (item: DashboardMenuItem) => {
                             custom
                         >
                             <a
-                                class="sidebar-menu-item"
                                 :href="href"
+                                class="sidebar-menu-item"
                                 :class="{ 'active': isActive(item) }"
                                 @click="navigate"
                             >
-                                <span :class="item.icon" />
-                                <span class="ml-x2">{{ item.label }}</span>
+                                <span
+                                    v-if="item.icon"
+                                    class="mr-x2"
+                                    :class="item.icon"
+                                />
+                                <span>
+                                    {{ item.label }}
+                                </span>
                             </a>
                         </router-link>
+
+                        <a
+                            v-if="item.items"
+                            class="sidebar-menu-item"
+                            :class="{ active: isActive(item) }"
+                        >
+                            <span
+                                v-if="item.icon"
+                                :class="item.icon"
+                                class="mr-x2"
+                            />
+                            <span>{{ item.label }}</span>
+                        </a>
                     </template>
                 </prime-panel-menu>
             </div>
@@ -173,6 +257,12 @@ const isActive = (item: DashboardMenuItem) => {
         .p-panelmenu-panel {
             border: none;
             background: none;
+        }
+
+        .p-panelmenu-submenu {
+            .p-panelmenu-item {
+                margin-top: calc($indent-x1 / 2);
+            }
         }
     }
 }

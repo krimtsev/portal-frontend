@@ -220,12 +220,6 @@ const onRowClick = (event: DataTableRowSelectEvent) => {
 
                 <template v-else>
                     <prime-column
-                        field="id"
-                        header="#"
-                        class="table-id"
-                    />
-
-                    <prime-column
                         field="login"
                         header="Логин"
                         class="table-login"
