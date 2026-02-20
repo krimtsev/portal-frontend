@@ -10,6 +10,7 @@ import { useNotify } from "@/composables/notify/use-notify"
 import { getRoleName } from "@/lib/localize-helper"
 import BText from "@c/common/b-text/b-text.vue"
 import { Roles } from "@/shared/roles/roles"
+import BSkeleton from "@c/common/b-skeleton/b-skeleton.vue"
 
 const notify = useNotify()
 
@@ -52,30 +53,36 @@ onMounted(async () => {
                 label="Логин"
                 class="label-align-top"
             >
-                <b-text
+                <b-skeleton
                     :is-loading="isLoading"
-                    :value="user.login"
-                />
+                    width="200px"
+                >
+                    <b-text :value="user.login" />
+                </b-skeleton>
             </portal-form-item>
 
             <portal-form-item
                 label="Имя"
                 class="label-align-top"
             >
-                <b-text
+                <b-skeleton
                     :is-loading="isLoading"
-                    :value="user.name"
-                />
+                    width="200px"
+                >
+                    <b-text :value="user.name" />
+                </b-skeleton>
             </portal-form-item>
 
             <portal-form-item
                 label="Роль"
                 class="label-align-top"
             >
-                <b-text
+                <b-skeleton
                     :is-loading="isLoading"
-                    :value="getRoleName(user.role)"
-                />
+                    width="200px"
+                >
+                    <b-text :value="getRoleName(user.role)" />
+                </b-skeleton>
             </portal-form-item>
         </portal-card>
 

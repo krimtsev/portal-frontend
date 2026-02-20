@@ -3,7 +3,7 @@ import type {
     PartnerListItem,
     PartnerShortListResponse
 } from "@v/dashboard/partners/list/definitions/partners"
-import type {Pagination, PaginationFilter} from "@/shared/pagination/pagination"
+import type { Pagination, PaginationFilter } from "@/shared/pagination/pagination"
 
 export async function shortList() {
     return await http.get<PartnerShortListResponse>("dashboard/partners/short-list")

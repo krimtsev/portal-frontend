@@ -44,6 +44,7 @@ import { downloadExternalFile } from "@/lib/files"
 import ChatFiles from "@c/chat/chat-files.vue"
 import { ProfileRouteName } from "@r/profile/route-names"
 import { useRouter } from "vue-router"
+import BSkeleton from "@c/common/b-skeleton/b-skeleton.vue"
 
 const router = useRouter()
 
@@ -238,30 +239,37 @@ async function onRemove() {
                         label="Филиал"
                         class="label-align-top"
                     >
-                        <b-text
+                        <b-skeleton
                             :is-loading="isFirstLoading"
-                            :value="ticketDetails.partner?.name"
-                        />
+                            width="200px"
+                        >
+                            <b-text :value="ticketDetails.partner?.name" />
+                        </b-skeleton>
+
                     </portal-form-item>
 
                     <portal-form-item
                         label="Отдел"
                         class="label-align-top"
                     >
-                        <b-text
+                        <b-skeleton
                             :is-loading="isFirstLoading"
-                            :value="ticketDetails.category?.title"
-                        />
+                            width="250px"
+                        >
+                            <b-text :value="ticketDetails.category?.title" />
+                        </b-skeleton>
                     </portal-form-item>
 
                     <portal-form-item
                         label="Статус"
                         class="label-align-top"
                     >
-                        <b-text
+                        <b-skeleton
                             :is-loading="isFirstLoading"
-                            :value="stateName(ticketDetails.state)"
-                        />
+                            width="150px"
+                        >
+                            <b-text :value="stateName(ticketDetails.state)" />
+                        </b-skeleton>
                     </portal-form-item>
                 </portal-card>
 
@@ -277,10 +285,12 @@ async function onRemove() {
                         :label="label"
                         class="label-align-top"
                     >
-                        <b-text
+                        <b-skeleton
                             :is-loading="isFirstLoading"
-                            :value="value"
-                        />
+                            width="200px"
+                        >
+                            <b-text :value="value" />
+                        </b-skeleton>
                     </portal-form-item>
                 </portal-card>
 
@@ -336,8 +346,8 @@ async function onRemove() {
                             :error="errors.message"
                             :disabled="isDisabled"
                             :placeholder="t('mc.ticket.general.placeholder.message')"
-                            full-width
                             name="message"
+                            class="full-width"
                         />
                     </div>
 
@@ -360,18 +370,16 @@ async function onRemove() {
                             <b-button
                                 :label="t('mc.common.send')"
                                 :disabled="isDisabled"
-                                :loading="loadingState === LoadingState.Save"
-                                width-full
-                                class="flex-2"
+                                :is-loading="loadingState === LoadingState.Save"
+                                class="flex-2 full-width"
                                 @click="onSave"
                             />
                             <b-button
                                 label="Закрыть"
                                 :disabled="isDisabled"
-                                :loading="loadingState === LoadingState.Remove"
+                                :is-loading="loadingState === LoadingState.Remove"
                                 variant="danger"
-                                width-full
-                                class="flex-1"
+                                class="flex-1 full-width"
                                 @click="onRemove"
                             />
                         </div>

@@ -3,9 +3,8 @@ import { computed, onMounted, ref } from "vue"
 import PortalPage from "@c/portal/portal-page/portal-page.vue"
 import BTextarea from "@c/common/b-textarea/b-textarea.vue"
 import BButton from "@c/common/b-button/b-button.vue"
-import BInputText from "@c/common/b-input-text/b-input-text.vue"
+import BInputText from "@c/common/b-input/b-input-text.vue"
 import BDatePicker from "@c/common/b-date-picker/b-date-picker.vue"
-import PrimeSelect from "primevue/select"
 import BFileUpload from "@c/common/b-upload-file/b-file-upload.vue"
 import { useI18n } from "vue-i18n"
 import { useNotify } from "@/composables/notify/use-notify"
@@ -27,6 +26,7 @@ import * as partnerAPI from "@/api/modules/partner/partner"
 import * as ticketAPI from "@/api/modules/profile/tickets/tickets"
 import { HttpError } from "@/api"
 import { ProfileRouteName } from "@r/profile/route-names"
+import BSelect from "@c/common/b-select/b-select.vue"
 
 
 const { t } = useI18n()
@@ -147,16 +147,17 @@ async function onSave() {
             <div class="form">
                 <div class="grid grid-reset-rows gap-x-2 gap-y-3">
                     <div class="col-6 mobile-col-12">
-                        <prime-select
+                        <b-select
                             v-model="currentState.partner_id"
                             :options="userPartners.partners"
-                            :loading="isFirstLoading"
+                            :is-loading="isFirstLoading"
                             :disabled="isFirstLoading"
                             :error="errors.partner_id"
                             optionLabel="name"
                             optionValue="partner_id"
                             :placeholder="t('mc.common.partner')"
                             name="partner_id"
+                            class="full-width"
                         />
                     </div>
 
@@ -169,6 +170,7 @@ async function onSave() {
                             :disabled="isFirstLoading"
                             :placeholder="t('mc.ticket.flagman.placeholder.returnRate')"
                             name="returnRate"
+                            class="full-width"
                         />
                     </div>
 
@@ -179,6 +181,7 @@ async function onSave() {
                             :disabled="isFirstLoading"
                             :placeholder="t('mc.ticket.flagman.placeholder.auditScore')"
                             name="auditScore"
+                            class="full-width"
                         />
                     </div>
 
@@ -189,6 +192,7 @@ async function onSave() {
                             :disabled="isFirstLoading"
                             :placeholder="t('mc.ticket.flagman.placeholder.mastersCount')"
                             name="mastersCount"
+                            class="full-width"
                         />
                     </div>
 
@@ -212,6 +216,7 @@ async function onSave() {
                             :disabled="isFirstLoading"
                             :placeholder="t('mc.ticket.flagman.placeholder.cosmeticBrands')"
                             name="cosmeticBrands"
+                            class="full-width"
                         />
                     </div>
 
@@ -222,6 +227,7 @@ async function onSave() {
                             :disabled="isFirstLoading"
                             :placeholder="t('mc.ticket.flagman.placeholder.missedReports')"
                             name="missedReports"
+                            class="full-width"
                         />
                     </div>
 
@@ -232,6 +238,7 @@ async function onSave() {
                             :disabled="isFirstLoading"
                             :placeholder="t('mc.ticket.flagman.placeholder.yandexMap')"
                             name="yandexMap"
+                            class="full-width"
                         />
                     </div>
 
@@ -242,6 +249,7 @@ async function onSave() {
                             :disabled="isFirstLoading"
                             :placeholder="t('mc.ticket.flagman.placeholder.twoGisMap')"
                             name="twoGisMap"
+                            class="full-width"
                         />
                     </div>
 
@@ -251,8 +259,8 @@ async function onSave() {
                             :error="errors.message"
                             :disabled="isFirstLoading"
                             :placeholder="t('mc.ticket.general.placeholder.message')"
-                            full-width
                             name="message"
+                            class="full-width"
                         />
                     </div>
 
@@ -277,8 +285,8 @@ async function onSave() {
                         <b-button
                             :label="t('mc.common.send')"
                             :disabled="isDisabled"
-                            :loading="isLoading"
-                            width-full
+                            :is-loading="isLoading"
+                            class="full-width"
                             @click="onSave"
                         />
                     </div>

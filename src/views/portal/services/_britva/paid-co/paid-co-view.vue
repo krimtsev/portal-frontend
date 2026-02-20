@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import PortalPage from "@c/portal/portal-page/portal-page.vue"
 import PortalCard from "@c/portal/portal-card/portal-card.vue"
-import BButton from "@c/common/b-button/b-button.vue"
 import { getPublicLink } from "@/lib/link"
 import { downloadFile } from "@/lib/files"
+import BButtonDownload from "@c/common/b-button/b-button-download.vue"
 
 async function handleDownload() {
     const url = getPublicLink("docs/co-price.pdf")
@@ -41,9 +41,8 @@ async function handleDownload() {
                     вашему бизнесу!
                 </p>
 
-                <b-button
+                <b-button-download
                     label="Презентация"
-                    download
                     @click="handleDownload"
                 />
             </div>

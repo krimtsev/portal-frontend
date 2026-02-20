@@ -1,26 +1,25 @@
 <script setup lang="ts">
 import { computed } from "vue"
 import PrimeTextarea from "primevue/textarea"
-import PrimeMessage from "primevue/message"
-
-interface Textarea {
-    name: string
-    label: string
-    error: string
-    rows: number
-    cols: number
-    fullWidth: boolean
-    placeholder: string
-    disabled: boolean
-    hint?: string | string[]
-}
-
-const props = withDefaults(defineProps<Partial<Textarea>>(), {
-    rows: 5,
-    cols: 30,
-})
+import BInputError from "@c/common/b-input/b-input-error.vue"
 
 const model = defineModel<string>()
+
+const props = withDefaults(defineProps<{
+    name?:        string,
+    placeholder?: string
+    disabled?:    boolean
+    error?:       string
+    rows?:        number | string
+    cols?:        number | string
+    hint?:        string | string[]
+}>(), {
+    placeholder: "",
+    disabled:    false,
+    error:       "",
+    rows:        5,
+    cols:        30,
+})
 
 const hint = computed(() => {
     if (!props.hint) return []
@@ -32,35 +31,18 @@ const hint = computed(() => {
 
 <template>
     <div class="b-textarea">
-        <label
-            v-if="props.label"
-            :for="props.name"
-            class="label"
-        >
-            {{ props.label }}
-        </label>
-
         <prime-textarea
             v-model="model"
             :name="name"
             :rows="props.rows"
             :cols="props.cols"
-            :fluid="props.fullWidth"
             :placeholder="props.placeholder"
             :disabled="props.disabled"
             style="resize: none"
             class="textarea"
         />
 
-        <prime-message
-            v-if="props.error"
-            severity="error"
-            size="small"
-            variant="simple"
-            class="error"
-        >
-            {{ props.error }}
-        </prime-message>
+        <b-input-error :error="props.error" />
 
         <div
             v-if="hint.length"
@@ -80,6 +62,11 @@ const hint = computed(() => {
 .b-textarea {
     display: flex;
     flex-direction: column;
+    width: $input-width;
+
+    &.full-width {
+        width: 100%;
+    }
 
     :deep(.p-textarea)  {
         &.p-invalid {
@@ -87,12 +74,8 @@ const hint = computed(() => {
         }
     }
 
-    .label {
-        margin-bottom: $indent-x1;
-    }
-
-    .error {
-        margin-top: $indent-x1;
+    .b-input-error {
+        margin-top: calc($indent-x1 / 2);
     }
 
     .hint {

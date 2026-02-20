@@ -7,7 +7,7 @@ import BEmptyResult from "@c/common/b-empty/b-empty-result.vue"
 import BTextDate from "@c/common/b-text/b-text-date.vue"
 import BText from "@c/common/b-text/b-text.vue"
 import ListLoadingState from "@c/common/b-loading-state/list-loading-state.vue"
-import PrimeDataTable, { type DataTableRowSelectEvent } from "primevue/datatable"
+import PrimeDataTable from "primevue/datatable"
 import PrimeMultiSelect from "primevue/multiselect"
 import PrimeColumn from "primevue/column"
 import UserState from "@v/dashboard/users/list/components/user-state.vue"
@@ -22,11 +22,14 @@ import { DashboardRouteName } from "@r/dashboard/route-names"
 import type { PartnerShortListItem } from "@v/dashboard/partners/list/definitions/partners"
 import * as partnersAPI from "@/api/modules/dashboard/partners/partners"
 import { rolesList, statesList } from "@v/dashboard/users/list/utils/user-list"
+import BButtonSecondary from "@c/common/b-button/b-button-secondary.vue"
+import { useOpenRoute } from "@/composables/route/use-open-route"
 
 
 const notify = useNotify()
 const { t, n } = useI18n()
 const router = useRouter()
+const { openRoute } = useOpenRoute()
 const usersStore = useUsersStore()
 
 const users = ref<UsersListItem[]>([])
@@ -109,27 +112,30 @@ function onChangeFilter() {
     refreshTickets()
 }
 
-const onRowClick = (event: DataTableRowSelectEvent) => {
-    const mouseEvent = event.originalEvent as MouseEvent
-    const { id } = event.data
-
-    if (mouseEvent.ctrlKey || mouseEvent.metaKey) {
-        const route = router.resolve({
-            name:   DashboardRouteName.DashboardUser,
+const onClick = (id: string, event: MouseEvent) => {
+    openRoute(
+        {
+            name: DashboardRouteName.DashboardUser,
             params: { id }
-        })
+        },
+        event
+    )
+}
 
-        window.open(route.href, "_blank")
-        return
-    }
-
-    router.push({ name: DashboardRouteName.DashboardUser, params: { id } })
+function goToNew() {
+    router.push({
+        name: DashboardRouteName.DashboardUser,
+        params: { id: "!new" }
+    })
 }
 </script>
 
 <template>
     <div class="users-list-view">
-        <b-toolbar no-paddings>
+        <b-toolbar
+            no-paddings
+            :show-more="!usersStore.isLoading"
+        >
             <b-toolbar-item header="Филиал">
                 <prime-multi-select
                     v-model="usersStore.filter.filters.partner_id"
@@ -178,6 +184,15 @@ const onRowClick = (event: DataTableRowSelectEvent) => {
                 />
             </b-toolbar-item>
 
+            <template #more>
+                <b-toolbar-item>
+                    <b-button-secondary
+                        label="Добавить сотрудника"
+                        @click="goToNew"
+                    />
+                </b-toolbar-item>
+            </template>
+
             <template #right-side>
                 <b-toolbar-item>
                     <b-input-search
@@ -200,8 +215,6 @@ const onRowClick = (event: DataTableRowSelectEvent) => {
                 :paginator="showPaginator"
                 class="table"
                 @page="onPageChange"
-                @row-select="onRowClick"
-                selection-mode="single"
                 data-key="id"
                 scrollable
                 lazy
@@ -225,7 +238,11 @@ const onRowClick = (event: DataTableRowSelectEvent) => {
                         class="table-login"
                     >
                         <template #body="slotProps">
-                            <b-text :value="slotProps.data.login" />
+                            <b-text
+                                :value="slotProps.data.login"
+                                class="link-text"
+                                @click="(e: MouseEvent) => onClick(slotProps.data.id, e)"
+                            />
                         </template>
                     </prime-column>
 
@@ -279,6 +296,10 @@ const onRowClick = (event: DataTableRowSelectEvent) => {
     @include list-view;
 
     padding-top: $indent-x2;
+
+    :deep(.p-datatable) {
+        @include table;
+    }
 
     .partner,
     .role,

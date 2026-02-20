@@ -2,59 +2,39 @@
 import { computed } from "vue"
 import PrimeButton from "primevue/button"
 
+const emit = defineEmits<{
+    (e: "click"): void
+}>()
+
 type ButtonType = "submit" | "reset" | "button"
 type ButtonVariant = "primary" | "secondary" | "danger"
 
-const props = defineProps<{
-    label: string,
-    type?: ButtonType
-    widthFull?: boolean
-    disabled?: boolean
-    loading?: boolean
-    variant?: ButtonVariant
-    outline?: boolean
-    external?: string
-    download?: boolean
-}>()
-
-const severity = computed(() => {
-    if (props.outline) return "secondary"
-    return props.variant ?? "primary"
+const props = withDefaults(defineProps<{
+    label:      string,
+    type?:      ButtonType
+    disabled?:  boolean
+    isLoading?: boolean
+    variant?:   ButtonVariant
+}>(), {
+    label:    "",
+    disabled: false,
 })
 
-const commonProps = computed(() => {
-    if (props.external) return {
-        iconPos: "right",
-        icon: "pi pi-arrow-up-right",
-        as: "a",
-        href: props.external,
-        target: "_blank",
-        rel: "noopener"
-    }
-    if (props.download) return {
-        iconPos: "right",
-        icon: "pi pi-download",
-    }
-    return {}
+const severity = computed(() => {
+    return props.variant ?? "primary"
 })
 </script>
 
 <template>
-    <div class="b-button">
-        <prime-button
-            v-bind="commonProps"
-            :label="props.label"
-            :type="props.type"
-            :disabled="props.disabled"
-            :loading="props.loading"
-            class="button"
-            :severity="severity"
-            :class="{
-                'width-full': props.widthFull,
-                'outline': props.outline,
-            }"
-        />
-    </div>
+    <prime-button
+        :label="props.label"
+        :type="props.type"
+        :disabled="props.disabled"
+        :loading="props.isLoading"
+        :severity="severity"
+        class="b-button"
+        @click="emit('click')"
+    />
 </template>
 
 <style scoped lang="scss">
@@ -64,28 +44,11 @@ const commonProps = computed(() => {
         box-sizing: border-box;
     }
 
-    .button {
-        min-width: 104px;
-        text-decoration: none;
+    min-width: 104px;
+    text-decoration: none;
 
-        &.width-full {
-            width: 100%;
-        }
-
-        &.outline {
-            background: transparent;
-            border: 1px solid var(--p-portal-button-outline-border-color);
-
-            &[disabled] {
-                background: var(--p-form-field-disabled-background);
-                color: var(--p-form-field-disabled-color);
-            }
-        }
-
-        :deep(.p-button-icon-right) {
-            padding-right: calc($indent-x1 / 2);
-            font-size: 0.75rem;
-        }
+    &.full-width {
+        width: 100%;
     }
 }
 </style>

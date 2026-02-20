@@ -6,23 +6,22 @@ import BInputSearch from "@c/common/b-input-search/b-input-search.vue"
 import BEmptyResult from "@c/common/b-empty/b-empty-result.vue"
 import BText from "@c/common/b-text/b-text.vue"
 import ListLoadingState from "@c/common/b-loading-state/list-loading-state.vue"
-import PrimeDataTable, { type DataTableRowSelectEvent } from "primevue/datatable"
-import PrimeMultiSelect from "primevue/multiselect"
+import PrimeDataTable from "primevue/datatable"
 import PrimeColumn from "primevue/column"
 import { useNotify } from "@/composables/notify/use-notify"
 import { useI18n } from "vue-i18n"
-import { useRouter } from "vue-router"
 import { usePartnersStore } from "@s/dashboard/partners/partners"
 import { HttpError } from "@/api"
 import { DashboardRouteName } from "@r/dashboard/route-names"
 import type { PartnerListItem } from "@v/dashboard/partners/list/definitions/partners"
 import * as partnersAPI from "@/api/modules/dashboard/partners/partners"
-import BTextDate from "@c/common/b-text/b-text-date.vue";
+import BTextDate from "@c/common/b-text/b-text-date.vue"
+import { useOpenRoute } from "@/composables/route/use-open-route"
 
 
 const notify = useNotify()
 const { t, n } = useI18n()
-const router = useRouter()
+const { openRoute } = useOpenRoute()
 const partnersStore = usePartnersStore()
 
 const partners = ref<PartnerListItem[]>([])
@@ -97,21 +96,14 @@ function onChangeFilter() {
     refreshTickets()
 }
 
-const onRowClick = (event: DataTableRowSelectEvent) => {
-    const mouseEvent = event.originalEvent as MouseEvent
-    const { id } = event.data
-
-    if (mouseEvent.ctrlKey || mouseEvent.metaKey) {
-        const route = router.resolve({
-            name:   DashboardRouteName.DashboardPartner,
+const onClick = (id: string, event: MouseEvent) => {
+    openRoute(
+        {
+            name: DashboardRouteName.DashboardPartner,
             params: { id }
-        })
-
-        window.open(route.href, "_blank")
-        return
-    }
-
-    router.push({ name: DashboardRouteName.DashboardPartner, params: { id } })
+        },
+        event
+    )
 }
 </script>
 
@@ -156,8 +148,6 @@ const onRowClick = (event: DataTableRowSelectEvent) => {
                 :paginator="showPaginator"
                 class="table"
                 @page="onPageChange"
-                @row-select="onRowClick"
-                selection-mode="single"
                 data-key="id"
                 scrollable
                 lazy

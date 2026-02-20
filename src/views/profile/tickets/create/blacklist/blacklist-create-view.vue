@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import { onMounted, computed, ref } from "vue"
 import PortalPage from "@c/portal/portal-page/portal-page.vue"
-import PrimeSelect from "primevue/select"
 import BButton from "@c/common/b-button/b-button.vue"
 import BFileUpload from "@c/common/b-upload-file/b-file-upload.vue"
 import BTextarea from "@c/common/b-textarea/b-textarea.vue"
-import BInputText from "@c/common/b-input-text/b-input-text.vue"
+import BInputText from "@c/common/b-input/b-input-text.vue"
 import { useNotify } from "@/composables/notify/use-notify"
 import type { UserPartners } from "@/api/modules/partner/partner"
 import PortalCard from "@c/portal/portal-card/portal-card.vue"
@@ -19,7 +18,7 @@ import {
     type FormSchemaType,
     FormSchema,
 } from "@v/profile/tickets/create/blacklist/schemas/blacklist.schema"
-import BInputTelnum from "@c/common/b-input-telnum/b-input-telnum.vue"
+import BInputTelnum from "@c/common/b-input/b-input-telnum.vue"
 import {
     type TicketCategoriesItem,
     TicketCategorySlug
@@ -28,6 +27,7 @@ import { TicketType } from "@v/profile/tickets/edit/definitions/ticket"
 import { useI18n } from "vue-i18n"
 import { useRouter } from "vue-router"
 import { ProfileRouteName } from "@r/profile/route-names"
+import BSelect from "@c/common/b-select/b-select.vue"
 
 
 const notify = useNotify()
@@ -144,16 +144,17 @@ async function onSave() {
             <div class="form">
                 <div class="grid grid-reset-rows gap-x-2 gap-y-3">
                     <div class="col-6 mobile-col-12">
-                        <prime-select
+                        <b-select
                             v-model="currentState.partner_id"
                             :options="userPartners.partners"
-                            :loading="isFirstLoading"
+                            :is-loading="isFirstLoading"
                             :disabled="isFirstLoading"
                             :error="errors.partner_id"
                             optionLabel="name"
                             optionValue="partner_id"
                             :placeholder="t('mc.common.partner')"
                             name="partner_id"
+                            class="full-width"
                         />
                     </div>
 
@@ -166,6 +167,7 @@ async function onSave() {
                             :disabled="isFirstLoading"
                             :placeholder="t('mc.ticket.blacklist.placeholder.name')"
                             name="name"
+                            class="full-width"
                         />
                     </div>
 
@@ -176,6 +178,7 @@ async function onSave() {
                             :disabled="isFirstLoading"
                             :placeholder="t('mc.ticket.blacklist.placeholder.phone')"
                             name="phone"
+                            class="full-width"
                         />
                     </div>
 
@@ -186,6 +189,7 @@ async function onSave() {
                             :disabled="isFirstLoading"
                             :placeholder="t('mc.ticket.blacklist.placeholder.duration')"
                             name="duration"
+                            class="full-width"
                         />
                     </div>
 
@@ -195,8 +199,8 @@ async function onSave() {
                             :error="errors.message"
                             :disabled="isFirstLoading"
                             :placeholder="t('mc.ticket.blacklist.placeholder.message')"
-                            full-width
                             name="message"
+                            class="full-width"
                         />
                     </div>
 
@@ -214,8 +218,8 @@ async function onSave() {
                         <b-button
                             :label="t('mc.common.send')"
                             :disabled="isDisabled"
-                            :loading="isLoading"
-                            width-full
+                            :is-loading="isLoading"
+                            class="full-width"
                             @click="onSave"
                         />
                     </div>

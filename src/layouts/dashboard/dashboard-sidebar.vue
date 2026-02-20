@@ -127,7 +127,7 @@ const autoExpand = () => {
         if (parent.items?.length) {
             const hasActiveChild = parent.items.some(child =>
                 child.activeNames?.includes(route.name as string)
-            );
+            )
 
             if (hasActiveChild) {
                 newExpandedKeys[parent.key] = true

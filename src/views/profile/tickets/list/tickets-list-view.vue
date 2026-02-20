@@ -19,6 +19,7 @@ import type { TicketCategoriesItem } from "@v/profile/tickets/edit/definitions/t
 import { cloneDeep, isEqual } from "lodash"
 import { TicketState, TicketType } from "@v/profile/tickets/edit/definitions/ticket"
 import TicketStateBadge from "@v/profile/tickets/list/components/ticket-state-badge.vue"
+import BSkeleton from "@c/common/b-skeleton/b-skeleton.vue"
 
 
 const notify = useNotify()
@@ -206,11 +207,12 @@ const goTo = (id: string) => router.push({ name: ProfileRouteName.ProfileTicket,
                     header="#"
                 >
                     <template #body="slotProps">
-                        <b-text
+                        <b-skeleton
                             :is-loading="isLoading"
-                            :value="slotProps.data.id"
-                            preload-width="20px"
-                        />
+                            width="40px"
+                        >
+                            <b-text :value="slotProps.data.id" />
+                        </b-skeleton>
                     </template>
                 </prime-column>
 
@@ -220,13 +222,16 @@ const goTo = (id: string) => router.push({ name: ProfileRouteName.ProfileTicket,
                     header="Тема запроса"
                 >
                     <template #body="slotProps">
-                        <b-text
-                            :value="slotProps.data.title"
+                        <b-skeleton
                             :is-loading="isLoading"
-                            variant="link"
-                            @click="goTo(slotProps.data.id)"
-                            preload-width="180px"
-                        />
+                            width="180px"
+                        >
+                            <b-text
+                                :value="slotProps.data.title"
+                                class="link-text"
+                                @click="goTo(slotProps.data.id)"
+                            />
+                        </b-skeleton>
                     </template>
                 </prime-column>
 
@@ -236,11 +241,12 @@ const goTo = (id: string) => router.push({ name: ProfileRouteName.ProfileTicket,
                     header="Отдел"
                 >
                     <template #body="slotProps">
-                        <b-text
-                            :value="slotProps.data?.category?.title"
+                        <b-skeleton
                             :is-loading="isLoading"
-                            preload-width="120px"
-                        />
+                            width="120px"
+                        >
+                            <b-text :value="slotProps.data?.category?.title" />
+                        </b-skeleton>
                     </template>
                 </prime-column>
 
@@ -250,11 +256,12 @@ const goTo = (id: string) => router.push({ name: ProfileRouteName.ProfileTicket,
                     header="Филиал"
                 >
                     <template #body="slotProps">
-                        <b-text
-                            :value="slotProps.data?.partner?.name"
+                        <b-skeleton
                             :is-loading="isLoading"
-                            preload-width="100px"
-                        />
+                            width="100px"
+                        >
+                            <b-text :value="slotProps.data?.partner?.name" />
+                        </b-skeleton>
                     </template>
                 </prime-column>
 
@@ -264,11 +271,15 @@ const goTo = (id: string) => router.push({ name: ProfileRouteName.ProfileTicket,
                     header="Статус"
                 >
                     <template #body="slotProps">
-                        <ticket-state-badge
+                        <b-skeleton
                             :is-loading="isLoading"
-                            :value="slotProps.data.state"
-                            rounded
-                        />
+                            width="100px"
+                        >
+                            <ticket-state-badge
+                                :value="slotProps.data.state"
+                                rounded
+                            />
+                        </b-skeleton>
                     </template>
                 </prime-column>
 
@@ -278,11 +289,12 @@ const goTo = (id: string) => router.push({ name: ProfileRouteName.ProfileTicket,
                     class="table-create-date"
                 >
                     <template #body="slotProps">
-                        <b-text
+                        <b-skeleton
                             :is-loading="isLoading"
-                            :value="slotProps.data.created_at"
-                            preload-width="120px"
-                        />
+                            width="120px"
+                        >
+                            <b-text :value="slotProps.data.created_at" />
+                        </b-skeleton>
                     </template>
                 </prime-column>
             </prime-data-table>
@@ -302,6 +314,7 @@ const goTo = (id: string) => router.push({ name: ProfileRouteName.ProfileTicket,
 
     :deep(.p-datatable) {
         @include table-outer-header;
+        @include table;
 
         .id {
             @include col-width(60px);
@@ -319,7 +332,6 @@ const goTo = (id: string) => router.push({ name: ProfileRouteName.ProfileTicket,
         .category {
             @include col-width(250px);
         }
-
     }
 
     :deep(.p-multiselect) {

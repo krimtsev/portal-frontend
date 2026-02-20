@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import PrimeTag from "primevue/tag"
-import BSkeleton from "@c/common/b-skeleton/b-skeleton.vue"
 import { computed } from "vue"
 import { stateName } from "@v/profile/tickets/list/utils/ticket"
 
 const props = defineProps<{
-    isLoading?: boolean
     value?: string
     rounded?: boolean
 }>()
@@ -36,12 +34,7 @@ const ticketSeverity = computed(() => {
 
 <template>
     <div class="ticket-state-badge">
-        <b-skeleton
-            v-if="isLoading"
-            width="100px"
-        />
         <prime-tag
-            v-else
             :value="ticketValue"
             :severity="ticketSeverity"
             :rounded="props.rounded"

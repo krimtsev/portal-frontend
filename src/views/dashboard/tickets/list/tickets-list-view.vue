@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue"
 import PrimeMultiSelect from "primevue/multiselect"
-import PrimeDataTable, { type DataTableRowSelectEvent } from "primevue/datatable"
+import PrimeDataTable from "primevue/datatable"
 import PrimeColumn from "primevue/column"
 import BToolbar from "@c/common/b-toolbar/b-toolbar.vue"
 import BToolbarItem from "@c/common/b-toolbar/b-toolbar-item.vue"
@@ -116,11 +116,8 @@ function onChangeFilter() {
     refreshTickets()
 }
 
-const onRowClick = (event: DataTableRowSelectEvent) => {
-    const mouseEvent = event.originalEvent as MouseEvent
-    const { id } = event.data
-
-    if (mouseEvent.ctrlKey || mouseEvent.metaKey) {
+const onClick = (id: number, event: MouseEvent) => {
+    if (event.ctrlKey || event.metaKey) {
         const route = router.resolve({
             name:   DashboardRouteName.DashboardTicket,
             params: { id }
@@ -195,8 +192,6 @@ const onRowClick = (event: DataTableRowSelectEvent) => {
                 :paginator="showPaginator"
                 class="table"
                 @page="onPageChange"
-                @row-select="onRowClick"
-                selection-mode="single"
                 data-key="id"
                 scrollable
                 lazy
@@ -226,7 +221,11 @@ const onRowClick = (event: DataTableRowSelectEvent) => {
                         class="table-subject"
                     >
                         <template #body="slotProps">
-                            <b-text :value="slotProps.data?.title" />
+                            <b-text
+                                :value="slotProps.data?.title"
+                                class="link-text"
+                                @click="(e: MouseEvent) => onClick(slotProps.data.id, e)"
+                            />
                         </template>
                     </prime-column>
 
@@ -295,6 +294,10 @@ const onRowClick = (event: DataTableRowSelectEvent) => {
     @include list-view;
 
     padding-top: $indent-x2;
+
+    :deep(.p-datatable) {
+        @include table;
+    }
 
     .categories,
     .partner,

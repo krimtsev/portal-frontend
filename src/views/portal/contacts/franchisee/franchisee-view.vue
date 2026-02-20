@@ -136,34 +136,37 @@ const firstPage = computed(() => {
 
                 <prime-column field="filial" header="Филиал" class="filial">
                     <template #body="slotProps">
-                        <div v-if="!isLoading"> {{ slotProps.data.filial }} </div>
                         <b-skeleton
-                            v-else
-                            width="75%"
-                        />
+                            :is-loading="isLoading"
+                            width="200px"
+                        >
+                            <div> {{ slotProps.data.filial }} </div>
+                        </b-skeleton>
                     </template>
                 </prime-column>
 
                 <prime-column field="names" header="Имя" class="names">
                     <template #body="slotProps">
-                        <div v-if="!isLoading">
+                        <b-skeleton
+                            :is-loading="isLoading"
+                            width="150px"
+                        >
                             <template v-if="slotProps.data.names.length">
                                 <div v-for="(name, index) in slotProps.data.names" :key="`${slotProps.data.id}_${index}`">
                                     <div class="cell-value"> {{ name || "—" }} </div>
                                 </div>
                             </template>
                             <div v-else class="cell-value"> — </div>
-                        </div>
-                        <b-skeleton
-                            v-else
-                            width="45%"
-                        />
+                        </b-skeleton>
                     </template>
                 </prime-column>
 
                 <prime-column field="telnums" header="Контакт" class="telnums">
                     <template #body="slotProps">
-                        <span v-if="!isLoading">
+                        <b-skeleton
+                            :is-loading="isLoading"
+                            width="150px"
+                        >
                             <template v-if="slotProps.data.telnums.length">
                                 <div
                                     v-for="(telnum, index) in slotProps.data.telnums"
@@ -171,7 +174,7 @@ const firstPage = computed(() => {
                                     class="cell-value"
                                 >
                                     <b-telnum-link
-                                        :value="telnum || '—'"
+                                        :value="telnum"
                                         icon
                                     />
                                 </div>
@@ -182,11 +185,7 @@ const firstPage = computed(() => {
                             >
                                 —
                             </div>
-                        </span>
-                        <b-skeleton
-                            v-else
-                            width="45%"
-                        />
+                        </b-skeleton>
                     </template>
                 </prime-column>
             </prime-data-table>

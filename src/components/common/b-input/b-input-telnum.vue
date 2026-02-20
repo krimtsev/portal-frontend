@@ -1,20 +1,19 @@
 <script setup lang="ts">
-import { computed, ref, watch } from "vue"
+import { ref, watch } from "vue"
 import PrimeInputMask from "primevue/inputmask"
-import PrimeMessage from "primevue/message"
+import BInputError from "@c/common/b-input/b-input-error.vue"
 
 const emit = defineEmits(["change"])
 
 const props = withDefaults(defineProps<{
     placeholder?: string
-    label?: string,
-    labelColon?: boolean
-    name?: string
-    disabled?: boolean
-    error?: string
+    name?:        string
+    disabled?:    boolean
+    error?:       string
 }>(), {
     placeholder: "",
-    labelColon: false,
+    error:       "",
+    disabled:    false,
 })
 
 const maskedValue = ref("")
@@ -26,24 +25,10 @@ watch(maskedValue, (val) => {
     model.value = digitsOnly
     emit("change", digitsOnly)
 })
-
-const label = computed(() => {
-    if (!props.label) return ""
-    if (props.labelColon) return `${props.label}:`
-    return props.label
-})
 </script>
 
 <template>
     <div class="b-input-telnum">
-        <label
-            v-if="label"
-            :for="props.name"
-            class="label"
-        >
-            {{ label }}
-        </label>
-
         <prime-input-mask
             v-model="maskedValue"
             :placeholder="props.placeholder"
@@ -54,15 +39,7 @@ const label = computed(() => {
             @change="emit('change', model)"
         />
 
-        <prime-message
-            v-if="props.error"
-            severity="error"
-            size="small"
-            variant="simple"
-            class="error"
-        >
-            {{ props.error }}
-        </prime-message>
+        <b-input-error :error="props.error" />
     </div>
 </template>
 
@@ -70,6 +47,11 @@ const label = computed(() => {
 .b-input-telnum {
     display: flex;
     flex-direction: column;
+    width: $input-width;
+
+    &.full-width {
+        width: 100%;
+    }
 
     :deep(.p-inputtext)  {
         &.p-invalid {
@@ -77,12 +59,8 @@ const label = computed(() => {
         }
     }
 
-    .label {
-        margin-bottom: $indent-x1;
-    }
-
-    .error {
-        margin-top: $indent-x1;
+    .b-input-error {
+        margin-top: calc($indent-x1 / 2);
     }
 }
 </style>

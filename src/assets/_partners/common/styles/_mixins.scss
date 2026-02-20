@@ -229,3 +229,29 @@ $cloud-file-types: (
     width: $w;
     min-width: $w;
 }
+
+@mixin link-text {
+    cursor: pointer;
+    color: var(--p-primary-color);
+
+    &:hover,
+    &:focus-visible {
+        color: var(--p-primary-hover-color);
+    }
+
+    &:active {
+        color: var(--p-primary-active-color);
+    }
+}
+
+@mixin table {
+    .p-datatable-tbody {
+        tr:hover {
+            background: var(--p-datatable-row-hover-background);
+
+            .link-text {
+                @include link-text;
+            }
+        }
+    }
+}

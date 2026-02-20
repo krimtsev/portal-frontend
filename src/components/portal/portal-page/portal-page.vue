@@ -80,7 +80,6 @@ const isLoadingContent = computed(() => {
                     <b-button
                         v-if="hasCancelAction"
                         label="Отменить"
-                        outline
                         :disabled="props.isSubmitting"
                         @click="emit('cancel')"
                     />

@@ -14,10 +14,12 @@ import env from "~/env"
 export class HttpError {
     code: number
     message: string
+    errors: Record<string, string[]>
 
-    constructor(code = 500, message = "") {
+    constructor(code = 500, message = "", errors = {}) {
         this.code = code
         this.message = message
+        this.errors = errors
     }
 }
 
@@ -80,7 +82,6 @@ function toNativeConfig(customConfig?: CustomAxiosRequestConfig): AxiosRequestCo
 class Http {
     private http: AxiosInstance
     public defaults: AxiosDefaults
-    public lastRequests = requestsHistory.history
 
     queue: Queue = new Queue()
 
@@ -109,7 +110,11 @@ class Http {
             const error = err as AxiosError<any>
             await authGuard(error)
             requestsHistory.push(url, HttpMethod.GET, error.response?.status, error.response?.data)
-            return new HttpError(error.response?.status, error.response?.data?.message)
+            return new HttpError(
+                error.response?.status,
+                error.response?.data?.message,
+                error.response?.data?.errors
+            )
         }
     }
 
@@ -124,7 +129,11 @@ class Http {
             const error = err as AxiosError<any>
             await authGuard(error)
             requestsHistory.push(url, HttpMethod.POST, error.response?.status, error.response?.data)
-            return new HttpError(error.response?.status, error.response?.data?.message)
+            return new HttpError(
+                error.response?.status,
+                error.response?.data?.message,
+                error.response?.data?.errors
+            )
         }
     }
 
@@ -137,7 +146,11 @@ class Http {
             const error = err as AxiosError<any>
             await authGuard(error)
             requestsHistory.push(url, HttpMethod.PUT, error.response?.status, error.response?.data)
-            return new HttpError(error.response?.status, error.response?.data?.message)
+            return new HttpError(
+                error.response?.status,
+                error.response?.data?.message,
+                error.response?.data?.errors
+            )
         }
     }
 
@@ -150,7 +163,11 @@ class Http {
             const error = err as AxiosError<any>
             await authGuard(error)
             requestsHistory.push(url, HttpMethod.PATCH, error.response?.status, error.response?.data)
-            return new HttpError(error.response?.status, error.response?.data?.message)
+            return new HttpError(
+                error.response?.status,
+                error.response?.data?.message,
+                error.response?.data?.errors
+            )
         }
     }
 
@@ -163,7 +180,11 @@ class Http {
             const error = err as AxiosError<any>
             await authGuard(error)
             requestsHistory.push(url, HttpMethod.DELETE, error.response?.status, error.response?.data)
-            return new HttpError(error.response?.status, error.response?.data?.message)
+            return new HttpError(
+                error.response?.status,
+                error.response?.data?.message,
+                error.response?.data?.errors
+            )
         }
     }
 }
