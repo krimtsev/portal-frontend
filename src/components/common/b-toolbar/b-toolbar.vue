@@ -1,9 +1,20 @@
 <script setup lang="ts">
+import { ref } from "vue"
+import PrimeButton from "primevue/button"
+
 withDefaults(defineProps<{
     noPaddings?: boolean
+    showMore?: boolean
 }>(), {
-    noPaddings: false
+    noPaddings: false,
+    showMore: false
 })
+
+const isExpanded = ref(false)
+
+function onToggle() {
+    isExpanded.value = !isExpanded.value
+}
 </script>
 
 <template>
@@ -13,13 +24,33 @@ withDefaults(defineProps<{
             'no-paddings': noPaddings,
         }"
     >
-        <div class="b-toolbar-wrapper">
+        <div class="b-toolbar-first">
             <slot />
+
+            <div
+                v-if="showMore"
+                class="more ml-x2"
+            >
+                <prime-button
+                    :icon="isExpanded ? 'pi pi-times' : 'pi pi-ellipsis-h'"
+                    variant="text"
+                    @click="onToggle"
+                />
+            </div>
 
             <div class="right-side">
                 <slot name="right-side" />
             </div>
         </div>
+
+        <transition name="basic-fade">
+            <div
+                v-show="isExpanded"
+                class="b-toolbar-second"
+            >
+                <slot name="more" />
+            </div>
+        </transition>
     </div>
 </template>
 
@@ -35,7 +66,7 @@ withDefaults(defineProps<{
         padding: 0;
     }
 
-    &-wrapper {
+    &-first {
         display: flex;
         justify-content: space-between;
         align-items: flex-end;
@@ -48,6 +79,10 @@ withDefaults(defineProps<{
             align-items: center;
             min-height: 40px;
         }
+    }
+
+    &-second {
+        margin-top: $indent-x2;
     }
 }
 </style>

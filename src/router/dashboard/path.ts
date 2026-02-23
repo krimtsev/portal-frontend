@@ -7,4 +7,6 @@ export const dashboardPaths = {
     DashboardUser: "/dashboard/user/:id",
     DashboardPartners: "/dashboard/partners",
     DashboardPartner: "/dashboard/partner/:id",
+    DashboardPartnerGroups: "/dashboard/partner-groups",
+    DashboardPartnerGroup: "/dashboard/partner-group/:id",
 }

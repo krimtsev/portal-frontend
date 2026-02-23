@@ -7,16 +7,19 @@ import type  {
 } from "axios"
 import qs from "qs"
 import { Queue } from "@/api/queue"
-
+import { HttpMethod } from "@/api/definitions/api"
+import { requestsHistory } from "@/api/requests-history"
 import env from "~/env"
 
 export class HttpError {
     code: number
     message: string
+    errors: Record<string, string[]>
 
-    constructor(code = 500, message = "") {
+    constructor(code = 500, message = "", errors = {}) {
         this.code = code
         this.message = message
+        this.errors = errors
     }
 }
 
@@ -33,8 +36,6 @@ const prefix = "api/v1"
 const url = env.api
 
 async function authGuard(error: any) {
-    //const $itlStore: ItlStore = Vue.prototype.$itlStore
-
     const status = error.response?.status
     const message = error.response?.data?.message
 
@@ -42,8 +43,28 @@ async function authGuard(error: any) {
         status === 401 && message === "Unauthenticated" ||
         status === 403 && message === "Forbidden"
     ) {
-        // $itlStore.notify.error()
+        //TODO: подумать над разлогированием
+        //$itlStore.notify.error()
         //await $itlStore.auth.logout()
+    }
+}
+
+function pickUpAbortControllerConfigFromCustomConfig(customConfig?: CustomAxiosRequestConfig) {
+    let abortController: AbortController
+    let internal = false
+
+    if (customConfig?.abortController) {
+        abortController = customConfig.abortController
+    } else {
+        abortController = new AbortController()
+        internal = true
+    }
+
+    customConfig = { ...(customConfig || {}), abortController }
+
+    return {
+        config:                toNativeConfig(customConfig),
+        abortControllerConfig: { controller: abortController, internal },
     }
 }
 
@@ -80,62 +101,90 @@ class Http {
 
     async get<T = any>(url: string, customConfig?: CustomAxiosRequestConfig): Promise<Promise<T> | HttpError> {
         try {
-            // const { config, abortControllerConfig } = pickUpAbortControllerConfigFromCustomConfig(customConfig)
-            // const request = this.http.get(url, config)
-            // const res = await this.queue.fetch<T>(url, HttpMethod.GET, request, abortControllerConfig)
-            const res = await this.http.get(url, toNativeConfig(customConfig))
+            const { config, abortControllerConfig } = pickUpAbortControllerConfigFromCustomConfig(customConfig)
+            const request = this.http.get(url, config)
+            const res = await this.queue.fetch<T>(url, HttpMethod.GET, request, abortControllerConfig)
+            requestsHistory.push(url, HttpMethod.GET, res.status, res.data)
             return res.data
         } catch (err: unknown) {
             const error = err as AxiosError<any>
             await authGuard(error)
-            return new HttpError(error.response?.status, error.response?.data?.message)
+            requestsHistory.push(url, HttpMethod.GET, error.response?.status, error.response?.data)
+            return new HttpError(
+                error.response?.status,
+                error.response?.data?.message,
+                error.response?.data?.errors
+            )
         }
     }
 
     async post<T = any>(url: string, data?: unknown, customConfig?: CustomAxiosRequestConfig): Promise<Promise<T> | HttpError> {
         try {
-            // const { config, abortControllerConfig } = pickUpAbortControllerConfigFromCustomConfig(customConfig)
-            // const request = this.http.post(url, data, config)
-            // const res = await this.queue.fetch<T>(url, HttpMethod.POST, request, abortControllerConfig)
-            const res = await this.http.post(url, data, toNativeConfig(customConfig))
+            const { config, abortControllerConfig } = pickUpAbortControllerConfigFromCustomConfig(customConfig)
+            const request = this.http.post(url, data, config)
+            const res = await this.queue.fetch<T>(url, HttpMethod.POST, request, abortControllerConfig)
+            requestsHistory.push(url, HttpMethod.POST, res.status, res.data)
             return res.data
         } catch (err: unknown) {
             const error = err as AxiosError<any>
             await authGuard(error)
-            return new HttpError(error.response?.status, error.response?.data?.message)
+            requestsHistory.push(url, HttpMethod.POST, error.response?.status, error.response?.data)
+            return new HttpError(
+                error.response?.status,
+                error.response?.data?.message,
+                error.response?.data?.errors
+            )
         }
     }
 
     async put<T = any>(url: string, data?: unknown, customConfig?: CustomAxiosRequestConfig): Promise<Promise<T> | HttpError> {
         try {
             const res = await this.http.put(url, data, toNativeConfig(customConfig))
+            requestsHistory.push(url, HttpMethod.PUT, res.status, res.data)
             return res.data
         } catch (err: unknown) {
             const error = err as AxiosError<any>
             await authGuard(error)
-            return new HttpError(error.response?.status, error.response?.data?.message)
+            requestsHistory.push(url, HttpMethod.PUT, error.response?.status, error.response?.data)
+            return new HttpError(
+                error.response?.status,
+                error.response?.data?.message,
+                error.response?.data?.errors
+            )
         }
     }
 
     async patch<T = any>(url: string, data?: unknown, customConfig?: CustomAxiosRequestConfig): Promise<Promise<T> | HttpError> {
         try {
             const res = await this.http.patch(url, data, toNativeConfig(customConfig))
+            requestsHistory.push(url, HttpMethod.PATCH, res.status, res.data)
             return res.data
         } catch (err: unknown) {
             const error = err as AxiosError<any>
             await authGuard(error)
-            return new HttpError(error.response?.status, error.response?.data?.message)
+            requestsHistory.push(url, HttpMethod.PATCH, error.response?.status, error.response?.data)
+            return new HttpError(
+                error.response?.status,
+                error.response?.data?.message,
+                error.response?.data?.errors
+            )
         }
     }
 
     async delete<T = any>(url: string, customConfig?: CustomAxiosRequestConfig): Promise<Promise<T> | HttpError> {
         try {
             const res = await this.http.delete(url, toNativeConfig(customConfig))
+            requestsHistory.push(url, HttpMethod.DELETE, res.status, res.data)
             return res.data
         } catch (err: unknown) {
             const error = err as AxiosError<any>
             await authGuard(error)
-            return new HttpError(error.response?.status, error.response?.data?.message)
+            requestsHistory.push(url, HttpMethod.DELETE, error.response?.status, error.response?.data)
+            return new HttpError(
+                error.response?.status,
+                error.response?.data?.message,
+                error.response?.data?.errors
+            )
         }
     }
 }

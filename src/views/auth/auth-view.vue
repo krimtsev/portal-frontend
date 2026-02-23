@@ -3,8 +3,8 @@ import { reactive } from "vue"
 import { useI18n } from "vue-i18n"
 import { Form } from "@primevue/forms"
 import type { FormResolverOptions, FormSubmitEvent } from "@primevue/forms"
-import BInputText from "@c/common/b-input-text/b-input-text.vue"
-import BInputPassword from "@c/common/b-input-password/b-input-password.vue"
+import BInputText from "@c/common/b-input/b-input-text.vue"
+import BInputPassword from "@c/common/b-input/b-input-password.vue"
 import BCheckbox from "@c/common/b-checkbox/b-checkbox.vue"
 import BButton from "@c/common/b-button/b-button.vue"
 import BImage from "@c/common/b-image/b-image.vue"
@@ -88,6 +88,7 @@ async function onFormSubmit(event: FormSubmitEvent): Promise<void> {
                         "
                         :disabled="authStore.isLoading"
                         name="login"
+                        class="full-width"
                     />
 
                     <b-input-password
@@ -98,8 +99,7 @@ async function onFormSubmit(event: FormSubmitEvent): Promise<void> {
                         "
                         :disabled="authStore.isLoading"
                         name="password"
-                        label-colon
-                        full-width
+                        class="full-width"
                     />
 
                     <div class="flex-center">
@@ -113,10 +113,10 @@ async function onFormSubmit(event: FormSubmitEvent): Promise<void> {
 
                     <b-button
                         :label="t('mc.common.enter')"
-                        width-full
-                        type="submit"
                         :disabled="authStore.isLoading"
-                        :loading="authStore.isLoading"
+                        :is-loading="authStore.isLoading"
+                        type="submit"
+                        class="full-width"
                     />
                 </Form>
             </div>

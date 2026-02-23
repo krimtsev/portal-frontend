@@ -63,12 +63,15 @@ export function normalizeAttributes(details: TicketDetails) {
                 label === "paymentDate"
             ) {
                 value = DateTime.fromISO(value, { zone: "utc" })
-                    .toFormat("dd.MM.yyyy H:mm:ss")
+                    .toFormat("dd-MM-yyyy H:mm:ss")
             }
 
-            if (details.type === TicketType.Flagman && label === "openingDate") {
+            if (
+                details.type === TicketType.Flagman &&
+                label === "openingDate"
+            ) {
                 value = DateTime.fromISO(value, { zone: "utc" })
-                    .toFormat("dd.MM.yyyy")
+                    .toFormat("dd-MM-yyyy")
             }
 
             if (

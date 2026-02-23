@@ -3,11 +3,11 @@ import BTitle from "@c/common/b-title/b-title.vue"
 import PortalCard from "@c/portal/portal-card/portal-card.vue"
 import BImage from "@c/common/b-image/b-image.vue"
 import PortalUserCard from "@c/portal/portal-user-card/portal-user-card.vue"
-import BButton from "@c/common/b-button/b-button.vue"
 import { downloadFile } from "@/lib/files"
 import { useI18n } from "vue-i18n"
 import { getPublicLink } from "@/lib/link"
 import PortalPage from "@c/portal/portal-page/portal-page.vue"
+import BButtonDownload from "@c/common/b-button/b-button-download.vue"
 
 const { n } = useI18n()
 
@@ -115,9 +115,9 @@ async function handleDownload() {
                 </p>
                 <p>Удобно наблюдать в одном месте за всеми своими филиалами.</p>
             </div>
-            <b-button
+
+            <b-button-download
                 label="Презентация продукта"
-                download
                 @click="handleDownload"
             />
         </portal-card>

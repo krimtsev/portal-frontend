@@ -6,6 +6,7 @@ import type { Variants } from "@/shared/content/content"
 interface ISkeletonProps extends SkeletonProps {
     variant?: Variants
     invert?: boolean
+    isLoading?: boolean
 }
 
 const props = withDefaults(defineProps<ISkeletonProps>(), {
@@ -13,6 +14,7 @@ const props = withDefaults(defineProps<ISkeletonProps>(), {
     variant: undefined,
     width: "20rem",
     invert: false,
+    isLoading: true,
 })
 
 const variantClass = computed(() => props.variant ? `variant-${props.variant}` : "")
@@ -20,6 +22,7 @@ const variantClass = computed(() => props.variant ? `variant-${props.variant}` :
 
 <template>
     <prime-skeleton
+        v-if="props.isLoading"
         v-bind="props"
         :width="props.width"
         class="b-skeleton"
@@ -30,6 +33,7 @@ const variantClass = computed(() => props.variant ? `variant-${props.variant}` :
             }
         ]"
     />
+    <slot v-else />
 </template>
 
 <style scoped lang="scss">

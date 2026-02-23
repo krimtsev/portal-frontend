@@ -1,0 +1,15 @@
+.basic-fade {
+    &-enter-active,
+    &-leave-active {
+        transition: all 200ms ease-in-out;
+
+        li::before {
+            transition: 200ms ease-in-out;
+        }
+    }
+
+    &-enter,
+    &-leave-to {
+        opacity: 0;
+    }
+}

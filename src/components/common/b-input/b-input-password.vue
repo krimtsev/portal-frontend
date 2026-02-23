@@ -1,72 +1,44 @@
 <script setup lang="ts">
-import { computed, useAttrs } from "vue"
+import { useAttrs } from "vue"
 import PrimePassword from "primevue/password"
-import PrimeMessage from "primevue/message"
+import BInputError from "@c/common/b-input/b-input-error.vue"
 
 const model = defineModel<string>()
 
 const props = withDefaults(defineProps<{
-    name: string,
-    label?: string,
-    labelColon?: boolean,
-    error?: string
-    toggleMask?: boolean
-    feedback?: boolean
-    placeholder: string
-    disabled?: boolean
-    hint?: string
-    fullWidth?: boolean,
+    name?:        string,
+    toggleMask?:  boolean
+    placeholder?: string
+    disabled?:    boolean
+    hint?:        string
+    error?:       string
+    feedback?:    boolean
 }>(), {
-    toggleMask: true,
-    feedback: false,
-    labelColon: false,
+    toggleMask:  true,
     placeholder: "",
-})
-
-const label = computed(() => {
-    if (!props.label) return ""
-    if (props.labelColon) return `${props.label}:`
-    return props.label
+    error:       "",
+    feedback:    false,
+    disabled:    false
 })
 
 const attrs = useAttrs()
 </script>
 
 <template>
-    <div
-        class="b-input-password"
-        :class="{
-            'full-width': props.fullWidth
-        }"
-    >
-        <label
-            v-if="label"
-            :for="props.name"
-            class="label"
-        >
-            {{ label }}
-        </label>
-
+    <div class="b-input-password">
         <prime-password
             v-model="model"
             v-bind="attrs"
             :name="props.name"
             :toggle-mask="props.toggleMask"
-            :feedback="props.feedback"
             :placeholder="props.placeholder"
+            :feedback="props.feedback"
             :disabled="props.disabled"
+            :invalid="!!props.error"
             class="password"
         />
 
-        <prime-message
-            v-if="props.error"
-            severity="error"
-            size="small"
-            variant="simple"
-            class="error"
-        >
-            {{ props.error }}
-        </prime-message>
+        <b-input-error :error="props.error" />
 
         <div
             v-if="props.hint"
@@ -83,14 +55,10 @@ $icon-size: calc(var(--p-icon-size) * 1.2);
 .b-input-password {
     display: flex;
     flex-direction: column;
-    width: 296px;
+    width: $input-width;
 
     &.full-width {
         width: 100%;
-    }
-
-    .label {
-        margin-bottom: $indent;
     }
 
     .hint {
@@ -115,8 +83,8 @@ $icon-size: calc(var(--p-icon-size) * 1.2);
         cursor: pointer;
     }
 
-    .error {
-        margin-top: $indent;
+    .b-input-error {
+        margin-top: calc($indent-x1 / 2);
     }
 }
 </style>

@@ -10,7 +10,9 @@ const { t } = useI18n()
 
 const tagSeverity = props.active ? "success" : "danger"
 
-const tagValue = props.active ? t("mc.users.state.active") : t("mc.users.state.disabled")
+const tagValue = props.active
+    ? t("mc.dashboard.users.state.active")
+    : t("mc.dashboard.users.state.disabled")
 </script>
 
 <template>

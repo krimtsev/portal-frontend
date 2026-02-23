@@ -81,7 +81,6 @@ export interface TicketEvent {
 export type TicketTimeline = Array<TicketMessage | TicketEvent>
 
 export interface TicketDetails {
-    id:           number
     title:        string
     type:         TicketType
     category:     TicketCategory | null

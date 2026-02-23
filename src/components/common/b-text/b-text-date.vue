@@ -5,6 +5,7 @@ import { DateTime } from "luxon"
 interface Props {
     value: string | Date | null
     diff?: boolean
+    showFormat?: string
 }
 
 const props = defineProps<Props>()
@@ -18,7 +19,13 @@ const dateTime = computed(() => {
         return DateTime.fromJSDate(props.value)
     }
 
-    return DateTime.fromFormat(props.value, "yyyy-MM-dd HH:mm:ss")
+    let dt = DateTime.fromISO(props.value as string)
+
+    if (!dt.isValid) {
+        dt = DateTime.fromFormat(props.value as string, "yyyy-MM-dd HH:mm:ss")
+    }
+
+    return dt
 })
 
 // Вычисляем отображение
@@ -42,7 +49,8 @@ const display = computed(() => {
 
         return parts.length ? parts.join(" ") : "0 м."
     } else {
-        return dateTime.value.toFormat("dd.MM.yyyy HH:mm:ss")
+        const format = props.showFormat ?? "yyyy-MM-dd HH:mm:ss"
+        return dateTime.value.toFormat(format)
     }
 })
 </script>

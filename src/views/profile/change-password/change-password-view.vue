@@ -5,7 +5,7 @@ import type { FormResolverOptions, FormSubmitEvent } from "@primevue/forms"
 import PortalPage from "@c/portal/portal-page/portal-page.vue"
 import PortalCard from "@c/portal/portal-card/portal-card.vue"
 import PortalFormItem from "@c/portal/portal-form-item/portal-form-item.vue"
-import BInputPassword from "@c/common/b-input-password/b-input-password.vue"
+import BInputPassword from "@c/common/b-input/b-input-password.vue"
 import { useI18n } from "vue-i18n"
 import { HttpError } from "@/api"
 import * as changePasswordAPI from "@/api/modules/profile/change-password/change-password"
@@ -27,23 +27,24 @@ const initialValues = reactive<ChangePassword>({
 const isSubmitting = ref(false)
 
 async function resolver(options: FormResolverOptions) {
-    const values = options.values
+    const { password, confirmPassword } = options.values
+
     const errors: {
         confirmPassword?: Array<{ message: string }>
     } = {}
 
-    if (!values.confirmPassword) {
+    if (!confirmPassword) {
         errors.confirmPassword = [{ message: "Введите пароль." }]
-    } else if (!isPassword(values.confirmPassword)) {
+    } else if (!isPassword(confirmPassword)) {
         errors.confirmPassword = [{ message: "Пароль может состоять из букв, цифр и быть строкой без пробелов." }]
-    } else if (values.confirmPassword.length < 8) {
+    } else if (confirmPassword.length < 8) {
         errors.confirmPassword = [{ message: "Пароль должен содержать не менее 8 символов." }]
-    } else if (values.confirmPassword !== values.password) {
+    } else if (confirmPassword !== password) {
         errors.confirmPassword = [{ message: "Пароли не совпадают." }]
     }
 
     return {
-        values,
+        values: options.values,
         errors
     }
 }

@@ -1,17 +1,15 @@
 <script setup lang="ts">
-import {
-    type ComponentPublicInstance,
-    computed,
-    nextTick,
-    onMounted,
-    ref
-} from "vue"
+import { computed, nextTick, onMounted, ref, type ComponentPublicInstance } from "vue"
 import BForm from "@c/common/b-form/b-form.vue"
 import BFormCard from "@c/common/b-form/b-form-card.vue"
 import BFormItem from "@c/common/b-form/b-form-item.vue"
-import PrimeSelect from "primevue/select"
-import PrimeInputText from "primevue/inputtext"
-import PrimeTextarea from "primevue/textarea"
+import ChatMessage from "@c/chat/chat-message.vue"
+import ChatContainer from "@c/chat/chat-container.vue"
+import ChatFiles from "@c/chat/chat-files.vue"
+import BFileUpload from "@c/common/b-upload-file/b-file-upload.vue"
+import BInputText from "@c/common/b-input/b-input-text.vue"
+import BSelect from "@c/common/b-select/b-select.vue"
+import BTextarea from "@c/common/b-textarea/b-textarea.vue"
 import { dashboardPaths } from "@r/dashboard/path"
 import { stateList } from "@v/profile/tickets/list/utils/ticket"
 import type { TicketCategoriesItem } from "@v/profile/tickets/edit/definitions/ticket-category"
@@ -28,7 +26,6 @@ import {
     TicketState,
     TicketType,
 } from "@v/profile/tickets/edit/definitions/ticket"
-import { cloneDeep } from "lodash"
 import type { TicketStateData } from "@v/dashboard/tickets/edit/definitions/ticket"
 import { useI18n } from "vue-i18n"
 import {
@@ -40,13 +37,14 @@ import {
     hasTimelineMessage,
     normalizeAttributes
 } from "@v/profile/tickets/edit/utils/ticket"
-import ChatMessage from "@c/chat/chat-message.vue"
-import ChatContainer from "@c/chat/chat-container.vue"
-import ChatFiles from "@c/chat/chat-files.vue"
-import BFileUpload from "@c/common/b-upload-file/b-file-upload.vue"
 import * as ticketAPI from "@/api/modules/dashboard/tickets/tickets"
 import { downloadExternalFile } from "@/lib/files"
 import { DashboardRouteName } from "@r/dashboard/route-names"
+import { useForm } from "vee-validate"
+import { useConfigValidation } from "@/composables/vee-validate/use-config-validation"
+import { ticketSchema } from "@v/dashboard/tickets/edit/schemas/ticket.schema"
+
+
 
 const notify = useNotify()
 const route = useRoute()
@@ -65,19 +63,7 @@ function defaultState(): TicketStateData {
     }
 }
 
-const isLoading = ref(true)
-const isFirstLoading = ref(true)
-const isLoadingFile = ref(false)
-
-const ticketStateList = stateList()
-const ticketCategoriesList = ref<TicketCategoriesItem[]>([])
-const partnersList = ref<PartnerShortListItem[]>([])
-
-const initialState = ref<TicketStateData>(defaultState())
-const currentState = ref<TicketStateData>(defaultState())
-
 const ticketDetails = ref<TicketDetails>({
-    id:         0,
     title:      "",
     type:       TicketType.General,
     category:   null,
@@ -88,10 +74,41 @@ const ticketDetails = ref<TicketDetails>({
     timeline:   [],
 })
 
+const isFirstLoading = ref(true)
+const isLoading = ref(false)
+const isLoadingFile = ref(false)
+
+const ticketStateList = stateList()
+const ticketCategoriesList = ref<TicketCategoriesItem[]>([])
+const partnersList = ref<PartnerShortListItem[]>([])
+
+const ticketId = computed(() => route.params.id as string)
+
+const {
+    errors,
+    resetForm,
+    handleSubmit,
+    defineField,
+    meta,
+    submitCount,
+    setErrors
+} = useForm<TicketStateData>({
+    validationSchema: ticketSchema,
+    initialValues:    defaultState(),
+})
+
+const dynamicConfig = useConfigValidation(submitCount)
+
+const [titleModel]      = defineField("title", dynamicConfig)
+const [partnerIdModel]  = defineField("partner_id", dynamicConfig)
+const [categoryIdModel] = defineField("category_id", dynamicConfig)
+const [stateModel]      = defineField("state", dynamicConfig)
+const [messageModel]    = defineField("message", dynamicConfig)
+const [filesModel]      = defineField("files", dynamicConfig)
+
 const chatRef = ref<ComponentPublicInstance<{ scrollToBottom: () => void }> | null>(null)
 
 onMounted(async () => {
-    isLoading.value = true
     isFirstLoading.value = true
 
     const id = route.params.id as string
@@ -121,17 +138,18 @@ onMounted(async () => {
 
     ticketDetails.value = ticketData.data
 
-    initialState.value = {
-        ...initialState.value,
-        title:       ticketDetails.value.title,
-        partner_id:  ticketDetails.value.partner?.id || null,
-        category_id: ticketDetails.value.category?.id || null,
-        type:        ticketDetails.value.type || null,
-        state:       ticketDetails.value.state
-    }
-    currentState.value = cloneDeep(initialState.value)
+    resetForm({
+        values: {
+            title:       ticketDetails.value.title,
+            partner_id:  ticketDetails.value.partner?.id || null,
+            category_id: ticketDetails.value.category?.id || null,
+            type:        ticketDetails.value.type || TicketType.General,
+            state:       ticketDetails.value.state,
+            message:     "",
+            files:       [],
+        }
+    })
 
-    isLoading.value = false
     isFirstLoading.value = false
 })
 
@@ -152,7 +170,7 @@ async function download(item: ChatMessageFile) {
 
     isLoadingFile.value = true
 
-    const data = await ticketAPI.download(ticketDetails.value.id, item.name)
+    const data = await ticketAPI.download(ticketId.value, item.name)
 
     if (data instanceof HttpError) {
         notify.error()
@@ -165,27 +183,32 @@ async function download(item: ChatMessageFile) {
     isLoadingFile.value = false
 }
 
-async function onSave() {
-    isLoading.value = true
-
-    const ticketData = await ticketAPI.update(
-        ticketDetails.value.id,
-        currentState.value
-    )
-
-    if (ticketData instanceof HttpError) {
-        notify.error()
-        isLoading.value = false
+const onSave = handleSubmit(async (formValues) => {
+    if (!meta.value.dirty) {
+        notify.success(t("mc.notify.success"))
+        await router.push({ name: DashboardRouteName.DashboardTickets })
         return
     }
 
-    ticketDetails.value = ticketData.data
-    currentState.value.message = ""
+    isLoading.value = true
 
-    await nextTick(() => chatRef.value?.scrollToBottom())
+    const ticketResponse = await ticketAPI.update(
+        ticketId.value,
+        formValues
+    )
 
     isLoading.value = false
-}
+
+    if (ticketResponse instanceof HttpError) {
+        if (ticketResponse?.errors) setErrors(ticketResponse.errors)
+        notify.error()
+        return
+    }
+
+    ticketDetails.value = ticketResponse.data
+
+    await nextTick(() => chatRef.value?.scrollToBottom())
+})
 </script>
 
 <template>
@@ -202,10 +225,10 @@ async function onSave() {
                 label="Тема запроса"
                 required
             >
-                <prime-input-text
-                    v-model="currentState.title"
+                <b-input-text
+                    v-model="titleModel"
                     :disabled="isLoading"
-                    class="title"
+                    :error="errors.title"
                 />
             </b-form-item>
 
@@ -213,15 +236,15 @@ async function onSave() {
                 label="Филиал"
                 required
             >
-                <prime-select
-                    v-model="currentState.partner_id"
+                <b-select
+                    v-model="partnerIdModel"
                     :options="partnersList"
                     :disabled="isLoading"
+                    :error="errors.partner_id"
                     filter
                     option-label="name"
                     option-value="id"
                     placeholder="Выберите филиал"
-                    class="partner"
                 />
             </b-form-item>
 
@@ -229,15 +252,15 @@ async function onSave() {
                 label="Отдел"
                 required
             >
-                <prime-select
-                    v-model="currentState.category_id"
+                <b-select
+                    v-model="categoryIdModel"
                     :options="ticketCategoriesList"
                     :disabled="isLoading"
+                    :error="errors.category_id"
                     filter
                     option-label="title"
                     option-value="id"
                     placeholder="Выберите отдел"
-                    class="categories"
                 />
             </b-form-item>
 
@@ -245,15 +268,13 @@ async function onSave() {
                 label="Статус"
                 required
             >
-                <prime-select
-                    v-model="currentState.state"
+                <b-select
+                    v-model="stateModel"
                     :options="ticketStateList"
                     :disabled="isLoading"
+                    :error="errors.state"
                     filter
-                    option-label="label"
-                    option-value="value"
                     placeholder="Выберите статус"
-                    class="state"
                 />
             </b-form-item>
         </b-form-card>
@@ -321,20 +342,21 @@ async function onSave() {
                 label="Сообщение"
                 required
             >
-                <prime-textarea
-                    v-model="currentState.message"
+                <b-textarea
+                    v-model="messageModel"
                     :disabled="isLoading"
-                    rows="5"
+                    :error="errors.message"
+                    :rows="5"
                     class="message"
                     placeholder="Введите сообщение"
-                    style="resize: none"
                 />
             </b-form-item>
 
             <b-form-item label="Загрузить файл">
                 <b-file-upload
-                    v-model="currentState.files"
+                    v-model="filesModel"
                     :disabled="isLoading"
+                    :error="errors.files"
                     :placeholder="t('mc.ticket.general.placeholder.files')"
                     name="files"
                     class="files"
@@ -346,13 +368,6 @@ async function onSave() {
 
 <style scoped lang="scss">
 .ticket-view {
-    .partner,
-    .categories,
-    .state,
-    .title {
-        @include input-width();
-    }
-
     .chat,
     .message,
     .files {

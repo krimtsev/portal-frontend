@@ -5,11 +5,11 @@ import i18n from "@/plugins/i18n"
 export const statesList: { id: UsersStates, name: string }[] = [
     {
         id: UsersStates.Active,
-        name: i18n.global.t("mc.users.state.active"),
+        name: i18n.global.t("mc.dashboard.users.state.active"),
     },
     {
         id: UsersStates.Disabled,
-        name: i18n.global.t("mc.users.state.disabled"),
+        name: i18n.global.t("mc.dashboard.users.state.disabled"),
     },
 ]
 

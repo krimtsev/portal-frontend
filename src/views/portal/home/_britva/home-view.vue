@@ -6,7 +6,6 @@ import PortalInformationMenu from "@c/portal/portal-information-menu/portal-info
 import { sections } from "@v/portal/home/_britva/data/home-data"
 import { portalPaths } from "@r/portal/path"
 import PortalUserAnalyticsChart from "@c/portal/portal-charts/portal-user-analytics-chart.vue"
-import BButton from "@c/common/b-button/b-button.vue"
 import type { MessageItem } from "@/api/modules/messages/messages"
 import * as messagesAPI from "@/api/modules/messages/messages"
 import { HttpError } from "@/api"
@@ -16,6 +15,7 @@ import { useRouter } from "vue-router"
 import { ProfileRouteName } from "@r/profile/route-names"
 import { PortalRouteName } from "@r/portal/route-names"
 import { Qualification } from "@v/profile/tickets/create/specialist/_britva/definitions/specialist"
+import BButtonGroup from "@c/common/b-button-groups/b-button-group.vue"
 
 const router = useRouter()
 const notify = useNotify()
@@ -117,9 +117,8 @@ onMounted(async () => {
                     class-title="mb-x2"
                 >
                     <div class="buttons-wrapper">
-                        <b-button
+                        <b-button-group
                             label="Заявка на ТОП-МАСТЕРА"
-                            outline
                             @click="router.push({
                                 name: ProfileRouteName.ProfileTicketSpecialist,
                                 query: {
@@ -127,9 +126,9 @@ onMounted(async () => {
                                 }
                             })"
                         />
-                        <b-button
+
+                        <b-button-group
                             label="Заявка на БРЕНД-МАСТЕРА"
-                            outline
                             @click="router.push({
                                 name: ProfileRouteName.ProfileTicketSpecialist,
                                 query: {
@@ -137,14 +136,14 @@ onMounted(async () => {
                                 }
                             })"
                         />
-                        <b-button
+
+                        <b-button-group
                             label="Заявка на сертификат"
-                            outline
                             @click="router.push({ name: ProfileRouteName.ProfileTicketCertificate })"
                         />
-                        <b-button
+
+                        <b-button-group
                             label="Заявка на индивидуальное согласование"
-                            outline
                             @click="router.push({ name: ProfileRouteName.ProfileTicketGeneral })"
                         />
                     </div>

@@ -4,6 +4,7 @@ import BSvg from "@c/common/b-svg/b-svg.vue"
 import BTitle from "@c/common/b-title/b-title.vue"
 import BSpinner from "@c/common/b-spinner/b-spinner.vue"
 import PrimeButton from "primevue/button"
+import BButtonSecondary from "@c/common/b-button/b-button-secondary.vue"
 import { useRoute, useRouter } from "vue-router"
 import { useI18n } from "vue-i18n"
 
@@ -17,6 +18,7 @@ const props = defineProps<{
     isFirstLoading?: boolean
     hideFooter?: boolean
     hideSaveButton?: boolean
+    hideCancelButton?: boolean
     pathBack?: string
 }>()
 
@@ -89,6 +91,13 @@ const onSave = () => {
                     :disabled="isLoading"
                     :loading="isLoading"
                     @click="onSave"
+                />
+
+                <b-button-secondary
+                    v-if="!hideCancelButton"
+                    :label="t('mc.common.cancel')"
+                    :disabled="isLoading"
+                    @click="goBack"
                 />
             </slot>
         </article>
@@ -173,10 +182,12 @@ const onSave = () => {
     }
 
     .footer {
+        display: flex;
         overflow: hidden;
         margin-top: $indent-x1;
         background-color: var(--p-dashboard-card-background);
         padding: $indent-x2;
+        gap: $indent-x2;
     }
 }
 </style>

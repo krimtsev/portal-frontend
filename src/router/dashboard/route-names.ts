@@ -6,4 +6,6 @@ export enum DashboardRouteName {
     DashboardUser = "DashboardUser",
     DashboardPartners = "DashboardPartners",
     DashboardPartner = "DashboardPartner",
+    DashboardPartnerGroups = "DashboardPartnerGroups",
+    DashboardPartnerGroup = "DashboardPartnerGroup",
 }

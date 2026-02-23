@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import BButton from "@c/common/b-button/b-button.vue"
+import BButtonGroup from "@c/common/b-button-groups/b-button-group.vue"
 
 interface ButtonGroupItems {
     label: string
@@ -19,11 +19,11 @@ const emit = defineEmits<{
 
 <template>
     <div class="b-button-groups">
-        <b-button
+        <b-button-group
             v-for="(button, index) in items"
             :key="index"
             :label="button.label"
-            :outline="props.modelValue !== button.value"
+            :active="props.modelValue === button.value"
             :disabled="props.disabled"
             @click="emit('update:modelValue', button.value)"
         />

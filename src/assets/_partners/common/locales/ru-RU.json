@@ -17,7 +17,8 @@
             "dashboard": "Панель",
             "send": "Отправить",
             "archive": "Архивировать",
-            "save": "Сохранить"
+            "save": "Сохранить",
+            "cancel": "Отменить"
         },
         "select": {
             "default": "Выбрано {n} | Выбран {n} | Выбрано {n} | Выбрано {n}",
@@ -148,18 +149,23 @@
                 }
             }
         },
-        "users": {
-            "state": {
-                "active": "Активен",
-                "disabled": "Заблокирован"
-            }
-        },
         "dashboard": {
             "sidebar": {
                 "home": "Главная",
                 "tickets": "Заявки",
                 "users": "Пользователи",
-                "partners": "Филиалы"
+                "partners": "Филиалы",
+                "partnerList": "Список",
+                "partnerGroups": "Группы"
+            },
+            "users": {
+                "state": {
+                    "active": "Активен",
+                    "disabled": "Заблокирован"
+                },
+                "notify": {
+                    "created": "Пользователь успешно создан"
+                }
             }
         }
     }

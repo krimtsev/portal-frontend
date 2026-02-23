@@ -3,9 +3,8 @@ import { computed, onMounted, ref } from "vue"
 import PortalPage from "@c/portal/portal-page/portal-page.vue"
 import BButton from "@c/common/b-button/b-button.vue"
 import BTextarea from "@c/common/b-textarea/b-textarea.vue"
-import BInputText from "@c/common/b-input-text/b-input-text.vue"
+import BInputText from "@c/common/b-input/b-input-text.vue"
 import BFileUpload from "@c/common/b-upload-file/b-file-upload.vue"
-import PrimeSelect from "primevue/select"
 import { useNotify } from "@/composables/notify/use-notify"
 import { type UserPartners } from "@/api/modules/partner/partner"
 import { cloneDeep, isEqual } from "lodash"
@@ -28,7 +27,8 @@ import {
     type TicketCategoriesItem,
     TicketCategorySlug
 } from "@v/profile/tickets/edit/definitions/ticket-category"
-import BInputTelnum from "@c/common/b-input-telnum/b-input-telnum.vue"
+import BInputTelnum from "@c/common/b-input/b-input-telnum.vue"
+import BSelect from "@c/common/b-select/b-select.vue"
 
 
 const notify = useNotify()
@@ -154,16 +154,17 @@ async function onSave() {
             <div class="form">
                 <div class="grid grid-reset-rows gap-x-2 gap-y-3">
                     <div class="col-6 mobile-col-12">
-                        <prime-select
+                        <b-select
                             v-model="currentState.partner_id"
                             :options="userPartners.partners"
-                            :loading="isFirstLoading"
+                            :is-loading="isFirstLoading"
                             :disabled="isFirstLoading"
                             :error="errors.partner_id"
                             optionLabel="name"
                             optionValue="partner_id"
                             :placeholder="t('mc.common.partner')"
                             name="partner_id"
+                            class="full-width"
                         />
                     </div>
 
@@ -185,6 +186,7 @@ async function onSave() {
                             :disabled="isFirstLoading"
                             :placeholder="t('mc.ticket.administrator.placeholder.name')"
                             name="name"
+                            class="full-width"
                         />
                     </div>
 
@@ -195,6 +197,7 @@ async function onSave() {
                             :disabled="isFirstLoading"
                             :placeholder="t('mc.ticket.administrator.placeholder.phone')"
                             name="phone"
+                            class="full-width"
                         />
                     </div>
 
@@ -205,6 +208,7 @@ async function onSave() {
                             :disabled="isFirstLoading"
                             :placeholder="t('mc.ticket.administrator.placeholder.experience')"
                             name="experience"
+                            class="full-width"
                         />
                     </div>
 
@@ -214,8 +218,8 @@ async function onSave() {
                             :error="errors.message"
                             :disabled="isFirstLoading"
                             :placeholder="t('mc.ticket.administrator.placeholder.message')"
-                            full-width
                             name="message"
+                            class="full-width"
                         />
                     </div>
 
@@ -226,7 +230,7 @@ async function onSave() {
                                 <li>Скриншоты сертификатов о прохождении портала обучения</li>
                                 <li>Скриншот учетной записи из YCLIENTS</li>
                             </ul>
-                          </div>
+                        </div>
 
                         <b-file-upload
                             v-model="currentState.files"
@@ -239,9 +243,9 @@ async function onSave() {
                     <div class="col-12">
                         <b-button
                             :label="t('mc.common.send')"
-                            width-full
                             :disabled="isDisabled"
-                            :loading="isLoading"
+                            :is-loading="isLoading"
+                            class="full-width"
                             @click="onSave"
                         />
                     </div>

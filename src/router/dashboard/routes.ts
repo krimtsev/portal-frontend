@@ -10,6 +10,8 @@ import UsersListView from "@v/dashboard/users/list/users-list-view.vue"
 import UserView from "@v/dashboard/users/edit/user-view.vue"
 import PartnersListView from "@v/dashboard/partners/list/partners-list-view.vue"
 import PartnerView from "@v/dashboard/partners/edit/partner-view.vue"
+import PartnerGroupsView from "@v/dashboard/partner-groups/edit/partner-groups-view.vue"
+import PartnerGroupsListView from "@v/dashboard/partner-groups/list/partner-groups-list-view.vue"
 
 const routes: RouteRecordRaw[] = [
     {
@@ -84,7 +86,7 @@ const routes: RouteRecordRaw[] = [
                     default: PartnersListView,
                 },
                 meta: {
-                    roles:  [Roles.ADMIN, Roles.SYSADMIN],
+                    roles:  [Roles.SYSADMIN],
                     breadcrumb: "mc.dashboard.sidebar.partners"
                 }
             },
@@ -95,8 +97,30 @@ const routes: RouteRecordRaw[] = [
                     default: PartnerView,
                 },
                 meta: {
-                    roles:  [Roles.ADMIN, Roles.SYSADMIN],
-                    breadcrumb: "mc.dashboard.sidebar.partner"
+                    roles:  [Roles.SYSADMIN],
+                    breadcrumb: "mc.dashboard.sidebar.partners"
+                }
+            },
+            {
+                path:      dashboardPaths.DashboardPartnerGroups,
+                name:      DashboardRouteName.DashboardPartnerGroups,
+                components: {
+                    default: PartnerGroupsListView,
+                },
+                meta: {
+                    roles:  [Roles.SYSADMIN],
+                    breadcrumb: "mc.dashboard.sidebar.partners"
+                }
+            },
+            {
+                path:      dashboardPaths.DashboardPartnerGroup,
+                name:      DashboardRouteName.DashboardPartnerGroup,
+                components: {
+                    default: PartnerGroupsView,
+                },
+                meta: {
+                    roles:  [Roles.SYSADMIN],
+                    breadcrumb: "mc.dashboard.sidebar.partners"
                 }
             }
         ]

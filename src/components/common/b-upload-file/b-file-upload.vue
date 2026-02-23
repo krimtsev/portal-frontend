@@ -7,17 +7,7 @@ import type {
     FileUploadSelectEvent,
     FileUploadUploadEvent,
 } from "primevue/fileupload"
-
-interface UploadProps {
-    modelValue?: File[] | null
-    accept?: string
-    multiple?: boolean
-    maxFileSize?: number
-    name?: string
-    error?: string
-    disabled?: boolean
-    placeholder?: string
-}
+import BInputError from "@c/common/b-input/b-input-error.vue"
 
 type FileUploadExpose = {
     choose: () => void
@@ -27,13 +17,23 @@ const model = defineModel<File | File[] | null>()
 
 const defaultAccept = "image/*, text/plain, application/pdf"
 
-const props = withDefaults(defineProps<UploadProps>(), {
+const props = withDefaults(defineProps<{
+    modelValue?:  File[] | null
+    accept?:      string
+    multiple?:    boolean
+    maxFileSize?: number
+    name?:        string
+    error?:       string
+    disabled?:    boolean
+    placeholder?: string
+}>(), {
     accept:      defaultAccept,
     multiple:    true,
     maxFileSize: 1024 * 1024,
     name:        "files[]",
     disabled:    false,
-    placeholder: "Добавить файлы"
+    placeholder: "Добавить файлы",
+    error:       "",
 })
 
 const uploader = ref<InstanceType<typeof PrimeFileUpload> & FileUploadExpose | null>(null)
@@ -134,15 +134,7 @@ const removeFile = (index: number, removeFileCallback: (index: number) => void) 
                     </prime-message>
                 </div>
 
-                <prime-message
-                    v-else-if="props.error"
-                    severity="error"
-                    size="small"
-                    variant="simple"
-                    class="error"
-                >
-                    {{ props.error }}
-                </prime-message>
+                <b-input-error :error="props.error" />
             </template>
         </prime-file-upload>
     </div>
