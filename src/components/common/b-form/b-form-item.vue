@@ -74,8 +74,8 @@ const labelText = computed(() => {
 
     .form-item-label {
         flex-shrink: 0;
-        width: $left-part-width;
-        margin-top: calc($indent-x1 + 4px);
+        width: $form-left-part-width;
+        margin-top: $label-indent;
         margin-right: $indent-x2;
 
         .label {

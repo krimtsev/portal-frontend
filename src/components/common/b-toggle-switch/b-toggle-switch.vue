@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import PrimeToggleSwitch from "primevue/toggleswitch"
-import BInputError from "@c/common/b-input/b-input-error.vue"
+import BInputError from "@c/common/b-input-error/b-input-error.vue"
 
 const model = defineModel<boolean>()
 

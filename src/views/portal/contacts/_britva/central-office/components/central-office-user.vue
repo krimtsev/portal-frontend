@@ -87,5 +87,25 @@ const avatar = computed(() => {
     .user-contacts {
         text-align: right;
     }
+
+    @media (max-width: $breakpoints-sm) {
+        flex-direction: column;
+
+        .avatar {
+            width: 100%;
+            min-width: 100%;
+            height: auto;
+            aspect-ratio: 1 / 1;
+        }
+
+        .content {
+            min-height: auto;
+        }
+
+        .user-contacts {
+            text-align: left;
+            margin-top: $indent-x2;
+        }
+    }
 }
 </style>

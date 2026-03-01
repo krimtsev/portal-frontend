@@ -8,20 +8,27 @@ import BText from "@c/common/b-text/b-text.vue"
 import ListLoadingState from "@c/common/b-loading-state/list-loading-state.vue"
 import PrimeDataTable from "primevue/datatable"
 import PrimeColumn from "primevue/column"
+import BMultiSelect from "@c/common/b-select/b-multi-select.vue"
+import BButtonSecondary from "@c/common/b-button/b-button-secondary.vue"
+import PartnerStateTag from "@v/dashboard/partners/list/components/partner-state-tag.vue"
 import { useNotify } from "@/composables/notify/use-notify"
 import { useI18n } from "vue-i18n"
 import { usePartnersStore } from "@s/dashboard/partners/partners"
 import { HttpError } from "@/api"
 import { DashboardRouteName } from "@r/dashboard/route-names"
-import type { PartnerListItem } from "@v/dashboard/partners/list/definitions/partners"
+import { type PartnerListItem } from "@v/dashboard/partners/list/definitions/partners"
 import * as partnersAPI from "@/api/modules/dashboard/partners/partners"
 import BTextDate from "@c/common/b-text/b-text-date.vue"
 import { useOpenRoute } from "@/composables/route/use-open-route"
+import { stateList } from "@v/dashboard/partners/list/utils/partners"
+import { useRouter } from "vue-router"
 
 
 const notify = useNotify()
 const { t, n } = useI18n()
+const router = useRouter()
 const { openRoute } = useOpenRoute()
+
 const partnersStore = usePartnersStore()
 
 const partners = ref<PartnerListItem[]>([])
@@ -49,7 +56,7 @@ function onPageChange({ page }: { page: number }) {
     if (partnersStore.isLoading) return
 
     partnersStore.setPage(page + 1)
-    refreshTickets()
+    refreshPartners()
 }
 
 onMounted(async () => {
@@ -72,7 +79,7 @@ onMounted(async () => {
     partnersStore.setIsLoading(false)
 })
 
-async function refreshTickets() {
+async function refreshPartners() {
     partnersStore.setIsLoading(true)
 
     const partnersData = await partnersAPI.list(partnersStore.filter)
@@ -83,6 +90,7 @@ async function refreshTickets() {
         return
     }
 
+    partners.value = partnersData.list
     partnersStore.setPagination(partnersData.page)
     partnersStore.setIsLoading(false)
 }
@@ -93,7 +101,7 @@ function onChangeFilter() {
     partnersStore.resetPage()
     partnersStore.commitFilter()
 
-    refreshTickets()
+    refreshPartners()
 }
 
 const onClick = (id: string, event: MouseEvent) => {
@@ -105,26 +113,46 @@ const onClick = (id: string, event: MouseEvent) => {
         event
     )
 }
+
+function goToNew() {
+    router.push({
+        name: DashboardRouteName.DashboardPartner,
+        params: { id: "!new" }
+    })
+}
 </script>
 
 <template>
     <div class="partners-list-view">
-        <b-toolbar no-paddings>
-<!--            <b-toolbar-item header="Статус">-->
-<!--                <prime-multi-select-->
-<!--                    v-model="partnersStore.filter.filters.disabled"-->
-<!--                    :options="statesList"-->
-<!--                    :selected-items-label="t('mc.select.elements', partnersStore.filter.filters.disabled.length)"-->
-<!--                    :max-selected-labels="1"-->
-<!--                    :disabled="partnersStore.isLoading"-->
-<!--                    option-label="name"-->
-<!--                    option-value="id"-->
-<!--                    filter-->
-<!--                    placeholder="Выберите статус"-->
-<!--                    class="state"-->
-<!--                    @hide="onChangeFilter"-->
-<!--                />-->
-<!--            </b-toolbar-item>-->
+        <b-toolbar
+            no-paddings
+            :show-more="!partnersStore.isLoading"
+        >
+            <b-toolbar-item header="Статус">
+                <b-multi-select
+                    v-model="partnersStore.filter.filters.disabled"
+                    :options="stateList"
+                    :selected-count="partnersStore.filter.filters.disabled.length"
+                    :disabled="partnersStore.isLoading"
+                    option-label="name"
+                    option-value="id"
+                    filter
+                    show-clear
+                    placeholder="Выберите статус"
+                    class="state"
+                    @hide="onChangeFilter"
+                    @clear="onChangeFilter"
+                />
+            </b-toolbar-item>
+
+            <template #more>
+                <b-toolbar-item>
+                    <b-button-secondary
+                        label="Добавить филиал"
+                        @click="goToNew"
+                    />
+                </b-toolbar-item>
+            </template>
 
             <template #right-side>
                 <b-toolbar-item>
@@ -171,7 +199,11 @@ const onClick = (id: string, event: MouseEvent) => {
                         class="table-name"
                     >
                         <template #body="slotProps">
-                            <b-text :value="slotProps.data.name" />
+                            <b-text
+                                :value="slotProps.data.name"
+                                class="link-text"
+                                @click="(e: MouseEvent) => onClick(slotProps.data.id, e)"
+                            />
                         </template>
                     </prime-column>
 
@@ -231,7 +263,7 @@ const onClick = (id: string, event: MouseEvent) => {
                         class="table-disabled"
                     >
                         <template #body="slotProps">
-                            <b-text :value="slotProps.data?.disabled" />
+                            <partner-state-tag :active="!slotProps.data.disabled" />
                         </template>
                     </prime-column>
 
@@ -258,6 +290,10 @@ const onClick = (id: string, event: MouseEvent) => {
     @include list-view;
 
     padding-top: $indent-x2;
+
+    :deep(.p-datatable) {
+        @include table;
+    }
 
     .state {
         @include col-width(250px);

@@ -30,8 +30,16 @@
             "success": "Настройки успешно сохранены"
         },
         "placeholder": {
-            "name": "ivan",
+            "login": "ivan",
+            "name": "Иван",
+            "email": "domain@example.com",
             "input": "Введите текст"
+        },
+        "dialog": {
+            "default": {
+                "confirm": "Применить",
+                "cancel": "Отменить"
+            }
         },
         "auth": {
             "entry": "Вход",
@@ -165,6 +173,20 @@
                 },
                 "notify": {
                     "created": "Пользователь успешно создан"
+                }
+            },
+            "partners": {
+                "state": {
+                    "active": "Активен",
+                    "disabled": "Отключен"
+                },
+                "notify": {
+                    "created": "Партнер успешно создан"
+                }
+            },
+            "partnerGroup": {
+                "notify": {
+                    "created": "Группа партнеров создана"
                 }
             }
         }

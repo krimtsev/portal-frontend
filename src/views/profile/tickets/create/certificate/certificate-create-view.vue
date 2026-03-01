@@ -191,9 +191,9 @@ async function onSave() {
                             :placeholder="t('mc.ticket.certificate.placeholder.paymentDate')"
                             hour-format="24"
                             show-time
-                            full-width
-                            dateFormat="dd-mm-yy"
+                            date-format="yy-mm-dd"
                             name="paymentDate"
+                            class="full-width"
                         />
                     </div>
 

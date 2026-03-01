@@ -106,6 +106,11 @@ export default {
                 fontSize: "1.3rem",
             }
         },
+        dialog: {
+            title: {
+                fontSize: "1.2857rem"
+            }
+        }
     },
     semantic: {
         border: {

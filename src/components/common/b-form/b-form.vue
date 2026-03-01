@@ -173,7 +173,7 @@ const onSave = () => {
         }
 
         article + article {
-            margin-top: $indent-x2;
+            margin-top: $indent-x1;
         }
 
         article:first-of-type:not(.footer) {

@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import PrimeSelect from "primevue/select"
-import BInputError from "@c/common/b-input/b-input-error.vue"
+import BInputError from "@c/common/b-input-error/b-input-error.vue"
+
+const emit = defineEmits<{
+    (e: "hide"): void
+}>()
 
 const model = defineModel<any>()
 
@@ -39,6 +43,7 @@ const props = withDefaults(defineProps<{
             :loading="props.isLoading"
             :show-clear="props.showClear"
             class="select"
+            @hide="emit('hide')"
         />
 
         <b-input-error :error="props.error" />

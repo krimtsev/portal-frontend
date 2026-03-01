@@ -11,7 +11,7 @@ const AttributesSchema = z.object({
 
     sum: z.number({ message: "Укажите сумму списания" }),
 
-    paymentDate:  z.date({ message: "Укажите дату списания" })
+    paymentDate: z.date({ message: "Укажите дату списания" })
         .transform((date) => {
             const d = new Date(date)
             d.setHours(0, 0, 0, 0)

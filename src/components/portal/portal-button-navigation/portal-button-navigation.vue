@@ -29,7 +29,7 @@ const goToRouteName = (name: PortalRouteName) => {
             v-for="(button, index) in props.buttons"
             :key="index"
             :label="button.label"
-            :active="currentRouteName !== button.route"
+            :active="currentRouteName == button.route"
             @click="goToRouteName(button.route)"
         />
     </div>

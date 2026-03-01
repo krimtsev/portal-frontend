@@ -4,7 +4,7 @@ import { Roles } from "@/shared/roles/roles"
 
 const passwordSchema = z.string().min(8, { message: "Минимум 8 символов" })
 
-export const userSchema = (isNew: boolean) => toTypedSchema(
+export const UserSchema = (isNew: boolean) => toTypedSchema(
     z.object({
         name: z.string()
             .min(1, { message: "Поле обязательно для заполнения" }),
@@ -28,6 +28,6 @@ export const userSchema = (isNew: boolean) => toTypedSchema(
         partner_id: z.number()
             .nullable(),
 
-        disabled:   z.boolean(),
+        disabled: z.boolean(),
     })
 )

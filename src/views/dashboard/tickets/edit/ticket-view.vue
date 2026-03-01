@@ -13,7 +13,7 @@ import BTextarea from "@c/common/b-textarea/b-textarea.vue"
 import { dashboardPaths } from "@r/dashboard/path"
 import { stateList } from "@v/profile/tickets/list/utils/ticket"
 import type { TicketCategoriesItem } from "@v/profile/tickets/edit/definitions/ticket-category"
-import type { PartnerShortListItem } from "@v/dashboard/partners/list/definitions/partners"
+import type { PartnerOptionItem } from "@v/dashboard/partners/list/definitions/partners"
 import * as ticketsAPI from "@/api/modules/dashboard/tickets/tickets"
 import * as partnersAPI from "@/api/modules/dashboard/partners/partners"
 import { HttpError } from "@/api"
@@ -42,7 +42,7 @@ import { downloadExternalFile } from "@/lib/files"
 import { DashboardRouteName } from "@r/dashboard/route-names"
 import { useForm } from "vee-validate"
 import { useConfigValidation } from "@/composables/vee-validate/use-config-validation"
-import { ticketSchema } from "@v/dashboard/tickets/edit/schemas/ticket.schema"
+import { TicketSchema } from "@v/dashboard/tickets/edit/schemas/ticket.schema"
 
 
 
@@ -80,7 +80,7 @@ const isLoadingFile = ref(false)
 
 const ticketStateList = stateList()
 const ticketCategoriesList = ref<TicketCategoriesItem[]>([])
-const partnersList = ref<PartnerShortListItem[]>([])
+const partnersList = ref<PartnerOptionItem[]>([])
 
 const ticketId = computed(() => route.params.id as string)
 
@@ -93,7 +93,7 @@ const {
     submitCount,
     setErrors
 } = useForm<TicketStateData>({
-    validationSchema: ticketSchema,
+    validationSchema: TicketSchema,
     initialValues:    defaultState(),
 })
 
@@ -120,7 +120,7 @@ onMounted(async () => {
     ] = await Promise.all([
         ticketsAPI.get(id),
         ticketsAPI.categories(),
-        partnersAPI.shortList()
+        partnersAPI.options()
     ])
 
     if (
