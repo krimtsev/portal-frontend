@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue"
-import PrimeMultiSelect from "primevue/multiselect"
 import PrimeDataTable from "primevue/datatable"
 import PrimeColumn from "primevue/column"
 import BToolbar from "@c/common/b-toolbar/b-toolbar.vue"
@@ -17,12 +16,13 @@ import BText from "@c/common/b-text/b-text.vue"
 import { DashboardRouteName } from "@r/dashboard/route-names"
 import TicketStateBadge from "@v/profile/tickets/list/components/ticket-state-badge.vue"
 import { stateList } from "@v/profile/tickets/list/utils/ticket"
-import type { PartnerShortListItem } from "@v/dashboard/partners/list/definitions/partners"
+import type { PartnerOptionItem } from "@v/dashboard/partners/list/definitions/partners"
 import BEmptyResult from "@c/common/b-empty/b-empty-result.vue"
 import ListLoadingState from "@c/common/b-loading-state/list-loading-state.vue"
 import BTextDate from "@c/common/b-text/b-text-date.vue"
 import { checkActiveState } from "@v/profile/tickets/edit/utils/ticket"
 import { useTicketsStore } from "@s/dashboard/tickets/tickets"
+import BMultiSelect from "@c/common/b-select/b-multi-select.vue"
 
 
 const notify = useNotify()
@@ -33,7 +33,7 @@ const ticketsStore = useTicketsStore()
 const ticketStateList = stateList()
 const tickets = ref<TicketListItem[]>([])
 const categories = ref<TicketCategoriesItem[]>([])
-const partners = ref<PartnerShortListItem[]>([])
+const partners = ref<PartnerOptionItem[]>([])
 
 const paginationInfo = computed(() => {
     return t("mc.pagination.table",
@@ -71,7 +71,7 @@ onMounted(async () => {
     ] = await Promise.all([
         ticketsAPI.list(ticketsStore.filter),
         ticketsAPI.categories(),
-        partnersAPI.shortList()
+        partnersAPI.options()
     ])
 
     if (
@@ -135,7 +135,7 @@ const onClick = (id: number, event: MouseEvent) => {
     <div class="tickets-list-view">
         <b-toolbar no-paddings>
             <b-toolbar-item header="Отдел">
-                <prime-multi-select
+                <b-multi-select
                     v-model="ticketsStore.filter.filters.category_id"
                     :options="categories"
                     :selected-items-label="t('mc.select.elements', ticketsStore.filter.filters.category_id.length)"
@@ -144,14 +144,16 @@ const onClick = (id: number, event: MouseEvent) => {
                     option-label="title"
                     option-value="id"
                     filter
+                    show-clear
                     placeholder="Выберите отдел"
                     class="categories"
                     @hide="onChangeFilter"
+                    @clear="onChangeFilter"
                 />
             </b-toolbar-item>
 
             <b-toolbar-item header="Филиал">
-                <prime-multi-select
+                <b-multi-select
                     v-model="ticketsStore.filter.filters.partner_id"
                     :options="partners"
                     :selected-items-label="t('mc.select.elements', ticketsStore.filter.filters.partner_id.length)"
@@ -160,14 +162,16 @@ const onClick = (id: number, event: MouseEvent) => {
                     option-label="name"
                     option-value="id"
                     filter
+                    show-clear
                     placeholder="Выберите филиал"
                     class="partner"
                     @hide="onChangeFilter"
+                    @clear="onChangeFilter"
                 />
             </b-toolbar-item>
 
             <b-toolbar-item header="Статус">
-                <prime-multi-select
+                <b-multi-select
                     v-model="ticketsStore.filter.filters.state"
                     :options="ticketStateList"
                     :selected-items-label="t('mc.select.elements', ticketsStore.filter.filters.state.length)"
@@ -176,9 +180,11 @@ const onClick = (id: number, event: MouseEvent) => {
                     option-label="label"
                     option-value="value"
                     filter
+                    show-clear
                     placeholder="Выберите статус"
                     class="state"
                     @hide="onChangeFilter"
+                    @clear="onChangeFilter"
                 />
             </b-toolbar-item>
         </b-toolbar>

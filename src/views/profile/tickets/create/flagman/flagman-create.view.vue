@@ -203,9 +203,9 @@ async function onSave() {
                             :disabled="isFirstLoading"
                             :placeholder="t('mc.ticket.flagman.placeholder.openingDate')"
                             hour-format="24"
-                            full-width
-                            dateFormat="dd-mm-yy"
+                            date-format="yy-mm-dd"
                             name="openingDate"
+                            class="full-width"
                         />
                     </div>
 

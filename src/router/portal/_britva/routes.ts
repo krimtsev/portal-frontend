@@ -15,8 +15,6 @@ import ServiceMissedCallsView  from "@v/portal/services/_britva/missed-calls/mis
 import ServiceUserAnalyticsView from "@v/portal/services/_britva/user-analytics/user-analytics-view.vue"
 import ServiceBranchReviewView from "@v/portal/services/_britva/branch-review/branch-review-view.vue"
 import ServiceSearchStaffView from "@v/portal/services/_britva/search-staff/search-staff-view.vue"
-
-
 import AdditionallyDiscounts from "@v/portal/additionally/_britva/discounts/discounts-view.vue"
 import ContactCentralOffice from "@v/portal/contacts/_britva/central-office/central-office-view.vue"
 import ContactPartners from "@v/portal/contacts/_britva/partners/partners-view.vue"

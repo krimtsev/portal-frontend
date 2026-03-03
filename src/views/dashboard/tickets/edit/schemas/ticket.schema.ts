@@ -3,7 +3,7 @@ import { toTypedSchema } from "@vee-validate/zod"
 import { TicketState, TicketType } from "@v/profile/tickets/edit/definitions/ticket"
 import { FilesSchema } from "@v/profile/tickets/schemas/ticket.schema"
 
-export const ticketSchema = toTypedSchema(
+export const TicketSchema = toTypedSchema(
     z.object({
         title: z.string()
             .min(1, { message: "Поле обязательно для заполнения" }),

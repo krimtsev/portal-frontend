@@ -18,7 +18,7 @@ export interface PaginationFilter {
     sortOrder: string,
     perPage: number,
     search: string,
-    filters: Record<string, string[]>,
+    filters: Record<string, string[] | boolean[] | number[]>,
 }
 
 

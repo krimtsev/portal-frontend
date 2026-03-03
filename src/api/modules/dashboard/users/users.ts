@@ -1,6 +1,6 @@
 import type { Pagination, PaginationFilter } from "@/shared/pagination/pagination"
 import { http } from "@/api"
-import type { UsersListItem } from "@v/dashboard/users/list/definitions/users-list"
+import type { UsersListItem } from "@v/dashboard/users/list/definitions/users.ts"
 import type { UserData, UserResponse } from "@v/dashboard/users/edit/definitions/user"
 
 export async function list(paginationFilter: PaginationFilter) {

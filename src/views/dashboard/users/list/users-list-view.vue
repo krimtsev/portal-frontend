@@ -6,23 +6,23 @@ import BInputSearch from "@c/common/b-input-search/b-input-search.vue"
 import BEmptyResult from "@c/common/b-empty/b-empty-result.vue"
 import BTextDate from "@c/common/b-text/b-text-date.vue"
 import BText from "@c/common/b-text/b-text.vue"
+import BMultiSelect from "@c/common/b-select/b-multi-select.vue"
+import BButtonSecondary from "@c/common/b-button/b-button-secondary.vue"
 import ListLoadingState from "@c/common/b-loading-state/list-loading-state.vue"
 import PrimeDataTable from "primevue/datatable"
-import PrimeMultiSelect from "primevue/multiselect"
 import PrimeColumn from "primevue/column"
-import UserState from "@v/dashboard/users/list/components/user-state.vue"
+import UserStateTag from "@v/dashboard/users/list/components/user-state-tag.vue"
 import { useNotify } from "@/composables/notify/use-notify"
 import { useI18n } from "vue-i18n"
 import { useRouter } from "vue-router"
 import { useUsersStore } from "@s/dashboard/users/users"
-import type { UsersListItem } from "@v/dashboard/users/list/definitions/users-list"
+import type { UsersListItem } from "@v/dashboard/users/list/definitions/users.ts"
 import * as usersAPI from "@/api/modules/dashboard/users/users"
 import { HttpError } from "@/api"
 import { DashboardRouteName } from "@r/dashboard/route-names"
-import type { PartnerShortListItem } from "@v/dashboard/partners/list/definitions/partners"
+import type { PartnerOptionItem } from "@v/dashboard/partners/list/definitions/partners"
 import * as partnersAPI from "@/api/modules/dashboard/partners/partners"
-import { rolesList, statesList } from "@v/dashboard/users/list/utils/user-list"
-import BButtonSecondary from "@c/common/b-button/b-button-secondary.vue"
+import { rolesList, stateList } from "@v/dashboard/users/list/utils/users"
 import { useOpenRoute } from "@/composables/route/use-open-route"
 
 
@@ -33,7 +33,7 @@ const { openRoute } = useOpenRoute()
 const usersStore = useUsersStore()
 
 const users = ref<UsersListItem[]>([])
-const partners = ref<PartnerShortListItem[]>([])
+const partners = ref<PartnerOptionItem[]>([])
 
 const paginationInfo = computed(() => {
     return t("mc.pagination.table",
@@ -69,7 +69,7 @@ onMounted(async () => {
         partnersData
     ] = await Promise.all([
         usersAPI.list(usersStore.filter),
-        partnersAPI.shortList()
+        partnersAPI.options()
     ])
 
     if (
@@ -137,50 +137,53 @@ function goToNew() {
             :show-more="!usersStore.isLoading"
         >
             <b-toolbar-item header="Филиал">
-                <prime-multi-select
+                <b-multi-select
                     v-model="usersStore.filter.filters.partner_id"
                     :options="partners"
-                    :selected-items-label="t('mc.select.elements', usersStore.filter.filters.partner_id.length)"
-                    :max-selected-labels="1"
+                    :selected-count="usersStore.filter.filters.partner_id.length"
                     :disabled="usersStore.isLoading"
                     option-label="name"
                     option-value="id"
                     filter
+                    show-clear
                     placeholder="Выберите филиал"
                     class="partner"
                     @hide="onChangeFilter"
+                    @clear="onChangeFilter"
                 />
             </b-toolbar-item>
 
             <b-toolbar-item header="Роль">
-                <prime-multi-select
+                <b-multi-select
                     v-model="usersStore.filter.filters.role"
                     :options="rolesList"
-                    :selected-items-label="t('mc.select.elements', usersStore.filter.filters.role.length)"
-                    :max-selected-labels="1"
+                    :selected-count="usersStore.filter.filters.role.length"
                     :disabled="usersStore.isLoading"
                     option-label="name"
                     option-value="id"
                     filter
+                    show-clear
                     placeholder="Выберите роль"
                     class="role"
                     @hide="onChangeFilter"
+                    @clear="onChangeFilter"
                 />
             </b-toolbar-item>
 
             <b-toolbar-item header="Статус">
-                <prime-multi-select
+                <b-multi-select
                     v-model="usersStore.filter.filters.disabled"
-                    :options="statesList"
-                    :selected-items-label="t('mc.select.elements', usersStore.filter.filters.disabled.length)"
-                    :max-selected-labels="1"
+                    :options="stateList"
+                    :selected-count="usersStore.filter.filters.disabled.length"
                     :disabled="usersStore.isLoading"
                     option-label="name"
                     option-value="id"
                     filter
+                    show-clear
                     placeholder="Выберите статус"
                     class="state"
                     @hide="onChangeFilter"
+                    @clear="onChangeFilter"
                 />
             </b-toolbar-item>
 
@@ -272,7 +275,7 @@ function goToNew() {
                         class="table-disabled"
                     >
                         <template #body="slotProps">
-                            <user-state :active="!slotProps.data.disabled" />
+                            <user-state-tag :active="!slotProps.data.disabled" />
                         </template>
                     </prime-column>
 

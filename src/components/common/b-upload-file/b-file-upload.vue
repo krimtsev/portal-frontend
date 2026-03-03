@@ -7,7 +7,7 @@ import type {
     FileUploadSelectEvent,
     FileUploadUploadEvent,
 } from "primevue/fileupload"
-import BInputError from "@c/common/b-input/b-input-error.vue"
+import BInputError from "@c/common/b-input-error/b-input-error.vue"
 
 type FileUploadExpose = {
     choose: () => void

@@ -4,10 +4,9 @@ import { dashboardPaths } from "@r/dashboard/path"
 import { DashboardRouteName } from "@r/dashboard/route-names"
 import BForm from "@c/common/b-form/b-form.vue"
 import BFormCard from "@c/common/b-form/b-form-card.vue"
-import BInputPassword from "@c/common/b-input/b-input-password.vue"
 import BFormItem from "@c/common/b-form/b-form-item.vue"
+import BInputPassword from "@c/common/b-input/b-input-password.vue"
 import BButtonSecondary from "@c/common/b-button/b-button-secondary.vue"
-import BToggleSwitch from "@c/common/b-toggle-switch/b-toggle-switch.vue"
 import { useNotify } from "@/composables/notify/use-notify"
 import { useRoute, useRouter } from "vue-router"
 import { useI18n } from "vue-i18n"
@@ -15,14 +14,17 @@ import type { UserData } from "@v/dashboard/users/edit/definitions/user"
 import { Roles } from "@/shared/roles/roles"
 import BInputText from "@c/common/b-input/b-input-text.vue"
 import BSelect from "@c/common/b-select/b-select.vue"
-import type { PartnerShortListItem } from "@v/dashboard/partners/list/definitions/partners"
+import type { PartnerOptionItem } from "@v/dashboard/partners/list/definitions/partners"
 import * as partnersAPI from "@/api/modules/dashboard/partners/partners"
 import * as usersAPI from "@/api/modules/dashboard/users/users"
 import { HttpError } from "@/api"
 import { generatePassword } from "@/lib/utils"
 import { useForm } from "vee-validate"
-import { userSchema } from "@v/dashboard/users/edit/schemas/user.schema"
+import { UserSchema } from "@v/dashboard/users/edit/schemas/user.schema"
 import { useConfigValidation } from "@/composables/vee-validate/use-config-validation"
+import { stateList } from "@v/dashboard/users/list/utils/users"
+import BSelectButton from "@c/common/b-select-button/b-select-button.vue"
+
 
 const notify = useNotify()
 const route = useRoute()
@@ -37,14 +39,14 @@ function defaultState(): UserData {
         role:       Roles.USER,
         email:      "",
         partner_id: null,
-        disabled:   true,
+        disabled:   false,
     }
 }
 
 const isFirstLoading = ref(true)
 const isLoading = ref(false)
 
-const partners = ref<PartnerShortListItem[]>([])
+const partners = ref<PartnerOptionItem[]>([])
 
 const userId = computed(() => route.params.id as string)
 const isNew = computed(() => userId.value === "!new")
@@ -58,7 +60,7 @@ const {
     submitCount,
     setErrors
 } = useForm<UserData>({
-    validationSchema: userSchema(isNew.value),
+    validationSchema: UserSchema(isNew.value),
     initialValues:    defaultState(),
 })
 
@@ -79,7 +81,7 @@ onMounted(async () => {
         partnersData,
         userData
     ] = await Promise.all([
-        partnersAPI.shortList(),
+        partnersAPI.options(),
         !isNew.value
             ? usersAPI.get(userId.value)
             : null
@@ -255,13 +257,15 @@ const rolesList = [
             </b-form-item>
 
             <b-form-item
-                label="Заблокирован"
+                label="Статус"
                 class="label-align-center"
             >
-                <b-toggle-switch
+                <b-select-button
                     v-model="disabledModel"
-                    :disabled="isLoading"
+                    :options="stateList"
                     :error="errors.disabled"
+                    option-label="name"
+                    option-value="id"
                 />
             </b-form-item>
         </b-form-card>

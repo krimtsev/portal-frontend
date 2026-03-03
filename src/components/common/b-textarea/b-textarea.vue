@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from "vue"
 import PrimeTextarea from "primevue/textarea"
-import BInputError from "@c/common/b-input/b-input-error.vue"
+import BInputError from "@c/common/b-input-error/b-input-error.vue"
 
 const model = defineModel<string>()
 

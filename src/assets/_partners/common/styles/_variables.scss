@@ -10,8 +10,10 @@ $indent-x6: $indent * 6; // = 48px
 $indent-x7: $indent * 7; // = 56px
 $indent-x8: $indent * 8; // = 64px
 
-$left-part-width: 208px;
+$form-left-part-width: 208px;
+$dialog-left-part-width: 104px;
 $input-width: 296px;
+$label-indent: $indent + 4px;
 
 $breakpoints-xxl: 1920px;
 $breakpoints-xl: 1600px;

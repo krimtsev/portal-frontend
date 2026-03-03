@@ -1,30 +1,52 @@
 <script setup lang="ts">
 import { ref, watch } from "vue"
 import PrimeInputMask from "primevue/inputmask"
-import BInputError from "@c/common/b-input/b-input-error.vue"
+import BInputError from "@c/common/b-input-error/b-input-error.vue"
 
 const emit = defineEmits(["change"])
 
 const props = withDefaults(defineProps<{
-    placeholder?: string
     name?:        string
-    disabled?:    boolean
+    placeholder?: string
     error?:       string
+    disabled?:    boolean
 }>(), {
     placeholder: "",
     error:       "",
     disabled:    false,
 })
 
+const model = defineModel<string>()
 const maskedValue = ref("")
 
-const model = defineModel<string>()
+const toDigit = (val?: string) => {
+    return val ? String(val).replace(/\D/g, "") : ""
+}
 
 watch(maskedValue, (val) => {
-    const digitsOnly = val.replace(/\D/g, "")
+    const digitsOnly = toDigit(val)
     model.value = digitsOnly
     emit("change", digitsOnly)
 })
+
+watch(model, (newVal) => {
+    const cleanNewVal = toDigit(newVal)
+    const cleanCurrent = toDigit(maskedValue.value)
+
+    if (cleanNewVal !== cleanCurrent) {
+        maskedValue.value = cleanNewVal
+    }
+}, { immediate: true })
+
+const onInput = (event: any) => {
+    const rawValue = event.target.value
+    const digitsOnly = toDigit(rawValue)
+
+    if (model.value !== digitsOnly) {
+        model.value = digitsOnly
+        emit("change", digitsOnly)
+    }
+}
 </script>
 
 <template>
@@ -35,8 +57,9 @@ watch(maskedValue, (val) => {
             :disabled="props.disabled"
             :name="props.name"
             :auto-clear="false"
+            :invalid="!!props.error"
             mask="+7 (999) 999-99-99"
-            @change="emit('change', model)"
+            @input="onInput"
         />
 
         <b-input-error :error="props.error" />

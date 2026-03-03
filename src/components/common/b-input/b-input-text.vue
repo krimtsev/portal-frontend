@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import PrimeInputText from "primevue/inputtext"
-import BInputError from "@c/common/b-input/b-input-error.vue"
+import BInputError from "@c/common/b-input-error/b-input-error.vue"
 
 const emit = defineEmits(["change"])
 
@@ -11,6 +11,7 @@ const props = withDefaults(defineProps<{
     placeholder?: string
     disabled?:    boolean
     error?:       string
+    maxlength?:   number
 }>(), {
     placeholder: "",
     disabled:    false,
@@ -26,6 +27,7 @@ const props = withDefaults(defineProps<{
             :disabled="props.disabled"
             :name="props.name"
             :invalid="!!props.error"
+            :maxlength="props.maxlength"
             type="text"
             class="input"
             @change="emit('change', model)"

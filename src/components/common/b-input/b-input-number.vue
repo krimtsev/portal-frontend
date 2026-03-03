@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import PrimeInputNumber from "primevue/inputnumber"
-import BInputError from "@c/common/b-input/b-input-error.vue"
+import BInputError from "@c/common/b-input-error/b-input-error.vue"
 
 const model = defineModel<number|null>()
 
@@ -27,6 +27,7 @@ const props = withDefaults(defineProps<{
             :placeholder="props.placeholder"
             :disabled="props.disabled"
             :use-grouping="props.grouping"
+            :invalid="!!props.error"
             class="input"
         />
 

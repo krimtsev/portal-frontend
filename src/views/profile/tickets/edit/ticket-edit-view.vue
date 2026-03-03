@@ -74,11 +74,12 @@ function defaultState(): Ticket {
     }
 }
 
+const ticketId = computed(() => route.params.id as string)
+
 const initialState = ref<Ticket>(defaultState())
 const currentState = ref<Ticket>(defaultState())
 
 const ticketDetails = ref<TicketDetails>({
-    id:       0,
     title:    "",
     type:     TicketType.General,
     category: null,
@@ -114,7 +115,7 @@ async function download(item: ChatMessageFile) {
 
     isLoadingFile.value = true
 
-    const data = await ticketAPI.download(ticketDetails.value.id, item.name)
+    const data = await ticketAPI.download(ticketId.value, item.name)
 
     if (data instanceof HttpError) {
         notify.error()
@@ -182,7 +183,7 @@ async function onSave() {
     loadingState.value = LoadingState.Save
 
     const ticketData = await ticketAPI.updateMessage(
-        ticketDetails.value.id,
+        ticketId.value,
         currentState.value
     )
 
@@ -205,7 +206,7 @@ async function onRemove() {
 
     loadingState.value = LoadingState.Remove
 
-    const data = await ticketAPI.remove(ticketDetails.value.id)
+    const data = await ticketAPI.remove(ticketId.value)
 
     if (data instanceof HttpError) {
         notify.error()

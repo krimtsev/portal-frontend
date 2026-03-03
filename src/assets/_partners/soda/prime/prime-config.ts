@@ -101,6 +101,11 @@ export default {
                 }
             }
         },
+        dialog: {
+            title: {
+                fontSize: "1.2857rem"
+            }
+        }
     },
     semantic: {
         border: {

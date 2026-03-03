@@ -1,10 +1,10 @@
-export interface PartnerShortListItem {
+export interface PartnerOptionItem {
     id:   number,
     name: string
 }
 
-export interface PartnerShortListResponse {
-    list: PartnerShortListItem[]
+export interface PartnerOptionsResponse {
+    list: PartnerOptionItem[]
 }
 
 export interface PartnerListItem {

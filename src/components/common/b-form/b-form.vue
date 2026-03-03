@@ -10,7 +10,10 @@ import { useI18n } from "vue-i18n"
 
 const { t } = useI18n()
 
-const emit = defineEmits(["save"])
+const emit = defineEmits<{
+    (e: "save"): void
+    (e: "remove"): void
+}>()
 
 const props = defineProps<{
     title: string
@@ -20,6 +23,7 @@ const props = defineProps<{
     hideSaveButton?: boolean
     hideCancelButton?: boolean
     pathBack?: string
+    removeText?: string
 }>()
 
 const route = useRoute()
@@ -42,13 +46,17 @@ const goBack = () => {
 const onSave = () => {
     emit("save")
 }
+
+const onRemove = () => {
+    emit("remove")
+}
 </script>
 
 <template>
     <div class="b-form">
         <div class="header">
             <div
-                class="btn-back"
+                class="button-back"
                 @click="goBack"
             >
                 <b-svg
@@ -85,20 +93,32 @@ const onSave = () => {
             class="footer"
         >
             <slot name="footer">
-                <prime-button
-                    v-if="!hideSaveButton"
-                    :label="t('mc.common.save')"
-                    :disabled="isLoading"
-                    :loading="isLoading"
-                    @click="onSave"
-                />
+                <div class="left-side">
+                    <prime-button
+                        v-if="!hideSaveButton"
+                        :label="t('mc.common.save')"
+                        :disabled="isLoading"
+                        @click="onSave"
+                    />
 
-                <b-button-secondary
-                    v-if="!hideCancelButton"
-                    :label="t('mc.common.cancel')"
-                    :disabled="isLoading"
-                    @click="goBack"
-                />
+                    <b-button-secondary
+                        v-if="!hideCancelButton"
+                        :label="t('mc.common.cancel')"
+                        :disabled="isLoading"
+                        @click="goBack"
+                    />
+                </div>
+
+                <div class="right-side">
+                    <prime-button
+                        v-if="removeText && !isLoading"
+                        :label="t('mc.common.remove')"
+                        :disabled="isLoading"
+                        severity="danger"
+                        variant="text"
+                        @click="onRemove"
+                    />
+                </div>
             </slot>
         </article>
     </div>
@@ -122,7 +142,7 @@ const onSave = () => {
         border-top-left-radius: $border-radius;
         border-top-right-radius: $border-radius;
 
-        .btn-back {
+        .button-back {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -173,7 +193,7 @@ const onSave = () => {
         }
 
         article + article {
-            margin-top: $indent-x2;
+            margin-top: $indent-x1;
         }
 
         article:first-of-type:not(.footer) {
@@ -187,7 +207,13 @@ const onSave = () => {
         margin-top: $indent-x1;
         background-color: var(--p-dashboard-card-background);
         padding: $indent-x2;
-        gap: $indent-x2;
+        justify-content: space-between;
+
+        .left-side,
+        .right-side {
+            display: flex;
+            gap: $indent-x2;
+        }
     }
 }
 </style>

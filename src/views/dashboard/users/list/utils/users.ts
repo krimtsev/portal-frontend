@@ -1,14 +1,13 @@
-import { UsersStates } from "@v/dashboard/users/list/definitions/users-list"
 import { Roles } from "@/shared/roles/roles"
 import i18n from "@/plugins/i18n"
 
-export const statesList: { id: UsersStates, name: string }[] = [
+export const stateList: { id: boolean, name: string }[] = [
     {
-        id: UsersStates.Active,
+        id: false,
         name: i18n.global.t("mc.dashboard.users.state.active"),
     },
     {
-        id: UsersStates.Disabled,
+        id: true,
         name: i18n.global.t("mc.dashboard.users.state.disabled"),
     },
 ]

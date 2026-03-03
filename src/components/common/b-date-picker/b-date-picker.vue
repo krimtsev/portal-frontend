@@ -1,43 +1,63 @@
 <script setup lang="ts">
+import { computed } from "vue"
 import PrimeDatePicker from "primevue/datepicker"
-import PrimeMessage from "primevue/message"
+import BInputError from "@c/common/b-input-error/b-input-error.vue"
+import { DateTime } from "luxon"
 
 interface DatePicker {
-    name: string
-    label: string
-    error?: string
-    fullWidth: boolean
-    placeholder: string
-    disabled: boolean
-    showTime: boolean
-    hourFormat: string
-    timeOnly: boolean
-    dateFormat: string
-    manualInput: boolean
+    name?:            string
+    placeholder?:     string
+    disabled?:        boolean
+    error?:           string
+    showTime?:        boolean
+    hourFormat?:      string
+    timeOnly?:        boolean
+    dateFormat?:      string
+    manualInput?:     boolean
+    showClear?:       boolean
+    updateModelType?: "date" | "string"
+    showButtonBar?:   boolean
 }
 
 const props = withDefaults(defineProps<Partial<DatePicker>>(), {
+    placeholder: "",
+    disabled:    false,
+    error:       "",
     manualInput: false,
-    dateFormat: "dd-mm-yy"
+    showClear:   false,
+    dateFormat: "yy-mm-dd"
 })
 
-const model = defineModel<Date | Date[] | (Date | null)[] | null | undefined>()
+const modelValue = defineModel<Date | Date[] | (Date | null)[] | null | undefined>()
+
+const internalModel = computed({
+    get() {
+        if (!modelValue.value) return null
+
+        if (modelValue.value instanceof Date) {
+            return modelValue.value
+        }
+
+        if (typeof modelValue.value === "string") {
+            return DateTime
+                .fromISO(modelValue.value, { zone: "utc" })
+                .toLocal()
+                .toJSDate()
+        }
+
+        return modelValue.value
+    },
+    set(value) {
+        modelValue.value = value ?? null
+    }
+})
 </script>
 
 <template>
     <div class="b-date-picker">
-        <label
-            v-if="props.label"
-            :for="props.name"
-            class="label"
-        >
-            {{ props.label }}
-        </label>
-
         <prime-date-picker
-            v-model="model"
+            v-model="internalModel"
             :name="props.name"
-            :fluid="props.fullWidth"
             :disabled="props.disabled"
             :placeholder="props.placeholder"
             :show-time="props.showTime"
@@ -45,17 +65,15 @@ const model = defineModel<Date | Date[] | (Date | null)[] | null | undefined>()
             :time-only="props.timeOnly"
             :date-format="props.dateFormat"
             :manual-input="props.manualInput"
+            :show-clear="props.showClear"
+            :update-model-type="props.updateModelType"
+            :show-button-bar="props.showButtonBar"
+            :invalid="!!props.error"
+            fluid
+            class="date-picker"
         />
 
-        <prime-message
-            v-if="props.error"
-            severity="error"
-            size="small"
-            variant="simple"
-            class="error"
-        >
-            {{ props.error }}
-        </prime-message>
+        <b-input-error :error="props.error" />
     </div>
 </template>
 
@@ -63,6 +81,11 @@ const model = defineModel<Date | Date[] | (Date | null)[] | null | undefined>()
 .b-date-picker {
     display: flex;
     flex-direction: column;
+    width: $input-width;
+
+    &.full-width {
+        width: 100%;
+    }
 
     :deep(.p-inputtext)  {
         &.p-invalid {
@@ -70,12 +93,8 @@ const model = defineModel<Date | Date[] | (Date | null)[] | null | undefined>()
         }
     }
 
-    .label {
-        margin-bottom: $indent-x1;
-    }
-
-    .error {
-        margin-top: $indent-x1;
+    .b-input-error {
+        margin-top: calc($indent-x1 / 2);
     }
 }
 </style>

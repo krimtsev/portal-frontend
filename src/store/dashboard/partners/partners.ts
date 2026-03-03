@@ -15,7 +15,7 @@ export const usePartnersStore = defineStore("partners", () => {
         defaultPaginationFilter({
             search:         "",
             filters: {
-
+                disabled:   []
             },
         }),
     )

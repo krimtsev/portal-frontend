@@ -12,7 +12,7 @@ export interface UsersListItem {
     last_activity: string
 }
 
-export enum UsersStates {
+export enum UserState {
     Active = 0,
     Disabled = 1
 }
