@@ -1,31 +1,25 @@
 <script setup lang="ts">
 import { computed } from "vue"
 import PrimeDialog from "primevue/dialog"
-import PrimeButton from "primevue/button"
-import { useI18n } from "vue-i18n"
-
-const { t } = useI18n()
-
-const emit = defineEmits<{
-    (e: 'confirm'): void
-    (e: 'cancel'): void
-}>()
+import BSvg from "@c/common/b-svg/b-svg.vue"
 
 const visible = defineModel<boolean>("visible", { default: false })
 
 const props = withDefaults(defineProps<{
-    title?:     string,
-    draggable?: boolean,
-    width?:     string,
-    style?:     object,
-    modal?:     boolean
-    closable?:  boolean
+    title?:        string,
+    draggable?:    boolean,
+    width?:        string,
+    style?:        object,
+    modal?:        boolean
+    closable?:     boolean
+    iconName?:     string
+    showHeader?:   boolean
 }>(), {
-    title:     "",
-    draggable: false,
-    width:     "624px",
-    modal:     true,
-    closable:  false
+    draggable:  false,
+    width:      "624px",
+    modal:      true,
+    closable:   false,
+    showHeader: true
 })
 
 const dialogStyle = computed(() => ({
@@ -33,14 +27,11 @@ const dialogStyle = computed(() => ({
     ...props.style
 }))
 
-const onConfirm = () => {
-    emit('confirm')
-}
-
-const onCancel = () => {
-    visible.value = false
-    emit('cancel')
-}
+const contentStyle = computed(() => {
+    return !props.showHeader
+        ? { padding: 'var(--p-overlay-modal-padding)' }
+        : {};
+})
 </script>
 
 <template>
@@ -49,29 +40,37 @@ const onCancel = () => {
         :header="props.title"
         :draggable="props.draggable"
         :style="dialogStyle"
+        :content-style="contentStyle"
         :modal="props.modal"
         :closable="props.closable"
+        :show-header="props.showHeader"
+        position="center"
         class="b-dialog"
     >
         <template v-if="$slots.header" #header>
-            <slot name="header" />
+            <div class="dialog-header">
+                <slot name="header" />
+            </div>
         </template>
 
-        <slot name="default" />
+        <div class="dialog-body">
+            <div
+                v-if="props.iconName"
+                class="dialog-icon"
+            >
+                <b-svg
+                    :name="props.iconName"
+                    size="4rem"
+                />
+            </div>
+
+            <slot name="body" />
+            <slot />
+        </div>
 
         <template #footer>
-            <div class="footer">
-                <prime-button
-                    type="button"
-                    :label="t('mc.dialog.default.confirm')"
-                    @click="onConfirm"
-                />
-                <prime-button
-                    type="button"
-                    :label="t('mc.dialog.default.cancel')"
-                    severity="secondary"
-                    @click="onCancel"
-                />
+            <div class="dialog-footer">
+                <slot name="footer" />
             </div>
         </template>
     </prime-dialog>
@@ -79,7 +78,20 @@ const onCancel = () => {
 
 <style scoped lang="scss">
 .b-dialog {
-    .footer {
+    .dialog-body {
+        display: flex;
+        gap: $indent-x2;
+    }
+
+    .dialog-icon {
+        padding: $indent-x2;
+
+        :deep(.b-svg) {
+            color: var(--p-surface-500);
+        }
+    }
+
+    .dialog-footer {
         display: flex;
         justify-content: flex-start;
         gap: $indent-x1;

@@ -29,3 +29,7 @@ export async function create(id: string, data: PartnerGroupData) {
 export async function update(id: string, data: PartnerGroupData) {
     return await http.put<null>(`dashboard/partner-groups/partner-group/${id}`, data)
 }
+
+export async function remove(id: string) {
+    return await http.delete<null>(`dashboard/partner-groups/partner-group/${id}`)
+}

@@ -49,7 +49,7 @@
             @click="openModal"
         />
 
-        <b-dialog
+        <b-dialog-confirm
             v-model:visible="isModalOpen"
             :title="isEditing
                 ? 'Редактировать контакт'
@@ -72,7 +72,7 @@
                     <b-input-text v-model="nameModel" />
                 </b-dialog-item>
             </b-dialog-section>
-        </b-dialog>
+        </b-dialog-confirm>
     </div>
 </template>
 
@@ -82,11 +82,11 @@ import type { PartnerTelnumItem } from "@v/dashboard/partners/edit/definitions/p
 import BButtonSecondary from "@c/common/b-button/b-button-secondary.vue"
 import BTelnumLink from "@c/common/b-telnum-link/b-telnum-link.vue"
 import BButtonIcon from "@c/common/b-button-icon/b-button-icon.vue"
-import BDialog from "@c/common/b-dialog/b-dialog.vue"
 import BDialogSection from "@c/common/b-dialog/b-dialog-section.vue"
 import BDialogItem from "@c/common/b-dialog/b-dialog-item.vue"
 import BInputTelnum from "@c/common/b-input/b-input-telnum.vue"
 import BInputText from "@c/common/b-input/b-input-text.vue"
+import BDialogConfirm from "@c/common/b-dialog/b-dialog-confirm.vue"
 import { useForm } from "vee-validate"
 import { PartnerTelnumSchema } from "@v/dashboard/partners/edit/schemas/partner.schema"
 import { useConfigValidation } from "@/composables/vee-validate/use-config-validation"
@@ -153,8 +153,6 @@ const saveModal = handleSubmit((formValues) => {
         closeModal()
         return
     }
-
-    console.log(formValues)
 
     const newItem: PartnerTelnumItem = formValues
 

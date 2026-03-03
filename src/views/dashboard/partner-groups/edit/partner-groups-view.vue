@@ -18,6 +18,7 @@ import BMultiSelect from "@c/common/b-select/b-multi-select.vue"
 import * as partnersAPI from "@/api/modules/dashboard/partners/partners"
 import type { PartnerOptionItem } from "@v/dashboard/partners/list/definitions/partners"
 import { PartnerGroupSchema } from "@v/dashboard/partner-groups/edit/schemas/partner-group.schema"
+import BDialogRemove from "@c/common/b-dialog/b-dialog-remove.vue";
 
 
 const notify = useNotify()
@@ -34,6 +35,7 @@ function defaultState(): PartnerGroupData {
 
 const isFirstLoading = ref(true)
 const isLoading = ref(false)
+const isShowRemoveDialog = ref(false)
 const partners = ref<PartnerOptionItem[]>([])
 
 const partnerId = computed(() => route.params.id as string)
@@ -125,6 +127,24 @@ const onSave = handleSubmit(async (formValues) => {
         name: DashboardRouteName.DashboardPartnerGroups
     })
 })
+
+const onRemove = async () => {
+    isLoading.value = true
+
+    const partnerResponse = await partnerGroupsAPI.remove(partnerId.value)
+
+    if (partnerResponse instanceof HttpError) {
+        if (partnerResponse?.errors) setErrors(partnerResponse.errors)
+        notify.error()
+        return
+    }
+
+    notify.success(t("mc.notify.remove"))
+
+    await router.push({
+        name: DashboardRouteName.DashboardPartnerGroups
+    })
+}
 </script>
 
 <template>
@@ -135,8 +155,12 @@ const onSave = handleSubmit(async (formValues) => {
         :pathBack="dashboardPaths.DashboardPartnerGroups"
         :is-loading="isLoading"
         :is-first-loading="isFirstLoading"
+        :remove-text="!isNew
+            ? 'Удалить группу'
+            : ''"
         class="user-view"
         @save="onSave"
+        @remove="isShowRemoveDialog = true"
     >
         <b-form-card title="Основные данные">
             <b-form-item
@@ -164,4 +188,13 @@ const onSave = handleSubmit(async (formValues) => {
             </b-form-item>
         </b-form-card>
     </b-form>
+
+    <b-dialog-remove
+        v-model="isShowRemoveDialog"
+        :is-loading="isLoading"
+        @confirm="onRemove"
+        @cancel="isShowRemoveDialog = false"
+    >
+        <p> Вы действительно хотите удалить группу <b>{{ titleModel }}</b>? </p>
+    </b-dialog-remove>
 </template>
