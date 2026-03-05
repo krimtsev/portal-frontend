@@ -14,7 +14,7 @@ const { n } = useI18n()
         <portal-card title="Партнерство BRITVA & SODA:">
             <div class="content">
                 <ul>
-                    <li>франчайзи BRITVA и SODA предоставляется скидка 30% на все услуги в SODA</li>
+                    <li>франчайзи BRITVA и SODA предоставляется скидка 20% на все услуги в SODA</li>
                     <li>всем сотрудникам предоставляется скидка 20% (кроме окрашиваний) на все услуги в SODA</li>
                 </ul>
             </div>

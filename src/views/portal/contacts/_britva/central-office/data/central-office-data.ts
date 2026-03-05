@@ -245,14 +245,6 @@ export const centralOfficeData: CentralOfficeUser[] = [
         telnum: "79671056520"
     },
     {
-		avatar: "employees/chervonyashaya.jpg",
-        name: "Евгения Червонящая",
-        description: "отдел развития франшизы, часы работы: пн-пт с 10:00 до 20:00",
-        content: ["Информация здесь сейчас обновляется..."],
-        contentType: ContentType.Bulleted,
-        telnum: "79104478582"
-    },
-    {
 		avatar: "employees/savchuk.jpg",
         name: "Владимир Савчук",
         description: "отдел развития франшизы, часы работы: пн-пт с 10:00 до 20:00",
