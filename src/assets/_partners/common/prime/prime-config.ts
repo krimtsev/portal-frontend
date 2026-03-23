@@ -41,6 +41,26 @@ export default {
                 }
             },
         },
+        treetable: {
+            colorScheme: {
+                dark: {
+                    header: {
+                        cell: {
+                            border: {
+                                color: "{surface.600}"
+                            }
+                        }
+                    },
+                    body: {
+                        cell: {
+                            border: {
+                                color: "{surface.600}"
+                            }
+                        }
+                    }
+                }
+            },
+        },
         toast: {
             colorScheme: {
                 dark: {
@@ -104,6 +124,20 @@ export default {
         dialog: {
             title: {
                 fontSize: "1.2857rem"
+            },
+            header: {
+                padding: "2rem"
+            },
+            content: {
+                padding: "0 2rem 2rem 2rem"
+            },
+            footer: {
+                padding: "0 2rem 2rem 2rem"
+            }
+        },
+        fileupload: {
+            header: {
+                padding: "0 0 0.5714rem 0"
             }
         }
     },
@@ -143,6 +177,11 @@ export default {
             paddingX: "1.1429rem",
             paddingY: "0.797rem"
         },
+        overlay: {
+            modal: {
+                padding: "2rem"
+            }
+        },
         colorScheme: {
             light: {
                 surface: {
@@ -172,9 +211,12 @@ export default {
                         background: "#111111"
                     },
                     button: {
-                        outline: {
+                        border: {
+                            color: "rgba(255, 255, 255, 0.16)"
+                        },
+                        active: {
                             border: {
-                                color: "{surface.300}"
+                                color: "rgba(255, 255, 255, 0.3)"
                             },
                         }
                     }
@@ -234,9 +276,12 @@ export default {
                         background: "#111111"
                     },
                     button: {
-                        outline: {
+                        border: {
+                            color: "rgba(255, 255, 255, 0.16)"
+                        },
+                        active: {
                             border: {
-                                color: "#2b2b2b"
+                                color: "rgba(255, 255, 255, 0.3)"
                             },
                         }
                     }

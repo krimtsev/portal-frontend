@@ -195,6 +195,7 @@ async function onSave() {
 
     ticketDetails.value = ticketData.data
     currentState.value.message = ""
+    currentState.value.files = []
     resetErrors()
 
     loadingState.value = null

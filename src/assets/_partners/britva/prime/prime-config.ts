@@ -6,7 +6,7 @@ export default {
                     size: "1rem"
                 },
                 sm: {
-                    font:{
+                    font: {
                         size: "0.8571rem"
                     }
                 },
@@ -22,6 +22,31 @@ export default {
             paddingY: "{button.paddingY}"
         },
         datatable: {
+            colorScheme: {
+                dark: {
+                    header: {
+                        cell: {
+                            border: {
+                                color: "{surface.600}"
+                            }
+                        }
+                    },
+                    body: {
+                        cell: {
+                            border: {
+                                color: "{surface.600}"
+                            }
+                        }
+                    },
+                    row: {
+                        hover: {
+                            background: "{surface.700}"
+                        }
+                    }
+                }
+            },
+        },
+        treetable: {
             colorScheme: {
                 dark: {
                     header: {
@@ -109,6 +134,20 @@ export default {
         dialog: {
             title: {
                 fontSize: "1.2857rem"
+            },
+            header: {
+                padding: "2rem"
+            },
+            content: {
+                padding: "0 2rem 2rem 2rem"
+            },
+            footer: {
+                padding: "0 2rem 2rem 2rem"
+            }
+        },
+        fileupload: {
+            header: {
+                padding: "0 0 0.5714rem 0"
             }
         }
     },
@@ -133,6 +172,11 @@ export default {
             },
             paddingX: "1.5714rem",
             paddingY: "0.797rem",
+        },
+        overlay: {
+            modal: {
+                padding: "2rem"
+            }
         },
         primary: {
             0: "#ffffff",
@@ -177,9 +221,12 @@ export default {
                         background: "#111111"
                     },
                     button: {
-                        outline: {
+                        border: {
+                            color: "rgba(255, 255, 255, 0.16)"
+                        },
+                        active: {
                             border: {
-                                color: "{surface.300}"
+                                color: "rgba(255, 255, 255, 0.3)"
                             },
                         }
                     }
@@ -244,9 +291,12 @@ export default {
                         background: "#111111"
                     },
                     button: {
-                        outline: {
+                        border: {
+                            color: "rgba(255, 255, 255, 0.16)"
+                        },
+                        active: {
                             border: {
-                                color: "#2b2b2b"
+                                color: "rgba(255, 255, 255, 0.3)"
                             },
                         }
                     }

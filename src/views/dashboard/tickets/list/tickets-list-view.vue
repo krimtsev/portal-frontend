@@ -190,7 +190,15 @@ const onClick = (id: number, event: MouseEvent) => {
         </b-toolbar>
 
         <div class="table-wrapper">
+            <list-loading-state v-if="ticketsStore.isLoading" />
+
+            <b-empty-result
+                v-else-if="!ticketsStore.isLoading && !tickets.length"
+                title="Нет заявок"
+            />
+
             <prime-data-table
+                v-else
                 :value="tickets"
                 :rows="ticketsStore.pagination.perPage"
                 :total-records="ticketsStore.pagination.total"
@@ -206,90 +214,80 @@ const onClick = (id: number, event: MouseEvent) => {
                     {{ paginationInfo }}
                 </template>
 
-                <template v-if="ticketsStore.isLoading">
-                    <list-loading-state />
-                </template>
+                <prime-column
+                    field="id"
+                    header="#"
+                    class="table-id"
+                />
 
-                <template v-else-if="!ticketsStore.isLoading && !tickets.length">
-                    <b-empty-result title="Нет заявок" />
-                </template>
+                <prime-column
+                    field="title"
+                    header="Тема запроса"
+                    class="table-subject"
+                >
+                    <template #body="slotProps">
+                        <b-text
+                            :value="slotProps.data?.title"
+                            class="link-text"
+                            @click="(e: MouseEvent) => onClick(slotProps.data.id, e)"
+                        />
+                    </template>
+                </prime-column>
 
-                <template v-else>
-                    <prime-column
-                        field="id"
-                        header="#"
-                        class="table-id"
-                    />
+                <prime-column
+                    field="category"
+                    header="Отдел"
+                    class="table-category"
+                >
+                    <template #body="slotProps">
+                        <b-text :value="slotProps.data?.category?.title" />
+                    </template>
+                </prime-column>
 
-                    <prime-column
-                        field="title"
-                        header="Тема запроса"
-                        class="table-subject"
-                    >
-                        <template #body="slotProps">
-                            <b-text
-                                :value="slotProps.data?.title"
-                                class="link-text"
-                                @click="(e: MouseEvent) => onClick(slotProps.data.id, e)"
-                            />
-                        </template>
-                    </prime-column>
+                <prime-column
+                    field="partner"
+                    header="Филиал"
+                    class="table-partner"
+                >
+                    <template #body="slotProps">
+                        <b-text :value="slotProps.data?.partner?.name" />
+                    </template>
+                </prime-column>
 
-                    <prime-column
-                        field="category"
-                        header="Отдел"
-                        class="table-category"
-                    >
-                        <template #body="slotProps">
-                            <b-text :value="slotProps.data?.category?.title" />
-                        </template>
-                    </prime-column>
+                <prime-column
+                    field="state"
+                    header="Статус"
+                    class="table-state"
+                >
+                    <template #body="slotProps">
+                        <ticket-state-badge :value="slotProps.data.state" />
+                    </template>
+                </prime-column>
 
-                    <prime-column
-                        field="partner"
-                        header="Филиал"
-                        class="table-partner"
-                    >
-                        <template #body="slotProps">
-                            <b-text :value="slotProps.data?.partner?.name" />
-                        </template>
-                    </prime-column>
+                <prime-column
+                    field="last_message_at"
+                    header="Активность"
+                    class="table-message-date"
+                >
+                    <template #body="slotProps">
+                        <b-text-date
+                            v-if="checkActiveState(slotProps.data.state)"
+                            :value="slotProps.data.last_message_at"
+                            diff
+                        />
+                        <div v-else> — </div>
+                    </template>
+                </prime-column>
 
-                    <prime-column
-                        field="state"
-                        header="Статус"
-                        class="table-state"
-                    >
-                        <template #body="slotProps">
-                            <ticket-state-badge :value="slotProps.data.state" />
-                        </template>
-                    </prime-column>
-
-                    <prime-column
-                        field="last_message_at"
-                        header="Активность"
-                        class="table-message-date"
-                    >
-                        <template #body="slotProps">
-                            <b-text-date
-                                v-if="checkActiveState(slotProps.data.state)"
-                                :value="slotProps.data.last_message_at"
-                                diff
-                            />
-                            <div v-else> — </div>
-                        </template>
-                    </prime-column>
-
-                    <prime-column
-                        field="created_at"
-                        header="Дата создания"
-                        class="table-create-date"
-                    >
-                        <template #body="slotProps">
-                            <b-text :value="slotProps.data.created_at" />
-                        </template>
-                    </prime-column>
-                </template>
+                <prime-column
+                    field="created_at"
+                    header="Дата создания"
+                    class="table-create-date"
+                >
+                    <template #body="slotProps">
+                        <b-text :value="slotProps.data.created_at" />
+                    </template>
+                </prime-column>
             </prime-data-table>
         </div>
     </div>

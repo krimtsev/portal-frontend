@@ -18,7 +18,7 @@ import BMultiSelect from "@c/common/b-select/b-multi-select.vue"
 import * as partnersAPI from "@/api/modules/dashboard/partners/partners"
 import type { PartnerOptionItem } from "@v/dashboard/partners/list/definitions/partners"
 import { PartnerGroupSchema } from "@v/dashboard/partner-groups/edit/schemas/partner-group.schema"
-import BDialogRemove from "@c/common/b-dialog/b-dialog-remove.vue";
+import BDialogRemove from "@c/common/b-dialog/b-dialog-remove.vue"
 
 
 const notify = useNotify()

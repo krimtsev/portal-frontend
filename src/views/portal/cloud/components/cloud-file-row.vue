@@ -6,7 +6,6 @@ import { HttpError } from "@/api"
 import { useNotify } from "@/composables/notify/use-notify"
 import { downloadExternalFile } from "@/lib/files"
 import BSpinner from "@c/common/b-spinner/b-spinner.vue"
-import BBlocked from "@c/common/b-blocked/b-blocked.vue"
 
 const notify = useNotify()
 
@@ -17,47 +16,51 @@ const props = defineProps<{
 }>()
 
 async function onClick() {
+    console.log(isLoading.value)
     if (isLoading.value) return
 
     isLoading.value = true
 
-    const data = await cloudAPI.download(props.item.name)
+    try {
+        const data = await cloudAPI.download(props.item.cloud_folders_id, props.item.name)
 
-    if (data instanceof HttpError) {
-        notify.error()
+        if (data instanceof HttpError) {
+            notify.error()
+            return
+        }
+
+        const { title, ext } = props.item
+        downloadExternalFile(data, `${title}.${ext}`)
+    } finally {
         isLoading.value = false
-        return false
     }
-
-    const { title, ext } = props.item
-    downloadExternalFile(data, `${title}.${ext}`)
-    isLoading.value = false
 }
 </script>
 
 <template>
-    <div class="cloud-file-row">
-        <b-blocked :blocked="isLoading">
+    <div
+        class="cloud-file-row"
+        :class="{ 'disabled': isLoading }"
+    >
+        <div
+            class="wrapper"
+            @click="onClick"
+        >
             <div
-                class="wrapper"
-                @click="onClick"
+                class="icon"
+                :class="props.item.ext"
             >
-                <div
-                    class="icon"
-                    :class="props.item.ext"
-                >
-                    <b-spinner v-if="isLoading" />
+                <b-spinner v-if="isLoading" />
 
-                    <template v-else>
-                        {{ props.item.ext }}
-                    </template>
-                </div>
-
-                <div class="name">
-                    {{ props.item.title }}
-                </div>
+                <template v-else>
+                    {{ props.item.ext }}
+                </template>
             </div>
-        </b-blocked>
+
+            <div class="name">
+                {{ props.item.title }}
+            </div>
+        </div>
     </div>
 </template>
 
@@ -65,6 +68,20 @@ async function onClick() {
 .cloud-file-row {
     display: flex;
     flex-direction: row;
+
+    &.disabled {
+        pointer-events: none;
+        opacity: 0.7;
+
+        .wrapper:hover {
+            .name {
+                font-weight: normal;
+            }
+            .icon {
+                color: inherit;
+            }
+        }
+    }
 
     .wrapper {
         display: flex;

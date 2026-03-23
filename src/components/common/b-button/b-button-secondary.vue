@@ -26,7 +26,7 @@ const props = defineProps<{
     min-width: 104px;
     background: transparent;
     color: var(--p-surface-400);
-    border: 1px solid var(--p-portal-button-outline-border-color);
+    border: 1px solid var(--p-form-field-border-color);
 
     &:not(:disabled):hover {
         background: transparent;

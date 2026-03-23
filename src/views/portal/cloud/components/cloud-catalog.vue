@@ -3,20 +3,13 @@ import { computed } from "vue"
 import BImage from "@c/common/b-image/b-image.vue"
 import type { CloudFolderItem } from "@v/portal/cloud/definitions/cloud"
 import { useRoutePath } from "@/composables/route/use-route-path"
+import { cloudImages } from "@v/portal/cloud/utils/cloud"
 
 const props = defineProps<{
     item: CloudFolderItem
 }>()
 
-const images: Record<string, string> = {
-    docs:                "template/cloud-document.png",
-    makets:              "template/cloud-image.png",
-    video:               "template/cloud-video.png",
-    digests:             "template/cloud-document.png",
-    "video-instruction": "template/cloud-video.png",
-}
-
-const imageSrc = computed(() => images[props.item.slug] ?? images.docs)
+const imageSrc = computed(() => cloudImages[props.item.slug] ?? cloudImages.docs)
 
 const routePath = useRoutePath()
 
@@ -82,18 +75,5 @@ function onClick() {
             padding: 0 0 $indent-x3 $indent-x4;
         }
     }
-
-    //.shadow {
-    //    @include box-shadow;
-    //    @include box-shadow-position;
-    //}
-    //
-    //&:hover .shadow {
-    //    @include box-shadow-hover;
-    //}
-    //
-    //&:hover .title {
-    //    color: var(--p-primary-500);
-    //}
 }
 </style>

@@ -168,7 +168,15 @@ function goToNew() {
         </b-toolbar>
 
         <div class="table-wrapper">
+            <list-loading-state v-if="partnersStore.isLoading" />
+
+            <b-empty-result
+                v-else-if="!partnersStore.isLoading && !partners.length"
+                title="Нет филиалов"
+            />
+
             <prime-data-table
+                v-else
                 :value="partners"
                 :rows="partnersStore.pagination.perPage"
                 :total-records="partnersStore.pagination.total"
@@ -184,102 +192,92 @@ function goToNew() {
                     {{ paginationInfo }}
                 </template>
 
-                <template v-if="partnersStore.isLoading">
-                    <list-loading-state />
-                </template>
+                <prime-column
+                    field="name"
+                    header="Филиал"
+                    class="table-name"
+                >
+                    <template #body="slotProps">
+                        <b-text
+                            :value="slotProps.data.name"
+                            class="link-text"
+                            @click="(e: MouseEvent) => onClick(slotProps.data.id, e)"
+                        />
+                    </template>
+                </prime-column>
 
-                <template v-else-if="!partnersStore.isLoading && !partners.length">
-                    <b-empty-result title="Нет филиалов" />
-                </template>
+                <prime-column
+                    field="organization"
+                    header="Организация"
+                    class="table-organization"
+                >
+                    <template #body="slotProps">
+                        <b-text :value="slotProps.data?.organization" />
+                    </template>
+                </prime-column>
 
-                <template v-else>
-                    <prime-column
-                        field="name"
-                        header="Филиал"
-                        class="table-name"
-                    >
-                        <template #body="slotProps">
-                            <b-text
-                                :value="slotProps.data.name"
-                                class="link-text"
-                                @click="(e: MouseEvent) => onClick(slotProps.data.id, e)"
-                            />
-                        </template>
-                    </prime-column>
+                <prime-column
+                    field="inn"
+                    header="ИНН"
+                    class="table-inn"
+                >
+                    <template #body="slotProps">
+                        <b-text :value="slotProps.data?.inn" />
+                    </template>
+                </prime-column>
 
-                    <prime-column
-                        field="organization"
-                        header="Организация"
-                        class="table-organization"
-                    >
-                        <template #body="slotProps">
-                            <b-text :value="slotProps.data?.organization" />
-                        </template>
-                    </prime-column>
+                <prime-column
+                    field="contract_number"
+                    header="Номер договора"
+                    class="table-contract-number"
+                >
+                    <template #body="slotProps">
+                        <b-text :value="slotProps.data?.contract_number" />
+                    </template>
+                </prime-column>
 
-                    <prime-column
-                        field="inn"
-                        header="ИНН"
-                        class="table-inn"
-                    >
-                        <template #body="slotProps">
-                            <b-text :value="slotProps.data?.inn" />
-                        </template>
-                    </prime-column>
+                <prime-column
+                    field="mango_telnum"
+                    header="Телефон"
+                    class="table-mango-telnum"
+                >
+                    <template #body="slotProps">
+                        <b-text :value="slotProps.data?.mango_telnum" />
+                    </template>
+                </prime-column>
 
-                    <prime-column
-                        field="contract_number"
-                        header="Номер договора"
-                        class="table-contract-number"
-                    >
-                        <template #body="slotProps">
-                            <b-text :value="slotProps.data?.contract_number" />
-                        </template>
-                    </prime-column>
+                <prime-column
+                    field="yclients_id"
+                    header="Yclients"
+                    class="table-yclients-id"
+                >
+                    <template #body="slotProps">
+                        <b-text :value="slotProps.data?.yclients_id" />
+                    </template>
+                </prime-column>
 
-                    <prime-column
-                        field="mango_telnum"
-                        header="Телефон"
-                        class="table-mango-telnum"
-                    >
-                        <template #body="slotProps">
-                            <b-text :value="slotProps.data?.mango_telnum" />
-                        </template>
-                    </prime-column>
+                <prime-column
+                    field="disabled"
+                    header="Статус"
+                    class="table-disabled"
+                >
+                    <template #body="slotProps">
+                        <partner-state-tag :active="!slotProps.data.disabled" />
+                    </template>
+                </prime-column>
 
-                    <prime-column
-                        field="yclients_id"
-                        header="Yclients"
-                        class="table-yclients-id"
-                    >
-                        <template #body="slotProps">
-                            <b-text :value="slotProps.data?.yclients_id" />
-                        </template>
-                    </prime-column>
-
-                    <prime-column
-                        field="disabled"
-                        header="Статус"
-                        class="table-disabled"
-                    >
-                        <template #body="slotProps">
-                            <partner-state-tag :active="!slotProps.data.disabled" />
-                        </template>
-                    </prime-column>
-
-                    <prime-column
-                        field="start_at"
-                        header="Дата открытия"
-                        class="table-start-at"
-                    >
-                        <template #body="slotProps">
-                            <b-text-date
-                                :value="slotProps.data?.start_at"
-                                show-format="yyyy-MM-dd"
-                            />
-                        </template>
-                    </prime-column>
-                </template>
+                <prime-column
+                    field="start_at"
+                    header="Дата открытия"
+                    class="table-start-at"
+                >
+                    <template #body="slotProps">
+                        <b-text-date
+                            :value="slotProps.data?.start_at"
+                            show-format="yyyy-MM-dd"
+                        />
+                    </template>
+                </prime-column>
             </prime-data-table>
         </div>
     </div>

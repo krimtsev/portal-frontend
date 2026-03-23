@@ -171,7 +171,8 @@ $cloud-file-types: (
 @mixin file-colors($ext-map: $cloud-file-types) {
     @each $exts, $color in $ext-map {
         @each $ext in $exts {
-            .icon.#{$ext} {
+            .icon.#{$ext},
+            .ext.#{$ext}{
                 border-color: var(#{$color});
                 color: var(#{$color});
             }
@@ -182,7 +183,6 @@ $cloud-file-types: (
                     color: var(--p-surface-950);
                 }
             }
-
         }
     }
 }
@@ -245,7 +245,8 @@ $cloud-file-types: (
 }
 
 @mixin table {
-    .p-datatable-tbody {
+    .p-datatable-tbody,
+    .p-treetable-tbody {
         tr:hover {
             background: var(--p-datatable-row-hover-background);
 
@@ -253,5 +254,16 @@ $cloud-file-types: (
                 @include link-text;
             }
         }
+    }
+}
+
+@mixin table-column-align($justify: center) {
+    .p-datatable-column-header-content,
+    .p-datatable-body-cell-content,
+    .p-treetable-column-header-content,
+    .p-treetable-body-cell-content,
+    .table-cell-content {
+        display: flex;
+        justify-content: $justify;
     }
 }

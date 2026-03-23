@@ -39,10 +39,13 @@ export const PartnerSchema = toTypedSchema(
             .optional()
             .nullable(),
 
-        email: z.string()
-            .email({ message: "Неверный формат" })
-            .optional()
-            .nullable(),
+        email: z.preprocess(
+            (val) => (val === "" ? null : val),
+            z.string()
+                .email({ message: "Неверный формат" })
+                .nullable()
+                .optional()
+            ),
 
         yclients_id: z.string()
             .optional()

@@ -121,11 +121,10 @@ function goToNew() {
 <template>
     <div class="partner-groups-list-view">
         <b-toolbar no-paddings>
-            <b-toolbar-item
-                v-if="!partnerGroupsStore.isLoading"
-            >
+            <b-toolbar-item>
                 <b-button-secondary
                     label="Добавить группу"
+                    :disabled="partnerGroupsStore.isLoading"
                     @click="goToNew"
                 />
             </b-toolbar-item>
@@ -144,7 +143,15 @@ function goToNew() {
         </b-toolbar>
 
         <div class="table-wrapper">
+            <list-loading-state v-if="partnerGroupsStore.isLoading" />
+
+            <b-empty-result
+                v-else-if="!partnerGroupsStore.isLoading && !partnerGroups.length"
+                title="Группы отсутствуют"
+            />
+
             <prime-data-table
+                v-else
                 :value="partnerGroups"
                 :rows="partnerGroupsStore.pagination.perPage"
                 :total-records="partnerGroupsStore.pagination.total"
@@ -160,39 +167,29 @@ function goToNew() {
                     {{ paginationInfo }}
                 </template>
 
-                <template v-if="partnerGroupsStore.isLoading">
-                    <list-loading-state />
-                </template>
+                <prime-column
+                    field="title"
+                    header="Название группы"
+                    class="table-title"
+                >
+                    <template #body="slotProps">
+                        <b-text
+                            :value="slotProps.data?.title"
+                            class="link-text"
+                            @click="(e: MouseEvent) => onClick(slotProps.data.id, e)"
+                        />
+                    </template>
+                </prime-column>
 
-                <template v-else-if="!partnerGroupsStore.isLoading && !partnerGroups.length">
-                    <b-empty-result title="Группы отсутствуют" />
-                </template>
-
-                <template v-else>
-                    <prime-column
-                        field="title"
-                        header="Название группы"
-                        class="table-title"
-                    >
-                        <template #body="slotProps">
-                            <b-text
-                                :value="slotProps.data?.title"
-                                class="link-text"
-                                @click="(e: MouseEvent) => onClick(slotProps.data.id, e)"
-                            />
-                        </template>
-                    </prime-column>
-
-                    <prime-column
-                        field="total"
-                        header="В группе"
-                        class="table-total"
-                    >
-                        <template #body="slotProps">
-                            <b-text :value="slotProps.data?.total" />
-                        </template>
-                    </prime-column>
-                </template>
+                <prime-column
+                    field="total"
+                    header="В группе"
+                    class="table-total"
+                >
+                    <template #body="slotProps">
+                        <b-text :value="slotProps.data?.total" />
+                    </template>
+                </prime-column>
             </prime-data-table>
         </div>
     </div>

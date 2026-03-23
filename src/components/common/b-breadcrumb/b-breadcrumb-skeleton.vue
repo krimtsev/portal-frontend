@@ -1,6 +1,11 @@
+<script setup lang="ts">
+import PrimeSkeleton from "primevue/skeleton"
+
+</script>
+
 <template>
     <div class="b-breadcrumb-skeleton">
-        <Skeleton height="1rem" width="30rem" />
+        <prime-skeleton height="1rem" width="30rem" />
     </div>
 </template>
 

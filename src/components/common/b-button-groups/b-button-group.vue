@@ -41,7 +41,7 @@ const severity = computed(() => {
 
     &.inactive {
         background: transparent;
-        border: 1px solid var(--p-portal-button-outline-border-color);
+        border: 1px solid var(--p-form-field-border-color);
 
         &[disabled] {
             background: var(--p-form-field-disabled-background);

@@ -44,8 +44,6 @@ import { useForm } from "vee-validate"
 import { useConfigValidation } from "@/composables/vee-validate/use-config-validation"
 import { TicketSchema } from "@v/dashboard/tickets/edit/schemas/ticket.schema"
 
-
-
 const notify = useNotify()
 const route = useRoute()
 const router = useRouter()
@@ -91,7 +89,7 @@ const {
     defineField,
     meta,
     submitCount,
-    setErrors
+    setErrors,
 } = useForm<TicketStateData>({
     validationSchema: TicketSchema,
     initialValues:    defaultState(),
@@ -206,6 +204,9 @@ const onSave = handleSubmit(async (formValues) => {
     }
 
     ticketDetails.value = ticketResponse.data
+
+    filesModel.value = []
+    messageModel.value = ""
 
     await nextTick(() => chatRef.value?.scrollToBottom())
 })

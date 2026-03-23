@@ -96,6 +96,17 @@ const items = computed<DashboardMenuItem[]>(() => {
         ]
     })
 
+    menu.push({
+        key:  "cloud",
+        label: t("mc.dashboard.sidebar.cloud"),
+        icon:  "pi pi-folder",
+        route: dashboardPaths.DashboardCloudList,
+        activeNames: [
+            DashboardRouteName.DashboardCloudList,
+            DashboardRouteName.DashboardCloud
+        ]
+    })
+
     return menu
 })
 

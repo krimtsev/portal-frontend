@@ -12,6 +12,8 @@ import PartnersListView from "@v/dashboard/partners/list/partners-list-view.vue"
 import PartnerView from "@v/dashboard/partners/edit/partner-view.vue"
 import PartnerGroupsView from "@v/dashboard/partner-groups/edit/partner-groups-view.vue"
 import PartnerGroupsListView from "@v/dashboard/partner-groups/list/partner-groups-list-view.vue"
+import PartnerCloudListView from "@v/dashboard/cloud/list/cloud-list-view.vue"
+import PartnerCloudView from "@v/dashboard/cloud/edit/cloud-view.vue"
 
 const routes: RouteRecordRaw[] = [
     {
@@ -121,6 +123,28 @@ const routes: RouteRecordRaw[] = [
                 meta: {
                     roles:  [Roles.SYSADMIN],
                     breadcrumb: "mc.dashboard.sidebar.partners"
+                }
+            },
+            {
+                path:      dashboardPaths.DashboardCloudList,
+                name:      DashboardRouteName.DashboardCloudList,
+                components: {
+                    default: PartnerCloudListView,
+                },
+                meta: {
+                    roles:  [Roles.ADMIN, Roles.SYSADMIN],
+                    breadcrumb: "mc.dashboard.sidebar.cloud"
+                }
+            },
+            {
+                path:      dashboardPaths.DashboardCloud,
+                name:      DashboardRouteName.DashboardCloud,
+                components: {
+                    default: PartnerCloudView,
+                },
+                meta: {
+                    roles:  [Roles.ADMIN, Roles.SYSADMIN],
+                    breadcrumb: "mc.dashboard.sidebar.cloud"
                 }
             }
         ]

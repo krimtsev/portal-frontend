@@ -10,7 +10,10 @@ const props = withDefaults(defineProps<{
 </script>
 
 <template>
-    <prime-block-ui :blocked="props.blocked">
+    <prime-block-ui
+        :blocked="props.blocked"
+        class="b-blocked"
+    >
         <slot />
     </prime-block-ui>
 </template>

@@ -3,7 +3,6 @@ import { ref, onMounted, onBeforeUnmount, computed } from "vue"
 import DashboardSidebar from "@l/dashboard/dashboard-sidebar.vue"
 import PrimeButton from "primevue/button"
 import PrimeAvatar from "primevue/avatar"
-import PrimeMenu from "primevue/menu"
 import useAuthStore from "@s/auth/auth"
 import { useRouter } from "vue-router"
 import { ProfileRouteName } from "@r/profile/route-names"
@@ -12,6 +11,7 @@ import { useI18n } from "vue-i18n"
 import { useDashboardStyle } from "@/composables/dashboard-style/use-dashboard-style"
 import Breadcrumbs from "@l/dashboard/components/breadcrumbs.vue"
 import sidebarBg from "@a/images/dashboard/sidebar.jpg"
+import BLink from "@c/common/b-link/b-link.vue"
 
 useDashboardStyle()
 
@@ -79,6 +79,7 @@ const profileItems = ref([
     {
         label: t("mc.common.profile"),
         icon:  "pi pi-user",
+        route: ProfileRouteName.Profile,
         command: () => {
             router.push({ name: ProfileRouteName.Profile })
         }
@@ -86,6 +87,7 @@ const profileItems = ref([
     {
         label: t("mc.common.portal"),
         icon:  "pi pi-reply",
+        route: PortalRouteName.Home,
         command: () => {
             router.push({ name: PortalRouteName.Home })
         }
@@ -121,6 +123,7 @@ const toggleMenu = (event: PointerEvent) => {
                         icon="pi pi-bars"
                         size="large"
                         variant="text"
+                        class="menu-button"
                         @click.stop="handleMenuClick"
                     />
 
@@ -132,43 +135,18 @@ const toggleMenu = (event: PointerEvent) => {
                 <div class="topbar-end">
                     <prime-avatar
                         :label="avatarLabel"
-                        class="mr-2 cursor-pointer"
+                        class="mr-x2 cursor-pointer"
                         @click="toggleMenu"
                     />
-                    <prime-menu
-                        ref="menuRef"
-                        :model="profileItems"
-                        :popup="true"
-                    >
-                        <template #item="{ item, props }">
-                            <router-link
-                                v-if="item.route"
-                                v-slot="{ href, navigate }"
-                                :to="item.route"
-                                custom
-                            >
-                                <a
-                                    v-ripple
-                                    :href="href"
-                                    v-bind="props.action"
-                                    @click="navigate"
-                                >
-                                    <span :class="item.icon" />
-                                    <span class="ml-2">{{ item.label }}</span>
-                                </a>
-                            </router-link>
-                            <a
-                                v-else
-                                v-ripple
-                                :href="item.url"
-                                :target="item.target"
-                                v-bind="props.action"
-                            >
-                                <span :class="item.icon" />
-                                <span class="ml-2">{{ item.label }}</span>
-                            </a>
-                        </template>
-                    </prime-menu>
+
+                    <b-link
+                        v-for="item in profileItems"
+                        :key="item.label"
+                        :label="item.label"
+                        class="topbar-menu-item"
+                        as-internal
+                        @click="item.command"
+                    />
                 </div>
             </div>
 
@@ -187,7 +165,7 @@ const toggleMenu = (event: PointerEvent) => {
     position: relative;
     overflow-x: auto; // fix mobile
 
-    :deep(.p-button-icon-only) {
+    .menu-button {
         width: var(--p-avatar-width);
         height: var(--p-avatar-height);
         border-radius: var(--p-avatar-border-radius);
@@ -283,6 +261,22 @@ const toggleMenu = (event: PointerEvent) => {
         align-items: center;
         position: relative;
         gap: 1.5rem;
+    }
+
+    .topbar-end {
+        display: flex;
+        align-items: center;
+
+        .topbar-menu-item {
+            display: flex;
+            align-items: center;
+            gap: $indent-x2;
+
+            &:not(:last-child)::after {
+                content: "|";
+                margin-right: $indent-x2;
+            }
+        }
     }
 }
 </style>

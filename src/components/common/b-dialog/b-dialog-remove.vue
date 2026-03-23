@@ -6,8 +6,8 @@ import { useI18n } from "vue-i18n"
 const { t } = useI18n()
 
 const emit = defineEmits<{
-    (e: 'confirm'): void
-    (e: 'cancel'): void
+    (e: "confirm"): void
+    (e: "cancel"): void
 }>()
 
 const model = defineModel<boolean>()

@@ -6,14 +6,15 @@ import { useI18n } from "vue-i18n"
 const { t } = useI18n()
 
 const emit = defineEmits<{
-    (e: 'confirm'): void
-    (e: 'cancel'): void
+    (e: "confirm"): void
+    (e: "cancel"): void
 }>()
 
 const model = defineModel<boolean>()
 
 const props = defineProps<{
     title?: string,
+    isLoading?: boolean
 }>()
 </script>
 
@@ -29,12 +30,14 @@ const props = defineProps<{
             <prime-button
                 type="button"
                 :label="t('mc.dialog.default.confirm')"
+                :loading="props.isLoading"
                 @click="emit('confirm')"
             />
 
             <prime-button
                 type="button"
                 :label="t('mc.dialog.default.cancel')"
+                :disabled="props.isLoading"
                 severity="secondary"
                 @click="emit('cancel')"
             />

@@ -29,8 +29,8 @@ const dialogStyle = computed(() => ({
 
 const contentStyle = computed(() => {
     return !props.showHeader
-        ? { padding: 'var(--p-overlay-modal-padding)' }
-        : {};
+        ? { padding: "var(--p-overlay-modal-padding)" }
+        : {}
 })
 </script>
 
@@ -84,7 +84,7 @@ const contentStyle = computed(() => {
     }
 
     .dialog-icon {
-        padding: $indent-x2;
+        padding-right: $indent-x2;
 
         :deep(.b-svg) {
             color: var(--p-surface-500);

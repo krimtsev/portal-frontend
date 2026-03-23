@@ -210,7 +210,15 @@ function goToNew() {
         </b-toolbar>
 
         <div class="table-wrapper">
+            <list-loading-state v-if="usersStore.isLoading" />
+
+            <b-empty-result
+                v-else-if="!usersStore.isLoading && !users.length"
+                title="Нет пользователей"
+            />
+
             <prime-data-table
+                v-else
                 :value="users"
                 :rows="usersStore.pagination.perPage"
                 :total-records="usersStore.pagination.total"
@@ -226,69 +234,59 @@ function goToNew() {
                     {{ paginationInfo }}
                 </template>
 
-                <template v-if="usersStore.isLoading">
-                    <list-loading-state />
-                </template>
+                <prime-column
+                    field="login"
+                    header="Логин"
+                    class="table-login"
+                >
+                    <template #body="slotProps">
+                        <b-text
+                            :value="slotProps.data.login"
+                            class="link-text"
+                            @click="(e: MouseEvent) => onClick(slotProps.data.id, e)"
+                        />
+                    </template>
+                </prime-column>
 
-                <template v-else-if="!usersStore.isLoading && !users.length">
-                    <b-empty-result title="Нет пользователей" />
-                </template>
+                <prime-column
+                    field="partner"
+                    header="Филиал"
+                    class="table-partner"
+                >
+                    <template #body="slotProps">
+                        <b-text :value="slotProps.data?.partner?.name" />
+                    </template>
+                </prime-column>
 
-                <template v-else>
-                    <prime-column
-                        field="login"
-                        header="Логин"
-                        class="table-login"
-                    >
-                        <template #body="slotProps">
-                            <b-text
-                                :value="slotProps.data.login"
-                                class="link-text"
-                                @click="(e: MouseEvent) => onClick(slotProps.data.id, e)"
-                            />
-                        </template>
-                    </prime-column>
+                <prime-column
+                    field="role"
+                    header="Роль"
+                    class="table-role"
+                >
+                    <template #body="slotProps">
+                        <b-text :value="t(`mc.roles.${slotProps.data.role}`)" />
+                    </template>
+                </prime-column>
 
-                    <prime-column
-                        field="partner"
-                        header="Филиал"
-                        class="table-partner"
-                    >
-                        <template #body="slotProps">
-                            <b-text :value="slotProps.data?.partner?.name" />
-                        </template>
-                    </prime-column>
+                <prime-column
+                    field="disabled"
+                    header="Статус"
+                    class="table-disabled"
+                >
+                    <template #body="slotProps">
+                        <user-state-tag :active="!slotProps.data.disabled" />
+                    </template>
+                </prime-column>
 
-                    <prime-column
-                        field="role"
-                        header="Роль"
-                        class="table-role"
-                    >
-                        <template #body="slotProps">
-                            <b-text :value="t(`mc.roles.${slotProps.data.role}`)" />
-                        </template>
-                    </prime-column>
-
-                    <prime-column
-                        field="disabled"
-                        header="Статус"
-                        class="table-disabled"
-                    >
-                        <template #body="slotProps">
-                            <user-state-tag :active="!slotProps.data.disabled" />
-                        </template>
-                    </prime-column>
-
-                    <prime-column
-                        field="last_activity"
-                        header="Активность"
-                        class="table-last-activity"
-                    >
-                        <template #body="slotProps">
-                            <b-text-date :value="slotProps.data.last_activity" />
-                        </template>
-                    </prime-column>
-                </template>
+                <prime-column
+                    field="last_activity"
+                    header="Активность"
+                    class="table-last-activity"
+                >
+                    <template #body="slotProps">
+                        <b-text-date :value="slotProps.data.last_activity" />
+                    </template>
+                </prime-column>
             </prime-data-table>
         </div>
     </div>

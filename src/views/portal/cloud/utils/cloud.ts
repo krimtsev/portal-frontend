@@ -17,3 +17,14 @@ export const normalizeBreadcrumbs = (breadcrumbs?: CloudFolderBreadcrumb[]): Clo
         return { ...item, route: fullPath }
     })
 }
+
+
+export const cloudImages: Record<string, string> = {
+    docs:                "template/cloud-document.png",
+    makets:              "template/cloud-image.png",
+    video:               "template/cloud-video.png",
+    digests:             "template/cloud-document.png",
+    "video-instruction": "template/cloud-video.png",
+}
+
+export const rootFolders = Object.keys(cloudImages)

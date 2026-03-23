@@ -1,4 +1,4 @@
-<script setup lang="ts" >
+<script setup lang="ts">
 import { useRouter } from "vue-router"
 import BImage from "@c/common/b-image/b-image.vue"
 import { openExternalLink } from "@/lib/link"
@@ -71,9 +71,9 @@ const onClick = () => {
             <b-button-icon
                 icon="pi pi-angle-right"
                 severity="contrast"
-                variant="text"
                 size="large"
                 rounded
+                class="icon"
                 @click="onClick"
             />
         </div>
@@ -117,6 +117,14 @@ const onClick = () => {
             &.left {
                 justify-content: flex-start;
                 padding-left: $indent-x2;
+            }
+
+            :deep(.b-button-icon) {
+                border: 1px solid var(--p-portal-button-border-color);
+
+                &:not(:disabled):hover {
+                    border-color: var(--p-portal-button-active-border-color);
+                }
             }
         }
     }
