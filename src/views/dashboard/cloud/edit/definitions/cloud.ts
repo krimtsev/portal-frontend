@@ -18,6 +18,7 @@ export interface CloudFile {
     name: string
     ext: string
     downloads: number
+    isNew?: boolean
 }
 
 export interface CloudFilesResponse {

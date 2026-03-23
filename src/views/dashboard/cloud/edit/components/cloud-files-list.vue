@@ -13,6 +13,7 @@ import { HttpError } from "@/api"
 import * as cloudFilesAPI from "@/api/modules/dashboard/cloud/cloud-files"
 import { downloadExternalFile } from "@/lib/files"
 import { useNotify } from "@/composables/notify/use-notify"
+import PrimeTag from "primevue/tag"
 
 const emit = defineEmits<{
     (e: "file:update", file: CloudFile): void
@@ -97,7 +98,18 @@ defineExpose({ scrollToBottom })
                 field="title"
                 header="Название"
                 class="table-title"
-            />
+            >
+                <template #body="slotProps">
+                    <div class="d-flex align-items-center gap-1">
+                        <prime-tag
+                            v-if="slotProps.data.isNew"
+                            value="Новый"
+                            severity="info"
+                        />
+                        <b-text :value="slotProps.data.title" />
+                    </div>
+                </template>
+            </prime-column>
 
             <prime-column
                 field="ext"

@@ -171,7 +171,12 @@ const fileUpload = async () => {
         return
     }
 
-    files.value = [...files.value, ...response.data]
+    const newFiles = response.data.map((file: CloudFile) => ({
+        ...file,
+        isNew: true
+    }))
+
+    files.value = [...files.value, ...newFiles]
 
     notify.success(t("mc.notify.success"))
 

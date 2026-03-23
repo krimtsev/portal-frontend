@@ -12,11 +12,16 @@ import PrimeButton from "primevue/button"
 import PrimeProgressBar from "primevue/progressbar"
 import i18n from "@/plugins/i18n"
 import { useI18n } from "vue-i18n"
+import {
+    DEFAULT_ACCEPT,
+    DEFAULT_MAX_SIZE_MB,
+    mbToBytes
+} from "@c/common/b-upload-file/utils/b-file-upload"
 
 type FileUploadExpose = {
-    clear: () => void;
-    files: any[];
-    choose: () => void;
+    files: any[]
+    clear: () => void
+    choose: () => void
 }
 
 const emit = defineEmits<{
@@ -26,8 +31,6 @@ const emit = defineEmits<{
 const { t } = useI18n()
 
 const model = defineModel<File | File[] | null>({ default: null })
-
-const defaultAccept = "image/*, text/plain, application/pdf"
 
 const props = withDefaults(defineProps<{
     accept?:       string
@@ -40,9 +43,9 @@ const props = withDefaults(defineProps<{
     placeholder?:  string
     showHeader?:   boolean
 }>(), {
-    accept:      defaultAccept,
+    accept:      DEFAULT_ACCEPT,
     multiple:    true,
-    maxFileSize: 1024 * 1024,
+    maxFileSize: mbToBytes(DEFAULT_MAX_SIZE_MB),
     name:        "files[]",
     disabled:    false,
     placeholder: i18n.global.t("mc.components.fileUpload.placeholder"),
