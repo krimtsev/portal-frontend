@@ -12,6 +12,7 @@ import CloudEditFileDialog from "@v/dashboard/cloud/edit/components/cloud-edit-f
 import { HttpError } from "@/api"
 import * as cloudFilesAPI from "@/api/modules/dashboard/cloud/cloud-files"
 import { downloadExternalFile } from "@/lib/files"
+import { useNotify } from "@/composables/notify/use-notify"
 
 const emit = defineEmits<{
     (e: "file:update", file: CloudFile): void
@@ -26,6 +27,8 @@ const props = withDefaults(defineProps<{
     isLoading: false,
     files: () => ([])
 })
+
+const notify = useNotify()
 
 const tableRef = ref<any>(null)
 
@@ -48,6 +51,7 @@ const onDownload = async (item: CloudFile) => {
         const response = await cloudFilesAPI.download(props.cloudId, item.name)
 
         if (response instanceof HttpError) {
+            notify.error()
             return
         }
 

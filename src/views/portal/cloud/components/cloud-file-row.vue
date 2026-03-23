@@ -16,7 +16,6 @@ const props = defineProps<{
 }>()
 
 async function onClick() {
-    console.log(isLoading.value)
     if (isLoading.value) return
 
     isLoading.value = true

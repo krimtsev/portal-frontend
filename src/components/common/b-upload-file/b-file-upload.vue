@@ -59,7 +59,6 @@ const onUpload = (event: FileUploadUploadEvent) => {
 }
 
 const onSelect = (event: FileUploadSelectEvent) => {
-    console.log(props)
     model.value = event.files
 }
 

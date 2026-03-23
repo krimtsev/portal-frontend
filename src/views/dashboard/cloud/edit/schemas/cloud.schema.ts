@@ -3,7 +3,6 @@ import { toTypedSchema } from "@vee-validate/zod"
 import { isValidFileName } from "@/lib/validator"
 
 export const CloudSchema = (isRoot: boolean) => {
-    console.log(isRoot)
     return toTypedSchema(
         z.object({
             name: z.string()

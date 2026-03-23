@@ -115,17 +115,19 @@ async function download(item: ChatMessageFile) {
 
     isLoadingFile.value = true
 
-    const data = await ticketAPI.download(ticketId.value, item.name)
+    try {
+        const data = await ticketAPI.download(ticketId.value, item.name)
 
-    if (data instanceof HttpError) {
-        notify.error()
+        if (data instanceof HttpError) {
+            notify.error()
+            return
+        }
+
+        const { title, ext } = item
+        downloadExternalFile(data, `${title}.${ext}`)
+    } finally {
         isLoadingFile.value = false
-        return false
     }
-
-    const { title, ext } = item
-    downloadExternalFile(data, `${title}.${ext}`)
-    isLoadingFile.value = false
 }
 
 const isEditable = computed(() => {
