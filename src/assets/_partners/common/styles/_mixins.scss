@@ -165,7 +165,8 @@ $cloud-file-types: (
         (txt): --p-gray-500,
         (ai): --p-purple-500,
         (pptx): --p-pink-500,
-        (mp4, mov, avi, m4a, ogg): --p-yellow-500
+        (mp4, mov, avi): --p-yellow-500
+        (mpeg,wav,ogg,aac, m4a) --p-cyan-500
 );
 
 @mixin file-colors($ext-map: $cloud-file-types) {

@@ -1,12 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, watch } from "vue"
-import PrimeFileUpload from "primevue/fileupload"
-import PrimeMessage from "primevue/message"
 import BSvg from "@c/common/b-svg/b-svg.vue"
-import type {
-    FileUploadSelectEvent,
-    FileUploadUploadEvent,
-} from "primevue/fileupload"
 import BInputError from "@c/common/b-input-error/b-input-error.vue"
 import PrimeButton from "primevue/button"
 import PrimeProgressBar from "primevue/progressbar"
@@ -15,22 +9,18 @@ import { useI18n } from "vue-i18n"
 import {
     DEFAULT_ACCEPT,
     DEFAULT_MAX_SIZE_MB,
-    mbToBytes
+    DEFAULT_FILES_LIMIT,
+    megabytesToBytes,
+    bytesToMegabytes
 } from "@c/common/b-upload-file/utils/b-file-upload"
 
-type FileUploadExpose = {
-    files: any[]
-    clear: () => void
-    choose: () => void
-}
 
 const emit = defineEmits<{
     (e: "upload"): void
+    (e: "clear"): void
 }>()
 
 const { t } = useI18n()
-
-const model = defineModel<File | File[] | null>({ default: null })
 
 const props = withDefaults(defineProps<{
     accept?:       string
@@ -41,222 +31,270 @@ const props = withDefaults(defineProps<{
     disabled?:     boolean
     isProcessing?: boolean
     placeholder?:  string
-    showHeader?:   boolean
+    showActions?:  boolean
+    limit?:        number
 }>(), {
     accept:      DEFAULT_ACCEPT,
     multiple:    true,
-    maxFileSize: mbToBytes(DEFAULT_MAX_SIZE_MB),
+    maxFileSize: megabytesToBytes(DEFAULT_MAX_SIZE_MB),
     name:        "files[]",
     disabled:    false,
     placeholder: i18n.global.t("mc.components.fileUpload.placeholder"),
     error:       "",
-    showHeader:  false
+    showActions: false,
+    limit:       DEFAULT_FILES_LIMIT,
 })
 
-const uploader = ref<InstanceType<typeof PrimeFileUpload> & FileUploadExpose | null>(null)
+const model = defineModel<File | File[] | null>()
+
+const fileInput = ref<HTMLInputElement | null>(null)
+
+const localError = ref<string | null>(null)
 
 const isDisabled = computed(() => props.disabled || props.isProcessing)
+const maxFileSizeMB = computed(() => bytesToMegabytes(props.maxFileSize))
 
-const onUpload = (event: FileUploadUploadEvent) => {
-    model.value = event.files
+const files = computed(() => {
+    if (model.value) {
+        if (Array.isArray(model.value)) {
+            return model.value
+        } else {
+            return [model.value]
+        }
+    }
+    return []
+})
+const hasFiles = computed(() => {
+    return !!files.value.length
+})
+
+const validateFiles = (files: File[]): string | null => {
+    if (props.accept) {
+        const acceptedTypes = props.accept.split(",").map(t => t.trim().toLowerCase())
+
+        for (const file of files) {
+            const fileName = file.name.toLowerCase()
+            const fileType = file.type.toLowerCase()
+
+            const isAccepted = acceptedTypes.some(type => {
+                if (type.startsWith(".")) {
+                    return fileName.endsWith(type)
+                }
+                if (type.includes("*")) {
+                    const regex = new RegExp(type.replace("*", ".*"))
+                    return regex.test(fileType)
+                }
+                return fileType === type
+            })
+
+            if (!isAccepted) return t("mc.components.fileUpload.errors.type")
+        }
+    }
+
+    if (props.limit && files.length > props.limit) {
+        return t("mc.components.fileUpload.errors.limit", { limit: props.limit })
+    }
+
+    for (const file of files) {
+        if (props.maxFileSize && file.size > props.maxFileSize) {
+            return t("mc.components.fileUpload.errors.size", { size: maxFileSizeMB })
+        }
+    }
+
+    return null
 }
 
-const onSelect = (event: FileUploadSelectEvent) => {
-    model.value = event.files
+const onFileSelect = (event: Event) => {
+    const target = event.target as HTMLInputElement
+    if (!target.files?.length) return
+
+    const selectedFiles = Array.from(target.files)
+
+    const error = validateFiles(selectedFiles)
+
+    if (error) {
+        localError.value = error
+        target.value = ""
+        return
+    }
+
+    localError.value = null
+
+    if (props.multiple) {
+        const currentFiles = Array.isArray(model.value) ? model.value : []
+        const combinedFiles = [...currentFiles, ...selectedFiles]
+
+        if (props.limit && combinedFiles.length > props.limit) {
+            localError.value = t("mc.components.fileUpload.errors.limit", { limit: props.limit })
+            target.value = ""
+            return
+        }
+
+        model.value = combinedFiles
+    } else {
+        model.value = selectedFiles[0]
+    }
+
+    target.value = ""
 }
 
-const removeFile = (index: number, removeFileCallback: (index: number) => void) => {
-    if (isDisabled.value) return
+const removeFile = (index: number) => {
+    if (isDisabled.value || !hasFiles.value) return
 
-    removeFileCallback(index)
-
-    if (!model.value) return
     if (Array.isArray(model.value)) {
-        model.value = [...model.value.slice(0, index), ...model.value.slice(index + 1)]
+        const newFiles = [...model.value]
+        newFiles.splice(index, 1)
+        model.value = newFiles.length ? newFiles : []
     } else {
         model.value = null
     }
 }
 
+const triggerPicker = () => {
+    if (!props.disabled) fileInput.value?.click()
+}
+
+const onUpload = () => {
+    emit("upload")
+}
+
+const onClear = () => {
+    emit("clear")
+    clear()
+}
+
 watch(model, (newVal) => {
-    if (Array.isArray(newVal) && newVal.length === 0) {
-        uploader.value?.clear()
+    const isEmpty = !newVal || (Array.isArray(newVal) && newVal.length === 0)
+    if (isEmpty) {
+        localError.value = null
+        if (fileInput.value) fileInput.value.value = ""
     }
-})
+}, { deep: true })
+
+const clear = () => {
+    model.value = props.multiple ? [] : null
+    localError.value = null
+}
+
+defineExpose({ clear })
 </script>
 
 <template>
     <div
         class="b-file-upload"
-        :class="{
-            'disabled': isDisabled,
-            'hide-header': !props.showHeader
-        }"
+        :class="{ 'disabled': isDisabled }"
     >
-        <prime-file-upload
-            ref="uploader"
-            :model-value="model"
-            :name="props.name"
-            :accept="props.accept"
+        <input
+            ref="fileInput"
+            type="file"
+            class="hidden-input"
             :multiple="props.multiple"
-            :max-file-size="props.maxFileSize"
-            :auto="false"
-            :show-header="props.showHeader"
-            :invalid-file-type-message="t('mc.components.fileUpload.errors.type')"
-            :invalid-file-size-message="t('mc.components.fileUpload.errors.type', { size: props.maxFileSize / 1024 })"
-            :disabled="isDisabled"
-            custom-upload
-            @upload="onUpload"
-            @select="onSelect"
+            :accept="props.accept"
+            :disabled="props.disabled"
+            :name="props.name"
+            @change="onFileSelect"
+        />
+
+        <div
+            v-if="showActions"
+            class="actions"
         >
-            <template #header="{ clearCallback, files }">
-                <div class="header">
-                    <div class="header-buttons">
-                        <prime-button
-                            icon="pi pi-cloud-upload"
-                            variant="outlined"
-                            :label="t('mc.components.fileUpload.buttons.upload')"
-                            :disabled="isDisabled || !files || files.length === 0"
-                            @click="emit('upload')"
-                        />
-                        <prime-button
-                            icon="pi pi-times"
-                            variant="outlined"
-                            severity="secondary"
-                            :label="t('mc.components.fileUpload.buttons.cancel')"
-                            :disabled="isDisabled || !files || files.length === 0"
-                            @click="clearCallback()"
-                        />
-                    </div>
+            <div class="buttons">
+                <prime-button
+                    icon="pi pi-cloud-upload"
+                    variant="outlined"
+                    :severity="!hasFiles ? 'secondary' : ''"
+                    :label="t('mc.components.fileUpload.buttons.upload')"
+                    :disabled="isDisabled || !hasFiles"
+                    @click="onUpload"
+                />
+                <prime-button
+                    icon="pi pi-times"
+                    variant="outlined"
+                    severity="secondary"
+                    :label="t('mc.components.fileUpload.buttons.cancel')"
+                    :disabled="isDisabled || !hasFiles"
+                    @click="onClear"
+                />
+            </div>
 
-                    <prime-progress-bar
-                        :mode="props.isProcessing ? 'indeterminate' : 'determinate'"
-                        class="progress"
-                    />
-                </div>
-            </template>
+            <prime-progress-bar
+                :mode="props.isProcessing ? 'indeterminate' : 'determinate'"
+                class="progress"
+            />
+        </div>
 
-            <template #content="{ files, removeFileCallback, messages }">
+        <div
+            class="drop-box"
+            :class="{ 'disabled': isDisabled }"
+            @click="triggerPicker"
+        >
+            <div class="icon-wrapper">
+                <b-svg
+                    name="pi-cloud-upload"
+                    class="icon"
+                />
+            </div>
+
+            <div class="description">{{ props.placeholder }}</div>
+        </div>
+
+        <div
+            v-if="hasFiles"
+            class="files"
+        >
+            <div class="file-label">
+                {{ t('mc.components.fileUpload.label') }}
+            </div>
+
+            <div class="file-list">
                 <div
-                    class="upload"
-                    @click="uploader?.choose()"
+                    v-for="(file, index) in files"
+                    :key="file.name + index"
                 >
-                    <div class="icon-wrapper">
-                        <b-svg
-                            name="pi-cloud-upload"
-                            class="icon"
-                        />
-                    </div>
-                    <div class="description">{{ props.placeholder }}</div>
-                </div>
-
-                <div
-                    v-if="files.length"
-                    class="file-wrapper"
-                >
-                    <div class="files">
-                        <div class="file-label">
-                            {{ t('mc.components.fileUpload.label') }}
-                        </div>
-
-                        <div
-                            v-for="(file, index) of files"
-                            :key="`${file.name}_${index}`"
-                        >
-                            <div
-                                class="file-item"
-                                :class="{
-                                    'file-item-disabled': isDisabled
-                                }"
-                                @click="removeFile(index, removeFileCallback)"
-                            >
-                                <span> {{ file.name }} </span>
-                                <b-svg
-                                    class="close"
-                                    name="pi-times"
-                                />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div
-                    v-if="messages?.length"
-                    class="errors"
-                >
-                    <prime-message
-                        v-for="message of messages"
-                        :key="message"
-                        severity="error"
+                    <div
+                        class="file-item"
+                        :class="{
+                            'file-item-disabled': isDisabled
+                        }"
+                        @click.stop="removeFile(index)"
                     >
-                        {{ message }}
-                    </prime-message>
+                        <span class="file-name">
+                            {{ file.name }}
+                        </span>
+                        <b-svg
+                            name="pi-times"
+                            class="remove-icon"
+                        />
+                    </div>
                 </div>
+            </div>
+        </div>
 
-                <b-input-error :error="props.error" />
-            </template>
-        </prime-file-upload>
+        <div
+            v-if="localError || props.error"
+            class="error-wrapper"
+        >
+            <b-input-error v-if="localError" :error="localError" />
+            <b-input-error v-else-if="props.error" :error="props.error" />
+        </div>
     </div>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .b-file-upload {
-    :deep(.p-fileupload) {
-        border: none;
-        border-radius: 0;
-        background: transparent;
-        overflow: hidden;
-
-        .p-fileupload-content {
-            padding: 0;
-            border-radius: var(--p-form-field-border-radius);
-        }
+    .hidden-input {
+        display: none;
     }
 
-    .file-wrapper {
-        padding: 0 $indent-x2;
-        color: var(--p-surface-400);
+    display: flex;
+    flex-direction: column;
+    gap: $indent-x1;
 
-        .files {
-            display: flex;
-            flex-wrap: wrap;
-            gap: $indent-x1;
-
-            .file-item {
-                display: flex;
-                align-items: end;
-                gap: $indent-x1;
-                cursor: pointer;
-
-                .close {
-                    font-size: 0.8rem;
-                    line-height: 1rem;
-                    color: var(--p-surface-400);
-                }
-
-                &:hover:not(.file-item-disabled) {
-                    color: var(--p-surface-300);
-
-                    .close {
-                        color: var(--p-red-500);
-                    }
-                }
-
-                &-disabled {
-                    cursor: default;
-
-                    &:hover {
-                        color: inherit;
-                    }
-                }
-            }
-        }
-    }
-
-    .header {
+    .actions {
         width: 100%;
 
-        &-buttons {
+        .buttons {
             display: flex;
             gap: $indent-x1;
         }
@@ -268,13 +306,13 @@ watch(model, (newVal) => {
         }
     }
 
-    .upload {
+    .drop-box {
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         gap: $indent-x1;
-        border: 1px dashed var(--p-fileupload-border-color);
+        border: 1px dashed var(--p-content-border-color);
         border-radius: var(--p-form-field-border-radius);
         padding: $indent-x2;
         min-height: 160px;
@@ -290,22 +328,56 @@ watch(model, (newVal) => {
         .description {
             color: var(--p-surface-500);
         }
-    }
 
-    .errors {
-        margin-bottom: $indent-x1;
-    }
-
-    &.disabled {
-        .upload {
+        &.disabled {
             background: var(--p-form-field-disabled-background);
             cursor: default;
         }
     }
 
-    &.hide-header {
-        :deep(.p-fileupload-header) {
-            display: none;
+    .files {
+        display: flex;
+        flex-wrap: wrap;
+        gap: $indent-x1;
+
+        .file-label {
+            color: var(--p-surface-400);
+        }
+
+        .file-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: $indent-x1;
+            color: var(--p-surface-400);
+
+            .file-item {
+                display: flex;
+                align-items: end;
+                gap: $indent-x1;
+                cursor: pointer;
+
+                .remove-icon {
+                    font-size: 0.8rem;
+                    line-height: 1rem;
+                    color: var(--p-surface-400);
+                }
+
+                &:hover:not(.file-item-disabled) {
+                    color: var(--p-surface-300);
+
+                    .remove-icon {
+                        color: var(--p-red-500);
+                    }
+                }
+
+                &-disabled {
+                    cursor: default;
+
+                    &:hover {
+                        color: inherit;
+                    }
+                }
+            }
         }
     }
 }

@@ -1,9 +1,9 @@
 import * as z from "zod"
 import {
-    FilesSchema,
     MessageSchema,
     PartnerIdSchema
 } from "@v/profile/tickets/schemas/ticket.schema"
+import { FilesSchema } from "@c/common/b-upload-file/schemas/file-upload.schema"
 
 export const AttributesSchema = z.object({
     returnRate: z.coerce

@@ -1,6 +1,7 @@
 import * as z from "zod"
 import { toTypedSchema } from "@vee-validate/zod"
 import { isValidFileName } from "@/lib/validator"
+import { FilesSchema } from "@c/common/b-upload-file/schemas/file-upload.schema"
 
 export const CloudSchema = (isRoot: boolean) => {
     return toTypedSchema(
@@ -18,6 +19,13 @@ export const CloudSchema = (isRoot: boolean) => {
         })
     )
 }
+
+export const CloudFileSchema = toTypedSchema(
+    z.object({
+        files: FilesSchema
+    })
+)
+
 
 export const CloudFileUpdateSchema = toTypedSchema(
     z.object({

@@ -42,8 +42,10 @@ export const DEFAULT_ACCEPT = [
     ...MIME_TYPES.VIDEO,
     ...MIME_TYPES.AUDIO,
     ...MIME_TYPES.ARCHIVES
-].join(",");
+].join(",")
 
-export const DEFAULT_MAX_SIZE_MB = 200;
+export const DEFAULT_MAX_SIZE_MB = 200
+export const DEFAULT_FILES_LIMIT = 5
 
-export const mbToBytes = (mb: number): number => mb * 1024 * 1024;
+export const megabytesToBytes = (mb: number): number => mb * 1024 * 1024
+export const bytesToMegabytes = (mb: number): number => mb / 1024 / 1024

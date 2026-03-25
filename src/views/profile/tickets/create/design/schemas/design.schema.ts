@@ -3,11 +3,10 @@ import { reg } from "@/lib/validator"
 import {
     PartnerIdSchema,
     MessageSchema,
-    FilesSchema,
     UrlSchema,
     UrlSchemaOptional
 } from "@v/profile/tickets/schemas/ticket.schema"
-
+import { FilesSchema } from "@c/common/b-upload-file/schemas/file-upload.schema"
 
 const AttributesSchema = z.object({
     name: z.string()

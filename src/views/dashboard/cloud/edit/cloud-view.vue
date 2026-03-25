@@ -8,7 +8,7 @@ import { useRoute, useRouter } from "vue-router"
 import { useI18n } from "vue-i18n"
 import type { CloudData, CloudFile } from "@v/dashboard/cloud/edit/definitions/cloud"
 import { useForm } from "vee-validate"
-import { CloudSchema } from "@v/dashboard/cloud/edit/schemas/cloud.schema"
+import { CloudSchema, CloudFileSchema } from "@v/dashboard/cloud/edit/schemas/cloud.schema"
 import { useConfigValidation } from "@/composables/vee-validate/use-config-validation"
 import BFormItem from "@c/common/b-form/b-form-item.vue"
 import BFormCard from "@c/common/b-form/b-form-card.vue"
@@ -28,21 +28,12 @@ const route = useRoute()
 const router = useRouter()
 const { t } = useI18n()
 
-function defaultState(): CloudData {
-    return {
-        name:        "",
-        slug:        "",
-        category_id: null,
-    }
-}
-
 const isFirstLoading = ref(true)
 const isLoading = ref(false)
 const isProcessing = ref(false)
 
 const categories = ref<CloudOptionItem[]>([])
 const files = ref<CloudFile[]>([])
-const filesModel = ref<File[]>([])
 const isRootFolder = ref(false)
 const filesListRef = ref<InstanceType<typeof CloudFilesList> | null>(null)
 
@@ -51,24 +42,32 @@ const isNew = computed(() => cloudId.value === "!new")
 
 const validationSchema = computed(() => CloudSchema(isRootFolder.value))
 
-const {
-    errors,
-    resetForm,
-    handleSubmit,
-    defineField,
-    meta,
-    submitCount,
-    setErrors
-} = useForm<CloudData>({
+const folderForm = useForm<CloudData>({
     validationSchema: validationSchema,
-    initialValues:    defaultState(),
+    initialValues:    {
+        name:        "",
+        slug:        "",
+        category_id: null,
+    },
 })
 
-const dynamicConfig = useConfigValidation(submitCount)
+const folderDynamicConfig = useConfigValidation(folderForm.submitCount)
+const [nameModel]       = folderForm.defineField("name", folderDynamicConfig)
+const [slugModel]       = folderForm.defineField("slug", folderDynamicConfig)
+const [categoryIdModel] = folderForm.defineField("category_id", folderDynamicConfig)
 
-const [nameModel]       = defineField("name", dynamicConfig)
-const [slugModel]       = defineField("slug", dynamicConfig)
-const [categoryIdModel] = defineField("category_id", dynamicConfig)
+const folderErrors = computed(() => folderForm.errors.value)
+
+const uploadForm = useForm<{ files: File[] }>({
+    validationSchema: CloudFileSchema,
+    initialValues: {
+        files: []
+    }
+})
+
+const [filesModel] = uploadForm.defineField("files")
+
+const uploadErrors = computed(() => uploadForm.errors.value)
 
 onMounted(async () => {
     isFirstLoading.value = true
@@ -100,7 +99,7 @@ onMounted(async () => {
 
         isRootFolder.value = rootFolders.includes(cloud.slug)
 
-        resetForm({
+        folderForm.resetForm({
             values: {
                 name:        cloud.name,
                 slug:        cloud.slug,
@@ -114,8 +113,8 @@ onMounted(async () => {
     isFirstLoading.value = false
 })
 
-const onSave = handleSubmit(async (formValues) => {
-    if (!isNew.value && !meta.value.dirty) {
+const onSave = folderForm.handleSubmit(async (formValues) => {
+    if (!isNew.value && !folderForm.meta.value.dirty) {
         notify.success(t("mc.notify.success"))
         await router.push({ name: DashboardRouteName.DashboardCloudList })
         return
@@ -132,7 +131,7 @@ const onSave = handleSubmit(async (formValues) => {
     isLoading.value = false
 
     if (cloudResponse instanceof HttpError) {
-        if (cloudResponse?.errors) setErrors(cloudResponse.errors)
+        if (cloudResponse?.errors) folderForm.setErrors(cloudResponse.errors)
         notify.error()
         return
     }
@@ -159,31 +158,30 @@ const fileRemove = (item: CloudFile) => {
     files.value = files.value.filter(f => f.id !== item.id)
 }
 
-const fileUpload = async () => {
+const fileUpload = uploadForm.handleSubmit(async (formValues) => {
+    if (uploadForm.errors.value.files) return
+
     isProcessing.value = true
 
-    const response = await cloudFilesAPI.upload(cloudId.value, filesModel.value)
+    const response = await cloudFilesAPI.upload(cloudId.value, formValues.files)
 
     isProcessing.value = false
 
     if (response instanceof HttpError) {
+        if (response?.errors) uploadForm.setErrors(response.errors)
         notify.error()
         return
     }
 
-    const newFiles = response.data.map((file: CloudFile) => ({
-        ...file,
-        isNew: true
-    }))
+    const newFiles = response.data.map((file: CloudFile) => ({ ...file, isNew: true }))
 
     files.value = [...files.value, ...newFiles]
 
-    notify.success(t("mc.notify.success"))
+    uploadForm.resetForm()
 
-    filesModel.value = []
-
+    notify.success(t("mc.dashboard.cloud.notify.filesUploaded"))
     await nextTick(() => filesListRef.value?.scrollToBottom())
-}
+})
 </script>
 
 <template>
@@ -205,7 +203,7 @@ const fileUpload = async () => {
                 <b-input-text
                     v-model="nameModel"
                     :disabled="isLoading"
-                    :error="errors.name"
+                    :error="folderErrors.name"
                 />
             </b-form-item>
 
@@ -217,7 +215,7 @@ const fileUpload = async () => {
                 <b-input-text
                     v-model="slugModel"
                     :disabled="isLoading"
-                    :error="errors.slug"
+                    :error="folderErrors.slug"
                 />
             </b-form-item>
 
@@ -229,7 +227,7 @@ const fileUpload = async () => {
                     v-model="categoryIdModel"
                     :disabled="isLoading"
                     :options="categories"
-                    :error="errors.category_id"
+                    :error="folderErrors.category_id"
                     option-label="name"
                     option-value="id"
                     filter
@@ -252,10 +250,10 @@ const fileUpload = async () => {
             <b-form-item>
                 <b-file-upload
                     v-model="filesModel"
+                    :error="uploadErrors.files"
                     :disabled="isLoading"
                     :is-processing="isProcessing"
-                    show-header
-                    name="files"
+                    show-actions
                     class="upload-files"
                     @upload="fileUpload"
                 />

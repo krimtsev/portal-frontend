@@ -1,11 +1,10 @@
 import * as z from "zod"
 import { reg } from "@/lib/validator"
 import {
-    FilesSchema,
     MessageSchema,
     PartnerIdSchema,
 } from "@v/profile/tickets/schemas/ticket.schema"
-
+import { FilesSchema } from "@c/common/b-upload-file/schemas/file-upload.schema"
 
 const AttributesSchema = z.object({
     name: z.string()

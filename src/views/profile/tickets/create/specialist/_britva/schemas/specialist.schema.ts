@@ -4,10 +4,9 @@ import { Qualification } from "@v/profile/tickets/create/specialist/_britva/defi
 import {
     PartnerIdSchema,
     MessageSchema,
-    FilesSchema,
     UrlSchemaOptional
 } from "@v/profile/tickets/schemas/ticket.schema"
-
+import { FilesSchema } from "@c/common/b-upload-file/schemas/file-upload.schema"
 
 const AttributesSchema = z.object({
     qualification: z.enum(Qualification),

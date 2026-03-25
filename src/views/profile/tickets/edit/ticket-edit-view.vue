@@ -15,8 +15,8 @@ import { cloneDeep, isEqual } from "lodash"
 import * as z from "zod"
 import {
     RequiredMessageSchema,
-    FilesSchema,
 } from "@v/profile/tickets/schemas/ticket.schema"
+import { FilesSchema } from "@c/common/b-upload-file/schemas/file-upload.schema"
 import { useZodResolver } from "@/composables/zod/use-zod-resolver"
 import { HttpError } from "@/api"
 import BButton from "@c/common/b-button/b-button.vue"
