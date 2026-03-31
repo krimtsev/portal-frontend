@@ -43,6 +43,7 @@ import { DashboardRouteName } from "@r/dashboard/route-names"
 import { useForm } from "vee-validate"
 import { useConfigValidation } from "@/composables/vee-validate/use-config-validation"
 import { TicketSchema } from "@v/dashboard/tickets/edit/schemas/ticket.schema"
+import { messageLength } from "@v/profile/tickets/list/definitions/tickets-list"
 
 const notify = useNotify()
 const route = useRoute()
@@ -349,7 +350,7 @@ const onSave = handleSubmit(async (formValues) => {
                     v-model="messageModel"
                     :disabled="isLoading"
                     :error="errors.message"
-                    :rows="5"
+                    :maxlength="messageLength"
                     class="message"
                     placeholder="Введите сообщение"
                 />

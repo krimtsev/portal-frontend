@@ -4,7 +4,7 @@ import { buttonNavigation } from "@v/portal/contacts/_britva/data/button-navigat
 import PortalButtonNavigation from "@c/portal/portal-button-navigation/portal-button-navigation.vue"
 import PortalCard from "@c/portal/portal-card/portal-card.vue"
 import BLink from "@c/common/b-link/b-link.vue"
-import BTelnumLink from "@c/common/b-telnum-link/b-telnum-link.vue"
+import BTelnumLink from "@c/common/b-link/b-telnum-link.vue"
 </script>
 
 <template>

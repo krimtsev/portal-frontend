@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import PrimeButton from "primevue/button"
 import { computed } from "vue"
 
 const props = defineProps<{
@@ -8,79 +7,81 @@ const props = defineProps<{
     asInternal?: boolean
 }>()
 
-const buttonProps = computed(() => {
-    const isExternal = !!props.href
+const isExternal = computed(() => !!props.href && !props.asInternal)
+
+const componentTag = computed(() => {
+    if (!props.href) return "span"
+    return props.asInternal ? "router-link" : "a"
+})
+
+const linkProps = computed(() => {
+    if (!props.href) return {}
+
+    if (props.asInternal) {
+        return { to: props.href }
+    }
 
     return {
-        variant: "link",
-        ripple: false,
-        class: [
-            "button-link",
-            { external: isExternal && !props.asInternal }
-        ],
-        ...(isExternal
-            ? {
-                target: "_blank",
-                as: "a",
-                iconPos: "right",
-                icon: "pi pi-arrow-up-right"
-            }
-            : {})
+        href:   props.href,
+        target: "_blank",
+        rel:    "noopener noreferrer"
     }
 })
 </script>
 
 <template>
     <div class="b-link">
-        <prime-button
-            v-bind="buttonProps"
-            :label="props.label"
-            :href="props.href"
-        />
+        <component
+            :is="componentTag"
+            v-bind="linkProps"
+            class="button-link"
+            :class="{ 'is-external': isExternal }"
+        >
+            <span class="label">{{ props.label }}</span>
+
+            <i
+                v-if="isExternal"
+                class="pi pi-arrow-up-right external-icon"
+            />
+        </component>
     </div>
 </template>
 
 <style scoped lang="scss">
 .b-link {
     display: inline-block;
+    align-items: flex-end;
 
-    // Убираем ripple
-    :deep(.p-ink) {
-        display: none;
-    }
+    .button-link {
+        display: inline-flex;
+        align-items: flex-end;
+        text-decoration: none;
+        color: var(--p-surface-0);
+        cursor: pointer;
+        line-height: 1;
 
-    :deep(.p-button) {
-        // Основной стиль "ссылки-кнопки"
-        &.button-link {
-            color: var(--p-surface-0);
-            text-decoration: none;
-            padding: 0;
-            border-radius: 0;
-
-            &.external {
-                color: var(--p-primary-600);
-            }
-
-            .p-button-label {
-                text-decoration: none;
-                text-align: start;
-                white-space: nowrap;
-            }
-        }
-
-        &.button-link:hover,
-        &.button-link:focus-visible {
+        &.is-external {
             color: var(--p-primary-600);
         }
 
-        &.button-link:active {
-            color: var(--p-primary-700);
+        &:hover,
+        &:focus-visible {
+            color: var(--p-primary-hover-color);
+        }
+
+        &:active {
+            color: var(--p-primary-active-color);
         }
     }
 
-    :deep(.p-button-icon-right) {
-        padding-right: calc($indent-x1 / 2);
+    .label {
+        white-space: nowrap;
+    }
+
+    .external-icon {
+        margin-left: 4px;
         font-size: 0.75rem;
+        padding-bottom: 2px;
     }
 }
 </style>

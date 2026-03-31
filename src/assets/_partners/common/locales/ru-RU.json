@@ -19,7 +19,27 @@
             "archive": "Архивировать",
             "save": "Сохранить",
             "cancel": "Отменить",
-            "remove": "Удалить"
+            "remove": "Удалить",
+            "input": {
+                "placeholder": "Введите текст"
+            },
+            "textArea": {
+                "placeholder": "@:(mc.common.input.placeholder)",
+                "value": "{0} из {1}"
+            },
+            "fileUpload": {
+                "placeholder": "Добавить файлы",
+                "label": "Выбраны файлы:",
+                "buttons": {
+                    "upload": "Загрузить",
+                    "cancel": "Отмена"
+                },
+                "errors": {
+                    "type": "Неподдерживаемый тип файла",
+                    "size": "Файл слишком большой. Максимум {size} МБ",
+                    "limit": "Максимум файлов {limit}"
+                }
+            }
         },
         "select": {
             "default": "Выбрано {n} | Выбран {n} | Выбрано {n} | Выбрано {n}",
@@ -71,21 +91,6 @@
         },
         "chat": {
             "empty": "Сообщения отсутствуют"
-        },
-        "components": {
-            "fileUpload": {
-                "placeholder": "Добавить файлы",
-                "label": "Выбраны файлы:",
-                "buttons": {
-                    "upload": "Загрузить",
-                    "cancel": "Отмена"
-                },
-                "errors": {
-                    "type": "Неподдерживаемый тип файла",
-                    "size": "Файл слишком большой. Максимум {size} МБ",
-                    "limit": "Максимум файлов {limit}"
-                }
-            }
         },
         "ticket": {
             "category": "Отдел",

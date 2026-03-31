@@ -10,7 +10,6 @@ import { Roles } from "@/shared/roles/roles"
 import router from "@/router"
 import { CommonRouteName } from "@/router/common/route-names"
 import { PortalRouteName } from "@/router/portal/route-names"
-import { getCookie } from "@/lib/utils"
 
 function defaultUserData(): UserData {
     return {
@@ -32,8 +31,6 @@ const useAuthStore = defineStore("auth", () => {
     async function csrf() {
         await authAPI.csrf()
     }
-
-    const hasToken = computed(() => !!getCookie("XSRF-TOKEN"))
 
     async function login(credentials: LoginCredentials) {
         const authData = await authAPI.login(credentials)
@@ -61,11 +58,6 @@ const useAuthStore = defineStore("auth", () => {
     }
 
     async function getUserData(): Promise<boolean> {
-        if (!hasToken.value) {
-            await reset(false)
-            return false
-        }
-
         // Обновляем CSRF токен при каждой авторизации
         await csrf()
 
@@ -102,7 +94,7 @@ const useAuthStore = defineStore("auth", () => {
         csrf,
         login,
         logout,
-        hasToken
+        reset,
     }
 })
 

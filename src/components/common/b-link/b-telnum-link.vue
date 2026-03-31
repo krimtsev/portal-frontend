@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from "vue"
-import { formatTelnum } from "@/lib/format-phone"
+import { formatTelnum } from "@/lib/format-phone.ts"
 import BSvg from "@c/common/b-svg/b-svg.vue"
 
 const props = defineProps<{
@@ -13,7 +13,7 @@ const telnum = computed(() => {
     return formatTelnum(props.value, { plus: true })
 })
 
-const nonFormated = computed(() => {
+const pureNumber = computed(() => {
     if (!telnum.value) return ""
     return telnum.value.replace(/[^0-9+]/g, "")
 })
@@ -21,8 +21,8 @@ const nonFormated = computed(() => {
 
 <template>
     <a
+        :href="`tel:${pureNumber}`"
         class="b-telnum-link"
-        :href="`tel: ${nonFormated}`"
     >
         <span
             v-if="props.icon"
@@ -30,6 +30,7 @@ const nonFormated = computed(() => {
         >
             <b-svg name="whatsapp-16" />
         </span>
+
         <span class="number">
             {{ telnum }}
         </span>
@@ -40,7 +41,7 @@ const nonFormated = computed(() => {
 .b-telnum-link {
     display: inline-flex;
     align-items: center;
-    color: var(--p-button-primary-background);
+    color: var(--p-primary-color);
     text-decoration: none;
     cursor: pointer;
 
@@ -50,22 +51,22 @@ const nonFormated = computed(() => {
     }
 
     :deep(.b-svg) {
-        color: var(--p-button-primary-background);
+        color: var(--p-primary-color);
     }
 
     &:hover {
-        color: var(--p-button-primary-hover-background);
+        color: var(--p-primary-hover-color);
 
         :deep(.b-svg) {
-            color: var(--p-button-primary-hover-background);
+            color: var(--p-primary-hover-color);
         }
     }
 
     &:active {
-        color: var(--p-button-primary-active-background);
+        color: var(--p-primary-active-color);
 
         :deep(.b-svg) {
-            color: var(--p-button-primary-active-background);
+            color: var(--p-primary-active-color);
         }
     }
 }

@@ -28,6 +28,7 @@ import {
 } from "@v/profile/tickets/edit/definitions/ticket-category"
 import BInputTelnum from "@c/common/b-input/b-input-telnum.vue"
 import BSelect from "@c/common/b-select/b-select.vue"
+import {messageLength, messageLengthShort} from "@v/profile/tickets/list/definitions/tickets-list"
 
 
 const notify = useNotify()
@@ -283,7 +284,8 @@ async function onSave() {
                             :error="errors.attributes?.format"
                             :disabled="isFirstLoading"
                             :placeholder="t('mc.ticket.design.placeholder.format')"
-                            hint="Какой формат, для чего будет использоваться, размер, цвета? Если вам необходим стартовый набор, напишите в поле “Стартовый набор”."
+                            :maxlength="messageLengthShort"
+                            label="Какой формат, для чего будет использоваться, размер, цвета? Если вам необходим стартовый набор, напишите в поле “Стартовый набор”."
                             class="full-width"
                         />
                     </div>
@@ -294,7 +296,8 @@ async function onSave() {
                             :error="errors.attributes?.promotion"
                             :disabled="isFirstLoading"
                             :placeholder="t('mc.ticket.design.placeholder.promotion')"
-                            hint="Промокод, срок действия, размер скидки. Если вам необходим стартовый набор, напишите в поле “Стартовый набор”."
+                            :maxlength="messageLengthShort"
+                            label="Промокод, срок действия, размер скидки. Если вам необходим стартовый набор, напишите в поле “Стартовый набор”."
                             class="full-width"
                         />
                     </div>
@@ -305,6 +308,7 @@ async function onSave() {
                             :error="errors.message"
                             :disabled="isFirstLoading"
                             :placeholder="t('mc.ticket.design.placeholder.message')"
+                            :maxlength="messageLength"
                             class="full-width"
                         />
                     </div>

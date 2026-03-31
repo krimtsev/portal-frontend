@@ -20,8 +20,9 @@ import {
 } from "@/shared/pagination/pagination"
 import { useI18n } from "vue-i18n"
 import { normalizeData } from "@v/portal/contacts/franchisee/utils/franchisee"
-import BTelnumLink from "@c/common/b-telnum-link/b-telnum-link.vue"
+import BTelnumLink from "@c/common/b-link/b-telnum-link.vue"
 import BInputSearch from "@c/common/b-input-search/b-input-search.vue"
+import BSocialLinks from "@c/common/b-link/b-social-links.vue"
 
 const notify = useNotify()
 const { t, n } = useI18n()
@@ -173,10 +174,11 @@ const firstPage = computed(() => {
                                     :key="`${slotProps.data.id}_${index}`"
                                     class="cell-value"
                                 >
-                                    <b-telnum-link
-                                        :value="telnum"
-                                        icon
+                                    <b-social-links
+                                        :telegram="telnum"
+                                        class="mr-x1"
                                     />
+                                    <b-telnum-link :value="telnum" />
                                 </div>
                             </template>
                             <div

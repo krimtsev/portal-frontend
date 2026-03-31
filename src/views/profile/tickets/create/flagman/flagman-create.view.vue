@@ -27,6 +27,7 @@ import * as ticketAPI from "@/api/modules/profile/tickets/tickets"
 import { HttpError } from "@/api"
 import { ProfileRouteName } from "@r/profile/route-names"
 import BSelect from "@c/common/b-select/b-select.vue"
+import { messageLength } from "@v/profile/tickets/list/definitions/tickets-list"
 
 
 const { t } = useI18n()
@@ -259,6 +260,7 @@ async function onSave() {
                             :error="errors.message"
                             :disabled="isFirstLoading"
                             :placeholder="t('mc.ticket.general.placeholder.message')"
+                            :maxlength="messageLength"
                             name="message"
                             class="full-width"
                         />

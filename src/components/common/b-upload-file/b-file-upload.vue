@@ -39,7 +39,7 @@ const props = withDefaults(defineProps<{
     maxFileSize: megabytesToBytes(DEFAULT_MAX_SIZE_MB),
     name:        "files[]",
     disabled:    false,
-    placeholder: i18n.global.t("mc.components.fileUpload.placeholder"),
+    placeholder: i18n.global.t("mc.common.fileUpload.placeholder"),
     error:       "",
     showActions: false,
     limit:       DEFAULT_FILES_LIMIT,
@@ -87,17 +87,17 @@ const validateFiles = (files: File[]): string | null => {
                 return fileType === type
             })
 
-            if (!isAccepted) return t("mc.components.fileUpload.errors.type")
+            if (!isAccepted) return t("mc.common.fileUpload.errors.type")
         }
     }
 
     if (props.limit && files.length > props.limit) {
-        return t("mc.components.fileUpload.errors.limit", { limit: props.limit })
+        return t("mc.common.fileUpload.errors.limit", { limit: props.limit })
     }
 
     for (const file of files) {
         if (props.maxFileSize && file.size > props.maxFileSize) {
-            return t("mc.components.fileUpload.errors.size", { size: maxFileSizeMB })
+            return t("mc.common.fileUpload.errors.size", { size: maxFileSizeMB })
         }
     }
 
@@ -125,7 +125,7 @@ const onFileSelect = (event: Event) => {
         const combinedFiles = [...currentFiles, ...selectedFiles]
 
         if (props.limit && combinedFiles.length > props.limit) {
-            localError.value = t("mc.components.fileUpload.errors.limit", { limit: props.limit })
+            localError.value = t("mc.common.fileUpload.errors.limit", { limit: props.limit })
             target.value = ""
             return
         }
@@ -204,7 +204,7 @@ defineExpose({ clear })
                     icon="pi pi-cloud-upload"
                     variant="outlined"
                     :severity="!hasFiles ? 'secondary' : ''"
-                    :label="t('mc.components.fileUpload.buttons.upload')"
+                    :label="t('mc.common.fileUpload.buttons.upload')"
                     :disabled="isDisabled || !hasFiles"
                     @click="onUpload"
                 />
@@ -212,7 +212,7 @@ defineExpose({ clear })
                     icon="pi pi-times"
                     variant="outlined"
                     severity="secondary"
-                    :label="t('mc.components.fileUpload.buttons.cancel')"
+                    :label="t('mc.common.fileUpload.buttons.cancel')"
                     :disabled="isDisabled || !hasFiles"
                     @click="onClear"
                 />
@@ -244,7 +244,7 @@ defineExpose({ clear })
             class="files"
         >
             <div class="file-label">
-                {{ t('mc.components.fileUpload.label') }}
+                {{ t('mc.common.fileUpload.label') }}
             </div>
 
             <div class="file-list">

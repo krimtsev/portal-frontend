@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import PortalCard from "@c/portal/portal-card/portal-card.vue"
 import BImage from "@c/common/b-image/b-image.vue"
-import BTelnumLink from "@c/common/b-telnum-link/b-telnum-link.vue"
+import BTelnumLink from "@c/common/b-link/b-telnum-link.vue"
 </script>
 
 <template>

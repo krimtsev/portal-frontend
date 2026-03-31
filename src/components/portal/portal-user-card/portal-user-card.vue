@@ -1,6 +1,6 @@
 <script setup lang="ts" >
 import { computed } from "vue"
-import BTelnumLink from "@c/common/b-telnum-link/b-telnum-link.vue"
+import BTelnumLink from "@c/common/b-link/b-telnum-link.vue"
 import { imageSrc } from "@h/images/images"
 
 const props = defineProps<{

@@ -56,7 +56,8 @@ async function onFormSubmit(event: FormSubmitEvent): Promise<void> {
     await authStore.csrf()
     const resp = await authStore.login(values)
     if (resp instanceof HttpError) {
-        notify.error()
+        const message = resp.message || ""
+        notify.error(message)
     }
 
     authStore.isLoading = false

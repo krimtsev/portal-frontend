@@ -10,6 +10,7 @@ import { Queue } from "@/api/queue"
 import { HttpMethod } from "@/api/definitions/api"
 import { requestsHistory } from "@/api/requests-history"
 import env from "~/env"
+import useAuthStore from "@s/auth/auth"
 
 export class HttpError {
     code: number
@@ -39,13 +40,20 @@ async function authGuard(error: any) {
     const status = error.response?.status
     const message = error.response?.data?.message
 
-    if (
-        status === 401 && message === "Unauthenticated" ||
-        status === 403 && message === "Forbidden"
-    ) {
-        //TODO: подумать над разлогированием
-        //$itlStore.notify.error()
-        //await $itlStore.auth.logout()
+    if (status === 401 && message === "Unauthenticated") {
+        const authStore = useAuthStore()
+        await authStore.csrf()
+
+        const success = await authStore.getUserData()
+
+        if (!success) {
+            // Если даже с remember_me не залогинило — значит всё, сессия сдохла окончательно
+            await authStore.reset(true)
+        }
+    }
+
+    if (status === 403 && message === "Forbidden") {
+
     }
 }
 

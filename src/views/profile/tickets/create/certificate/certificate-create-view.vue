@@ -28,6 +28,7 @@ import {
     TicketCategorySlug
 } from "@v/profile/tickets/edit/definitions/ticket-category"
 import BSelect from "@c/common/b-select/b-select.vue"
+import { messageLength } from "@v/profile/tickets/list/definitions/tickets-list"
 
 
 const notify = useNotify()
@@ -214,6 +215,7 @@ async function onSave() {
                             :error="errors.message"
                             :disabled="isFirstLoading"
                             :placeholder="t('mc.ticket.certificate.placeholder.message')"
+                            :maxlength="messageLength"
                             name="message"
                             class="full-width"
                         />

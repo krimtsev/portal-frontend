@@ -3,7 +3,7 @@ import { computed } from "vue"
 import type { CentralOfficeUser } from "@v/portal/contacts/_britva/central-office/defenitions/central-office"
 import BTitle from "@c/common/b-title/b-title.vue"
 import PortalContent from "@c/portal/portal-content/portal-content.vue"
-import BTelnumLink from "@c/common/b-telnum-link/b-telnum-link.vue"
+import BTelnumLink from "@c/common/b-link/b-telnum-link.vue"
 import BImage from "@c/common/b-image/b-image.vue"
 
 const props = defineProps<{

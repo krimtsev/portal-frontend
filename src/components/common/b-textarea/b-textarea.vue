@@ -2,8 +2,16 @@
 import { computed } from "vue"
 import PrimeTextarea from "primevue/textarea"
 import BInputError from "@c/common/b-input-error/b-input-error.vue"
+import { useI18n } from "vue-i18n"
+import {
+    defaultMaxCols,
+    defaultMaxLength,
+    defaultMaxRows,
+} from "@c/common/b-textarea/definitions/textarea"
 
-const model = defineModel<string>()
+const { t } = useI18n()
+
+const model = defineModel<string>({ default: "" })
 
 const props = withDefaults(defineProps<{
     name?:        string,
@@ -13,12 +21,17 @@ const props = withDefaults(defineProps<{
     rows?:        number | string
     cols?:        number | string
     hint?:        string | string[]
+    hideCount?:   boolean
+    maxlength?:   string | number
+    label?:       string
 }>(), {
+    label:       "",
     placeholder: "",
     disabled:    false,
     error:       "",
-    rows:        5,
-    cols:        30,
+    rows:        defaultMaxRows,
+    cols:        defaultMaxCols,
+    maxlength:   defaultMaxLength,
 })
 
 const hint = computed(() => {
@@ -27,20 +40,38 @@ const hint = computed(() => {
     return [props.hint]
 })
 
+const count = computed(() => model.value.length || 0)
 </script>
 
 <template>
     <div class="b-textarea">
+        <div
+            v-if="props.label.length"
+            class="label"
+        >
+            {{ props.label }}
+        </div>
+
         <prime-textarea
             v-model="model"
             :name="name"
             :rows="props.rows"
             :cols="props.cols"
             :placeholder="props.placeholder"
+            :invalid="!!props.error"
             :disabled="props.disabled"
+            :maxlength="-1"
             style="resize: none"
             class="textarea"
         />
+
+        <div
+            v-if="!hideCount"
+            class="count"
+            :class="{ 'error': !!props.error }"
+        >
+            {{ t('mc.common.textArea.value', [count, maxlength]) }}
+        </div>
 
         <b-input-error :error="props.error" />
 
@@ -78,9 +109,29 @@ const hint = computed(() => {
         margin-top: calc($indent-x1 / 2);
     }
 
+    .label {
+        color: var(--p-surface-500);
+        padding-bottom: $indent-x1;
+    }
+
+    .count {
+        @include small-text;
+
+        padding-right: $indent-x1;
+        color: var(--p-surface-500);
+    }
+
+    .count + .hint {
+        padding-top: 0;
+    }
+
     .hint {
         padding-top: $indent-x1;
         color: var(--p-surface-500);
+    }
+
+    .error {
+        color: var(--p-message-error-simple-color);
     }
 }
 </style>

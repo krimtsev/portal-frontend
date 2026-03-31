@@ -45,6 +45,7 @@ import ChatFiles from "@c/chat/chat-files.vue"
 import { ProfileRouteName } from "@r/profile/route-names"
 import { useRouter } from "vue-router"
 import BSkeleton from "@c/common/b-skeleton/b-skeleton.vue"
+import {messageLength, messageLengthShort} from "@v/profile/tickets/list/definitions/tickets-list"
 
 const router = useRouter()
 
@@ -350,6 +351,7 @@ async function onRemove() {
                             :error="errors.message"
                             :disabled="isDisabled"
                             :placeholder="t('mc.ticket.general.placeholder.message')"
+                            :maxlength="messageLength"
                             name="message"
                             class="full-width"
                         />
