@@ -5,14 +5,22 @@ import PortalAccordionPanel from "@c/portal/portal-accordion/portal-accordion-pa
 import PortalAccordionContent from "@c/portal/portal-accordion/portal-accordion-content.vue"
 import FinesRightSection from "@v/portal/documents/_britva/components/fines-right-section/fines-right-section.vue"
 import { finesAuditData } from "@v/portal/documents/_britva/fines-audit/data/fines-audit-data"
+import type { FinesAuditContent } from "@v/portal/documents/_britva/fines-audit/definitions/fines-audit"
 import PrimeDataTable from "primevue/datatable"
 import PrimeColumn from "primevue/column"
 import { useI18n } from "vue-i18n"
 import PortalPage from "@c/portal/portal-page/portal-page.vue"
 import { buttonNavigation } from "@v/portal/documents/_britva/data/button-navigation"
 import PortalButtonNavigation from "@c/portal/portal-button-navigation/portal-button-navigation.vue"
+import BText from "@c/common/b-text/b-text.vue"
 
 const { n } = useI18n()
+
+const formatPrice = (item: FinesAuditContent) => {
+    const price = n(item.price, "currency")
+    const point = item.point ?? ""
+    return `${price} ${point}`.trim()
+}
 </script>
 
 <template>
@@ -46,12 +54,23 @@ const { n } = useI18n()
                             show-gridlines
                             class="table"
                         >
-                            <prime-column field="text" header="Причина" />
-                            <prime-column field="price" header="Штраф" class="price">
+                            <prime-column
+                                header="Причина"
+                                field="text"
+                                class="table-text"
+                            >
                                 <template #body="{ data }">
-                                    <div class="price">
-                                        {{ n(data.price, "currency") }} {{ data.point }}
-                                    </div>
+                                    <b-text :value="data?.text" />
+                                </template>
+                            </prime-column>
+
+                            <prime-column
+                                header="Штраф"
+                                field="price"
+                                class="table-price"
+                            >
+                                <template #body="{ data }">
+                                    <b-text :value="formatPrice(data)" />
                                 </template>
                             </prime-column>
                         </prime-data-table>
@@ -72,11 +91,11 @@ const { n } = useI18n()
             background: transparent;
 
         }
-    }
 
-    .table {
-        :deep(.price) {
-            @include col-width(150px)
+        .table {
+            &-price {
+                @include col-fixed(250px)
+            }
         }
     }
 }

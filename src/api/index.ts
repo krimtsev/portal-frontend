@@ -47,13 +47,12 @@ async function authGuard(error: any) {
         const success = await authStore.getUserData()
 
         if (!success) {
-            // Если даже с remember_me не залогинило — значит всё, сессия сдохла окончательно
             await authStore.reset(true)
         }
     }
 
     if (status === 403 && message === "Forbidden") {
-
+        //TODO: обработка запрещенных
     }
 }
 
@@ -188,6 +187,30 @@ class Http {
             const error = err as AxiosError<any>
             await authGuard(error)
             requestsHistory.push(url, HttpMethod.DELETE, error.response?.status, error.response?.data)
+            return new HttpError(
+                error.response?.status,
+                error.response?.data?.message,
+                error.response?.data?.errors
+            )
+        }
+    }
+
+    async getFile(
+        { fileName, url = "", onDownloadProgress,  params = {} }:
+        { fileName: string, url: string, onDownloadProgress?: (progressEvent: any) => void, params?: Record<string, unknown> },
+    ): Promise<Blob | HttpError> {
+        try {
+            if (!url.endsWith("/")) url += "/"
+            const response = await this.http.get(`${url}${fileName}`, {
+                responseType: "blob",
+                onDownloadProgress,
+                params,
+            })
+            requestsHistory.push(url, HttpMethod.GET, response.status, response.data)
+            return new Blob([response.data])
+        } catch (err: unknown) {
+            const error = err as AxiosError<any>
+            requestsHistory.push(url, HttpMethod.GET, error.response?.status, error.response?.data)
             return new HttpError(
                 error.response?.status,
                 error.response?.data?.message,

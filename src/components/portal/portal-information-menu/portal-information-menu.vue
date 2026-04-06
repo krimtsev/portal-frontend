@@ -1,10 +1,7 @@
 <script setup lang="ts">
 import PortalCard from "@c/portal/portal-card/portal-card.vue"
-import { useRouter } from "vue-router"
 import BLink from "@c/common/b-link/b-link.vue"
 import type { Section } from "@c/portal/portal-information-menu/definitions/portal-information-menu"
-
-const router = useRouter()
 
 const props = defineProps<{
     sections: Section[],
@@ -21,27 +18,24 @@ const props = defineProps<{
             <div class="col-12" v-for="(section, index) in props.sections" :key="index">
                 <div class="section-title">{{ section.title }}</div>
                 <div
-                    v-for="(item, idx) in section.items"
-                    :key="idx"
+                    v-for="(item, index) in section.items"
+                    :key="index"
                     class="section-item"
                 >
-                    <template v-if="item.path">
-                        <b-link
-                            v-if="item.path"
-                            :label="item.label"
-                            @click="router.push({ path: item.path })"
-                        />
-                        <span v-else>{{ item.label }}</span>
-                    </template>
-                    <template v-else-if="item.external">
-                        <b-link
-                            v-if="item.external"
-                            :label="item.label"
-                            :href="item.external"
-                            as-internal
-                        />
-                        <span v-else>{{ item.label }}</span>
-                    </template>
+                    <b-link
+                        v-if="item.path"
+                        :label="item.label"
+                        :href="item.path"
+                        as-internal
+                    />
+
+                    <b-link
+                        v-else-if="item.external"
+                        :label="item.label"
+                        :href="item.external"
+                    />
+
+                    <span v-else>{{ item.label }}</span>
                 </div>
             </div>
         </div>

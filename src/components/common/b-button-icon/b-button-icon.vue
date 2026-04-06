@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import PrimeButton from "primevue/button"
+import BSvg from "@c/common/b-svg/b-svg.vue"
 
 const emit = defineEmits<{
     (e: "click"): void
@@ -11,33 +12,45 @@ type ButtonSeverity = "secondary" | "success" | "info" | "warn" | "help" | "dang
 
 const props = withDefaults(defineProps<{
     icon?:      string,
+    iconSize?:  string,
     variant?:   ButtonVariant
     size?:      ButtonSize
     rounded?:   boolean
     severity?:  ButtonSeverity
     label?:     string
     isLoading?: boolean
+    disabled?:  boolean
 }>(), {
     icon:      "pi pi-circle",
     variant:   "text",
     rounded:   false,
     label:     "",
     isLoading: false,
+    disabled:  false,
 })
 </script>
 
 <template>
     <prime-button
         class="b-button-icon"
-        :icon="props.icon"
         :variant="props.variant"
         :size="props.size"
         :rounded="props.rounded"
         :severity="props.severity"
         :label="props.label"
         :loading="isLoading"
+        :disabled="disabled"
         @click="emit('click')"
-    />
+    >
+        <template #icon>
+            <b-svg
+                :name="props.icon"
+                :size="props.iconSize"
+                :disabled="props.disabled"
+                class="p-button-icon"
+            />
+        </template>
+    </prime-button>
 </template>
 
 <style scoped lang="scss">

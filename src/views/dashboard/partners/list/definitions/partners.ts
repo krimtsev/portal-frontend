@@ -19,3 +19,15 @@ export interface PartnerListItem {
     start_at:        string,
     disabled:        boolean,
 }
+
+export interface PartnersExportData {
+    id:              number,
+    organization:    string
+    name:            string
+    inn:             string
+    ogrnip:          string
+    contract_number: string
+    address:         string
+    disabled:        boolean
+    start_at:        string
+}

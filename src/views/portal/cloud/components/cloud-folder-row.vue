@@ -21,7 +21,10 @@ function onClick() {
             @click="onClick"
         >
             <div class="icon">
-                <b-svg name="folder-34" />
+                <b-svg
+                    name="folder-34"
+                    size="34px"
+                />
             </div>
 
             <div class="name">
@@ -44,6 +47,10 @@ function onClick() {
         min-height: 35px;
         cursor: pointer;
         width: auto;
+
+        .icon {
+            color: var(--p-surface-700);
+        }
 
         &:hover {
             :deep(.b-svg) {

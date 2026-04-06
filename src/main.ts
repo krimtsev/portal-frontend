@@ -5,6 +5,7 @@ import router from "./router"
 import i18n from "./plugins/i18n"
 import PrimeVue from "primevue/config"
 import PrimeRipple from "primevue/ripple"
+import PrimeTooltip from "primevue/tooltip"
 import PrimeToastService from "primevue/toastservice"
 import { themeConfig } from "./plugins/prime/prime-vue"
 import "@a/styles/index.scss"
@@ -21,4 +22,5 @@ createApp(App)
     .use(router)
     .directive("glow", GlowDirective)
     .directive("ripple", PrimeRipple)
+    .directive("tooltip", PrimeTooltip)
     .mount("#app")

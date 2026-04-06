@@ -23,6 +23,7 @@ import { normalizeData } from "@v/portal/contacts/franchisee/utils/franchisee"
 import BTelnumLink from "@c/common/b-link/b-telnum-link.vue"
 import BInputSearch from "@c/common/b-input-search/b-input-search.vue"
 import BSocialLinks from "@c/common/b-link/b-social-links.vue"
+import BTableText from "@c/common/b-table/b-table-text.vue";
 
 const notify = useNotify()
 const { t, n } = useI18n()
@@ -135,58 +136,72 @@ const firstPage = computed(() => {
                     <b-empty-result />
                 </template>
 
-                <prime-column field="filial" header="Филиал" class="filial">
-                    <template #body="slotProps">
+                <prime-column
+                    header="Филиал"
+                    field="filial"
+                    class="table-filial"
+                >
+                    <template #body="{ data }">
                         <b-skeleton
                             :is-loading="isLoading"
-                            width="200px"
+                            full-width
                         >
-                            <div> {{ slotProps.data.filial }} </div>
+                            <b-table-text :text="data?.filial" />
                         </b-skeleton>
                     </template>
                 </prime-column>
 
-                <prime-column field="names" header="Имя" class="names">
-                    <template #body="slotProps">
+                <prime-column
+                    header="Имя"
+                    field="names"
+                    class="table-names"
+                >
+                    <template #body="{ data }">
                         <b-skeleton
                             :is-loading="isLoading"
-                            width="150px"
+                            full-width
                         >
-                            <template v-if="slotProps.data.names.length">
-                                <div v-for="(name, index) in slotProps.data.names" :key="`${slotProps.data.id}_${index}`">
-                                    <div class="cell-value"> {{ name || "—" }} </div>
+                            <template v-if="data?.names.length">
+                                <div class="cell-value">
+                                    <b-table-text
+                                        v-for="(name, index) in data.names"
+                                        :text="name"
+                                        :key="index"
+                                    />
                                 </div>
                             </template>
+
                             <div v-else class="cell-value"> — </div>
                         </b-skeleton>
                     </template>
                 </prime-column>
 
-                <prime-column field="telnums" header="Контакт" class="telnums">
-                    <template #body="slotProps">
+                <prime-column
+                    header="Контакт"
+                    field="telnums"
+                    class="table-telnums"
+                >
+                    <template #body="{ data }">
                         <b-skeleton
                             :is-loading="isLoading"
-                            width="150px"
+                            full-width
                         >
-                            <template v-if="slotProps.data.telnums.length">
-                                <div
-                                    v-for="(telnum, index) in slotProps.data.telnums"
-                                    :key="`${slotProps.data.id}_${index}`"
-                                    class="cell-value"
-                                >
-                                    <b-social-links
-                                        :telegram="telnum"
-                                        class="mr-x1"
-                                    />
-                                    <b-telnum-link :value="telnum" />
+                            <template v-if="data?.telnums.length">
+                                <div class="cell-value">
+                                    <div
+                                        v-for="(telnum, index) in data.telnums"
+                                        :key="index"
+                                    >
+                                        <b-social-links
+                                            :telegram="telnum"
+                                            class="mr-x1"
+                                        />
+                                        <b-telnum-link :value="telnum" />
+                                    </div>
                                 </div>
                             </template>
-                            <div
-                                v-else
-                                class="cell-value"
-                            >
-                                —
-                            </div>
+
+                            <div v-else class="cell-value"> — </div>
                         </b-skeleton>
                     </template>
                 </prime-column>
@@ -204,14 +219,18 @@ const firstPage = computed(() => {
     :deep(.p-datatable) {
         @include table-outer-header;
 
-        .filial, .names, .telnums {
-            width: calc(100% / 3);
+        .table {
+            &-filial,
+            &-names,
+            &-telnums {
+                width: calc(100% / 3);
+            }
         }
 
         .cell-value {
-            min-height: $indent-x3;
             display: flex;
-            align-items: center;
+            flex-direction: column;
+            gap: $indent-x1;
         }
     }
 }

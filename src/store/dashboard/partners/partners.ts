@@ -13,9 +13,9 @@ export const usePartnersStore = defineStore("partners", () => {
 
     const initialFilter = ref(
         defaultPaginationFilter({
-            search:         "",
+            search: "",
             filters: {
-                disabled:   []
+                disabled: []
             },
         }),
     )

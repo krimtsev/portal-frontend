@@ -12,7 +12,6 @@ import { HttpError } from "@/api"
 import { useNotify } from "@/composables/notify/use-notify"
 import { useRouter } from "vue-router"
 import type { TicketListItem } from "@v/profile/tickets/list/definitions/tickets-list"
-import BText from "@c/common/b-text/b-text.vue"
 import { DashboardRouteName } from "@r/dashboard/route-names"
 import TicketStateBadge from "@v/profile/tickets/list/components/ticket-state-badge.vue"
 import { stateList } from "@v/profile/tickets/list/utils/ticket"
@@ -23,6 +22,10 @@ import BTextDate from "@c/common/b-text/b-text-date.vue"
 import { checkActiveState } from "@v/profile/tickets/edit/utils/ticket"
 import { useTicketsStore } from "@s/dashboard/tickets/tickets"
 import BMultiSelect from "@c/common/b-select/b-multi-select.vue"
+import BTableText from "@c/common/b-table/b-table-text.vue"
+import BExport from "@c/common/b-export/b-export.vue"
+import BInputSearch from "@c/common/b-input-search/b-input-search.vue"
+import { exportXLS } from "@v/dashboard/tickets/list/utils/tickets"
 
 
 const notify = useNotify()
@@ -34,6 +37,7 @@ const ticketStateList = stateList()
 const tickets = ref<TicketListItem[]>([])
 const categories = ref<TicketCategoriesItem[]>([])
 const partners = ref<PartnerOptionItem[]>([])
+const isExporting = ref(false)
 
 const paginationInfo = computed(() => {
     return t("mc.pagination.table",
@@ -116,7 +120,7 @@ function onChangeFilter() {
     refreshTickets()
 }
 
-const onClick = (id: number, event: MouseEvent) => {
+function onClick(id: number, event: MouseEvent) {
     if (event.ctrlKey || event.metaKey) {
         const route = router.resolve({
             name:   DashboardRouteName.DashboardTicket,
@@ -128,6 +132,23 @@ const onClick = (id: number, event: MouseEvent) => {
     }
 
     router.push({ name: DashboardRouteName.DashboardTicket, params: { id } })
+}
+
+async function onExportXLS() {
+    isExporting.value = true
+
+    try {
+        const ticketsData = await ticketsAPI.exportData()
+
+        if (ticketsData instanceof HttpError) {
+            notify.error()
+            return
+        }
+
+        await exportXLS(ticketsData)
+    } finally {
+        isExporting.value = false
+    }
 }
 </script>
 
@@ -146,7 +167,7 @@ const onClick = (id: number, event: MouseEvent) => {
                     filter
                     show-clear
                     placeholder="Выберите отдел"
-                    class="categories"
+                    class="filter-categories"
                     @hide="onChangeFilter"
                     @clear="onChangeFilter"
                 />
@@ -164,7 +185,7 @@ const onClick = (id: number, event: MouseEvent) => {
                     filter
                     show-clear
                     placeholder="Выберите филиал"
-                    class="partner"
+                    class="filter-partner"
                     @hide="onChangeFilter"
                     @clear="onChangeFilter"
                 />
@@ -182,11 +203,32 @@ const onClick = (id: number, event: MouseEvent) => {
                     filter
                     show-clear
                     placeholder="Выберите статус"
-                    class="state"
+                    class="filter-state"
                     @hide="onChangeFilter"
                     @clear="onChangeFilter"
                 />
             </b-toolbar-item>
+
+            <template #right-side>
+                <b-toolbar-item>
+                    <b-export
+                        :types="{ xls: true }"
+                        :disabled="{ xls: ticketsStore.isLoading || isExporting }"
+                        :loading="{ xls: isExporting }"
+                        @export-xls="onExportXLS"
+                    />
+                </b-toolbar-item>
+
+                <b-toolbar-item>
+                    <b-input-search
+                        v-model="ticketsStore.filter.search"
+                        :disabled="ticketsStore.isLoading"
+                        placeholder="Найти заявку"
+                        class="search"
+                        @change="onChangeFilter"
+                    />
+                </b-toolbar-item>
+            </template>
         </b-toolbar>
 
         <div class="table-wrapper">
@@ -218,74 +260,78 @@ const onClick = (id: number, event: MouseEvent) => {
                     field="id"
                     header="#"
                     class="table-id"
-                />
+                >
+                    <template #body="{ data }">
+                        <b-table-text :text="data?.id"/>
+                    </template>
+                </prime-column>
 
                 <prime-column
-                    field="title"
                     header="Тема запроса"
-                    class="table-subject"
+                    field="title"
+                    class="table-title link-text"
                 >
-                    <template #body="slotProps">
-                        <b-text
-                            :value="slotProps.data?.title"
-                            class="link-text"
-                            @click="(e: MouseEvent) => onClick(slotProps.data.id, e)"
+                    <template #body="{ data }">
+                        <b-table-text
+                            :text="data?.title"
+                            @click="(e: MouseEvent) => onClick(data?.id, e)"
                         />
                     </template>
                 </prime-column>
 
                 <prime-column
-                    field="category"
                     header="Отдел"
+                    field="category"
                     class="table-category"
                 >
-                    <template #body="slotProps">
-                        <b-text :value="slotProps.data?.category?.title" />
+                    <template #body="{ data }">
+                        <b-table-text :text="data?.category?.title" />
                     </template>
                 </prime-column>
 
                 <prime-column
-                    field="partner"
                     header="Филиал"
+                    field="partner"
                     class="table-partner"
                 >
-                    <template #body="slotProps">
-                        <b-text :value="slotProps.data?.partner?.name" />
+                    <template #body="{ data }">
+                        <b-table-text :text="data?.partner.name" />
                     </template>
                 </prime-column>
 
                 <prime-column
-                    field="state"
                     header="Статус"
+                    field="state"
                     class="table-state"
                 >
-                    <template #body="slotProps">
-                        <ticket-state-badge :value="slotProps.data.state" />
+                    <template #body="{ data }">
+                        <ticket-state-badge :value="data?.state" />
                     </template>
                 </prime-column>
 
                 <prime-column
-                    field="last_message_at"
                     header="Активность"
-                    class="table-message-date"
+                    field="last_message_at"
+                    class="table-last-message-at"
                 >
-                    <template #body="slotProps">
+                    <template #body="{ data }">
                         <b-text-date
-                            v-if="checkActiveState(slotProps.data.state)"
-                            :value="slotProps.data.last_message_at"
+                            :value="checkActiveState(data?.state)
+                                ? data?.last_message_at
+                                : ''
+                            "
                             diff
                         />
-                        <div v-else> — </div>
                     </template>
                 </prime-column>
 
                 <prime-column
-                    field="created_at"
                     header="Дата создания"
-                    class="table-create-date"
+                    field="created_at"
+                    class="table-created-at"
                 >
-                    <template #body="slotProps">
-                        <b-text :value="slotProps.data.created_at" />
+                    <template #body="{ data }">
+                        <b-table-text :text="data?.created_at" />
                     </template>
                 </prime-column>
             </prime-data-table>
@@ -299,18 +345,33 @@ const onClick = (id: number, event: MouseEvent) => {
 
     padding-top: $indent-x2;
 
-    :deep(.p-datatable) {
-        @include table;
-    }
-
-    .categories,
-    .partner,
-    .state {
-        @include col-width(250px);
-    }
-
     .table-wrapper {
         margin-top: $indent-x2;
+    }
+
+    :deep(.p-datatable) {
+        @include table;
+
+        .table {
+            &-id {
+                @include col-fixed(80px);
+            }
+            &-title {
+                @include col-fixed(300px);
+            }
+        }
+    }
+
+    .filter {
+        &-categories,
+        &-partner,
+        &-state {
+            @include col-width(250px);
+        }
+    }
+
+    .search {
+        @include col-width(210px);
     }
 }
 </style>

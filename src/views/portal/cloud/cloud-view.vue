@@ -181,15 +181,29 @@ const isEmptyResult = computed(() => {
                     <p class="title">Папки</p>
 
                     <template v-if="isLoading">
-                        <cloud-folder-row-skeleton v-for="i in 3" :key="i" />
+                        <div class="grid grid-reset-rows gap-x-2 gap-y-3">
+                            <div
+                                v-for="i in 6"
+                                :key="i"
+                                class="col-4 mobile-col-12"
+                            >
+                                <cloud-folder-row-skeleton />
+                            </div>
+                        </div>
                     </template>
 
                     <template v-else-if="folders.length">
-                        <cloud-folder-row
-                            v-for="folder in folders"
-                            :key="folder.id"
-                            :item="folder"
-                        />
+                        <div class="grid grid-reset-rows gap-x-2 gap-y-3">
+                            <div
+                                v-for="folder in folders"
+                                :key="folder.id"
+                                class="col-4 mobile-col-12"
+                            >
+                                <cloud-folder-row
+                                    :item="folder"
+                                />
+                            </div>
+                        </div>
                     </template>
                 </div>
 
@@ -200,15 +214,29 @@ const isEmptyResult = computed(() => {
                     <p class="title">Файлы</p>
 
                     <template v-if="isLoading">
-                        <cloud-file-row-skeleton v-for="i in 4" :key="i" />
+                        <div class="grid grid-reset-rows gap-x-2 gap-y-3">
+                            <div
+                                v-for="i in 9"
+                                :key="i"
+                                class="col-4 mobile-col-12"
+                            >
+                                <cloud-file-row-skeleton />
+                            </div>
+                        </div>
                     </template>
 
                     <template v-else-if="files.length">
-                        <cloud-file-row
-                            v-for="file in files"
-                            :key="file.id"
-                            :item="file"
-                        />
+                        <div class="grid grid-reset-rows gap-x-2 gap-y-3">
+                            <div
+                                v-for="file in files"
+                                :key="file.id"
+                                class="col-4 mobile-col-12"
+                            >
+                                <cloud-file-row
+                                    :item="file"
+                                />
+                            </div>
+                        </div>
                     </template>
                 </div>
             </template>

@@ -9,7 +9,6 @@ import * as partnerGroupsAPI from "@/api/modules/dashboard/partners/partner-grou
 import { HttpError } from "@/api"
 import { useNotify } from "@/composables/notify/use-notify"
 import { useRouter } from "vue-router"
-import BText from "@c/common/b-text/b-text.vue"
 import { DashboardRouteName } from "@r/dashboard/route-names"
 import BEmptyResult from "@c/common/b-empty/b-empty-result.vue"
 import ListLoadingState from "@c/common/b-loading-state/list-loading-state.vue"
@@ -18,6 +17,7 @@ import BButtonSecondary from "@c/common/b-button/b-button-secondary.vue"
 import { usePartnerGroupsStore } from "@s/dashboard/partners/partner-groups"
 import type { PartnerGroupsListItem } from "@v/dashboard/partner-groups/list/definitions/partner-groups"
 import { useOpenRoute } from "@/composables/route/use-open-route"
+import BTableText from "@c/common/b-table/b-table-text.vue"
 
 
 const notify = useNotify()
@@ -168,26 +168,25 @@ function goToNew() {
                 </template>
 
                 <prime-column
-                    field="title"
                     header="Название группы"
-                    class="table-title"
+                    field="title"
+                    class="table-title link-text"
                 >
-                    <template #body="slotProps">
-                        <b-text
-                            :value="slotProps.data?.title"
-                            class="link-text"
-                            @click="(e: MouseEvent) => onClick(slotProps.data.id, e)"
+                    <template #body="{ data }">
+                        <b-table-text
+                            :text="data?.title"
+                            @click="(e: MouseEvent) => onClick(data?.id, e)"
                         />
                     </template>
                 </prime-column>
 
                 <prime-column
-                    field="total"
                     header="В группе"
+                    field="total"
                     class="table-total"
                 >
-                    <template #body="slotProps">
-                        <b-text :value="slotProps.data?.total" />
+                    <template #body="{ data }">
+                        <b-table-text :text="data?.total" />
                     </template>
                 </prime-column>
             </prime-data-table>
@@ -201,16 +200,16 @@ function goToNew() {
 
     padding-top: $indent-x2;
 
+    .table-wrapper {
+        margin-top: $indent-x2;
+    }
+
     :deep(.p-datatable) {
         @include table;
 
         .table-title {
-            @include col-width(350px);
+            @include col-fixed(350px);
         }
-    }
-
-    .table-wrapper {
-        margin-top: $indent-x2;
     }
 }
 </style>

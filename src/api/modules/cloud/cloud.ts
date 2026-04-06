@@ -11,7 +11,8 @@ export async function getData(params: CloudParams) {
 }
 
 export async function download(folderId: number, name: string) {
-    return await http.get<Blob>(`cloud/folder/${folderId}/download/${name}`, {
-        responseType: "blob",
+    return await http.getFile({
+        fileName: name,
+        url: `cloud/folder/${folderId}/download`
     })
 }

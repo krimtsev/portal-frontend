@@ -1,3 +1,5 @@
+import type { Roles } from "@/shared/roles/roles"
+
 interface UserPartner {
     id:   number
     name: string
@@ -12,7 +14,12 @@ export interface UsersListItem {
     last_activity: string
 }
 
-export enum UserState {
-    Active = 0,
-    Disabled = 1
+export interface UsersExportData {
+    id:            number
+    name:          string
+    login:         string
+    role:          Roles
+    partner:       string
+    disabled:      boolean
+    last_activity: string
 }

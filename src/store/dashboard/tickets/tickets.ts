@@ -13,10 +13,11 @@ export const useTicketsStore = defineStore("tickets", () => {
 
     const initialFilter = ref(
         defaultPaginationFilter({
+            search: "",
             filters: {
                 category_id: [],
-                partner_id: [],
-                state: [],
+                partner_id:  [],
+                state:       [],
             },
         }),
     )

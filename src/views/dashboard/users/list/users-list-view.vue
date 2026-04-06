@@ -5,7 +5,6 @@ import BToolbarItem from "@c/common/b-toolbar/b-toolbar-item.vue"
 import BInputSearch from "@c/common/b-input-search/b-input-search.vue"
 import BEmptyResult from "@c/common/b-empty/b-empty-result.vue"
 import BTextDate from "@c/common/b-text/b-text-date.vue"
-import BText from "@c/common/b-text/b-text.vue"
 import BMultiSelect from "@c/common/b-select/b-multi-select.vue"
 import BButtonSecondary from "@c/common/b-button/b-button-secondary.vue"
 import ListLoadingState from "@c/common/b-loading-state/list-loading-state.vue"
@@ -22,9 +21,14 @@ import { HttpError } from "@/api"
 import { DashboardRouteName } from "@r/dashboard/route-names"
 import type { PartnerOptionItem } from "@v/dashboard/partners/list/definitions/partners"
 import * as partnersAPI from "@/api/modules/dashboard/partners/partners"
-import { rolesList, stateList } from "@v/dashboard/users/list/utils/users"
+import {
+    exportXLS,
+    rolesList,
+    stateList
+} from "@v/dashboard/users/list/utils/users"
 import { useOpenRoute } from "@/composables/route/use-open-route"
-
+import BTableText from "@c/common/b-table/b-table-text.vue"
+import BExport from "@c/common/b-export/b-export.vue"
 
 const notify = useNotify()
 const { t, n } = useI18n()
@@ -34,6 +38,7 @@ const usersStore = useUsersStore()
 
 const users = ref<UsersListItem[]>([])
 const partners = ref<PartnerOptionItem[]>([])
+const isExporting = ref(false)
 
 const paginationInfo = computed(() => {
     return t("mc.pagination.table",
@@ -112,7 +117,7 @@ function onChangeFilter() {
     refreshTickets()
 }
 
-const onClick = (id: string, event: MouseEvent) => {
+function onClick (id: string, event: MouseEvent) {
     openRoute(
         {
             name: DashboardRouteName.DashboardUser,
@@ -127,6 +132,23 @@ function goToNew() {
         name: DashboardRouteName.DashboardUser,
         params: { id: "!new" }
     })
+}
+
+async function onExportXLS() {
+    isExporting.value = true
+
+    try {
+        const usersData = await usersAPI.exportData()
+
+        if (usersData instanceof HttpError) {
+            notify.error()
+            return
+        }
+
+        await exportXLS(usersData)
+    } finally {
+        isExporting.value = false
+    }
 }
 </script>
 
@@ -147,7 +169,7 @@ function goToNew() {
                     filter
                     show-clear
                     placeholder="Выберите филиал"
-                    class="partner"
+                    class="filter-partner"
                     @hide="onChangeFilter"
                     @clear="onChangeFilter"
                 />
@@ -164,7 +186,7 @@ function goToNew() {
                     filter
                     show-clear
                     placeholder="Выберите роль"
-                    class="role"
+                    class="filter-role"
                     @hide="onChangeFilter"
                     @clear="onChangeFilter"
                 />
@@ -181,7 +203,7 @@ function goToNew() {
                     filter
                     show-clear
                     placeholder="Выберите статус"
-                    class="state"
+                    class="filter-state"
                     @hide="onChangeFilter"
                     @clear="onChangeFilter"
                 />
@@ -197,6 +219,15 @@ function goToNew() {
             </template>
 
             <template #right-side>
+                <b-toolbar-item>
+                    <b-export
+                        :types="{ xls: true }"
+                        :disabled="{ xls: usersStore.isLoading || isExporting }"
+                        :loading="{ xls: isExporting }"
+                        @export-xls="onExportXLS"
+                    />
+                </b-toolbar-item>
+
                 <b-toolbar-item>
                     <b-input-search
                         v-model="usersStore.filter.search"
@@ -235,26 +266,25 @@ function goToNew() {
                 </template>
 
                 <prime-column
-                    field="login"
                     header="Логин"
-                    class="table-login"
+                    field="login"
+                    class="table-login link-text"
                 >
-                    <template #body="slotProps">
-                        <b-text
-                            :value="slotProps.data.login"
-                            class="link-text"
-                            @click="(e: MouseEvent) => onClick(slotProps.data.id, e)"
+                    <template #body="{ data }">
+                        <b-table-text
+                            :text="data?.login"
+                            @click="(e: MouseEvent) => onClick(data?.id, e)"
                         />
                     </template>
                 </prime-column>
 
                 <prime-column
-                    field="partner"
                     header="Филиал"
+                    field="partner"
                     class="table-partner"
                 >
-                    <template #body="slotProps">
-                        <b-text :value="slotProps.data?.partner?.name" />
+                    <template #body="{ data }">
+                        <b-table-text :text="data?.partner?.name" />
                     </template>
                 </prime-column>
 
@@ -263,8 +293,8 @@ function goToNew() {
                     header="Роль"
                     class="table-role"
                 >
-                    <template #body="slotProps">
-                        <b-text :value="t(`mc.roles.${slotProps.data.role}`)" />
+                    <template #body="{ data }">
+                        <b-table-text :text="t(`mc.roles.${data?.role}`)" />
                     </template>
                 </prime-column>
 
@@ -273,8 +303,8 @@ function goToNew() {
                     header="Статус"
                     class="table-disabled"
                 >
-                    <template #body="slotProps">
-                        <user-state-tag :active="!slotProps.data.disabled" />
+                    <template #body="{ data }">
+                        <user-state-tag :active="!data?.disabled" />
                     </template>
                 </prime-column>
 
@@ -283,8 +313,8 @@ function goToNew() {
                     header="Активность"
                     class="table-last-activity"
                 >
-                    <template #body="slotProps">
-                        <b-text-date :value="slotProps.data.last_activity" />
+                    <template #body="{ data }">
+                        <b-text-date :value="data?.last_activity" />
                     </template>
                 </prime-column>
             </prime-data-table>
@@ -298,22 +328,30 @@ function goToNew() {
 
     padding-top: $indent-x2;
 
-    :deep(.p-datatable) {
-        @include table;
+    .table-wrapper {
+        margin-top: $indent-x2;
     }
 
-    .partner,
-    .role,
-    .state {
-        @include col-width(250px);
+    :deep(.p-datatable) {
+        @include table;
+
+        .table {
+            &-login {
+                @include col-fixed(200px);
+            }
+        }
+    }
+
+    .filter {
+        &-partner,
+        &-role,
+        &-state {
+            @include col-width(250px);
+        }
     }
 
     .search {
         @include col-width(210px);
-    }
-
-    .table-wrapper {
-        margin-top: $indent-x2;
     }
 }
 </style>

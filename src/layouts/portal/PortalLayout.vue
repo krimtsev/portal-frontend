@@ -69,7 +69,6 @@ const avatarLabel = computed(() => {
 
                             <b-link
                                 label="Профиль"
-                                as-internal
                                 @click="goToProfile"
                             />
                         </div>
@@ -79,7 +78,6 @@ const avatarLabel = computed(() => {
                         >
                             <b-link
                                 label="Панель"
-                                as-internal
                                 @click="goToDashboard"
                             />
                         </div>

@@ -144,7 +144,6 @@ const toggleMenu = (event: PointerEvent) => {
                         :key="item.label"
                         :label="item.label"
                         class="topbar-menu-item"
-                        as-internal
                         @click="item.command"
                     />
                 </div>
@@ -193,24 +192,6 @@ const toggleMenu = (event: PointerEvent) => {
     }
 }
 
-/* ===== DESKTOP ===== */
-@media (min-width: 992px) {
-    .layout-wrapper {
-        margin-left: 19rem;
-        transition: margin-left .3s cubic-bezier(0,0,.2,1);
-    }
-
-    .layout-desktop-inactive {
-        .layout-wrapper {
-            margin-left: 0;
-        }
-
-        .dashboard-sidebar {
-            transform: translateX(-100%);
-        }
-    }
-}
-
 /* ===== MOBILE ===== */
 @media (max-width: 991px) {
     .layout-wrapper {
@@ -228,6 +209,24 @@ const toggleMenu = (event: PointerEvent) => {
             transform: translateX(0);
             box-shadow: 2px 0 10px rgba(0,0,0,.3);
             background: var(--p-surface-900);
+        }
+    }
+}
+
+/* ===== DESKTOP ===== */
+@media (min-width: 991px) {
+    .layout-wrapper {
+        margin-left: 19rem;
+        transition: margin-left .3s cubic-bezier(0,0,.2,1);
+    }
+
+    .layout-desktop-inactive {
+        .layout-wrapper {
+            margin-left: 0;
+        }
+
+        .dashboard-sidebar {
+            transform: translateX(-100%);
         }
     }
 }

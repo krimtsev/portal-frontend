@@ -306,8 +306,8 @@ const onSave = handleSubmit(async (formValues) => {
                     class="chat"
                 >
                     <div
-                        v-for="(item, idx) in ticketDetails.timeline"
-                        :key="idx"
+                        v-for="item in ticketDetails.timeline"
+                        :key="item.id"
                     >
                         <template v-if="item.type === TicketMessageType.Message && (item.text || item.files.length)">
                             <chat-message

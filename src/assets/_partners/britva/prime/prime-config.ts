@@ -131,6 +131,25 @@ export default {
                 fontSize: "1.3rem",
             }
         },
+        tooltip: {
+            root: {
+                maxWidth: "20rem",
+            },
+            colorScheme: {
+                light: {
+                    root: {
+                        background: "{surface.700}",
+                        color: "{surface.0}"
+                    }
+                },
+                dark: {
+                    root: {
+                        background: "rgb(51 51 51)",
+                        color: "{surface.0}"
+                    }
+                },
+            }
+        },
         dialog: {
             title: {
                 fontSize: "1.2857rem"

@@ -13,6 +13,7 @@ import BInputSearch from "@c/common/b-input-search/b-input-search.vue"
 import { useI18n } from "vue-i18n"
 import PortalUserCard from "@c/portal/portal-user-card/portal-user-card.vue"
 import { useNotify } from "@/composables/notify/use-notify"
+import BTableText from "@c/common/b-table/b-table-text.vue"
 
 const notify = useNotify()
 const { t, n } = useI18n()
@@ -98,6 +99,7 @@ const firstPage = computed(() => {
 
             <b-input-search
                 :value="paginationFilter.search"
+                :disabled="isLoading"
                 placeholder="Поиск по номеру и филиалу"
                 name="search"
                 class="mb-x4 search"
@@ -126,33 +128,48 @@ const firstPage = computed(() => {
                     <b-empty-result />
                 </template>
 
-                <prime-column field="price" header="Номинал" class="price">
-                    <template #body="slotProps">
-                        <span v-if="!isLoading">{{ slotProps.data.price }}</span>
+                <prime-column
+                    header="Номинал"
+                    field="price"
+                    class="table-price"
+                >
+                    <template #body="{ data }">
                         <b-skeleton
-                            v-else
-                            width="25%"
-                        />
+                            :is-loading="isLoading"
+                            full-width
+                        >
+                            <b-table-text :text="data?.price" />
+                        </b-skeleton>
                     </template>
                 </prime-column>
 
-                <prime-column field="identifier" header="Номер" class="identifier">
-                    <template #body="slotProps">
-                        <span v-if="!isLoading">{{ slotProps.data.identifier }}</span>
+                <prime-column
+                    header="Номер"
+                    field="identifier"
+                    class="table-identifier"
+                >
+                    <template #body="{ data }">
                         <b-skeleton
-                            v-else
-                            width="33%"
-                        />
+                            :is-loading="isLoading"
+                            full-width
+                        >
+                            <b-table-text :text="data?.identifier" />
+                        </b-skeleton>
                     </template>
                 </prime-column>
 
-                <prime-column field="partner" header="Филиал" class="partner">
-                    <template #body="slotProps">
-                        <span v-if="!isLoading">{{ slotProps.data.partner }}</span>
+                <prime-column
+                    header="Филиал"
+                    field="partner"
+                    class="table-partner"
+                >
+                    <template #body="{ data }">
                         <b-skeleton
-                            v-else
-                            width="47%"
-                        />
+                            :is-loading="isLoading"
+                            full-width
+                        >
+                            <b-table-text :text="data?.partner" />
+                        </b-skeleton>
                     </template>
                 </prime-column>
             </prime-data-table>
@@ -195,17 +212,15 @@ const firstPage = computed(() => {
         max-width: 550px;
     }
 
-    //@media (min-width: $layout-mobile-width) {
-    //    .table {
-    //        max-width: 850px;
-    //    }
-    //}
-
     :deep(.p-datatable) {
         @include table-outer-header;
 
-        .price, .identifier, .partner {
-            width: calc(100% / 3);
+        .table {
+            &-price,
+            &-identifier,
+            &-partner {
+                width: calc(100% / 3);
+            }
         }
     }
 

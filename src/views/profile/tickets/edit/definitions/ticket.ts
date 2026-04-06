@@ -95,3 +95,6 @@ export interface TicketResponse {
     data: TicketDetails
 }
 
+export interface TicketExportData {
+
+}

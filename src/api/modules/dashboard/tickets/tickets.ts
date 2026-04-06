@@ -3,7 +3,8 @@ import type { TicketCategoriesResponse } from "@v/profile/tickets/edit/definitio
 import type { Pagination, PaginationFilter } from "@/shared/pagination/pagination"
 import type { TicketListItem } from "@v/profile/tickets/list/definitions/tickets-list"
 import type { TicketResponse } from "@v/profile/tickets/edit/definitions/ticket"
-import type { TicketStateData } from "@v/dashboard/tickets/edit/definitions/ticket.ts"
+import type { TicketStateData } from "@v/dashboard/tickets/edit/definitions/ticket"
+import type { TicketsExportData } from "@v/dashboard/tickets/list/definitions/tickets"
 
 export async function categories() {
     return await http.get<TicketCategoriesResponse>("dashboard/ticket-categories/list")
@@ -26,7 +27,12 @@ export async function update(id: string|number, params: TicketStateData) {
 }
 
 export async function download(id: string|number, name: string) {
-    return await http.get<Blob>(`dashboard/tickets/ticket/${id}/download/${name}`, {
-        responseType: "blob",
+    return await http.getFile({
+        fileName: name,
+        url: `dashboard/tickets/ticket/${id}/download`
     })
+}
+
+export async function exportData() {
+    return await http.get<TicketsExportData[]>("dashboard/tickets/export")
 }

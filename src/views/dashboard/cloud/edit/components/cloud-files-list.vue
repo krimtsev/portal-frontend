@@ -99,21 +99,21 @@ defineExpose({ scrollToBottom })
                 header="Название"
                 class="table-title"
             >
-                <template #body="slotProps">
+                <template #body="{ data }">
                     <div class="d-flex align-items-center gap-1">
                         <prime-tag
-                            v-if="slotProps.data.isNew"
+                            v-if="data?.isNew"
                             value="Новый"
                             severity="info"
                         />
-                        <b-text :value="slotProps.data.title" />
+                        <b-text :value="data?.title" />
                     </div>
                 </template>
             </prime-column>
 
             <prime-column
-                field="ext"
                 header="Тип"
+                field="ext"
                 class="table-ext"
             >
                 <template #body="slotProps">
@@ -125,8 +125,8 @@ defineExpose({ scrollToBottom })
             </prime-column>
 
             <prime-column
-                field="downloads"
                 header="Скачано"
+                field="downloads"
                 class="table-downloads"
             />
 

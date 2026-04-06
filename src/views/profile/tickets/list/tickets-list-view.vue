@@ -9,7 +9,6 @@ import { useNotify } from "@/composables/notify/use-notify"
 import { useI18n } from "vue-i18n"
 import BEmptyResult from "@c/common/b-empty/b-empty-result.vue"
 import PrimeColumn from "primevue/column"
-import BText from "@c/common/b-text/b-text.vue"
 import type { TicketListItem } from "@v/profile/tickets/list/definitions/tickets-list"
 import { useRouter } from "vue-router"
 import { ProfileRouteName } from "@r/profile/route-names"
@@ -20,6 +19,7 @@ import { cloneDeep, isEqual } from "lodash"
 import { TicketState, TicketType } from "@v/profile/tickets/edit/definitions/ticket"
 import TicketStateBadge from "@v/profile/tickets/list/components/ticket-state-badge.vue"
 import BSkeleton from "@c/common/b-skeleton/b-skeleton.vue"
+import BTableText from "@c/common/b-table/b-table-text.vue"
 
 
 const notify = useNotify()
@@ -164,11 +164,10 @@ const goTo = (id: string) => router.push({ name: ProfileRouteName.ProfileTicket,
                     :options="categories"
                     filter
                     :disabled="isDisabled"
-                    :loading="isFirstLoading"
                     :max-selected-labels="1"
                     option-label="title"
                     option-value="id"
-                    class="category"
+                    class="filter-category"
                     selectedItemsLabel="{0} выбрано"
                     append-to="self"
                     input-id="category"
@@ -202,81 +201,80 @@ const goTo = (id: string) => router.push({ name: ProfileRouteName.ProfileTicket,
                 </template>
 
                 <prime-column
-                    field="id"
-                    class="id"
                     header="#"
+                    field="id"
+                    class="table-id"
                 >
-                    <template #body="slotProps">
+                    <template #body="{ data }">
                         <b-skeleton
                             :is-loading="isLoading"
-                            width="40px"
+                            full-width
                         >
-                            <b-text :value="slotProps.data.id" />
+                            <b-table-text :text="data?.id" />
                         </b-skeleton>
                     </template>
                 </prime-column>
 
                 <prime-column
-                    field="title"
-                    class="subject"
                     header="Тема запроса"
+                    field="title"
+                    class="table-title link-text"
                 >
-                    <template #body="slotProps">
+                    <template #body="{ data }">
                         <b-skeleton
                             :is-loading="isLoading"
-                            width="180px"
+                            full-width
                         >
-                            <b-text
-                                :value="slotProps.data.title"
-                                class="link-text"
-                                @click="goTo(slotProps.data.id)"
+                            <b-table-text
+                                :text="data?.title"
+                                @click="goTo(data?.id)"
                             />
                         </b-skeleton>
                     </template>
                 </prime-column>
 
                 <prime-column
-                    field="category"
-                    class="category"
                     header="Отдел"
+                    field="category"
+                    class="table-category"
                 >
-                    <template #body="slotProps">
+                    <template #body="{ data }">
                         <b-skeleton
                             :is-loading="isLoading"
-                            width="120px"
+                            full-width
                         >
-                            <b-text :value="slotProps.data?.category?.title" />
+                            <b-table-text :text="data?.category?.title" />
                         </b-skeleton>
                     </template>
                 </prime-column>
 
                 <prime-column
-                    field="partner"
-                    class="partner"
                     header="Филиал"
+                    field="partner"
+                    class="table-partner"
                 >
-                    <template #body="slotProps">
+                    <template #body="{ data }">
                         <b-skeleton
                             :is-loading="isLoading"
-                            width="100px"
+                            full-width
                         >
-                            <b-text :value="slotProps.data?.partner?.name" />
+                            <b-table-text :text="data?.partner?.name" />
                         </b-skeleton>
                     </template>
                 </prime-column>
 
                 <prime-column
-                    field="state"
-                    class="state"
                     header="Статус"
+                    field="state"
+                    class="table-state"
                 >
-                    <template #body="slotProps">
+                    <template #body="{ data }">
                         <b-skeleton
                             :is-loading="isLoading"
-                            width="100px"
+                            full-width
                         >
                             <ticket-state-badge
-                                :value="slotProps.data.state"
+                                :value="data?.state"
                                 rounded
                             />
                         </b-skeleton>
@@ -284,16 +282,16 @@ const goTo = (id: string) => router.push({ name: ProfileRouteName.ProfileTicket,
                 </prime-column>
 
                 <prime-column
-                    field="created_at"
                     header="Дата создания"
+                    field="created_at"
                     class="table-create-date"
                 >
-                    <template #body="slotProps">
+                    <template #body="{ data }">
                         <b-skeleton
                             :is-loading="isLoading"
-                            width="120px"
+                            full-width
                         >
-                            <b-text :value="slotProps.data.created_at" />
+                            <b-table-text :text="data?.created_at" />
                         </b-skeleton>
                     </template>
                 </prime-column>
@@ -307,7 +305,7 @@ const goTo = (id: string) => router.push({ name: ProfileRouteName.ProfileTicket,
     .filter {
         margin-bottom: $indent-x2;
 
-        .category {
+        &-category {
             @include col-width(250px);
         }
     }
@@ -316,21 +314,23 @@ const goTo = (id: string) => router.push({ name: ProfileRouteName.ProfileTicket,
         @include table-outer-header;
         @include table;
 
-        .id {
-            @include col-width(60px);
-        }
+        .table {
+            &-id {
+                @include col-fixed(80px);
+            }
 
-        .state {
-            @include col-width(130px);
-        }
+            &-state {
+                @include col-fixed(130px);
+            }
 
-        .subject {
-            min-width: 250px;
-        }
+            &-title {
+                @include col-fixed(300px);
+            }
 
-        .partner,
-        .category {
-            @include col-width(250px);
+            &-partner,
+            &-category {
+                @include col-fixed(250px);
+            }
         }
     }
 

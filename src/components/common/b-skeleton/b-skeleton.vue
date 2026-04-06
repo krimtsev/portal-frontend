@@ -7,6 +7,7 @@ interface ISkeletonProps extends SkeletonProps {
     variant?: Variants
     invert?: boolean
     isLoading?: boolean
+    fullWidth?: boolean
 }
 
 const props = withDefaults(defineProps<ISkeletonProps>(), {
@@ -15,16 +16,18 @@ const props = withDefaults(defineProps<ISkeletonProps>(), {
     width: "20rem",
     invert: false,
     isLoading: true,
+    fullWidth: false,
 })
 
 const variantClass = computed(() => props.variant ? `variant-${props.variant}` : "")
+const width = computed(() => props.fullWidth ? "100%" : props.width)
 </script>
 
 <template>
     <prime-skeleton
         v-if="props.isLoading"
         v-bind="props"
-        :width="props.width"
+        :width="width"
         class="b-skeleton"
         :class="[
             variantClass,

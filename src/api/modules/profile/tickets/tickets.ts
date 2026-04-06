@@ -44,8 +44,9 @@ export async function remove(id: string|number) {
 }
 
 export async function download(id: string|number, name: string) {
-    return await http.get<Blob>(`profile/tickets/ticket/${id}/download/${name}`, {
-        responseType: "blob",
+    return await http.getFile({
+        fileName: name,
+        url: `profile/tickets/ticket/${id}/download`
     })
 }
 

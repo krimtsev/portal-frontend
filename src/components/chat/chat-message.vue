@@ -6,7 +6,7 @@ import { ChatMessageType } from "@c/chat/definitions/chat-message"
 import PrimeAvatar from "primevue/avatar"
 
 const props = defineProps<{
-    text: string | string[]
+    text?: string | string[]
     type?: ChatMessageType
     name?: string
     login?: string
@@ -148,6 +148,9 @@ const shape = computed((): string =>  props.rounded ? "circle" : "square")
     }
 
     .text-content {
+        display: flex;
+        flex-direction: column;
+        gap: $indent-x1;
         color: var(--p-surface-950);
         white-space: pre-wrap;
     }

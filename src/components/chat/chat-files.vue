@@ -32,7 +32,6 @@ const emit = defineEmits<{
 <style scoped lang="scss">
 .chat-files {
     margin-left: 16px;
-    margin-top: 8px;
 
     ul {
         li + li {

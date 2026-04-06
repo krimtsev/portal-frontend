@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import BSkeleton from "@c/common/b-skeleton/b-skeleton.vue"
-
 </script>
 
 <template>

@@ -6,16 +6,11 @@ import BSkeleton from "@c/common/b-skeleton/b-skeleton.vue"
     <div class="cloud-folder-row-skeleton">
         <div class="wrapper">
             <div class="icon">
-                <b-skeleton
-                    size="34px"
-                />
+                <b-skeleton size="34px" />
             </div>
 
             <div class="name">
-                <b-skeleton
-                    height="1rem"
-                    width="20rem"
-                />
+                <b-skeleton height="1rem" />
             </div>
         </div>
     </div>

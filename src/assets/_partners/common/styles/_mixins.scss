@@ -25,9 +25,24 @@
     white-space: nowrap;
 }
 
+@mixin text-limit-rows($rows: 2) {
+    display: -webkit-box;
+    -webkit-line-clamp: $rows;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+}
+
 @mixin col-width($w) {
     width: $w;
     min-width: $w;
+}
+
+@mixin col-fixed($w) {
+    width: $w;
+    min-width: $w;
+    max-width: $w;
 }
 
 @mixin flex-width($w) {
@@ -165,8 +180,8 @@ $cloud-file-types: (
         (txt): --p-gray-500,
         (ai): --p-purple-500,
         (pptx): --p-pink-500,
-        (mp4, mov, avi): --p-yellow-500
-        (mpeg,wav,ogg,aac, m4a) --p-cyan-500
+        (mp4, mov, avi): --p-yellow-500,
+        (mpeg, wav, ogg, aac, m4a): --p-cyan-500,
 );
 
 @mixin file-colors($ext-map: $cloud-file-types) {

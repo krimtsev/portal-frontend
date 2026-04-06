@@ -1,7 +1,8 @@
 import { http } from "@/api"
 import type {
     PartnerListItem,
-    PartnerOptionsResponse
+    PartnerOptionsResponse,
+    PartnersExportData
 } from "@v/dashboard/partners/list/definitions/partners"
 import type {
     PartnerData,
@@ -30,4 +31,8 @@ export async function create(id: string, data: PartnerData) {
 
 export async function update(id: string, data: PartnerData) {
     return await http.put<null>(`dashboard/partners/partner/${id}`, data)
+}
+
+export async function exportData() {
+    return await http.get<PartnersExportData[]>("dashboard/partners/export")
 }

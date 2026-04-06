@@ -40,15 +40,15 @@ const isLoadingContent = computed(() => {
         v-glow="{ position: 'top-left' }"
     >
         <div class="title mb-x2">
-            <div v-if="isLoadingTitle">
-                <b-skeleton variant="xl" />
-            </div>
-
-            <b-title
-                v-else
-                :title="props.title"
+            <b-skeleton
+                :is-loading="isLoadingTitle"
                 variant="xl"
-            />
+            >
+                <b-title
+                    :title="props.title"
+                    variant="xl"
+                />
+            </b-skeleton>
         </div>
 
         <slot name="top-side" />
@@ -101,6 +101,10 @@ const isLoadingContent = computed(() => {
 
 <style scoped lang="scss">
 .portal-page {
+    .title > div {
+        @include text-limit-rows;
+    }
+
     .content {
         min-height: 400px;
     }

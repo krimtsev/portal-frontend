@@ -22,7 +22,8 @@ export async function upload(folderId: string, files: File[]) {
 }
 
 export async function download(folderId: string, name: string) {
-    return await http.get<Blob>(`dashboard/cloud/folder/${folderId}/download/${name}`, {
-        responseType: "blob",
+    return await http.getFile({
+        fileName: name,
+        url: `dashboard/cloud/folder/${folderId}/download`
     })
 }
