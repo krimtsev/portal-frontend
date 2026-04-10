@@ -7,12 +7,12 @@ const emit = defineEmits<{
 }>()
 
 const props = withDefaults(defineProps<{
-    label:     string,
+    label:     string
     disabled?: boolean
     active?:   boolean
 }>(), {
-    active:    false,
-    disabled:  false,
+    active:   false,
+    disabled: false,
 })
 
 const severity = computed(() => {

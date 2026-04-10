@@ -2,17 +2,17 @@
 import PrimeButton from "primevue/button"
 import BSvg from "@c/common/b-svg/b-svg.vue"
 
-const emit = defineEmits<{
-    (e: "click"): void
-}>()
-
 type ButtonVariant = "outlined" | "text" | "link"
 type ButtonSize = "small" | "large"
 type ButtonSeverity = "secondary" | "success" | "info" | "warn" | "help" | "danger" | "contrast"
 
+const emit = defineEmits<{
+    (e: "click"): void
+}>()
+
 const props = withDefaults(defineProps<{
-    icon?:      string,
-    iconSize?:  string,
+    icon?:      string
+    iconSize?:  string
     variant?:   ButtonVariant
     size?:      ButtonSize
     rounded?:   boolean
@@ -27,6 +27,9 @@ const props = withDefaults(defineProps<{
     label:     "",
     isLoading: false,
     disabled:  false,
+    iconSize:  undefined,
+    size:      undefined,
+    severity:  undefined,
 })
 </script>
 

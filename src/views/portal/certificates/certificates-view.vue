@@ -25,9 +25,9 @@ const certificates = ref<CertificateItem[]>([])
 
 const setInitialData = () => {
     certificates.value = new Array(paginationPage.value.perPage).fill({
-        price: "",
+        price:      "",
         identifier: "",
-        partner: "",
+        partner:    "",
     })
 }
 
@@ -67,8 +67,8 @@ function onSearchChange(search: string) {
 const paginationInfo = computed(() => {
     return t("mc.pagination.table",
         {
-            from: n(paginationPage.value.from),
-            to: n(paginationPage.value.to),
+            from:  n(paginationPage.value.from),
+            to:    n(paginationPage.value.to),
             total: n(paginationPage.value.total),
         },
         Number(paginationPage.value.total),

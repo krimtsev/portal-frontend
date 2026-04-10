@@ -24,7 +24,7 @@ import * as partnersAPI from "@/api/modules/dashboard/partners/partners"
 import {
     exportXLS,
     rolesList,
-    stateList
+    stateList,
 } from "@v/dashboard/users/list/utils/users"
 import { useOpenRoute } from "@/composables/route/use-open-route"
 import BTableText from "@c/common/b-table/b-table-text.vue"
@@ -43,8 +43,8 @@ const isExporting = ref(false)
 const paginationInfo = computed(() => {
     return t("mc.pagination.table",
         {
-            from: n(usersStore.pagination.from),
-            to: n(usersStore.pagination.to),
+            from:  n(usersStore.pagination.from),
+            to:    n(usersStore.pagination.to),
             total: n(usersStore.pagination.total),
         },
         Number(usersStore.pagination.total),
@@ -71,10 +71,10 @@ onMounted(async () => {
 
     const [
         usersData,
-        partnersData
+        partnersData,
     ] = await Promise.all([
         usersAPI.list(usersStore.filter),
-        partnersAPI.options()
+        partnersAPI.options(),
     ])
 
     if (
@@ -117,20 +117,20 @@ function onChangeFilter() {
     refreshTickets()
 }
 
-function onClick (id: string, event: MouseEvent) {
+function onClick(id: string, event: MouseEvent) {
     openRoute(
         {
-            name: DashboardRouteName.DashboardUser,
-            params: { id }
+            name:   DashboardRouteName.DashboardUser,
+            params: { id },
         },
-        event
+        event,
     )
 }
 
 function goToNew() {
     router.push({
-        name: DashboardRouteName.DashboardUser,
-        params: { id: "!new" }
+        name:   DashboardRouteName.DashboardUser,
+        params: { id: "!new" },
     })
 }
 

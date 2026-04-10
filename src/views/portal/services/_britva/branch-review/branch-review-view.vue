@@ -24,7 +24,7 @@ import PortalCard from "@c/portal/portal-card/portal-card.vue"
                     height="150"
                     rounded
                 />
-				
+
                 <div class="content">
                     <ul>
                         <li>Длительность — до 4 часов</li>
@@ -32,7 +32,6 @@ import PortalCard from "@c/portal/portal-card/portal-card.vue"
                         <li>Присутствие владельца обязательно.</li>
                     </ul>
                 </div>
-				
             </div>
 
             <div class="content">

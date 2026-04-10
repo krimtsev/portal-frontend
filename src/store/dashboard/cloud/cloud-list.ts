@@ -19,7 +19,7 @@ export const useCloudListStore = defineStore("cloudList", () => {
     )
 
     const currentFilter = ref<PaginationFilter>(
-        cloneDeep(initialFilter.value)
+        cloneDeep(initialFilter.value),
     )
 
     const pagination = ref(defaultPaginationPage({ perPage: 20 }))
@@ -64,6 +64,6 @@ export const useCloudListStore = defineStore("cloudList", () => {
 
         isLoading,
         isChanged,
-        isShowPagination
+        isShowPagination,
     }
 })

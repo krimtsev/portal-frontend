@@ -5,17 +5,11 @@ export function useRoutePath() {
     const route = useRoute()
 
     async function pushMergeMath(path: string) {
-        const currentPath = Array.isArray(route.params.pathMatch)
-            ? [...route.params.pathMatch]
-            : route.params.pathMatch
-                ? [route.params.pathMatch]
-                : []
-
-        const newPath = [...currentPath, path]
+        const currentPath = [route.params.pathMatch ?? []].flat()
 
         await router.push({
             name:   route.name,
-            params: { pathMatch: newPath }
+            params: { pathMatch: [...currentPath, path] },
         })
     }
 
@@ -31,7 +25,7 @@ export function useRoutePath() {
         }
 
         await router.push({
-            name: route.name,
+            name:   route.name,
             params: { pathMatch: pathArray },
         })
     }
@@ -47,6 +41,6 @@ export function useRoutePath() {
     return {
         pushMergeMath,
         pushMath,
-        getLastMatch
+        getLastMatch,
     }
 }

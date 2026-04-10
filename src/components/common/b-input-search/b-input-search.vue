@@ -13,14 +13,14 @@ const emit = defineEmits<{
 const props = withDefaults(
     defineProps<{
         placeholder?: string
-        pattern?: RegExp
-        disabled?: boolean
+        pattern?:     RegExp
+        disabled?:    boolean
     }>(),
     {
         placeholder: "",
-        pattern: undefined,
-        disabled: false,
-    }
+        pattern:     undefined,
+        disabled:    false,
+    },
 )
 
 const isShowClear = computed(() => !!model.value?.trim())

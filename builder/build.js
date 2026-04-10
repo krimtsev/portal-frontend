@@ -20,18 +20,18 @@ const isProduction = process.env.NODE_ENV === "production"
 const isDevelop = process.env.NODE_ENV === "develop"
 const partner = env.app.partner
 
-const __filename = url.fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __filename = url.fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 const srcDir = path.resolve(__dirname, "..", "src")
 const generatedDir = path.resolve(__dirname, "..", ".generated")
 const partnersAssetsDir = path.resolve(srcDir, "assets", "_partners")
 
 const defaultCopyOptions = {
-    dot: true,
+    dot:       true,
     overwrite: true,
-    filter: [
+    filter:    [
         "**/*",
-    ]
+    ],
 }
 
 if (!partner) {
@@ -42,7 +42,7 @@ removeDirectory(generatedDir)
 createDirectory(generatedDir)
 
 async function build() {
-    logInfo(`⚙️ Start build for ${partner}:`);
+    logInfo(`⚙️ Start build for ${partner}:`)
 
     mergeLocales()
     await copyFilesToAssets("prime", partner)
@@ -68,7 +68,7 @@ function mergeLocales() {
 
     createDirectory(outDir)
 
-    const locales = fs.readdirSync(commonDir);
+    const locales = fs.readdirSync(commonDir)
 
     for (const locale of locales) {
         const commonPath = path.join(commonDir, locale)
@@ -78,12 +78,12 @@ function mergeLocales() {
         const commonJson = JSON.parse(fs.readFileSync(commonPath, "utf8"))
         const partnerJson = fs.existsSync(partnerPath)
             ? JSON.parse(fs.readFileSync(partnerPath, "utf8"))
-            : {};
+            : {}
 
         const merged = deepMerge(commonJson, partnerJson)
 
-        fs.writeFileSync(outputPath, JSON.stringify(merged, null, 2), "utf8");
-        logInfo(`✔️ locale: ${locale} merged`);
+        fs.writeFileSync(outputPath, JSON.stringify(merged, null, 2), "utf8")
+        logInfo(`✔️ locale: ${locale} merged`)
     }
 }
 
@@ -102,53 +102,53 @@ async function copyFilesToAssets(dir, partner = "common") {
 }
 
 function mergeFiles(type) {
-    const commonDir = path.resolve(partnersAssetsDir, "common", type);
-    const partnerDir = path.resolve(partnersAssetsDir, partner, type);
-    const outDir = path.resolve(generatedDir, "assets", type);
+    const commonDir = path.resolve(partnersAssetsDir, "common", type)
+    const partnerDir = path.resolve(partnersAssetsDir, partner, type)
+    const outDir = path.resolve(generatedDir, "assets", type)
 
-    createDirectory(outDir);
+    createDirectory(outDir)
 
     // Рекурсивно собираем все файлы из директории
     function collectFilesRecursively(dir, base = "") {
-        const entries = fs.readdirSync(dir, { withFileTypes: true });
-        let files = [];
+        const entries = fs.readdirSync(dir, { withFileTypes: true })
+        let files = []
 
         for (const entry of entries) {
-            const relPath = path.join(base, entry.name);
-            const fullPath = path.join(dir, entry.name);
+            const relPath = path.join(base, entry.name)
+            const fullPath = path.join(dir, entry.name)
             if (entry.isDirectory()) {
-                files = files.concat(collectFilesRecursively(fullPath, relPath));
+                files = files.concat(collectFilesRecursively(fullPath, relPath))
             } else {
-                files.push(relPath);
+                files.push(relPath)
             }
         }
 
-        return files;
+        return files
     }
 
-    const commonFiles = fs.existsSync(commonDir) ? collectFilesRecursively(commonDir) : [];
-    const partnerFiles = fs.existsSync(partnerDir) ? collectFilesRecursively(partnerDir) : [];
+    const commonFiles = fs.existsSync(commonDir) ? collectFilesRecursively(commonDir) : []
+    const partnerFiles = fs.existsSync(partnerDir) ? collectFilesRecursively(partnerDir) : []
 
-    const allFiles = new Set([...commonFiles, ...partnerFiles]);
+    const allFiles = new Set([...commonFiles, ...partnerFiles])
 
     for (const file of allFiles) {
-        const partnerFilePath = path.join(partnerDir, file);
-        const commonFilePath = path.join(commonDir, file);
-        const outputFilePath = path.join(outDir, file);
+        const partnerFilePath = path.join(partnerDir, file)
+        const commonFilePath = path.join(commonDir, file)
+        const outputFilePath = path.join(outDir, file)
 
-        const outputDirPath = path.dirname(outputFilePath);
+        const outputDirPath = path.dirname(outputFilePath)
         if (!fs.existsSync(outputDirPath)) {
-            fs.mkdirSync(outputDirPath, { recursive: true });
+            fs.mkdirSync(outputDirPath, { recursive: true })
         }
 
         if (fs.existsSync(partnerFilePath)) {
-            fs.copyFileSync(partnerFilePath, outputFilePath);
+            fs.copyFileSync(partnerFilePath, outputFilePath)
         } else if (fs.existsSync(commonFilePath)) {
-            fs.copyFileSync(commonFilePath, outputFilePath);
+            fs.copyFileSync(commonFilePath, outputFilePath)
         }
     }
 
-    logInfo(`✔️ ${type}: ${allFiles.size} merged`);
+    logInfo(`✔️ ${type}: ${allFiles.size} merged`)
 }
 
 async function copyPublic() {
@@ -169,91 +169,91 @@ async function watchDevChanges() {
     killPort(env.app.port)
 
     const watcher = chokidar.watch(partnersAssetsDir, {
-        persistent: true, // держим процесс работы
-        ignoreInitial: true, // игнорируем события при старте
+        persistent:       true, // держим процесс работы
+        ignoreInitial:    true, // игнорируем события при старте
         awaitWriteFinish: true, // ждем завершения записи файла
-    });
+    })
 
     // Стартуем Vite
     const vite = spawn("npx", ["vite"], {
-        stdio: "inherit", // показываем логи Vite в терминале
-        shell: true,      // чтобы работало одинаково на Windows и Unix
-        detached: false   // не отделяем от родительского процесса
-    });
+        stdio:    "inherit", // показываем логи Vite в терминале
+        shell:    true,      // чтобы работало одинаково на Windows и Unix
+        detached: false,   // не отделяем от родительского процесса
+    })
 
     const cleanExit = () => {
-        logInfo("🛑 Terminating watcher and Vite...");
+        logInfo("🛑 Terminating watcher and Vite...")
 
         // Останавливаем файловый watcher
-        watcher.close();
+        watcher.close()
         if (!vite.killed) {
-            vite.kill();
+            vite.kill()
         }
-        process.exit(0);
-    };
+        process.exit(0)
+    }
 
-    process.on("SIGINT", cleanExit);
-    process.on("SIGTERM", cleanExit);
-    process.on("SIGHUP", cleanExit); // Завершам при закрытии редактора
-    process.on("exit", cleanExit); // Завершение при нажатии Ctrl+C или завершении процесса
+    process.on("SIGINT", cleanExit)
+    process.on("SIGTERM", cleanExit)
+    process.on("SIGHUP", cleanExit) // Завершам при закрытии редактора
+    process.on("exit", cleanExit) // Завершение при нажатии Ctrl+C или завершении процесса
 
     vite.on("error", (err) => {
-        console.error("❌ Vite process error:", err);
-        cleanExit();
-    });
+        console.error("❌ Vite process error:", err)
+        cleanExit()
+    })
 
     vite.on("exit", (code, signal) => {
-        console.log(`⚡ Vite exited with code ${code} and signal ${signal}`);
-        cleanExit();
-    });
+        console.log(`⚡ Vite exited with code ${code} and signal ${signal}`)
+        cleanExit()
+    })
 
     watcher
         .on("add", (filePath) => {
-            console.log(`File added: ${filePath}`);
+            console.log(`File added: ${filePath}`)
             // Запуск сборки при добавлении нового файла
-            rebuild(filePath);
+            rebuild(filePath)
         })
         .on("change", (filePath, stats, prevStats, prevPath) => {
-            console.log(`File changed: ${filePath}`);
+            console.log(`File changed: ${filePath}`)
             // Запуск сборки при изменении файла
-            rebuild(filePath);
+            rebuild(filePath)
         })
         .on("unlink", (filePath) => {
-            console.log(`File removed: ${filePath}`);
+            console.log(`File removed: ${filePath}`)
             // Запуск сборки при удалении файла
-            rebuild(filePath);
+            rebuild(filePath)
         })
         .on("error", (error) => {
-            console.error(`Watcher error: ${error}`);
-        });
+            console.error(`Watcher error: ${error}`)
+        })
 
-    logInfo(`💫 Watching for file changes in ...`);
-    logDebug(`▶️ Vite started with PID: ${vite.pid}`);
+    logInfo("💫 Watching for file changes in ...")
+    logDebug(`▶️ Vite started with PID: ${vite.pid}`)
 }
 
 // Функция для перезапуска сборки
 async function rebuild(filePath) {
-    const dirName = path.basename(path.dirname(filePath));
-    logInfo(`🔄 Rebuilding ${dirName} ...`);
+    const dirName = path.basename(path.dirname(filePath))
+    logInfo(`🔄 Rebuilding ${dirName} ...`)
     switch (dirName) {
         case "locales":
             await mergeLocales()
-            break;
+            break
         case "styles":
             await copyFilesToAssets(dirName)
-            break;
+            break
         case "prime":
             await copyFilesToAssets(dirName, partner)
-            break;
+            break
         case "images":
             await mergeFiles(dirName)
-            break;
+            break
         case "docs":
             await mergeFiles(dirName)
-            break;
+            break
         case "public":
             await copyPublic()
-            break;
+            break
         default:
             await build()
     }

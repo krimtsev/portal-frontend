@@ -13,15 +13,15 @@ export const usePartnersStore = defineStore("partners", () => {
 
     const initialFilter = ref(
         defaultPaginationFilter({
-            search: "",
+            search:  "",
             filters: {
-                disabled: []
+                disabled: [],
             },
         }),
     )
 
     const currentFilter = ref<PaginationFilter>(
-        cloneDeep(initialFilter.value)
+        cloneDeep(initialFilter.value),
     )
 
     const pagination = ref(defaultPaginationPage({ perPage: 20 }))
@@ -66,6 +66,6 @@ export const usePartnersStore = defineStore("partners", () => {
 
         isLoading,
         isChanged,
-        isShowPagination
+        isShowPagination,
     }
 })

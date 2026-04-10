@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    console.log("team-view")
+console.log("team-view")
 </script>
 
 <template>

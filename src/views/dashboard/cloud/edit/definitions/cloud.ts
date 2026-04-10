@@ -1,6 +1,6 @@
 export interface CloudData {
-    name: string
-    slug: string
+    name:        string
+    slug:        string
     category_id: number | null
 }
 
@@ -13,12 +13,12 @@ export interface CloudOptionsTreeParams {
 }
 
 export interface CloudFile {
-    id: number
-    title: string
-    name: string
-    ext: string
+    id:        number
+    title:     string
+    name:      string
+    ext:       string
     downloads: number
-    isNew?: boolean
+    isNew?:    boolean
 }
 
 export interface CloudFilesResponse {

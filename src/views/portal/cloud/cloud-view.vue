@@ -8,7 +8,7 @@ import { useNotify } from "@/composables/notify/use-notify"
 import type {
     CloudFileItem,
     CloudFolderBreadcrumb,
-    CloudFolderItem
+    CloudFolderItem,
 } from "@v/portal/cloud/definitions/cloud"
 import CloudFolderRow from "@v/portal/cloud/components/cloud-folder-row.vue"
 import CloudFolderRowSkeleton from "@v/portal/cloud/components/skeleton/cloud-folder-row-skeleton.vue"
@@ -55,8 +55,8 @@ async function getData() {
     isLoading.value = true
 
     const params = {
-        slug: slug.value,
-        search: search.value
+        slug:   slug.value,
+        search: search.value,
     }
 
     const data = await cloudAPI.getData(params)

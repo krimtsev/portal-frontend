@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    console.log("analytics")
+console.log("analytics")
 </script>
 
 <template>

@@ -9,12 +9,10 @@ import {
     defaultMaxRows,
 } from "@c/common/b-textarea/definitions/textarea"
 
-const { t } = useI18n()
-
 const model = defineModel<string>({ default: "" })
 
 const props = withDefaults(defineProps<{
-    name?:        string,
+    name?:        string
     placeholder?: string
     disabled?:    boolean
     error?:       string
@@ -25,6 +23,7 @@ const props = withDefaults(defineProps<{
     maxlength?:   string | number
     label?:       string
 }>(), {
+    name:        undefined,
     label:       "",
     placeholder: "",
     disabled:    false,
@@ -32,7 +31,10 @@ const props = withDefaults(defineProps<{
     rows:        defaultMaxRows,
     cols:        defaultMaxCols,
     maxlength:   defaultMaxLength,
+    hint:        undefined,
 })
+
+const { t } = useI18n()
 
 const hint = computed(() => {
     if (!props.hint) return []

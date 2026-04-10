@@ -1,33 +1,31 @@
 <script setup lang="ts">
-import { computed, ref, onMounted, onBeforeUnmount } from "vue"
+import { computed, ref, onMounted, onBeforeUnmount, useTemplateRef } from "vue"
 
 const props = defineProps<{
-    src: string,
-    local?: boolean,
-    width?: string,
-    height?: string
-    rounded?: boolean
-    full?: boolean
+    src:         string
+    local?:      boolean
+    width?:      string
+    height?:     string
+    rounded?:    boolean
+    full?:       boolean
     imageStyle?: any
-    lazy?: boolean
+    lazy?:       boolean
 }>()
 
 const loaded = ref(false)
 const showImage = ref(!props.lazy)
-const rootRef = ref<HTMLElement | null>(null)
+const rootRef = useTemplateRef<HTMLElement | null>("rootRef")
 
 const images = import.meta.glob("@a/images/**/*", {
-    eager: true,
-    query: "?url",
+    eager:  true,
+    query:  "?url",
     import: "default",
 })
 
 const src = computed(() => {
     if (props.src.startsWith("http") || props.local) return props.src
 
-    const matchingEntry = Object.entries(images).find(([key]) =>
-        key.endsWith(`/${props.src}`)
-    )
+    const matchingEntry = Object.entries(images).find(([key]) => key.endsWith(`/${props.src}`))
 
     if (!matchingEntry) return ""
 
@@ -51,7 +49,7 @@ onMounted(() => {
                     }
                 })
             },
-            { rootMargin: "200px", threshold: 0.01 }
+            { rootMargin: "200px", threshold: 0.01 },
         )
         observer.observe(rootRef.value)
     }
@@ -89,7 +87,7 @@ onBeforeUnmount(() => {
             :style="props.imageStyle"
             alt=""
             @load="onLoad"
-        />
+        >
     </div>
 </template>
 

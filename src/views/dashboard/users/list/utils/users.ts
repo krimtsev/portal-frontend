@@ -7,26 +7,26 @@ import type { UsersExportData } from "@v/dashboard/users/list/definitions/users"
 
 export const stateList: { id: boolean, name: string }[] = [
     {
-        id: false,
+        id:   false,
         name: i18n.global.t("mc.dashboard.users.state.active"),
     },
     {
-        id: true,
+        id:   true,
         name: i18n.global.t("mc.dashboard.users.state.disabled"),
     },
 ]
 
 export const rolesList: { id: Roles, name: string }[] = [
     {
-        id: Roles.USER,
+        id:   Roles.USER,
         name: i18n.global.t("mc.roles.user"),
     },
     {
-        id: Roles.ADMIN,
+        id:   Roles.ADMIN,
         name: i18n.global.t("mc.roles.admin"),
     },
     {
-        id: Roles.SYSADMIN,
+        id:   Roles.SYSADMIN,
         name: i18n.global.t("mc.roles.sysadmin"),
     },
 ]
@@ -34,17 +34,21 @@ export const rolesList: { id: Roles, name: string }[] = [
 export async function exportXLS(users: UsersExportData[]) {
     const date = DateTime.now().toFormat("dd.MM.yyyy")
     const workbook = new ExcelJS.Workbook()
-    const worksheet = workbook.addWorksheet("Пользователи" , {
-        views: [{ state:  "frozen", xSplit: 1, ySplit: 1 }]
+    const worksheet = workbook.addWorksheet("Пользователи", {
+        views: [{
+            state:  "frozen",
+            xSplit: 1,
+            ySplit: 1,
+        }],
     })
 
     worksheet.columns = [
-        { header: "ID",         key: "id", width: 10 },
-        { header: "Логин",      key: "login", width: 25 },
-        { header: "Роль",       key: "role", width: 20 },
-        { header: "Филиал",     key: "partner", width: 30 },
-        { header: "Статус",     key: "status", width: 15 },
-        { header: "Имя",        key: "name", width: 30 },
+        { header: "ID", key: "id", width: 10 },
+        { header: "Логин", key: "login", width: 25 },
+        { header: "Роль", key: "role", width: 20 },
+        { header: "Филиал", key: "partner", width: 30 },
+        { header: "Статус", key: "status", width: 15 },
+        { header: "Имя", key: "name", width: 30 },
         { header: "Активность", key: "activity", width: 30 },
     ]
 
@@ -67,7 +71,7 @@ export async function exportXLS(users: UsersExportData[]) {
 
     const buffer = await workbook.xlsx.writeBuffer()
     const blob = new Blob([buffer], {
-        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     })
 
     downloadExternalFile(blob, `Пользователи - ${date}.xlsx`)

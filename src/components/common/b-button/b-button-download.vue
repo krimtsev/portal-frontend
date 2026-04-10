@@ -6,9 +6,9 @@ const emit = defineEmits<{
 }>()
 
 const props = defineProps<{
-    label: string,
+    label:     string
     disabled?: boolean
-    loading?: boolean
+    loading?:  boolean
 }>()
 </script>
 

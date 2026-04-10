@@ -1,5 +1,5 @@
 export interface CertificateItem {
-    price: string
+    price:      string
     identifier: string
-    partner: string
+    partner:    string
 }

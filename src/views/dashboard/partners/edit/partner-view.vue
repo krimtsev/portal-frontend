@@ -43,7 +43,7 @@ function defaultState(): PartnerData {
         address:         "",
         start_at:        null,
         disabled:        true,
-        telnums:         []
+        telnums:         [],
     }
 }
 
@@ -61,7 +61,7 @@ const {
     defineField,
     meta,
     submitCount,
-    setErrors
+    setErrors,
 } = useForm<PartnerData>({
     validationSchema: PartnerSchema,
     initialValues:    defaultState(),
@@ -69,19 +69,19 @@ const {
 
 const dynamicConfig = useConfigValidation(submitCount)
 
-const [groupIdModel]        = defineField("group_id", dynamicConfig)
-const [organizationModel]   = defineField("organization", dynamicConfig)
-const [innModel]            = defineField("inn", dynamicConfig)
-const [ogrnipModel]         = defineField("ogrnip", dynamicConfig)
-const [nameModel]           = defineField("name", dynamicConfig)
+const [groupIdModel] = defineField("group_id", dynamicConfig)
+const [organizationModel] = defineField("organization", dynamicConfig)
+const [innModel] = defineField("inn", dynamicConfig)
+const [ogrnipModel] = defineField("ogrnip", dynamicConfig)
+const [nameModel] = defineField("name", dynamicConfig)
 const [contractNumberModel] = defineField("contract_number", dynamicConfig)
-const [emailModel]          = defineField("email", dynamicConfig)
-const [yclientsIdModel]     = defineField("yclients_id", dynamicConfig)
-const [mangoTelnumModel]    = defineField("mango_telnum", dynamicConfig)
-const [addressModel]        = defineField("address", dynamicConfig)
-const [startAtModel]        = defineField("start_at", dynamicConfig)
-const [disabledModel]       = defineField("disabled", dynamicConfig)
-const [telnumsModel]        = defineField("telnums", dynamicConfig)
+const [emailModel] = defineField("email", dynamicConfig)
+const [yclientsIdModel] = defineField("yclients_id", dynamicConfig)
+const [mangoTelnumModel] = defineField("mango_telnum", dynamicConfig)
+const [addressModel] = defineField("address", dynamicConfig)
+const [startAtModel] = defineField("start_at", dynamicConfig)
+const [disabledModel] = defineField("disabled", dynamicConfig)
+const [telnumsModel] = defineField("telnums", dynamicConfig)
 
 onMounted(async () => {
     isFirstLoading.value = true
@@ -91,7 +91,7 @@ onMounted(async () => {
         partnerGroupsData,
     ] = await Promise.all([
         !isNew.value ? partnersAPI.get(partnerId.value) : null,
-        partnerGroupsAPI.options()
+        partnerGroupsAPI.options(),
     ])
 
     if (
@@ -121,8 +121,8 @@ onMounted(async () => {
                 address:         partner.address,
                 start_at:        partner.start_at || null,
                 disabled:        partner.disabled,
-                telnums:         partner.telnums || []
-            }
+                telnums:         partner.telnums || [],
+            },
         })
     }
 
@@ -141,7 +141,7 @@ const onSave = handleSubmit(async (formValues) => {
     const [partnerResponse] = await Promise.all([
         isNew.value
             ? partnersAPI.create(partnerId.value, formValues)
-            : partnersAPI.update(partnerId.value, formValues)
+            : partnersAPI.update(partnerId.value, formValues),
     ])
 
     isLoading.value = false
@@ -159,7 +159,7 @@ const onSave = handleSubmit(async (formValues) => {
     }
 
     await router.push({
-        name: DashboardRouteName.DashboardPartners
+        name: DashboardRouteName.DashboardPartners,
     })
 })
 </script>
@@ -169,7 +169,7 @@ const onSave = handleSubmit(async (formValues) => {
         :title="isNew
             ? 'Создание филиала'
             : 'Редактирование филиала'"
-        :pathBack="dashboardPaths.DashboardPartners"
+        :path-back="dashboardPaths.DashboardPartners"
         :is-loading="isLoading"
         :is-first-loading="isFirstLoading"
         class="user-view"

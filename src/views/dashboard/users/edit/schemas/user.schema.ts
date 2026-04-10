@@ -12,7 +12,7 @@ export const UserSchema = (isNew: boolean) => toTypedSchema(
         login: z.string()
             .min(3, { message: "Минимум 3 символов" })
             .regex(/^[a-zA-Z0-9]+$/, {
-                message: "Логин может содержать только латинские буквы и цифры"
+                message: "Логин может содержать только латинские буквы и цифры",
             }),
 
         password: isNew
@@ -29,5 +29,5 @@ export const UserSchema = (isNew: boolean) => toTypedSchema(
             .nullable(),
 
         disabled: z.boolean(),
-    })
+    }),
 )

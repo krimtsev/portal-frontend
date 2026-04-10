@@ -7,47 +7,47 @@ export const sections: Section[] = [
         items: [
             {
                 label: "Как сделать переадресацию звонков?",
-                path:  portalPaths.InstructionMangoRedirect
+                path:  portalPaths.InstructionMangoRedirect,
             },
             {
                 label: "Как включить всплывающие уведомления?",
-                path:  portalPaths.InstructionYclientNotifications
+                path:  portalPaths.InstructionYclientNotifications,
             },
             {
                 label: "Что делать, если телефония не работает?",
-                path:  portalPaths.IpTelephonyTroubleshooting
+                path:  portalPaths.IpTelephonyTroubleshooting,
             },
             {
-                label: "Как изменить цены на ЭВОТОР?",
-                external: "https://youtu.be/6cy9sEyNDXU?si=3x0R0pmKIRHM08YO"
-            }
-        ]
+                label:    "Как изменить цены на ЭВОТОР?",
+                external: "https://youtu.be/6cy9sEyNDXU?si=3x0R0pmKIRHM08YO",
+            },
+        ],
     },
     {
         title: "Обучение",
         items: [
             {
-                label: "Перейти на портал обучения",
-                external: "https://learn.mybritva.ru"
+                label:    "Перейти на портал обучения",
+                external: "https://learn.mybritva.ru",
             },
             {
-                label: "Курсы для сотрудников",
-                external: "https://britva-education.ru"
-            }
-        ]
+                label:    "Курсы для сотрудников",
+                external: "https://britva-education.ru",
+            },
+        ],
     },
     {
         title: "Отчеты",
         items: [
             {
-                label: "Таблица оплаты телефонии",
-                external: "https://docs.google.com/spreadsheets/d/1Y9zxXV-NZZvFHJNnESGBDiipCMNM1jjqQEzHqj8KRg0"
+                label:    "Таблица оплаты телефонии",
+                external: "https://docs.google.com/spreadsheets/d/1Y9zxXV-NZZvFHJNnESGBDiipCMNM1jjqQEzHqj8KRg0",
             },
             {
-                label: "Таблица маркетингово сбора",
-                external: "https://docs.google.com/spreadsheets/d/1ka8_eTE18gQNr-LCCiKYKd_u0rG6dJ5R7oGFTQg6pdM"
-            }
-        ]
+                label:    "Таблица маркетингово сбора",
+                external: "https://docs.google.com/spreadsheets/d/1ka8_eTE18gQNr-LCCiKYKd_u0rG6dJ5R7oGFTQg6pdM",
+            },
+        ],
     },
     {
         title: "Документация",
@@ -71,8 +71,8 @@ export const sections: Section[] = [
             {
                 label: "Бальная система по аудиту телефонии",
                 path:  portalPaths.DocumentMangoAudit,
-            }
-        ]
+            },
+        ],
     },
     {
         title: "Дополнительные услуги",
@@ -101,7 +101,7 @@ export const sections: Section[] = [
             //     label: "Сервис аналитики показателей",
             //     path:  portalPaths.ServiceUserAnalytics,
             // }
-        ]
+        ],
     },
     {
         title: "Контакты",
@@ -118,19 +118,19 @@ export const sections: Section[] = [
                 label: "Партнеры",
                 path:  portalPaths.ContactPartners,
             },
-        ]
+        ],
     },
     {
         title: "Дополнительно",
         items: [
             {
-                label: "KPI франшизы (регионы)",
-                external: "https://docs.google.com/forms/d/e/1FAIpQLSeqcM5AKcoTWECLfA_kDPZEHGpUQv_iFIx1uCVtros447ubHQ/viewform"
+                label:    "KPI франшизы (регионы)",
+                external: "https://docs.google.com/forms/d/e/1FAIpQLSeqcM5AKcoTWECLfA_kDPZEHGpUQv_iFIx1uCVtros447ubHQ/viewform",
             },
             {
                 label: "Корпоративные скидки",
-                path: portalPaths.AdditionallyDiscount,
-            }
-        ]
+                path:  portalPaths.AdditionallyDiscount,
+            },
+        ],
     },
 ]

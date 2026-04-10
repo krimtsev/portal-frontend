@@ -6,11 +6,11 @@ import {
 import { FilesSchema } from "@c/common/b-upload-file/schemas/file-upload.schema"
 
 export const FormSchema = z.object({
-    partner_id:  PartnerIdSchema,
-    message:     MessageSchema,
-    files:       FilesSchema,
+    partner_id: PartnerIdSchema,
+    message:    MessageSchema,
+    files:      FilesSchema,
 
-    title:       z.string()
+    title: z.string()
         .min(3, { message: "Минимальная длина 3 символа" })
         .max(125, { message: "Максимальная длина 100 символов" })
         .nonempty(),

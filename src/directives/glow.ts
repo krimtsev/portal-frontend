@@ -10,14 +10,14 @@ type GlowPosition =
     | "top-right"
     | "bottom-left"
     | "bottom-right"
-    | { x: string; y: string }
+    | { x: string, y: string }
 
 interface GlowOptions {
-    color?: string
-    blur?: number
-    size?: number
+    color?:    string
+    blur?:     number
+    size?:     number
     position?: GlowPosition
-    opacity?: number
+    opacity?:  number
 }
 
 const STYLE_ID = "v-glow-style"
@@ -38,7 +38,10 @@ const glowDirective: Directive<HTMLElement, GlowOptions> = {
         const position = options.position ?? "center"
 
         // уникальный атрибут
-        const uid = `glow-${Math.random().toString(36).slice(2)}`
+        const randomPart = Math.random()
+            .toString(36)
+            .slice(2)
+        const uid = `glow-${randomPart}`
         el.dataset.glowId = uid
 
         // CSS-переменные

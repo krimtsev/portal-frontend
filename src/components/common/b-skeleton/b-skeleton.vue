@@ -4,17 +4,17 @@ import PrimeSkeleton, { type SkeletonProps } from "primevue/skeleton"
 import type { Variants } from "@/shared/content/content"
 
 interface ISkeletonProps extends SkeletonProps {
-    variant?: Variants
-    invert?: boolean
+    variant?:   Variants
+    invert?:    boolean
     isLoading?: boolean
     fullWidth?: boolean
 }
 
 const props = withDefaults(defineProps<ISkeletonProps>(), {
-    height: "1.15rem",
-    variant: undefined,
-    width: "20rem",
-    invert: false,
+    height:    "1.15rem",
+    variant:   undefined,
+    width:     "20rem",
+    invert:    false,
     isLoading: true,
     fullWidth: false,
 })

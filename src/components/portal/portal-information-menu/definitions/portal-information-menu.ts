@@ -1,7 +1,7 @@
 export interface SectionItem {
-    label: string
-    path?: string
-    active?: boolean
+    label:     string
+    path?:     string
+    active?:   boolean
     external?: string
 }
 

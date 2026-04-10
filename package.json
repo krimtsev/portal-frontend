@@ -36,10 +36,11 @@
         "vue-eslint-parser": "10.2.0",
         "vue-i18n": "11.2.8",
         "vue-router": "4",
-        "zod": "4.1.13"
+        "zod": "4.3.6"
     },
     "devDependencies": {
         "@primevue/auto-import-resolver": "4.5.4",
+        "@stylistic/eslint-plugin": "^5.10.0",
         "@types/lodash": "4.14.202",
         "@types/luxon": "3.7.1",
         "@types/node": "22.14.0",
@@ -50,18 +51,20 @@
         "@vitejs/plugin-vue": "6.0.3",
         "@vue/eslint-config-typescript": "14.5.0",
         "@vue/tsconfig": "0.7.0",
+        "baseline-browser-mapping": "^2.10.17",
         "chokidar": "3.5.3",
         "concurrently": "8.2.2",
         "cross-env": "7.0.3",
         "deepmerge": "4.3.1",
         "eslint": "9.36.0",
         "eslint-plugin-unicorn": "61.0.2",
-        "eslint-plugin-vue": "10.0.0",
+        "eslint-plugin-vue": "10.4.0",
+        "lefthook": "2.1.4",
         "recursive-copy": "2.0.14",
         "sass-embedded": "1.87.0",
         "typescript": "5.8.3",
         "unplugin-vue-components": "28.8.0",
-        "vite": "7.2.7",
+        "vite": "7.3.2",
         "vite-plugin-eslint": "1.8.1",
         "vue-tsc": "2.2.4"
     }

@@ -6,12 +6,12 @@ import { ChatMessageType } from "@c/chat/definitions/chat-message"
 import PrimeAvatar from "primevue/avatar"
 
 const props = defineProps<{
-    text?: string | string[]
-    type?: ChatMessageType
-    name?: string
-    login?: string
-    avatar?: string
-    stamp?: string
+    text?:    string | string[]
+    type?:    ChatMessageType
+    name?:    string
+    login?:   string
+    avatar?:  string
+    stamp?:   string
     rounded?: boolean
 }>()
 
@@ -32,7 +32,7 @@ const messages = computed((): string[] => {
     return [props.text]
 })
 
-const shape = computed((): string =>  props.rounded ? "circle" : "square")
+const shape = computed((): string => props.rounded ? "circle" : "square")
 </script>
 
 <template>
@@ -51,7 +51,8 @@ const shape = computed((): string =>  props.rounded ? "circle" : "square")
                     :class="[
                         `avatar-${type}`,
                     ]"
-                />
+                >
+
                 <prime-avatar
                     v-else-if="avatarLabel"
                     :label="avatarLabel"

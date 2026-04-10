@@ -22,6 +22,6 @@ export const TicketSchema = toTypedSchema(
             .max(messageLength, { message: "Сообщение слишком длинное" })
             .optional(),
 
-        files: FilesSchema
-    })
+        files: FilesSchema,
+    }),
 )

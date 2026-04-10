@@ -18,18 +18,18 @@ export async function get(id: string) {
     return await http.get<TicketResponse>(`dashboard/tickets/ticket/${id}`)
 }
 
-export async function update(id: string|number, params: TicketStateData) {
+export async function update(id: string | number, params: TicketStateData) {
     return await http.post<TicketResponse>(`dashboard/tickets/ticket/${id}`, params, {
         headers: {
-            "Content-Type": "multipart/form-data"
-        }
+            "Content-Type": "multipart/form-data",
+        },
     })
 }
 
-export async function download(id: string|number, name: string) {
+export async function download(id: string | number, name: string) {
     return await http.getFile({
         fileName: name,
-        url: `dashboard/tickets/ticket/${id}/download`
+        url:      `dashboard/tickets/ticket/${id}/download`,
     })
 }
 

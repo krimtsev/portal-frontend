@@ -32,11 +32,19 @@ import PortalCard from "@c/portal/portal-card/portal-card.vue"
                 </ul>
 
                 <p>
-                    Для настройки переадресации необходимо зайти на сайт
-                    <b-link label="lk.mango-office.ru" href="http://lk.mango-office.ru"/>
-                    и ввести данные от своего филиала.
-                    Если у Вас нет данных для авторизации, пишите Диме Крымцеву в
-                    <b-link label="WhatspApp" href="http://wa.me/79994845317"/>
+                    <span> Для настройки переадресации необходимо зайти на сайт </span>
+                    <b-link
+                        label="lk.mango-office.ru"
+                        href="http://lk.mango-office.ru"
+                    />
+                    <span>
+                        и ввести данные от своего филиала.
+                        Если у Вас нет данных для авторизации, пишите Диме Крымцеву в
+                    </span>
+                    <b-link
+                        label="WhatspApp"
+                        href="http://wa.me/79994845317"
+                    />
                 </p>
 
                 <b-image

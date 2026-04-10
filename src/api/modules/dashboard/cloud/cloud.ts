@@ -2,12 +2,12 @@ import type { Pagination, PaginationFilter } from "@/shared/pagination/paginatio
 import { http } from "@/api"
 import type {
     CloudListItem,
-    CloudOptionsResponse
+    CloudOptionsResponse,
 } from "@v/dashboard/cloud/list/definitions/cloud-list"
 import type {
     CloudResponse,
     CloudData,
-    CloudOptionsTreeParams
+    CloudOptionsTreeParams,
 } from "@v/dashboard/cloud/edit/definitions/cloud"
 
 

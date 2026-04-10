@@ -2,12 +2,12 @@
 import { computed } from "vue"
 import { useI18n } from "vue-i18n"
 
-const { t } = useI18n()
-
 const props = defineProps<{
-    title?: string
+    title?:       string
     widthBorder?: boolean
 }>()
+
+const { t } = useI18n()
 
 const title = computed(() => {
     return props.title || t("mc.search.title")
@@ -22,7 +22,10 @@ const title = computed(() => {
         }"
     >
         <div class="image-container">
-            <i class="pi pi-times-circle" style="font-size: 2rem"></i>
+            <i
+                class="pi pi-times-circle"
+                style="font-size: 2rem"
+            />
         </div>
         <div class="text-container">
             <div class="title">

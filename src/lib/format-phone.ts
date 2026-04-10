@@ -1,5 +1,5 @@
 type FormatPhoneOptions = {
-    plus?: boolean;
+    plus?: boolean
 }
 
 function preparePhone(phone?: string | number) {
@@ -41,29 +41,28 @@ function phoneBlocks(phone: string): string {
 }
 
 function formatRussianMobilePhone(phone: string, options: FormatPhoneOptions): string {
-    if (phone.startsWith("7")) {
-        phone = phone.substring(1)
-    }
+    const cleanPhone = phone.startsWith("7")
+        ? phone.substring(1)
+        : phone
 
-    const mobileCode = phone.substring(0, 3)
-    const restOfPhone = phone.substring(3)
+    const mobileCode = cleanPhone.substring(0, 3)
+    const restOfPhone = cleanPhone.substring(3)
 
-    return (options.plus ? "+" : "") + "7" + " (" + mobileCode + ") " + phoneBlocks(restOfPhone)
+    return `${options.plus ? "+" : ""}7 (${mobileCode}) ${phoneBlocks(restOfPhone)}`
 }
 
 function format8800(telnum: string, plus?: boolean) {
     if (telnum.length !== 11) return telnum
 
-    const nbsp = " " // неразрывный пробел
+    const nbsp = " "
     const prefix = plus ? `+7${nbsp}` : `8${nbsp}`
 
-    return (
-        prefix +
-        telnum.slice(1, 4) + nbsp +
-        telnum.slice(4, 7) + "-" +
-        telnum.slice(7, 9) + "-" +
-        telnum.slice(9)
-    )
+    const part1 = telnum.slice(1, 4)
+    const part2 = telnum.slice(4, 7)
+    const part3 = telnum.slice(7, 9)
+    const part4 = telnum.slice(9)
+
+    return `${prefix}${part1}${nbsp}${part2}-${part3}-${part4}`
 }
 
 export function formatPhone(phone: string | number, options: FormatPhoneOptions = {}): string {

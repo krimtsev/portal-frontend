@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, nextTick } from "vue"
-import type { ComponentPublicInstance } from "vue"
+import { computed, onMounted, ref, nextTick, useTemplateRef } from "vue"
 import PortalPage from "@c/portal/portal-page/portal-page.vue"
 import { useNotify } from "@/composables/notify/use-notify"
 import {
@@ -9,7 +8,7 @@ import {
     type TicketMessage,
     TicketMessageType,
     TicketState,
-    TicketType
+    TicketType,
 } from "@v/profile/tickets/edit/definitions/ticket"
 import { cloneDeep, isEqual } from "lodash"
 import * as z from "zod"
@@ -34,24 +33,24 @@ import ChatMessage from "@c/chat/chat-message.vue"
 import {
     formatChanges,
     hasTimelineMessage,
-    normalizeAttributes
+    normalizeAttributes,
 } from "@v/profile/tickets/edit/utils/ticket"
 import {
     type ChatMessageFile,
-    ChatMessageType
+    ChatMessageType,
 } from "@c/chat/definitions/chat-message"
 import { downloadExternalFile } from "@/lib/files"
 import ChatFiles from "@c/chat/chat-files.vue"
 import { ProfileRouteName } from "@r/profile/route-names"
 import { useRouter } from "vue-router"
 import BSkeleton from "@c/common/b-skeleton/b-skeleton.vue"
-import {messageLength, messageLengthShort} from "@v/profile/tickets/list/definitions/tickets-list"
+import { messageLength } from "@v/profile/tickets/list/definitions/tickets-list"
 
 const router = useRouter()
 
 enum LoadingState {
     Save = "save",
-    Remove = "remove"
+    Remove = "remove",
 }
 
 const route = useRoute()
@@ -62,7 +61,7 @@ const isFirstLoading = ref(true)
 const isLoadingFile = ref(false)
 const loadingState = ref<LoadingState | null>(null)
 
-const chatRef = ref<ComponentPublicInstance<{ scrollToBottom: () => void }> | null>(null)
+const chatRef = useTemplateRef<{ scrollToBottom: () => void }>("chatRef")
 
 function defaultState(): Ticket {
     return {
@@ -81,12 +80,12 @@ const initialState = ref<Ticket>(defaultState())
 const currentState = ref<Ticket>(defaultState())
 
 const ticketDetails = ref<TicketDetails>({
-    title:    "",
-    type:     TicketType.General,
-    category: null,
-    partner:  null,
-    user:     null,
-    state:    TicketState.New,
+    title:      "",
+    type:       TicketType.General,
+    category:   null,
+    partner:    null,
+    user:       null,
+    state:      TicketState.New,
     attributes: {},
     timeline:   [],
 })
@@ -135,7 +134,7 @@ const isEditable = computed(() => {
     return [
         TicketState.New,
         TicketState.Waiting,
-        TicketState.InProgress
+        TicketState.InProgress,
     ].includes(ticketDetails.value.state)
 })
 
@@ -187,7 +186,7 @@ async function onSave() {
 
     const ticketData = await ticketAPI.updateMessage(
         ticketId.value,
-        currentState.value
+        currentState.value,
     )
 
     if (ticketData instanceof HttpError) {
@@ -250,7 +249,6 @@ async function onRemove() {
                         >
                             <b-text :value="ticketDetails.partner?.name" />
                         </b-skeleton>
-
                     </portal-form-item>
 
                     <portal-form-item

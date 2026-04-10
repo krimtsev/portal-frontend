@@ -1,6 +1,6 @@
 import { PortalRouteName } from "@r/portal/route-names"
 
 export interface PortalRouteButton {
-    label: string,
+    label: string
     route: PortalRouteName
 }

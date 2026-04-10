@@ -18,7 +18,7 @@ import BTelnumLink from "@c/common/b-link/b-telnum-link.vue"
                 </p>
 
                 <p class="mb-x3">
-                    Отчеты по mango аудированию высылает <br/>
+                    Отчеты по mango аудированию высылает <br>
                     Екатерина <b-telnum-link value="+79067019944" />
                 </p>
 

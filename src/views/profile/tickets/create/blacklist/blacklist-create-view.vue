@@ -21,7 +21,7 @@ import {
 import BInputTelnum from "@c/common/b-input/b-input-telnum.vue"
 import {
     type TicketCategoriesItem,
-    TicketCategorySlug
+    TicketCategorySlug,
 } from "@v/profile/tickets/edit/definitions/ticket-category"
 import { TicketType } from "@v/profile/tickets/edit/definitions/ticket"
 import { useI18n } from "vue-i18n"
@@ -40,7 +40,7 @@ const isLoading = ref(false)
 
 const userPartners = ref<UserPartners>({
     partner_id: null,
-    partners:   []
+    partners:   [],
 })
 
 const ticketCategory = ref<TicketCategoriesItem>()
@@ -77,7 +77,7 @@ const {
     errors,
     submit,
     watchChanges,
-    resetErrors
+    resetErrors,
 } = useZodResolver<FormSchemaType>(FormSchema)
 
 watchChanges(currentState)
@@ -87,7 +87,7 @@ onMounted(async () => {
 
     const [partners, category] = await Promise.all([
         partnerAPI.userPartners(),
-        ticketAPI.category(TicketCategorySlug.FRANCHISE)
+        ticketAPI.category(TicketCategorySlug.FRANCHISE),
     ])
 
     if (
@@ -151,8 +151,8 @@ async function onSave() {
                             :is-loading="isFirstLoading"
                             :disabled="isFirstLoading"
                             :error="errors.partner_id"
-                            optionLabel="name"
-                            optionValue="partner_id"
+                            option-label="name"
+                            option-value="partner_id"
                             :placeholder="t('mc.common.partner')"
                             name="partner_id"
                             class="full-width"
@@ -241,7 +241,8 @@ async function onSave() {
             <portal-card title="В чёрный список можно занести сотрудника по причинам:">
                 <div class="content">
                     <ol>
-                        <li>Нахождение на рабочем месте в состоянии алкогольного или наркотического
+                        <li>
+                            Нахождение на рабочем месте в состоянии алкогольного или наркотического
                             опьянения (с предоставлением доказательства систематических нарушений).
                         </li>
                         <li>

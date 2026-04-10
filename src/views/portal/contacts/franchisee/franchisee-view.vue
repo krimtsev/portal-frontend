@@ -7,7 +7,7 @@ import * as contactsAPI from "@/api/modules/contacts/contacts"
 import { HttpError } from "@/api"
 import {
     type FranchiseeItem,
-    FranchiseeSortBy
+    FranchiseeSortBy,
 } from "@v/portal/contacts/franchisee/definitions/franchisee"
 import { useNotify } from "@/composables/notify/use-notify"
 import PrimeDataTable from "primevue/datatable"
@@ -16,14 +16,14 @@ import BEmptyResult from "@c/common/b-empty/b-empty-result.vue"
 import PrimeColumn from "primevue/column"
 import {
     defaultPaginationFilter,
-    defaultPaginationPage
+    defaultPaginationPage,
 } from "@/shared/pagination/pagination"
 import { useI18n } from "vue-i18n"
 import { normalizeData } from "@v/portal/contacts/franchisee/utils/franchisee"
 import BTelnumLink from "@c/common/b-link/b-telnum-link.vue"
 import BInputSearch from "@c/common/b-input-search/b-input-search.vue"
 import BSocialLinks from "@c/common/b-link/b-social-links.vue"
-import BTableText from "@c/common/b-table/b-table-text.vue";
+import BTableText from "@c/common/b-table/b-table-text.vue"
 
 const notify = useNotify()
 const { t, n } = useI18n()
@@ -77,8 +77,8 @@ function onSearchChange(search: string) {
 const paginationInfo = computed(() => {
     return t("mc.pagination.table",
         {
-            from: n(paginationPage.value.from),
-            to: n(paginationPage.value.to),
+            from:  n(paginationPage.value.from),
+            to:    n(paginationPage.value.to),
             total: n(paginationPage.value.total),
         },
         Number(paginationPage.value.total),
@@ -130,7 +130,7 @@ const firstPage = computed(() => {
                     {{ paginationInfo }}
                 </template>
 
-                <template #loading></template>
+                <template #loading />
 
                 <template #empty>
                     <b-empty-result />
@@ -171,7 +171,12 @@ const firstPage = computed(() => {
                                 </div>
                             </template>
 
-                            <div v-else class="cell-value"> — </div>
+                            <div
+                                v-else
+                                class="cell-value"
+                            >
+                                —
+                            </div>
                         </b-skeleton>
                     </template>
                 </prime-column>
@@ -201,7 +206,12 @@ const firstPage = computed(() => {
                                 </div>
                             </template>
 
-                            <div v-else class="cell-value"> — </div>
+                            <div
+                                v-else
+                                class="cell-value"
+                            >
+                                —
+                            </div>
                         </b-skeleton>
                     </template>
                 </prime-column>

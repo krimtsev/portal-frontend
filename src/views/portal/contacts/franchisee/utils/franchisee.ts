@@ -1,7 +1,7 @@
 import type {
     FranchiseeItemRaw,
     FranchiseeItem,
-    FranchiseeTelnums
+    FranchiseeTelnums,
 } from "@v/portal/contacts/franchisee/definitions/franchisee"
 
 export function normalizeData(data: FranchiseeItemRaw[]): FranchiseeItem[] {
@@ -10,10 +10,10 @@ export function normalizeData(data: FranchiseeItemRaw[]): FranchiseeItem[] {
 
         if (!acc[item.name]) {
             acc[item.name] = {
-                filial: item.name,
-                names: [],
+                filial:  item.name,
+                names:   [],
                 telnums: [],
-                id: item.id
+                id:      item.id,
             }
         }
 

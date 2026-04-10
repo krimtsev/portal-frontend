@@ -45,13 +45,40 @@ import PortalPage from "@c/portal/portal-page/portal-page.vue"
                     show-gridlines
                     class="table"
                 >
-                    <prime-column field="service" header="Услуга"></prime-column>
-                    <prime-column field="barber" header="БАРБЕР"></prime-column>
-                    <prime-column field="topBarber" header="ТОП-БАРБЕР"></prime-column>
-                    <prime-column field="topBarberPlus" header="ТОП-БАРБЕР+"></prime-column>
-                    <prime-column field="brandBarber" header="БРЕНД-БАРБЕР"></prime-column>
-                    <prime-column field="brandBarberPlus" header="БРЕНД-БАРБЕР+"></prime-column>
-                    <prime-column field="brandBarberPro" header="БРЕНД-БАРБЕР ПРО"></prime-column>
+                    <prime-column
+                        field="service"
+                        header="Услуга"
+                    />
+
+                    <prime-column
+                        field="barber"
+                        header="БАРБЕР"
+                    />
+
+                    <prime-column
+                        field="topBarber"
+                        header="ТОП-БАРБЕР"
+                    />
+
+                    <prime-column
+                        field="topBarberPlus"
+                        header="ТОП-БАРБЕР+"
+                    />
+
+                    <prime-column
+                        field="brandBarber"
+                        header="БРЕНД-БАРБЕР"
+                    />
+
+                    <prime-column
+                        field="brandBarberPlus"
+                        header="БРЕНД-БАРБЕР+"
+                    />
+
+                    <prime-column
+                        field="brandBarberPro"
+                        header="БРЕНД-БАРБЕР ПРО"
+                    />
                 </prime-data-table>
             </div>
         </portal-card>

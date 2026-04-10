@@ -36,7 +36,7 @@ const whatsappHref = computed(() => {
 const linkAttr = {
     rel:    "noopener noreferrer",
     target: "_blank",
-    class:  "b-social-link"
+    class:  "b-social-link",
 }
 </script>
 
@@ -46,7 +46,6 @@ const linkAttr = {
             v-if="props.whatsapp"
             v-bind="linkAttr"
             :href="whatsappHref"
-
         >
             <b-svg name="whatsapp-16" />
         </a>

@@ -1,7 +1,7 @@
 import {
     createWebHistory,
     createRouter,
-    type RouteLocationNormalized
+    type RouteLocationNormalized,
 } from "vue-router"
 import routes from "@r/routes"
 import useAuthStore from "~/src/store/auth/auth"
@@ -25,7 +25,7 @@ router.beforeEach(async (to: RouteLocationNormalized, from, next) => {
     const authStore = useAuthStore()
 
     if (authStore.isLoading) {
-        const result = await authStore.getUserData()
+        const result = await authStore.auth()
         if (!result) {
             return next({ name: CommonRouteName.Auth })
         }

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount, computed } from "vue"
+import { ref, onMounted, onBeforeUnmount, computed, useTemplateRef } from "vue"
 import DashboardSidebar from "@l/dashboard/dashboard-sidebar.vue"
 import PrimeButton from "primevue/button"
 import PrimeAvatar from "primevue/avatar"
@@ -23,7 +23,7 @@ const isMobile = ref(window.innerWidth <= 991)
 const sidebarActive = ref(!isMobile.value)
 let desktopSidebarActive = true
 
-const sidebarRef = ref<any>(null)
+const sidebarRef = useTemplateRef<any>("sidebarRef")
 
 const avatarLabel = computed(() => {
     const login = authStore.user.login
@@ -74,30 +74,30 @@ onBeforeUnmount(() => {
     document.removeEventListener("click", handleOutsideClick)
 })
 
-const menuRef  = ref<any>(null)
+const menuRef = ref<any>(null)
 const profileItems = ref([
     {
-        label: t("mc.common.profile"),
-        icon:  "pi pi-user",
-        route: ProfileRouteName.Profile,
+        label:   t("mc.common.profile"),
+        icon:    "pi pi-user",
+        route:   ProfileRouteName.Profile,
         command: () => {
             router.push({ name: ProfileRouteName.Profile })
-        }
+        },
     },
     {
-        label: t("mc.common.portal"),
-        icon:  "pi pi-reply",
-        route: PortalRouteName.Home,
+        label:   t("mc.common.portal"),
+        icon:    "pi pi-reply",
+        route:   PortalRouteName.Home,
         command: () => {
             router.push({ name: PortalRouteName.Home })
-        }
+        },
     },
     {
-        label: t("mc.common.exit"),
-        icon:  "pi pi-sign-out",
+        label:   t("mc.common.exit"),
+        icon:    "pi pi-sign-out",
         command: async () => {
             await authStore.logout()
-        }
+        },
     },
 ])
 const toggleMenu = (event: PointerEvent) => {
@@ -117,7 +117,7 @@ const toggleMenu = (event: PointerEvent) => {
         <dashboard-sidebar ref="sidebarRef" />
 
         <div class="layout-wrapper">
-            <div class="layout-topbar" >
+            <div class="layout-topbar">
                 <div class="topbar-start">
                     <prime-button
                         icon="pi pi-bars"

@@ -16,14 +16,14 @@ export async function update(folderId: string, fileId: string | number, data: { 
 export async function upload(folderId: string, files: File[]) {
     return await http.post<CloudFilesResponse>(`dashboard/cloud/folder/${folderId}/files`, { files }, {
         headers: {
-            "Content-Type": "multipart/form-data"
-        }
+            "Content-Type": "multipart/form-data",
+        },
     })
 }
 
 export async function download(folderId: string, name: string) {
     return await http.getFile({
         fileName: name,
-        url: `dashboard/cloud/folder/${folderId}/download`
+        url:      `dashboard/cloud/folder/${folderId}/download`,
     })
 }

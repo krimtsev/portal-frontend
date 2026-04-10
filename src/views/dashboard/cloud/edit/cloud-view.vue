@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, nextTick, onMounted, ref } from "vue"
+import { computed, nextTick, onMounted, ref, useTemplateRef } from "vue"
 import { dashboardPaths } from "@r/dashboard/path"
 import { DashboardRouteName } from "@r/dashboard/route-names"
 import BForm from "@c/common/b-form/b-form.vue"
@@ -35,7 +35,7 @@ const isProcessing = ref(false)
 const categories = ref<CloudOptionItem[]>([])
 const files = ref<CloudFile[]>([])
 const isRootFolder = ref(false)
-const filesListRef = ref<InstanceType<typeof CloudFilesList> | null>(null)
+const filesListRef = useTemplateRef<InstanceType<typeof CloudFilesList>>("filesListRef")
 
 const cloudId = computed(() => route.params.id as string)
 const isNew = computed(() => cloudId.value === "!new")
@@ -52,17 +52,17 @@ const folderForm = useForm<CloudData>({
 })
 
 const folderDynamicConfig = useConfigValidation(folderForm.submitCount)
-const [nameModel]       = folderForm.defineField("name", folderDynamicConfig)
-const [slugModel]       = folderForm.defineField("slug", folderDynamicConfig)
+const [nameModel] = folderForm.defineField("name", folderDynamicConfig)
+const [slugModel] = folderForm.defineField("slug", folderDynamicConfig)
 const [categoryIdModel] = folderForm.defineField("category_id", folderDynamicConfig)
 
 const folderErrors = computed(() => folderForm.errors.value)
 
 const uploadForm = useForm<{ files: File[] }>({
     validationSchema: CloudFileSchema,
-    initialValues: {
-        files: []
-    }
+    initialValues:    {
+        files: [],
+    },
 })
 
 const [filesModel] = uploadForm.defineField("files")
@@ -103,8 +103,8 @@ onMounted(async () => {
             values: {
                 name:        cloud.name,
                 slug:        cloud.slug,
-                category_id: cloud.category_id
-            }
+                category_id: cloud.category_id,
+            },
         })
 
         files.value = cloud.files
@@ -125,7 +125,7 @@ const onSave = folderForm.handleSubmit(async (formValues) => {
     const [cloudResponse] = await Promise.all([
         isNew.value
             ? cloudAPI.create(cloudId.value, formValues)
-            : cloudAPI.update(cloudId.value, formValues)
+            : cloudAPI.update(cloudId.value, formValues),
     ])
 
     isLoading.value = false
@@ -143,7 +143,7 @@ const onSave = folderForm.handleSubmit(async (formValues) => {
     }
 
     await router.push({
-        name: DashboardRouteName.DashboardCloudList
+        name: DashboardRouteName.DashboardCloudList,
     })
 })
 
@@ -189,7 +189,7 @@ const fileUpload = uploadForm.handleSubmit(async (formValues) => {
         :title="isNew
             ? 'Создание каталога'
             : 'Редактирование каталога'"
-        :pathBack="dashboardPaths.DashboardCloudList"
+        :path-back="dashboardPaths.DashboardCloudList"
         :is-loading="isLoading"
         :is-first-loading="isFirstLoading"
         class="cloud-view"

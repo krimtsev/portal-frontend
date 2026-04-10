@@ -23,85 +23,85 @@ const roles = [Roles.USER, Roles.ADMIN, Roles.SYSADMIN]
 
 const routes: RouteRecordRaw[] = [
     {
-        path: "/",
+        path:      "/",
         component: PortalLayout,
-        meta: {
-            title: "mc.partner.title"
+        meta:      {
+            title: "mc.partner.title",
         },
         children: [
             {
-                path: profilePaths.Profile,
-                name: ProfileRouteName.Profile,
+                path:       profilePaths.Profile,
+                name:       ProfileRouteName.Profile,
                 components: {
                     default: ProfileListView,
                 },
                 meta: {
                     roles,
-                }
+                },
             },
             {
-                path: profilePaths.ProfileUserProfile,
-                name: ProfileRouteName.ProfileUserProfile,
+                path:       profilePaths.ProfileUserProfile,
+                name:       ProfileRouteName.ProfileUserProfile,
                 components: {
                     default: UserProfileView,
                 },
                 meta: {
                     roles,
-                }
+                },
             },
             {
-                path: profilePaths.ProfileChangePassword,
-                name: ProfileRouteName.ProfileChangePassword,
+                path:       profilePaths.ProfileChangePassword,
+                name:       ProfileRouteName.ProfileChangePassword,
                 components: {
                     default: ChangePasswordView,
                 },
                 meta: {
                     roles,
-                }
+                },
             },
             {
-                path: profilePaths.ProfileAnalytics,
-                name: ProfileRouteName.ProfileAnalytics,
+                path:       profilePaths.ProfileAnalytics,
+                name:       ProfileRouteName.ProfileAnalytics,
                 components: {
                     default: AnalyticsView,
                 },
                 meta: {
                     roles,
-                }
+                },
             },
             {
-                path: profilePaths.ProfileTeam,
-                name: ProfileRouteName.ProfileTeam,
+                path:       profilePaths.ProfileTeam,
+                name:       ProfileRouteName.ProfileTeam,
                 components: {
                     default: TeamView,
                 },
                 meta: {
                     roles,
-                }
+                },
             },
             {
-                path: profilePaths.ProfileTicket,
-                name: ProfileRouteName.ProfileTicket,
+                path:       profilePaths.ProfileTicket,
+                name:       ProfileRouteName.ProfileTicket,
                 components: {
                     default: TicketEditView,
                 },
                 meta: {
                     roles,
-                }
+                },
             },
             {
-                path: profilePaths.ProfileTickets,
-                name: ProfileRouteName.ProfileTickets,
+                path:       profilePaths.ProfileTickets,
+                name:       ProfileRouteName.ProfileTickets,
                 components: {
                     default: TicketsListView,
                 },
                 meta: {
                     roles,
-                }
+                },
             },
             {
-                path: profilePaths.ProfileTicketGeneral,
-                name: ProfileRouteName.ProfileTicketGeneral,
+                path:       profilePaths.ProfileTicketGeneral,
+                name:       ProfileRouteName.ProfileTicketGeneral,
                 components: {
                     default: TicketCreateGeneralView,
                 },
@@ -110,8 +110,8 @@ const routes: RouteRecordRaw[] = [
                 },
             },
             {
-                path: profilePaths.ProfileTicketDesign,
-                name: ProfileRouteName.ProfileTicketDesign,
+                path:       profilePaths.ProfileTicketDesign,
+                name:       ProfileRouteName.ProfileTicketDesign,
                 components: {
                     default: TicketCreateDesignView,
                 },
@@ -120,8 +120,8 @@ const routes: RouteRecordRaw[] = [
                 },
             },
             {
-                path: profilePaths.ProfileTicketCertificate,
-                name: ProfileRouteName.ProfileTicketCertificate,
+                path:       profilePaths.ProfileTicketCertificate,
+                name:       ProfileRouteName.ProfileTicketCertificate,
                 components: {
                     default: TicketCreateCertificateView,
                 },
@@ -130,8 +130,8 @@ const routes: RouteRecordRaw[] = [
                 },
             },
             {
-                path: profilePaths.ProfileTicketSpecialist,
-                name: ProfileRouteName.ProfileTicketSpecialist,
+                path:       profilePaths.ProfileTicketSpecialist,
+                name:       ProfileRouteName.ProfileTicketSpecialist,
                 components: {
                     default: TicketCreateSpecialistView,
                 },
@@ -140,8 +140,8 @@ const routes: RouteRecordRaw[] = [
                 },
             },
             {
-                path: profilePaths.ProfileTicketBlacklist,
-                name: ProfileRouteName.ProfileTicketBlacklist,
+                path:       profilePaths.ProfileTicketBlacklist,
+                name:       ProfileRouteName.ProfileTicketBlacklist,
                 components: {
                     default: TicketCreateBlacklistView,
                 },
@@ -150,8 +150,8 @@ const routes: RouteRecordRaw[] = [
                 },
             },
             {
-                path: profilePaths.ProfileTicketFlagman,
-                name: ProfileRouteName.ProfileTicketFlagman,
+                path:       profilePaths.ProfileTicketFlagman,
+                name:       ProfileRouteName.ProfileTicketFlagman,
                 components: {
                     default: TicketCreateFlagmanView,
                 },
@@ -160,8 +160,8 @@ const routes: RouteRecordRaw[] = [
                 },
             },
             {
-                path: profilePaths.ProfileTicketAdministrator,
-                name: ProfileRouteName.ProfileTicketAdministrator,
+                path:       profilePaths.ProfileTicketAdministrator,
+                name:       ProfileRouteName.ProfileTicketAdministrator,
                 components: {
                     default: TicketCreateAdministratorView,
                 },
@@ -169,8 +169,8 @@ const routes: RouteRecordRaw[] = [
                     roles,
                 },
             },
-        ]
-    }
+        ],
+    },
 ]
 
 export default routes

@@ -3,8 +3,8 @@ import { computed } from "vue"
 import { DateTime } from "luxon"
 
 interface Props {
-    value: string | Date | null
-    diff?: boolean
+    value:       string | Date | null
+    diff?:       boolean
     showFormat?: string
 }
 

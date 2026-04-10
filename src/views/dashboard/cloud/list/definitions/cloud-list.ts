@@ -2,23 +2,23 @@ import type { TreeNode } from "primevue/treenode"
 
 export enum CloudType {
     Folder = "folder",
-    File = "file"
+    File = "file",
 }
 
 export interface CloudListItem extends TreeNode {
     data: {
-        id:   number
-        name: string
-        type: CloudType
-        ext?: string
+        id:         number
+        name:       string
+        type:       CloudType
+        ext?:       string
         downloads?: number
-        slug?: string
-        path?: string
+        slug?:      string
+        path?:      string
     }
 }
 
 export interface CloudOptionItem {
-    id:   number,
+    id:   number
     name: string
 }
 

@@ -4,13 +4,12 @@ import BLink from "@c/common/b-link/b-link.vue"
 
 const emit = defineEmits(["input"])
 
-const { t } = useI18n()
-
 const props = defineProps<{
-    search?: string
+    search?:      string
     widthBorder?: boolean
 }>()
 
+const { t } = useI18n()
 </script>
 
 <template>
@@ -21,7 +20,10 @@ const props = defineProps<{
         }"
     >
         <div class="image-container">
-            <i class="pi pi-search" style="font-size: 2rem"></i>
+            <i
+                class="pi pi-search"
+                style="font-size: 2rem"
+            />
         </div>
         <div class="text-container">
             <div class="title">

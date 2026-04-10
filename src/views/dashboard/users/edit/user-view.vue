@@ -58,7 +58,7 @@ const {
     defineField,
     meta,
     submitCount,
-    setErrors
+    setErrors,
 } = useForm<UserData>({
     validationSchema: UserSchema(isNew.value),
     initialValues:    defaultState(),
@@ -66,25 +66,25 @@ const {
 
 const dynamicConfig = useConfigValidation(submitCount)
 
-const [nameModel]      = defineField("name", dynamicConfig)
-const [loginModel]     = defineField("login", dynamicConfig)
-const [passwordModel]  = defineField("password", dynamicConfig)
-const [roleModel]      = defineField("role", dynamicConfig)
-const [emailModel]     = defineField("email", dynamicConfig)
+const [nameModel] = defineField("name", dynamicConfig)
+const [loginModel] = defineField("login", dynamicConfig)
+const [passwordModel] = defineField("password", dynamicConfig)
+const [roleModel] = defineField("role", dynamicConfig)
+const [emailModel] = defineField("email", dynamicConfig)
 const [partnerIdModel] = defineField("partner_id", dynamicConfig)
-const [disabledModel]  = defineField("disabled", dynamicConfig)
+const [disabledModel] = defineField("disabled", dynamicConfig)
 
 onMounted(async () => {
     isFirstLoading.value = true
 
     const [
         partnersData,
-        userData
+        userData,
     ] = await Promise.all([
         partnersAPI.options(),
         !isNew.value
             ? usersAPI.get(userId.value)
-            : null
+            : null,
     ])
 
     if (
@@ -108,7 +108,7 @@ onMounted(async () => {
                 partner_id: user.partner?.id || null,
                 disabled:   user.disabled,
                 password:   "",
-            }
+            },
         })
     }
 
@@ -127,7 +127,7 @@ const onSave = handleSubmit(async (formValues) => {
     const [userResponse] = await Promise.all([
         isNew.value
             ? usersAPI.create(userId.value, formValues)
-            : usersAPI.update(userId.value, formValues)
+            : usersAPI.update(userId.value, formValues),
     ])
 
     isLoading.value = false
@@ -145,7 +145,7 @@ const onSave = handleSubmit(async (formValues) => {
     }
 
     await router.push({
-        name: DashboardRouteName.DashboardUsers
+        name: DashboardRouteName.DashboardUsers,
     })
 })
 
@@ -165,7 +165,7 @@ const rolesList = [
     {
         label: t("mc.roles.sysadmin"),
         value: Roles.SYSADMIN,
-    }
+    },
 ]
 </script>
 
@@ -174,7 +174,7 @@ const rolesList = [
         :title="isNew
             ? 'Создание пользователя'
             : 'Редактирование пользователя'"
-        :pathBack="dashboardPaths.DashboardUsers"
+        :path-back="dashboardPaths.DashboardUsers"
         :is-loading="isLoading"
         :is-first-loading="isFirstLoading"
         class="user-view"

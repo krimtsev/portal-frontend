@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue"
+import { ref, useTemplateRef } from "vue"
 import BEmptyResult from "@c/common/b-empty/b-empty-result.vue"
 import BText from "@c/common/b-text/b-text.vue"
 import BButtonIcon from "@c/common/b-button-icon/b-button-icon.vue"
@@ -21,17 +21,17 @@ const emit = defineEmits<{
 }>()
 
 const props = withDefaults(defineProps<{
-    cloudId: string
+    cloudId:   string
     isLoading: boolean
-    files: CloudFile[]
+    files:     CloudFile[]
 }>(), {
     isLoading: false,
-    files: () => ([])
+    files:     () => ([]),
 })
 
 const notify = useNotify()
 
-const tableRef = ref<any>(null)
+const tableRef = useTemplateRef<InstanceType<typeof PrimeDataTable>>("tableRef")
 
 const editFileData = ref<CloudFile | null>(null)
 const removeFileData = ref<CloudFile | null>(null)
@@ -92,7 +92,7 @@ defineExpose({ scrollToBottom })
             :virtual-scroller-options="{ itemSize: 48 }"
             data-key="id"
             class="table show-empty"
-            columnResizeMode="expand"
+            column-resize-mode="expand"
         >
             <prime-column
                 field="title"

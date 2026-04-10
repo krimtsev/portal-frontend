@@ -2,11 +2,11 @@
 import { computed } from "vue"
 
 const props = defineProps<{
-    text: string | string[]
-    sent?: boolean
-    name?: string
+    text:    string | string[]
+    sent?:   boolean
+    name?:   string
     avatar?: string
-    stamp?: string
+    stamp?:  string
 }>()
 
 const type = computed(() => {
@@ -31,7 +31,7 @@ const type = computed(() => {
                 v-if="props.avatar"
                 :src="props.avatar"
                 class="chat-avatar"
-            />
+            >
             <div>
                 <div
                     v-if="props.name"

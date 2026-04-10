@@ -10,13 +10,13 @@ export const themeConfig = {
     theme: {
         preset,
         options: {
-            prefix: "p",
+            prefix:           "p",
             darkModeSelector: ".dark-mode",
         },
         dark: true,
     },
-    ripple: true,
+    ripple:       true,
     inputVariant: "outlined",
-    locale: ru
+    locale:       ru,
 }
 

@@ -32,9 +32,9 @@ onMounted(async () => {
     cloudListStore.setIsLoading(true)
 
     const [
-        cloudListData
+        cloudListData,
     ] = await Promise.all([
-        cloudAPI.tree(cloudListStore.filter)
+        cloudAPI.tree(cloudListStore.filter),
     ])
 
     if (cloudListData instanceof HttpError) {
@@ -50,30 +50,30 @@ onMounted(async () => {
 const onClick = (id: string, event: MouseEvent) => {
     openRoute(
         {
-            name: DashboardRouteName.DashboardCloud,
-            params: { id }
+            name:   DashboardRouteName.DashboardCloud,
+            params: { id },
         },
-        event
+        event,
     )
 }
 
 function goToNew() {
     router.push({
-        name: DashboardRouteName.DashboardCloud,
-        params: { id: "!new" }
+        name:   DashboardRouteName.DashboardCloud,
+        params: { id: "!new" },
     })
 }
 
 function goToPortal(path: string[]) {
     router.push({
-        name: PortalRouteName.Cloud,
-        params: { pathMatch: path }
+        name:   PortalRouteName.Cloud,
+        params: { pathMatch: path },
     })
 }
 
 const filters = computed(() => {
     return {
-        name: cloudListStore.filter.search
+        name: cloudListStore.filter.search,
     }
 })
 </script>
@@ -113,7 +113,7 @@ const filters = computed(() => {
                 v-else
                 :value="cloudList"
                 :filters="filters"
-                filterMode="lenient"
+                filter-mode="lenient"
                 class="table show-empty"
             >
                 <template #empty>
@@ -152,7 +152,10 @@ const filters = computed(() => {
                             :class="['ext', slotProps.node?.data.ext?.toLowerCase()]"
                         />
 
-                        <span v-else class="pi pi-folder-open"></span>
+                        <span
+                            v-else
+                            class="pi pi-folder-open"
+                        />
                     </template>
                 </prime-column>
 

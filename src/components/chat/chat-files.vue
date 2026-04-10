@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { type ChatMessageFile } from "@c/chat/definitions/chat-message"
 
-const props = defineProps<{
-    items: ChatMessageFile[]
-}>()
-
 const emit = defineEmits<{
     (e: "click", value: ChatMessageFile): void
+}>()
+
+const props = defineProps<{
+    items: ChatMessageFile[]
 }>()
 
 </script>

@@ -15,65 +15,65 @@ const roles = [Roles.USER, Roles.ADMIN, Roles.SYSADMIN]
 
 const routes: RouteRecordRaw[] = [
     {
-        path: "/",
+        path:      "/",
         component: PortalLayout,
-        meta: {
-            title: "mc.partner.title"
+        meta:      {
+            title: "mc.partner.title",
         },
         children: [
             {
-                path: portalPaths.InstructionMangoRedirect,
-                name: PortalRouteName.InstructionMangoRedirect,
+                path:       portalPaths.InstructionMangoRedirect,
+                name:       PortalRouteName.InstructionMangoRedirect,
                 components: {
                     default: InstructionMangoRedirectView,
                 },
                 meta: {
                     roles,
-                }
+                },
             },
             {
-                path: portalPaths.InstructionYclientNotifications,
-                name: PortalRouteName.InstructionYclientNotifications,
+                path:       portalPaths.InstructionYclientNotifications,
+                name:       PortalRouteName.InstructionYclientNotifications,
                 components: {
                     default: InstructionYclientNotificationsView,
                 },
                 meta: {
                     roles,
-                }
+                },
             },
             {
-                path: portalPaths.IpTelephonyTroubleshooting,
-                name: PortalRouteName.IpTelephonyTroubleshooting,
+                path:       portalPaths.IpTelephonyTroubleshooting,
+                name:       PortalRouteName.IpTelephonyTroubleshooting,
                 components: {
                     default: IpTelephonyTroubleshootingView,
                 },
                 meta: {
                     roles,
-                }
+                },
             },
             {
-                path: portalPaths.Certificates,
-                name: PortalRouteName.Certificates,
+                path:       portalPaths.Certificates,
+                name:       PortalRouteName.Certificates,
                 components: {
                     default: CertificatesView,
                 },
                 meta: {
                     roles,
-                }
+                },
             },
             {
-                path: portalPaths.ContactFranchisee,
-                name: PortalRouteName.ContactFranchisee,
+                path:       portalPaths.ContactFranchisee,
+                name:       PortalRouteName.ContactFranchisee,
                 components: {
                     default: ContactFranchiseeView,
                 },
                 meta: {
                     roles,
-                }
+                },
             },
             {
-                path: portalPaths.Cloud,
-                name: PortalRouteName.Cloud,
+                path:       portalPaths.Cloud,
+                name:       PortalRouteName.Cloud,
                 components: {
                     default: CloudView,
                 },
@@ -81,8 +81,8 @@ const routes: RouteRecordRaw[] = [
                     roles,
                 },
             },
-        ]
-    }
+        ],
+    },
 ]
 
 export default routes

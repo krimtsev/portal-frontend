@@ -1,5 +1,5 @@
 import axios from "axios"
-import type  {
+import type {
     AxiosInstance,
     AxiosRequestConfig,
     AxiosDefaults,
@@ -13,9 +13,9 @@ import env from "~/env"
 import useAuthStore from "@s/auth/auth"
 
 export class HttpError {
-    code: number
+    code:    number
     message: string
-    errors: Record<string, string[]>
+    errors:  Record<string, string[]>
 
     constructor(code = 500, message = "", errors = {}) {
         this.code = code
@@ -26,11 +26,12 @@ export class HttpError {
 
 export interface CustomAxiosRequestConfig extends Omit<AxiosRequestConfig, "signal"> {
     abortController?: AbortController
+    skipAuthGuard?:   boolean
 }
 
 export interface AbortControllerConfig {
     controller: AbortController
-    internal?: boolean
+    internal?:  boolean
 }
 
 const prefix = "api/v1"
@@ -40,10 +41,9 @@ async function authGuard(error: any) {
     const status = error.response?.status
     const message = error.response?.data?.message
 
-    if (status === 401 && message === "Unauthenticated") {
+    if (status === 401 && message === "Unauthenticated.") {
         const authStore = useAuthStore()
         await authStore.csrf()
-
         const success = await authStore.getUserData()
 
         if (!success) {
@@ -87,7 +87,7 @@ function toNativeConfig(customConfig?: CustomAxiosRequestConfig): AxiosRequestCo
 }
 
 class Http {
-    private http: AxiosInstance
+    private http:    AxiosInstance
     public defaults: AxiosDefaults
 
     queue: Queue = new Queue()
@@ -95,14 +95,20 @@ class Http {
     constructor() {
         this.http = axios.create({
             baseURL:          `${url}/${prefix}`,
-            paramsSerializer: { serialize: (params) => qs.stringify(params, { arrayFormat: "repeat" }) },
+            paramsSerializer: {
+                serialize: (params) => qs.stringify(params, { arrayFormat: "repeat" }),
+            },
             withCredentials: true,
-            withXSRFToken: true,
+            withXSRFToken:   true,
         })
         this.defaults = this.http.defaults
 
-        this.http.interceptors.request.use(config => {
-            return config
+        this.http.interceptors.request.use(request => {
+            return request
+        })
+
+        this.http.interceptors.response.use(response => {
+            return response
         })
     }
 
@@ -115,12 +121,14 @@ class Http {
             return res.data
         } catch (err: unknown) {
             const error = err as AxiosError<any>
-            await authGuard(error)
+            if (!customConfig?.skipAuthGuard) {
+                await authGuard(error)
+            }
             requestsHistory.push(url, HttpMethod.GET, error.response?.status, error.response?.data)
             return new HttpError(
                 error.response?.status,
                 error.response?.data?.message,
-                error.response?.data?.errors
+                error.response?.data?.errors,
             )
         }
     }
@@ -139,7 +147,7 @@ class Http {
             return new HttpError(
                 error.response?.status,
                 error.response?.data?.message,
-                error.response?.data?.errors
+                error.response?.data?.errors,
             )
         }
     }
@@ -156,7 +164,7 @@ class Http {
             return new HttpError(
                 error.response?.status,
                 error.response?.data?.message,
-                error.response?.data?.errors
+                error.response?.data?.errors,
             )
         }
     }
@@ -173,7 +181,7 @@ class Http {
             return new HttpError(
                 error.response?.status,
                 error.response?.data?.message,
-                error.response?.data?.errors
+                error.response?.data?.errors,
             )
         }
     }
@@ -190,13 +198,13 @@ class Http {
             return new HttpError(
                 error.response?.status,
                 error.response?.data?.message,
-                error.response?.data?.errors
+                error.response?.data?.errors,
             )
         }
     }
 
     async getFile(
-        { fileName, url = "", onDownloadProgress,  params = {} }:
+        { fileName, url = "", onDownloadProgress, params = {} }:
         { fileName: string, url: string, onDownloadProgress?: (progressEvent: any) => void, params?: Record<string, unknown> },
     ): Promise<Blob | HttpError> {
         try {
@@ -214,7 +222,7 @@ class Http {
             return new HttpError(
                 error.response?.status,
                 error.response?.data?.message,
-                error.response?.data?.errors
+                error.response?.data?.errors,
             )
         }
     }

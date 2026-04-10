@@ -6,7 +6,7 @@ const emit = defineEmits<{
 }>()
 
 const props = defineProps<{
-    label: string,
+    label:     string
     disabled?: boolean
 }>()
 </script>

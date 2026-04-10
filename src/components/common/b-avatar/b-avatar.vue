@@ -5,12 +5,13 @@ import { imageSrc } from "@h/images/images"
 
 
 const props = withDefaults(defineProps<{
-    src?: string,
-    size?: "large" | "xlarge",
-    shape?: "square" | "circle",
+    src?:   string
+    size?:  "normal" | "large" | "xlarge"
+    shape?: "square" | "circle"
 }>(), {
-    src: "avatars/default.png",
+    src:   "avatars/default.png",
     shape: "circle",
+    size:  "normal",
 })
 
 const src = computed(() => imageSrc(props.src))

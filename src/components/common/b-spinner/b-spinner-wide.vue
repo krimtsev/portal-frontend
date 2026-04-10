@@ -1,12 +1,12 @@
 <template>
     <div class="b-spinner blobs">
-        <div class="blob-center"></div>
-        <div class="blob"></div>
-        <div class="blob"></div>
-        <div class="blob"></div>
-        <div class="blob"></div>
-        <div class="blob"></div>
-        <div class="blob"></div>
+        <div class="blob-center" />
+        <div class="blob" />
+        <div class="blob" />
+        <div class="blob" />
+        <div class="blob" />
+        <div class="blob" />
+        <div class="blob" />
     </div>
 
     <svg

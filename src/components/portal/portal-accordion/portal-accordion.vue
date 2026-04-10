@@ -2,8 +2,9 @@
 import { useAttrs } from "vue"
 import PrimeAccordion, { type AccordionProps } from "primevue/accordion"
 
-const attrs = useAttrs()
 const props = defineProps<AccordionProps>()
+
+const attrs = useAttrs()
 </script>
 
 <template>

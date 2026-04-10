@@ -6,15 +6,15 @@ import type { CloudFile } from "@v/dashboard/cloud/edit/definitions/cloud"
 import * as cloudFilesAPI from "@/api/modules/dashboard/cloud/cloud-files"
 import { HttpError } from "@/api"
 
+const model = defineModel<CloudFile | null>({ default: null })
+
 const emit = defineEmits<{
     (e: "after-remove", file: CloudFile): void
 }>()
 
 const props = defineProps<{
-    cloudId: string,
+    cloudId: string
 }>()
-
-const model = defineModel<CloudFile | null>({ default: null })
 
 const notify = useNotify()
 

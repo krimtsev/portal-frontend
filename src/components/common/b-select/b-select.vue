@@ -2,18 +2,18 @@
 import PrimeSelect from "primevue/select"
 import BInputError from "@c/common/b-input-error/b-input-error.vue"
 
+const model = defineModel<any>()
+
 const emit = defineEmits<{
     (e: "hide"): void
 }>()
 
-const model = defineModel<any>()
-
 const props = withDefaults(defineProps<{
-    options:      any[],
+    options:      any[]
     placeholder?: string
     disabled?:    boolean
     error?:       string
-    filter?:      boolean | undefined
+    filter?:      boolean
     optionLabel?: string
     optionValue?: string
     isLoading?:   boolean
@@ -25,7 +25,8 @@ const props = withDefaults(defineProps<{
     optionLabel: "label",
     optionValue: "value",
     isLoading:   false,
-    showClear:   false
+    showClear:   false,
+    filter:      undefined,
 })
 </script>
 

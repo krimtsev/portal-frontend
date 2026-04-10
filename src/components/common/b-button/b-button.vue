@@ -2,15 +2,15 @@
 import { computed } from "vue"
 import PrimeButton from "primevue/button"
 
+type ButtonType = "submit" | "reset" | "button"
+type ButtonVariant = "primary" | "secondary" | "danger"
+
 const emit = defineEmits<{
     (e: "click"): void
 }>()
 
-type ButtonType = "submit" | "reset" | "button"
-type ButtonVariant = "primary" | "secondary" | "danger"
-
 const props = withDefaults(defineProps<{
-    label:      string,
+    label:      string
     type?:      ButtonType
     disabled?:  boolean
     isLoading?: boolean
@@ -18,6 +18,8 @@ const props = withDefaults(defineProps<{
 }>(), {
     label:    "",
     disabled: false,
+    type:     undefined,
+    variant:  undefined,
 })
 
 const severity = computed(() => {

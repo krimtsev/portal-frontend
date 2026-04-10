@@ -25,7 +25,7 @@ import { useRoute, useRouter } from "vue-router"
 import { ProfileRouteName } from "@r/profile/route-names"
 import {
     type TicketCategoriesItem,
-    TicketCategorySlug
+    TicketCategorySlug,
 } from "@v/profile/tickets/edit/definitions/ticket-category"
 import BInputTelnum from "@c/common/b-input/b-input-telnum.vue"
 import BSelect from "@c/common/b-select/b-select.vue"
@@ -42,7 +42,7 @@ const isLoading = ref(false)
 
 const userPartners = ref<UserPartners>({
     partner_id: null,
-    partners:   []
+    partners:   [],
 })
 
 const ticketCategory = ref<TicketCategoriesItem>()
@@ -64,11 +64,11 @@ function defaultState(): TicketSpecialist {
         files:       [],
         attributes:  {
             qualification,
-            name:          "",
-            phone:         "",
-            experience:    "",
-            statistics:    "",
-            linkToWorks:   "",
+            name:        "",
+            phone:       "",
+            experience:  "",
+            statistics:  "",
+            linkToWorks: "",
         },
     }
 }
@@ -86,7 +86,7 @@ const isDisabled = computed(() => {
 
 const qualificationItems = Object.values(Qualification).map(value => ({
     value,
-    label: qualificationName(value)
+    label: qualificationName(value),
 }))
 
 /** Валидация */
@@ -99,7 +99,7 @@ onMounted(async () => {
 
     const [partners, category] = await Promise.all([
         partnerAPI.userPartners(),
-        ticketAPI.category(TicketCategorySlug.FRANCHISE)
+        ticketAPI.category(TicketCategorySlug.FRANCHISE),
     ])
 
     if (
@@ -164,8 +164,8 @@ async function onSave() {
                             :is-loading="isFirstLoading"
                             :error="errors.partner_id"
                             :placeholder="t('mc.common.partner')"
-                            optionLabel="name"
-                            optionValue="partner_id"
+                            option-label="name"
+                            option-value="partner_id"
                             name="partner_id"
                             filter
                             class="full-width"

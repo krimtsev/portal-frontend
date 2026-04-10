@@ -22,10 +22,10 @@ const AttributesSchema = z.object({
 })
 
 export const FormSchema = z.object({
-    attributes:  AttributesSchema,
-    message:     MessageSchema,
-    partner_id:  PartnerIdSchema,
-    files:       FilesSchema,
+    attributes: AttributesSchema,
+    message:    MessageSchema,
+    partner_id: PartnerIdSchema,
+    files:      FilesSchema,
 })
 
 export type FormSchemaType = z.infer<typeof FormSchema>

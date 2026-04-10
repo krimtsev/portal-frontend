@@ -24,7 +24,7 @@ const messages = ref<MessageItem[]>([])
 const isLoading = ref(true)
 
 onMounted(async () => {
-    const data =  await messagesAPI.list()
+    const data = await messagesAPI.list()
 
     if (data instanceof HttpError) {
         notify.error()
@@ -69,7 +69,10 @@ onMounted(async () => {
                     path-position-left
                     class="files-block card-height"
                 >
-                    <b-image src="template/files.png" height="195px" />
+                    <b-image
+                        src="template/files.png"
+                        height="195px"
+                    />
                 </portal-card>
             </div>
 
@@ -97,8 +100,7 @@ onMounted(async () => {
                         height: '130',
                     }"
                     path="https://britva.tech/britva"
-                >
-                </portal-card>
+                />
             </div>
 
             <div class="col-4 mobile-col-12 tablet-col-6">

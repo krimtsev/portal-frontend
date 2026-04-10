@@ -29,7 +29,7 @@ const { t } = useI18n()
 function defaultState(): PartnerGroupData {
     return {
         title:    "",
-        partners: []
+        partners: [],
     }
 }
 
@@ -48,7 +48,7 @@ const {
     defineField,
     meta,
     submitCount,
-    setErrors
+    setErrors,
 } = useForm<PartnerGroupData>({
     validationSchema: PartnerGroupSchema,
     initialValues:    defaultState(),
@@ -67,7 +67,7 @@ onMounted(async () => {
         partnersData,
     ] = await Promise.all([
         !isNew.value ? partnerGroupsAPI.get(partnerId.value) : null,
-        partnersAPI.options()
+        partnersAPI.options(),
     ])
 
     if (
@@ -85,9 +85,9 @@ onMounted(async () => {
 
         resetForm({
             values: {
-                title:  partnerGroup.title,
+                title:    partnerGroup.title,
                 partners: partnerGroup.partners,
-            }
+            },
         })
     }
 
@@ -106,7 +106,7 @@ const onSave = handleSubmit(async (formValues) => {
     const [partnerResponse] = await Promise.all([
         isNew.value
             ? partnerGroupsAPI.create(partnerId.value, formValues)
-            : partnerGroupsAPI.update(partnerId.value, formValues)
+            : partnerGroupsAPI.update(partnerId.value, formValues),
     ])
 
     isLoading.value = false
@@ -124,7 +124,7 @@ const onSave = handleSubmit(async (formValues) => {
     }
 
     await router.push({
-        name: DashboardRouteName.DashboardPartnerGroups
+        name: DashboardRouteName.DashboardPartnerGroups,
     })
 })
 
@@ -142,7 +142,7 @@ const onRemove = async () => {
     notify.success(t("mc.notify.remove"))
 
     await router.push({
-        name: DashboardRouteName.DashboardPartnerGroups
+        name: DashboardRouteName.DashboardPartnerGroups,
     })
 }
 </script>
@@ -152,7 +152,7 @@ const onRemove = async () => {
         :title="isNew
             ? 'Создание группы'
             : 'Редактирование группы'"
-        :pathBack="dashboardPaths.DashboardPartnerGroups"
+        :path-back="dashboardPaths.DashboardPartnerGroups"
         :is-loading="isLoading"
         :is-first-loading="isFirstLoading"
         :remove-text="!isNew

@@ -3,7 +3,7 @@ import { computed } from "vue"
 import { valueOrDash } from "@/lib/utils"
 
 const props = withDefaults(defineProps<{
-    value?:  string | number | null
+    value?: string | number | null
 }>(), {
     value: "",
 })

@@ -2,20 +2,24 @@
 import PrimeInputText from "primevue/inputtext"
 import BInputError from "@c/common/b-input-error/b-input-error.vue"
 
-const emit = defineEmits(["change"])
+const model = defineModel<string>({ required: true })
 
-const model = defineModel<string>()
+const emit = defineEmits<{
+    (e: "change", model: string): void
+}>()
 
 const props = withDefaults(defineProps<{
-    name?:        string,
+    name?:        string
     placeholder?: string
     disabled?:    boolean
     error?:       string
     maxlength?:   number
 }>(), {
+    name:        undefined,
     placeholder: "",
     disabled:    false,
     error:       "",
+    maxlength:   undefined,
 })
 </script>
 

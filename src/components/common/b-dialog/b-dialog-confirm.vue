@@ -3,19 +3,19 @@ import BDialog from "@c/common/b-dialog/b-dialog.vue"
 import PrimeButton from "primevue/button"
 import { useI18n } from "vue-i18n"
 
-const { t } = useI18n()
+const model = defineModel<boolean>()
 
 const emit = defineEmits<{
     (e: "confirm"): void
     (e: "cancel"): void
 }>()
 
-const model = defineModel<boolean>()
-
 const props = defineProps<{
-    title?: string,
+    title?:     string
     isLoading?: boolean
 }>()
+
+const { t } = useI18n()
 </script>
 
 <template>

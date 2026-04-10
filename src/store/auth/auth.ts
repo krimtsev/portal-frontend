@@ -7,32 +7,46 @@ import type {
 import * as authAPI from "@/api/modules/auth/auth"
 import { HttpError } from "@/api"
 import { Roles } from "@/shared/roles/roles"
-import router from "@/router"
+import router from "@r/router.ts"
 import { CommonRouteName } from "@/router/common/route-names"
 import { PortalRouteName } from "@/router/portal/route-names"
+import { getCookie } from "@/lib/utils"
 
 function defaultUserData(): UserData {
     return {
-        login:      "",
-        role:       Roles.UNAUTHORIZED,
-        name:       "",
-        avatar:     "",
-        email:      "",
-        partner:    null,
+        login:   "",
+        role:    Roles.UNAUTHORIZED,
+        name:    "",
+        avatar:  "",
+        email:   "",
+        partner: null,
     }
 }
 
 const useAuthStore = defineStore("auth", () => {
-    let user =  reactive<UserData>(defaultUserData())
-    let isAuthenticated = ref(false)
-    let isLoading = ref(true)
+    let user = reactive<UserData>(defaultUserData())
+    const isAuthenticated = ref(false)
+    const isLoading = ref(true)
     const isSysAdmin = computed(() => user.role === Roles.SYSADMIN)
 
     async function csrf() {
         await authAPI.csrf()
     }
 
+    async function auth() {
+        if (!getCookie("XSRF-TOKEN")) {
+            isLoading.value = false
+            return false
+        }
+
+        await csrf()
+        const result = await getUserData()
+        isLoading.value = false
+        return result
+    }
+
     async function login(credentials: LoginCredentials) {
+        await csrf()
         const authData = await authAPI.login(credentials)
 
         if (authData instanceof HttpError) {
@@ -40,7 +54,7 @@ const useAuthStore = defineStore("auth", () => {
             return authData
         }
 
-        user = authData.user
+        Object.assign(user, authData.user)
         isAuthenticated.value = true
         isLoading.value = false
 
@@ -58,9 +72,6 @@ const useAuthStore = defineStore("auth", () => {
     }
 
     async function getUserData(): Promise<boolean> {
-        // Обновляем CSRF токен при каждой авторизации
-        await csrf()
-
         const userData = await authAPI.userData()
 
         if (userData instanceof HttpError) {
@@ -68,10 +79,10 @@ const useAuthStore = defineStore("auth", () => {
             return false
         }
 
-
-        user = userData.user
+        Object.assign(user, userData.user)
         isAuthenticated.value = true
         isLoading.value = false
+
         return true
     }
 
@@ -90,6 +101,7 @@ const useAuthStore = defineStore("auth", () => {
         isAuthenticated,
         isLoading,
         isSysAdmin,
+        auth,
         getUserData,
         csrf,
         login,

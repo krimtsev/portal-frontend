@@ -1,16 +1,16 @@
 import { Roles } from "@/shared/roles/roles"
 export interface LoginCredentials {
-    login: string
+    login:    string
     password: string
     remember: boolean
 }
 
 export interface UserData {
-    login:      string
-    role:       Roles
-    name:       string
-    avatar:     string
-    email:      string
+    login:   string
+    role:    Roles
+    name:    string
+    avatar:  string
+    email:   string
     partner:    {
         id:       number
         name:     string
@@ -19,5 +19,5 @@ export interface UserData {
 }
 
 export interface AuthData {
-    user:   UserData
+    user: UserData
 }

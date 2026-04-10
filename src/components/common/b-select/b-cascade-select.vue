@@ -2,15 +2,15 @@
 import PrimeCascadeSelect from "primevue/cascadeselect"
 import BInputError from "@c/common/b-input-error/b-input-error.vue"
 
+const model = defineModel<any>()
+
 const emit = defineEmits<{
     (e: "hide"): void
     (e: "clear"): void
 }>()
 
-const model = defineModel<any>()
-
 const props = withDefaults(defineProps<{
-    options:              any[],
+    options:              any[]
     placeholder?:         string
     disabled?:            boolean
     error?:               string
@@ -20,16 +20,18 @@ const props = withDefaults(defineProps<{
     optionGroupChildren?: string | string[] | ((data: any) => any[])
     isLoading?:           boolean
     showClear?:           boolean
-    appendTo?:           "body" | "self"
+    appendTo?:            "body" | "self"
 }>(), {
-    placeholder: "",
-    disabled:    false,
-    error:       "",
-    optionLabel: "label",
-    optionValue: "value",
-    isLoading:   false,
-    showClear:   false,
-    appendTo:    "self",
+    placeholder:         "",
+    disabled:            false,
+    error:               "",
+    optionLabel:         "label",
+    optionValue:         "value",
+    isLoading:           false,
+    showClear:           false,
+    appendTo:            "self",
+    optionGroupLabel:    undefined,
+    optionGroupChildren: undefined,
 })
 </script>
 

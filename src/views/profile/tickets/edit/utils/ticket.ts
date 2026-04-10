@@ -4,16 +4,16 @@ import {
     TicketMessageType,
     TicketState,
     type TicketTimeline,
-    TicketType
+    TicketType,
 } from "@v/profile/tickets/edit/definitions/ticket"
 import { stateName } from "@v/profile/tickets/list/utils/ticket"
 import { DateTime } from "luxon"
 import i18n from "@/plugins/i18n"
 
 const FIELD_LABELS: Record<string, string> = {
-    state: "Статус",
+    state:    "Статус",
     category: "Отдел",
-    partner: "Партнёр",
+    partner:  "Партнёр",
 }
 
 export function formatChanges(item: TicketEvent): string[] {
@@ -39,10 +39,12 @@ export function formatChanges(item: TicketEvent): string[] {
 }
 
 export function hasTimelineMessage(timeline: TicketTimeline) {
-    return timeline.some(item =>
-        item.type === TicketMessageType.Message && (item?.text || item?.files?.length) ||
-        item.type === TicketMessageType.Event && Object.keys(item.changes).length
-    )
+    return timeline.some((item) => {
+        return (
+            (item.type === TicketMessageType.Message && (item?.text || item?.files?.length)) ||
+            (item.type === TicketMessageType.Event && Object.keys(item.changes).length)
+        )
+    })
 }
 
 export function normalizeAttributes(details: TicketDetails) {
@@ -92,7 +94,7 @@ export function normalizeAttributes(details: TicketDetails) {
 
             return {
                 label: attributeLabel(label),
-                value
+                value,
             }
         })
 }
@@ -101,6 +103,6 @@ export function checkActiveState(value: TicketState) {
     return [
         TicketState.New,
         TicketState.Waiting,
-        TicketState.InProgress
+        TicketState.InProgress,
     ].includes(value)
 }

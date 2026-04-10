@@ -11,7 +11,7 @@ import BButtonDownload from "@c/common/b-button/b-button-download.vue"
 
 const { n } = useI18n()
 
-async function handleDownload() {
+function handleDownload() {
     const url = getPublicLink("docs/britva-service-bot.pdf")
     downloadFile(url, "britva-service-bot.pdf")
 }
@@ -66,7 +66,10 @@ async function handleDownload() {
             class="my-x4"
         />
 
-        <b-image src="services/missed-calls.png" full />
+        <b-image
+            src="services/missed-calls.png"
+            full
+        />
 
         <b-title
             title="Сколько это стоит?"

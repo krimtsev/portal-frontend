@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, nextTick, onMounted, ref, type ComponentPublicInstance } from "vue"
+import { computed, nextTick, onMounted, ref, useTemplateRef } from "vue"
 import BForm from "@c/common/b-form/b-form.vue"
 import BFormCard from "@c/common/b-form/b-form-card.vue"
 import BFormItem from "@c/common/b-form/b-form-item.vue"
@@ -30,12 +30,12 @@ import type { TicketStateData } from "@v/dashboard/tickets/edit/definitions/tick
 import { useI18n } from "vue-i18n"
 import {
     type ChatMessageFile,
-    ChatMessageType
+    ChatMessageType,
 } from "@c/chat/definitions/chat-message"
 import {
     formatChanges,
     hasTimelineMessage,
-    normalizeAttributes
+    normalizeAttributes,
 } from "@v/profile/tickets/edit/utils/ticket"
 import * as ticketAPI from "@/api/modules/dashboard/tickets/tickets"
 import { downloadExternalFile } from "@/lib/files"
@@ -58,7 +58,7 @@ function defaultState(): TicketStateData {
         category_id: null,
         message:     "",
         files:       [],
-        state:       TicketState.New
+        state:       TicketState.New,
     }
 }
 
@@ -98,14 +98,14 @@ const {
 
 const dynamicConfig = useConfigValidation(submitCount)
 
-const [titleModel]      = defineField("title", dynamicConfig)
-const [partnerIdModel]  = defineField("partner_id", dynamicConfig)
+const [titleModel] = defineField("title", dynamicConfig)
+const [partnerIdModel] = defineField("partner_id", dynamicConfig)
 const [categoryIdModel] = defineField("category_id", dynamicConfig)
-const [stateModel]      = defineField("state", dynamicConfig)
-const [messageModel]    = defineField("message", dynamicConfig)
-const [filesModel]      = defineField("files", dynamicConfig)
+const [stateModel] = defineField("state", dynamicConfig)
+const [messageModel] = defineField("message", dynamicConfig)
+const [filesModel] = defineField("files", dynamicConfig)
 
-const chatRef = ref<ComponentPublicInstance<{ scrollToBottom: () => void }> | null>(null)
+const chatRef = useTemplateRef<{ scrollToBottom: () => void }>("chatRef")
 
 onMounted(async () => {
     isFirstLoading.value = true
@@ -115,11 +115,11 @@ onMounted(async () => {
     const [
         ticketData,
         categoriesData,
-        partnersData
+        partnersData,
     ] = await Promise.all([
         ticketsAPI.get(id),
         ticketsAPI.categories(),
-        partnersAPI.options()
+        partnersAPI.options(),
     ])
 
     if (
@@ -146,7 +146,7 @@ onMounted(async () => {
             state:       ticketDetails.value.state,
             message:     "",
             files:       [],
-        }
+        },
     })
 
     isFirstLoading.value = false
@@ -195,7 +195,7 @@ const onSave = handleSubmit(async (formValues) => {
 
     const ticketResponse = await ticketAPI.update(
         ticketId.value,
-        formValues
+        formValues,
     )
 
     isLoading.value = false
@@ -218,7 +218,7 @@ const onSave = handleSubmit(async (formValues) => {
 <template>
     <b-form
         title="Редактирование заявки"
-        :pathBack="dashboardPaths.DashboardTickets"
+        :path-back="dashboardPaths.DashboardTickets"
         :is-loading="isLoading"
         :is-first-loading="isFirstLoading"
         class="ticket-view"

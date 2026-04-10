@@ -7,24 +7,24 @@ import GuestLayout from "@l/guest/GuestLayout.vue"
 
 const routes: RouteRecordRaw[] = [
     {
-        path: "/",
+        path:      "/",
         component: GuestLayout,
-        meta: {
-            title: "mc.partner.title"
+        meta:      {
+            title: "mc.partner.title",
         },
         children: [
             {
                 path:       commonPaths.Auth,
                 name:       CommonRouteName.Auth,
                 components: {
-                    default:   LoginView,
+                    default: LoginView,
                 },
                 meta: {
-                    roles:  [Roles.UNAUTHORIZED],
+                    roles: [Roles.UNAUTHORIZED],
                 },
             },
-        ]
-    }
+        ],
+    },
 ]
 
 export default routes

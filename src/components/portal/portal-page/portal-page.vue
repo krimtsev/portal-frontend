@@ -7,8 +7,10 @@ import BSkeleton from "@c/common/b-skeleton/b-skeleton.vue"
 import BButton from "@c/common/b-button/b-button.vue"
 import BSpinnerWide from "@c/common/b-spinner/b-spinner-wide.vue"
 
-const props = defineProps<PortalPage>()
 const emit = defineEmits(["save", "cancel"])
+
+const props = defineProps<PortalPage>()
+
 const instance = getCurrentInstance()
 
 const rightImageSrc = computed(() => {

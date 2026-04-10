@@ -4,19 +4,19 @@ import { useI18n } from "vue-i18n"
 import PrimeTreeSelect from "primevue/treeselect"
 import BInputError from "@c/common/b-input-error/b-input-error.vue"
 
+const model = defineModel<any>()
+
 const emit = defineEmits<{
     (e: "hide"): void
     (e: "clear"): void
 }>()
 
-const model = defineModel<any>()
-
 const props = withDefaults(defineProps<{
-    options:             any[],
+    options:             any[]
     disabled?:           boolean
     placeholder?:        string
     error?:              string
-    filter?:             boolean | undefined
+    filter?:             boolean
     isLoading?:          boolean
     showClear?:          boolean
     appendTo?:           "body" | "self"
@@ -26,14 +26,17 @@ const props = withDefaults(defineProps<{
     selectionMode?:      "single" | "multiple" | "checkbox"
     mapValue?:           boolean
 }>(), {
-    placeholder:       "",
-    disabled:          false,
-    error:             "",
-    isLoading:         false,
-    showClear:         false,
-    appendTo:          "self",
-    maxSelectedLabels: 1,
-    selectionMode:     "single",
+    placeholder:        "",
+    disabled:           false,
+    error:              "",
+    isLoading:          false,
+    showClear:          false,
+    appendTo:           "self",
+    maxSelectedLabels:  1,
+    selectionMode:      "single",
+    filter:             undefined,
+    selectedCount:      undefined,
+    selectedItemsLabel: undefined,
 })
 
 const { t } = useI18n()
@@ -69,7 +72,7 @@ const internalSelection = computed({
         } else {
             model.value = null
         }
-    }
+    },
 })
 </script>
 

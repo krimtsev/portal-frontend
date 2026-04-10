@@ -6,7 +6,7 @@ import type { MessageItem } from "@/api/modules/messages/messages"
 import BSkeleton from "@c/common/b-skeleton/b-skeleton.vue"
 
 const props = defineProps<{
-    messages: MessageItem[]
+    messages:  MessageItem[]
     isLoading: boolean
 }>()
 
@@ -15,7 +15,7 @@ const isSingleMessage = computed(() => {
 })
 
 const autoplayInterval = computed(() => {
-    return props.messages.length > 1 ? 1000*30 : undefined
+    return props.messages.length > 1 ? (1000 * 30) : undefined
 })
 </script>
 
@@ -23,8 +23,8 @@ const autoplayInterval = computed(() => {
     <portal-card class="portal-messages">
         <prime-carousel
             :value="props.messages"
-            :numVisible="1"
-            :numScroll="1"
+            :num-visible="1"
+            :num-scroll="1"
             :show-indicators="false"
             :show-navigators="!isSingleMessage"
             :autoplay-interval="autoplayInterval"
@@ -42,10 +42,17 @@ const autoplayInterval = computed(() => {
                 <div class="carousel-item">
                     <template v-if="props.isLoading">
                         <div class="title">
-                            <b-skeleton variant="sm" width="50%" invert />
+                            <b-skeleton
+                                variant="sm"
+                                width="50%"
+                                invert
+                            />
                         </div>
                         <div class="description">
-                            <b-skeleton width="75%" invert />
+                            <b-skeleton
+                                width="75%"
+                                invert
+                            />
                         </div>
                     </template>
 
@@ -57,7 +64,6 @@ const autoplayInterval = computed(() => {
                             На данный момент сообщений нет
                         </div>
                     </template>
-
                 </div>
             </template>
         </prime-carousel>

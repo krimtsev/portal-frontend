@@ -17,21 +17,21 @@ const authStore = useAuthStore()
 const notify = useNotify()
 
 interface Auth {
-    login: string
+    login:    string
     password: string
     remember: boolean
 }
 
 const initialValues = reactive<Auth>({
-    login: "",
+    login:    "",
     password: "",
-    remember: false
+    remember: false,
 })
 
-async function resolver(options: FormResolverOptions) {
+function resolver(options: FormResolverOptions) {
     const values = options.values
     const errors: {
-        login?: Array<{ message: string }>
+        login?:    Array<{ message: string }>
         password?: Array<{ message: string }>
     } = {}
 
@@ -45,7 +45,7 @@ async function resolver(options: FormResolverOptions) {
 
     return {
         values,
-        errors
+        errors,
     }
 }
 
@@ -53,7 +53,6 @@ async function onFormSubmit(event: FormSubmitEvent): Promise<void> {
     authStore.isLoading = true
 
     const values = event.values as Auth
-    await authStore.csrf()
     const resp = await authStore.login(values)
     if (resp instanceof HttpError) {
         const message = resp.message || ""

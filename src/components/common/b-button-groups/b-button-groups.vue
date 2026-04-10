@@ -6,14 +6,14 @@ interface ButtonGroupItems {
     value: string
 }
 
-const props = defineProps<{
-    modelValue: string
-    items: ButtonGroupItems[]
-    disabled?: boolean
-}>()
-
 const emit = defineEmits<{
     (e: "update:modelValue", value: string): void
+}>()
+
+const props = defineProps<{
+    modelValue: string
+    items:      ButtonGroupItems[]
+    disabled?:  boolean
 }>()
 </script>
 

@@ -9,28 +9,28 @@ export interface Ticket {
 }
 
 export enum TicketType {
-    General       = "general",
-    Blacklist     = "blacklist",
-    Certificate   = "certificate",
-    Design        = "design",
-    Specialist    = "specialist",
-    Flagman       = "flagman",
+    General = "general",
+    Blacklist = "blacklist",
+    Certificate = "certificate",
+    Design = "design",
+    Specialist = "specialist",
+    Flagman = "flagman",
     Administrator = "administrator",
 }
 
 export enum TicketState {
-    New        = "new",
+    New = "new",
     InProgress = "in_progress",
-    Waiting    = "waiting",
-    Success    = "success",
-    Closed     = "closed",
-    Cancel     = "cancel",
+    Waiting = "waiting",
+    Success = "success",
+    Closed = "closed",
+    Cancel = "cancel",
 }
 
 
 export enum TicketMessageType {
     Message = "message",
-    Event   = "event",
+    Event = "event",
 }
 
 interface TicketCategory {
@@ -57,12 +57,12 @@ export interface TicketFile {
 }
 
 export interface TicketMessage {
-    id:           number
-    type:         TicketMessageType.Message
-    text:         string
-    created_at:   string
-    user:         TicketUser
-    files:        TicketFile[]
+    id:         number
+    type:       TicketMessageType.Message
+    text:       string
+    created_at: string
+    user:       TicketUser
+    files:      TicketFile[]
 }
 
 export interface TicketChangeField {
@@ -71,24 +71,24 @@ export interface TicketChangeField {
 }
 
 export interface TicketEvent {
-    id:           number
-    type:         TicketMessageType.Event
-    changes:      Record<string, TicketChangeField>
-    created_at:   string
-    user:         TicketUser
+    id:         number
+    type:       TicketMessageType.Event
+    changes:    Record<string, TicketChangeField>
+    created_at: string
+    user:       TicketUser
 }
 
 export type TicketTimeline = Array<TicketMessage | TicketEvent>
 
 export interface TicketDetails {
-    title:        string
-    type:         TicketType
-    category:     TicketCategory | null
-    partner:      TicketPartner | null
-    user:         TicketUser | null
-    state:        TicketState
-    attributes?:  Record<string, string>
-    timeline:     TicketTimeline
+    title:       string
+    type:        TicketType
+    category:    TicketCategory | null
+    partner:     TicketPartner | null
+    user:        TicketUser | null
+    state:       TicketState
+    attributes?: Record<string, string>
+    timeline:    TicketTimeline
 }
 
 export interface TicketResponse {

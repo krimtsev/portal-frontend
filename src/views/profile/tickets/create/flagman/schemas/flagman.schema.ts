@@ -1,7 +1,7 @@
 import * as z from "zod"
 import {
     MessageSchema,
-    PartnerIdSchema
+    PartnerIdSchema,
 } from "@v/profile/tickets/schemas/ticket.schema"
 import { FilesSchema } from "@c/common/b-upload-file/schemas/file-upload.schema"
 
@@ -38,14 +38,14 @@ export const AttributesSchema = z.object({
         }),
 
     missedReports: z.string()
-        .min(2, { message: "Опишите ситуацию с отчетами" })
+        .min(2, { message: "Опишите ситуацию с отчетами" }),
 })
 
 export const FormSchema = z.object({
-    attributes:  AttributesSchema,
-    message:     MessageSchema,
-    partner_id:  PartnerIdSchema,
-    files:       FilesSchema,
+    attributes: AttributesSchema,
+    message:    MessageSchema,
+    partner_id: PartnerIdSchema,
+    files:      FilesSchema,
 })
 
 export type FormSchemaType = z.infer<typeof FormSchema>

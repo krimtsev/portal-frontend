@@ -3,7 +3,7 @@ import { ContentType } from "@/shared/content/content"
 import { $sanitizeHtml } from "@/lib/sanitize-html"
 
 interface ContentProps {
-    content: string | string[]
+    content:      string | string[]
     contentType?: ContentType
 }
 

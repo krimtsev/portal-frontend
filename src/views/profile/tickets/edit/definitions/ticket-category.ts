@@ -1,7 +1,7 @@
 export interface TicketCategoriesItem {
-    id: number
+    id:    number
     title: string
-    slug: string
+    slug:  string
 }
 
 export interface TicketCategoriesResponse {

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, watch } from "vue"
+import { computed, ref, useTemplateRef, watch } from "vue"
 import BSvg from "@c/common/b-svg/b-svg.vue"
 import BInputError from "@c/common/b-input-error/b-input-error.vue"
 import PrimeButton from "primevue/button"
@@ -11,16 +11,15 @@ import {
     DEFAULT_MAX_SIZE_MB,
     DEFAULT_FILES_LIMIT,
     megabytesToBytes,
-    bytesToMegabytes
+    bytesToMegabytes,
 } from "@c/common/b-upload-file/utils/b-file-upload"
 
+const model = defineModel<File | File[] | null>()
 
 const emit = defineEmits<{
     (e: "upload"): void
     (e: "clear"): void
 }>()
-
-const { t } = useI18n()
 
 const props = withDefaults(defineProps<{
     accept?:       string
@@ -45,9 +44,9 @@ const props = withDefaults(defineProps<{
     limit:       DEFAULT_FILES_LIMIT,
 })
 
-const model = defineModel<File | File[] | null>()
+const { t } = useI18n()
 
-const fileInput = ref<HTMLInputElement | null>(null)
+const fileInputRef = useTemplateRef<HTMLInputElement>("fileInputRef")
 
 const localError = ref<string | null>(null)
 
@@ -151,7 +150,7 @@ const removeFile = (index: number) => {
 }
 
 const triggerPicker = () => {
-    if (!props.disabled) fileInput.value?.click()
+    if (!props.disabled) fileInputRef.value?.click()
 }
 
 const onUpload = () => {
@@ -167,7 +166,7 @@ watch(model, (newVal) => {
     const isEmpty = !newVal || (Array.isArray(newVal) && newVal.length === 0)
     if (isEmpty) {
         localError.value = null
-        if (fileInput.value) fileInput.value.value = ""
+        if (fileInputRef.value) fileInputRef.value.value = ""
     }
 }, { deep: true })
 
@@ -185,7 +184,7 @@ defineExpose({ clear })
         :class="{ 'disabled': isDisabled }"
     >
         <input
-            ref="fileInput"
+            ref="fileInputRef"
             type="file"
             class="hidden-input"
             :multiple="props.multiple"
@@ -193,7 +192,7 @@ defineExpose({ clear })
             :disabled="props.disabled"
             :name="props.name"
             @change="onFileSelect"
-        />
+        >
 
         <div
             v-if="showActions"

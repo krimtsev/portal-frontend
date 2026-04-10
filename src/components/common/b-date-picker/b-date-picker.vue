@@ -19,16 +19,16 @@ interface DatePicker {
     showButtonBar?:   boolean
 }
 
+const modelValue = defineModel<Date | Date[] | (Date | null)[] | null | undefined>()
+
 const props = withDefaults(defineProps<Partial<DatePicker>>(), {
     placeholder: "",
     disabled:    false,
     error:       "",
     manualInput: false,
     showClear:   false,
-    dateFormat: "yy-mm-dd"
+    dateFormat:  "yy-mm-dd",
 })
-
-const modelValue = defineModel<Date | Date[] | (Date | null)[] | null | undefined>()
 
 const internalModel = computed({
     get() {
@@ -49,7 +49,7 @@ const internalModel = computed({
     },
     set(value) {
         modelValue.value = value ?? null
-    }
+    },
 })
 </script>
 

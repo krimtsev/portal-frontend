@@ -4,14 +4,14 @@ import type { PortalRouteButton } from "@c/portal/portal-button-navigation/defin
 export const buttonNavigation: PortalRouteButton[] = [
     {
         label: "Общие штрафы",
-        route: PortalRouteName.DocumentFines
+        route: PortalRouteName.DocumentFines,
     },
     {
         label: "Штрафы по аудиту",
-        route: PortalRouteName.DocumentFinesAudit
+        route: PortalRouteName.DocumentFinesAudit,
     },
     {
         label: "Mango-аудит",
-        route: PortalRouteName.DocumentMangoAudit
-    }
+        route: PortalRouteName.DocumentMangoAudit,
+    },
 ]

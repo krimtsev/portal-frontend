@@ -10,12 +10,12 @@ const partner = env.app.partner
 
 const partnerRoutesMap: Record<Partner, typeof britvaPortalRoutes> = {
     britva: britvaPortalRoutes,
-    soda: sodaPortalRoutes,
+    soda:   sodaPortalRoutes,
 }
 
 const portalRoutes = [
     ...defaultPortalRoutes,
-    ...(partnerRoutesMap[partner] || [])
+    ...(partnerRoutesMap[partner] || []),
 ]
 
 const routes = [

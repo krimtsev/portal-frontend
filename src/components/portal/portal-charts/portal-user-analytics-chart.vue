@@ -1,11 +1,5 @@
-<template>
-    <div class="chart-container">
-        <canvas ref="chartCanvas"></canvas>
-    </div>
-</template>
-
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount } from "vue"
+import { onMounted, onBeforeUnmount, useTemplateRef } from "vue"
 import {
     Chart,
     BarController,
@@ -18,7 +12,7 @@ import {
 
 Chart.register(BarController, BarElement, CategoryScale, LinearScale, Tooltip, Legend)
 
-const chartCanvas = ref(null)
+const chartCanvasRef = useTemplateRef("chartCanvasRef")
 let chart = null
 
 function createDiagonalPattern(ctx, color = "rgba(255,255,255,0.08)") {
@@ -42,8 +36,12 @@ function createDiagonalPattern(ctx, color = "rgba(255,255,255,0.08)") {
 }
 
 function createGradient(ctx) {
-    const startColor = getComputedStyle(document.documentElement).getPropertyValue("--p-primary-500").trim()
-    const endColor = getComputedStyle(document.documentElement).getPropertyValue("--p-primary-700").trim()
+    const startColor = getComputedStyle(document.documentElement)
+        .getPropertyValue("--p-primary-500")
+        .trim()
+    const endColor = getComputedStyle(document.documentElement)
+        .getPropertyValue("--p-primary-700")
+        .trim()
 
     const gradient = ctx.createLinearGradient(0, 0, 0, 250)
     gradient.addColorStop(0, startColor)
@@ -81,40 +79,40 @@ function createChart(ctx) {
     return new Chart(ctx, {
         type: "bar",
         data: {
-            labels: ["Февраль", "Март", "Апрель", "Май"],
+            labels:   ["Февраль", "Март", "Апрель", "Май"],
             datasets: [
                 {
-                    data: [10, 20, 15, 24],
+                    data:            [10, 20, 15, 24],
                     backgroundColor: [pattern, pattern, pattern, gradient],
-                    borderRadius: 24,
-                    borderSkipped: false,
+                    borderRadius:    24,
+                    borderSkipped:   false,
                 },
             ],
         },
         options: {
-            responsive: true,
+            responsive:          true,
             maintainAspectRatio: false,
-            layout: {
+            layout:              {
                 padding: { top: 60 },
             },
             scales: {
                 x: {
-                    grid: { display: false },
-                    ticks: { display: false },
+                    grid:   { display: false },
+                    ticks:  { display: false },
                     offset: true,
                 },
                 y: {
                     display: false,
-                    grid: { display: false },
+                    grid:    { display: false },
                 },
             },
             plugins: {
-                legend: { display: false },
+                legend:  { display: false },
                 tooltip: { enabled: false },
             },
             animation: {
                 duration: 1000,
-                easing: "easeOutQuart",
+                easing:   "easeOutQuart",
             },
         },
         plugins: [
@@ -153,7 +151,7 @@ function createChart(ctx) {
 }
 
 onMounted(() => {
-    const ctx = chartCanvas.value.getContext("2d")
+    const ctx = chartCanvasRef.value.getContext("2d")
     chart = createChart(ctx)
 
     chart.options.scales.x.barPercentage = 1
@@ -173,6 +171,12 @@ onBeforeUnmount(() => {
     }
 })
 </script>
+
+<template>
+    <div class="chart-container">
+        <canvas ref="chartCanvasRef" />
+    </div>
+</template>
 
 <style scoped lang="scss">
 .chart-container {

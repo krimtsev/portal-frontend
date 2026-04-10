@@ -2,19 +2,20 @@
 import PrimeInputNumber from "primevue/inputnumber"
 import BInputError from "@c/common/b-input-error/b-input-error.vue"
 
-const model = defineModel<number|null>()
+const model = defineModel<number | null>()
 
 const props = withDefaults(defineProps<{
-    name?:        string,
+    name?:        string
     placeholder?: string
     disabled?:    boolean
     error?:       string
     grouping?:    boolean
 }>(), {
+    name:        undefined,
     placeholder: "",
     disabled:    false,
     error:       "",
-    grouping:    false
+    grouping:    false,
 })
 
 </script>

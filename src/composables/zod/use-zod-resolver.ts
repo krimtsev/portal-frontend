@@ -4,9 +4,9 @@ import type { ZodTypeAny, ZodError } from "zod"
 import { debounce } from "lodash"
 
 type ZodErrorTree = {
-    errors: string[]
+    errors:      string[]
     properties?: Record<string, ZodErrorTree>
-    items?: ZodErrorTree[]
+    items?:      ZodErrorTree[]
 }
 
 export type FieldErrors<T> = {
@@ -20,7 +20,7 @@ export type FieldErrors<T> = {
 }
 
 function mapZodTreeToErrors<T>(
-    tree: ZodErrorTree
+    tree: ZodErrorTree,
 ): FieldErrors<T> | string | undefined {
     if (tree.errors.length > 0) {
         return tree.errors[0]
@@ -32,7 +32,7 @@ function mapZodTreeToErrors<T>(
         for (const key in tree.properties) {
             const value = mapZodTreeToErrors(tree.properties[key])
             if (value !== undefined) {
-                ;(result as Record<string, unknown>)[key] = value
+                (result as Record<string, unknown>)[key] = value
             }
         }
 
@@ -103,7 +103,7 @@ export function useZodResolver<T>(schema: ZodTypeAny) {
                     debouncedValidate(val)
                 }
             },
-            { deep: true }
+            { deep: true },
         )
     }
 
@@ -119,6 +119,6 @@ export function useZodResolver<T>(schema: ZodTypeAny) {
         touched,
         watchChanges,
         nativeError,
-        resetErrors
+        resetErrors,
     }
 }

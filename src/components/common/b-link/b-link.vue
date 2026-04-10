@@ -2,8 +2,8 @@
 import { computed } from "vue"
 
 const props = defineProps<{
-    label: string
-    href?: string
+    label:       string
+    href?:       string
     asInternal?: boolean
 }>()
 
@@ -24,7 +24,7 @@ const linkProps = computed(() => {
     return {
         href:   props.href,
         target: "_blank",
-        rel:    "noopener noreferrer"
+        rel:    "noopener noreferrer",
     }
 })
 </script>

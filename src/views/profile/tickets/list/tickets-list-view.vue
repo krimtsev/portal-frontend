@@ -34,10 +34,10 @@ const categories = ref<TicketCategoriesItem[]>([])
 const paginationFilter = ref(defaultPaginationFilter({
     filters: {
         category_id: [],
-    }
+    },
 }))
 const paginationPage = ref(defaultPaginationPage({
-    perPage: 20
+    perPage: 20,
 }))
 const prevPaginationFilter = ref(cloneDeep(paginationFilter.value))
 
@@ -54,7 +54,7 @@ const setInitialData = () => {
         category: null,
         partner:  null,
         user:     null,
-        state:    TicketState.New
+        state:    TicketState.New,
     })
 }
 
@@ -67,7 +67,7 @@ async function getData() {
         ticketCategoriesData,
     ] = await Promise.all([
         ticketsAPI.list(paginationFilter.value),
-        isFirstLoading.value ? ticketsAPI.categories() : null
+        isFirstLoading.value ? ticketsAPI.categories() : null,
     ])
 
     if (
@@ -92,8 +92,8 @@ async function getData() {
 const paginationInfo = computed(() => {
     return t("mc.pagination.table",
         {
-            from: n(paginationPage.value.from),
-            to: n(paginationPage.value.to),
+            from:  n(paginationPage.value.from),
+            to:    n(paginationPage.value.to),
             total: n(paginationPage.value.total),
         },
         Number(paginationPage.value.total),
@@ -168,7 +168,7 @@ const goTo = (id: string) => router.push({ name: ProfileRouteName.ProfileTicket,
                     option-label="title"
                     option-value="id"
                     class="filter-category"
-                    selectedItemsLabel="{0} выбрано"
+                    selected-items-label="{0} выбрано"
                     append-to="self"
                     input-id="category"
                     @hide="onChangeFilter"

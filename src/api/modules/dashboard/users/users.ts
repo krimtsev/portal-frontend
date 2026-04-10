@@ -2,11 +2,11 @@ import type { Pagination, PaginationFilter } from "@/shared/pagination/paginatio
 import { http } from "@/api"
 import type {
     UsersListItem,
-    UsersExportData
+    UsersExportData,
 } from "@v/dashboard/users/list/definitions/users"
 import type {
     UserData,
-    UserResponse
+    UserResponse,
 } from "@v/dashboard/users/edit/definitions/user"
 
 export async function list(paginationFilter: PaginationFilter) {

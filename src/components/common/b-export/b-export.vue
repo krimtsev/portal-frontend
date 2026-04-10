@@ -1,24 +1,25 @@
 <script setup lang="ts">
 import BButtonIcon from "@c/common/b-button-icon/b-button-icon.vue"
 
-const emit = defineEmits<{
-    (e: "export-xls"): void
-    (e: "export-csv"): void
-    (e: "export-json"): void
-}>()
-
 type ExportTypes = {
     xls?:  boolean
     csv?:  boolean
     json?: boolean
 }
 
+const emit = defineEmits<{
+    (e: "export-xls"): void
+    (e: "export-csv"): void
+    (e: "export-json"): void
+}>()
+
 withDefaults(defineProps<{
-    types:      ExportTypes
-    disabled?:  ExportTypes
-    loading?:   ExportTypes
+    types:     ExportTypes
+    disabled?: ExportTypes
+    loading?:  ExportTypes
 }>(), {
     disabled: () => ({}),
+    loading:  undefined,
 })
 </script>
 

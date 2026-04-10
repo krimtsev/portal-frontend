@@ -17,137 +17,137 @@ import PartnerCloudView from "@v/dashboard/cloud/edit/cloud-view.vue"
 
 const routes: RouteRecordRaw[] = [
     {
-        path: dashboardPaths.Dashboard,
+        path:      dashboardPaths.Dashboard,
         component: DashboardLayout,
-        redirect: {
-            name: DashboardRouteName.DashboardPanel
+        redirect:  {
+            name: DashboardRouteName.DashboardPanel,
         },
         meta: {
-            title: "mc.partner.title"
+            title: "mc.partner.title",
         },
         children: [
             {
-                path:      dashboardPaths.DashboardPanel,
-                name:      DashboardRouteName.DashboardPanel,
+                path:       dashboardPaths.DashboardPanel,
+                name:       DashboardRouteName.DashboardPanel,
                 components: {
                     default: PanelView,
                 },
                 meta: {
-                    roles:  [Roles.ADMIN, Roles.SYSADMIN],
-                    breadcrumb: "mc.dashboard.sidebar.home"
-                }
+                    roles:      [Roles.ADMIN, Roles.SYSADMIN],
+                    breadcrumb: "mc.dashboard.sidebar.home",
+                },
             },
             {
-                path:      dashboardPaths.DashboardTickets,
-                name:      DashboardRouteName.DashboardTickets,
+                path:       dashboardPaths.DashboardTickets,
+                name:       DashboardRouteName.DashboardTickets,
                 components: {
                     default: TicketsListView,
                 },
                 meta: {
-                    roles:  [Roles.ADMIN, Roles.SYSADMIN],
-                    breadcrumb: "mc.dashboard.sidebar.tickets"
-                }
+                    roles:      [Roles.ADMIN, Roles.SYSADMIN],
+                    breadcrumb: "mc.dashboard.sidebar.tickets",
+                },
             },
             {
-                path:      dashboardPaths.DashboardTicket,
-                name:      DashboardRouteName.DashboardTicket,
+                path:       dashboardPaths.DashboardTicket,
+                name:       DashboardRouteName.DashboardTicket,
                 components: {
                     default: TicketView,
                 },
                 meta: {
-                    roles:  [Roles.ADMIN, Roles.SYSADMIN],
-                    breadcrumb: "mc.dashboard.sidebar.tickets"
-                }
+                    roles:      [Roles.ADMIN, Roles.SYSADMIN],
+                    breadcrumb: "mc.dashboard.sidebar.tickets",
+                },
             },
             {
-                path:      dashboardPaths.DashboardUsers,
-                name:      DashboardRouteName.DashboardUsers,
+                path:       dashboardPaths.DashboardUsers,
+                name:       DashboardRouteName.DashboardUsers,
                 components: {
                     default: UsersListView,
                 },
                 meta: {
-                    roles:  [Roles.SYSADMIN],
-                    breadcrumb: "mc.dashboard.sidebar.users"
-                }
+                    roles:      [Roles.SYSADMIN],
+                    breadcrumb: "mc.dashboard.sidebar.users",
+                },
             },
             {
-                path:      dashboardPaths.DashboardUser,
-                name:      DashboardRouteName.DashboardUser,
+                path:       dashboardPaths.DashboardUser,
+                name:       DashboardRouteName.DashboardUser,
                 components: {
                     default: UserView,
                 },
                 meta: {
-                    roles:  [Roles.SYSADMIN],
-                    breadcrumb: "mc.dashboard.sidebar.users"
-                }
+                    roles:      [Roles.SYSADMIN],
+                    breadcrumb: "mc.dashboard.sidebar.users",
+                },
             },
             {
-                path:      dashboardPaths.DashboardPartners,
-                name:      DashboardRouteName.DashboardPartners,
+                path:       dashboardPaths.DashboardPartners,
+                name:       DashboardRouteName.DashboardPartners,
                 components: {
                     default: PartnersListView,
                 },
                 meta: {
-                    roles:  [Roles.SYSADMIN],
-                    breadcrumb: "mc.dashboard.sidebar.partners"
-                }
+                    roles:      [Roles.SYSADMIN],
+                    breadcrumb: "mc.dashboard.sidebar.partners",
+                },
             },
             {
-                path:      dashboardPaths.DashboardPartner,
-                name:      DashboardRouteName.DashboardPartner,
+                path:       dashboardPaths.DashboardPartner,
+                name:       DashboardRouteName.DashboardPartner,
                 components: {
                     default: PartnerView,
                 },
                 meta: {
-                    roles:  [Roles.SYSADMIN],
-                    breadcrumb: "mc.dashboard.sidebar.partners"
-                }
+                    roles:      [Roles.SYSADMIN],
+                    breadcrumb: "mc.dashboard.sidebar.partners",
+                },
             },
             {
-                path:      dashboardPaths.DashboardPartnerGroups,
-                name:      DashboardRouteName.DashboardPartnerGroups,
+                path:       dashboardPaths.DashboardPartnerGroups,
+                name:       DashboardRouteName.DashboardPartnerGroups,
                 components: {
                     default: PartnerGroupsListView,
                 },
                 meta: {
-                    roles:  [Roles.SYSADMIN],
-                    breadcrumb: "mc.dashboard.sidebar.partners"
-                }
+                    roles:      [Roles.SYSADMIN],
+                    breadcrumb: "mc.dashboard.sidebar.partners",
+                },
             },
             {
-                path:      dashboardPaths.DashboardPartnerGroup,
-                name:      DashboardRouteName.DashboardPartnerGroup,
+                path:       dashboardPaths.DashboardPartnerGroup,
+                name:       DashboardRouteName.DashboardPartnerGroup,
                 components: {
                     default: PartnerGroupsView,
                 },
                 meta: {
-                    roles:  [Roles.SYSADMIN],
-                    breadcrumb: "mc.dashboard.sidebar.partners"
-                }
+                    roles:      [Roles.SYSADMIN],
+                    breadcrumb: "mc.dashboard.sidebar.partners",
+                },
             },
             {
-                path:      dashboardPaths.DashboardCloudList,
-                name:      DashboardRouteName.DashboardCloudList,
+                path:       dashboardPaths.DashboardCloudList,
+                name:       DashboardRouteName.DashboardCloudList,
                 components: {
                     default: PartnerCloudListView,
                 },
                 meta: {
-                    roles:  [Roles.ADMIN, Roles.SYSADMIN],
-                    breadcrumb: "mc.dashboard.sidebar.cloud"
-                }
+                    roles:      [Roles.ADMIN, Roles.SYSADMIN],
+                    breadcrumb: "mc.dashboard.sidebar.cloud",
+                },
             },
             {
-                path:      dashboardPaths.DashboardCloud,
-                name:      DashboardRouteName.DashboardCloud,
+                path:       dashboardPaths.DashboardCloud,
+                name:       DashboardRouteName.DashboardCloud,
                 components: {
                     default: PartnerCloudView,
                 },
                 meta: {
-                    roles:  [Roles.ADMIN, Roles.SYSADMIN],
-                    breadcrumb: "mc.dashboard.sidebar.cloud"
-                }
-            }
-        ]
+                    roles:      [Roles.ADMIN, Roles.SYSADMIN],
+                    breadcrumb: "mc.dashboard.sidebar.cloud",
+                },
+            },
+        ],
     },
 
 ]

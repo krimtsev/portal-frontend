@@ -2,7 +2,7 @@
 import PrimeBlockUi from "primevue/blockui"
 
 const props = withDefaults(defineProps<{
-    blocked: boolean,
+    blocked: boolean
 }>(), {
     blocked: false,
 })

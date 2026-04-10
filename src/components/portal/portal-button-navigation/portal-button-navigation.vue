@@ -5,12 +5,12 @@ import { useRoute, useRouter } from "vue-router"
 import type { PortalRouteButton } from "@c/portal/portal-button-navigation/definitions/portal-button-navigation"
 import BButtonGroup from "@c/common/b-button-groups/b-button-group.vue"
 
-const route = useRoute()
-const router = useRouter()
-
 const props = defineProps<{
     buttons: PortalRouteButton[]
 }>()
+
+const route = useRoute()
+const router = useRouter()
 
 const currentRouteName = computed(() => {
     return route.name

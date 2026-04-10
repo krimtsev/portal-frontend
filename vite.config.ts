@@ -6,8 +6,8 @@ import env from "./env"
 export default ({ mode }: { mode: never }) => {
     process.env = {
         ...process.env,
-        ...loadEnv(mode, process.cwd())
-    };
+        ...loadEnv(mode, process.cwd()),
+    }
 
     // https://vite.dev/config/
     return defineConfig({
@@ -40,15 +40,15 @@ export default ({ mode }: { mode: never }) => {
                         @use "@a/styles/_gradients.scss" as *;
                         @use "@a/styles/_typography.scss" as *;
                         @use "@a/styles/_mixins.scss" as *;
-                    `
+                    `,
                 },
             },
         },
 
         build: {
             cssCodeSplit: true,
-            outDir: "dist",
-            assetsDir: "assets",
+            outDir:       "dist",
+            assetsDir:    "assets",
         },
 
         server: {
@@ -58,6 +58,5 @@ export default ({ mode }: { mode: never }) => {
         },
     })
 }
-
 
 

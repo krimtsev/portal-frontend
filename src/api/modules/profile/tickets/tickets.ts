@@ -4,7 +4,7 @@ import type { TicketListItem } from "@v/profile/tickets/list/definitions/tickets
 import type { TicketResponse } from "@v/profile/tickets/edit/definitions/ticket"
 import type {
     TicketCategoriesResponse,
-    TicketCategoryResponse
+    TicketCategoryResponse,
 } from "@v/profile/tickets/edit/definitions/ticket-category"
 import type { TicketBlacklist } from "@v/profile/tickets/create/blacklist/definitions/blacklist"
 import type { TicketCertificate } from "@v/profile/tickets/create/certificate/definitions/certificate"
@@ -34,19 +34,19 @@ export async function list(paginationFilter: PaginationFilter) {
 export async function create(params: TicketRequestParams) {
     return await http.post<any>("profile/tickets/ticket", params, {
         headers: {
-            "Content-Type": "multipart/form-data"
-        }
+            "Content-Type": "multipart/form-data",
+        },
     })
 }
 
-export async function remove(id: string|number) {
+export async function remove(id: string | number) {
     return await http.delete<any>(`profile/tickets/ticket/${id}`)
 }
 
-export async function download(id: string|number, name: string) {
+export async function download(id: string | number, name: string) {
     return await http.getFile({
         fileName: name,
-        url: `profile/tickets/ticket/${id}/download`
+        url:      `profile/tickets/ticket/${id}/download`,
     })
 }
 
@@ -54,11 +54,11 @@ export async function get(id: string) {
     return await http.get<TicketResponse>(`profile/tickets/ticket/${id}`)
 }
 
-export async function updateMessage(id: string|number, params: TicketRequestParams) {
+export async function updateMessage(id: string | number, params: TicketRequestParams) {
     return await http.post<TicketResponse>(`profile/tickets/ticket/${id}/message`, params, {
         headers: {
-            "Content-Type": "multipart/form-data"
-        }
+            "Content-Type": "multipart/form-data",
+        },
     })
 }
 

@@ -28,7 +28,10 @@ import BLink from "@c/common/b-link/b-link.vue"
                     Он описывает порядок взаимодействия, обязанности сторон и меры ответственности.
                 </p>
 
-                <b-link label="Перейти в канал" href="https://t.me/britva_search"/>
+                <b-link
+                    label="Перейти в канал"
+                    href="https://t.me/britva_search"
+                />
             </div>
         </portal-card>
 
@@ -119,7 +122,10 @@ import BLink from "@c/common/b-link/b-link.vue"
                 </p>
                 <p>
                     <b>Обратная связь:</b> заполнить форму —
-                    <b-link label="ссылка на форму." href="https://forms.yandex.ru/cloud/68bff1a984227c1371ca3954"/>.
+                    <b-link
+                        label="ссылка на форму."
+                        href="https://forms.yandex.ru/cloud/68bff1a984227c1371ca3954"
+                    />.
                 </p>
                 <p>
                     <b>Соблюдение правил найма:</b> запрещён прямой хантинг сотрудников других филиалов без

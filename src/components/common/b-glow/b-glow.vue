@@ -11,20 +11,20 @@ type GlowPosition =
     | "top-right"
     | "bottom-left"
     | "bottom-right"
-    | { x: string; y: string }
+    | { x: string, y: string }
 
 const props = withDefaults(defineProps<{
     position?: GlowPosition
-    color?: string
-    size?: number
-    blur?: number
-    opacity?: number
+    color?:    string
+    size?:     number
+    blur?:     number
+    opacity?:  number
 }>(), {
     position: "center",
-    color: "rgba(255,255,255,0.9)",
-    size: 150,
-    blur: 100,
-    opacity: 0.4,
+    color:    "rgba(255,255,255,0.9)",
+    size:     150,
+    blur:     100,
+    opacity:  0.4,
 })
 
 const vars = computed(() => {
@@ -36,25 +36,25 @@ const vars = computed(() => {
         y = props.position.y
     } else {
         const map: Record<string, [string, string]> = {
-            top: ["50%", "0%"],
-            bottom: ["50%", "100%"],
-            left: ["0%", "50%"],
-            right: ["100%", "50%"],
-            "top-left": ["0%", "0%"],
-            "top-right": ["100%", "0%"],
-            "bottom-left": ["0%", "100%"],
+            top:            ["50%", "0%"],
+            bottom:         ["50%", "100%"],
+            left:           ["0%", "50%"],
+            right:          ["100%", "50%"],
+            "top-left":     ["0%", "0%"],
+            "top-right":    ["100%", "0%"],
+            "bottom-left":  ["0%", "100%"],
             "bottom-right": ["100%", "100%"],
-            center: ["50%", "50%"],
+            center:         ["50%", "50%"],
         }
         ;[x, y] = map[props.position]
     }
 
     return {
-        "--glow-x": x,
-        "--glow-y": y,
-        "--glow-size": `${props.size}px`,
-        "--glow-blur": `${props.blur}px`,
-        "--glow-color": props.color,
+        "--glow-x":       x,
+        "--glow-y":       y,
+        "--glow-size":    `${props.size}px`,
+        "--glow-blur":    `${props.blur}px`,
+        "--glow-color":   props.color,
         "--glow-opacity": props.opacity,
     }
 })

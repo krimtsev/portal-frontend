@@ -5,17 +5,20 @@ import BInputError from "@c/common/b-input-error/b-input-error.vue"
 const model = defineModel<any>()
 
 const props = withDefaults(defineProps<{
-    name?:        string,
+    name?:        string
     disabled?:    boolean
     error?:       string
-    options:      any[],
+    options:      any[]
     optionLabel?: string
     optionValue?: string
     allowEmpty?:  boolean
 }>(), {
+    name:        undefined,
     disabled:    false,
     error:       "",
-    allowEmpty:  false
+    allowEmpty:  false,
+    optionLabel: undefined,
+    optionValue: undefined,
 })
 </script>
 

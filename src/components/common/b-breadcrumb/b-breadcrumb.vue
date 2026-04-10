@@ -11,7 +11,10 @@ const slots = useSlots()
         v-bind="attrs"
         class="b-breadcrumb"
     >
-        <template v-for="(_, name) in slots" #[name]="slotProps">
+        <template
+            v-for="(_, name) in slots"
+            #[name]="slotProps"
+        >
             <slot :name="name" v-bind="slotProps" />
         </template>
     </prime-breadcrumb>

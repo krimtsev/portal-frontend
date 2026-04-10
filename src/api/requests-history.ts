@@ -1,15 +1,15 @@
 import { HttpMethod } from "@/api/definitions/api"
 
 interface RequestsHistoryInterface {
-    url: string
-    method: string | undefined
-    status: number | undefined
+    url:           string
+    method:        string | undefined
+    status:        number | undefined
     responseBody?: string
 }
 
 class RequestsHistory {
     readonly historySize: number = 15
-    public history: (RequestsHistoryInterface | undefined)[] = []
+    public history:       (RequestsHistoryInterface | undefined)[] = []
     push(url: string, method: HttpMethod, status: number | undefined, responseBody: unknown): void {
         if (this.history.length === this.historySize) {
             this.history.pop()

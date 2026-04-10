@@ -1,0 +1,6 @@
+pre-commit:
+    parallel: true
+    commands:
+        eslint:
+            glob: "*.{js,json,ts,vue}"
+            run: node lefthook/lefthook-eslint.js {staged_files}

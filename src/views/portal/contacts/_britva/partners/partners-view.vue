@@ -20,7 +20,7 @@ import BTelnumLink from "@c/common/b-link/b-telnum-link.vue"
             <div class="content">
                 <ul>
                     <li>
-                        Яндекс, Наталья Маленко, заявки писать в <b-link label="форму заявки" href="https://forms.yandex.ru/surveys/10034022.63a13acfcba7c7fdf5501636cc161efa6d3c5a3b/"/> (номер рекламной компании 36409936)
+                        Яндекс, Наталья Маленко, заявки писать в <b-link label="форму заявки" href="https://forms.yandex.ru/surveys/10034022.63a13acfcba7c7fdf5501636cc161efa6d3c5a3b/" /> (номер рекламной компании 36409936)
                     </li>
                     <li>
                         2GIS, Данила Егоров, рабочий номер. <b-telnum-link value="74956041055" />  доб. 17715, личный номер <b-telnum-link value="79800052362" />
@@ -88,7 +88,6 @@ import BTelnumLink from "@c/common/b-link/b-telnum-link.vue"
                 </ul>
             </div>
         </portal-card>
-
     </portal-page>
 </template>
 

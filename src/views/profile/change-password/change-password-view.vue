@@ -20,13 +20,13 @@ const notify = useNotify()
 const authStore = useAuthStore()
 
 const initialValues = reactive<ChangePassword>({
-    password: "",
+    password:        "",
     confirmPassword: "",
 })
 
 const isSubmitting = ref(false)
 
-async function resolver(options: FormResolverOptions) {
+function resolver(options: FormResolverOptions) {
     const { password, confirmPassword } = options.values
 
     const errors: {
@@ -45,7 +45,7 @@ async function resolver(options: FormResolverOptions) {
 
     return {
         values: options.values,
-        errors
+        errors,
     }
 }
 

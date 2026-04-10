@@ -1,4 +1,4 @@
 export interface ChangePassword {
-    password: string
+    password:        string
     confirmPassword: string
 }

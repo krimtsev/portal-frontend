@@ -1,16 +1,16 @@
 import { http } from "@/api"
 import type {
     LoginCredentials,
-    AuthData
+    AuthData,
 } from "@/api/modules/auth/definitions/auth"
 // @ts-ignore
 import env from "~/env"
 
 export async function csrf() {
     return await http.get("sanctum/csrf-cookie", {
-        baseURL: env.api,
+        baseURL:         env.api,
         withCredentials: true,
-        withXSRFToken: true,
+        withXSRFToken:   true,
     })
 }
 
@@ -18,7 +18,7 @@ export async function login({ login, password, remember }: LoginCredentials) {
     return await http.post<AuthData>("login", {
         login,
         password,
-        remember
+        remember,
     })
 }
 
@@ -27,5 +27,5 @@ export async function logout() {
 }
 
 export async function userData() {
-    return await http.get<AuthData>("user-data")
+    return await http.get<AuthData>("user-data", { skipAuthGuard: true })
 }

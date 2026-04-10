@@ -2,10 +2,10 @@
 import type { Variants } from "@/shared/content/content"
 
 const props = withDefaults(defineProps<{
-    title: string,
+    title:    string
     variant?: Variants
 }>(), {
-    variant: "md"
+    variant: "md",
 })
 </script>
 

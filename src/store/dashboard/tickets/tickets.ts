@@ -13,7 +13,7 @@ export const useTicketsStore = defineStore("tickets", () => {
 
     const initialFilter = ref(
         defaultPaginationFilter({
-            search: "",
+            search:  "",
             filters: {
                 category_id: [],
                 partner_id:  [],
@@ -23,7 +23,7 @@ export const useTicketsStore = defineStore("tickets", () => {
     )
 
     const currentFilter = ref<PaginationFilter>(
-        cloneDeep(initialFilter.value)
+        cloneDeep(initialFilter.value),
     )
 
     const pagination = ref(defaultPaginationPage({ perPage: 20 }))
@@ -68,6 +68,6 @@ export const useTicketsStore = defineStore("tickets", () => {
 
         isLoading,
         isChanged,
-        isShowPagination
+        isShowPagination,
     }
 })

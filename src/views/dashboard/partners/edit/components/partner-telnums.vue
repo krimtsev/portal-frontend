@@ -31,19 +31,19 @@ const {
     resetForm,
     meta,
     errors,
-    submitCount
+    submitCount,
 } = useForm<PartnerTelnumItem>({
     validationSchema: PartnerTelnumSchema,
-    initialValues: {
+    initialValues:    {
         number: "",
-        name:   ""
-    }
+        name:   "",
+    },
 })
 
 const dynamicConfig = useConfigValidation(submitCount)
 
 const [numberModel] = defineField("number", dynamicConfig)
-const [nameModel]   = defineField("name", dynamicConfig)
+const [nameModel] = defineField("name", dynamicConfig)
 
 const openModal = (index: number | null = null) => {
     editingIndex.value = index
@@ -52,15 +52,15 @@ const openModal = (index: number | null = null) => {
         resetForm({
             values: {
                 name:   model.value[index].name || "",
-                number: model.value[index].number || ""
-            }
+                number: model.value[index].number || "",
+            },
         })
     } else {
         resetForm({
             values: {
                 name:   "",
-                number: ""
-            }
+                number: "",
+            },
         })
     }
     isModalOpen.value = true
@@ -71,7 +71,7 @@ const closeModal = () => {
 }
 
 const saveModal = handleSubmit((formValues) => {
-    if(!meta.value.dirty) {
+    if (!meta.value.dirty) {
         closeModal()
         return
     }

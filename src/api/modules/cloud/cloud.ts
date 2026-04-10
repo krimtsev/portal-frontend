@@ -2,8 +2,8 @@ import { http } from "@/api"
 import type { CloudData } from "@v/portal/cloud/definitions/cloud"
 
 interface CloudParams {
-    slug?: string,
-    search?: string,
+    slug?:   string
+    search?: string
 }
 
 export async function getData(params: CloudParams) {
@@ -13,6 +13,6 @@ export async function getData(params: CloudParams) {
 export async function download(folderId: number, name: string) {
     return await http.getFile({
         fileName: name,
-        url: `cloud/folder/${folderId}/download`
+        url:      `cloud/folder/${folderId}/download`,
     })
 }

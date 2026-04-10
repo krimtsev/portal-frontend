@@ -1,13 +1,13 @@
 import { http } from "@/api"
 
 export interface UserPartnerItem {
-    partner_id: number,
-    name: string
+    partner_id: number
+    name:       string
 }
 
 export interface UserPartners {
-    partner_id: number | null,
-    partners: UserPartnerItem[]
+    partner_id: number | null
+    partners:   UserPartnerItem[]
 }
 
 export async function userPartners() {

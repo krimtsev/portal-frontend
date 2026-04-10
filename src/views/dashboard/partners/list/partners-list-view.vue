@@ -38,8 +38,8 @@ const isExporting = ref(false)
 const paginationInfo = computed(() => {
     return t("mc.pagination.table",
         {
-            from: n(partnersStore.pagination.from),
-            to: n(partnersStore.pagination.to),
+            from:  n(partnersStore.pagination.from),
+            to:    n(partnersStore.pagination.to),
             total: n(partnersStore.pagination.total),
         },
         Number(partnersStore.pagination.total),
@@ -65,9 +65,9 @@ onMounted(async () => {
     partnersStore.setIsLoading(true)
 
     const [
-        partnersData
+        partnersData,
     ] = await Promise.all([
-        partnersAPI.list(partnersStore.filter)
+        partnersAPI.list(partnersStore.filter),
     ])
 
     if (partnersData instanceof HttpError) {
@@ -109,17 +109,17 @@ function onChangeFilter() {
 function onClick(id: string, event: MouseEvent) {
     openRoute(
         {
-            name: DashboardRouteName.DashboardPartner,
-            params: { id }
+            name:   DashboardRouteName.DashboardPartner,
+            params: { id },
         },
-        event
+        event,
     )
 }
 
 function goToNew() {
     router.push({
-        name: DashboardRouteName.DashboardPartner,
-        params: { id: "!new" }
+        name:   DashboardRouteName.DashboardPartner,
+        params: { id: "!new" },
     })
 }
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, onMounted, onUnmounted } from "vue"
+import { computed, ref, onMounted, onUnmounted, useTemplateRef } from "vue"
 
 const props = withDefaults(defineProps<{
     text:       string | number
@@ -8,9 +8,10 @@ const props = withDefaults(defineProps<{
 }>(), {
     text:      "",
     showEmpty: false,
+    subtext:   undefined,
 })
 
-const textElement = ref<HTMLElement | null>(null)
+const textElementRef = useTemplateRef<HTMLElement | null>("textElementRef")
 const isTruncated = ref(false)
 
 const textOrDash = computed(() => {
@@ -19,7 +20,7 @@ const textOrDash = computed(() => {
 })
 
 const checkOverflow = () => {
-    const el = textElement.value
+    const el = textElementRef.value
     if (el) {
         isTruncated.value = el.scrollWidth > el.clientWidth
     }
@@ -29,9 +30,9 @@ let resizeObserver: ResizeObserver | null = null
 
 onMounted(() => {
     checkOverflow()
-    if (textElement.value) {
+    if (textElementRef.value) {
         resizeObserver = new ResizeObserver(checkOverflow)
-        resizeObserver.observe(textElement.value)
+        resizeObserver.observe(textElementRef.value)
     }
 })
 
@@ -47,7 +48,7 @@ const tooltipValue = computed(() => {
 <template>
     <div class="b-table-text">
         <span
-            ref="textElement"
+            ref="textElementRef"
             v-tooltip="tooltipValue"
             class="text"
         >

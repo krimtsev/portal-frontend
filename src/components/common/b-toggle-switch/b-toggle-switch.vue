@@ -5,12 +5,13 @@ import BInputError from "@c/common/b-input-error/b-input-error.vue"
 const model = defineModel<boolean>()
 
 const props = withDefaults(defineProps<{
-    name?:        string,
-    disabled?:    boolean
-    error?:       string
+    name?:     string
+    disabled?: boolean
+    error?:    string
 }>(), {
-    disabled:    false,
-    error:       "",
+    name:     undefined,
+    disabled: false,
+    error:    "",
 })
 </script>
 

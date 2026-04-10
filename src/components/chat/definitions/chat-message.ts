@@ -1,13 +1,13 @@
 export enum ChatMessageType {
     Sent = "sent",
     Received = "received",
-    System = "system"
+    System = "system",
 }
 
 export interface ChatMessageFile {
-    id: number
+    id:    number
     title: string
-    name: string
-    ext: string
-    path: string
+    name:  string
+    ext:   string
+    path:  string
 }

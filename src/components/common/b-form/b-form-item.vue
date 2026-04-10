@@ -2,9 +2,9 @@
 import { computed } from "vue"
 
 const props = defineProps<{
-    hideLabel?: boolean
-    label?: string
-    required?: boolean
+    hideLabel?:     boolean
+    label?:         string
+    required?:      boolean
     columnContent?: boolean
 }>()
 
@@ -24,7 +24,7 @@ const labelText = computed(() => {
                 class="label"
                 :class="{ required: props.required }"
             >
-                <div :class="{ 'label-content': required }" >
+                <div :class="{ 'label-content': required }">
                     {{ labelText }}
                 </div>
             </div>

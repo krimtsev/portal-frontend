@@ -4,10 +4,10 @@ import PrimeButton from "primevue/button"
 
 withDefaults(defineProps<{
     noPaddings?: boolean
-    showMore?: boolean
+    showMore?:   boolean
 }>(), {
     noPaddings: false,
-    showMore: false
+    showMore:   false,
 })
 
 const isExpanded = ref(false)

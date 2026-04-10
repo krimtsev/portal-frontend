@@ -37,7 +37,7 @@ const isLoading = ref(false)
 
 const userPartners = ref<UserPartners>({
     partner_id: null,
-    partners:   []
+    partners:   [],
 })
 
 const ticketCategories = ref<TicketCategoriesItem[]>([])
@@ -49,7 +49,7 @@ function defaultState(): TicketGeneral {
         message:     "",
         partner_id:  null,
         category_id: null,
-        files:       []
+        files:       [],
     }
 }
 
@@ -69,7 +69,7 @@ const {
     errors,
     submit,
     watchChanges,
-    resetErrors
+    resetErrors,
 } = useZodResolver<FormSchemaType>(FormSchema)
 
 watchChanges(currentState)
@@ -143,8 +143,8 @@ async function onSave() {
                             :is-loading="isFirstLoading"
                             :disabled="isFirstLoading"
                             :error="errors.partner_id"
-                            optionLabel="name"
-                            optionValue="partner_id"
+                            option-label="name"
+                            option-value="partner_id"
                             :placeholder="t('mc.common.partner')"
                             name="partner_id"
                             class="full-width"
@@ -171,8 +171,8 @@ async function onSave() {
                             :options="ticketCategories"
                             :is-loading="isFirstLoading"
                             :disabled="isFirstLoading"
-                            optionLabel="title"
-                            optionValue="id"
+                            option-label="title"
+                            option-value="id"
                             :placeholder="t('mc.ticket.category')"
                             name="category_id"
                             class="full-width"

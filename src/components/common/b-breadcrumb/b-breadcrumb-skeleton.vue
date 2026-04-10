@@ -5,7 +5,10 @@ import PrimeSkeleton from "primevue/skeleton"
 
 <template>
     <div class="b-breadcrumb-skeleton">
-        <prime-skeleton height="1rem" width="30rem" />
+        <prime-skeleton
+            height="1rem"
+            width="30rem"
+        />
     </div>
 </template>
 

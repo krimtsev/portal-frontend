@@ -3,7 +3,7 @@ import DOMPurify from "dompurify"
 export function $sanitizeHtml(dirty: string, escape: boolean = false): string {
 
     if (escape) {
-         dirty = dirty
+        dirty = dirty
             .replace(/</g, "&lt;")
             .replace(/>/g, "&gt;")
     }
@@ -17,8 +17,8 @@ export function $sanitizeHtml(dirty: string, escape: boolean = false): string {
 
         // Аналог disallowedTagsMode: "escape"
         // (DOMPurify по умолчанию удаляет запрещённые теги, но можно включить escape)
-        WHOLE_DOCUMENT: false,
-        RETURN_DOM_FRAGMENT: false
+        WHOLE_DOCUMENT:      false,
+        RETURN_DOM_FRAGMENT: false,
     })
 }
 

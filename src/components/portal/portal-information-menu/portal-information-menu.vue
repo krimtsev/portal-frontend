@@ -4,7 +4,7 @@ import BLink from "@c/common/b-link/b-link.vue"
 import type { Section } from "@c/portal/portal-information-menu/definitions/portal-information-menu"
 
 const props = defineProps<{
-    sections: Section[],
+    sections: Section[]
 }>()
 </script>
 
@@ -15,7 +15,11 @@ const props = defineProps<{
         v-glow="{ position: 'top-left' }"
     >
         <div class="portal-information-menu grid">
-            <div class="col-12" v-for="(section, index) in props.sections" :key="index">
+            <div
+                v-for="(section, index) in props.sections"
+                :key="index"
+                class="col-12"
+            >
                 <div class="section-title">{{ section.title }}</div>
                 <div
                     v-for="(item, index) in section.items"

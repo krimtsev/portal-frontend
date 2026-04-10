@@ -2,15 +2,15 @@ import { http } from "@/api"
 import type {
     PartnerListItem,
     PartnerOptionsResponse,
-    PartnersExportData
+    PartnersExportData,
 } from "@v/dashboard/partners/list/definitions/partners"
 import type {
     PartnerData,
-    PartnerResponse
+    PartnerResponse,
 } from "@v/dashboard/partners/edit/definitions/partner"
 import type {
     Pagination,
-    PaginationFilter
+    PaginationFilter,
 } from "@/shared/pagination/pagination"
 
 export async function options() {

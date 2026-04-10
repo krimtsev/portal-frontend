@@ -1,32 +1,32 @@
 import { TicketType } from "@v/profile/tickets/edit/definitions/ticket"
 
 interface TicketCategory {
-    id: number
+    id:    number
     title: string
 }
 
 interface TicketPartner {
-    id: number
+    id:   number
     name: string
 }
 
 interface TicketUser {
     login: string
-    name: string
+    name:  string
 }
 
 export const messageLength = 2000
 export const messageLengthShort = 500
 
 export interface TicketListItem {
-    id: string
-    title: string
-    type: TicketType
+    id:       string
+    title:    string
+    type:     TicketType
     category: TicketCategory | null
-    partner: TicketPartner | null
-    user: TicketUser | null
+    partner:  TicketPartner | null
+    user:     TicketUser | null
     state: {
-        key: string
+        key:   string
         value: string
     }
     last_message_at: string

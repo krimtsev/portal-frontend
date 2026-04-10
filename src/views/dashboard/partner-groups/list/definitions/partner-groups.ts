@@ -1,5 +1,5 @@
 export interface PartnerGroupOptionItem {
-    id:   number,
+    id:    number
     title: string
 }
 
@@ -8,7 +8,7 @@ export interface PartnerGroupOptionsResponse {
 }
 
 export interface PartnerGroupsListItem {
-    id:     number,
-    title:  string,
-    total:  number,
+    id:    number
+    title: string
+    total: number
 }

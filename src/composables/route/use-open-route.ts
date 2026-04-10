@@ -1,6 +1,6 @@
 import {
     useRouter,
-    type RouteLocationRaw
+    type RouteLocationRaw,
 } from "vue-router"
 
 export function useOpenRoute() {
@@ -8,7 +8,7 @@ export function useOpenRoute() {
 
     const openRoute = async (
         to: RouteLocationRaw,
-        event?: MouseEvent
+        event?: MouseEvent,
     ) => {
         if (event?.ctrlKey || event?.metaKey) {
             const route = router.resolve(to)
@@ -20,6 +20,6 @@ export function useOpenRoute() {
     }
 
     return {
-        openRoute
+        openRoute,
     }
 }

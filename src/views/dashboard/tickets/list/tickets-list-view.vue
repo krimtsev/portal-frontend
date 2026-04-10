@@ -42,8 +42,8 @@ const isExporting = ref(false)
 const paginationInfo = computed(() => {
     return t("mc.pagination.table",
         {
-            from: n(ticketsStore.pagination.from),
-            to: n(ticketsStore.pagination.to),
+            from:  n(ticketsStore.pagination.from),
+            to:    n(ticketsStore.pagination.to),
             total: n(ticketsStore.pagination.total),
         },
         Number(ticketsStore.pagination.total),
@@ -71,11 +71,11 @@ onMounted(async () => {
     const [
         ticketsData,
         categoriesData,
-        partnersData
+        partnersData,
     ] = await Promise.all([
         ticketsAPI.list(ticketsStore.filter),
         ticketsAPI.categories(),
-        partnersAPI.options()
+        partnersAPI.options(),
     ])
 
     if (
@@ -124,7 +124,7 @@ function onClick(id: number, event: MouseEvent) {
     if (event.ctrlKey || event.metaKey) {
         const route = router.resolve({
             name:   DashboardRouteName.DashboardTicket,
-            params: { id }
+            params: { id },
         })
 
         window.open(route.href, "_blank")
@@ -262,7 +262,7 @@ async function onExportXLS() {
                     class="table-id"
                 >
                     <template #body="{ data }">
-                        <b-table-text :text="data?.id"/>
+                        <b-table-text :text="data?.id" />
                     </template>
                 </prime-column>
 

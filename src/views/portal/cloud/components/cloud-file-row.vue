@@ -7,13 +7,13 @@ import { useNotify } from "@/composables/notify/use-notify"
 import { downloadExternalFile } from "@/lib/files"
 import BSpinner from "@c/common/b-spinner/b-spinner.vue"
 
-const notify = useNotify()
-
-const isLoading = ref(false)
-
 const props = defineProps<{
     item: CloudFileItem
 }>()
+
+const notify = useNotify()
+
+const isLoading = ref(false)
 
 async function onClick() {
     if (isLoading.value) return

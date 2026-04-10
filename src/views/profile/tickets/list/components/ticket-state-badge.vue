@@ -4,7 +4,7 @@ import { computed } from "vue"
 import { stateName } from "@v/profile/tickets/list/utils/ticket"
 
 const props = defineProps<{
-    value?: string
+    value?:   string
     rounded?: boolean
 }>()
 

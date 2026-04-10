@@ -7,16 +7,20 @@ import { stateName } from "@v/profile/tickets/list/utils/ticket"
 export async function exportXLS(tickets: TicketsExportData[]) {
     const date = DateTime.now().toFormat("dd.MM.yyyy")
     const workbook = new ExcelJS.Workbook()
-    const worksheet = workbook.addWorksheet("Пользователи" , {
-        views: [{ state:  "frozen", xSplit: 1, ySplit: 1 }]
+    const worksheet = workbook.addWorksheet("Пользователи", {
+        views: [{
+            state:  "frozen",
+            xSplit: 1,
+            ySplit: 1,
+        }],
     })
 
     worksheet.columns = [
-        { header: "ID",                key: "id", width: 10 },
-        { header: "Тема запроса",      key: "title", width: 35 },
-        { header: "Отдел",             key: "category", width: 25 },
-        { header: "Статус",            key: "state", width: 15 },
-        { header: "Дата подачи",       key: "created_at", width: 30 },
+        { header: "ID", key: "id", width: 10 },
+        { header: "Тема запроса", key: "title", width: 35 },
+        { header: "Отдел", key: "category", width: 25 },
+        { header: "Статус", key: "state", width: 15 },
+        { header: "Дата подачи", key: "created_at", width: 30 },
     ]
 
     tickets.forEach((ticket) => {
@@ -34,7 +38,7 @@ export async function exportXLS(tickets: TicketsExportData[]) {
 
     const buffer = await workbook.xlsx.writeBuffer()
     const blob = new Blob([buffer], {
-        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     })
 
     downloadExternalFile(blob, `Заявки [500] - ${date}.xlsx`)

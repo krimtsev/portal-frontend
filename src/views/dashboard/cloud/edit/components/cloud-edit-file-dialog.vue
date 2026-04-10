@@ -12,15 +12,15 @@ import { useForm } from "vee-validate"
 import { CloudFileUpdateSchema } from "@v/dashboard/cloud/edit/schemas/cloud.schema"
 import { useConfigValidation } from "@/composables/vee-validate/use-config-validation"
 
-const props = defineProps<{
-    cloudId: string,
-}>()
+const model = defineModel<CloudFile | null>({ default: null })
 
 const emit = defineEmits<{
     (e: "after-edit", file: CloudFile): void
 }>()
 
-const model = defineModel<CloudFile | null>({ default: null })
+const props = defineProps<{
+    cloudId: string
+}>()
 
 const notify = useNotify()
 
@@ -33,7 +33,7 @@ const {
     defineField,
     meta,
     submitCount,
-    setErrors
+    setErrors,
 } = useForm({
     validationSchema: CloudFileUpdateSchema,
 })
@@ -48,8 +48,8 @@ watch(() => model.value, (newFile) => {
     if (newFile) {
         resetForm({
             values: {
-                title: newFile.title
-            }
+                title: newFile.title,
+            },
         })
     }
 })
@@ -63,7 +63,7 @@ const onUpdate = handleSubmit(async (values) => {
     isLoading.value = true
 
     const response = await cloudFilesAPI.update(props.cloudId, model.value.id, {
-        title: values.title
+        title: values.title,
     })
 
     isLoading.value = false
@@ -76,7 +76,7 @@ const onUpdate = handleSubmit(async (values) => {
 
     const updatedFile = {
         ...model.value,
-        title: values.title
+        title: values.title,
     }
 
     notify.success("Файл успешно изменен")

@@ -12,7 +12,7 @@ import { useRouter } from "vue-router"
 import type { UserPartners } from "@/api/modules/partner/partner"
 import {
     type TicketCategoriesItem,
-    TicketCategorySlug
+    TicketCategorySlug,
 } from "@v/profile/tickets/edit/definitions/ticket-category"
 import type { TicketFlagman } from "@v/profile/tickets/create/flagman/definitions/flagman"
 import { TicketType } from "@v/profile/tickets/edit/definitions/ticket"
@@ -39,7 +39,7 @@ const isLoading = ref(false)
 
 const userPartners = ref<UserPartners>({
     partner_id: null,
-    partners:   []
+    partners:   [],
 })
 
 const ticketCategory = ref<TicketCategoriesItem>()
@@ -53,14 +53,14 @@ function defaultState(): TicketFlagman {
         message:     "",
         files:       [],
         attributes:  {
-            returnRate:          "",
-            auditScore:          "",
-            mastersCount:        "",
-            openingDate:         null,
-            yandexMap:           "",
-            twoGisMap:           "",
-            cosmeticBrands:      "",
-            missedReports:       "",
+            returnRate:     "",
+            auditScore:     "",
+            mastersCount:   "",
+            openingDate:    null,
+            yandexMap:      "",
+            twoGisMap:      "",
+            cosmeticBrands: "",
+            missedReports:  "",
         },
     }
 }
@@ -81,7 +81,7 @@ const {
     errors,
     submit,
     watchChanges,
-    resetErrors
+    resetErrors,
 } = useZodResolver<FormSchemaType>(FormSchema)
 
 watchChanges(currentState)
@@ -91,7 +91,7 @@ onMounted(async () => {
 
     const [partners, category] = await Promise.all([
         partnerAPI.userPartners(),
-        ticketAPI.category(TicketCategorySlug.FRANCHISE)
+        ticketAPI.category(TicketCategorySlug.FRANCHISE),
     ])
 
     if (
@@ -154,8 +154,8 @@ async function onSave() {
                             :is-loading="isFirstLoading"
                             :disabled="isFirstLoading"
                             :error="errors.partner_id"
-                            optionLabel="name"
-                            optionValue="partner_id"
+                            option-label="name"
+                            option-value="partner_id"
                             :placeholder="t('mc.common.partner')"
                             name="partner_id"
                             class="full-width"

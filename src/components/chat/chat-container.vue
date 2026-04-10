@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { ref } from "vue"
+import { useTemplateRef } from "vue"
 import { useI18n } from "vue-i18n"
-
-const { t } = useI18n()
 
 defineProps<{
     empty?: boolean
 }>()
 
-const containerRef = ref<HTMLElement | null>(null)
+const { t } = useI18n()
+
+const containerRef = useTemplateRef<HTMLElement>("containerRef")
 
 function scrollToBottom() {
     if (containerRef.value) {

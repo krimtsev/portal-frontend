@@ -8,8 +8,8 @@ import { svgSrc } from "@h/svg/svg"
  */
 
 const props = defineProps<{
-    name?: string
-    size?: string
+    name?:     string
+    size?:     string
     disabled?: boolean
 }>()
 
@@ -20,7 +20,7 @@ const svg = computed(() => {
 const commonStyle = computed(() => {
     if (!props.size) return {}
     return {
-        fontSize: props.size
+        fontSize: props.size,
     }
 })
 </script>

@@ -6,25 +6,28 @@ import BSvg from "@c/common/b-svg/b-svg.vue"
 const visible = defineModel<boolean>("visible", { default: false })
 
 const props = withDefaults(defineProps<{
-    title?:        string,
-    draggable?:    boolean,
-    width?:        string,
-    style?:        object,
-    modal?:        boolean
-    closable?:     boolean
-    iconName?:     string
-    showHeader?:   boolean
+    title?:      string
+    draggable?:  boolean
+    width?:      string
+    style?:      object
+    modal?:      boolean
+    closable?:   boolean
+    iconName?:   string
+    showHeader?: boolean
 }>(), {
+    title:      undefined,
+    style:      undefined,
+    iconName:   undefined,
     draggable:  false,
     width:      "624px",
     modal:      true,
     closable:   false,
-    showHeader: true
+    showHeader: true,
 })
 
 const dialogStyle = computed(() => ({
     width: props.width,
-    ...props.style
+    ...props.style,
 }))
 
 const contentStyle = computed(() => {
@@ -47,7 +50,10 @@ const contentStyle = computed(() => {
         position="center"
         class="b-dialog"
     >
-        <template v-if="$slots.header" #header>
+        <template
+            v-if="$slots.header"
+            #header
+        >
             <div class="dialog-header">
                 <slot name="header" />
             </div>

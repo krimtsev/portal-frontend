@@ -4,15 +4,15 @@ import { useI18n } from "vue-i18n"
 import PrimeMultiSelect from "primevue/multiselect"
 import BInputError from "@c/common/b-input-error/b-input-error.vue"
 
+const model = defineModel<any>()
+
 const emit = defineEmits<{
     (e: "hide"): void
     (e: "clear"): void
 }>()
 
-const model = defineModel<any>()
-
 const props = withDefaults(defineProps<{
-    options:             any[],
+    options:             any[]
     placeholder?:        string
     disabled?:           boolean
     error?:              string
@@ -27,16 +27,18 @@ const props = withDefaults(defineProps<{
     showToggleAll?:      boolean
     appendTo?:           "body" | "self"
 }>(), {
-    placeholder:       "",
-    disabled:          false,
-    error:             "",
-    optionLabel:       "label",
-    optionValue:       "value",
-    isLoading:         false,
-    showClear:         false,
-    maxSelectedLabels: 1,
-    appendTo:          "self",
-    showToggleAll:     false,
+    placeholder:        "",
+    disabled:           false,
+    error:              "",
+    optionLabel:        "label",
+    optionValue:        "value",
+    isLoading:          false,
+    showClear:          false,
+    maxSelectedLabels:  1,
+    appendTo:           "self",
+    showToggleAll:      false,
+    selectedCount:      undefined,
+    selectedItemsLabel: undefined,
 })
 
 const { t } = useI18n()

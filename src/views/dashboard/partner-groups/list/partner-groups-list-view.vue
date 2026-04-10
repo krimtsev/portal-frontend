@@ -32,8 +32,8 @@ const partnerGroups = ref<PartnerGroupsListItem[]>([])
 const paginationInfo = computed(() => {
     return t("mc.pagination.table",
         {
-            from: n(partnerGroupsStore.pagination.from),
-            to: n(partnerGroupsStore.pagination.to),
+            from:  n(partnerGroupsStore.pagination.from),
+            to:    n(partnerGroupsStore.pagination.to),
             total: n(partnerGroupsStore.pagination.total),
         },
         Number(partnerGroupsStore.pagination.total),
@@ -59,9 +59,9 @@ onMounted(async () => {
     partnerGroupsStore.setIsLoading(true)
 
     const [
-        partnerGroupsData
+        partnerGroupsData,
     ] = await Promise.all([
-        partnerGroupsAPI.list(partnerGroupsStore.filter)
+        partnerGroupsAPI.list(partnerGroupsStore.filter),
     ])
 
     if (partnerGroupsData instanceof HttpError) {
@@ -103,17 +103,17 @@ function onChangeFilter() {
 const onClick = (id: string, event: MouseEvent) => {
     openRoute(
         {
-            name: DashboardRouteName.DashboardPartnerGroup,
-            params: { id }
+            name:   DashboardRouteName.DashboardPartnerGroup,
+            params: { id },
         },
-        event
+        event,
     )
 }
 
 function goToNew() {
     router.push({
-        name: DashboardRouteName.DashboardPartnerGroup,
-        params: { id: "!new" }
+        name:   DashboardRouteName.DashboardPartnerGroup,
+        params: { id: "!new" },
     })
 }
 </script>

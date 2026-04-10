@@ -2,7 +2,7 @@
 withDefaults(defineProps<{
     header?: string
 }>(), {
-    header:   "",
+    header: "",
 })
 </script>
 

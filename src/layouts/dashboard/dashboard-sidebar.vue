@@ -11,9 +11,9 @@ import type { MenuItem } from "primevue/menuitem"
 import useAuthStore from "@s/auth/auth"
 
 interface DashboardMenuItem extends MenuItem {
-    activeNames?: string[]
-    items?: DashboardMenuItem[]
-    key: string;
+    activeNames?:       string[]
+    items?:             DashboardMenuItem[]
+    key:                string
     highlightOnExpand?: boolean
 }
 
@@ -29,82 +29,82 @@ const expandedKeys = ref<Record<string, boolean>>({})
 const items = computed<DashboardMenuItem[]>(() => {
     const menu: DashboardMenuItem[] = [
         {
-            key:  "home",
-            label: t("mc.dashboard.sidebar.home"),
-            icon:  "pi pi-home",
-            route: dashboardPaths.DashboardPanel,
+            key:         "home",
+            label:       t("mc.dashboard.sidebar.home"),
+            icon:        "pi pi-home",
+            route:       dashboardPaths.DashboardPanel,
             activeNames: [
-                DashboardRouteName.DashboardPanel
-            ]
-        }
+                DashboardRouteName.DashboardPanel,
+            ],
+        },
     ]
 
     if (authStore.isSysAdmin) {
         menu.push({
-            key:   "users",
-            label: t("mc.dashboard.sidebar.users"),
-            icon:  "pi pi-users",
-            route: dashboardPaths.DashboardUsers,
+            key:         "users",
+            label:       t("mc.dashboard.sidebar.users"),
+            icon:        "pi pi-users",
+            route:       dashboardPaths.DashboardUsers,
             activeNames: [
                 DashboardRouteName.DashboardUsers,
-                DashboardRouteName.DashboardUser
-            ]
+                DashboardRouteName.DashboardUser,
+            ],
         })
 
         menu.push({
-            key:   "partners_root",
-            label: t("mc.dashboard.sidebar.partners"),
-            icon:  "pi pi-briefcase",
+            key:         "partners_root",
+            label:       t("mc.dashboard.sidebar.partners"),
+            icon:        "pi pi-briefcase",
             activeNames: [
                 DashboardRouteName.DashboardPartners,
-                DashboardRouteName.DashboardPartner
+                DashboardRouteName.DashboardPartner,
             ],
             highlightOnExpand: false,
-            items: [
+            items:             [
                 {
-                    key:   "partner_list",
-                    label: t("mc.dashboard.sidebar.partnerList"),
-                    icon:  "pi pi-list",
-                    route: dashboardPaths.DashboardPartners,
+                    key:         "partner_list",
+                    label:       t("mc.dashboard.sidebar.partnerList"),
+                    icon:        "pi pi-list",
+                    route:       dashboardPaths.DashboardPartners,
                     activeNames: [
                         DashboardRouteName.DashboardPartners,
-                        DashboardRouteName.DashboardPartner
+                        DashboardRouteName.DashboardPartner,
                     ],
                 },
                 {
-                    key:   "partner_group",
-                    label: t("mc.dashboard.sidebar.partnerGroups"),
-                    icon:  "pi pi-th-large",
-                    route: dashboardPaths.DashboardPartnerGroups,
+                    key:         "partner_group",
+                    label:       t("mc.dashboard.sidebar.partnerGroups"),
+                    icon:        "pi pi-th-large",
+                    route:       dashboardPaths.DashboardPartnerGroups,
                     activeNames: [
                         DashboardRouteName.DashboardPartnerGroups,
-                        DashboardRouteName.DashboardPartnerGroup
+                        DashboardRouteName.DashboardPartnerGroup,
                     ],
-                }
-            ]
+                },
+            ],
         })
     }
 
     menu.push({
-        key:  "tickets",
-        label: t("mc.dashboard.sidebar.tickets"),
-        icon:  "pi pi-comments",
-        route: dashboardPaths.DashboardTickets,
+        key:         "tickets",
+        label:       t("mc.dashboard.sidebar.tickets"),
+        icon:        "pi pi-comments",
+        route:       dashboardPaths.DashboardTickets,
         activeNames: [
             DashboardRouteName.DashboardTickets,
-            DashboardRouteName.DashboardTicket
-        ]
+            DashboardRouteName.DashboardTicket,
+        ],
     })
 
     menu.push({
-        key:  "cloud",
-        label: t("mc.dashboard.sidebar.cloud"),
-        icon:  "pi pi-folder",
-        route: dashboardPaths.DashboardCloudList,
+        key:         "cloud",
+        label:       t("mc.dashboard.sidebar.cloud"),
+        icon:        "pi pi-folder",
+        route:       dashboardPaths.DashboardCloudList,
         activeNames: [
             DashboardRouteName.DashboardCloudList,
-            DashboardRouteName.DashboardCloud
-        ]
+            DashboardRouteName.DashboardCloud,
+        ],
     })
 
     return menu
@@ -117,7 +117,7 @@ const isActive = (item: any): boolean => {
 
     if (item.items?.length) {
         const hasActiveChild = item.items.some((child: any) =>
-            child.activeNames?.includes(currentName)
+            child.activeNames?.includes(currentName),
         )
 
         if (HIGHLIGHT_PARENT) {
@@ -136,9 +136,7 @@ const autoExpand = () => {
 
     items.value.forEach(parent => {
         if (parent.items?.length) {
-            const hasActiveChild = parent.items.some(child =>
-                child.activeNames?.includes(route.name as string)
-            )
+            const hasActiveChild = parent.items.some(child => child.activeNames?.includes(route.name as string))
 
             if (hasActiveChild) {
                 newExpandedKeys[parent.key] = true
@@ -152,7 +150,7 @@ const autoExpand = () => {
 watch(
     () => route.name,
     () => autoExpand(),
-    { immediate: true }
+    { immediate: true },
 )
 </script>
 
@@ -172,7 +170,7 @@ watch(
             <div class="sidebar-menu">
                 <prime-panel-menu
                     :model="items"
-                    v-model:expandedKeys="expandedKeys"
+                    v-model:expanded-keys="expandedKeys"
                 >
                     <template #item="{ item }">
                         <router-link

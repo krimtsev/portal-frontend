@@ -8,24 +8,23 @@ import BButtonSecondary from "@c/common/b-button/b-button-secondary.vue"
 import { useRoute, useRouter } from "vue-router"
 import { useI18n } from "vue-i18n"
 
-const { t } = useI18n()
-
 const emit = defineEmits<{
     (e: "save"): void
     (e: "remove"): void
 }>()
 
 const props = defineProps<{
-    title: string
-    isLoading?: boolean
-    isFirstLoading?: boolean
-    hideFooter?: boolean
-    hideSaveButton?: boolean
+    title:             string
+    isLoading?:        boolean
+    isFirstLoading?:   boolean
+    hideFooter?:       boolean
+    hideSaveButton?:   boolean
     hideCancelButton?: boolean
-    pathBack?: string
-    removeText?: string
+    pathBack?:         string
+    removeText?:       string
 }>()
 
+const { t } = useI18n()
 const route = useRoute()
 const router = useRouter()
 
@@ -69,7 +68,6 @@ const onRemove = () => {
                 :title="props.title"
                 variant="sm"
             />
-
         </div>
 
         <div

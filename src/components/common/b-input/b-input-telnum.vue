@@ -3,7 +3,11 @@ import { ref, watch } from "vue"
 import PrimeInputMask from "primevue/inputmask"
 import BInputError from "@c/common/b-input-error/b-input-error.vue"
 
-const emit = defineEmits(["change"])
+const model = defineModel<string>({ required: true })
+
+const emit = defineEmits<{
+    (e: "change", value: string): void
+}>()
 
 const props = withDefaults(defineProps<{
     name?:        string
@@ -11,12 +15,12 @@ const props = withDefaults(defineProps<{
     error?:       string
     disabled?:    boolean
 }>(), {
+    name:        undefined,
     placeholder: "",
     error:       "",
     disabled:    false,
 })
 
-const model = defineModel<string>()
 const maskedValue = ref("")
 
 const toDigit = (val?: string) => {

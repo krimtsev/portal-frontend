@@ -10,7 +10,7 @@ const telnumZodSchema = z.object({
         .regex(reg.mobileTelnum, "Некорректный номер телефона"),
 
     name: z.string()
-        .optional()
+        .optional(),
 })
 
 export const PartnerTelnumSchema = toTypedSchema(telnumZodSchema)
@@ -44,8 +44,8 @@ export const PartnerSchema = toTypedSchema(
             z.string()
                 .email({ message: "Неверный формат" })
                 .nullable()
-                .optional()
-            ),
+                .optional(),
+        ),
 
         yclients_id: z.string()
             .optional()
@@ -62,18 +62,18 @@ export const PartnerSchema = toTypedSchema(
         start_at: z.preprocess(
             (val) => val === "" ? null : val,
             z.string()
-            .nullable()
-            .optional()
-            .refine(
-                (val) => !val || isIsoDate(val),
-                { message: "Неверный формат даты" }
-            )
+                .nullable()
+                .optional()
+                .refine(
+                    (val) => !val || isIsoDate(val),
+                    { message: "Неверный формат даты" },
+                ),
         ),
 
         disabled: z.boolean(),
 
-        telnums: z.array(telnumZodSchema)
-    })
+        telnums: z.array(telnumZodSchema),
+    }),
 )
 
 

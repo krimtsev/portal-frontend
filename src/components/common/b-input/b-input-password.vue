@@ -6,7 +6,7 @@ import BInputError from "@c/common/b-input-error/b-input-error.vue"
 const model = defineModel<string>()
 
 const props = withDefaults(defineProps<{
-    name?:        string,
+    name?:        string
     toggleMask?:  boolean
     placeholder?: string
     disabled?:    boolean
@@ -14,11 +14,13 @@ const props = withDefaults(defineProps<{
     error?:       string
     feedback?:    boolean
 }>(), {
+    name:        undefined,
     toggleMask:  true,
     placeholder: "",
     error:       "",
     feedback:    false,
-    disabled:    false
+    disabled:    false,
+    hint:        undefined,
 })
 
 const attrs = useAttrs()

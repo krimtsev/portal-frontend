@@ -1,11 +1,11 @@
-<script setup lang="ts" >
+<script setup lang="ts">
 import { computed } from "vue"
 import BTelnumLink from "@c/common/b-link/b-telnum-link.vue"
 import { imageSrc } from "@h/images/images"
 
 const props = defineProps<{
-    avatar?: string,
-    telnum?: string,
+    avatar?: string
+    telnum?: string
 }>()
 
 const src = computed(() => imageSrc(props.avatar))
@@ -21,7 +21,7 @@ const src = computed(() => imageSrc(props.avatar))
                 :src="src"
                 class="avatar"
                 alt=""
-            />
+            >
         </div>
 
         <div class="content">

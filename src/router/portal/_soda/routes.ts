@@ -5,17 +5,16 @@ import PortalLayout from "@l/portal/PortalLayout.vue"
 
 const routes: RouteRecordRaw[] = [
     {
-        path: "/",
+        path:      "/",
         component: PortalLayout,
-        meta: {
-            title: "mc.partner.title"
+        meta:      {
+            title: "mc.partner.title",
         },
         redirect: {
-            name: PortalRouteName.Home
+            name: PortalRouteName.Home,
         },
-        children: [
-        ]
-    }
+        children: [],
+    },
 ]
 
 export default routes

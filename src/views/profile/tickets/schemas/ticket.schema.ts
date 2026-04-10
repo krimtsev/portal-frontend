@@ -3,7 +3,7 @@ import { messageLength } from "@v/profile/tickets/list/definitions/tickets-list"
 
 /** General schema **/
 
-export const PartnerIdSchema =  z.number({ message: "Выберите филиал" })
+export const PartnerIdSchema = z.number({ message: "Выберите филиал" })
 
 export const MessageSchema = z.string()
     .max(messageLength, { message: "Сообщениеи слишком длиннкое" })
@@ -19,5 +19,5 @@ export const UrlSchema = z
 export const UrlSchemaOptional = z.union([
     z.string().url({ message: "Укажите правильный формат URL" }),
     z.literal(""),
-    z.undefined()
+    z.undefined(),
 ])

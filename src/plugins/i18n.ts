@@ -2,11 +2,11 @@ import { createI18n, type I18nOptions } from "vue-i18n"
 import ruRU from "@a/locales/ru-RU.json"
 
 const options: I18nOptions = {
-    legacy: false,
-    locale: "ru-RU",
+    legacy:         false,
+    locale:         "ru-RU",
     fallbackLocale: "ru-RU",
-    messages: {
-        "ru-RU": ruRU
+    messages:       {
+        "ru-RU": ruRU,
     },
     datetimeFormats: {
         "ru-RU": {

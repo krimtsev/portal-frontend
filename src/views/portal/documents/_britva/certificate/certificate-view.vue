@@ -66,7 +66,13 @@ import BLink from "@c/common/b-link/b-link.vue"
                     <div class="content">
                         <ul>
                             <li>Физический сертификат активируется только после продажи в Yclients</li>
-                            <li>У каждого филиала — своя нумерация, которая записана в таблице <b-link label="Поиск по сертификатам" href="https://mybritva.ru/certificates"/></li>
+                            <li>
+                                У каждого филиала — своя нумерация, которая записана в таблице
+                                <b-link
+                                    label="Поиск по сертификатам"
+                                    href="https://mybritva.ru/certificates"
+                                />
+                            </li>
                             <li>Подробная инструкция по пробитию — в видео-уроке по Yclients</li>
                         </ul>
                     </div>
@@ -109,9 +115,16 @@ import BLink from "@c/common/b-link/b-link.vue"
                 <portal-card title="Как работать с таблицей сертификатов">
                     <div class="content">
                         <ol>
-                            <li>Откройте вкладку <b-link label="Поиск по сертификатам" href="https://mybritva.ru/certificates"/></li>
+                            <li>
+                                Откройте вкладку
+                                <b-link
+                                    label="Поиск по сертификатам"
+                                    href="https://mybritva.ru/certificates"
+                                />
+                            </li>
                             <li>Начните набирать необходимый код и нажмите Enter</li>
-                            <li>Система отобразит:
+                            <li>
+                                Система отобразит:
                                 <ul>
                                     <li>номинал или услугу</li>
                                     <li>соответствующий филиал</li>

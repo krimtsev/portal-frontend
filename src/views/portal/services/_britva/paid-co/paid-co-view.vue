@@ -5,7 +5,7 @@ import { getPublicLink } from "@/lib/link"
 import { downloadFile } from "@/lib/files"
 import BButtonDownload from "@c/common/b-button/b-button-download.vue"
 
-async function handleDownload() {
+function handleDownload() {
     const url = getPublicLink("docs/co-price.pdf")
     downloadFile(url, "co-price.pdf")
 }

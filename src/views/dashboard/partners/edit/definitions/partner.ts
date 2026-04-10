@@ -19,7 +19,7 @@ export interface PartnerResponse {
 }
 
 export interface PartnerTelnumItem {
-    id?: number,
-    name: string,
+    id?:    number
+    name:   string
     number: string
 }

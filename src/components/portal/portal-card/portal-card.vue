@@ -6,23 +6,23 @@ import { PortalRouteName } from "@r/portal/route-names"
 import BButtonIcon from "@c/common/b-button-icon/b-button-icon.vue"
 
 interface Route {
-    name: PortalRouteName
+    name:    PortalRouteName
     params?: Record<string, any>
-    query?: Record<string, any>
+    query?:  Record<string, any>
 }
 
 const props = defineProps<{
-    title?: string,
-    path?: string | Route
-    menuTitle?: boolean
+    title?:      string
+    path?:       string | Route
+    menuTitle?:  boolean
     background?: {
         height: string
-        src: string
+        src:    string
     }
     pathPositionLeft?: boolean
-    classTitle?: string | string[]
-    classContent?: string | string[]
-    mobileWrapForm?: boolean
+    classTitle?:       string | string[]
+    classContent?:     string | string[]
+    mobileWrapForm?:   boolean
 }>()
 
 const router = useRouter()
