@@ -2,7 +2,7 @@
 import PrimeInputText from "primevue/inputtext"
 import BInputError from "@c/common/b-input-error/b-input-error.vue"
 
-const model = defineModel<string>({ required: true })
+const model = defineModel<string>({ default: undefined })
 
 const emit = defineEmits<{
     (e: "change", model: string): void

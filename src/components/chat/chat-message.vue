@@ -51,6 +51,7 @@ const shape = computed((): string => props.rounded ? "circle" : "square")
                     :class="[
                         `avatar-${type}`,
                     ]"
+                    alt=""
                 >
 
                 <prime-avatar

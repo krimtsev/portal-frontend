@@ -31,6 +31,7 @@ const type = computed(() => {
                 v-if="props.avatar"
                 :src="props.avatar"
                 class="chat-avatar"
+                alt=""
             >
             <div>
                 <div

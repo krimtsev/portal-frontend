@@ -41,8 +41,7 @@ const glowDirective: Directive<HTMLElement, GlowOptions> = {
         const randomPart = Math.random()
             .toString(36)
             .slice(2)
-        const uid = `glow-${randomPart}`
-        el.dataset.glowId = uid
+        el.dataset.glowId = `glow-${randomPart}`
 
         // CSS-переменные
         el.style.setProperty("--glow-size", `${size}px`)
