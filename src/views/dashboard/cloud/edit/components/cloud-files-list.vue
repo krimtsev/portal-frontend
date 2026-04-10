@@ -15,6 +15,14 @@ import { downloadExternalFile } from "@/lib/files"
 import { useNotify } from "@/composables/notify/use-notify"
 import PrimeTag from "primevue/tag"
 
+interface PrimeDataTableInstance {
+    $refs: {
+        virtualScroller?: {
+            scrollToIndex: (index: number, behavior?: "auto" | "smooth") => void
+        }
+    }
+}
+
 const emit = defineEmits<{
     (e: "file:update", file: CloudFile): void
     (e: "file:remove", file: CloudFile): void
@@ -63,7 +71,9 @@ const onDownload = async (item: CloudFile) => {
 }
 
 const scrollToBottom = () => {
-    const scroller = tableRef.value?.$refs?.virtualScroller
+    const instance = tableRef.value as unknown as PrimeDataTableInstance
+    const scroller = instance?.$refs?.virtualScroller
+
     if (scroller) {
         scroller.scrollToIndex(props.files.length - 1, "smooth")
     }
