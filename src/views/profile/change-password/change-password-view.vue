@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { reactive, ref } from "vue"
-import { Form } from "@primevue/forms"
-import type { FormResolverOptions, FormSubmitEvent } from "@primevue/forms"
+import { computed, ref } from "vue"
+import { useForm } from "vee-validate"
 import PortalPage from "@c/portal/portal-page/portal-page.vue"
 import PortalCard from "@c/portal/portal-card/portal-card.vue"
 import PortalFormItem from "@c/portal/portal-form-item/portal-form-item.vue"
@@ -11,103 +10,103 @@ import { HttpError } from "@/api"
 import * as changePasswordAPI from "@/api/modules/profile/change-password/change-password"
 import type { ChangePassword } from "@/api/modules/profile/change-password/definitions/change-password"
 import { useNotify } from "@/composables/notify/use-notify"
-import { isPassword } from "@/lib/validator"
 import useAuthStore from "@s/auth/auth"
+import { UserPasswordSchema } from "@v/profile/change-password/schemas/change-password.schema"
+import { useConfigValidation } from "@/composables/vee-validate/use-config-validation"
+import { useRouter } from "vue-router"
+import { ProfileRouteName } from "@r/profile/route-names"
 
 
 const { t } = useI18n()
 const notify = useNotify()
 const authStore = useAuthStore()
+const router = useRouter()
 
-const initialValues = reactive<ChangePassword>({
-    password:        "",
-    confirmPassword: "",
-})
-
-const isSubmitting = ref(false)
-
-function resolver(options: FormResolverOptions) {
-    const { password, confirmPassword } = options.values
-
-    const errors: {
-        confirmPassword?: Array<{ message: string }>
-    } = {}
-
-    if (!confirmPassword) {
-        errors.confirmPassword = [{ message: "Введите пароль." }]
-    } else if (!isPassword(confirmPassword)) {
-        errors.confirmPassword = [{ message: "Пароль может состоять из букв, цифр и быть строкой без пробелов." }]
-    } else if (confirmPassword.length < 8) {
-        errors.confirmPassword = [{ message: "Пароль должен содержать не менее 8 символов." }]
-    } else if (confirmPassword !== password) {
-        errors.confirmPassword = [{ message: "Пароли не совпадают." }]
-    }
-
+function defaultState(): ChangePassword {
     return {
-        values: options.values,
-        errors,
+        password:        "",
+        confirmPassword: "",
     }
 }
 
-async function onFormSubmit(event: FormSubmitEvent): Promise<void> {
-    if (!event.valid || isSubmitting.value) return
+const isLoading = ref(false)
 
-    isSubmitting.value = true
+const {
+    errors,
+    handleSubmit,
+    defineField,
+    meta,
+    submitCount,
+    setErrors,
+} = useForm<ChangePassword>({
+    validationSchema: UserPasswordSchema,
+    initialValues:    defaultState(),
+})
 
-    const values = event.values as ChangePassword
-    const resp = await changePasswordAPI.change(values)
+const dynamicConfig = useConfigValidation(submitCount)
 
-    isSubmitting.value = false
+const [passwordModel] = defineField("password", dynamicConfig)
+const [confirmPasswordModel] = defineField("confirmPassword", dynamicConfig)
+
+const onSave = handleSubmit(async (formValues) => {
+    if (!meta.value.dirty) {
+        notify.success(t("mc.notify.success"))
+        await router.push({ name: ProfileRouteName.Profile })
+        return
+    }
+
+    isLoading.value = true
+
+    const resp = await changePasswordAPI.change(formValues)
+
+    isLoading.value = false
 
     if (resp instanceof HttpError) {
+        if (resp?.errors) setErrors(resp.errors)
         notify.error()
         return
     }
 
     notify.success("Пароль изменен")
     await authStore.logout()
+})
 
+const onCancel = async () => {
+    await router.push({ name: ProfileRouteName.Profile })
 }
+
+const passwordError = computed(() => errors.value.password || errors.value.confirmPassword)
+const hasPasswordError = computed(() => !!(errors.value.password || errors.value.confirmPassword))
 </script>
 
 <template>
-    <Form
-        v-slot="$form"
-        :resolver="resolver"
-        :initial-values="initialValues"
-        @submit="onFormSubmit"
-        class="form-card"
+    <portal-page
+        title="Смена пароля"
+        class="change-password-view"
+        :is-submitting="isLoading"
+        @save="onSave"
+        @cancel="onCancel"
     >
-        <portal-page
-            title="Смена пароля"
-            class="change-password-view"
-            :is-submitting="isSubmitting"
-            @save="() => $form.triggerSubmit"
-        >
-            <portal-card mobile-wrap-form>
-                <portal-form-item label="Введите новый пароль">
-                    <b-input-password
-                        name="password"
-                        :placeholder="t('mc.placeholder.input')"
-                        :invalid="$form.confirmPassword?.invalid"
-                        :disabled="isSubmitting"
-                        hint="Пароль может состоять из букв, цифр и быть строкой без пробелов."
-                    />
-                </portal-form-item>
+        <portal-card mobile-wrap-form>
+            <portal-form-item label="Введите новый пароль">
+                <b-input-password
+                    v-model="passwordModel"
+                    :placeholder="t('mc.placeholder.input')"
+                    :invalid="hasPasswordError"
+                    :disabled="isLoading"
+                    hint="Пароль может состоять из букв, цифр и быть строкой без пробелов."
+                />
+            </portal-form-item>
 
-                <portal-form-item label="Введите пароль еще раз">
-                    <b-input-password
-                        name="confirmPassword"
-                        :placeholder="t('mc.placeholder.input')"
-                        :error="$form.confirmPassword?.invalid
-                            ? $form.confirmPassword.error?.message
-                            : ''
-                        "
-                        :disabled="isSubmitting"
-                    />
-                </portal-form-item>
-            </portal-card>
-        </portal-page>
-    </Form>
+            <portal-form-item label="Введите пароль еще раз">
+                <b-input-password
+                    v-model="confirmPasswordModel"
+                    :placeholder="t('mc.placeholder.input')"
+                    :error="passwordError"
+                    :disabled="isLoading"
+                />
+            </portal-form-item>
+        </portal-card>
+    </portal-page>
 </template>
 

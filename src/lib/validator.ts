@@ -1,5 +1,5 @@
 export const reg = {
-    password:         new RegExp(/^\\S+$/),
+    password:         new RegExp(/^\S+$/),
     mobileTelnum:     new RegExp(/^[\+]?\d{11}$/),
     isoDate:          new RegExp(/^\d{4}-\d{2}-\d{2}$/),
     fileNameChars:    new RegExp(/^[^\\/:*?"<>|]+$/),

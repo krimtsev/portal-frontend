@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useAttrs } from "vue"
+import { computed, useAttrs } from "vue"
 import PrimePassword from "primevue/password"
 import BInputError from "@c/common/b-input-error/b-input-error.vue"
 
@@ -13,17 +13,21 @@ const props = withDefaults(defineProps<{
     hint?:        string
     error?:       string
     feedback?:    boolean
+    invalid?:     boolean
 }>(), {
     name:        undefined,
     toggleMask:  true,
     placeholder: "",
     error:       "",
+    invalid:     false,
     feedback:    false,
     disabled:    false,
     hint:        undefined,
 })
 
 const attrs = useAttrs()
+
+const isInvalid = computed((): boolean => !!props.error || props.invalid)
 </script>
 
 <template>
@@ -36,7 +40,7 @@ const attrs = useAttrs()
             :placeholder="props.placeholder"
             :feedback="props.feedback"
             :disabled="props.disabled"
-            :invalid="!!props.error"
+            :invalid="isInvalid"
             class="password"
         />
 

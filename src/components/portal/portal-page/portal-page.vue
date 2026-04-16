@@ -7,7 +7,10 @@ import BSkeleton from "@c/common/b-skeleton/b-skeleton.vue"
 import BButton from "@c/common/b-button/b-button.vue"
 import BSpinnerWide from "@c/common/b-spinner/b-spinner-wide.vue"
 
-const emit = defineEmits(["save", "cancel"])
+const emit = defineEmits<{
+    (e: "save"): void
+    (e: "cancel"): void
+}>()
 
 const props = defineProps<PortalPage>()
 
@@ -83,6 +86,7 @@ const isLoadingContent = computed(() => {
                         v-if="hasCancelAction"
                         label="Отменить"
                         :disabled="props.isSubmitting"
+                        variant="secondary"
                         @click="emit('cancel')"
                     />
                 </div>
@@ -114,6 +118,7 @@ const isLoadingContent = computed(() => {
     .footer {
         @include portal-card();
 
+        padding: $indent-x2;
         flex-direction: row;
         gap: $indent-x2;
     }
