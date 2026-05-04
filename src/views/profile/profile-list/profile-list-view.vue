@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router"
-import PortalSectionCard from "@c/portal/portal-section-card/portal-section-card.vue"
 import { ProfileRouteName } from "@r/profile/route-names"
+import PortalSectionCard from "@c/portal/portal-section-card/portal-section-card.vue"
 
 const router = useRouter()
 

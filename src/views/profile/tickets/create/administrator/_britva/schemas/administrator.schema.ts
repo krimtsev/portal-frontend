@@ -1,11 +1,12 @@
 import * as z from "zod"
+import { toTypedSchema } from "@vee-validate/zod"
 import { reg } from "@/lib/validator"
+import { FilesSchema } from "@c/common/b-upload-file/schemas/file-upload.schema"
 import { Qualification } from "@v/profile/tickets/create/administrator/_britva/definitions/administrator"
 import {
-    PartnerIdSchema,
     MessageSchema,
+    PartnerIdSchema,
 } from "@v/profile/tickets/schemas/ticket.schema"
-import { FilesSchema } from "@c/common/b-upload-file/schemas/file-upload.schema"
 
 const AttributesSchema = z.object({
     qualification: z.enum(Qualification),
@@ -21,11 +22,11 @@ const AttributesSchema = z.object({
         .min(1, { message: "Укажите стаж работы в филиале" }),
 })
 
-export const FormSchema = z.object({
-    attributes: AttributesSchema,
-    message:    MessageSchema,
-    partner_id: PartnerIdSchema,
-    files:      FilesSchema,
-})
-
-export type FormSchemaType = z.infer<typeof FormSchema>
+export const FormSchema = toTypedSchema(
+    z.object({
+        attributes: AttributesSchema,
+        message:    MessageSchema,
+        partner_id: PartnerIdSchema,
+        files:      FilesSchema,
+    }),
+)

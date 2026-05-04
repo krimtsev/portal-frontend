@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { onMounted, onBeforeUnmount, useTemplateRef } from "vue"
+import { onBeforeUnmount, onMounted, useTemplateRef } from "vue"
 import {
-    Chart,
     BarController,
     BarElement,
     CategoryScale,
+    Chart,
+    Legend,
     LinearScale,
     Tooltip,
-    Legend,
 } from "chart.js"
 
 Chart.register(BarController, BarElement, CategoryScale, LinearScale, Tooltip, Legend)

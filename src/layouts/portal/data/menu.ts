@@ -1,6 +1,6 @@
+import { useRouter } from "vue-router"
 import { PortalRouteName } from "@r/portal/route-names"
 import { ProfileRouteName } from "@r/profile/route-names"
-import { useRouter } from "vue-router"
 
 type MenuCommand = () => void
 
@@ -66,6 +66,12 @@ export function menuData(): MenuItem[] {
                     label:   "Индивидуальное согласование",
                     command: async () => {
                         await router.push({ name: ProfileRouteName.ProfileTicketGeneral })
+                    },
+                },
+                {
+                    label:   "Скоро открытие",
+                    command: async () => {
+                        await router.push({ name: ProfileRouteName.ProfileTicketOpening })
                     },
                 },
             ],

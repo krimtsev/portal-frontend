@@ -1,5 +1,6 @@
-import { ContentType } from "@/shared/content/content"
 import type { FinesData } from "@v/portal/documents/_britva/fines/definitions/fines"
+
+import { ContentType } from "@/shared/content/content"
 
 export const finesData: FinesData[] = [
     {

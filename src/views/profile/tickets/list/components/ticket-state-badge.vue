@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import PrimeTag from "primevue/tag"
 import { computed } from "vue"
+import PrimeTag from "primevue/tag"
+import { TicketState } from "@v/profile/tickets/edit/definitions/ticket"
 import { stateName } from "@v/profile/tickets/list/utils/ticket"
 
 const props = defineProps<{
@@ -10,25 +11,20 @@ const props = defineProps<{
 
 const ticketValue = computed(() => stateName(props.value || ""))
 
+const ticketStateMap = {
+    [TicketState.New]:        "info",
+    [TicketState.InProgress]: "warn",
+    [TicketState.Waiting]:    "active",
+    [TicketState.Success]:    "success",
+    [TicketState.Closed]:     "disabled",
+    [TicketState.Cancel]:     "danger",
+}
+
 const ticketSeverity = computed(() => {
     if (!props.value) return "disabled"
 
-    switch (props.value) {
-        case "new":
-            return "info"
-        case "in_progress":
-            return "warn"
-        case "waiting":
-            return "active"
-        case "success":
-            return "success"
-        case "closed":
-            return "disabled"
-        case "cancel":
-            return "danger"
-        default:
-            return "disabled"
-    }
+    const key = props.value as TicketState
+    return ticketStateMap[key] || "disabled"
 })
 </script>
 

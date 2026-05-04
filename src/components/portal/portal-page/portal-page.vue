@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { computed, getCurrentInstance } from "vue"
-import BTitle from "@c/common/b-title/b-title.vue"
-import type { PortalPage } from "@c/portal/portal-page/definitions/portal-page"
+import BButton from "@c/common/b-button/b-button.vue"
 import BImage from "@c/common/b-image/b-image.vue"
 import BSkeleton from "@c/common/b-skeleton/b-skeleton.vue"
-import BButton from "@c/common/b-button/b-button.vue"
 import BSpinnerWide from "@c/common/b-spinner/b-spinner-wide.vue"
+import BTitle from "@c/common/b-title/b-title.vue"
+import type { PortalPage } from "@c/portal/portal-page/definitions/portal-page"
 
 const emit = defineEmits<{
     (e: "save"): void

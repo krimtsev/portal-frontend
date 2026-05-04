@@ -1,16 +1,17 @@
-import axios from "axios"
+import { useAuthStore } from "@s/auth/auth"
 import type {
-    AxiosInstance,
-    AxiosRequestConfig,
     AxiosDefaults,
     AxiosError,
+    AxiosInstance,
+    AxiosRequestConfig,
 } from "axios"
+import axios from "axios"
 import qs from "qs"
-import { Queue } from "@/api/queue"
+
 import { HttpMethod } from "@/api/definitions/api"
+import { Queue } from "@/api/queue"
 import { requestsHistory } from "@/api/requests-history"
 import env from "~/env"
-import useAuthStore from "@s/auth/auth"
 
 export class HttpError {
     code:    number
@@ -44,7 +45,7 @@ async function authGuard(error: any) {
     if (status === 401 && message === "Unauthenticated.") {
         const authStore = useAuthStore()
         await authStore.csrf()
-        const success = await authStore.getUserData()
+        const success = await authStore.initUserData()
 
         if (!success) {
             await authStore.reset(true)

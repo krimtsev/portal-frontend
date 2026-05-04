@@ -1,6 +1,5 @@
 import rawEnv from "./env.js"
-
-export type Partner = "britva" | "soda"
+import { Partner } from "@/shared/partner/partner"
 
 export interface Env {
     app: {

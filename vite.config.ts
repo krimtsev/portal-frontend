@@ -35,7 +35,6 @@ export default ({ mode }: { mode: never }) => {
             preprocessorOptions: {
                 scss: {
                     additionalData: `
-                        @use "@a/styles/_fonts.scss" as *;
                         @use "@a/styles/_variables.scss" as *;
                         @use "@a/styles/_gradients.scss" as *;
                         @use "@a/styles/_typography.scss" as *;

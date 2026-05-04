@@ -169,6 +169,26 @@ export default {
                 padding: "0 0 0.5714rem 0",
             },
         },
+        progressspinner: {
+            colorScheme: {
+                light: {
+                    root: {
+                        colorOne:   "{primary.100}",
+                        colorTwo:   "{primary.300}",
+                        colorThree: "{primary.500}",
+                        colorFour:  "{primary.700}",
+                    },
+                },
+                dark: {
+                    root: {
+                        colorOne:   "{primary.100}",
+                        colorTwo:   "{primary.300}",
+                        colorThree: "{primary.500}",
+                        colorFour:  "{primary.700}",
+                    },
+                },
+            },
+        },
     },
     semantic: {
         border: {

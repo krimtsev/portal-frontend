@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, onMounted, onUnmounted, useTemplateRef } from "vue"
+import { computed, onMounted, onUnmounted, ref, useTemplateRef } from "vue"
 
 const props = withDefaults(defineProps<{
     text:       string | number

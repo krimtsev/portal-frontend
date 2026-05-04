@@ -1,17 +1,16 @@
 <script setup lang="ts">
-import { ref, computed } from "vue"
-import type { PartnerTelnumItem } from "@v/dashboard/partners/edit/definitions/partner"
+import { computed, ref } from "vue"
+import { useVeeForm } from "@/composables/vee-validate/use-validation"
 import BButtonSecondary from "@c/common/b-button/b-button-secondary.vue"
-import BTelnumLink from "@c/common/b-link/b-telnum-link.vue"
 import BButtonIcon from "@c/common/b-button-icon/b-button-icon.vue"
-import BDialogSection from "@c/common/b-dialog/b-dialog-section.vue"
+import BDialogConfirm from "@c/common/b-dialog/b-dialog-confirm.vue"
 import BDialogItem from "@c/common/b-dialog/b-dialog-item.vue"
+import BDialogSection from "@c/common/b-dialog/b-dialog-section.vue"
 import BInputTelnum from "@c/common/b-input/b-input-telnum.vue"
 import BInputText from "@c/common/b-input/b-input-text.vue"
-import BDialogConfirm from "@c/common/b-dialog/b-dialog-confirm.vue"
-import { useForm } from "vee-validate"
+import BTelnumLink from "@c/common/b-link/b-telnum-link.vue"
+import type { PartnerTelnumItem } from "@v/dashboard/partners/edit/definitions/partner"
 import { PartnerTelnumSchema } from "@v/dashboard/partners/edit/schemas/partner.schema"
-import { useConfigValidation } from "@/composables/vee-validate/use-config-validation"
 
 
 const model = defineModel<PartnerTelnumItem[]>({ default: () => [] })
@@ -26,13 +25,12 @@ const editingIndex = ref<number | null>(null)
 const isEditing = computed(() => editingIndex.value !== null)
 
 const {
-    defineField,
+    defineLazyField,
     handleSubmit,
     resetForm,
     meta,
     errors,
-    submitCount,
-} = useForm<PartnerTelnumItem>({
+} = useVeeForm<PartnerTelnumItem>({
     validationSchema: PartnerTelnumSchema,
     initialValues:    {
         number: "",
@@ -40,10 +38,8 @@ const {
     },
 })
 
-const dynamicConfig = useConfigValidation(submitCount)
-
-const [numberModel] = defineField("number", dynamicConfig)
-const [nameModel] = defineField("name", dynamicConfig)
+const [numberModel] = defineLazyField("number")
+const [nameModel] = defineLazyField("name")
 
 const openModal = (index: number | null = null) => {
     editingIndex.value = index
@@ -162,7 +158,7 @@ const deleteItem = (index: number) => {
                 >
                     <b-input-telnum
                         v-model="numberModel"
-                        :error="errors.number"
+                        :error="errors['number']"
                     />
                 </b-dialog-item>
 

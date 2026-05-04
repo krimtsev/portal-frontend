@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import BImage from "@c/common/b-image/b-image.vue"
 import BDivider from "@c/common/b-divider/b-divider.vue"
-import PortalPage from "@c/portal/portal-page/portal-page.vue"
+import BImage from "@c/common/b-image/b-image.vue"
 import PortalCard from "@c/portal/portal-card/portal-card.vue"
+import PortalPage from "@c/portal/portal-page/portal-page.vue"
 </script>
 
 <template>

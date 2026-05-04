@@ -1,23 +1,26 @@
-import { http } from "@/api"
-import type { Pagination, PaginationFilter } from "@/shared/pagination/pagination"
-import type { TicketListItem } from "@v/profile/tickets/list/definitions/tickets-list"
+import type { TicketBlacklist } from "@v/profile/tickets/create/blacklist/definitions/blacklist"
+import type { TicketCertificate } from "@v/profile/tickets/create/certificate/definitions/certificate"
+import type { TicketDesign } from "@v/profile/tickets/create/design/definitions/design"
+import type { TicketGeneral } from "@v/profile/tickets/create/general/definitions/general"
+import type { TicketOpening } from "@v/profile/tickets/create/opening/definitions/opening"
+import type { TicketSpecialist } from "@v/profile/tickets/create/specialist/_britva/definitions/specialist"
 import type { TicketResponse } from "@v/profile/tickets/edit/definitions/ticket"
 import type {
     TicketCategoriesResponse,
     TicketCategoryResponse,
 } from "@v/profile/tickets/edit/definitions/ticket-category"
-import type { TicketBlacklist } from "@v/profile/tickets/create/blacklist/definitions/blacklist"
-import type { TicketCertificate } from "@v/profile/tickets/create/certificate/definitions/certificate"
-import type { TicketDesign } from "@v/profile/tickets/create/design/definitions/design"
-import type { TicketGeneral } from "@v/profile/tickets/create/general/definitions/general"
-import type { TicketSpecialist } from "@v/profile/tickets/create/specialist/_britva/definitions/specialist"
 import { TicketCategorySlug } from "@v/profile/tickets/edit/definitions/ticket-category"
+import type { TicketListItem } from "@v/profile/tickets/list/definitions/tickets-list"
+
+import { http } from "@/api"
+import type { Pagination, PaginationFilter } from "@/shared/pagination/pagination"
 
 type TicketRequestParams = TicketBlacklist |
     TicketCertificate |
     TicketDesign |
     TicketGeneral |
-    TicketSpecialist
+    TicketSpecialist |
+    TicketOpening
 
 export async function categories() {
     return await http.get<TicketCategoriesResponse>("profile/ticket-categories/list")

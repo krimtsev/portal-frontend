@@ -1,29 +1,29 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue"
+import { useI18n } from "vue-i18n"
+import PrimeColumn from "primevue/column"
+import PrimeDataTable from "primevue/datatable"
+import { useNotify } from "@/composables/notify/use-notify"
+import { HttpError } from "@/api"
+import * as contactsAPI from "@/api/modules/contacts/contacts"
+import BEmptyResult from "@c/common/b-empty/b-empty-result.vue"
+import BInputSearch from "@c/common/b-input-search/b-input-search.vue"
+import BSocialLinks from "@c/common/b-link/b-social-links.vue"
+import BTelnumLink from "@c/common/b-link/b-telnum-link.vue"
+import BSkeleton from "@c/common/b-skeleton/b-skeleton.vue"
+import BTableText from "@c/common/b-table/b-table-text.vue"
+import PortalButtonNavigation from "@c/portal/portal-button-navigation/portal-button-navigation.vue"
 import PortalPage from "@c/portal/portal-page/portal-page.vue"
 import { buttonNavigation } from "@v/portal/contacts/_britva/data/button-navigation"
-import PortalButtonNavigation from "@c/portal/portal-button-navigation/portal-button-navigation.vue"
-import * as contactsAPI from "@/api/modules/contacts/contacts"
-import { HttpError } from "@/api"
 import {
     type FranchiseeItem,
     FranchiseeSortBy,
 } from "@v/portal/contacts/franchisee/definitions/franchisee"
-import { useNotify } from "@/composables/notify/use-notify"
-import PrimeDataTable from "primevue/datatable"
-import BSkeleton from "@c/common/b-skeleton/b-skeleton.vue"
-import BEmptyResult from "@c/common/b-empty/b-empty-result.vue"
-import PrimeColumn from "primevue/column"
+import { normalizeData } from "@v/portal/contacts/franchisee/utils/franchisee"
 import {
     defaultPaginationFilter,
     defaultPaginationPage,
 } from "@/shared/pagination/pagination"
-import { useI18n } from "vue-i18n"
-import { normalizeData } from "@v/portal/contacts/franchisee/utils/franchisee"
-import BTelnumLink from "@c/common/b-link/b-telnum-link.vue"
-import BInputSearch from "@c/common/b-input-search/b-input-search.vue"
-import BSocialLinks from "@c/common/b-link/b-social-links.vue"
-import BTableText from "@c/common/b-table/b-table-text.vue"
 
 const notify = useNotify()
 const { t, n } = useI18n()

@@ -1,30 +1,26 @@
 <script setup lang="ts">
-import { onMounted, ref, computed } from "vue"
-import { cloneDeep, isEqual } from "lodash"
-import PortalPage from "@c/portal/portal-page/portal-page.vue"
-import BInputText from "@c/common/b-input/b-input-text.vue"
-import BButton from "@c/common/b-button/b-button.vue"
-import BTextarea from "@c/common/b-textarea/b-textarea.vue"
-import BFileUpload from "@c/common/b-upload-file/b-file-upload.vue"
+import { computed, onMounted, ref } from "vue"
+import { useI18n } from "vue-i18n"
+import { useRouter } from "vue-router"
+import { useNotify } from "@/composables/notify/use-notify"
+import { useVeeForm } from "@/composables/vee-validate/use-validation"
+import { ProfileRouteName } from "@r/profile/route-names"
+import { HttpError } from "@/api"
 import type { UserPartners } from "@/api/modules/partner/partner"
 import * as partnerAPI from "@/api/modules/partner/partner"
 import * as ticketsAPI from "@/api/modules/profile/tickets/tickets"
-import { HttpError } from "@/api"
-import { useNotify } from "@/composables/notify/use-notify"
-import type { TicketCategoriesItem } from "@v/profile/tickets/edit/definitions/ticket-category"
-import { useZodResolver } from "@/composables/zod/use-zod-resolver"
-import {
-    type FormSchemaType,
-    FormSchema,
-} from "@v/profile/tickets/create/general/schemas/general.schema"
-import type { TicketGeneral } from "@v/profile/tickets/create/general/definitions/general"
 import * as ticketAPI from "@/api/modules/profile/tickets/tickets"
-import { TicketType } from "@v/profile/tickets/edit/definitions/ticket"
-import { useI18n } from "vue-i18n"
-import { useRouter } from "vue-router"
-import { ProfileRouteName } from "@r/profile/route-names"
+import BButton from "@c/common/b-button/b-button.vue"
+import BInputText from "@c/common/b-input/b-input-text.vue"
 import BSelect from "@c/common/b-select/b-select.vue"
-import { messageLength } from "@v/profile/tickets/list/definitions/tickets-list"
+import BTextarea from "@c/common/b-textarea/b-textarea.vue"
+import BFileUpload from "@c/common/b-upload-file/b-file-upload.vue"
+import PortalPage from "@c/portal/portal-page/portal-page.vue"
+import type { TicketGeneral } from "@v/profile/tickets/create/general/definitions/general"
+import { FormSchema } from "@v/profile/tickets/create/general/schemas/general.schema"
+import { TicketType } from "@v/profile/tickets/edit/definitions/ticket"
+import type { TicketCategoriesItem } from "@v/profile/tickets/edit/definitions/ticket-category"
+import { maxMessageLength } from "@v/profile/tickets/list/definitions/tickets-list"
 
 
 const notify = useNotify()
@@ -53,26 +49,25 @@ function defaultState(): TicketGeneral {
     }
 }
 
-const initialState = ref<TicketGeneral>(defaultState())
-const currentState = ref<TicketGeneral>(defaultState())
+const isDisabled = computed(() => isFirstLoading.value || isLoading.value)
 
-const isChanged = computed(() => {
-    return !isEqual(initialState.value, currentState.value)
-})
-
-const isDisabled = computed(() => {
-    return isFirstLoading.value || isLoading.value
-})
-
-/** Валидация */
 const {
     errors,
-    submit,
-    watchChanges,
-    resetErrors,
-} = useZodResolver<FormSchemaType>(FormSchema)
+    handleSubmit,
+    defineLazyField,
+    meta,
+    setErrors,
+    setFieldValue,
+} = useVeeForm<TicketGeneral>({
+    validationSchema: FormSchema,
+    initialValues:    defaultState(),
+})
 
-watchChanges(currentState)
+const [partnerIdModel] = defineLazyField("partner_id")
+const [categoryIdModel] = defineLazyField("category_id")
+const [messageModel] = defineLazyField("message")
+const [titleModel] = defineLazyField("title")
+const [filesModel] = defineLazyField("files")
 
 onMounted(async () => {
     isFirstLoading.value = true
@@ -93,38 +88,30 @@ onMounted(async () => {
     userPartners.value = partners
     ticketCategories.value = categories.list
 
-    initialState.value.partner_id = userPartners.value.partner_id
-    initialState.value.category_id = ticketCategories.value[0].id
-
-    currentState.value = cloneDeep(initialState.value)
+    setFieldValue("category_id", ticketCategories.value[0].id)
+    setFieldValue("partner_id", userPartners.value.partner_id)
 
     isFirstLoading.value = false
 })
 
-async function onSave() {
-    const isValid = submit(currentState.value)
-    if (!isValid) return
-    if (!isChanged.value) return
-
-    const params = cloneDeep(currentState.value)
+const onSave = handleSubmit(async (formValues) => {
+    if (!meta.value.dirty) return
 
     isLoading.value = true
 
-    const resp = await ticketAPI.create(params)
+    const ticketResponse = await ticketAPI.create(formValues)
 
     isLoading.value = false
 
-    if (resp instanceof HttpError) {
+    if (ticketResponse instanceof HttpError) {
+        if (ticketResponse?.errors) setErrors(ticketResponse.errors)
         notify.error()
         return
     }
 
-    currentState.value = cloneDeep(initialState.value)
     notify.success(t("mc.ticket.notify.success"))
-    resetErrors()
-
     await router.push({ name: ProfileRouteName.ProfileTickets })
-}
+})
 </script>
 
 <template>
@@ -138,11 +125,11 @@ async function onSave() {
                 <div class="grid grid-reset-rows gap-x-2 gap-y-3">
                     <div class="col-6 mobile-col-12">
                         <b-select
-                            v-model="currentState.partner_id"
+                            v-model="partnerIdModel"
                             :options="userPartners.partners"
                             :is-loading="isFirstLoading"
                             :disabled="isFirstLoading"
-                            :error="errors.partner_id"
+                            :error="errors['partner_id']"
                             option-label="name"
                             option-value="partner_id"
                             :placeholder="t('mc.common.partner')"
@@ -155,8 +142,8 @@ async function onSave() {
 
                     <div class="col-6 mobile-col-12">
                         <b-input-text
-                            v-model="currentState.title"
-                            :error="errors.title"
+                            v-model="titleModel"
+                            :error="errors['title']"
                             :disabled="isFirstLoading"
                             :placeholder="t('mc.ticket.general.placeholder.title')"
                             name="title"
@@ -166,8 +153,8 @@ async function onSave() {
 
                     <div class="col-6 mobile-col-12">
                         <b-select
-                            v-model="currentState.category_id"
-                            :error="errors.category_id"
+                            v-model="categoryIdModel"
+                            :error="errors['category_id']"
                             :options="ticketCategories"
                             :is-loading="isFirstLoading"
                             :disabled="isFirstLoading"
@@ -182,11 +169,11 @@ async function onSave() {
 
                     <div class="col-12 mobile-col-12">
                         <b-textarea
-                            v-model="currentState.message"
-                            :error="errors.message"
+                            v-model="messageModel"
+                            :error="errors['message']"
                             :disabled="isFirstLoading"
                             :placeholder="t('mc.ticket.general.placeholder.message')"
-                            :maxlength="messageLength"
+                            :maxlength="maxMessageLength"
                             name="message"
                             class="full-width"
                         />
@@ -194,8 +181,8 @@ async function onSave() {
 
                     <div class="col-12 mobile-col-12">
                         <b-file-upload
-                            v-model="currentState.files"
-                            :error="errors.files"
+                            v-model="filesModel"
+                            :error="errors['files']"
                             :disabled="isFirstLoading"
                             :placeholder="t('mc.ticket.general.placeholder.files')"
                             name="files"

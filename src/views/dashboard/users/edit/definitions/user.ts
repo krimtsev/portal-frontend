@@ -8,11 +8,16 @@ export interface UserData {
     email:      string
     partner_id: number | null
     disabled:   boolean
+    access:     UserAccess
 }
 
 interface UserPartner {
     id:   number
     name: string
+}
+
+interface UserAccess {
+    location_map: boolean
 }
 
 export interface UserResponse {
@@ -23,5 +28,6 @@ export interface UserResponse {
         email:    string | null
         partner:  UserPartner | null
         disabled: boolean
+        access:   UserAccess
     }
 }

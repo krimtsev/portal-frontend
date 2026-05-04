@@ -15,7 +15,7 @@ export interface TicketCategoryResponse {
 export enum TicketCategorySlug {
     FRANCHISE = "franchise",
     BUILD = "build",
-    MARKETING = "marking",
+    MARKETING = "marketing",
     NETWORK_ADMIN = "network_admin",
     NETWORK_BARBERING = "network_barbering",
     COMMUNITY = "community",

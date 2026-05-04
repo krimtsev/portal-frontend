@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { computed, ref } from "vue"
-import BDialogRemove from "@c/common/b-dialog/b-dialog-remove.vue"
 import { useNotify } from "@/composables/notify/use-notify"
-import type { CloudFile } from "@v/dashboard/cloud/edit/definitions/cloud"
-import * as cloudFilesAPI from "@/api/modules/dashboard/cloud/cloud-files"
 import { HttpError } from "@/api"
+import * as cloudFilesAPI from "@/api/modules/dashboard/cloud/cloud-files"
+import BDialogRemove from "@c/common/b-dialog/b-dialog-remove.vue"
+import type { CloudFile } from "@v/dashboard/cloud/edit/definitions/cloud"
 
 const model = defineModel<CloudFile | null>({ default: null })
 

@@ -1,13 +1,13 @@
 <script setup lang="ts">
+import { useI18n } from "vue-i18n"
+import BButtonDownload from "@c/common/b-button/b-button-download.vue"
+import BImage from "@c/common/b-image/b-image.vue"
 import BTitle from "@c/common/b-title/b-title.vue"
 import PortalCard from "@c/portal/portal-card/portal-card.vue"
-import BImage from "@c/common/b-image/b-image.vue"
+import PortalPage from "@c/portal/portal-page/portal-page.vue"
 import PortalUserCard from "@c/portal/portal-user-card/portal-user-card.vue"
 import { downloadFile } from "@/lib/files"
-import { useI18n } from "vue-i18n"
 import { getPublicLink } from "@/lib/link"
-import PortalPage from "@c/portal/portal-page/portal-page.vue"
-import BButtonDownload from "@c/common/b-button/b-button-download.vue"
 
 const { n } = useI18n()
 

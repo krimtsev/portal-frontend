@@ -1,24 +1,23 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue"
+import { useI18n } from "vue-i18n"
+import { useRoute, useRouter } from "vue-router"
+import { useNotify } from "@/composables/notify/use-notify"
+import { useVeeForm } from "@/composables/vee-validate/use-validation"
 import { dashboardPaths } from "@r/dashboard/path"
 import { DashboardRouteName } from "@r/dashboard/route-names"
+import { HttpError } from "@/api"
+import * as partnerGroupsAPI from "@/api/modules/dashboard/partners/partner-groups"
+import * as partnersAPI from "@/api/modules/dashboard/partners/partners"
+import BDialogRemove from "@c/common/b-dialog/b-dialog-remove.vue"
 import BForm from "@c/common/b-form/b-form.vue"
 import BFormCard from "@c/common/b-form/b-form-card.vue"
 import BFormItem from "@c/common/b-form/b-form-item.vue"
 import BInputText from "@c/common/b-input/b-input-text.vue"
-import { useNotify } from "@/composables/notify/use-notify"
-import { useRoute, useRouter } from "vue-router"
-import { useI18n } from "vue-i18n"
-import { useForm } from "vee-validate"
-import { useConfigValidation } from "@/composables/vee-validate/use-config-validation"
-import * as partnerGroupsAPI from "@/api/modules/dashboard/partners/partner-groups"
-import { HttpError } from "@/api"
-import type { PartnerGroupData } from "@v/dashboard/partner-groups/edit/definitions/partner-group"
 import BMultiSelect from "@c/common/b-select/b-multi-select.vue"
-import * as partnersAPI from "@/api/modules/dashboard/partners/partners"
-import type { PartnerOptionItem } from "@v/dashboard/partners/list/definitions/partners"
+import type { PartnerGroupData } from "@v/dashboard/partner-groups/edit/definitions/partner-group"
 import { PartnerGroupSchema } from "@v/dashboard/partner-groups/edit/schemas/partner-group.schema"
-import BDialogRemove from "@c/common/b-dialog/b-dialog-remove.vue"
+import type { PartnerOptionItem } from "@v/dashboard/partners/list/definitions/partners"
 
 
 const notify = useNotify()
@@ -45,19 +44,16 @@ const {
     errors,
     resetForm,
     handleSubmit,
-    defineField,
+    defineLazyField,
     meta,
-    submitCount,
     setErrors,
-} = useForm<PartnerGroupData>({
+} = useVeeForm<PartnerGroupData>({
     validationSchema: PartnerGroupSchema,
     initialValues:    defaultState(),
 })
 
-const dynamicConfig = useConfigValidation(submitCount)
-
-const [titleModel] = defineField("title", dynamicConfig)
-const [partnersModel] = defineField("partners", dynamicConfig)
+const [titleModel] = defineLazyField("title")
+const [partnersModel] = defineLazyField("partners")
 
 onMounted(async () => {
     isFirstLoading.value = true
@@ -170,7 +166,7 @@ const onRemove = async () => {
                 <b-input-text
                     v-model="titleModel"
                     :disabled="isLoading"
-                    :error="errors.title"
+                    :error="errors['title']"
                 />
             </b-form-item>
 
@@ -178,7 +174,7 @@ const onRemove = async () => {
                 <b-multi-select
                     v-model="partnersModel"
                     :disabled="isLoading"
-                    :error="errors.partners"
+                    :error="errors['partners']"
                     :options="partners"
                     filter
                     sort-by-selected

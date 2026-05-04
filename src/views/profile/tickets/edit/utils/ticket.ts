@@ -1,3 +1,4 @@
+import { DateTime } from "luxon"
 import {
     type TicketDetails,
     type TicketEvent,
@@ -7,7 +8,7 @@ import {
     TicketType,
 } from "@v/profile/tickets/edit/definitions/ticket"
 import { stateName } from "@v/profile/tickets/list/utils/ticket"
-import { DateTime } from "luxon"
+
 import i18n from "@/plugins/i18n"
 
 const FIELD_LABELS: Record<string, string> = {

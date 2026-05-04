@@ -1,18 +1,18 @@
 <script setup lang="ts">
+import { useI18n } from "vue-i18n"
+import PrimeColumn from "primevue/column"
+import PrimeDataTable from "primevue/datatable"
+import BText from "@c/common/b-text/b-text.vue"
 import PortalAccordion from "@c/portal/portal-accordion/portal-accordion.vue"
+import PortalAccordionContent from "@c/portal/portal-accordion/portal-accordion-content.vue"
 import PortalAccordionHeader from "@c/portal/portal-accordion/portal-accordion-header.vue"
 import PortalAccordionPanel from "@c/portal/portal-accordion/portal-accordion-panel.vue"
-import PortalAccordionContent from "@c/portal/portal-accordion/portal-accordion-content.vue"
+import PortalButtonNavigation from "@c/portal/portal-button-navigation/portal-button-navigation.vue"
+import PortalPage from "@c/portal/portal-page/portal-page.vue"
 import FinesRightSection from "@v/portal/documents/_britva/components/fines-right-section/fines-right-section.vue"
+import { buttonNavigation } from "@v/portal/documents/_britva/data/button-navigation"
 import { finesAuditData } from "@v/portal/documents/_britva/fines-audit/data/fines-audit-data"
 import type { FinesAuditContent } from "@v/portal/documents/_britva/fines-audit/definitions/fines-audit"
-import PrimeDataTable from "primevue/datatable"
-import PrimeColumn from "primevue/column"
-import { useI18n } from "vue-i18n"
-import PortalPage from "@c/portal/portal-page/portal-page.vue"
-import { buttonNavigation } from "@v/portal/documents/_britva/data/button-navigation"
-import PortalButtonNavigation from "@c/portal/portal-button-navigation/portal-button-navigation.vue"
-import BText from "@c/common/b-text/b-text.vue"
 
 const { n } = useI18n()
 

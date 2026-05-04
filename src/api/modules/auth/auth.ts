@@ -1,7 +1,7 @@
 import { http } from "@/api"
 import type {
-    LoginCredentials,
     AuthData,
+    LoginCredentials,
 } from "@/api/modules/auth/definitions/auth"
 // @ts-ignore
 import env from "~/env"

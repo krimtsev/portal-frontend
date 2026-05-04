@@ -4,13 +4,14 @@ import PrimeCheckbox from "primevue/checkbox"
 const model = defineModel<boolean>()
 
 const props = withDefaults(defineProps<{
-    name:      string
+    name?:     string
     label?:    string
     binary?:   boolean
     disabled?: boolean
 }>(), {
     binary: true,
     label:  undefined,
+    name:   "checkbox",
 })
 </script>
 
@@ -42,6 +43,7 @@ const props = withDefaults(defineProps<{
 
     .label {
         margin-left: $indent;
+        cursor: pointer;
     }
 }
 </style>

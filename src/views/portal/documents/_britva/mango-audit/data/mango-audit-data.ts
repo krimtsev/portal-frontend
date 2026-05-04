@@ -1,5 +1,6 @@
-import { ContentType } from "@/shared/content/content"
 import type { MangoAuditData } from "@v/portal/documents/_britva/mango-audit/definitions/mango-audit"
+
+import { ContentType } from "@/shared/content/content"
 
 export const mangoAuditData: MangoAuditData[] = [
     {

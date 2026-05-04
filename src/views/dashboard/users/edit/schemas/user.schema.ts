@@ -1,5 +1,6 @@
 import * as z from "zod"
 import { toTypedSchema } from "@vee-validate/zod"
+
 import { Roles } from "@/shared/roles/roles"
 
 const passwordSchema = z.string().min(8, { message: "Минимум 8 символов" })
@@ -29,5 +30,9 @@ export const UserSchema = (isNew: boolean) => toTypedSchema(
             .nullable(),
 
         disabled: z.boolean(),
+
+        access: z.object({
+            location_map: z.boolean(),
+        }),
     }),
 )

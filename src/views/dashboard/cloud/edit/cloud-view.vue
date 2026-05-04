@@ -1,26 +1,26 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, ref, useTemplateRef } from "vue"
+import { useI18n } from "vue-i18n"
+import { useRoute, useRouter } from "vue-router"
+import { useForm } from "vee-validate"
+import { useNotify } from "@/composables/notify/use-notify"
+import { useConfigValidation } from "@/composables/vee-validate/use-validation"
 import { dashboardPaths } from "@r/dashboard/path"
 import { DashboardRouteName } from "@r/dashboard/route-names"
-import BForm from "@c/common/b-form/b-form.vue"
-import { useNotify } from "@/composables/notify/use-notify"
-import { useRoute, useRouter } from "vue-router"
-import { useI18n } from "vue-i18n"
-import type { CloudData, CloudFile } from "@v/dashboard/cloud/edit/definitions/cloud"
-import { useForm } from "vee-validate"
-import { CloudSchema, CloudFileSchema } from "@v/dashboard/cloud/edit/schemas/cloud.schema"
-import { useConfigValidation } from "@/composables/vee-validate/use-config-validation"
-import BFormItem from "@c/common/b-form/b-form-item.vue"
-import BFormCard from "@c/common/b-form/b-form-card.vue"
-import BInputText from "@c/common/b-input/b-input-text.vue"
-import { type CloudOptionItem } from "@v/dashboard/cloud/list/definitions/cloud-list"
 import { HttpError } from "@/api"
 import * as cloudAPI from "@/api/modules/dashboard/cloud/cloud"
 import * as cloudFilesAPI from "@/api/modules/dashboard/cloud/cloud-files"
-import { rootFolders } from "@v/portal/cloud/utils/cloud"
-import CloudFilesList from "@v/dashboard/cloud/edit/components/cloud-files-list.vue"
+import BForm from "@c/common/b-form/b-form.vue"
+import BFormCard from "@c/common/b-form/b-form-card.vue"
+import BFormItem from "@c/common/b-form/b-form-item.vue"
+import BInputText from "@c/common/b-input/b-input-text.vue"
 import BTreeSelect from "@c/common/b-select/b-tree-select.vue"
 import BFileUpload from "@c/common/b-upload-file/b-file-upload.vue"
+import CloudFilesList from "@v/dashboard/cloud/edit/components/cloud-files-list.vue"
+import type { CloudData, CloudFile } from "@v/dashboard/cloud/edit/definitions/cloud"
+import { CloudFileSchema, CloudSchema } from "@v/dashboard/cloud/edit/schemas/cloud.schema"
+import { type CloudOptionItem } from "@v/dashboard/cloud/list/definitions/cloud-list"
+import { rootFolders } from "@v/portal/cloud/utils/cloud"
 
 
 const notify = useNotify()
@@ -52,6 +52,7 @@ const folderForm = useForm<CloudData>({
 })
 
 const folderDynamicConfig = useConfigValidation(folderForm.submitCount)
+
 const [nameModel] = folderForm.defineField("name", folderDynamicConfig)
 const [slugModel] = folderForm.defineField("slug", folderDynamicConfig)
 const [categoryIdModel] = folderForm.defineField("category_id", folderDynamicConfig)

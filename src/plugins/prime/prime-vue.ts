@@ -1,6 +1,6 @@
+import partnerConfig from "@a/prime/prime-config"
 import { definePreset } from "@primeuix/themes"
 import Aura from "@primeuix/themes/aura"
-import partnerConfig from "@a/prime/prime-config"
 import { ru } from "./prime-locale.json"
 
 //@ts-ignore

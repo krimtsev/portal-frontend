@@ -15,8 +15,9 @@ interface TicketUser {
     name:  string
 }
 
-export const messageLength = 2000
-export const messageLengthShort = 500
+export const maxTitleLength = 125
+export const maxMessageLength = 2000
+export const maxMessageLengthShort = 500
 
 export interface TicketListItem {
     id:       string

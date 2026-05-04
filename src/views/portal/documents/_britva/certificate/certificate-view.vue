@@ -1,8 +1,8 @@
 <script setup lang="ts">
+import BLink from "@c/common/b-link/b-link.vue"
 import BTitle from "@c/common/b-title/b-title.vue"
 import PortalCard from "@c/portal/portal-card/portal-card.vue"
 import PortalPage from "@c/portal/portal-page/portal-page.vue"
-import BLink from "@c/common/b-link/b-link.vue"
 </script>
 
 <template>

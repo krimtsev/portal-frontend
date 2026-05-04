@@ -1,4 +1,5 @@
 import { Qualification } from "@v/profile/tickets/create/specialist/_britva/definitions/specialist"
+
 import i18n from "@/plugins/i18n"
 
 export function qualificationName(value: Qualification): string {

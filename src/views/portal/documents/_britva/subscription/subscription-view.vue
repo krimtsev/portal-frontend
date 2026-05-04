@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import PortalCard from "@c/portal/portal-card/portal-card.vue"
-import BTitle from "@c/common/b-title/b-title.vue"
-import PrimeDataTable from "primevue/datatable"
 import PrimeColumn from "primevue/column"
-import { subscriptionData } from "@v/portal/documents/_britva/subscription/data/subscription-data"
+import PrimeDataTable from "primevue/datatable"
 import BImage from "@c/common/b-image/b-image.vue"
+import BTitle from "@c/common/b-title/b-title.vue"
+import PortalCard from "@c/portal/portal-card/portal-card.vue"
 import PortalPage from "@c/portal/portal-page/portal-page.vue"
+import { subscriptionData } from "@v/portal/documents/_britva/subscription/data/subscription-data"
 </script>
 
 <template>

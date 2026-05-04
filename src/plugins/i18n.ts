@@ -1,5 +1,5 @@
-import { createI18n, type I18nOptions } from "vue-i18n"
 import ruRU from "@a/locales/ru-RU.json"
+import { createI18n, type I18nOptions } from "vue-i18n"
 
 const options: I18nOptions = {
     legacy:         false,

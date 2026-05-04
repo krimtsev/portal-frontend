@@ -1,7 +1,28 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, nextTick, useTemplateRef } from "vue"
-import PortalPage from "@c/portal/portal-page/portal-page.vue"
+import { computed, nextTick, onMounted, ref, useTemplateRef } from "vue"
+import { useI18n } from "vue-i18n"
+import { useRoute } from "vue-router"
+import { useRouter } from "vue-router"
 import { useNotify } from "@/composables/notify/use-notify"
+import { useVeeForm } from "@/composables/vee-validate/use-validation"
+import { ProfileRouteName } from "@r/profile/route-names"
+import { HttpError } from "@/api"
+import * as ticketAPI from "@/api/modules/profile/tickets/tickets"
+import ChatContainer from "@c/chat/chat-container.vue"
+import ChatFiles from "@c/chat/chat-files.vue"
+import ChatMessage from "@c/chat/chat-message.vue"
+import {
+    type ChatMessageFile,
+    ChatMessageType,
+} from "@c/chat/definitions/chat-message"
+import BButton from "@c/common/b-button/b-button.vue"
+import BSkeleton from "@c/common/b-skeleton/b-skeleton.vue"
+import BText from "@c/common/b-text/b-text.vue"
+import BTextarea from "@c/common/b-textarea/b-textarea.vue"
+import BFileUpload from "@c/common/b-upload-file/b-file-upload.vue"
+import PortalCard from "@c/portal/portal-card/portal-card.vue"
+import PortalFormItem from "@c/portal/portal-form-item/portal-form-item.vue"
+import PortalPage from "@c/portal/portal-page/portal-page.vue"
 import {
     type Ticket,
     type TicketDetails,
@@ -10,41 +31,15 @@ import {
     TicketState,
     TicketType,
 } from "@v/profile/tickets/edit/definitions/ticket"
-import { cloneDeep, isEqual } from "lodash"
-import * as z from "zod"
-import {
-    RequiredMessageSchema,
-} from "@v/profile/tickets/schemas/ticket.schema"
-import { FilesSchema } from "@c/common/b-upload-file/schemas/file-upload.schema"
-import { useZodResolver } from "@/composables/zod/use-zod-resolver"
-import { HttpError } from "@/api"
-import BButton from "@c/common/b-button/b-button.vue"
-import * as ticketAPI from "@/api/modules/profile/tickets/tickets"
-import { useRoute } from "vue-router"
-import BText from "@c/common/b-text/b-text.vue"
-import PortalFormItem from "@c/portal/portal-form-item/portal-form-item.vue"
-import PortalCard from "@c/portal/portal-card/portal-card.vue"
-import { stateName } from "@v/profile/tickets/list/utils/ticket"
-import { useI18n } from "vue-i18n"
-import BTextarea from "@c/common/b-textarea/b-textarea.vue"
-import BFileUpload from "@c/common/b-upload-file/b-file-upload.vue"
-import ChatContainer from "@c/chat/chat-container.vue"
-import ChatMessage from "@c/chat/chat-message.vue"
+import { FormSchema } from "@v/profile/tickets/edit/schemas/ticket-edit.schema"
 import {
     formatChanges,
     hasTimelineMessage,
     normalizeAttributes,
 } from "@v/profile/tickets/edit/utils/ticket"
-import {
-    type ChatMessageFile,
-    ChatMessageType,
-} from "@c/chat/definitions/chat-message"
+import { maxMessageLength } from "@v/profile/tickets/list/definitions/tickets-list"
+import { stateName } from "@v/profile/tickets/list/utils/ticket"
 import { downloadExternalFile } from "@/lib/files"
-import ChatFiles from "@c/chat/chat-files.vue"
-import { ProfileRouteName } from "@r/profile/route-names"
-import { useRouter } from "vue-router"
-import BSkeleton from "@c/common/b-skeleton/b-skeleton.vue"
-import { messageLength } from "@v/profile/tickets/list/definitions/tickets-list"
 
 const router = useRouter()
 
@@ -74,11 +69,6 @@ function defaultState(): Ticket {
     }
 }
 
-const ticketId = computed(() => route.params.id as string)
-
-const initialState = ref<Ticket>(defaultState())
-const currentState = ref<Ticket>(defaultState())
-
 const ticketDetails = ref<TicketDetails>({
     title:      "",
     type:       TicketType.General,
@@ -90,15 +80,11 @@ const ticketDetails = ref<TicketDetails>({
     timeline:   [],
 })
 
-const isChanged = computed(() => {
-    return !isEqual(initialState.value, currentState.value)
-})
-
-const isDisabled = computed((): boolean => {
-    return isFirstLoading.value || !!loadingState.value
-})
+const ticketId = computed(() => route.params.id as string)
 
 const attributes = computed(() => normalizeAttributes(ticketDetails.value))
+
+const isDisabled = computed(() => isFirstLoading.value || !!loadingState.value)
 
 function getChatMessageType(item: TicketMessage) {
     return ticketDetails.value.user?.login === item.user.login
@@ -138,15 +124,21 @@ const isEditable = computed(() => {
     ].includes(ticketDetails.value.state)
 })
 
-const formSchema = z.object({
-    message: RequiredMessageSchema,
-    files:   FilesSchema,
+const {
+    errors,
+    handleSubmit,
+    defineLazyField,
+    meta,
+    setErrors,
+    setFieldValue,
+    resetForm,
+} = useVeeForm<Ticket>({
+    validationSchema: FormSchema,
+    initialValues:    defaultState(),
 })
 
-type FormSchemaType = z.infer<typeof formSchema>
-const { errors, submit, watchChanges, resetErrors } = useZodResolver<FormSchemaType>(formSchema)
-
-watchChanges(currentState)
+const [messageModel] = defineLazyField("message")
+const [filesModel] = defineLazyField("files")
 
 onMounted(async () => {
     isFirstLoading.value = true
@@ -165,44 +157,51 @@ onMounted(async () => {
 
     ticketDetails.value = ticketData.data
 
-    initialState.value = {
-        ...initialState.value,
-        title:       ticketDetails.value.title,
-        partner_id:  ticketDetails.value.partner?.id || null,
-        category_id: ticketDetails.value.category?.id || null,
-        type:        ticketDetails.value.type || null,
-    }
-    currentState.value = cloneDeep(initialState.value)
+    resetForm({
+        values: {
+            title:       ticketDetails.value.title,
+            type:        ticketDetails.value.type || TicketType.General,
+            partner_id:  ticketDetails.value.partner?.id || null,
+            category_id: ticketDetails.value.category?.id || null,
+            message:     "",
+            files:       [],
+        },
+    })
 
     isFirstLoading.value = false
 })
 
-async function onSave() {
-    const isValid = submit(currentState.value)
-    if (!isValid) return
-    if (!isChanged.value) return
-
-    loadingState.value = LoadingState.Save
-
-    const ticketData = await ticketAPI.updateMessage(
-        ticketId.value,
-        currentState.value,
-    )
-
-    if (ticketData instanceof HttpError) {
-        notify.error()
-        loadingState.value = null
+const onSave = handleSubmit(async (formValues) => {
+    if (!meta.value.dirty) {
+        notify.success(t("mc.notify.success"))
+        await router.push({ name: ProfileRouteName.ProfileTickets })
         return
     }
 
-    ticketDetails.value = ticketData.data
-    currentState.value.message = ""
-    currentState.value.files = []
-    resetErrors()
+    loadingState.value = LoadingState.Save
 
-    loadingState.value = null
-    await nextTick(() => chatRef.value?.scrollToBottom())
-}
+    try {
+        const ticketResponse = await ticketAPI.updateMessage(
+            ticketId.value,
+            formValues,
+        )
+
+        if (ticketResponse instanceof HttpError) {
+            if (ticketResponse?.errors) setErrors(ticketResponse.errors)
+            notify.error()
+            return
+        }
+
+        ticketDetails.value = ticketResponse.data
+
+        setFieldValue("files", [])
+        setFieldValue("message", "")
+
+        await nextTick(() => chatRef.value?.scrollToBottom())
+    } finally {
+        loadingState.value = null
+    }
+})
 
 async function onRemove() {
     if (loadingState.value) return
@@ -228,7 +227,7 @@ async function onRemove() {
 
 <template>
     <portal-page
-        :title="currentState.title"
+        :title="ticketDetails.title"
         class="ticket-edit-view"
         :is-loading-title="isFirstLoading"
     >
@@ -345,11 +344,11 @@ async function onRemove() {
                 >
                     <div class="col-12 mobile-col-12">
                         <b-textarea
-                            v-model="currentState.message"
-                            :error="errors.message"
+                            v-model="messageModel"
+                            :error="errors['message']"
                             :disabled="isDisabled"
                             :placeholder="t('mc.ticket.general.placeholder.message')"
-                            :maxlength="messageLength"
+                            :maxlength="maxMessageLength"
                             name="message"
                             class="full-width"
                         />
@@ -357,8 +356,8 @@ async function onRemove() {
 
                     <div class="col-12 mobile-col-12">
                         <b-file-upload
-                            v-model="currentState.files"
-                            :error="errors.files"
+                            v-model="filesModel"
+                            :error="errors['files']"
                             :disabled="isDisabled"
                             :placeholder="t('mc.ticket.general.placeholder.files')"
                             name="files"

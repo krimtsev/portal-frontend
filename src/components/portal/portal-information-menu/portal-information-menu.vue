@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import PortalCard from "@c/portal/portal-card/portal-card.vue"
 import BLink from "@c/common/b-link/b-link.vue"
+import PortalCard from "@c/portal/portal-card/portal-card.vue"
 import type { Section } from "@c/portal/portal-information-menu/definitions/portal-information-menu"
 
 const props = defineProps<{

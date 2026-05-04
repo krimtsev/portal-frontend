@@ -1,16 +1,15 @@
 <script setup lang="ts">
 import { computed, ref, watch } from "vue"
-import BDialogConfirm from "@c/common/b-dialog/b-dialog-confirm.vue"
-import BInputText from "@c/common/b-input/b-input-text.vue"
 import { useNotify } from "@/composables/notify/use-notify"
-import type { CloudFile } from "@v/dashboard/cloud/edit/definitions/cloud"
-import * as cloudFilesAPI from "@/api/modules/dashboard/cloud/cloud-files"
+import { useVeeForm } from "@/composables/vee-validate/use-validation"
 import { HttpError } from "@/api"
-import BDialogSection from "@c/common/b-dialog/b-dialog-section.vue"
+import * as cloudFilesAPI from "@/api/modules/dashboard/cloud/cloud-files"
+import BDialogConfirm from "@c/common/b-dialog/b-dialog-confirm.vue"
 import BDialogItem from "@c/common/b-dialog/b-dialog-item.vue"
-import { useForm } from "vee-validate"
+import BDialogSection from "@c/common/b-dialog/b-dialog-section.vue"
+import BInputText from "@c/common/b-input/b-input-text.vue"
+import type { CloudFile } from "@v/dashboard/cloud/edit/definitions/cloud"
 import { CloudFileUpdateSchema } from "@v/dashboard/cloud/edit/schemas/cloud.schema"
-import { useConfigValidation } from "@/composables/vee-validate/use-config-validation"
 
 const model = defineModel<CloudFile | null>({ default: null })
 
@@ -30,17 +29,14 @@ const {
     errors,
     resetForm,
     handleSubmit,
-    defineField,
+    defineLazyField,
     meta,
-    submitCount,
     setErrors,
-} = useForm({
+} = useVeeForm<CloudFile>({
     validationSchema: CloudFileUpdateSchema,
 })
 
-const dynamicConfig = useConfigValidation(submitCount)
-
-const [title] = defineField("title", dynamicConfig)
+const [titleModel] = defineLazyField("title")
 
 const isShowDialog = computed(() => !!model.value)
 
@@ -99,9 +95,9 @@ const onUpdate = handleSubmit(async (values) => {
                 required
             >
                 <b-input-text
-                    v-model.trim="title"
+                    v-model.trim="titleModel"
                     :disabled="isLoading"
-                    :error="errors.title"
+                    :error="errors['title']"
                     placeholder="Введите название"
                 />
             </b-dialog-item>

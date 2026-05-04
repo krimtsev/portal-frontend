@@ -1,9 +1,10 @@
 import * as z from "zod"
-import {
-    PartnerIdSchema,
-    MessageSchema,
-} from "@v/profile/tickets/schemas/ticket.schema"
 import { FilesSchema } from "@c/common/b-upload-file/schemas/file-upload.schema"
+import {
+    MessageSchema,
+    PartnerIdSchema,
+} from "@v/profile/tickets/schemas/ticket.schema"
+import { toTypedSchema } from "@vee-validate/zod"
 
 const AttributesSchema = z.object({
     name: z.string()
@@ -21,11 +22,11 @@ const AttributesSchema = z.object({
     code: z.string({ message: "Укажите код сертификата" }),
 })
 
-export const FormSchema = z.object({
-    attributes: AttributesSchema,
-    message:    MessageSchema,
-    partner_id: PartnerIdSchema,
-    files:      FilesSchema,
-})
-
-export type FormSchemaType = z.infer<typeof FormSchema>
+export const FormSchema = toTypedSchema(
+    z.object({
+        attributes: AttributesSchema,
+        message:    MessageSchema,
+        partner_id: PartnerIdSchema,
+        files:      FilesSchema,
+    }),
+)

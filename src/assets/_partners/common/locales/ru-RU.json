@@ -105,6 +105,14 @@
                     "files": "Добавить файлы"
                 }
             },
+            "opening": {
+                "title": "Скоро открытие",
+                "placeholder": {
+                    "title": "Тема запроса",
+                    "message": "Сообщение",
+                    "files": "Добавить файлы"
+                }
+            },
             "blacklist": {
                 "title": "Заявка на черный список",
                 "placeholder": {

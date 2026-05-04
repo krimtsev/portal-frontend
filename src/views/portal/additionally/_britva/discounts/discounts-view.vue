@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useI18n } from "vue-i18n"
-import PortalPage from "@c/portal/portal-page/portal-page.vue"
 import PortalCard from "@c/portal/portal-card/portal-card.vue"
+import PortalPage from "@c/portal/portal-page/portal-page.vue"
 
 const { n } = useI18n()
 </script>

@@ -1,12 +1,13 @@
+import { cloneDeep, isEqual } from "lodash"
 import { defineStore } from "pinia"
 import { computed, ref } from "vue"
+
 import {
     defaultPaginationFilter,
     defaultPaginationPage,
     type PaginationFilter,
     type PaginationPage,
 } from "@/shared/pagination/pagination"
-import { isEqual, cloneDeep } from "lodash"
 
 export const usePartnerGroupsStore = defineStore("partnerGroups", () => {
     const isLoading = ref<boolean>(false)

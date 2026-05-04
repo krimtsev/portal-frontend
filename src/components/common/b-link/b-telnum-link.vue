@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from "vue"
-import { formatTelnum } from "@/lib/format-phone.ts"
 import BSvg from "@c/common/b-svg/b-svg.vue"
+import { formatTelnum } from "@/lib/format-phone.ts"
 
 const props = defineProps<{
     value: string

@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router"
-import BImage from "@c/common/b-image/b-image.vue"
-import { openExternalLink } from "@/lib/link"
 import { PortalRouteName } from "@r/portal/route-names"
 import BButtonIcon from "@c/common/b-button-icon/b-button-icon.vue"
+import BImage from "@c/common/b-image/b-image.vue"
+import { openExternalLink } from "@/lib/link"
 
 interface Route {
     name:    PortalRouteName

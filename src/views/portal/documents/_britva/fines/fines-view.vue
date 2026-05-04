@@ -1,15 +1,15 @@
 <script setup lang="ts">
+import { useI18n } from "vue-i18n"
+import PortalAccordion from "@c/portal/portal-accordion/portal-accordion.vue"
 import PortalAccordionContent from "@c/portal/portal-accordion/portal-accordion-content.vue"
 import PortalAccordionHeader from "@c/portal/portal-accordion/portal-accordion-header.vue"
 import PortalAccordionPanel from "@c/portal/portal-accordion/portal-accordion-panel.vue"
-import PortalAccordion from "@c/portal/portal-accordion/portal-accordion.vue"
-import { useI18n } from "vue-i18n"
-import { finesData } from "@v/portal/documents/_britva/fines/data/fines-data"
-import PortalContent from "@c/portal/portal-content/portal-content.vue"
-import FinesRightSection from "@v/portal/documents/_britva/components/fines-right-section/fines-right-section.vue"
-import PortalPage from "@c/portal/portal-page/portal-page.vue"
-import { buttonNavigation } from "@v/portal/documents/_britva/data/button-navigation"
 import PortalButtonNavigation from "@c/portal/portal-button-navigation/portal-button-navigation.vue"
+import PortalContent from "@c/portal/portal-content/portal-content.vue"
+import PortalPage from "@c/portal/portal-page/portal-page.vue"
+import FinesRightSection from "@v/portal/documents/_britva/components/fines-right-section/fines-right-section.vue"
+import { buttonNavigation } from "@v/portal/documents/_britva/data/button-navigation"
+import { finesData } from "@v/portal/documents/_britva/fines/data/fines-data"
 
 const { n } = useI18n()
 </script>

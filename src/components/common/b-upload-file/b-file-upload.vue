@@ -1,18 +1,18 @@
 <script setup lang="ts">
 import { computed, ref, useTemplateRef, watch } from "vue"
-import BSvg from "@c/common/b-svg/b-svg.vue"
-import BInputError from "@c/common/b-input-error/b-input-error.vue"
+import { useI18n } from "vue-i18n"
 import PrimeButton from "primevue/button"
 import PrimeProgressBar from "primevue/progressbar"
-import i18n from "@/plugins/i18n"
-import { useI18n } from "vue-i18n"
+import BInputError from "@c/common/b-input-error/b-input-error.vue"
+import BSvg from "@c/common/b-svg/b-svg.vue"
 import {
-    DEFAULT_ACCEPT,
-    DEFAULT_MAX_SIZE_MB,
-    DEFAULT_FILES_LIMIT,
-    megabytesToBytes,
     bytesToMegabytes,
+    DEFAULT_ACCEPT,
+    DEFAULT_FILES_LIMIT,
+    DEFAULT_MAX_SIZE_MB,
+    megabytesToBytes,
 } from "@c/common/b-upload-file/utils/b-file-upload"
+import i18n from "@/plugins/i18n"
 
 const model = defineModel<File | File[] | null>()
 

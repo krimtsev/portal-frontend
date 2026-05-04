@@ -34,7 +34,13 @@ const props = withDefaults(defineProps<{
             :name="props.name"
             :invalid="!!props.error"
             class="select-button"
-        />
+        >
+            <template #option="slotProps">
+                <slot name="option" v-bind="slotProps">
+                    {{ slotProps.option[props.optionLabel || 'name'] }}
+                </slot>
+            </template>
+        </prime-select-button>
 
         <b-input-error :error="props.error" />
     </div>

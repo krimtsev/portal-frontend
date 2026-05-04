@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import BDialog from "@c/common/b-dialog/b-dialog.vue"
-import PrimeButton from "primevue/button"
 import { useI18n } from "vue-i18n"
+import PrimeButton from "primevue/button"
+import BDialog from "@c/common/b-dialog/b-dialog.vue"
 
 const model = defineModel<boolean>()
 

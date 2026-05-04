@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { computed } from "vue"
 import PrimeInputText from "primevue/inputtext"
 import BInputError from "@c/common/b-input-error/b-input-error.vue"
 
@@ -14,13 +15,17 @@ const props = withDefaults(defineProps<{
     disabled?:    boolean
     error?:       string
     maxlength?:   number
+    invalid?:     boolean
 }>(), {
     name:        undefined,
     placeholder: "",
     disabled:    false,
     error:       "",
     maxlength:   undefined,
+    invalid:     false,
 })
+
+const isInvalid = computed((): boolean => !!props.error || props.invalid)
 </script>
 
 <template>
@@ -30,7 +35,7 @@ const props = withDefaults(defineProps<{
             :placeholder="props.placeholder"
             :disabled="props.disabled"
             :name="props.name"
-            :invalid="!!props.error"
+            :invalid="isInvalid"
             :maxlength="props.maxlength"
             type="text"
             class="input"

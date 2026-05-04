@@ -1,4 +1,5 @@
 import { Roles } from "@/shared/roles/roles"
+
 export interface LoginCredentials {
     login:    string
     password: string
@@ -18,6 +19,11 @@ export interface UserData {
     } | null
 }
 
+export interface UserAccessData {
+    location_map: boolean
+}
+
 export interface AuthData {
-    user: UserData
+    user:   UserData
+    access: UserAccessData
 }

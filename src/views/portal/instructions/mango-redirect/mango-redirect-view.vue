@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import BLink from "@c/common/b-link/b-link.vue"
-import BImage from "@c/common/b-image/b-image.vue"
-import BDivider from "@c/common/b-divider/b-divider.vue"
 import BBlockquote from "@c/common/b-blockquote/b-blockquote.vue"
-import PortalPage from "@c/portal/portal-page/portal-page.vue"
+import BDivider from "@c/common/b-divider/b-divider.vue"
+import BImage from "@c/common/b-image/b-image.vue"
+import BLink from "@c/common/b-link/b-link.vue"
 import PortalCard from "@c/portal/portal-card/portal-card.vue"
+import PortalPage from "@c/portal/portal-page/portal-page.vue"
 </script>
 
 <template>

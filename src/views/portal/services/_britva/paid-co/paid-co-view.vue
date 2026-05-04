@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import PortalPage from "@c/portal/portal-page/portal-page.vue"
-import PortalCard from "@c/portal/portal-card/portal-card.vue"
-import { getPublicLink } from "@/lib/link"
-import { downloadFile } from "@/lib/files"
 import BButtonDownload from "@c/common/b-button/b-button-download.vue"
+import PortalCard from "@c/portal/portal-card/portal-card.vue"
+import PortalPage from "@c/portal/portal-page/portal-page.vue"
+import { downloadFile } from "@/lib/files"
+import { getPublicLink } from "@/lib/link"
 
 function handleDownload() {
     const url = getPublicLink("docs/co-price.pdf")

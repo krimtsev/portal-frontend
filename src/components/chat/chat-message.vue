@@ -2,8 +2,8 @@
 import { computed } from "vue"
 import { imageSrc } from "@h/images/images"
 import { DateTime } from "luxon"
-import { ChatMessageType } from "@c/chat/definitions/chat-message"
 import PrimeAvatar from "primevue/avatar"
+import { ChatMessageType } from "@c/chat/definitions/chat-message"
 
 const props = defineProps<{
     text?:    string | string[]

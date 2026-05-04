@@ -1,6 +1,6 @@
 import {
-    useRouter,
     type RouteLocationRaw,
+    useRouter,
 } from "vue-router"
 
 export function useOpenRoute() {

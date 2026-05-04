@@ -1,87 +1,75 @@
-import type { RouteRecordRaw } from "vue-router"
-import { PortalRouteName } from "@r/portal/route-names"
-import PortalLayout from "@l/portal/PortalLayout.vue"
-import { Roles } from "@/shared/roles/roles"
+import type { RouteLocationNormalized, RouteRecordRaw } from "vue-router"
 import { portalPaths } from "@r/portal/path"
-import CertificatesView from "@v/portal/certificates/certificates-view.vue"
-import InstructionMangoRedirectView from "@v/portal/instructions/mango-redirect/mango-redirect-view.vue"
-import InstructionYclientNotificationsView from "@v/portal/instructions/yclient-notifications/yclient-notifications-view.vue"
-import IpTelephonyTroubleshootingView from "@v/portal/instructions/ip-telephony-troubleshooting/ip-telephony-troubleshooting-view.vue"
-import ContactFranchiseeView from "@v/portal/contacts/franchisee/franchisee-view.vue"
-import CloudView from "@v/portal/cloud/cloud-view.vue"
+import { PortalRouteName } from "@r/portal/route-names"
+import { Roles } from "@/shared/roles/roles"
+import { useAppStore } from "@s/app/app"
 
 
 const roles = [Roles.USER, Roles.ADMIN, Roles.SYSADMIN]
 
 const routes: RouteRecordRaw[] = [
     {
-        path:      "/",
-        component: PortalLayout,
+        path:      portalPaths.InstructionMangoRedirect,
+        name:      PortalRouteName.InstructionMangoRedirect,
+        component: () => import("@v/portal/instructions/mango-redirect/mango-redirect-view.vue"),
         meta:      {
-            title: "mc.partner.title",
+            roles,
         },
-        children: [
-            {
-                path:       portalPaths.InstructionMangoRedirect,
-                name:       PortalRouteName.InstructionMangoRedirect,
-                components: {
-                    default: InstructionMangoRedirectView,
-                },
-                meta: {
-                    roles,
-                },
-            },
-            {
-                path:       portalPaths.InstructionYclientNotifications,
-                name:       PortalRouteName.InstructionYclientNotifications,
-                components: {
-                    default: InstructionYclientNotificationsView,
-                },
-                meta: {
-                    roles,
-                },
-            },
-            {
-                path:       portalPaths.IpTelephonyTroubleshooting,
-                name:       PortalRouteName.IpTelephonyTroubleshooting,
-                components: {
-                    default: IpTelephonyTroubleshootingView,
-                },
-                meta: {
-                    roles,
-                },
-            },
-            {
-                path:       portalPaths.Certificates,
-                name:       PortalRouteName.Certificates,
-                components: {
-                    default: CertificatesView,
-                },
-                meta: {
-                    roles,
-                },
-            },
-            {
-                path:       portalPaths.ContactFranchisee,
-                name:       PortalRouteName.ContactFranchisee,
-                components: {
-                    default: ContactFranchiseeView,
-                },
-                meta: {
-                    roles,
-                },
-            },
-            {
-                path:       portalPaths.Cloud,
-                name:       PortalRouteName.Cloud,
-                components: {
-                    default: CloudView,
-                },
-                meta: {
-                    roles,
-                },
-            },
-        ],
+    },
+    {
+        path:      portalPaths.InstructionYclientNotifications,
+        name:      PortalRouteName.InstructionYclientNotifications,
+        component: () => import("@v/portal/instructions/yclient-notifications/yclient-notifications-view.vue"),
+        meta:      {
+            roles,
+        },
+    },
+    {
+        path:      portalPaths.IpTelephonyTroubleshooting,
+        name:      PortalRouteName.IpTelephonyTroubleshooting,
+        component: () => import("@v/portal/instructions/ip-telephony-troubleshooting/ip-telephony-troubleshooting-view.vue"),
+        meta:      {
+            roles,
+        },
+    },
+    {
+        path:      portalPaths.Certificates,
+        name:      PortalRouteName.Certificates,
+        component: () => import("@v/portal/certificates/certificates-view.vue"),
+        meta:      {
+            roles,
+        },
+    },
+    {
+        path:      portalPaths.ContactFranchisee,
+        name:      PortalRouteName.ContactFranchisee,
+        component: () => import("@v/portal/contacts/franchisee/franchisee-view.vue"),
+        meta:      {
+            roles,
+        },
+    },
+    {
+        path:      portalPaths.Cloud,
+        name:      PortalRouteName.Cloud,
+        component: () => import("@v/portal/cloud/cloud-view.vue"),
+        meta:      {
+            roles,
+        },
+    },
+    {
+        path:      portalPaths.LocationMap,
+        name:      PortalRouteName.LocationMap,
+        component: () => import("@v/portal/additionally/location-map/location-map-view.vue"),
+        meta:      {
+            roles,
+        },
+        beforeEnter: (_to: RouteLocationNormalized, _from: RouteLocationNormalized, next) => {
+            const appStore = useAppStore()
+            if (!appStore.showLocationMap) {
+                return next({ name: PortalRouteName.Home })
+            }
+            next()
+        },
     },
 ]
 

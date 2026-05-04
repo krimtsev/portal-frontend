@@ -1,9 +1,10 @@
 import * as z from "zod"
+import { FilesSchema } from "@c/common/b-upload-file/schemas/file-upload.schema"
 import {
     MessageSchema,
     PartnerIdSchema,
 } from "@v/profile/tickets/schemas/ticket.schema"
-import { FilesSchema } from "@c/common/b-upload-file/schemas/file-upload.schema"
+import { toTypedSchema } from "@vee-validate/zod"
 
 export const AttributesSchema = z.object({
     returnRate: z.coerce
@@ -41,11 +42,11 @@ export const AttributesSchema = z.object({
         .min(2, { message: "Опишите ситуацию с отчетами" }),
 })
 
-export const FormSchema = z.object({
-    attributes: AttributesSchema,
-    message:    MessageSchema,
-    partner_id: PartnerIdSchema,
-    files:      FilesSchema,
-})
-
-export type FormSchemaType = z.infer<typeof FormSchema>
+export const FormSchema = toTypedSchema(
+    z.object({
+        attributes: AttributesSchema,
+        message:    MessageSchema,
+        partner_id: PartnerIdSchema,
+        files:      FilesSchema,
+    }),
+)

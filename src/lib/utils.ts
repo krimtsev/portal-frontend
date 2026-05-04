@@ -1,11 +1,3 @@
-export function getCookie(name: string) {
-    const match = document.cookie.match(new RegExp(`(^| )${name}=([^;]+)`))
-    if (match) {
-        return match[2]
-    }
-    return null
-}
-
 export function getUnlocalizedFileName(path: string) {
     const filePath = path.split("?")[0]
     const localizedFileName = filePath.split("/").pop() || ""
@@ -30,4 +22,8 @@ export function generatePassword(length: number = 10): string {
     }
 
     return password
+}
+
+export function sleep(ms = 0) {
+    return new Promise((resolve) => setTimeout(resolve, ms))
 }

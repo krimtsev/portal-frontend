@@ -1,29 +1,29 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue"
+import { useI18n } from "vue-i18n"
+import { useRoute, useRouter } from "vue-router"
+import { useNotify } from "@/composables/notify/use-notify"
+import { useVeeForm } from "@/composables/vee-validate/use-validation"
 import { dashboardPaths } from "@r/dashboard/path"
 import { DashboardRouteName } from "@r/dashboard/route-names"
+import { HttpError } from "@/api"
+import * as partnersAPI from "@/api/modules/dashboard/partners/partners"
+import * as usersAPI from "@/api/modules/dashboard/users/users"
+import BButtonSecondary from "@c/common/b-button/b-button-secondary.vue"
 import BForm from "@c/common/b-form/b-form.vue"
 import BFormCard from "@c/common/b-form/b-form-card.vue"
 import BFormItem from "@c/common/b-form/b-form-item.vue"
 import BInputPassword from "@c/common/b-input/b-input-password.vue"
-import BButtonSecondary from "@c/common/b-button/b-button-secondary.vue"
-import { useNotify } from "@/composables/notify/use-notify"
-import { useRoute, useRouter } from "vue-router"
-import { useI18n } from "vue-i18n"
-import type { UserData } from "@v/dashboard/users/edit/definitions/user"
-import { Roles } from "@/shared/roles/roles"
 import BInputText from "@c/common/b-input/b-input-text.vue"
 import BSelect from "@c/common/b-select/b-select.vue"
-import type { PartnerOptionItem } from "@v/dashboard/partners/list/definitions/partners"
-import * as partnersAPI from "@/api/modules/dashboard/partners/partners"
-import * as usersAPI from "@/api/modules/dashboard/users/users"
-import { HttpError } from "@/api"
-import { generatePassword } from "@/lib/utils"
-import { useForm } from "vee-validate"
-import { UserSchema } from "@v/dashboard/users/edit/schemas/user.schema"
-import { useConfigValidation } from "@/composables/vee-validate/use-config-validation"
-import { stateList } from "@v/dashboard/users/list/utils/users"
 import BSelectButton from "@c/common/b-select-button/b-select-button.vue"
+import BSwitch from "@c/common/b-switch/b-switch.vue"
+import type { PartnerOptionItem } from "@v/dashboard/partners/list/definitions/partners"
+import type { UserData } from "@v/dashboard/users/edit/definitions/user"
+import { UserSchema } from "@v/dashboard/users/edit/schemas/user.schema"
+import { stateList } from "@v/dashboard/users/list/utils/users"
+import { generatePassword } from "@/lib/utils"
+import { Roles } from "@/shared/roles/roles"
 
 
 const notify = useNotify()
@@ -40,6 +40,9 @@ function defaultState(): UserData {
         email:      "",
         partner_id: null,
         disabled:   false,
+        access:     {
+            location_map: false,
+        },
     }
 }
 
@@ -55,24 +58,22 @@ const {
     errors,
     resetForm,
     handleSubmit,
-    defineField,
+    defineLazyField,
     meta,
-    submitCount,
     setErrors,
-} = useForm<UserData>({
+} = useVeeForm<UserData>({
     validationSchema: UserSchema(isNew.value),
     initialValues:    defaultState(),
 })
 
-const dynamicConfig = useConfigValidation(submitCount)
-
-const [nameModel] = defineField("name", dynamicConfig)
-const [loginModel] = defineField("login", dynamicConfig)
-const [passwordModel] = defineField("password", dynamicConfig)
-const [roleModel] = defineField("role", dynamicConfig)
-const [emailModel] = defineField("email", dynamicConfig)
-const [partnerIdModel] = defineField("partner_id", dynamicConfig)
-const [disabledModel] = defineField("disabled", dynamicConfig)
+const [nameModel] = defineLazyField("name")
+const [loginModel] = defineLazyField("login")
+const [passwordModel] = defineLazyField("password")
+const [roleModel] = defineLazyField("role")
+const [emailModel] = defineLazyField("email")
+const [partnerIdModel] = defineLazyField("partner_id")
+const [disabledModel] = defineLazyField("disabled")
+const [locationMapModel] = defineLazyField("access.location_map")
 
 onMounted(async () => {
     isFirstLoading.value = true
@@ -108,6 +109,9 @@ onMounted(async () => {
                 partner_id: user.partner?.id || null,
                 disabled:   user.disabled,
                 password:   "",
+                access:     {
+                    location_map: user.access.location_map,
+                },
             },
         })
     }
@@ -188,7 +192,7 @@ const rolesList = [
                 <b-input-text
                     v-model="nameModel"
                     :disabled="isLoading"
-                    :error="errors.name"
+                    :error="errors['name']"
                 />
             </b-form-item>
 
@@ -199,7 +203,7 @@ const rolesList = [
                 <b-input-text
                     v-model="loginModel"
                     :disabled="isLoading"
-                    :error="errors.login"
+                    :error="errors['login']"
                     name="login"
                 />
             </b-form-item>
@@ -212,7 +216,7 @@ const rolesList = [
                     <b-input-password
                         v-model="passwordModel"
                         :disabled="isLoading"
-                        :error="errors.password"
+                        :error="errors['password']"
                     />
 
                     <b-button-secondary
@@ -231,7 +235,7 @@ const rolesList = [
                     v-model="roleModel"
                     :disabled="isLoading"
                     :options="rolesList"
-                    :error="errors.role"
+                    :error="errors['role']"
                 />
             </b-form-item>
 
@@ -239,7 +243,7 @@ const rolesList = [
                 <b-input-text
                     v-model="emailModel"
                     :disabled="isLoading"
-                    :error="errors.email"
+                    :error="errors['email']"
                 />
             </b-form-item>
 
@@ -248,7 +252,7 @@ const rolesList = [
                     v-model="partnerIdModel"
                     :disabled="isLoading"
                     :options="partners"
-                    :error="errors.partner_id"
+                    :error="errors['partner_id']"
                     option-label="name"
                     option-value="id"
                     filter
@@ -263,10 +267,25 @@ const rolesList = [
                 <b-select-button
                     v-model="disabledModel"
                     :options="stateList"
-                    :error="errors.disabled"
+                    :error="errors['disabled']"
                     option-label="name"
                     option-value="id"
-                />
+                >
+                    <template #option="{ option }">
+                        <span :class="option.id ? 'is-disabled' : 'is-active'">
+                            {{ option.name }}
+                        </span>
+                    </template>
+                </b-select-button>
+            </b-form-item>
+        </b-form-card>
+
+        <b-form-card title="Доступы">
+            <b-form-item
+                label="Карта для стройки"
+                class="label-align-top"
+            >
+                <b-switch v-model="locationMapModel" />
             </b-form-item>
         </b-form-card>
     </b-form>
@@ -278,6 +297,14 @@ const rolesList = [
         display: flex;
         align-items: flex-start;
         gap: $indent-x1;
+    }
+
+    :deep(.b-select-button) {
+        .p-togglebutton:has(.is-disabled).p-togglebutton-checked {
+            .p-togglebutton-content {
+                background-color: var(--p-red-400);
+            }
+        }
     }
 }
 </style>

@@ -1,5 +1,6 @@
-import { HttpMethod } from "@/api/definitions/api"
 import type { AxiosResponse } from "axios"
+
+import { HttpMethod } from "@/api/definitions/api"
 import type { AbortControllerConfig } from "@/api/index"
 
 export class Queue {

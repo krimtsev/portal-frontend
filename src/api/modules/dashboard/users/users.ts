@@ -1,13 +1,13 @@
-import type { Pagination, PaginationFilter } from "@/shared/pagination/pagination"
-import { http } from "@/api"
-import type {
-    UsersListItem,
-    UsersExportData,
-} from "@v/dashboard/users/list/definitions/users"
 import type {
     UserData,
     UserResponse,
 } from "@v/dashboard/users/edit/definitions/user"
+import type {
+    UsersExportData,
+    UsersListItem,
+} from "@v/dashboard/users/list/definitions/users"
+import { http } from "@/api"
+import type { Pagination, PaginationFilter } from "@/shared/pagination/pagination"
 
 export async function list(paginationFilter: PaginationFilter) {
     return await http.post<Pagination<UsersListItem[]>>("dashboard/users/list", paginationFilter)

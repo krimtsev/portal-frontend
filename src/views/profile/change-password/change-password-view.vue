@@ -1,20 +1,19 @@
 <script setup lang="ts">
 import { computed, ref } from "vue"
-import { useForm } from "vee-validate"
-import PortalPage from "@c/portal/portal-page/portal-page.vue"
-import PortalCard from "@c/portal/portal-card/portal-card.vue"
-import PortalFormItem from "@c/portal/portal-form-item/portal-form-item.vue"
-import BInputPassword from "@c/common/b-input/b-input-password.vue"
 import { useI18n } from "vue-i18n"
+import { useRouter } from "vue-router"
+import { useAuthStore } from "@s/auth/auth"
+import { useNotify } from "@/composables/notify/use-notify"
+import { useVeeForm } from "@/composables/vee-validate/use-validation"
+import { ProfileRouteName } from "@r/profile/route-names"
 import { HttpError } from "@/api"
 import * as changePasswordAPI from "@/api/modules/profile/change-password/change-password"
 import type { ChangePassword } from "@/api/modules/profile/change-password/definitions/change-password"
-import { useNotify } from "@/composables/notify/use-notify"
-import useAuthStore from "@s/auth/auth"
+import BInputPassword from "@c/common/b-input/b-input-password.vue"
+import PortalCard from "@c/portal/portal-card/portal-card.vue"
+import PortalFormItem from "@c/portal/portal-form-item/portal-form-item.vue"
+import PortalPage from "@c/portal/portal-page/portal-page.vue"
 import { UserPasswordSchema } from "@v/profile/change-password/schemas/change-password.schema"
-import { useConfigValidation } from "@/composables/vee-validate/use-config-validation"
-import { useRouter } from "vue-router"
-import { ProfileRouteName } from "@r/profile/route-names"
 
 
 const { t } = useI18n()
@@ -34,19 +33,16 @@ const isLoading = ref(false)
 const {
     errors,
     handleSubmit,
-    defineField,
+    defineLazyField,
     meta,
-    submitCount,
     setErrors,
-} = useForm<ChangePassword>({
+} = useVeeForm<ChangePassword>({
     validationSchema: UserPasswordSchema,
     initialValues:    defaultState(),
 })
 
-const dynamicConfig = useConfigValidation(submitCount)
-
-const [passwordModel] = defineField("password", dynamicConfig)
-const [confirmPasswordModel] = defineField("confirmPassword", dynamicConfig)
+const [passwordModel] = defineLazyField("password")
+const [confirmPasswordModel] = defineLazyField("confirmPassword")
 
 const onSave = handleSubmit(async (formValues) => {
     if (!meta.value.dirty) {

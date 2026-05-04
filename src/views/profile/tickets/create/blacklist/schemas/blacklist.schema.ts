@@ -1,10 +1,11 @@
 import * as z from "zod"
+import { toTypedSchema } from "@vee-validate/zod"
 import { reg } from "@/lib/validator"
+import { FilesSchema } from "@c/common/b-upload-file/schemas/file-upload.schema"
 import {
     MessageSchema,
     PartnerIdSchema,
 } from "@v/profile/tickets/schemas/ticket.schema"
-import { FilesSchema } from "@c/common/b-upload-file/schemas/file-upload.schema"
 
 const AttributesSchema = z.object({
     name: z.string()
@@ -18,11 +19,11 @@ const AttributesSchema = z.object({
         .optional(),
 })
 
-export const FormSchema = z.object({
-    attributes: AttributesSchema,
-    message:    MessageSchema,
-    partner_id: PartnerIdSchema,
-    files:      FilesSchema,
-})
-
-export type FormSchemaType = z.infer<typeof FormSchema>
+export const FormSchema = toTypedSchema(
+    z.object({
+        attributes: AttributesSchema,
+        message:    MessageSchema,
+        partner_id: PartnerIdSchema,
+        files:      FilesSchema,
+    }),
+)

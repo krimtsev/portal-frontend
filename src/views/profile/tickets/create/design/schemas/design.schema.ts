@@ -1,18 +1,19 @@
 import * as z from "zod"
 import { reg } from "@/lib/validator"
+import { FilesSchema } from "@c/common/b-upload-file/schemas/file-upload.schema"
+import { maxMessageLengthShort, maxTitleLength } from "@v/profile/tickets/list/definitions/tickets-list"
 import {
-    PartnerIdSchema,
     MessageSchema,
+    PartnerIdSchema,
     UrlSchema,
     UrlSchemaOptional,
 } from "@v/profile/tickets/schemas/ticket.schema"
-import { FilesSchema } from "@c/common/b-upload-file/schemas/file-upload.schema"
-import { messageLengthShort } from "@v/profile/tickets/list/definitions/tickets-list"
+import { toTypedSchema } from "@vee-validate/zod"
 
 const AttributesSchema = z.object({
     name: z.string()
         .min(3, { message: "Минимальная длина 3 символа" })
-        .max(125, { message: "Максимальная длина 125 символов" })
+        .max(maxTitleLength, { message: `Максимальная длина ${maxTitleLength} символов` })
         .nonempty(),
 
     phone: z.string()
@@ -25,15 +26,15 @@ const AttributesSchema = z.object({
     twoGisMap:    UrlSchema,
     instagram:    UrlSchemaOptional,
     telegram:     UrlSchemaOptional,
-    format:       z.string().max(messageLengthShort, { message: "Сообщение слишком длинное" }),
-    promotion:    z.string().max(messageLengthShort, { message: "Сообщение слишком длинное" }),
+    format:       z.string().max(maxMessageLengthShort, { message: "Сообщение слишком длинное" }),
+    promotion:    z.string().max(maxMessageLengthShort, { message: "Сообщение слишком длинное" }),
 })
 
-export const FormSchema = z.object({
-    attributes: AttributesSchema,
-    message:    MessageSchema,
-    partner_id: PartnerIdSchema,
-    files:      FilesSchema,
-})
-
-export type FormSchemaType = z.infer<typeof FormSchema>
+export const FormSchema = toTypedSchema(
+    z.object({
+        attributes: AttributesSchema,
+        message:    MessageSchema,
+        partner_id: PartnerIdSchema,
+        files:      FilesSchema,
+    }),
+)

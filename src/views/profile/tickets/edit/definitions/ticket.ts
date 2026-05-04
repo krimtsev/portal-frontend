@@ -16,6 +16,7 @@ export enum TicketType {
     Specialist = "specialist",
     Flagman = "flagman",
     Administrator = "administrator",
+    Opening = "opening",
 }
 
 export enum TicketState {
@@ -93,8 +94,4 @@ export interface TicketDetails {
 
 export interface TicketResponse {
     data: TicketDetails
-}
-
-export interface TicketExportData {
-
 }

@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue"
-import PortalPage from "@c/portal/portal-page/portal-page.vue"
+import { onMounted, ref } from "vue"
+import { useNotify } from "@/composables/notify/use-notify"
+import { HttpError } from "@/api"
+import type { PartnerData, UserData } from "@/api/modules/profile/user-profile/definitions/user-profile"
+import * as userProfileAPI from "@/api/modules/profile/user-profile/user-profile"
+import BSkeleton from "@c/common/b-skeleton/b-skeleton.vue"
+import BText from "@c/common/b-text/b-text.vue"
 import PortalCard from "@c/portal/portal-card/portal-card.vue"
 import PortalFormItem from "@c/portal/portal-form-item/portal-form-item.vue"
-import * as userProfileAPI from "@/api/modules/profile/user-profile/user-profile"
-import type { PartnerData, UserData } from "@/api/modules/profile/user-profile/definitions/user-profile"
-import { HttpError } from "@/api"
-import { useNotify } from "@/composables/notify/use-notify"
+import PortalPage from "@c/portal/portal-page/portal-page.vue"
 import { getRoleName } from "@/lib/localize-helper"
-import BText from "@c/common/b-text/b-text.vue"
 import { Roles } from "@/shared/roles/roles"
-import BSkeleton from "@c/common/b-skeleton/b-skeleton.vue"
 
 const notify = useNotify()
 

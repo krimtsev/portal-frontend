@@ -1,8 +1,8 @@
 import * as z from "zod"
 import { toTypedSchema } from "@vee-validate/zod"
-import { TicketState, TicketType } from "@v/profile/tickets/edit/definitions/ticket"
 import { FilesSchema } from "@c/common/b-upload-file/schemas/file-upload.schema"
-import { messageLength } from "@v/profile/tickets/list/definitions/tickets-list"
+import { TicketState, TicketType } from "@v/profile/tickets/edit/definitions/ticket"
+import { maxMessageLength } from "@v/profile/tickets/list/definitions/tickets-list"
 
 export const TicketSchema = toTypedSchema(
     z.object({
@@ -19,7 +19,7 @@ export const TicketSchema = toTypedSchema(
         state: z.nativeEnum(TicketState, { message: "Выберите статус" }),
 
         message: z.string()
-            .max(messageLength, { message: "Сообщение слишком длинное" })
+            .max(maxMessageLength, { message: "Сообщение слишком длинное" })
             .optional(),
 
         files: FilesSchema,

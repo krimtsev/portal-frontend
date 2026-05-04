@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from "vue"
-import PrimeAvatar from "primevue/avatar"
 import { imageSrc } from "@h/images/images"
+import PrimeAvatar from "primevue/avatar"
 
 
 const props = withDefaults(defineProps<{

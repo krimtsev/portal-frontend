@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { ref, computed, watch } from "vue"
-import BImage from "@c/common/b-image/b-image.vue"
-import { useRouter } from "vue-router"
-import { DashboardRouteName } from "@r/dashboard/route-names"
-import { dashboardPaths } from "@r/dashboard/path"
-import PrimePanelMenu from "primevue/panelmenu"
+import { computed, ref, watch } from "vue"
 import { useI18n } from "vue-i18n"
+import { useRouter } from "vue-router"
 import { useRoute } from "vue-router"
 import type { MenuItem } from "primevue/menuitem"
-import useAuthStore from "@s/auth/auth"
+import PrimePanelMenu from "primevue/panelmenu"
+import { useAuthStore } from "@s/auth/auth"
+import { dashboardPaths } from "@r/dashboard/path"
+import { DashboardRouteName } from "@r/dashboard/route-names"
+import BImage from "@c/common/b-image/b-image.vue"
 
 interface DashboardMenuItem extends MenuItem {
     activeNames?:       string[]

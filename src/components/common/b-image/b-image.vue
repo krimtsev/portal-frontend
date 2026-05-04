@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, onMounted, onBeforeUnmount, useTemplateRef } from "vue"
+import { onBeforeUnmount, onMounted, ref, useTemplateRef, watch } from "vue"
 
 const props = defineProps<{
     src:         string
@@ -14,29 +14,41 @@ const props = defineProps<{
 
 const loaded = ref(false)
 const showImage = ref(!props.lazy)
+const resolvedSrc = ref<string>("")
 const rootRef = useTemplateRef<HTMLElement | null>("rootRef")
 
 const images = import.meta.glob("@a/images/**/*", {
-    eager:  true,
     query:  "?url",
     import: "default",
 })
 
-const src = computed(() => {
-    if (props.src.startsWith("http") || props.local) return props.src
+async function resolveImagePath() {
+    if (props.src.startsWith("http") || props.local) {
+        resolvedSrc.value = props.src
+        return
+    }
 
-    const matchingEntry = Object.entries(images).find(([key]) => key.endsWith(`/${props.src}`))
+    const matchingKey = Object.keys(images).find((key) => key.endsWith(`/${props.src}`))
 
-    if (!matchingEntry) return ""
-
-    return matchingEntry[1] as string
-})
+    if (matchingKey) {
+        try {
+            const res = await images[matchingKey]()
+            resolvedSrc.value = res as string
+        } catch (e) {
+            console.error(`Ошибка загрузки изображения: ${props.src}`, e)
+        }
+    }
+}
 
 function onLoad() {
     loaded.value = true
 }
 
 let observer: IntersectionObserver | null = null
+
+watch(showImage, (isShown) => {
+    if (isShown) resolveImagePath()
+}, { immediate: !props.lazy })
 
 onMounted(() => {
     if (props.lazy && rootRef.value) {
@@ -52,6 +64,8 @@ onMounted(() => {
             { rootMargin: "200px", threshold: 0.01 },
         )
         observer.observe(rootRef.value)
+    } else {
+        resolveImagePath()
     }
 })
 
@@ -80,8 +94,8 @@ onBeforeUnmount(() => {
         />
 
         <img
-            v-if="showImage"
-            :src="src"
+            v-if="showImage && resolvedSrc"
+            :src="resolvedSrc"
             :width="props.width"
             :height="props.height"
             :style="props.imageStyle"

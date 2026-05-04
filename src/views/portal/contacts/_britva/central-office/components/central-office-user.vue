@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { computed } from "vue"
-import type { CentralOfficeUser } from "@v/portal/contacts/_britva/central-office/defenitions/central-office"
+import BImage from "@c/common/b-image/b-image.vue"
+import BTelnumLink from "@c/common/b-link/b-telnum-link.vue"
 import BTitle from "@c/common/b-title/b-title.vue"
 import PortalContent from "@c/portal/portal-content/portal-content.vue"
-import BTelnumLink from "@c/common/b-link/b-telnum-link.vue"
-import BImage from "@c/common/b-image/b-image.vue"
+import type { CentralOfficeUser } from "@v/portal/contacts/_britva/central-office/defenitions/central-office"
 
 const props = defineProps<{
     user: CentralOfficeUser

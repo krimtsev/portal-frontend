@@ -1,13 +1,14 @@
-import { http } from "@/api"
+import type {
+    PartnerData,
+    PartnerResponse,
+} from "@v/dashboard/partners/edit/definitions/partner"
 import type {
     PartnerListItem,
     PartnerOptionsResponse,
     PartnersExportData,
 } from "@v/dashboard/partners/list/definitions/partners"
-import type {
-    PartnerData,
-    PartnerResponse,
-} from "@v/dashboard/partners/edit/definitions/partner"
+
+import { http } from "@/api"
 import type {
     Pagination,
     PaginationFilter,

@@ -1,6 +1,6 @@
 import type {
-    FranchiseeItemRaw,
     FranchiseeItem,
+    FranchiseeItemRaw,
     FranchiseeTelnums,
 } from "@v/portal/contacts/franchisee/definitions/franchisee"
 

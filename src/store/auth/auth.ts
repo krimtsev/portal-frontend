@@ -1,16 +1,17 @@
-import { computed, reactive, ref } from "vue"
 import { defineStore } from "pinia"
-import type {
-    UserData,
-    LoginCredentials,
-} from "@/api/modules/auth/definitions/auth"
-import * as authAPI from "@/api/modules/auth/auth"
+import { computed, reactive, ref } from "vue"
+import { getCookie } from "@/lib/cookie"
+
 import { HttpError } from "@/api"
-import { Roles } from "@/shared/roles/roles"
-import router from "@r/router.ts"
+import * as authAPI from "@/api/modules/auth/auth"
+import type {
+    LoginCredentials,
+    UserAccessData,
+    UserData,
+} from "@/api/modules/auth/definitions/auth"
+import router from "@/router"
 import { CommonRouteName } from "@/router/common/route-names"
-import { PortalRouteName } from "@/router/portal/route-names"
-import { getCookie } from "@/lib/utils"
+import { Roles } from "@/shared/roles/roles"
 
 function defaultUserData(): UserData {
     return {
@@ -23,10 +24,18 @@ function defaultUserData(): UserData {
     }
 }
 
-const useAuthStore = defineStore("auth", () => {
+function defaultUserAccessData(): UserAccessData {
+    return {
+        location_map: false,
+    }
+}
+
+export const useAuthStore = defineStore("auth", () => {
     let user = reactive<UserData>(defaultUserData())
+    let userAccess = reactive<UserAccessData>(defaultUserAccessData())
     const isAuthenticated = ref(false)
     const isLoading = ref(true)
+
     const isSysAdmin = computed(() => user.role === Roles.SYSADMIN)
 
     async function csrf() {
@@ -34,18 +43,25 @@ const useAuthStore = defineStore("auth", () => {
     }
 
     async function auth() {
-        if (!getCookie("XSRF-TOKEN")) {
-            isLoading.value = false
-            return false
-        }
+        setLoading(true)
 
-        await csrf()
-        const result = await getUserData()
-        isLoading.value = false
-        return result
+        try {
+            if (!getCookie("XSRF-TOKEN")) {
+                return false
+            }
+
+            return await initUserData()
+        } catch (error) {
+            console.error(error)
+            return false
+        } finally {
+            setLoading(false)
+        }
     }
 
     async function login(credentials: LoginCredentials) {
+        setLoading(true)
+
         await csrf()
         const authData = await authAPI.login(credentials)
 
@@ -55,10 +71,10 @@ const useAuthStore = defineStore("auth", () => {
         }
 
         Object.assign(user, authData.user)
-        isAuthenticated.value = true
-        isLoading.value = false
+        Object.assign(userAccess, authData.access)
 
-        await router.push({ name: PortalRouteName.Home })
+        isAuthenticated.value = true
+        setLoading(false)
     }
 
     async function logout() {
@@ -71,7 +87,7 @@ const useAuthStore = defineStore("auth", () => {
         await reset(true)
     }
 
-    async function getUserData(): Promise<boolean> {
+    async function initUserData(): Promise<boolean> {
         const userData = await authAPI.userData()
 
         if (userData instanceof HttpError) {
@@ -80,34 +96,41 @@ const useAuthStore = defineStore("auth", () => {
         }
 
         Object.assign(user, userData.user)
+        Object.assign(userAccess, userData.access)
         isAuthenticated.value = true
-        isLoading.value = false
 
         return true
     }
 
     async function reset(redirect: boolean) {
         user = defaultUserData()
+        userAccess = defaultUserAccessData()
+
         isAuthenticated.value = false
-        isLoading.value = false
+        setLoading(false)
 
         if (redirect) {
             await router.push({ name: CommonRouteName.Auth })
         }
     }
 
+    function setLoading(value: boolean) {
+        isLoading.value = value
+    }
+
     return {
-        user: computed(() => user),
+        user:       computed(() => user),
+        userAccess: computed(() => userAccess),
         isAuthenticated,
         isLoading,
         isSysAdmin,
+
         auth,
-        getUserData,
+        initUserData,
         csrf,
         login,
         logout,
         reset,
+        setLoading,
     }
 })
-
-export default useAuthStore

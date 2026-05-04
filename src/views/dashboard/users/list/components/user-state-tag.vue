@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import PrimeTag from "primevue/tag"
 import { useI18n } from "vue-i18n"
+import PrimeTag from "primevue/tag"
 
 const props = defineProps<{
     active: boolean

@@ -1,34 +1,30 @@
 <script setup lang="ts">
-import { onMounted, computed, ref } from "vue"
-import PortalPage from "@c/portal/portal-page/portal-page.vue"
-import BButton from "@c/common/b-button/b-button.vue"
-import BFileUpload from "@c/common/b-upload-file/b-file-upload.vue"
-import BTextarea from "@c/common/b-textarea/b-textarea.vue"
-import BInputText from "@c/common/b-input/b-input-text.vue"
+import { computed, onMounted, ref } from "vue"
+import { useI18n } from "vue-i18n"
+import { useRouter } from "vue-router"
 import { useNotify } from "@/composables/notify/use-notify"
+import { useVeeForm } from "@/composables/vee-validate/use-validation"
+import { ProfileRouteName } from "@r/profile/route-names"
+import { HttpError } from "@/api"
 import type { UserPartners } from "@/api/modules/partner/partner"
-import PortalCard from "@c/portal/portal-card/portal-card.vue"
-import { isEqual, cloneDeep } from "lodash"
-import { useZodResolver } from "@/composables/zod/use-zod-resolver"
 import * as partnerAPI from "@/api/modules/partner/partner"
 import * as ticketAPI from "@/api/modules/profile/tickets/tickets"
-import { HttpError } from "@/api"
-import type { TicketBlacklist } from "@v/profile/tickets/create/blacklist/definitions/blacklist"
-import {
-    type FormSchemaType,
-    FormSchema,
-} from "@v/profile/tickets/create/blacklist/schemas/blacklist.schema"
+import BButton from "@c/common/b-button/b-button.vue"
 import BInputTelnum from "@c/common/b-input/b-input-telnum.vue"
+import BInputText from "@c/common/b-input/b-input-text.vue"
+import BSelect from "@c/common/b-select/b-select.vue"
+import BTextarea from "@c/common/b-textarea/b-textarea.vue"
+import BFileUpload from "@c/common/b-upload-file/b-file-upload.vue"
+import PortalPage from "@c/portal/portal-page/portal-page.vue"
+import BlacklistDescription from "@v/profile/tickets/create/blacklist/components/blacklist-description.vue"
+import type { TicketBlacklist } from "@v/profile/tickets/create/blacklist/definitions/blacklist"
+import { FormSchema } from "@v/profile/tickets/create/blacklist/schemas/blacklist.schema"
+import { TicketType } from "@v/profile/tickets/edit/definitions/ticket"
 import {
     type TicketCategoriesItem,
     TicketCategorySlug,
 } from "@v/profile/tickets/edit/definitions/ticket-category"
-import { TicketType } from "@v/profile/tickets/edit/definitions/ticket"
-import { useI18n } from "vue-i18n"
-import { useRouter } from "vue-router"
-import { ProfileRouteName } from "@r/profile/route-names"
-import BSelect from "@c/common/b-select/b-select.vue"
-import { messageLength } from "@v/profile/tickets/list/definitions/tickets-list"
+import { maxMessageLength } from "@v/profile/tickets/list/definitions/tickets-list"
 
 
 const notify = useNotify()
@@ -61,26 +57,26 @@ function defaultState(): TicketBlacklist {
     }
 }
 
-const initialState = ref<TicketBlacklist>(defaultState())
-const currentState = ref<TicketBlacklist>(defaultState())
+const isDisabled = computed(() => isFirstLoading.value || isLoading.value)
 
-const isChanged = computed(() => {
-    return !isEqual(initialState.value, currentState.value)
-})
-
-const isDisabled = computed(() => {
-    return isFirstLoading.value || isLoading.value
-})
-
-/** Валидация */
 const {
     errors,
-    submit,
-    watchChanges,
-    resetErrors,
-} = useZodResolver<FormSchemaType>(FormSchema)
+    handleSubmit,
+    defineLazyField,
+    meta,
+    setErrors,
+    setFieldValue,
+} = useVeeForm<TicketBlacklist>({
+    validationSchema: FormSchema,
+    initialValues:    defaultState(),
+})
 
-watchChanges(currentState)
+const [partnerIdModel] = defineLazyField("partner_id")
+const [messageModel] = defineLazyField("message")
+const [filesModel] = defineLazyField("files")
+const [nameModel] = defineLazyField("attributes.name")
+const [phoneModel] = defineLazyField("attributes.phone")
+const [durationModel] = defineLazyField("attributes.duration")
 
 onMounted(async () => {
     isFirstLoading.value = true
@@ -101,38 +97,30 @@ onMounted(async () => {
     userPartners.value = partners
     ticketCategory.value = category.data
 
-    initialState.value.partner_id = userPartners.value.partner_id
-    initialState.value.category_id = ticketCategory.value.id
-    currentState.value = cloneDeep(initialState.value)
+    setFieldValue("category_id", ticketCategory.value.id)
+    setFieldValue("partner_id", userPartners.value.partner_id)
 
     isFirstLoading.value = false
 })
 
-async function onSave() {
-    const isValid = submit(currentState.value)
-    if (!isValid) return
-    if (!isChanged.value) return
-
-    const params = cloneDeep(currentState.value)
-    params.title = t("mc.ticket.blacklist.title")
+const onSave = handleSubmit(async (formValues) => {
+    if (!meta.value.dirty) return
 
     isLoading.value = true
 
-    const resp = await ticketAPI.create(params)
+    const ticketResponse = await ticketAPI.create(formValues)
 
     isLoading.value = false
 
-    if (resp instanceof HttpError) {
+    if (ticketResponse instanceof HttpError) {
+        if (ticketResponse?.errors) setErrors(ticketResponse.errors)
         notify.error()
         return
     }
 
-    currentState.value = cloneDeep(initialState.value)
     notify.success(t("mc.ticket.notify.success"))
-    resetErrors()
-
     await router.push({ name: ProfileRouteName.ProfileTickets })
-}
+})
 </script>
 
 <template>
@@ -146,11 +134,11 @@ async function onSave() {
                 <div class="grid grid-reset-rows gap-x-2 gap-y-3">
                     <div class="col-6 mobile-col-12">
                         <b-select
-                            v-model="currentState.partner_id"
+                            v-model="partnerIdModel"
                             :options="userPartners.partners"
                             :is-loading="isFirstLoading"
                             :disabled="isFirstLoading"
-                            :error="errors.partner_id"
+                            :error="errors['partner_id']"
                             option-label="name"
                             option-value="partner_id"
                             :placeholder="t('mc.common.partner')"
@@ -163,8 +151,8 @@ async function onSave() {
 
                     <div class="col-6 mobile-col-12">
                         <b-input-text
-                            v-model="currentState.attributes.name"
-                            :error="errors.attributes?.name"
+                            v-model="nameModel"
+                            :error="errors['attributes.name']"
                             :disabled="isFirstLoading"
                             :placeholder="t('mc.ticket.blacklist.placeholder.name')"
                             name="name"
@@ -174,8 +162,8 @@ async function onSave() {
 
                     <div class="col-6 mobile-col-12">
                         <b-input-telnum
-                            v-model="currentState.attributes.phone"
-                            :error="errors.attributes?.phone"
+                            v-model="phoneModel"
+                            :error="errors['attributes.phone']"
                             :disabled="isFirstLoading"
                             :placeholder="t('mc.ticket.blacklist.placeholder.phone')"
                             name="phone"
@@ -185,8 +173,8 @@ async function onSave() {
 
                     <div class="col-6 mobile-col-12">
                         <b-input-text
-                            v-model="currentState.attributes.duration"
-                            :error="errors.attributes?.duration"
+                            v-model="durationModel"
+                            :error="errors['attributes.duration']"
                             :disabled="isFirstLoading"
                             :placeholder="t('mc.ticket.blacklist.placeholder.duration')"
                             name="duration"
@@ -196,11 +184,11 @@ async function onSave() {
 
                     <div class="col-12 mobile-col-12">
                         <b-textarea
-                            v-model="currentState.message"
-                            :error="errors.message"
+                            v-model="messageModel"
+                            :error="errors['message']"
                             :disabled="isFirstLoading"
                             :placeholder="t('mc.ticket.blacklist.placeholder.message')"
-                            :maxlength="messageLength"
+                            :maxlength="maxMessageLength"
                             name="message"
                             class="full-width"
                         />
@@ -208,8 +196,8 @@ async function onSave() {
 
                     <div class="col-12 mobile-col-12">
                         <b-file-upload
-                            v-model="currentState.files"
-                            :error="errors.files"
+                            v-model="filesModel"
+                            :error="errors['files']"
                             :disabled="isFirstLoading"
                             :placeholder="t('mc.ticket.blacklist.placeholder.files')"
                             name="files"
@@ -228,58 +216,7 @@ async function onSave() {
                 </div>
             </div>
 
-            <portal-card title="Регламент для занесения в чёрный список">
-                <div class="content">
-                    <p>
-                        Чёрный список создан для того, чтобы обезопасить наших партнёров от сомнительных кадров,
-                        которые могут навредить репутации бренда, филиалу, коллективу, клиентам и владельцу.
-                    </p>
-                    <p>Cрок рассмотрения заявки 10 рабочих дней.</p>
-                </div>
-            </portal-card>
-
-            <portal-card title="В чёрный список можно занести сотрудника по причинам:">
-                <div class="content">
-                    <ol>
-                        <li>
-                            Нахождение на рабочем месте в состоянии алкогольного или наркотического
-                            опьянения (с предоставлением доказательства систематических нарушений).
-                        </li>
-                        <li>
-                            Прямой умышленный саботаж коллектива (Пример: сотрудник пытается перейти в другой
-                            салон и призывает команду идти за ним)
-                        </li>
-                        <li>Намеренный сбор клиентской базы, хищение/продажа.</li>
-                        <li>Махинация с финансами и финансовыми операциями.</li>
-                        <li>Махинации и сговор сотрудников барбершопа против интересов работодателя.</li>
-                        <li>Хищение имущества у владельца или коллектива.</li>
-                        <li>Разглашение конфиденциальной информации и интеллектуальной собственности бренда.</li>
-                        <li>Присвоение денежных средств клиентов.</li>
-                        <li>Искажение отчетной информации.</li>
-                        <li>Целенаправленное нанесение материального ущерба работодателю.</li>
-                        <li>Параллельная работа в конкурирующем салоне.</li>
-                    </ol>
-                </div>
-            </portal-card>
-
-            <portal-card title="При наличии личностной неприязни со стороны владельца, руководителя либо коллектива по отношению к сотруднику внесение его в чёрный список запрещено.">
-                <div class="content">
-                    <ol>
-                        <li>
-                            Занесение в чёрный список происходит после одобрения ЦО! В случае сложных,
-                            спорных ситуаций, не соответствующих пр авилам выше сотрудник и владелец/руководитель
-                            филиала вызываются в ЦО.
-                        </li>
-                        <li>
-                            Заявка на чёрный список рассматривается с приложением доказательств
-                            в виде скриншотов/видеофиксации/фотофиксации.
-                        </li>
-                        <li>Без доказательств заявка не рассматривается.</li>
-                        <li>Срок рассмотрения заявки 14 рабочих дней.</li>
-                        <li>В заявке обязательно указываем номер телефона, имя и фамилию сотрудника.</li>
-                    </ol>
-                </div>
-            </portal-card>
+            <blacklist-description />
         </div>
     </portal-page>
 </template>

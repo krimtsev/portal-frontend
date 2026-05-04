@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { PortalSectionCardItem } from "@c/portal/portal-section-card/definitions/portal-section-card"
-import BTitle from "@c/common/b-title/b-title.vue"
 import BSvg from "@c/common/b-svg/b-svg.vue"
+import BTitle from "@c/common/b-title/b-title.vue"
+import type { PortalSectionCardItem } from "@c/portal/portal-section-card/definitions/portal-section-card"
 
 const props = defineProps<PortalSectionCardItem>()
 </script>

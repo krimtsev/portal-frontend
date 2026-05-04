@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed } from "vue"
-import { PortalRouteName } from "@r/portal/route-names"
 import { useRoute, useRouter } from "vue-router"
-import type { PortalRouteButton } from "@c/portal/portal-button-navigation/definitions/portal-button-navigation"
+import { PortalRouteName } from "@r/portal/route-names"
 import BButtonGroup from "@c/common/b-button-groups/b-button-group.vue"
+import type { PortalRouteButton } from "@c/portal/portal-button-navigation/definitions/portal-button-navigation"
 
 const props = defineProps<{
     buttons: PortalRouteButton[]

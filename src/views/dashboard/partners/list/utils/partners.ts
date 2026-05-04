@@ -1,8 +1,9 @@
-import i18n from "@/plugins/i18n"
-import { DateTime } from "luxon"
 import ExcelJS from "exceljs"
+import { DateTime } from "luxon"
 import { downloadExternalFile } from "@/lib/files"
 import type { PartnersExportData } from "@v/dashboard/partners/list/definitions/partners"
+
+import i18n from "@/plugins/i18n"
 
 export const stateList: { id: boolean, name: string }[] = [
     {

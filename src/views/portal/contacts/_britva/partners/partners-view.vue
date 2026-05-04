@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import PortalPage from "@c/portal/portal-page/portal-page.vue"
-import { buttonNavigation } from "@v/portal/contacts/_britva/data/button-navigation"
-import PortalButtonNavigation from "@c/portal/portal-button-navigation/portal-button-navigation.vue"
-import PortalCard from "@c/portal/portal-card/portal-card.vue"
 import BLink from "@c/common/b-link/b-link.vue"
 import BTelnumLink from "@c/common/b-link/b-telnum-link.vue"
+import PortalButtonNavigation from "@c/portal/portal-button-navigation/portal-button-navigation.vue"
+import PortalCard from "@c/portal/portal-card/portal-card.vue"
+import PortalPage from "@c/portal/portal-page/portal-page.vue"
+import { buttonNavigation } from "@v/portal/contacts/_britva/data/button-navigation"
 </script>
 
 <template>

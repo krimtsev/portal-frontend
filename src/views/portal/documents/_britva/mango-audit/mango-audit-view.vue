@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import PortalAccordion from "@c/portal/portal-accordion/portal-accordion.vue"
-import PortalAccordionPanel from "@c/portal/portal-accordion/portal-accordion-panel.vue"
-import PortalAccordionHeader from "@c/portal/portal-accordion/portal-accordion-header.vue"
 import PortalAccordionContent from "@c/portal/portal-accordion/portal-accordion-content.vue"
-import { mangoAuditData } from "@v/portal/documents/_britva/mango-audit/data/mango-audit-data"
-import PortalContent from "@c/portal/portal-content/portal-content.vue"
-import FinesRightSection from "@v/portal/documents/_britva/components/fines-right-section/fines-right-section.vue"
-import PortalPage from "@c/portal/portal-page/portal-page.vue"
-import { buttonNavigation } from "@v/portal/documents/_britva/data/button-navigation"
+import PortalAccordionHeader from "@c/portal/portal-accordion/portal-accordion-header.vue"
+import PortalAccordionPanel from "@c/portal/portal-accordion/portal-accordion-panel.vue"
 import PortalButtonNavigation from "@c/portal/portal-button-navigation/portal-button-navigation.vue"
+import PortalContent from "@c/portal/portal-content/portal-content.vue"
+import PortalPage from "@c/portal/portal-page/portal-page.vue"
+import FinesRightSection from "@v/portal/documents/_britva/components/fines-right-section/fines-right-section.vue"
+import { buttonNavigation } from "@v/portal/documents/_britva/data/button-navigation"
+import { mangoAuditData } from "@v/portal/documents/_britva/mango-audit/data/mango-audit-data"
 </script>
 
 <template>

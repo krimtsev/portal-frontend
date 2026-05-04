@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import { computed } from "vue"
+import { computed, watch } from "vue"
+import { useI18n } from "vue-i18n"
+import { useRoute, useRouter } from "vue-router"
+import PrimeButton from "primevue/button"
+import { useFormStore } from "@s/form/form"
+import BButtonSecondary from "@c/common/b-button/b-button-secondary.vue"
+import BSpinner from "@c/common/b-spinner/b-spinner.vue"
 import BSvg from "@c/common/b-svg/b-svg.vue"
 import BTitle from "@c/common/b-title/b-title.vue"
-import BSpinner from "@c/common/b-spinner/b-spinner.vue"
-import PrimeButton from "primevue/button"
-import BButtonSecondary from "@c/common/b-button/b-button-secondary.vue"
-import { useRoute, useRouter } from "vue-router"
-import { useI18n } from "vue-i18n"
+import { sleep } from "@/lib/utils"
 
 const emit = defineEmits<{
     (e: "save"): void
@@ -27,6 +29,7 @@ const props = defineProps<{
 const { t } = useI18n()
 const route = useRoute()
 const router = useRouter()
+const formStore = useFormStore()
 
 const defaultPathBack = computed((): string => {
     const pathArr = route.path.split("/")
@@ -37,6 +40,15 @@ const defaultPathBack = computed((): string => {
 const path = computed(() => {
     return props.pathBack || defaultPathBack.value
 })
+
+watch(
+    () => props.isLoading,
+    async (value) => {
+        await sleep()
+        formStore.setLoading(value)
+    },
+    { immediate: true },
+)
 
 const goBack = () => {
     if (path.value) router.push(path.value)

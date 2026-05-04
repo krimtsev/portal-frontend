@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { computed } from "vue"
-import PrimeMenubar from "primevue/menubar"
-import PrimeAvatar from "primevue/avatar"
-import BImage from "@c/common/b-image/b-image.vue"
-import BLink from "@c/common/b-link/b-link.vue"
 import { useRouter } from "vue-router"
+import PrimeAvatar from "primevue/avatar"
+import PrimeMenubar from "primevue/menubar"
+import { useAuthStore } from "@s/auth/auth"
+import { DashboardRouteName } from "@r/dashboard/route-names"
 import { PortalRouteName } from "@r/portal/route-names"
 import { ProfileRouteName } from "@r/profile/route-names"
-import { DashboardRouteName } from "@r/dashboard/route-names"
-import useAuthStore from "@s/auth/auth"
 import { menuData } from "@l/portal/data/menu"
+import BImage from "@c/common/b-image/b-image.vue"
+import BLink from "@c/common/b-link/b-link.vue"
 import { Roles } from "@/shared/roles/roles"
 
 
@@ -91,7 +91,7 @@ const avatarLabel = computed(() => {
                 </template>
             </prime-menubar>
 
-            <div class="p-4">
+            <div class="router-view">
                 <router-view />
             </div>
         </div>

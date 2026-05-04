@@ -1,4 +1,5 @@
 import { useToast } from "primevue/usetoast"
+
 import i18n from "@/plugins/i18n"
 
 export function useNotify() {

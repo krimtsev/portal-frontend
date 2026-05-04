@@ -1,126 +1,133 @@
-import type { Section } from "@c/portal/portal-information-menu/definitions/portal-information-menu"
 import { portalPaths } from "@r/portal/path"
+import type { Section } from "@c/portal/portal-information-menu/definitions/portal-information-menu"
+import { computed } from "vue"
+import { useAppStore } from "@s/app/app"
 
-export const sections: Section[] = [
-    {
-        title: "Инструкции",
-        items: [
-            {
-                label: "Как сделать переадресацию звонков?",
-                path:  portalPaths.InstructionMangoRedirect,
-            },
-            {
-                label: "Как включить всплывающие уведомления?",
-                path:  portalPaths.InstructionYclientNotifications,
-            },
-            {
-                label: "Что делать, если телефония не работает?",
-                path:  portalPaths.IpTelephonyTroubleshooting,
-            },
-            {
-                label:    "Как изменить цены на ЭВОТОР?",
-                external: "https://youtu.be/6cy9sEyNDXU?si=3x0R0pmKIRHM08YO",
-            },
-        ],
-    },
-    {
-        title: "Обучение",
-        items: [
-            {
-                label:    "Перейти на портал обучения",
-                external: "https://learn.mybritva.ru",
-            },
-            {
-                label:    "Курсы для сотрудников",
-                external: "https://britva-education.ru",
-            },
-        ],
-    },
-    {
-        title: "Отчеты",
-        items: [
-            {
-                label:    "Таблица оплаты телефонии",
-                external: "https://docs.google.com/spreadsheets/d/1Y9zxXV-NZZvFHJNnESGBDiipCMNM1jjqQEzHqj8KRg0",
-            },
-            {
-                label:    "Таблица маркетингово сбора",
-                external: "https://docs.google.com/spreadsheets/d/1ka8_eTE18gQNr-LCCiKYKd_u0rG6dJ5R7oGFTQg6pdM",
-            },
-        ],
-    },
-    {
-        title: "Документация",
-        items: [
-            {
-                label: "Система работы абонементов",
-                path:  portalPaths.DocumentSubscription,
-            },
-            {
-                label: "Система работы сертификатов",
-                path:  portalPaths.DocumentCertificate,
-            },
-            {
-                label: "Штрафы",
-                path:  portalPaths.DocumentFines,
-            },
-            {
-                label: "Штрафы по аудиту",
-                path:  portalPaths.DocumentFinesAudit,
-            },
-            {
-                label: "Бальная система по аудиту телефонии",
-                path:  portalPaths.DocumentMangoAudit,
-            },
-        ],
-    },
-    {
-        title: "Дополнительные услуги",
-        items: [
-            {
-                label: "Платные услуги ЦО",
-                path:  portalPaths.ServicePaidCO,
-            },
-            {
-                label: "Подписка Яндекс.Карты и 2ГИС",
-                path:  portalPaths.ServiceSubscription,
-            },
-            {
-                label: "Сервис пропущенных звонков",
-                path:  portalPaths.ServiceMissedCalls,
-            },
-            {
-                label: "Поиск сотрудников на замену",
-                path:  portalPaths.ServiceSearchStaff,
-            },
-            {
-                label: "Внеплановый разбор филиала",
-                path:  portalPaths.ServiceBranchReview,
-            },
-            // {
-            //     label: "Сервис аналитики показателей",
-            //     path:  portalPaths.ServiceUserAnalytics,
-            // }
-        ],
-    },
-    {
-        title: "Контакты",
-        items: [
-            {
-                label: "Сотрудники центрального офиса",
-                path:  portalPaths.ContactCentralOffice,
-            },
-            {
-                label: "Владельцы франшиз",
-                path:  portalPaths.ContactFranchisee,
-            },
-            {
-                label: "Партнеры",
-                path:  portalPaths.ContactPartners,
-            },
-        ],
-    },
-    {
+export const sections = computed((): Section[] => {
+    const appStore = useAppStore()
+
+    const list: Section[] = [
+        {
+            title: "Инструкции",
+            items: [
+                {
+                    label: "Как сделать переадресацию звонков?",
+                    path:  portalPaths.InstructionMangoRedirect,
+                },
+                {
+                    label: "Как включить всплывающие уведомления?",
+                    path:  portalPaths.InstructionYclientNotifications,
+                },
+                {
+                    label: "Что делать, если телефония не работает?",
+                    path:  portalPaths.IpTelephonyTroubleshooting,
+                },
+                {
+                    label:    "Как изменить цены на ЭВОТОР?",
+                    external: "https://youtu.be/6cy9sEyNDXU?si=3x0R0pmKIRHM08YO",
+                },
+            ],
+        },
+        {
+            title: "Обучение",
+            items: [
+                {
+                    label:    "Перейти на портал обучения",
+                    external: "https://learn.mybritva.ru",
+                },
+                {
+                    label:    "Курсы для сотрудников",
+                    external: "https://britva-education.ru",
+                },
+            ],
+        },
+        {
+            title: "Отчеты",
+            items: [
+                {
+                    label:    "Таблица оплаты телефонии",
+                    external: "https://docs.google.com/spreadsheets/d/1Y9zxXV-NZZvFHJNnESGBDiipCMNM1jjqQEzHqj8KRg0",
+                },
+                {
+                    label:    "Таблица маркетингово сбора",
+                    external: "https://docs.google.com/spreadsheets/d/1ka8_eTE18gQNr-LCCiKYKd_u0rG6dJ5R7oGFTQg6pdM",
+                },
+            ],
+        },
+        {
+            title: "Документация",
+            items: [
+                {
+                    label: "Система работы абонементов",
+                    path:  portalPaths.DocumentSubscription,
+                },
+                {
+                    label: "Система работы сертификатов",
+                    path:  portalPaths.DocumentCertificate,
+                },
+                {
+                    label: "Штрафы",
+                    path:  portalPaths.DocumentFines,
+                },
+                {
+                    label: "Штрафы по аудиту",
+                    path:  portalPaths.DocumentFinesAudit,
+                },
+                {
+                    label: "Бальная система по аудиту телефонии",
+                    path:  portalPaths.DocumentMangoAudit,
+                },
+            ],
+        },
+        {
+            title: "Дополнительные услуги",
+            items: [
+                {
+                    label: "Платные услуги ЦО",
+                    path:  portalPaths.ServicePaidCO,
+                },
+                {
+                    label: "Подписка Яндекс.Карты и 2ГИС",
+                    path:  portalPaths.ServiceSubscription,
+                },
+                {
+                    label: "Сервис пропущенных звонков",
+                    path:  portalPaths.ServiceMissedCalls,
+                },
+                {
+                    label: "Поиск сотрудников на замену",
+                    path:  portalPaths.ServiceSearchStaff,
+                },
+                {
+                    label: "Внеплановый разбор филиала",
+                    path:  portalPaths.ServiceBranchReview,
+                },
+                // {
+                //     label: "Сервис аналитики показателей",
+                //     path:  portalPaths.ServiceUserAnalytics,
+                // }
+            ],
+        },
+        {
+            title: "Контакты",
+            items: [
+                {
+                    label: "Сотрудники центрального офиса",
+                    path:  portalPaths.ContactCentralOffice,
+                },
+                {
+                    label: "Владельцы франшиз",
+                    path:  portalPaths.ContactFranchisee,
+                },
+                {
+                    label: "Партнеры",
+                    path:  portalPaths.ContactPartners,
+                },
+            ],
+        },
+    ]
+
+    const additionally = {
         title: "Дополнительно",
         items: [
             {
@@ -132,5 +139,16 @@ export const sections: Section[] = [
                 path:  portalPaths.AdditionallyDiscount,
             },
         ],
-    },
-]
+    }
+
+    if (appStore.showLocationMap) {
+        additionally.items.push({
+            label: "Карта для стройки",
+            path:  portalPaths.LocationMap,
+        })
+    }
+
+    list.push(additionally)
+
+    return list
+})

@@ -4,6 +4,7 @@ import tsparser from "@typescript-eslint/parser"
 import vueParser from "vue-eslint-parser"
 import unicorn from "eslint-plugin-unicorn"
 import stylistic from "@stylistic/eslint-plugin"
+import simpleImportSort from "eslint-plugin-simple-import-sort"
 
 export default [
     {
@@ -31,12 +32,29 @@ export default [
         },
         plugins: {
             "@typescript-eslint": tseslint,
+            "simple-import-sort": simpleImportSort
         },
         rules: {
             "no-unused-vars":                    "off",
             "@typescript-eslint/no-unused-vars": ["warn", {
                 argsIgnorePattern: "^_",
             }],
+            // "simple-import-sort/imports": [
+            //     "error",
+            //     {
+            //         groups: [[
+            //             "^zod",
+            //             "vue-router",
+            //             "^@s/",
+            //             "^@?\\w",
+            //             "^@/lib/",
+            //             "^@/composables/",
+            //             "^@c/",
+            //             "^@v/",
+            //             "^\\u0000", "^\\."
+            //         ]]
+            //     }
+            // ],
         },
     },
     {
@@ -52,8 +70,26 @@ export default [
         plugins: {
             vue,
             "@typescript-eslint": tseslint,
+            "simple-import-sort": simpleImportSort
         },
         rules: {
+            "simple-import-sort/imports": [
+                "error",
+                {
+                    groups: [[
+                        "^vue", "^@?\\w",        // 1. Библиотеки
+                        "@s/",                   // 2. Store
+                        "^@/composables/",       // 3. Composables
+                        "^@r/",                  // 4. Routes
+                        "^@/api", "^@/api/",     // 5. API
+                        "@l/",                   // 6. Layout
+                        "^@c/",                  // 7. Components
+                        "^@v/",                  // 8. Views/Definitions
+                        "@/lib",                 // 9. libs
+                        "@/", "^\\u0000", "^\\." // 10. Типы и относительные пути
+                    ]]
+                }
+            ],
             // Vue Layout & Formatting
             "vue/max-attributes-per-line": ["error", {
                 singleline: {

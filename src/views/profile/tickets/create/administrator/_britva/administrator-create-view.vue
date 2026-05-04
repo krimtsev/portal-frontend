@@ -1,39 +1,35 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue"
-import PortalPage from "@c/portal/portal-page/portal-page.vue"
-import BButton from "@c/common/b-button/b-button.vue"
-import BTextarea from "@c/common/b-textarea/b-textarea.vue"
-import BInputText from "@c/common/b-input/b-input-text.vue"
-import BFileUpload from "@c/common/b-upload-file/b-file-upload.vue"
-import { useNotify } from "@/composables/notify/use-notify"
-import { type UserPartners } from "@/api/modules/partner/partner"
-import { cloneDeep, isEqual } from "lodash"
-import {
-    type FormSchemaType,
-    FormSchema,
-} from "@v/profile/tickets/create/administrator/_britva/schemas/administrator.schema"
-import { useZodResolver } from "@/composables/zod/use-zod-resolver"
-import * as partnerAPI from "@/api/modules/partner/partner"
-import { HttpError } from "@/api"
-import { Qualification, type TicketAdministrator } from "@v/profile/tickets/create/administrator/_britva/definitions/administrator"
-import BButtonGroups from "@c/common/b-button-groups/b-button-groups.vue"
-import { qualificationName } from "@v/profile/tickets/create/administrator/_britva/utils/administrator"
-import * as ticketAPI from "@/api/modules/profile/tickets/tickets"
-import { TicketType } from "@v/profile/tickets/edit/definitions/ticket"
 import { useI18n } from "vue-i18n"
 import { useRoute, useRouter } from "vue-router"
+import { useNotify } from "@/composables/notify/use-notify"
+import { useVeeForm } from "@/composables/vee-validate/use-validation"
 import { ProfileRouteName } from "@r/profile/route-names"
+import { HttpError } from "@/api"
+import * as partnerAPI from "@/api/modules/partner/partner"
+import { type UserPartners } from "@/api/modules/partner/partner"
+import * as ticketAPI from "@/api/modules/profile/tickets/tickets"
+import BButton from "@c/common/b-button/b-button.vue"
+import BButtonGroups from "@c/common/b-button-groups/b-button-groups.vue"
+import BInputTelnum from "@c/common/b-input/b-input-telnum.vue"
+import BInputText from "@c/common/b-input/b-input-text.vue"
+import BSelect from "@c/common/b-select/b-select.vue"
+import BTextarea from "@c/common/b-textarea/b-textarea.vue"
+import BFileUpload from "@c/common/b-upload-file/b-file-upload.vue"
+import PortalPage from "@c/portal/portal-page/portal-page.vue"
+import { Qualification, type TicketAdministrator } from "@v/profile/tickets/create/administrator/_britva/definitions/administrator"
+import { FormSchema } from "@v/profile/tickets/create/administrator/_britva/schemas/administrator.schema"
+import { qualificationName } from "@v/profile/tickets/create/administrator/_britva/utils/administrator"
+import { TicketType } from "@v/profile/tickets/edit/definitions/ticket"
 import {
     type TicketCategoriesItem,
     TicketCategorySlug,
 } from "@v/profile/tickets/edit/definitions/ticket-category"
-import BInputTelnum from "@c/common/b-input/b-input-telnum.vue"
-import BSelect from "@c/common/b-select/b-select.vue"
-import { messageLength } from "@v/profile/tickets/list/definitions/tickets-list"
+import { maxMessageLength } from "@v/profile/tickets/list/definitions/tickets-list"
 
 
-const notify = useNotify()
 const { t } = useI18n()
+const notify = useNotify()
 const router = useRouter()
 const route = useRoute()
 
@@ -71,26 +67,32 @@ function defaultState(): TicketAdministrator {
     }
 }
 
-const initialState = ref<TicketAdministrator>(defaultState())
-const currentState = ref<TicketAdministrator>(defaultState())
-
-const isChanged = computed(() => {
-    return !isEqual(initialState.value, currentState.value)
-})
-
-const isDisabled = computed(() => {
-    return isFirstLoading.value || isLoading.value
-})
+const isDisabled = computed(() => isFirstLoading.value || isLoading.value)
 
 const qualificationItems = Object.values(Qualification).map(value => ({
     value,
     label: qualificationName(value),
 }))
 
-/** Валидация */
-const { errors, submit, watchChanges, resetErrors } = useZodResolver<FormSchemaType>(FormSchema)
+const {
+    errors,
+    handleSubmit,
+    defineLazyField,
+    meta,
+    setErrors,
+    setFieldValue,
+} = useVeeForm<TicketAdministrator>({
+    validationSchema: FormSchema,
+    initialValues:    defaultState(),
+})
 
-watchChanges(currentState)
+const [partnerIdModel] = defineLazyField("partner_id")
+const [messageModel] = defineLazyField("message")
+const [filesModel] = defineLazyField("files")
+const [qualificationModel] = defineLazyField("attributes.qualification")
+const [nameModel] = defineLazyField("attributes.name")
+const [phoneModel] = defineLazyField("attributes.phone")
+const [experienceModel] = defineLazyField("attributes.experience")
 
 onMounted(async () => {
     isFirstLoading.value = true
@@ -111,38 +113,31 @@ onMounted(async () => {
     userPartners.value = partners
     ticketCategory.value = category.data
 
-    initialState.value.partner_id = userPartners.value.partner_id
-    initialState.value.category_id = ticketCategory.value.id
+    setFieldValue("category_id", ticketCategory.value.id)
+    setFieldValue("partner_id", userPartners.value.partner_id)
 
-    currentState.value = cloneDeep(initialState.value)
     isFirstLoading.value = false
 })
 
-async function onSave() {
-    const isValid = submit(currentState.value)
-    if (!isValid) return
-    if (!isChanged.value) return
-
-    const params = cloneDeep(currentState.value)
-    params.title = t("mc.ticket.administrator.title")
+const onSave = handleSubmit(async (formValues) => {
+    if (!meta.value.dirty) return
 
     isLoading.value = true
 
-    const resp = await ticketAPI.create(params)
+    const ticketResponse = await ticketAPI.create(formValues)
 
     isLoading.value = false
 
-    if (resp instanceof HttpError) {
+    if (ticketResponse instanceof HttpError) {
+        if (ticketResponse?.errors) setErrors(ticketResponse.errors)
         notify.error()
         return
     }
 
-    currentState.value = cloneDeep(initialState.value)
     notify.success(t("mc.ticket.notify.success"))
-    resetErrors()
-
     await router.push({ name: ProfileRouteName.ProfileTickets })
-}
+})
+
 </script>
 
 <template>
@@ -156,11 +151,11 @@ async function onSave() {
                 <div class="grid grid-reset-rows gap-x-2 gap-y-3">
                     <div class="col-6 mobile-col-12">
                         <b-select
-                            v-model="currentState.partner_id"
+                            v-model="partnerIdModel"
                             :options="userPartners.partners"
                             :is-loading="isFirstLoading"
                             :disabled="isFirstLoading"
-                            :error="errors.partner_id"
+                            :error="errors['partner_id']"
                             option-label="name"
                             option-value="partner_id"
                             :placeholder="t('mc.common.partner')"
@@ -173,7 +168,7 @@ async function onSave() {
 
                     <div class="col-12 py-x2">
                         <b-button-groups
-                            v-model="currentState.attributes.qualification"
+                            v-model="qualificationModel"
                             :items="qualificationItems"
                             :disabled="isFirstLoading"
                             name="qualification"
@@ -182,8 +177,8 @@ async function onSave() {
 
                     <div class="col-6 mobile-col-12">
                         <b-input-text
-                            v-model="currentState.attributes.name"
-                            :error="errors.attributes?.name"
+                            v-model="nameModel"
+                            :error="errors['attributes.name']"
                             :disabled="isFirstLoading"
                             :placeholder="t('mc.ticket.administrator.placeholder.name')"
                             name="name"
@@ -193,8 +188,8 @@ async function onSave() {
 
                     <div class="col-6 mobile-col-12">
                         <b-input-telnum
-                            v-model="currentState.attributes.phone"
-                            :error="errors.attributes?.phone"
+                            v-model="phoneModel"
+                            :error="errors['attributes.phone']"
                             :disabled="isFirstLoading"
                             :placeholder="t('mc.ticket.administrator.placeholder.phone')"
                             name="phone"
@@ -204,8 +199,8 @@ async function onSave() {
 
                     <div class="col-6 mobile-col-12">
                         <b-input-text
-                            v-model="currentState.attributes.experience"
-                            :error="errors.attributes?.experience"
+                            v-model="experienceModel"
+                            :error="errors['attributes.experience']"
                             :disabled="isFirstLoading"
                             :placeholder="t('mc.ticket.administrator.placeholder.experience')"
                             name="experience"
@@ -215,11 +210,11 @@ async function onSave() {
 
                     <div class="col-12 mobile-col-12">
                         <b-textarea
-                            v-model="currentState.message"
-                            :error="errors.message"
+                            v-model="messageModel"
+                            :error="errors['message']"
                             :disabled="isFirstLoading"
                             :placeholder="t('mc.ticket.administrator.placeholder.message')"
-                            :maxlength="messageLength"
+                            :maxlength="maxMessageLength"
                             name="message"
                             class="full-width"
                         />
@@ -235,8 +230,8 @@ async function onSave() {
                         </div>
 
                         <b-file-upload
-                            v-model="currentState.files"
-                            :error="errors.files"
+                            v-model="filesModel"
+                            :error="errors['files']"
                             :disabled="isFirstLoading"
                             :placeholder="t('mc.ticket.administrator.placeholder.files')"
                         />

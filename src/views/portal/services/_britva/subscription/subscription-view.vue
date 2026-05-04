@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import PortalCard from "@c/portal/portal-card/portal-card.vue"
-import BTitle from "@c/common/b-title/b-title.vue"
 import BImage from "@c/common/b-image/b-image.vue"
-import PortalUserCard from "@c/portal/portal-user-card/portal-user-card.vue"
+import BTitle from "@c/common/b-title/b-title.vue"
+import PortalCard from "@c/portal/portal-card/portal-card.vue"
 import PortalPage from "@c/portal/portal-page/portal-page.vue"
+import PortalUserCard from "@c/portal/portal-user-card/portal-user-card.vue"
 </script>
 
 <template>

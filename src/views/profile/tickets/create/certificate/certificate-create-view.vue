@@ -1,34 +1,30 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue"
-import PortalPage from "@c/portal/portal-page/portal-page.vue"
-import BInputText from "@c/common/b-input/b-input-text.vue"
-import BButton from "@c/common/b-button/b-button.vue"
-import BTextarea from "@c/common/b-textarea/b-textarea.vue"
-import BInputNumber from "@c/common/b-input/b-input-number.vue"
-import BDatePicker from "@c/common/b-date-picker/b-date-picker.vue"
-import BFileUpload from "@c/common/b-upload-file/b-file-upload.vue"
-import { useNotify } from "@/composables/notify/use-notify"
-import type { UserPartners } from "@/api/modules/partner/partner"
-import { cloneDeep, isEqual } from "lodash"
-import * as partnerAPI from "@/api/modules/partner/partner"
-import { HttpError } from "@/api"
-import { useZodResolver } from "@/composables/zod/use-zod-resolver"
-import {
-    type FormSchemaType,
-    FormSchema,
-} from "@v/profile/tickets/create/certificate/schemas/certificate.schema"
-import type { TicketCertificate } from "@v/profile/tickets/create/certificate/definitions/certificate"
-import * as ticketAPI from "@/api/modules/profile/tickets/tickets"
-import { TicketType } from "@v/profile/tickets/edit/definitions/ticket"
 import { useI18n } from "vue-i18n"
-import { ProfileRouteName } from "@r/profile/route-names"
 import { useRouter } from "vue-router"
+import { useNotify } from "@/composables/notify/use-notify"
+import { useVeeForm } from "@/composables/vee-validate/use-validation"
+import { ProfileRouteName } from "@r/profile/route-names"
+import { HttpError } from "@/api"
+import type { UserPartners } from "@/api/modules/partner/partner"
+import * as partnerAPI from "@/api/modules/partner/partner"
+import * as ticketAPI from "@/api/modules/profile/tickets/tickets"
+import BButton from "@c/common/b-button/b-button.vue"
+import BDatePicker from "@c/common/b-date-picker/b-date-picker.vue"
+import BInputNumber from "@c/common/b-input/b-input-number.vue"
+import BInputText from "@c/common/b-input/b-input-text.vue"
+import BSelect from "@c/common/b-select/b-select.vue"
+import BTextarea from "@c/common/b-textarea/b-textarea.vue"
+import BFileUpload from "@c/common/b-upload-file/b-file-upload.vue"
+import PortalPage from "@c/portal/portal-page/portal-page.vue"
+import type { TicketCertificate } from "@v/profile/tickets/create/certificate/definitions/certificate"
+import { FormSchema } from "@v/profile/tickets/create/certificate/schemas/certificate.schema"
+import { TicketType } from "@v/profile/tickets/edit/definitions/ticket"
 import {
     type TicketCategoriesItem,
     TicketCategorySlug,
 } from "@v/profile/tickets/edit/definitions/ticket-category"
-import BSelect from "@c/common/b-select/b-select.vue"
-import { messageLength } from "@v/profile/tickets/list/definitions/tickets-list"
+import { maxMessageLength } from "@v/profile/tickets/list/definitions/tickets-list"
 
 
 const notify = useNotify()
@@ -62,26 +58,27 @@ function defaultState(): TicketCertificate {
     }
 }
 
-const initialState = ref<TicketCertificate>(defaultState())
-const currentState = ref<TicketCertificate>(defaultState())
+const isDisabled = computed(() => isFirstLoading.value || isLoading.value)
 
-const isChanged = computed(() => {
-    return !isEqual(initialState.value, currentState.value)
-})
-
-const isDisabled = computed(() => {
-    return isFirstLoading.value || isLoading.value
-})
-
-/** Валидация */
 const {
     errors,
-    submit,
-    watchChanges,
-    resetErrors,
-} = useZodResolver<FormSchemaType>(FormSchema)
+    handleSubmit,
+    defineLazyField,
+    meta,
+    setErrors,
+    setFieldValue,
+} = useVeeForm<TicketCertificate>({
+    validationSchema: FormSchema,
+    initialValues:    defaultState(),
+})
 
-watchChanges(currentState)
+const [partnerIdModel] = defineLazyField("partner_id")
+const [messageModel] = defineLazyField("message")
+const [filesModel] = defineLazyField("files")
+const [codeModel] = defineLazyField("attributes.code")
+const [sumModel] = defineLazyField("attributes.sum")
+const [paymentDateModel] = defineLazyField("attributes.paymentDate")
+const [nameModel] = defineLazyField("attributes.name")
 
 onMounted(async () => {
     isFirstLoading.value = true
@@ -102,38 +99,30 @@ onMounted(async () => {
     userPartners.value = partners
     ticketCategory.value = category.data
 
-    initialState.value.partner_id = userPartners.value.partner_id
-    initialState.value.category_id = ticketCategory.value.id
-    currentState.value = cloneDeep(initialState.value)
+    setFieldValue("category_id", ticketCategory.value.id)
+    setFieldValue("partner_id", userPartners.value.partner_id)
 
     isFirstLoading.value = false
 })
 
-async function onSave() {
-    const isValid = submit(currentState.value)
-    if (!isValid) return
-    if (!isChanged.value) return
-
-    const params = cloneDeep(currentState.value)
-    params.title = t("mc.ticket.certificate.title")
+const onSave = handleSubmit(async (formValues) => {
+    if (!meta.value.dirty) return
 
     isLoading.value = true
 
-    const resp = await ticketAPI.create(params)
+    const ticketResponse = await ticketAPI.create(formValues)
 
     isLoading.value = false
 
-    if (resp instanceof HttpError) {
+    if (ticketResponse instanceof HttpError) {
+        if (ticketResponse?.errors) setErrors(ticketResponse.errors)
         notify.error()
         return
     }
 
-    currentState.value = cloneDeep(initialState.value)
     notify.success(t("mc.ticket.notify.success"))
-    resetErrors()
-
     await router.push({ name: ProfileRouteName.ProfileTickets })
-}
+})
 </script>
 
 <template>
@@ -147,11 +136,11 @@ async function onSave() {
                 <div class="grid grid-reset-rows gap-x-2 gap-y-3">
                     <div class="col-6 mobile-col-12">
                         <b-select
-                            v-model="currentState.partner_id"
+                            v-model="partnerIdModel"
                             :options="userPartners.partners"
                             :is-loading="isFirstLoading"
                             :disabled="isFirstLoading"
-                            :error="errors.partner_id"
+                            :error="errors['partner_id']"
                             option-label="name"
                             option-value="partner_id"
                             :placeholder="t('mc.common.partner')"
@@ -164,8 +153,8 @@ async function onSave() {
 
                     <div class="col-6 mobile-col-12">
                         <b-input-text
-                            v-model="currentState.attributes.code"
-                            :error="errors.attributes?.code"
+                            v-model="codeModel"
+                            :error="errors['attributes.code']"
                             :disabled="isFirstLoading"
                             :placeholder="t('mc.ticket.certificate.placeholder.code')"
                             name="code"
@@ -175,8 +164,8 @@ async function onSave() {
 
                     <div class="col-6 mobile-col-12">
                         <b-input-number
-                            v-model="currentState.attributes.sum"
-                            :error="errors.attributes?.sum"
+                            v-model="sumModel"
+                            :error="errors['attributes.sum']"
                             :disabled="isFirstLoading"
                             :placeholder="t('mc.ticket.certificate.placeholder.sum')"
                             name="sum"
@@ -186,8 +175,8 @@ async function onSave() {
 
                     <div class="col-6 mobile-col-12">
                         <b-date-picker
-                            v-model="currentState.attributes.paymentDate"
-                            :error="errors.attributes?.paymentDate"
+                            v-model="paymentDateModel"
+                            :error="errors['attributes.paymentDate']"
                             :disabled="isFirstLoading"
                             :placeholder="t('mc.ticket.certificate.placeholder.paymentDate')"
                             hour-format="24"
@@ -200,8 +189,8 @@ async function onSave() {
 
                     <div class="col-6 mobile-col-12">
                         <b-input-text
-                            v-model="currentState.attributes.name"
-                            :error="errors.attributes?.name"
+                            v-model="nameModel"
+                            :error="errors['attributes.name']"
                             :disabled="isFirstLoading"
                             :placeholder="t('mc.ticket.certificate.placeholder.name')"
                             name="name"
@@ -211,11 +200,11 @@ async function onSave() {
 
                     <div class="col-12 mobile-col-12">
                         <b-textarea
-                            v-model="currentState.message"
-                            :error="errors.message"
+                            v-model="messageModel"
+                            :error="errors['message']"
                             :disabled="isFirstLoading"
                             :placeholder="t('mc.ticket.certificate.placeholder.message')"
-                            :maxlength="messageLength"
+                            :maxlength="maxMessageLength"
                             name="message"
                             class="full-width"
                         />
@@ -223,8 +212,8 @@ async function onSave() {
 
                     <div class="col-12 mobile-col-12">
                         <b-file-upload
-                            v-model="currentState.files"
-                            :error="errors.files"
+                            v-model="filesModel"
+                            :error="errors['files']"
                             :disabled="isFirstLoading"
                             :placeholder="t('mc.ticket.certificate.placeholder.files')"
                             name="files"

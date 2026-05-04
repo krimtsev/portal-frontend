@@ -1,24 +1,32 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, ref, useTemplateRef } from "vue"
+import { useI18n } from "vue-i18n"
+import { useRoute, useRouter } from "vue-router"
+import { useNotify } from "@/composables/notify/use-notify"
+import { useVeeForm } from "@/composables/vee-validate/use-validation"
+import { dashboardPaths } from "@r/dashboard/path"
+import { DashboardRouteName } from "@r/dashboard/route-names"
+import { HttpError } from "@/api"
+import * as partnersAPI from "@/api/modules/dashboard/partners/partners"
+import * as ticketsAPI from "@/api/modules/dashboard/tickets/tickets"
+import * as ticketAPI from "@/api/modules/dashboard/tickets/tickets"
+import ChatContainer from "@c/chat/chat-container.vue"
+import ChatFiles from "@c/chat/chat-files.vue"
+import ChatMessage from "@c/chat/chat-message.vue"
+import {
+    type ChatMessageFile,
+    ChatMessageType,
+} from "@c/chat/definitions/chat-message"
 import BForm from "@c/common/b-form/b-form.vue"
 import BFormCard from "@c/common/b-form/b-form-card.vue"
 import BFormItem from "@c/common/b-form/b-form-item.vue"
-import ChatMessage from "@c/chat/chat-message.vue"
-import ChatContainer from "@c/chat/chat-container.vue"
-import ChatFiles from "@c/chat/chat-files.vue"
-import BFileUpload from "@c/common/b-upload-file/b-file-upload.vue"
 import BInputText from "@c/common/b-input/b-input-text.vue"
 import BSelect from "@c/common/b-select/b-select.vue"
 import BTextarea from "@c/common/b-textarea/b-textarea.vue"
-import { dashboardPaths } from "@r/dashboard/path"
-import { stateList } from "@v/profile/tickets/list/utils/ticket"
-import type { TicketCategoriesItem } from "@v/profile/tickets/edit/definitions/ticket-category"
+import BFileUpload from "@c/common/b-upload-file/b-file-upload.vue"
 import type { PartnerOptionItem } from "@v/dashboard/partners/list/definitions/partners"
-import * as ticketsAPI from "@/api/modules/dashboard/tickets/tickets"
-import * as partnersAPI from "@/api/modules/dashboard/partners/partners"
-import { HttpError } from "@/api"
-import { useNotify } from "@/composables/notify/use-notify"
-import { useRoute, useRouter } from "vue-router"
+import type { TicketStateData } from "@v/dashboard/tickets/edit/definitions/ticket"
+import { TicketSchema } from "@v/dashboard/tickets/edit/schemas/ticket.schema"
 import {
     type TicketDetails,
     type TicketMessage,
@@ -26,24 +34,15 @@ import {
     TicketState,
     TicketType,
 } from "@v/profile/tickets/edit/definitions/ticket"
-import type { TicketStateData } from "@v/dashboard/tickets/edit/definitions/ticket"
-import { useI18n } from "vue-i18n"
-import {
-    type ChatMessageFile,
-    ChatMessageType,
-} from "@c/chat/definitions/chat-message"
+import type { TicketCategoriesItem } from "@v/profile/tickets/edit/definitions/ticket-category"
 import {
     formatChanges,
     hasTimelineMessage,
     normalizeAttributes,
 } from "@v/profile/tickets/edit/utils/ticket"
-import * as ticketAPI from "@/api/modules/dashboard/tickets/tickets"
+import { maxMessageLength } from "@v/profile/tickets/list/definitions/tickets-list"
+import { stateList } from "@v/profile/tickets/list/utils/ticket"
 import { downloadExternalFile } from "@/lib/files"
-import { DashboardRouteName } from "@r/dashboard/route-names"
-import { useForm } from "vee-validate"
-import { useConfigValidation } from "@/composables/vee-validate/use-config-validation"
-import { TicketSchema } from "@v/dashboard/tickets/edit/schemas/ticket.schema"
-import { messageLength } from "@v/profile/tickets/list/definitions/tickets-list"
 
 const notify = useNotify()
 const route = useRoute()
@@ -87,23 +86,20 @@ const {
     errors,
     resetForm,
     handleSubmit,
-    defineField,
+    defineLazyField,
     meta,
-    submitCount,
     setErrors,
-} = useForm<TicketStateData>({
+} = useVeeForm<TicketStateData>({
     validationSchema: TicketSchema,
     initialValues:    defaultState(),
 })
 
-const dynamicConfig = useConfigValidation(submitCount)
-
-const [titleModel] = defineField("title", dynamicConfig)
-const [partnerIdModel] = defineField("partner_id", dynamicConfig)
-const [categoryIdModel] = defineField("category_id", dynamicConfig)
-const [stateModel] = defineField("state", dynamicConfig)
-const [messageModel] = defineField("message", dynamicConfig)
-const [filesModel] = defineField("files", dynamicConfig)
+const [titleModel] = defineLazyField("title")
+const [partnerIdModel] = defineLazyField("partner_id")
+const [categoryIdModel] = defineLazyField("category_id")
+const [stateModel] = defineLazyField("state")
+const [messageModel] = defineLazyField("message")
+const [filesModel] = defineLazyField("files")
 
 const chatRef = useTemplateRef<{ scrollToBottom: () => void }>("chatRef")
 
@@ -232,7 +228,7 @@ const onSave = handleSubmit(async (formValues) => {
                 <b-input-text
                     v-model="titleModel"
                     :disabled="isLoading"
-                    :error="errors.title"
+                    :error="errors['title']"
                 />
             </b-form-item>
 
@@ -244,7 +240,7 @@ const onSave = handleSubmit(async (formValues) => {
                     v-model="partnerIdModel"
                     :options="partnersList"
                     :disabled="isLoading"
-                    :error="errors.partner_id"
+                    :error="errors['partner_id']"
                     filter
                     option-label="name"
                     option-value="id"
@@ -260,7 +256,7 @@ const onSave = handleSubmit(async (formValues) => {
                     v-model="categoryIdModel"
                     :options="ticketCategoriesList"
                     :disabled="isLoading"
-                    :error="errors.category_id"
+                    :error="errors['category_id']"
                     filter
                     option-label="title"
                     option-value="id"
@@ -276,7 +272,7 @@ const onSave = handleSubmit(async (formValues) => {
                     v-model="stateModel"
                     :options="ticketStateList"
                     :disabled="isLoading"
-                    :error="errors.state"
+                    :error="errors['state']"
                     filter
                     placeholder="Выберите статус"
                 />
@@ -349,8 +345,8 @@ const onSave = handleSubmit(async (formValues) => {
                 <b-textarea
                     v-model="messageModel"
                     :disabled="isLoading"
-                    :error="errors.message"
-                    :maxlength="messageLength"
+                    :error="errors['message']"
+                    :maxlength="maxMessageLength"
                     class="message"
                     placeholder="Введите сообщение"
                 />
@@ -360,7 +356,7 @@ const onSave = handleSubmit(async (formValues) => {
                 <b-file-upload
                     v-model="filesModel"
                     :disabled="isLoading"
-                    :error="errors.files"
+                    :error="errors['files']"
                     :placeholder="t('mc.ticket.general.placeholder.files')"
                     name="files"
                     class="files"

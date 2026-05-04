@@ -20,6 +20,7 @@ export enum PortalRouteName {
     ServiceSearchStaff = "ServiceSearchStaff",
     ServiceBranchReview = "ServiceBranchReview",
     AdditionallyDiscount = "AdditionallyDiscount",
+    LocationMap = "LocationMap",
     ContactCentralOffice = "ContactCentralOffice",
     ContactFranchisee = "ContactFranchisee",
     ContactPartners = "ContactPartners",

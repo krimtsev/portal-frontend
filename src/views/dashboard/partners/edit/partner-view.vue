@@ -1,27 +1,26 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue"
+import { useI18n } from "vue-i18n"
+import { useRoute, useRouter } from "vue-router"
+import { useNotify } from "@/composables/notify/use-notify"
+import { useVeeForm } from "@/composables/vee-validate/use-validation"
 import { dashboardPaths } from "@r/dashboard/path"
 import { DashboardRouteName } from "@r/dashboard/route-names"
+import { HttpError } from "@/api"
+import * as partnerGroupsAPI from "@/api/modules/dashboard/partners/partner-groups"
+import * as partnersAPI from "@/api/modules/dashboard/partners/partners"
+import BDatePicker from "@c/common/b-date-picker/b-date-picker.vue"
 import BForm from "@c/common/b-form/b-form.vue"
 import BFormCard from "@c/common/b-form/b-form-card.vue"
 import BFormItem from "@c/common/b-form/b-form-item.vue"
 import BInputText from "@c/common/b-input/b-input-text.vue"
 import BSelect from "@c/common/b-select/b-select.vue"
-import { useNotify } from "@/composables/notify/use-notify"
-import { useRoute, useRouter } from "vue-router"
-import { useI18n } from "vue-i18n"
-import { useForm } from "vee-validate"
-import { PartnerSchema } from "@v/dashboard/partners/edit/schemas/partner.schema"
-import { useConfigValidation } from "@/composables/vee-validate/use-config-validation"
-import type { PartnerData } from "@v/dashboard/partners/edit/definitions/partner"
-import * as partnersAPI from "@/api/modules/dashboard/partners/partners"
-import * as partnerGroupsAPI from "@/api/modules/dashboard/partners/partner-groups"
-import { HttpError } from "@/api"
-import BDatePicker from "@c/common/b-date-picker/b-date-picker.vue"
 import BSelectButton from "@c/common/b-select-button/b-select-button.vue"
-import { stateList } from "@v/dashboard/partners/list/utils/partners"
 import type { PartnerGroupOptionItem } from "@v/dashboard/partner-groups/list/definitions/partner-groups"
 import PartnerTelnums from "@v/dashboard/partners/edit/components/partner-telnums.vue"
+import type { PartnerData } from "@v/dashboard/partners/edit/definitions/partner"
+import { PartnerSchema } from "@v/dashboard/partners/edit/schemas/partner.schema"
+import { stateList } from "@v/dashboard/partners/list/utils/partners"
 
 
 const notify = useNotify()
@@ -58,30 +57,27 @@ const {
     errors,
     resetForm,
     handleSubmit,
-    defineField,
+    defineLazyField,
     meta,
-    submitCount,
     setErrors,
-} = useForm<PartnerData>({
+} = useVeeForm<PartnerData>({
     validationSchema: PartnerSchema,
     initialValues:    defaultState(),
 })
 
-const dynamicConfig = useConfigValidation(submitCount)
-
-const [groupIdModel] = defineField("group_id", dynamicConfig)
-const [organizationModel] = defineField("organization", dynamicConfig)
-const [innModel] = defineField("inn", dynamicConfig)
-const [ogrnipModel] = defineField("ogrnip", dynamicConfig)
-const [nameModel] = defineField("name", dynamicConfig)
-const [contractNumberModel] = defineField("contract_number", dynamicConfig)
-const [emailModel] = defineField("email", dynamicConfig)
-const [yclientsIdModel] = defineField("yclients_id", dynamicConfig)
-const [mangoTelnumModel] = defineField("mango_telnum", dynamicConfig)
-const [addressModel] = defineField("address", dynamicConfig)
-const [startAtModel] = defineField("start_at", dynamicConfig)
-const [disabledModel] = defineField("disabled", dynamicConfig)
-const [telnumsModel] = defineField("telnums", dynamicConfig)
+const [groupIdModel] = defineLazyField("group_id")
+const [organizationModel] = defineLazyField("organization")
+const [innModel] = defineLazyField("inn")
+const [ogrnipModel] = defineLazyField("ogrnip")
+const [nameModel] = defineLazyField("name")
+const [contractNumberModel] = defineLazyField("contract_number")
+const [emailModel] = defineLazyField("email")
+const [yclientsIdModel] = defineLazyField("yclients_id")
+const [mangoTelnumModel] = defineLazyField("mango_telnum")
+const [addressModel] = defineLazyField("address")
+const [startAtModel] = defineLazyField("start_at")
+const [disabledModel] = defineLazyField("disabled")
+const [telnumsModel] = defineLazyField("telnums")
 
 onMounted(async () => {
     isFirstLoading.value = true
@@ -183,7 +179,7 @@ const onSave = handleSubmit(async (formValues) => {
                 <b-input-text
                     v-model="nameModel"
                     :disabled="isLoading"
-                    :error="errors.name"
+                    :error="errors['name']"
                 />
             </b-form-item>
 
@@ -191,7 +187,7 @@ const onSave = handleSubmit(async (formValues) => {
                 <b-input-text
                     v-model="organizationModel"
                     :disabled="isLoading"
-                    :error="errors.organization"
+                    :error="errors['organization']"
                 />
             </b-form-item>
 
@@ -199,7 +195,7 @@ const onSave = handleSubmit(async (formValues) => {
                 <b-input-text
                     v-model="contractNumberModel"
                     :disabled="isLoading"
-                    :error="errors.contract_number"
+                    :error="errors['contract_number']"
                     :maxlength="50"
                 />
             </b-form-item>
@@ -208,7 +204,7 @@ const onSave = handleSubmit(async (formValues) => {
                 <b-input-text
                     v-model="innModel"
                     :disabled="isLoading"
-                    :error="errors.inn"
+                    :error="errors['inn']"
                     :maxlength="12"
                 />
             </b-form-item>
@@ -217,7 +213,7 @@ const onSave = handleSubmit(async (formValues) => {
                 <b-input-text
                     v-model="ogrnipModel"
                     :disabled="isLoading"
-                    :error="errors.ogrnip"
+                    :error="errors['ogrnip']"
                     :maxlength="15"
                 />
             </b-form-item>
@@ -226,7 +222,7 @@ const onSave = handleSubmit(async (formValues) => {
                 <b-input-text
                     v-model="emailModel"
                     :disabled="isLoading"
-                    :error="errors.email"
+                    :error="errors['email']"
                 />
             </b-form-item>
 
@@ -234,7 +230,7 @@ const onSave = handleSubmit(async (formValues) => {
                 <b-input-text
                     v-model="addressModel"
                     :disabled="isLoading"
-                    :error="errors.address"
+                    :error="errors['address']"
                 />
             </b-form-item>
 
@@ -242,7 +238,7 @@ const onSave = handleSubmit(async (formValues) => {
                 <b-date-picker
                     v-model="startAtModel"
                     :disabled="isLoading"
-                    :error="errors.start_at"
+                    :error="errors['start_at']"
                     update-model-type="string"
                     show-button-bar
                 />
@@ -256,7 +252,7 @@ const onSave = handleSubmit(async (formValues) => {
                     v-model="disabledModel"
                     :disabled="isLoading"
                     :options="stateList"
-                    :error="errors.disabled"
+                    :error="errors['disabled']"
                     option-label="name"
                     option-value="id"
                 />
@@ -267,7 +263,7 @@ const onSave = handleSubmit(async (formValues) => {
                     v-model="groupIdModel"
                     :disabled="isLoading"
                     :options="partnerGroups"
-                    :error="errors.group_id"
+                    :error="errors['group_id']"
                     option-label="title"
                     option-value="id"
                     filter
@@ -290,7 +286,7 @@ const onSave = handleSubmit(async (formValues) => {
                 <b-input-text
                     v-model="yclientsIdModel"
                     :disabled="isLoading"
-                    :error="errors.yclients_id"
+                    :error="errors['yclients_id']"
                 />
             </b-form-item>
 
@@ -298,7 +294,7 @@ const onSave = handleSubmit(async (formValues) => {
                 <b-input-text
                     v-model="mangoTelnumModel"
                     :disabled="isLoading"
-                    :error="errors.mango_telnum"
+                    :error="errors['mango_telnum']"
                 />
             </b-form-item>
         </b-form-card>

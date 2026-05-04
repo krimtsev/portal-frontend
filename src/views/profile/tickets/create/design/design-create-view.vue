@@ -1,34 +1,30 @@
 <script setup lang="ts">
-import { onMounted, computed, ref } from "vue"
-import PortalPage from "@c/portal/portal-page/portal-page.vue"
-import BButton from "@c/common/b-button/b-button.vue"
-import BFileUpload from "@c/common/b-upload-file/b-file-upload.vue"
-import BTextarea from "@c/common/b-textarea/b-textarea.vue"
-import BInputText from "@c/common/b-input/b-input-text.vue"
-import { useNotify } from "@/composables/notify/use-notify"
-import type { UserPartners } from "@/api/modules/partner/partner"
-import { isEqual, cloneDeep } from "lodash"
-import { useZodResolver } from "@/composables/zod/use-zod-resolver"
-import * as partnerAPI from "@/api/modules/partner/partner"
-import { HttpError } from "@/api"
-import type { TicketDesign } from "@v/profile/tickets/create/design/definitions/design"
-import {
-    type FormSchemaType,
-    FormSchema,
-} from "@v/profile/tickets/create/design/schemas/design.schema"
-import BTitle from "@c/common/b-title/b-title.vue"
-import * as ticketAPI from "@/api/modules/profile/tickets/tickets"
-import { TicketType } from "@v/profile/tickets/edit/definitions/ticket"
+import { computed, onMounted, ref } from "vue"
 import { useI18n } from "vue-i18n"
 import { useRouter } from "vue-router"
+import { useNotify } from "@/composables/notify/use-notify"
+import { useVeeForm } from "@/composables/vee-validate/use-validation"
 import { ProfileRouteName } from "@r/profile/route-names"
+import { HttpError } from "@/api"
+import type { UserPartners } from "@/api/modules/partner/partner"
+import * as partnerAPI from "@/api/modules/partner/partner"
+import * as ticketAPI from "@/api/modules/profile/tickets/tickets"
+import BButton from "@c/common/b-button/b-button.vue"
+import BInputTelnum from "@c/common/b-input/b-input-telnum.vue"
+import BInputText from "@c/common/b-input/b-input-text.vue"
+import BSelect from "@c/common/b-select/b-select.vue"
+import BTextarea from "@c/common/b-textarea/b-textarea.vue"
+import BTitle from "@c/common/b-title/b-title.vue"
+import BFileUpload from "@c/common/b-upload-file/b-file-upload.vue"
+import PortalPage from "@c/portal/portal-page/portal-page.vue"
+import type { TicketDesign } from "@v/profile/tickets/create/design/definitions/design"
+import { FormSchema } from "@v/profile/tickets/create/design/schemas/design.schema"
+import { TicketType } from "@v/profile/tickets/edit/definitions/ticket"
 import {
     type TicketCategoriesItem,
     TicketCategorySlug,
 } from "@v/profile/tickets/edit/definitions/ticket-category"
-import BInputTelnum from "@c/common/b-input/b-input-telnum.vue"
-import BSelect from "@c/common/b-select/b-select.vue"
-import { messageLength, messageLengthShort } from "@v/profile/tickets/list/definitions/tickets-list"
+import { maxMessageLength, maxMessageLengthShort } from "@v/profile/tickets/list/definitions/tickets-list"
 
 
 const notify = useNotify()
@@ -68,26 +64,33 @@ function defaultState(): TicketDesign {
     }
 }
 
-const initialState = ref<TicketDesign>(defaultState())
-const currentState = ref<TicketDesign>(defaultState())
+const isDisabled = computed(() => isFirstLoading.value || isLoading.value)
 
-const isChanged = computed(() => {
-    return !isEqual(initialState.value, currentState.value)
-})
-
-const isDisabled = computed(() => {
-    return isFirstLoading.value || isLoading.value
-})
-
-/** Валидация */
 const {
     errors,
-    submit,
-    watchChanges,
-    resetErrors,
-} = useZodResolver<FormSchemaType>(FormSchema)
+    handleSubmit,
+    defineLazyField,
+    meta,
+    setErrors,
+    setFieldValue,
+} = useVeeForm<TicketDesign>({
+    validationSchema: FormSchema,
+    initialValues:    defaultState(),
+})
 
-watchChanges(currentState)
+const [partnerIdModel] = defineLazyField("partner_id")
+const [messageModel] = defineLazyField("message")
+const [filesModel] = defineLazyField("files")
+const [nameModel] = defineLazyField("attributes.name")
+const [phoneModel] = defineLazyField("attributes.phone")
+const [websiteModel] = defineLazyField("attributes.website")
+const [registrationModel] = defineLazyField("attributes.registration")
+const [yandexMapModel] = defineLazyField("attributes.yandexMap")
+const [twoGisMapModel] = defineLazyField("attributes.twoGisMap")
+const [instagramModel] = defineLazyField("attributes.instagram")
+const [telegramModel] = defineLazyField("attributes.telegram")
+const [formatModel] = defineLazyField("attributes.format")
+const [promotionModel] = defineLazyField("attributes.promotion")
 
 onMounted(async () => {
     isFirstLoading.value = true
@@ -108,38 +111,30 @@ onMounted(async () => {
     userPartners.value = partners
     ticketCategory.value = category.data
 
-    initialState.value.partner_id = userPartners.value.partner_id
-    initialState.value.category_id = ticketCategory.value.id
-    currentState.value = cloneDeep(initialState.value)
+    setFieldValue("category_id", ticketCategory.value.id)
+    setFieldValue("partner_id", userPartners.value.partner_id)
 
     isFirstLoading.value = false
 })
 
-async function onSave() {
-    const isValid = submit(currentState.value)
-    if (!isValid) return
-    if (!isChanged.value) return
-
-    const params = cloneDeep(currentState.value)
-    params.title = t("mc.ticket.design.title")
+const onSave = handleSubmit(async (formValues) => {
+    if (!meta.value.dirty) return
 
     isLoading.value = true
 
-    const resp = await ticketAPI.create(params)
+    const ticketResponse = await ticketAPI.create(formValues)
 
     isLoading.value = false
 
-    if (resp instanceof HttpError) {
+    if (ticketResponse instanceof HttpError) {
+        if (ticketResponse?.errors) setErrors(ticketResponse.errors)
         notify.error()
         return
     }
 
-    currentState.value = cloneDeep(initialState.value)
     notify.success(t("mc.ticket.notify.success"))
-    resetErrors()
-
     await router.push({ name: ProfileRouteName.ProfileTickets })
-}
+})
 </script>
 
 <template>
@@ -159,8 +154,8 @@ async function onSave() {
                 <div class="grid grid-reset-rows ">
                     <div class="col-6 mobile-col-12">
                         <b-input-text
-                            v-model="currentState.attributes.name"
-                            :error="errors.attributes?.name"
+                            v-model="nameModel"
+                            :error="errors['attributes.name']"
                             :disabled="isFirstLoading"
                             :placeholder="t('mc.ticket.design.placeholder.name')"
                             name="name"
@@ -170,8 +165,8 @@ async function onSave() {
 
                     <div class="col-6 mobile-col-12">
                         <b-input-telnum
-                            v-model="currentState.attributes.phone"
-                            :error="errors.attributes?.phone"
+                            v-model="phoneModel"
+                            :error="errors['attributes.phone']"
                             :disabled="isFirstLoading"
                             :placeholder="t('mc.ticket.design.placeholder.phone')"
                             name="phone"
@@ -189,11 +184,11 @@ async function onSave() {
                 <div class="grid grid-reset-rows gap-x-2 gap-y-3">
                     <div class="col-6 mobile-col-12">
                         <b-select
-                            v-model="currentState.partner_id"
+                            v-model="partnerIdModel"
                             :options="userPartners.partners"
                             :is-loading="isFirstLoading"
                             :disabled="isFirstLoading"
-                            :error="errors.partner_id"
+                            :error="errors['partner_id']"
                             option-label="name"
                             option-value="partner_id"
                             :placeholder="t('mc.common.partner')"
@@ -206,8 +201,8 @@ async function onSave() {
 
                     <div class="col-6 mobile-col-12">
                         <b-input-text
-                            v-model="currentState.attributes.website"
-                            :error="errors.attributes?.website"
+                            v-model="websiteModel"
+                            :error="errors['attributes.website']"
                             :disabled="isFirstLoading"
                             :placeholder="t('mc.ticket.design.placeholder.website')"
                             name="website"
@@ -217,8 +212,8 @@ async function onSave() {
 
                     <div class="col-6 mobile-col-12">
                         <b-input-text
-                            v-model="currentState.attributes.registration"
-                            :error="errors.attributes?.registration"
+                            v-model="registrationModel"
+                            :error="errors['attributes.registration']"
                             :disabled="isFirstLoading"
                             :placeholder="t('mc.ticket.design.placeholder.registration')"
                             name="registration"
@@ -228,8 +223,8 @@ async function onSave() {
 
                     <div class="col-6 mobile-col-12">
                         <b-input-text
-                            v-model="currentState.attributes.yandexMap"
-                            :error="errors.attributes?.yandexMap"
+                            v-model="yandexMapModel"
+                            :error="errors['attributes.yandexMap']"
                             :disabled="isFirstLoading"
                             :placeholder="t('mc.ticket.design.placeholder.yandexMap')"
                             name="yandexMap"
@@ -239,8 +234,8 @@ async function onSave() {
 
                     <div class="col-6 mobile-col-12">
                         <b-input-text
-                            v-model="currentState.attributes.twoGisMap"
-                            :error="errors.attributes?.twoGisMap"
+                            v-model="twoGisMapModel"
+                            :error="errors['attributes.twoGisMap']"
                             :disabled="isFirstLoading"
                             :placeholder="t('mc.ticket.design.placeholder.twoGisMap')"
                             name="twoGisMap"
@@ -250,8 +245,8 @@ async function onSave() {
 
                     <div class="col-6 mobile-col-12">
                         <b-input-text
-                            v-model="currentState.attributes.instagram"
-                            :error="errors.attributes?.instagram"
+                            v-model="instagramModel"
+                            :error="errors['attributes.instagram']"
                             :disabled="isFirstLoading"
                             :placeholder="t('mc.ticket.design.placeholder.instagram')"
                             name="instagram"
@@ -261,8 +256,8 @@ async function onSave() {
 
                     <div class="col-6 mobile-col-12">
                         <b-input-text
-                            v-model="currentState.attributes.telegram"
-                            :error="errors.attributes?.telegram"
+                            v-model="telegramModel"
+                            :error="errors['attributes.telegram']"
                             :disabled="isFirstLoading"
                             :placeholder="t('mc.ticket.design.placeholder.telegram')"
                             name="telegram"
@@ -280,11 +275,11 @@ async function onSave() {
                 <div class="grid grid-reset-rows gap-x-2 gap-y-3">
                     <div class="col-12 mobile-col-12">
                         <b-textarea
-                            v-model="currentState.attributes.format"
-                            :error="errors.attributes?.format"
+                            v-model="formatModel"
+                            :error="errors['attributes.format']"
                             :disabled="isFirstLoading"
                             :placeholder="t('mc.ticket.design.placeholder.format')"
-                            :maxlength="messageLengthShort"
+                            :maxlength="maxMessageLengthShort"
                             label="Какой формат, для чего будет использоваться, размер, цвета? Если вам необходим стартовый набор, напишите в поле “Стартовый набор”."
                             class="full-width"
                         />
@@ -292,11 +287,11 @@ async function onSave() {
 
                     <div class="col-12 mobile-col-12">
                         <b-textarea
-                            v-model="currentState.attributes.promotion"
-                            :error="errors.attributes?.promotion"
+                            v-model="promotionModel"
+                            :error="errors['attributes.promotion']"
                             :disabled="isFirstLoading"
                             :placeholder="t('mc.ticket.design.placeholder.promotion')"
-                            :maxlength="messageLengthShort"
+                            :maxlength="maxMessageLengthShort"
                             label="Промокод, срок действия, размер скидки. Если вам необходим стартовый набор, напишите в поле “Стартовый набор”."
                             class="full-width"
                         />
@@ -304,19 +299,19 @@ async function onSave() {
 
                     <div class="col-12 mobile-col-12">
                         <b-textarea
-                            v-model="currentState.message"
-                            :error="errors.message"
+                            v-model="messageModel"
+                            :error="errors['message']"
                             :disabled="isFirstLoading"
                             :placeholder="t('mc.ticket.design.placeholder.message')"
-                            :maxlength="messageLength"
+                            :maxlength="maxMessageLength"
                             class="full-width"
                         />
                     </div>
 
                     <div class="col-12 mobile-col-12">
                         <b-file-upload
-                            v-model="currentState.files"
-                            :error="errors.files"
+                            v-model="filesModel"
+                            :error="errors['files']"
                             :disabled="isFirstLoading"
                             :placeholder="t('mc.ticket.design.placeholder.files')"
                             name="files"

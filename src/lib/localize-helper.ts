@@ -1,5 +1,5 @@
-import type { Roles } from "@/shared/roles/roles"
 import i18n from "@/plugins/i18n"
+import type { Roles } from "@/shared/roles/roles"
 
 export function getRoleName(role?: Roles) {
     if (!role) return ""
