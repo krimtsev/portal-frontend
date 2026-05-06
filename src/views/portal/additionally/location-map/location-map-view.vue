@@ -1,9 +1,18 @@
 <script setup lang="ts">
-const mapIframeSrc = "https://yandex.ru/map-widget/v1/?um=constructor%3Ab29933f89d4b11dfcf30883ac87f68831dbe7d58fde61097ee34dead0fe2dd98&source=constructor&ll=37.617635%2C55.755817&z=12&scroll=false"
+import { computed } from "vue"
+
+const path = "b29933f89d4b11dfcf30883ac87f68831dbe7d58fde61097ee34dead0fe2dd98"
+
+const mapIframeSrc = computed(() => {
+    return `https://yandex.ru/map-widget/v1/?um=constructor%3A${path}&source=constructor&ll=37.617635%2C55.755817&z=12&scroll=false&controls=0`
+})
 </script>
 
 <template>
-    <div class="map-container">
+    <div
+        class="map-container"
+        @contextmenu.prevent
+    >
         <iframe
             :src="mapIframeSrc"
             width="100%"
@@ -25,6 +34,8 @@ const mapIframeSrc = "https://yandex.ru/map-widget/v1/?um=constructor%3Ab29933f8
 
     iframe {
         display: block;
+        height: calc(100% + 50px);
+        margin-bottom: -50px;
     }
 }
 </style>
