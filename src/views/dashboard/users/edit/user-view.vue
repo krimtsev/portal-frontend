@@ -286,7 +286,7 @@ const rolesList = [
 
             <b-form-item label="Примечания">
                 <b-textarea
-                    v-model="notesModel"
+                    v-model.trim="notesModel"
                     :error="errors['notes']"
                     :disabled="isLoading"
                     :maxlength="maxMessageLength"
