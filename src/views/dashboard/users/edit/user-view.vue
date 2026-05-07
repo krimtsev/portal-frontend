@@ -18,10 +18,12 @@ import BInputText from "@c/common/b-input/b-input-text.vue"
 import BSelect from "@c/common/b-select/b-select.vue"
 import BSelectButton from "@c/common/b-select-button/b-select-button.vue"
 import BSwitch from "@c/common/b-switch/b-switch.vue"
+import BTextarea from "@c/common/b-textarea/b-textarea.vue"
 import type { PartnerOptionItem } from "@v/dashboard/partners/list/definitions/partners"
 import type { UserData } from "@v/dashboard/users/edit/definitions/user"
 import { UserSchema } from "@v/dashboard/users/edit/schemas/user.schema"
 import { stateList } from "@v/dashboard/users/list/utils/users"
+import { maxMessageLength } from "@v/profile/tickets/list/definitions/tickets-list"
 import { generatePassword } from "@/lib/utils"
 import { Roles } from "@/shared/roles/roles"
 
@@ -38,6 +40,7 @@ function defaultState(): UserData {
         password:   "",
         role:       Roles.USER,
         email:      "",
+        notes:      "",
         partner_id: null,
         disabled:   false,
         access:     {
@@ -71,6 +74,7 @@ const [loginModel] = defineLazyField("login")
 const [passwordModel] = defineLazyField("password")
 const [roleModel] = defineLazyField("role")
 const [emailModel] = defineLazyField("email")
+const [notesModel] = defineLazyField("notes")
 const [partnerIdModel] = defineLazyField("partner_id")
 const [disabledModel] = defineLazyField("disabled")
 const [locationMapModel] = defineLazyField("access.location_map")
@@ -108,6 +112,7 @@ onMounted(async () => {
                 email:      user.email ?? "",
                 partner_id: user.partner?.id || null,
                 disabled:   user.disabled,
+                notes:      user.notes,
                 password:   "",
                 access:     {
                     location_map: user.access.location_map,
@@ -277,6 +282,15 @@ const rolesList = [
                         </span>
                     </template>
                 </b-select-button>
+            </b-form-item>
+
+            <b-form-item label="Примечания">
+                <b-textarea
+                    v-model="notesModel"
+                    :error="errors['notes']"
+                    :disabled="isLoading"
+                    :maxlength="maxMessageLength"
+                />
             </b-form-item>
         </b-form-card>
 

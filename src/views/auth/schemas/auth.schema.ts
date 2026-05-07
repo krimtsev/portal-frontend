@@ -8,5 +8,7 @@ export const AuthSchema = toTypedSchema(
 
         password: z.string()
             .min(1, { message: "Введите пароль." }),
+
+        remember: z.boolean(),
     }),
 )

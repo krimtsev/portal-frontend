@@ -6,6 +6,7 @@ export interface UserData {
     password:   string
     role:       Roles
     email:      string
+    notes:      string
     partner_id: number | null
     disabled:   boolean
     access:     UserAccess
@@ -28,6 +29,7 @@ export interface UserResponse {
         email:    string | null
         partner:  UserPartner | null
         disabled: boolean
+        notes:    string
         access:   UserAccess
     }
 }
