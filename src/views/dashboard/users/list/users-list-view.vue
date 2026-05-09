@@ -17,14 +17,16 @@ import BExport from "@c/common/b-export/b-export.vue"
 import BInputSearch from "@c/common/b-input-search/b-input-search.vue"
 import ListLoadingState from "@c/common/b-loading-state/list-loading-state.vue"
 import BMultiSelect from "@c/common/b-select/b-multi-select.vue"
+import BSvg from "@c/common/b-svg/b-svg.vue"
 import BTableText from "@c/common/b-table/b-table-text.vue"
 import BTextDate from "@c/common/b-text/b-text-date.vue"
 import BToolbar from "@c/common/b-toolbar/b-toolbar.vue"
 import BToolbarItem from "@c/common/b-toolbar/b-toolbar-item.vue"
 import type { PartnerOptionItem } from "@v/dashboard/partners/list/definitions/partners"
 import UserStateTag from "@v/dashboard/users/list/components/user-state-tag.vue"
-import type { UsersListItem } from "@v/dashboard/users/list/definitions/users.ts"
+import type { UsersListItem } from "@v/dashboard/users/list/definitions/users"
 import {
+    accessList,
     exportXLS,
     rolesList,
     stateList,
@@ -210,9 +212,27 @@ async function onExportXLS() {
             </b-toolbar-item>
 
             <template #more>
-                <b-toolbar-item>
+                <b-toolbar-item header="Доступы">
+                    <b-multi-select
+                        v-model="usersStore.filter.filters.access"
+                        :options="accessList"
+                        :selected-count="usersStore.filter.filters.access.length"
+                        :disabled="usersStore.isLoading"
+                        option-label="name"
+                        option-value="id"
+                        filter
+                        show-clear
+                        placeholder="Выберите доступы"
+                        class="filter-access"
+                        @hide="onChangeFilter"
+                        @clear="onChangeFilter"
+                    />
+                </b-toolbar-item>
+
+                <b-toolbar-item empty-header>
                     <b-button-secondary
                         label="Добавить сотрудника"
+                        :disabled="usersStore.isLoading"
                         @click="goToNew"
                     />
                 </b-toolbar-item>
@@ -299,6 +319,23 @@ async function onExportXLS() {
                 </prime-column>
 
                 <prime-column
+                    field="location_map"
+                    header="Карта"
+                    class="table-location-map"
+                >
+                    <template #body="{ data }">
+                        <b-svg
+                            v-if="data?.access.location_map"
+                            name="pi-check"
+                        />
+                        <b-svg
+                            v-else
+                            name="pi-minus"
+                        />
+                    </template>
+                </prime-column>
+
+                <prime-column
                     field="disabled"
                     header="Статус"
                     class="table-disabled"
@@ -345,7 +382,8 @@ async function onExportXLS() {
     .filter {
         &-partner,
         &-role,
-        &-state {
+        &-state,
+        &-access{
             @include col-width(250px);
         }
     }

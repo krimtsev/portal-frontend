@@ -17,8 +17,12 @@ interface UserPartner {
     name: string
 }
 
-interface UserAccess {
-    location_map: boolean
+export enum UserAccessType {
+    LocationMap = "location_map",
+}
+
+export interface UserAccess {
+    [UserAccessType.LocationMap]: boolean
 }
 
 export interface UserResponse {

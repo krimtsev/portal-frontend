@@ -112,7 +112,7 @@ onMounted(async () => {
                 email:      user.email ?? "",
                 partner_id: user.partner?.id || null,
                 disabled:   user.disabled,
-                notes:      user.notes,
+                notes:      user.notes ?? "",
                 password:   "",
                 access:     {
                     location_map: user.access.location_map,

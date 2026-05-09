@@ -82,6 +82,9 @@ function onToggle() {
     }
 
     &-second {
+        display: flex;
+        align-items: flex-start;
+        width: 100%;
         margin-top: $indent-x2;
     }
 }

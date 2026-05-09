@@ -1,8 +1,16 @@
 <script setup lang="ts">
-withDefaults(defineProps<{
-    header?: string
+import { computed } from "vue"
+
+const props = withDefaults(defineProps<{
+    header?:      string
+    emptyHeader?: boolean
 }>(), {
     header: "",
+})
+
+const header = computed(() => {
+    if (!props.header && !props.emptyHeader) return null
+    return props.header || "\u00A0"
 })
 </script>
 

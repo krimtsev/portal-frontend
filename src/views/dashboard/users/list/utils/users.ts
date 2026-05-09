@@ -1,10 +1,10 @@
 import ExcelJS from "exceljs"
 import { DateTime } from "luxon"
 import { downloadExternalFile } from "@/lib/files"
-import type { UsersExportData } from "@v/dashboard/users/list/definitions/users"
-
+import { type UsersExportData } from "@v/dashboard/users/list/definitions/users"
 import i18n from "@/plugins/i18n"
 import { Roles } from "@/shared/roles/roles"
+import { UserAccessType } from "@v/dashboard/users/edit/definitions/user"
 
 export const stateList: { id: boolean, name: string }[] = [
     {
@@ -29,6 +29,13 @@ export const rolesList: { id: Roles, name: string }[] = [
     {
         id:   Roles.SYSADMIN,
         name: i18n.global.t("mc.roles.sysadmin"),
+    },
+]
+
+export const accessList: { id: UserAccessType, name: string }[] = [
+    {
+        id:   UserAccessType.LocationMap,
+        name: i18n.global.t("mc.dashboard.users.access.locationMap"),
     },
 ]
 

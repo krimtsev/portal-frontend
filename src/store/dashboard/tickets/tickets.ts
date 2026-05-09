@@ -7,7 +7,7 @@ import {
     defaultPaginationPage,
     type PaginationFilter,
     type PaginationPage,
-} from "@/shared/pagination/pagination.ts"
+} from "@/shared/pagination/pagination"
 
 export const useTicketsStore = defineStore("tickets", () => {
     const isLoading = ref<boolean>(false)
