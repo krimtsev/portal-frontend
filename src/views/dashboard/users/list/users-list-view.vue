@@ -17,11 +17,11 @@ import BExport from "@c/common/b-export/b-export.vue"
 import BInputSearch from "@c/common/b-input-search/b-input-search.vue"
 import ListLoadingState from "@c/common/b-loading-state/list-loading-state.vue"
 import BMultiSelect from "@c/common/b-select/b-multi-select.vue"
-import BSvg from "@c/common/b-svg/b-svg.vue"
 import BTableText from "@c/common/b-table/b-table-text.vue"
 import BTextDate from "@c/common/b-text/b-text-date.vue"
 import BToolbar from "@c/common/b-toolbar/b-toolbar.vue"
 import BToolbarItem from "@c/common/b-toolbar/b-toolbar-item.vue"
+import StateIcon from "@c/state-icon/state-icon.vue"
 import type { PartnerOptionItem } from "@v/dashboard/partners/list/definitions/partners"
 import UserStateTag from "@v/dashboard/users/list/components/user-state-tag.vue"
 import type { UsersListItem } from "@v/dashboard/users/list/definitions/users"
@@ -324,14 +324,7 @@ async function onExportXLS() {
                     class="table-location-map"
                 >
                     <template #body="{ data }">
-                        <b-svg
-                            v-if="data?.access.location_map"
-                            name="pi-check"
-                        />
-                        <b-svg
-                            v-else
-                            name="pi-minus"
-                        />
+                        <state-icon :value="data?.access.location_map" />
                     </template>
                 </prime-column>
 
