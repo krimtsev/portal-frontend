@@ -299,6 +299,16 @@ async function onExportXLS() {
                 </prime-column>
 
                 <prime-column
+                    header="Имя"
+                    field="name"
+                    class="table-name"
+                >
+                    <template #body="{ data }">
+                        <b-table-text :text="data?.name" />
+                    </template>
+                </prime-column>
+
+                <prime-column
                     header="Филиал"
                     field="partner"
                     class="table-partner"

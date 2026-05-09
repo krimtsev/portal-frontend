@@ -9,6 +9,7 @@ interface UserPartner {
 export interface UsersListItem {
     id:            number
     login:         string
+    name:          string
     partner:       UserPartner
     role:          string
     disabled:      boolean
