@@ -130,7 +130,6 @@ const {
     defineLazyField,
     meta,
     setErrors,
-    setFieldValue,
     resetForm,
 } = useVeeForm<Ticket>({
     validationSchema: FormSchema,
@@ -194,8 +193,13 @@ const onSave = handleSubmit(async (formValues) => {
 
         ticketDetails.value = ticketResponse.data
 
-        setFieldValue("files", [])
-        setFieldValue("message", "")
+        resetForm({
+            values: {
+                ...formValues,
+                message: "",
+                files:   [],
+            },
+        })
 
         await nextTick(() => chatRef.value?.scrollToBottom())
     } finally {
