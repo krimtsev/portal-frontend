@@ -16,9 +16,9 @@ export const useTicketsStore = defineStore("tickets", () => {
         defaultPaginationFilter({
             search:  "",
             filters: {
-                category_id: [],
-                partner_id:  [],
-                state:       [],
+                department: [],
+                partner_id: [],
+                state:      [],
             },
         }),
     )

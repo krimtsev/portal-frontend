@@ -7,6 +7,7 @@ import {
     PartnerIdSchema,
     RequiredMessageSchema,
 } from "@v/profile/tickets/schemas/ticket.schema"
+import { DepartmentType } from "@/shared/department/department"
 
 export const FormSchema = toTypedSchema(
     z.object({
@@ -19,7 +20,7 @@ export const FormSchema = toTypedSchema(
             .max(maxTitleLength, { message: `Максимальная длина ${maxTitleLength} символов` })
             .nonempty(),
 
-        category_id: z.number({ message: "Выберите отдел" }),
+        department: z.nativeEnum(DepartmentType, { message: "Выберите отдел" }),
 
         type: z.enum(TicketType),
     }),

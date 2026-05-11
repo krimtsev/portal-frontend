@@ -20,11 +20,8 @@ import PortalPage from "@c/portal/portal-page/portal-page.vue"
 import type { TicketCertificate } from "@v/profile/tickets/create/certificate/definitions/certificate"
 import { FormSchema } from "@v/profile/tickets/create/certificate/schemas/certificate.schema"
 import { TicketType } from "@v/profile/tickets/edit/definitions/ticket"
-import {
-    type TicketCategoriesItem,
-    TicketCategorySlug,
-} from "@v/profile/tickets/edit/definitions/ticket-category"
 import { maxMessageLength } from "@v/profile/tickets/list/definitions/tickets-list"
+import { DepartmentType } from "@/shared/department/department"
 
 
 const notify = useNotify()
@@ -39,17 +36,15 @@ const userPartners = ref<UserPartners>({
     partners:   [],
 })
 
-const ticketCategory = ref<TicketCategoriesItem>()
-
 function defaultState(): TicketCertificate {
     return {
-        title:       t("mc.ticket.certificate.title"),
-        type:        TicketType.Certificate,
-        partner_id:  null,
-        category_id: null,
-        message:     "",
-        files:       [],
-        attributes:  {
+        title:      t("mc.ticket.certificate.title"),
+        type:       TicketType.Certificate,
+        partner_id: null,
+        department: DepartmentType.ACCOUNTING,
+        message:    "",
+        files:      [],
+        attributes: {
             code:        "",
             sum:         null,
             paymentDate: null,
@@ -83,23 +78,17 @@ const [nameModel] = defineLazyField("attributes.name")
 onMounted(async () => {
     isFirstLoading.value = true
 
-    const [partners, category] = await Promise.all([
+    const [partners] = await Promise.all([
         partnerAPI.userPartners(),
-        ticketAPI.category(TicketCategorySlug.ACCOUNTING),
     ])
 
-    if (
-        partners instanceof HttpError ||
-        category instanceof HttpError
-    ) {
+    if (partners instanceof HttpError) {
         notify.error()
         return
     }
 
     userPartners.value = partners
-    ticketCategory.value = category.data
 
-    setFieldValue("category_id", ticketCategory.value.id)
     setFieldValue("partner_id", userPartners.value.partner_id)
 
     isFirstLoading.value = false

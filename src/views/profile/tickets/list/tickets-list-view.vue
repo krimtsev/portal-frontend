@@ -15,8 +15,8 @@ import BEmptyResult from "@c/common/b-empty/b-empty-result.vue"
 import BSkeleton from "@c/common/b-skeleton/b-skeleton.vue"
 import BTableText from "@c/common/b-table/b-table-text.vue"
 import PortalPage from "@c/portal/portal-page/portal-page.vue"
+import { departmentName, departmentsList } from "@v/dashboard/users/list/utils/users"
 import { TicketState, TicketType } from "@v/profile/tickets/edit/definitions/ticket"
-import type { TicketCategoriesItem } from "@v/profile/tickets/edit/definitions/ticket-category"
 import TicketStateBadge from "@v/profile/tickets/list/components/ticket-state-badge.vue"
 import type { TicketListItem } from "@v/profile/tickets/list/definitions/tickets-list"
 import { defaultPaginationFilter, defaultPaginationPage } from "@/shared/pagination/pagination"
@@ -30,10 +30,9 @@ const isFirstLoading = ref(true)
 const isLoading = ref(true)
 
 const tickets = ref<TicketListItem[]>([])
-const categories = ref<TicketCategoriesItem[]>([])
 const paginationFilter = ref(defaultPaginationFilter({
     filters: {
-        category_id: [],
+        department: [],
     },
 }))
 const paginationPage = ref(defaultPaginationPage({
@@ -48,13 +47,13 @@ onMounted(() => {
 
 const setInitialData = () => {
     tickets.value = new Array(paginationPage.value.perPage).fill({
-        id:       0,
-        title:    "",
-        type:     TicketType.General,
-        category: null,
-        partner:  null,
-        user:     null,
-        state:    TicketState.New,
+        id:         0,
+        title:      "",
+        type:       TicketType.General,
+        department: null,
+        partner:    null,
+        user:       null,
+        state:      TicketState.New,
     })
 }
 
@@ -64,26 +63,17 @@ async function getData() {
 
     const [
         ticketData,
-        ticketCategoriesData,
     ] = await Promise.all([
         ticketsAPI.list(paginationFilter.value),
-        isFirstLoading.value ? ticketsAPI.categories() : null,
     ])
 
-    if (
-        ticketData instanceof HttpError ||
-        ticketCategoriesData instanceof HttpError
-    ) {
+    if (ticketData instanceof HttpError) {
         notify.error()
         return false
     }
 
     tickets.value = ticketData.list
     paginationPage.value = ticketData.page
-
-    if (ticketCategoriesData) {
-        categories.value = ticketCategoriesData.list
-    }
 
     isLoading.value = false
     isFirstLoading.value = false
@@ -160,20 +150,20 @@ const goTo = (id: string) => router.push({ name: ProfileRouteName.ProfileTicket,
         <div class="filter">
             <prime-float-label variant="on">
                 <prime-multi-select
-                    v-model="paginationFilter.filters.category_id"
-                    :options="categories"
+                    v-model="paginationFilter.filters.department"
+                    :options="departmentsList"
                     filter
                     :disabled="isDisabled"
                     :max-selected-labels="1"
-                    option-label="title"
+                    option-label="name"
                     option-value="id"
-                    class="filter-category"
+                    class="filter-department"
                     selected-items-label="{0} выбрано"
                     append-to="self"
-                    input-id="category"
+                    input-id="department"
                     @hide="onChangeFilter"
                 />
-                <label for="category">Отдел</label>
+                <label for="department">Отдел</label>
             </prime-float-label>
         </div>
 
@@ -235,15 +225,15 @@ const goTo = (id: string) => router.push({ name: ProfileRouteName.ProfileTicket,
 
                 <prime-column
                     header="Отдел"
-                    field="category"
-                    class="table-category"
+                    field="department"
+                    class="table-department"
                 >
                     <template #body="{ data }">
                         <b-skeleton
                             :is-loading="isLoading"
                             full-width
                         >
-                            <b-table-text :text="data?.category?.title" />
+                            <b-table-text :text="departmentName(data?.department)" />
                         </b-skeleton>
                     </template>
                 </prime-column>
@@ -305,7 +295,7 @@ const goTo = (id: string) => router.push({ name: ProfileRouteName.ProfileTicket,
     .filter {
         margin-bottom: $indent-x2;
 
-        &-category {
+        &-department {
             @include col-width(250px);
         }
     }
@@ -328,7 +318,7 @@ const goTo = (id: string) => router.push({ name: ProfileRouteName.ProfileTicket,
             }
 
             &-partner,
-            &-category {
+            &-department {
                 @include col-fixed(250px);
             }
         }

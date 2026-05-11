@@ -8,7 +8,6 @@ import { ProfileRouteName } from "@r/profile/route-names"
 import { HttpError } from "@/api"
 import type { UserPartners } from "@/api/modules/partner/partner"
 import * as partnerAPI from "@/api/modules/partner/partner"
-import * as ticketsAPI from "@/api/modules/profile/tickets/tickets"
 import * as ticketAPI from "@/api/modules/profile/tickets/tickets"
 import BButton from "@c/common/b-button/b-button.vue"
 import BInputText from "@c/common/b-input/b-input-text.vue"
@@ -16,10 +15,10 @@ import BSelect from "@c/common/b-select/b-select.vue"
 import BTextarea from "@c/common/b-textarea/b-textarea.vue"
 import BFileUpload from "@c/common/b-upload-file/b-file-upload.vue"
 import PortalPage from "@c/portal/portal-page/portal-page.vue"
+import { departmentsList } from "@v/dashboard/users/list/utils/users"
 import type { TicketGeneral } from "@v/profile/tickets/create/general/definitions/general"
 import { FormSchema } from "@v/profile/tickets/create/general/schemas/general.schema"
 import { TicketType } from "@v/profile/tickets/edit/definitions/ticket"
-import type { TicketCategoriesItem } from "@v/profile/tickets/edit/definitions/ticket-category"
 import { maxMessageLength } from "@v/profile/tickets/list/definitions/tickets-list"
 
 
@@ -36,16 +35,14 @@ const userPartners = ref<UserPartners>({
     partners:   [],
 })
 
-const ticketCategories = ref<TicketCategoriesItem[]>([])
-
 function defaultState(): TicketGeneral {
     return {
-        title:       "",
-        type:        TicketType.General,
-        message:     "",
-        partner_id:  null,
-        category_id: null,
-        files:       [],
+        title:      "",
+        type:       TicketType.General,
+        message:    "",
+        partner_id: null,
+        department: null,
+        files:      [],
     }
 }
 
@@ -64,7 +61,7 @@ const {
 })
 
 const [partnerIdModel] = defineLazyField("partner_id")
-const [categoryIdModel] = defineLazyField("category_id")
+const [departmentModel] = defineLazyField("department")
 const [messageModel] = defineLazyField("message")
 const [titleModel] = defineLazyField("title")
 const [filesModel] = defineLazyField("files")
@@ -72,23 +69,17 @@ const [filesModel] = defineLazyField("files")
 onMounted(async () => {
     isFirstLoading.value = true
 
-    const [partners, categories] = await Promise.all([
+    const [partners] = await Promise.all([
         partnerAPI.userPartners(),
-        ticketsAPI.categories(),
     ])
 
-    if (
-        partners instanceof HttpError ||
-        categories instanceof HttpError
-    ) {
+    if (partners instanceof HttpError) {
         notify.error()
         return
     }
 
     userPartners.value = partners
-    ticketCategories.value = categories.list
 
-    setFieldValue("category_id", ticketCategories.value[0].id)
     setFieldValue("partner_id", userPartners.value.partner_id)
 
     isFirstLoading.value = false
@@ -133,7 +124,6 @@ const onSave = handleSubmit(async (formValues) => {
                             option-label="name"
                             option-value="partner_id"
                             :placeholder="t('mc.common.partner')"
-                            name="partner_id"
                             class="full-width"
                         />
                     </div>
@@ -146,26 +136,22 @@ const onSave = handleSubmit(async (formValues) => {
                             :error="errors['title']"
                             :disabled="isFirstLoading"
                             :placeholder="t('mc.ticket.general.placeholder.title')"
-                            name="title"
                             class="full-width"
                         />
                     </div>
 
                     <div class="col-6 mobile-col-12">
                         <b-select
-                            v-model="categoryIdModel"
-                            :error="errors['category_id']"
-                            :options="ticketCategories"
-                            :is-loading="isFirstLoading"
+                            v-model="departmentModel"
+                            :error="errors['department']"
+                            :options="departmentsList"
                             :disabled="isFirstLoading"
-                            option-label="title"
+                            option-label="name"
                             option-value="id"
-                            :placeholder="t('mc.ticket.category')"
-                            name="category_id"
+                            :placeholder="t('mc.ticket.department')"
                             class="full-width"
                         />
                     </div>
-
 
                     <div class="col-12 mobile-col-12">
                         <b-textarea
@@ -174,7 +160,6 @@ const onSave = handleSubmit(async (formValues) => {
                             :disabled="isFirstLoading"
                             :placeholder="t('mc.ticket.general.placeholder.message')"
                             :maxlength="maxMessageLength"
-                            name="message"
                             class="full-width"
                         />
                     </div>

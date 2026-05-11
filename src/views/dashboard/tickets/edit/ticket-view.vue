@@ -27,6 +27,7 @@ import BFileUpload from "@c/common/b-upload-file/b-file-upload.vue"
 import type { PartnerOptionItem } from "@v/dashboard/partners/list/definitions/partners"
 import type { TicketStateData } from "@v/dashboard/tickets/edit/definitions/ticket"
 import { TicketSchema } from "@v/dashboard/tickets/edit/schemas/ticket.schema"
+import { departmentsList } from "@v/dashboard/users/list/utils/users"
 import {
     type TicketDetails,
     type TicketMessage,
@@ -34,7 +35,6 @@ import {
     TicketState,
     TicketType,
 } from "@v/profile/tickets/edit/definitions/ticket"
-import type { TicketCategoriesItem } from "@v/profile/tickets/edit/definitions/ticket-category"
 import {
     formatChanges,
     hasTimelineMessage,
@@ -51,20 +51,20 @@ const { t } = useI18n()
 
 function defaultState(): TicketStateData {
     return {
-        title:       "",
-        type:        TicketType.General,
-        partner_id:  null,
-        category_id: null,
-        message:     "",
-        files:       [],
-        state:       TicketState.New,
+        title:      "",
+        type:       TicketType.General,
+        partner_id: null,
+        department: null,
+        message:    "",
+        files:      [],
+        state:      TicketState.New,
     }
 }
 
 const ticketDetails = ref<TicketDetails>({
     title:      "",
     type:       TicketType.General,
-    category:   null,
+    department: null,
     partner:    null,
     user:       null,
     state:      TicketState.New,
@@ -77,7 +77,6 @@ const isLoading = ref(false)
 const isLoadingFile = ref(false)
 
 const ticketStateList = stateList()
-const ticketCategoriesList = ref<TicketCategoriesItem[]>([])
 const partnersList = ref<PartnerOptionItem[]>([])
 
 const ticketId = computed(() => route.params.id as string)
@@ -96,7 +95,7 @@ const {
 
 const [titleModel] = defineLazyField("title")
 const [partnerIdModel] = defineLazyField("partner_id")
-const [categoryIdModel] = defineLazyField("category_id")
+const [departmentModel] = defineLazyField("department")
 const [stateModel] = defineLazyField("state")
 const [messageModel] = defineLazyField("message")
 const [filesModel] = defineLazyField("files")
@@ -110,17 +109,14 @@ onMounted(async () => {
 
     const [
         ticketData,
-        categoriesData,
         partnersData,
     ] = await Promise.all([
         ticketsAPI.get(id),
-        ticketsAPI.categories(),
         partnersAPI.options(),
     ])
 
     if (
         ticketData instanceof HttpError ||
-        categoriesData instanceof HttpError ||
         partnersData instanceof HttpError
     ) {
         notify.error()
@@ -128,20 +124,19 @@ onMounted(async () => {
         return
     }
 
-    ticketCategoriesList.value = categoriesData.list
     partnersList.value = partnersData.list
 
     ticketDetails.value = ticketData.data
 
     resetForm({
         values: {
-            title:       ticketDetails.value.title,
-            partner_id:  ticketDetails.value.partner?.id || null,
-            category_id: ticketDetails.value.category?.id || null,
-            type:        ticketDetails.value.type || TicketType.General,
-            state:       ticketDetails.value.state,
-            message:     "",
-            files:       [],
+            title:      ticketDetails.value.title,
+            partner_id: ticketDetails.value.partner?.id || null,
+            department: ticketDetails.value.department || null,
+            type:       ticketDetails.value.type || TicketType.General,
+            state:      ticketDetails.value.state,
+            message:    "",
+            files:      [],
         },
     })
 
@@ -204,8 +199,13 @@ const onSave = handleSubmit(async (formValues) => {
 
     ticketDetails.value = ticketResponse.data
 
-    filesModel.value = []
-    messageModel.value = ""
+    resetForm({
+        values: {
+            ...formValues,
+            message: "",
+            files:   [],
+        },
+    })
 
     await nextTick(() => chatRef.value?.scrollToBottom())
 })
@@ -253,12 +253,12 @@ const onSave = handleSubmit(async (formValues) => {
                 required
             >
                 <b-select
-                    v-model="categoryIdModel"
-                    :options="ticketCategoriesList"
+                    v-model="departmentModel"
+                    :options="departmentsList"
                     :disabled="isLoading"
-                    :error="errors['category_id']"
+                    :error="errors['department']"
                     filter
-                    option-label="title"
+                    option-label="name"
                     option-value="id"
                     placeholder="Выберите отдел"
                 />

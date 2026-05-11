@@ -5,6 +5,7 @@ import { type UsersExportData } from "@v/dashboard/users/list/definitions/users"
 import i18n from "@/plugins/i18n"
 import { Roles } from "@/shared/roles/roles"
 import { UserAccessType } from "@v/dashboard/users/edit/definitions/user"
+import { DepartmentType } from "@/shared/department/department"
 
 export const stateList: { id: boolean, name: string }[] = [
     {
@@ -83,4 +84,25 @@ export async function exportXLS(users: UsersExportData[]) {
     })
 
     downloadExternalFile(blob, `Пользователи - ${date}.xlsx`)
+}
+
+export const departmentNames: Record<DepartmentType, string> = {
+    [DepartmentType.FRANCHISE]:         i18n.global.t("mc.department.franchise"),
+    [DepartmentType.BUILD]:             i18n.global.t("mc.department.build"),
+    [DepartmentType.MARKETING]:         i18n.global.t("mc.department.marketing"),
+    [DepartmentType.NETWORK_ADMIN]:     i18n.global.t("mc.department.network_admin"),
+    [DepartmentType.NETWORK_BARBERING]: i18n.global.t("mc.department.network_barbering"),
+    [DepartmentType.COMMUNITY]:         i18n.global.t("mc.department.community"),
+    [DepartmentType.OFFICE_MANAGER]:    i18n.global.t("mc.department.office_manager"),
+    [DepartmentType.IT_DEPARTMENT]:     i18n.global.t("mc.department.it_department"),
+    [DepartmentType.ACCOUNTING]:        i18n.global.t("mc.department.accounting"),
+}
+
+export const departmentsList = Object.entries(departmentNames)
+    .map(([id, name]) => ({ id, name }))
+    .sort((a, b) => a.name.localeCompare(b.name))
+
+export const departmentName = (key?: string | null) => {
+    if (!key) return ""
+    return departmentNames[key as DepartmentType] || key
 }

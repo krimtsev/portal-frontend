@@ -15,6 +15,7 @@ import BFormCard from "@c/common/b-form/b-form-card.vue"
 import BFormItem from "@c/common/b-form/b-form-item.vue"
 import BInputPassword from "@c/common/b-input/b-input-password.vue"
 import BInputText from "@c/common/b-input/b-input-text.vue"
+import BMultiSelect from "@c/common/b-select/b-multi-select.vue"
 import BSelect from "@c/common/b-select/b-select.vue"
 import BSelectButton from "@c/common/b-select-button/b-select-button.vue"
 import BSwitch from "@c/common/b-switch/b-switch.vue"
@@ -22,7 +23,7 @@ import BTextarea from "@c/common/b-textarea/b-textarea.vue"
 import type { PartnerOptionItem } from "@v/dashboard/partners/list/definitions/partners"
 import type { UserData } from "@v/dashboard/users/edit/definitions/user"
 import { UserSchema } from "@v/dashboard/users/edit/schemas/user.schema"
-import { stateList } from "@v/dashboard/users/list/utils/users"
+import { departmentsList, stateList } from "@v/dashboard/users/list/utils/users"
 import { maxMessageLength } from "@v/profile/tickets/list/definitions/tickets-list"
 import { generatePassword } from "@/lib/utils"
 import { Roles } from "@/shared/roles/roles"
@@ -35,15 +36,16 @@ const { t } = useI18n()
 
 function defaultState(): UserData {
     return {
-        name:       "",
-        login:      "",
-        password:   "",
-        role:       Roles.USER,
-        email:      "",
-        notes:      "",
-        partner_id: null,
-        disabled:   false,
-        access:     {
+        name:        "",
+        login:       "",
+        password:    "",
+        role:        Roles.USER,
+        email:       "",
+        notes:       "",
+        partner_id:  null,
+        departments: [],
+        disabled:    false,
+        access:      {
             location_map: false,
         },
     }
@@ -76,6 +78,7 @@ const [roleModel] = defineLazyField("role")
 const [emailModel] = defineLazyField("email")
 const [notesModel] = defineLazyField("notes")
 const [partnerIdModel] = defineLazyField("partner_id")
+const [departmentsModel] = defineLazyField("departments")
 const [disabledModel] = defineLazyField("disabled")
 const [locationMapModel] = defineLazyField("access.location_map")
 
@@ -106,15 +109,16 @@ onMounted(async () => {
         const user = userData.data
         resetForm({
             values: {
-                name:       user.name,
-                login:      user.login,
-                role:       user.role,
-                email:      user.email ?? "",
-                partner_id: user.partner?.id || null,
-                disabled:   user.disabled,
-                notes:      user.notes ?? "",
-                password:   "",
-                access:     {
+                name:        user.name,
+                login:       user.login,
+                role:        user.role,
+                email:       user.email ?? "",
+                partner_id:  user.partner?.id || null,
+                departments: user.departments || [],
+                disabled:    user.disabled,
+                notes:       user.notes ?? "",
+                password:    "",
+                access:      {
                     location_map: user.access.location_map,
                 },
             },
@@ -258,6 +262,19 @@ const rolesList = [
                     :disabled="isLoading"
                     :options="partners"
                     :error="errors['partner_id']"
+                    option-label="name"
+                    option-value="id"
+                    filter
+                    show-clear
+                />
+            </b-form-item>
+
+            <b-form-item label="Отдел">
+                <b-multi-select
+                    v-model="departmentsModel"
+                    :disabled="isLoading"
+                    :options="departmentsList"
+                    :error="errors['departments']"
                     option-label="name"
                     option-value="id"
                     filter

@@ -1,7 +1,7 @@
 export interface TicketsExportData {
     id:         number
     title:      string
-    category:   string
+    department: string
     state:      string
     created_at: string
 }

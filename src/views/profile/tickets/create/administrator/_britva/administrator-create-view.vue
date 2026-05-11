@@ -21,11 +21,8 @@ import { Qualification, type TicketAdministrator } from "@v/profile/tickets/crea
 import { FormSchema } from "@v/profile/tickets/create/administrator/_britva/schemas/administrator.schema"
 import { qualificationName } from "@v/profile/tickets/create/administrator/_britva/utils/administrator"
 import { TicketType } from "@v/profile/tickets/edit/definitions/ticket"
-import {
-    type TicketCategoriesItem,
-    TicketCategorySlug,
-} from "@v/profile/tickets/edit/definitions/ticket-category"
 import { maxMessageLength } from "@v/profile/tickets/list/definitions/tickets-list"
+import { DepartmentType } from "@/shared/department/department"
 
 
 const { t } = useI18n()
@@ -41,8 +38,6 @@ const userPartners = ref<UserPartners>({
     partners:   [],
 })
 
-const ticketCategory = ref<TicketCategoriesItem>()
-
 function defaultState(): TicketAdministrator {
     const queryQualification = route.query.qualification as string | undefined
 
@@ -52,13 +47,13 @@ function defaultState(): TicketAdministrator {
             : Qualification.Senior
 
     return {
-        title:       t("mc.ticket.administrator.title"),
-        type:        TicketType.Administrator,
-        partner_id:  null,
-        category_id: null,
-        message:     "",
-        files:       [],
-        attributes:  {
+        title:      t("mc.ticket.administrator.title"),
+        type:       TicketType.Administrator,
+        partner_id: null,
+        department: DepartmentType.FRANCHISE,
+        message:    "",
+        files:      [],
+        attributes: {
             qualification,
             name:       "",
             phone:      "",
@@ -97,23 +92,17 @@ const [experienceModel] = defineLazyField("attributes.experience")
 onMounted(async () => {
     isFirstLoading.value = true
 
-    const [partners, category] = await Promise.all([
+    const [partners] = await Promise.all([
         partnerAPI.userPartners(),
-        ticketAPI.category(TicketCategorySlug.FRANCHISE),
     ])
 
-    if (
-        partners instanceof HttpError ||
-        category instanceof HttpError
-    ) {
+    if (partners instanceof HttpError) {
         notify.error()
         return
     }
 
     userPartners.value = partners
-    ticketCategory.value = category.data
 
-    setFieldValue("category_id", ticketCategory.value.id)
     setFieldValue("partner_id", userPartners.value.partner_id)
 
     isFirstLoading.value = false

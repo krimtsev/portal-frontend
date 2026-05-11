@@ -7,7 +7,6 @@ import type {
     PartnerOptionsResponse,
     PartnersExportData,
 } from "@v/dashboard/partners/list/definitions/partners"
-
 import { http } from "@/api"
 import type {
     Pagination,

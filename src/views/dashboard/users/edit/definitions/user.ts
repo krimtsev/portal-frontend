@@ -1,15 +1,17 @@
 import { Roles } from "@/shared/roles/roles"
+import type { DepartmentType } from "@/shared/department/department"
 
 export interface UserData {
-    name:       string
-    login:      string
-    password:   string
-    role:       Roles
-    email:      string
-    notes:      string
-    partner_id: number | null
-    disabled:   boolean
-    access:     UserAccess
+    name:        string
+    login:       string
+    password:    string
+    role:        Roles
+    email:       string
+    notes:       string
+    partner_id:  number | null
+    departments: DepartmentType[]
+    disabled:    boolean
+    access:      UserAccess
 }
 
 interface UserPartner {
@@ -27,13 +29,14 @@ export interface UserAccess {
 
 export interface UserResponse {
     data: {
-        name:     string
-        login:    string
-        role:     Roles
-        email:    string | null
-        partner:  UserPartner | null
-        disabled: boolean
-        notes:    string
-        access:   UserAccess
+        name:        string
+        login:       string
+        role:        Roles
+        email:       string | null
+        partner:     UserPartner | null
+        departments: DepartmentType[]
+        disabled:    boolean
+        notes:       string
+        access:      UserAccess
     }
 }

@@ -93,7 +93,7 @@
             "empty": "Сообщения отсутствуют"
         },
         "ticket": {
-            "category": "Отдел",
+            "department": "Отдел",
             "notify": {
                 "success": "Заявка успешно отправлена"
             },
@@ -188,6 +188,17 @@
                     "qualification": "Специализация"
                 }
             }
+        },
+        "department": {
+            "it_department": "IT-отдел",
+            "network_admin": "Администарторы сети",
+            "network_barbering": "Барберинг сети",
+            "accounting": "Бухгалтерия",
+            "community": "Комьюнитизация",
+            "marketing": "Маркетинг",
+            "office_manager": "Офис-менеджер",
+            "franchise": "Сопровожение франшизы",
+            "build": "Строительство"
         },
         "dashboard": {
             "sidebar": {

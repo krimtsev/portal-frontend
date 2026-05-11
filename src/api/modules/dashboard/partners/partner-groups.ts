@@ -6,7 +6,6 @@ import type {
     PartnerGroupOptionsResponse,
     PartnerGroupsListItem,
 } from "@v/dashboard/partner-groups/list/definitions/partner-groups"
-
 import { http } from "@/api"
 import type { Pagination, PaginationFilter } from "@/shared/pagination/pagination"
 

@@ -2,6 +2,7 @@ import * as z from "zod"
 import { toTypedSchema } from "@vee-validate/zod"
 import { Roles } from "@/shared/roles/roles"
 import { maxMessageLength } from "@v/profile/tickets/list/definitions/tickets-list"
+import { DepartmentType } from "@/shared/department/department"
 
 const passwordSchema = z.string().min(8, { message: "Минимум 8 символов" })
 
@@ -20,7 +21,7 @@ export const UserSchema = (isNew: boolean) => toTypedSchema(
             ? passwordSchema
             : passwordSchema.or(z.literal("")),
 
-        role: z.nativeEnum(Roles, { message: "Выберите роль" }),
+        role: z.enum(Roles, { message: "Выберите роль" }),
 
         email: z.string()
             .email({ message: "Неверный формат" })
@@ -32,6 +33,10 @@ export const UserSchema = (isNew: boolean) => toTypedSchema(
 
         partner_id: z.number()
             .nullable(),
+
+        departments: z.array(z.enum(DepartmentType))
+            .optional()
+            .catch([]),
 
         disabled: z.boolean(),
 

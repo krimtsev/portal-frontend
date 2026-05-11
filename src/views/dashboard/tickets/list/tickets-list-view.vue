@@ -21,7 +21,7 @@ import BToolbar from "@c/common/b-toolbar/b-toolbar.vue"
 import BToolbarItem from "@c/common/b-toolbar/b-toolbar-item.vue"
 import type { PartnerOptionItem } from "@v/dashboard/partners/list/definitions/partners"
 import { exportXLS } from "@v/dashboard/tickets/list/utils/tickets"
-import { type TicketCategoriesItem } from "@v/profile/tickets/edit/definitions/ticket-category"
+import { departmentName, departmentsList } from "@v/dashboard/users/list/utils/users"
 import { checkActiveState } from "@v/profile/tickets/edit/utils/ticket"
 import TicketStateBadge from "@v/profile/tickets/list/components/ticket-state-badge.vue"
 import type { TicketListItem } from "@v/profile/tickets/list/definitions/tickets-list"
@@ -35,7 +35,6 @@ const ticketsStore = useTicketsStore()
 
 const ticketStateList = stateList()
 const tickets = ref<TicketListItem[]>([])
-const categories = ref<TicketCategoriesItem[]>([])
 const partners = ref<PartnerOptionItem[]>([])
 const isExporting = ref(false)
 
@@ -70,17 +69,14 @@ onMounted(async () => {
 
     const [
         ticketsData,
-        categoriesData,
         partnersData,
     ] = await Promise.all([
         ticketsAPI.list(ticketsStore.filter),
-        ticketsAPI.categories(),
         partnersAPI.options(),
     ])
 
     if (
         ticketsData instanceof HttpError ||
-        categoriesData instanceof HttpError ||
         partnersData instanceof HttpError
     ) {
         notify.error()
@@ -88,7 +84,6 @@ onMounted(async () => {
     }
 
     tickets.value = ticketsData.list
-    categories.value = categoriesData.list
     partners.value = partnersData.list
 
     ticketsStore.setPagination(ticketsData.page)
@@ -157,17 +152,17 @@ async function onExportXLS() {
         <b-toolbar no-paddings>
             <b-toolbar-item header="Отдел">
                 <b-multi-select
-                    v-model="ticketsStore.filter.filters.category_id"
-                    :options="categories"
-                    :selected-items-label="t('mc.select.elements', ticketsStore.filter.filters.category_id.length)"
+                    v-model="ticketsStore.filter.filters.department"
+                    :options="departmentsList"
+                    :selected-items-label="t('mc.select.elements', ticketsStore.filter.filters.department.length)"
                     :max-selected-labels="1"
                     :disabled="ticketsStore.isLoading"
-                    option-label="title"
+                    option-label="name"
                     option-value="id"
                     filter
                     show-clear
                     placeholder="Выберите отдел"
-                    class="filter-categories"
+                    class="filter-department"
                     @hide="onChangeFilter"
                     @clear="onChangeFilter"
                 />
@@ -281,11 +276,11 @@ async function onExportXLS() {
 
                 <prime-column
                     header="Отдел"
-                    field="category"
-                    class="table-category"
+                    field="department"
+                    class="table-department"
                 >
                     <template #body="{ data }">
-                        <b-table-text :text="data?.category?.title" />
+                        <b-table-text :text="departmentName(data?.department)" />
                     </template>
                 </prime-column>
 
@@ -363,7 +358,7 @@ async function onExportXLS() {
     }
 
     .filter {
-        &-categories,
+        &-department,
         &-partner,
         &-state {
             @include col-width(250px);

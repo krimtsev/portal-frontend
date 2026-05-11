@@ -10,11 +10,12 @@ import {
 import { stateName } from "@v/profile/tickets/list/utils/ticket"
 
 import i18n from "@/plugins/i18n"
+import { departmentName } from "@v/dashboard/users/list/utils/users"
 
 const FIELD_LABELS: Record<string, string> = {
-    state:    "Статус",
-    category: "Отдел",
-    partner:  "Партнёр",
+    state:      "Статус",
+    department: "Отдел",
+    partner:    "Партнёр",
 }
 
 export function formatChanges(item: TicketEvent): string[] {
@@ -28,11 +29,20 @@ export function formatChanges(item: TicketEvent): string[] {
         for (const key of Object.keys(item.changes)) {
             const change = item.changes[key]
             const label = FIELD_LABELS[key] || key
-            if (key === "state") {
-                message.push(`${label}: ${stateName(change.old as string)} → ${stateName(change.new as string)}`)
-            } else {
-                message.push(`${label}: ${change.old} → ${change.new}`)
+
+            let newValue = String(change.new)
+            let oldValue = String(change.old)
+            switch (key) {
+                case "state":
+                    newValue = stateName(newValue)
+                    oldValue = stateName(oldValue)
+                    break
+                case "department":
+                    newValue = departmentName(newValue)
+                    oldValue = departmentName(oldValue)
+                    break
             }
+            message.push(`${label}: ${oldValue} → ${newValue}`)
         }
     }
 

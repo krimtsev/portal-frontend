@@ -1,11 +1,13 @@
+import { DepartmentType } from "@/shared/department/department"
+
 // Базовый интерфейс, наследуется экземплярами заявлений
 export interface Ticket {
-    title:       string
-    type:        TicketType
-    partner_id:  number | null
-    category_id: number | null
-    message:     string
-    files:       File[]
+    title:      string
+    type:       TicketType
+    partner_id: number | null
+    department: DepartmentType | null
+    message:    string
+    files:      File[]
 }
 
 export enum TicketType {
@@ -28,15 +30,9 @@ export enum TicketState {
     Cancel = "cancel",
 }
 
-
 export enum TicketMessageType {
     Message = "message",
     Event = "event",
-}
-
-interface TicketCategory {
-    id:    number
-    title: string
 }
 
 interface TicketPartner {
@@ -84,7 +80,7 @@ export type TicketTimeline = Array<TicketMessage | TicketEvent>
 export interface TicketDetails {
     title:       string
     type:        TicketType
-    category:    TicketCategory | null
+    department:  DepartmentType | null
     partner:     TicketPartner | null
     user:        TicketUser | null
     state:       TicketState

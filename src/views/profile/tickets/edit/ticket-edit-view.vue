@@ -23,6 +23,7 @@ import BFileUpload from "@c/common/b-upload-file/b-file-upload.vue"
 import PortalCard from "@c/portal/portal-card/portal-card.vue"
 import PortalFormItem from "@c/portal/portal-form-item/portal-form-item.vue"
 import PortalPage from "@c/portal/portal-page/portal-page.vue"
+import { departmentName } from "@v/dashboard/users/list/utils/users"
 import {
     type Ticket,
     type TicketDetails,
@@ -60,19 +61,19 @@ const chatRef = useTemplateRef<{ scrollToBottom: () => void }>("chatRef")
 
 function defaultState(): Ticket {
     return {
-        title:       "",
-        type:        TicketType.General,
-        partner_id:  null,
-        category_id: null,
-        message:     "",
-        files:       [],
+        title:      "",
+        type:       TicketType.General,
+        partner_id: null,
+        department: null,
+        message:    "",
+        files:      [],
     }
 }
 
 const ticketDetails = ref<TicketDetails>({
     title:      "",
     type:       TicketType.General,
-    category:   null,
+    department: null,
     partner:    null,
     user:       null,
     state:      TicketState.New,
@@ -130,7 +131,6 @@ const {
     defineLazyField,
     meta,
     setErrors,
-    setFieldValue,
     resetForm,
 } = useVeeForm<Ticket>({
     validationSchema: FormSchema,
@@ -159,12 +159,12 @@ onMounted(async () => {
 
     resetForm({
         values: {
-            title:       ticketDetails.value.title,
-            type:        ticketDetails.value.type || TicketType.General,
-            partner_id:  ticketDetails.value.partner?.id || null,
-            category_id: ticketDetails.value.category?.id || null,
-            message:     "",
-            files:       [],
+            title:      ticketDetails.value.title,
+            type:       ticketDetails.value.type || TicketType.General,
+            partner_id: ticketDetails.value.partner?.id || null,
+            department: ticketDetails.value.department || null,
+            message:    "",
+            files:      [],
         },
     })
 
@@ -194,8 +194,13 @@ const onSave = handleSubmit(async (formValues) => {
 
         ticketDetails.value = ticketResponse.data
 
-        setFieldValue("files", [])
-        setFieldValue("message", "")
+        resetForm({
+            values: {
+                ...formValues,
+                message: "",
+                files:   [],
+            },
+        })
 
         await nextTick(() => chatRef.value?.scrollToBottom())
     } finally {
@@ -258,7 +263,7 @@ async function onRemove() {
                             :is-loading="isFirstLoading"
                             width="250px"
                         >
-                            <b-text :value="ticketDetails.category?.title" />
+                            <b-text :value="departmentName(ticketDetails.department)" />
                         </b-skeleton>
                     </portal-form-item>
 

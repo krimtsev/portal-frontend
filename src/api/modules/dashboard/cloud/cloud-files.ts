@@ -1,5 +1,4 @@
 import type { CloudFilesResponse } from "@v/dashboard/cloud/edit/definitions/cloud"
-
 import { http } from "@/api"
 
 export async function list(folderId: string) {
