@@ -1,18 +1,4 @@
-export interface TicketCategoriesItem {
-    id:    number
-    title: string
-    slug:  string
-}
-
-export interface TicketCategoriesResponse {
-    list: TicketCategoriesItem[]
-}
-
-export interface TicketCategoryResponse {
-    data: TicketCategoriesItem
-}
-
-export enum TicketCategorySlug {
+export enum DepartmentType {
     FRANCHISE = "franchise",
     BUILD = "build",
     MARKETING = "marketing",
