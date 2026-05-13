@@ -1,4 +1,4 @@
-import { Roles } from "@/shared/roles/roles"
+import { Roles } from "@/definitions/roles.ts"
 
 export interface LoginCredentials {
     login:    string

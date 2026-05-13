@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue"
+import { computed, onMounted, ref } from "vue"
+import { useDepartmentStore } from "@s/department/department"
 import { useNotify } from "@/composables/notify/use-notify"
 import { HttpError } from "@/api"
 import type { PartnerData, UserData } from "@/api/modules/profile/user-profile/definitions/user-profile"
@@ -10,16 +11,19 @@ import PortalCard from "@c/portal/portal-card/portal-card.vue"
 import PortalFormItem from "@c/portal/portal-form-item/portal-form-item.vue"
 import PortalPage from "@c/portal/portal-page/portal-page.vue"
 import { getRoleName } from "@/lib/localize-helper"
-import { Roles } from "@/shared/roles/roles"
+import { Roles } from "@/definitions/roles"
 
 const notify = useNotify()
 
+const departmentStore = useDepartmentStore()
+
 const user = ref<UserData>({
-    login:  "",
-    name:   "",
-    role:   Roles.USER,
-    email:  null,
-    avatar: null,
+    login:       "",
+    name:        "",
+    role:        Roles.USER,
+    departments: [],
+    email:       null,
+    avatar:      null,
 })
 const partner = ref<PartnerData>()
 const isLoading = ref<boolean>(true)
@@ -38,6 +42,12 @@ onMounted(async () => {
     isLoading.value = false
 })
 
+const departments = computed(() => {
+    if (!user.value.departments.length) return []
+    return user.value.departments
+        .map(item => departmentStore.getTitleById(item))
+        .sort((a, b) => a.localeCompare(b))
+})
 </script>
 
 <template>
@@ -82,6 +92,25 @@ onMounted(async () => {
                     width="200px"
                 >
                     <b-text :value="getRoleName(user.role)" />
+                </b-skeleton>
+            </portal-form-item>
+
+            <portal-form-item
+                v-if="departments.length"
+                label="Отдел"
+                class="label-align-top"
+            >
+                <b-skeleton
+                    :is-loading="isLoading"
+                    width="200px"
+                >
+                    <div class="flex-column">
+                        <b-text
+                            v-for="(name, index) in departments"
+                            :key="index"
+                            :value="name"
+                        />
+                    </div>
                 </b-skeleton>
             </portal-form-item>
         </portal-card>

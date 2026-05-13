@@ -2,6 +2,7 @@
 import { computed, onMounted, ref } from "vue"
 import { useI18n } from "vue-i18n"
 import { useRouter } from "vue-router"
+import { useDepartmentStore } from "@s/department/department"
 import { useNotify } from "@/composables/notify/use-notify"
 import { useVeeForm } from "@/composables/vee-validate/use-validation"
 import { ProfileRouteName } from "@r/profile/route-names"
@@ -17,13 +18,15 @@ import PortalPage from "@c/portal/portal-page/portal-page.vue"
 import type { TicketOpening } from "@v/profile/tickets/create/opening/definitions/opening"
 import { FormSchema } from "@v/profile/tickets/create/opening/schemas/opening.schema"
 import { TicketType } from "@v/profile/tickets/edit/definitions/ticket"
-import { type TicketCategoriesItem, TicketCategorySlug } from "@v/profile/tickets/edit/definitions/ticket-category"
-import { maxMessageLength } from "@v/profile/tickets/list/definitions/tickets-list"
+import { maxMessageLength } from "@/constants/messages"
+import { DepartmentType } from "@/definitions/departments"
 
 
 const notify = useNotify()
-const { t } = useI18n()
 const router = useRouter()
+const { t } = useI18n()
+
+const departmentStore = useDepartmentStore()
 
 /** Начальное состояние */
 const isFirstLoading = ref(true)
@@ -34,16 +37,14 @@ const userPartners = ref<UserPartners>({
     partners:   [],
 })
 
-const ticketCategory = ref<TicketCategoriesItem>()
-
 function defaultState(): TicketOpening {
     return {
-        title:       t("mc.ticket.opening.title"),
-        type:        TicketType.Opening,
-        message:     "",
-        partner_id:  null,
-        category_id: null,
-        files:       [],
+        title:         t("mc.ticket.opening.title"),
+        type:          TicketType.Opening,
+        message:       "",
+        partner_id:    null,
+        department_id: departmentStore.getIdByType(DepartmentType.Marketing),
+        files:         [],
     }
 }
 
@@ -68,23 +69,17 @@ const [filesModel] = defineLazyField("files")
 onMounted(async () => {
     isFirstLoading.value = true
 
-    const [partners, category] = await Promise.all([
+    const [partners] = await Promise.all([
         partnerAPI.userPartners(),
-        ticketAPI.category(TicketCategorySlug.MARKETING),
     ])
 
-    if (
-        partners instanceof HttpError ||
-        category instanceof HttpError
-    ) {
+    if (partners instanceof HttpError) {
         notify.error()
         return
     }
 
     userPartners.value = partners
-    ticketCategory.value = category.data
 
-    setFieldValue("category_id", ticketCategory.value.id)
     setFieldValue("partner_id", userPartners.value.partner_id)
 
     isFirstLoading.value = false
@@ -123,13 +118,11 @@ const onSave = handleSubmit(async (formValues) => {
                         <b-select
                             v-model="partnerIdModel"
                             :options="userPartners.partners"
-                            :is-loading="isFirstLoading"
-                            :disabled="isFirstLoading"
+                            :disabled="isDisabled"
                             :error="errors['partner_id']"
                             option-label="name"
                             option-value="partner_id"
                             :placeholder="t('mc.common.partner')"
-                            name="partner_id"
                             class="full-width"
                         />
                     </div>
@@ -138,10 +131,9 @@ const onSave = handleSubmit(async (formValues) => {
                         <b-textarea
                             v-model="messageModel"
                             :error="errors['message']"
-                            :disabled="isFirstLoading"
+                            :disabled="isDisabled"
                             :placeholder="t('mc.ticket.general.placeholder.message')"
                             :maxlength="maxMessageLength"
-                            name="message"
                             class="full-width"
                         />
                     </div>
@@ -150,9 +142,8 @@ const onSave = handleSubmit(async (formValues) => {
                         <b-file-upload
                             v-model="filesModel"
                             :error="errors['files']"
-                            :disabled="isFirstLoading"
+                            :disabled="isDisabled"
                             :placeholder="t('mc.ticket.general.placeholder.files')"
-                            name="files"
                         />
                     </div>
 

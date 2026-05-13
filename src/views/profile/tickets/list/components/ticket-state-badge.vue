@@ -40,6 +40,8 @@ const ticketSeverity = computed(() => {
 
 <style scoped lang="scss">
 .ticket-state-badge {
+    white-space: nowrap;
+
     :deep(.p-tag[data-p*="disabled"]) {
         background: var(--p-tag-disabled-background);
         color: var(--p-tag-disabled-color);

@@ -2,6 +2,7 @@
 import { computed, onMounted, ref } from "vue"
 import { useI18n } from "vue-i18n"
 import { useRouter } from "vue-router"
+import { useDepartmentStore } from "@s/department/department"
 import { useNotify } from "@/composables/notify/use-notify"
 import { useVeeForm } from "@/composables/vee-validate/use-validation"
 import { ProfileRouteName } from "@r/profile/route-names"
@@ -20,16 +21,15 @@ import PortalPage from "@c/portal/portal-page/portal-page.vue"
 import type { TicketCertificate } from "@v/profile/tickets/create/certificate/definitions/certificate"
 import { FormSchema } from "@v/profile/tickets/create/certificate/schemas/certificate.schema"
 import { TicketType } from "@v/profile/tickets/edit/definitions/ticket"
-import {
-    type TicketCategoriesItem,
-    TicketCategorySlug,
-} from "@v/profile/tickets/edit/definitions/ticket-category"
-import { maxMessageLength } from "@v/profile/tickets/list/definitions/tickets-list"
+import { maxMessageLength } from "@/constants/messages"
+import { DepartmentType } from "@/definitions/departments"
 
 
 const notify = useNotify()
-const { t } = useI18n()
 const router = useRouter()
+const { t } = useI18n()
+
+const departmentStore = useDepartmentStore()
 
 const isFirstLoading = ref(true)
 const isLoading = ref(false)
@@ -39,17 +39,15 @@ const userPartners = ref<UserPartners>({
     partners:   [],
 })
 
-const ticketCategory = ref<TicketCategoriesItem>()
-
 function defaultState(): TicketCertificate {
     return {
-        title:       t("mc.ticket.certificate.title"),
-        type:        TicketType.Certificate,
-        partner_id:  null,
-        category_id: null,
-        message:     "",
-        files:       [],
-        attributes:  {
+        title:         t("mc.ticket.certificate.title"),
+        type:          TicketType.Certificate,
+        partner_id:    null,
+        department_id: departmentStore.getIdByType(DepartmentType.Accounting),
+        message:       "",
+        files:         [],
+        attributes:    {
             code:        "",
             sum:         null,
             paymentDate: null,
@@ -83,23 +81,17 @@ const [nameModel] = defineLazyField("attributes.name")
 onMounted(async () => {
     isFirstLoading.value = true
 
-    const [partners, category] = await Promise.all([
+    const [partners] = await Promise.all([
         partnerAPI.userPartners(),
-        ticketAPI.category(TicketCategorySlug.ACCOUNTING),
     ])
 
-    if (
-        partners instanceof HttpError ||
-        category instanceof HttpError
-    ) {
+    if (partners instanceof HttpError) {
         notify.error()
         return
     }
 
     userPartners.value = partners
-    ticketCategory.value = category.data
 
-    setFieldValue("category_id", ticketCategory.value.id)
     setFieldValue("partner_id", userPartners.value.partner_id)
 
     isFirstLoading.value = false
@@ -138,13 +130,11 @@ const onSave = handleSubmit(async (formValues) => {
                         <b-select
                             v-model="partnerIdModel"
                             :options="userPartners.partners"
-                            :is-loading="isFirstLoading"
-                            :disabled="isFirstLoading"
+                            :disabled="isDisabled"
                             :error="errors['partner_id']"
                             option-label="name"
                             option-value="partner_id"
                             :placeholder="t('mc.common.partner')"
-                            name="partner_id"
                             class="full-width"
                         />
                     </div>
@@ -155,9 +145,8 @@ const onSave = handleSubmit(async (formValues) => {
                         <b-input-text
                             v-model="codeModel"
                             :error="errors['attributes.code']"
-                            :disabled="isFirstLoading"
+                            :disabled="isDisabled"
                             :placeholder="t('mc.ticket.certificate.placeholder.code')"
-                            name="code"
                             class="full-width"
                         />
                     </div>
@@ -166,9 +155,8 @@ const onSave = handleSubmit(async (formValues) => {
                         <b-input-number
                             v-model="sumModel"
                             :error="errors['attributes.sum']"
-                            :disabled="isFirstLoading"
+                            :disabled="isDisabled"
                             :placeholder="t('mc.ticket.certificate.placeholder.sum')"
-                            name="sum"
                             class="full-width"
                         />
                     </div>
@@ -177,12 +165,11 @@ const onSave = handleSubmit(async (formValues) => {
                         <b-date-picker
                             v-model="paymentDateModel"
                             :error="errors['attributes.paymentDate']"
-                            :disabled="isFirstLoading"
+                            :disabled="isDisabled"
                             :placeholder="t('mc.ticket.certificate.placeholder.paymentDate')"
                             hour-format="24"
                             show-time
                             date-format="yy-mm-dd"
-                            name="paymentDate"
                             class="full-width"
                         />
                     </div>
@@ -191,9 +178,8 @@ const onSave = handleSubmit(async (formValues) => {
                         <b-input-text
                             v-model="nameModel"
                             :error="errors['attributes.name']"
-                            :disabled="isFirstLoading"
+                            :disabled="isDisabled"
                             :placeholder="t('mc.ticket.certificate.placeholder.name')"
-                            name="name"
                             class="full-width"
                         />
                     </div>
@@ -202,10 +188,9 @@ const onSave = handleSubmit(async (formValues) => {
                         <b-textarea
                             v-model="messageModel"
                             :error="errors['message']"
-                            :disabled="isFirstLoading"
+                            :disabled="isDisabled"
                             :placeholder="t('mc.ticket.certificate.placeholder.message')"
                             :maxlength="maxMessageLength"
-                            name="message"
                             class="full-width"
                         />
                     </div>
@@ -214,9 +199,8 @@ const onSave = handleSubmit(async (formValues) => {
                         <b-file-upload
                             v-model="filesModel"
                             :error="errors['files']"
-                            :disabled="isFirstLoading"
+                            :disabled="isDisabled"
                             :placeholder="t('mc.ticket.certificate.placeholder.files')"
-                            name="files"
                         />
                     </div>
 

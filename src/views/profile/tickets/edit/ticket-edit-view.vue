@@ -3,6 +3,7 @@ import { computed, nextTick, onMounted, ref, useTemplateRef } from "vue"
 import { useI18n } from "vue-i18n"
 import { useRoute } from "vue-router"
 import { useRouter } from "vue-router"
+import { useDepartmentStore } from "@s/department/department"
 import { useNotify } from "@/composables/notify/use-notify"
 import { useVeeForm } from "@/composables/vee-validate/use-validation"
 import { ProfileRouteName } from "@r/profile/route-names"
@@ -37,9 +38,9 @@ import {
     hasTimelineMessage,
     normalizeAttributes,
 } from "@v/profile/tickets/edit/utils/ticket"
-import { maxMessageLength } from "@v/profile/tickets/list/definitions/tickets-list"
 import { stateName } from "@v/profile/tickets/list/utils/ticket"
 import { downloadExternalFile } from "@/lib/files"
+import { maxMessageLength } from "@/constants/messages"
 
 const router = useRouter()
 
@@ -52,6 +53,8 @@ const route = useRoute()
 const notify = useNotify()
 const { t } = useI18n()
 
+const departmentStore = useDepartmentStore()
+
 const isFirstLoading = ref(true)
 const isLoadingFile = ref(false)
 const loadingState = ref<LoadingState | null>(null)
@@ -60,24 +63,24 @@ const chatRef = useTemplateRef<{ scrollToBottom: () => void }>("chatRef")
 
 function defaultState(): Ticket {
     return {
-        title:       "",
-        type:        TicketType.General,
-        partner_id:  null,
-        category_id: null,
-        message:     "",
-        files:       [],
+        title:         "",
+        type:          TicketType.General,
+        partner_id:    null,
+        department_id: null,
+        message:       "",
+        files:         [],
     }
 }
 
 const ticketDetails = ref<TicketDetails>({
-    title:      "",
-    type:       TicketType.General,
-    category:   null,
-    partner:    null,
-    user:       null,
-    state:      TicketState.New,
-    attributes: {},
-    timeline:   [],
+    title:         "",
+    type:          TicketType.General,
+    department_id: null,
+    partner:       null,
+    user:          null,
+    state:         TicketState.New,
+    attributes:    {},
+    timeline:      [],
 })
 
 const ticketId = computed(() => route.params.id as string)
@@ -158,12 +161,12 @@ onMounted(async () => {
 
     resetForm({
         values: {
-            title:       ticketDetails.value.title,
-            type:        ticketDetails.value.type || TicketType.General,
-            partner_id:  ticketDetails.value.partner?.id || null,
-            category_id: ticketDetails.value.category?.id || null,
-            message:     "",
-            files:       [],
+            title:         ticketDetails.value.title,
+            type:          ticketDetails.value.type || TicketType.General,
+            partner_id:    ticketDetails.value.partner?.id || null,
+            department_id: ticketDetails.value.department_id || null,
+            message:       "",
+            files:         [],
         },
     })
 
@@ -227,6 +230,11 @@ async function onRemove() {
 
     await router.push({ name: ProfileRouteName.ProfileTickets })
 }
+
+const departmentName = (id: number | null) => {
+    if (!id) return ""
+    return departmentStore.getTitleById(id)
+}
 </script>
 
 <template>
@@ -262,7 +270,7 @@ async function onRemove() {
                             :is-loading="isFirstLoading"
                             width="250px"
                         >
-                            <b-text :value="ticketDetails.category?.title" />
+                            <b-text :value="departmentName(ticketDetails.department_id)" />
                         </b-skeleton>
                     </portal-form-item>
 

@@ -2,6 +2,7 @@
 import { computed, onMounted, ref } from "vue"
 import { useI18n } from "vue-i18n"
 import { useRoute, useRouter } from "vue-router"
+import { useDepartmentStore } from "@s/department/department"
 import { useNotify } from "@/composables/notify/use-notify"
 import { useVeeForm } from "@/composables/vee-validate/use-validation"
 import { ProfileRouteName } from "@r/profile/route-names"
@@ -21,17 +22,16 @@ import { Qualification, type TicketSpecialist } from "@v/profile/tickets/create/
 import { FormSchema } from "@v/profile/tickets/create/specialist/_britva/schemas/specialist.schema"
 import { qualificationName } from "@v/profile/tickets/create/specialist/_britva/utils/specialist"
 import { TicketType } from "@v/profile/tickets/edit/definitions/ticket"
-import {
-    type TicketCategoriesItem,
-    TicketCategorySlug,
-} from "@v/profile/tickets/edit/definitions/ticket-category"
-import { maxMessageLength } from "@v/profile/tickets/list/definitions/tickets-list"
+import { maxMessageLength } from "@/constants/messages"
+import { DepartmentType } from "@/definitions/departments"
 
 
 const notify = useNotify()
-const { t } = useI18n()
 const router = useRouter()
 const route = useRoute()
+const { t } = useI18n()
+
+const departmentStore = useDepartmentStore()
 
 const isFirstLoading = ref(true)
 const isLoading = ref(false)
@@ -40,8 +40,6 @@ const userPartners = ref<UserPartners>({
     partner_id: null,
     partners:   [],
 })
-
-const ticketCategory = ref<TicketCategoriesItem>()
 
 function defaultState(): TicketSpecialist {
     const queryQualification = route.query.qualification as string | undefined
@@ -52,13 +50,13 @@ function defaultState(): TicketSpecialist {
             : Qualification.BarberPlus
 
     return {
-        title:       t("mc.ticket.specialist.title"),
-        type:        TicketType.Specialist,
-        partner_id:  null,
-        category_id: null,
-        message:     "",
-        files:       [],
-        attributes:  {
+        title:         t("mc.ticket.specialist.title"),
+        type:          TicketType.Specialist,
+        partner_id:    null,
+        department_id: departmentStore.getIdByType(DepartmentType.Franchise),
+        message:       "",
+        files:         [],
+        attributes:    {
             qualification,
             name:        "",
             phone:       "",
@@ -102,23 +100,17 @@ const [statisticsModel] = defineLazyField("attributes.statistics")
 onMounted(async () => {
     isFirstLoading.value = true
 
-    const [partners, category] = await Promise.all([
+    const [partners] = await Promise.all([
         partnerAPI.userPartners(),
-        ticketAPI.category(TicketCategorySlug.FRANCHISE),
     ])
 
-    if (
-        partners instanceof HttpError ||
-        category instanceof HttpError
-    ) {
+    if (partners instanceof HttpError) {
         notify.error()
         return
     }
 
     userPartners.value = partners
-    ticketCategory.value = category.data
 
-    setFieldValue("category_id", ticketCategory.value.id)
     setFieldValue("partner_id", userPartners.value.partner_id)
 
     isFirstLoading.value = false
@@ -157,13 +149,11 @@ const onSave = handleSubmit(async (formValues) => {
                         <b-select
                             v-model="partnerIdModel"
                             :options="userPartners.partners"
-                            :disabled="isFirstLoading"
-                            :is-loading="isFirstLoading"
+                            :disabled="isDisabled"
                             :error="errors['partner_id']"
                             :placeholder="t('mc.common.partner')"
                             option-label="name"
                             option-value="partner_id"
-                            name="partner_id"
                             filter
                             class="full-width"
                         />
@@ -175,8 +165,7 @@ const onSave = handleSubmit(async (formValues) => {
                         <b-button-groups
                             v-model="qualificationModel"
                             :items="qualificationItems"
-                            :disabled="isFirstLoading"
-                            name="qualification"
+                            :disabled="isDisabled"
                         />
                     </div>
 
@@ -184,9 +173,8 @@ const onSave = handleSubmit(async (formValues) => {
                         <b-input-text
                             v-model="nameModel"
                             :error="errors['attributes.name']"
-                            :disabled="isFirstLoading"
+                            :disabled="isDisabled"
                             :placeholder="t('mc.ticket.specialist.placeholder.name')"
-                            name="name"
                             class="full-width"
                         />
                     </div>
@@ -195,9 +183,8 @@ const onSave = handleSubmit(async (formValues) => {
                         <b-input-telnum
                             v-model="phoneModel"
                             :error="errors['attributes.phone']"
-                            :disabled="isFirstLoading"
+                            :disabled="isDisabled"
                             :placeholder="t('mc.ticket.specialist.placeholder.phone')"
-                            name="phone"
                             class="full-width"
                         />
                     </div>
@@ -206,9 +193,8 @@ const onSave = handleSubmit(async (formValues) => {
                         <b-input-text
                             v-model="experienceModel"
                             :error="errors['attributes.experience']"
-                            :disabled="isFirstLoading"
+                            :disabled="isDisabled"
                             :placeholder="t('mc.ticket.specialist.placeholder.experience')"
-                            name="experience"
                             class="full-width"
                         />
                     </div>
@@ -217,9 +203,8 @@ const onSave = handleSubmit(async (formValues) => {
                         <b-input-text
                             v-model="statisticsModel"
                             :error="errors['attributes.statistics']"
-                            :disabled="isFirstLoading"
+                            :disabled="isDisabled"
                             :placeholder="t('mc.ticket.specialist.placeholder.statistics')"
-                            name="statistics"
                             class="full-width"
                         />
                     </div>
@@ -228,9 +213,8 @@ const onSave = handleSubmit(async (formValues) => {
                         <b-input-text
                             v-model="linkToWorksModel"
                             :error="errors['attributes.linkToWorks']"
-                            :disabled="isFirstLoading"
+                            :disabled="isDisabled"
                             :placeholder="t('mc.ticket.specialist.placeholder.linkToWorks')"
-                            name="linkToWorks"
                             class="full-width"
                         />
                     </div>
@@ -239,10 +223,9 @@ const onSave = handleSubmit(async (formValues) => {
                         <b-textarea
                             v-model="messageModel"
                             :error="errors['message']"
-                            :disabled="isFirstLoading"
+                            :disabled="isDisabled"
                             :placeholder="t('mc.ticket.specialist.placeholder.message')"
                             :maxlength="maxMessageLength"
-                            name="message"
                             class="full-width"
                         />
                     </div>
@@ -251,7 +234,7 @@ const onSave = handleSubmit(async (formValues) => {
                         <b-file-upload
                             v-model="filesModel"
                             :error="errors['files']"
-                            :disabled="isFirstLoading"
+                            :disabled="isDisabled"
                             :placeholder="t('mc.ticket.specialist.placeholder.files')"
                         />
                     </div>

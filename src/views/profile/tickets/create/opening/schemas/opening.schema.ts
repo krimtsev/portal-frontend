@@ -2,7 +2,7 @@ import * as z from "zod"
 import { toTypedSchema } from "@vee-validate/zod"
 import { FilesSchema } from "@c/common/b-upload-file/schemas/file-upload.schema"
 import {
-    CategoryIdSchema,
+    DepartmentIdSchema,
     PartnerIdSchema,
     RequiredMessageSchema,
     TitleSchema,
@@ -11,11 +11,11 @@ import {
 
 export const FormSchema = toTypedSchema(
     z.object({
-        title:       TitleSchema,
-        category_id: CategoryIdSchema,
-        type:        TypeSchema,
-        partner_id:  PartnerIdSchema,
-        message:     RequiredMessageSchema,
-        files:       FilesSchema,
+        title:         TitleSchema,
+        department_id: DepartmentIdSchema,
+        type:          TypeSchema,
+        partner_id:    PartnerIdSchema,
+        message:       RequiredMessageSchema,
+        files:         FilesSchema,
     }),
 )

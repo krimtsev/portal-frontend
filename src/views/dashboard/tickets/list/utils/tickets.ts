@@ -3,8 +3,11 @@ import { DateTime } from "luxon"
 import { downloadExternalFile } from "@/lib/files"
 import type { TicketsExportData } from "@v/dashboard/tickets/list/definitions/tickets"
 import { stateName } from "@v/profile/tickets/list/utils/ticket"
+import { useDepartmentStore } from "@s/department/department"
 
 export async function exportXLS(tickets: TicketsExportData[]) {
+    const departmentStore = useDepartmentStore()
+
     const date = DateTime.now().toFormat("dd.MM.yyyy")
     const workbook = new ExcelJS.Workbook()
     const worksheet = workbook.addWorksheet("Пользователи", {
@@ -18,7 +21,7 @@ export async function exportXLS(tickets: TicketsExportData[]) {
     worksheet.columns = [
         { header: "ID", key: "id", width: 10 },
         { header: "Тема запроса", key: "title", width: 35 },
-        { header: "Отдел", key: "category", width: 25 },
+        { header: "Отдел", key: "department", width: 25 },
         { header: "Статус", key: "state", width: 15 },
         { header: "Дата подачи", key: "created_at", width: 30 },
     ]
@@ -27,7 +30,7 @@ export async function exportXLS(tickets: TicketsExportData[]) {
         worksheet.addRow({
             id:         ticket.id,
             title:      ticket.title,
-            category:   ticket.category,
+            department: departmentStore.getTitleById(ticket.department_id),
             state:      stateName(ticket.state),
             created_at: ticket.created_at,
         })

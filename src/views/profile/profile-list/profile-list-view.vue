@@ -36,7 +36,7 @@ const goTo = (name: ProfileRouteName) => router.push({ name })
                     description="Получите ключевые отчеты и метрики для оценки работы филиала. Анализируйте производительность, финансовые показатели и другие ключевые данные для принятия обоснованных решений."
                     @click="goTo(ProfileRouteName.ProfileAnalytics)"
                 />
-</div> -->
+            </div> -->
 
 
             <div class="col-3 tablet-col-4 mobile-col-12">
@@ -48,14 +48,14 @@ const goTo = (name: ProfileRouteName) => router.push({ name })
                 />
             </div>
 
-            <!--            <div class="col-3 tablet-col-4 mobile-col-12">-->
-            <!--                <portal-section-card-->
-            <!--                    icon="pi-users"-->
-            <!--                    title="Команда"-->
-            <!--                    description="Полный контроль над данными сотрудников: добавляйте новых специалистов, редактируйте информацию о должности, контактах и статусе."-->
-            <!--                    @click="goTo(ProfileRouteName.ProfileTeam)"-->
-            <!--                />-->
-            <!--            </div>-->
+            <!--  <div class="col-3 tablet-col-4 mobile-col-12">
+                <portal-section-card
+                    icon="pi-users"
+                    title="Команда"
+                    description="Полный контроль над данными сотрудников: добавляйте новых специалистов, редактируйте информацию о должности, контактах и статусе."
+                    @click="goTo(ProfileRouteName.ProfileTeam)"
+                />
+            </div> -->
         </div>
     </div>
 </template>

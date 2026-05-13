@@ -2,6 +2,7 @@
 import { computed, onMounted, ref } from "vue"
 import { useI18n } from "vue-i18n"
 import { useRouter } from "vue-router"
+import { useDepartmentStore } from "@s/department/department"
 import { useNotify } from "@/composables/notify/use-notify"
 import { useVeeForm } from "@/composables/vee-validate/use-validation"
 import { ProfileRouteName } from "@r/profile/route-names"
@@ -19,16 +20,15 @@ import PortalPage from "@c/portal/portal-page/portal-page.vue"
 import type { TicketFlagman } from "@v/profile/tickets/create/flagman/definitions/flagman"
 import { FormSchema } from "@v/profile/tickets/create/flagman/schemas/flagman.schema"
 import { TicketType } from "@v/profile/tickets/edit/definitions/ticket"
-import {
-    type TicketCategoriesItem,
-    TicketCategorySlug,
-} from "@v/profile/tickets/edit/definitions/ticket-category"
-import { maxMessageLength } from "@v/profile/tickets/list/definitions/tickets-list"
+import { maxMessageLength } from "@/constants/messages"
+import { DepartmentType } from "@/definitions/departments"
 
 
-const { t } = useI18n()
 const notify = useNotify()
 const router = useRouter()
+const { t } = useI18n()
+
+const departmentStore = useDepartmentStore()
 
 const isFirstLoading = ref(true)
 const isLoading = ref(false)
@@ -38,17 +38,15 @@ const userPartners = ref<UserPartners>({
     partners:   [],
 })
 
-const ticketCategory = ref<TicketCategoriesItem>()
-
 function defaultState(): TicketFlagman {
     return {
-        title:       t("mc.ticket.flagman.title"),
-        type:        TicketType.Flagman,
-        partner_id:  null,
-        category_id: null,
-        message:     "",
-        files:       [],
-        attributes:  {
+        title:         t("mc.ticket.flagman.title"),
+        type:          TicketType.Flagman,
+        partner_id:    null,
+        department_id: departmentStore.getIdByType(DepartmentType.Franchise),
+        message:       "",
+        files:         [],
+        attributes:    {
             returnRate:     "",
             auditScore:     "",
             mastersCount:   "",
@@ -90,23 +88,17 @@ const [missedReportsModel] = defineLazyField("attributes.missedReports")
 onMounted(async () => {
     isFirstLoading.value = true
 
-    const [partners, category] = await Promise.all([
+    const [partners] = await Promise.all([
         partnerAPI.userPartners(),
-        ticketAPI.category(TicketCategorySlug.FRANCHISE),
     ])
 
-    if (
-        partners instanceof HttpError ||
-        category instanceof HttpError
-    ) {
+    if (partners instanceof HttpError) {
         notify.error()
         return
     }
 
     userPartners.value = partners
-    ticketCategory.value = category.data
 
-    setFieldValue("category_id", ticketCategory.value.id)
     setFieldValue("partner_id", userPartners.value.partner_id)
 
     isFirstLoading.value = false
@@ -144,13 +136,11 @@ const onSave = handleSubmit(async (formValues) => {
                         <b-select
                             v-model="partnerIdModel"
                             :options="userPartners.partners"
-                            :is-loading="isFirstLoading"
-                            :disabled="isFirstLoading"
+                            :disabled="isDisabled"
                             :error="errors['partner_id']"
                             option-label="name"
                             option-value="partner_id"
                             :placeholder="t('mc.common.partner')"
-                            name="partner_id"
                             class="full-width"
                         />
                     </div>
@@ -161,9 +151,8 @@ const onSave = handleSubmit(async (formValues) => {
                         <b-input-text
                             v-model="returnRateModel"
                             :error="errors['attributes.returnRate']"
-                            :disabled="isFirstLoading"
+                            :disabled="isDisabled"
                             :placeholder="t('mc.ticket.flagman.placeholder.returnRate')"
-                            name="returnRate"
                             class="full-width"
                         />
                     </div>
@@ -172,9 +161,8 @@ const onSave = handleSubmit(async (formValues) => {
                         <b-input-text
                             v-model="auditScoreModel"
                             :error="errors['attributes.auditScore']"
-                            :disabled="isFirstLoading"
+                            :disabled="isDisabled"
                             :placeholder="t('mc.ticket.flagman.placeholder.auditScore')"
-                            name="auditScore"
                             class="full-width"
                         />
                     </div>
@@ -183,9 +171,8 @@ const onSave = handleSubmit(async (formValues) => {
                         <b-input-text
                             v-model="mastersCountModel"
                             :error="errors['attributes.mastersCount']"
-                            :disabled="isFirstLoading"
+                            :disabled="isDisabled"
                             :placeholder="t('mc.ticket.flagman.placeholder.mastersCount')"
-                            name="mastersCount"
                             class="full-width"
                         />
                     </div>
@@ -194,11 +181,10 @@ const onSave = handleSubmit(async (formValues) => {
                         <b-date-picker
                             v-model="openingDateModel"
                             :error="errors['attributes.openingDate']"
-                            :disabled="isFirstLoading"
+                            :disabled="isDisabled"
                             :placeholder="t('mc.ticket.flagman.placeholder.openingDate')"
                             hour-format="24"
                             date-format="yy-mm-dd"
-                            name="openingDate"
                             class="full-width"
                         />
                     </div>
@@ -207,9 +193,8 @@ const onSave = handleSubmit(async (formValues) => {
                         <b-input-text
                             v-model="cosmeticBrandsModel"
                             :error="errors['attributes.cosmeticBrands']"
-                            :disabled="isFirstLoading"
+                            :disabled="isDisabled"
                             :placeholder="t('mc.ticket.flagman.placeholder.cosmeticBrands')"
-                            name="cosmeticBrands"
                             class="full-width"
                         />
                     </div>
@@ -218,9 +203,8 @@ const onSave = handleSubmit(async (formValues) => {
                         <b-input-text
                             v-model="missedReportsModel"
                             :error="errors['attributes.missedReports']"
-                            :disabled="isFirstLoading"
+                            :disabled="isDisabled"
                             :placeholder="t('mc.ticket.flagman.placeholder.missedReports')"
-                            name="missedReports"
                             class="full-width"
                         />
                     </div>
@@ -229,9 +213,8 @@ const onSave = handleSubmit(async (formValues) => {
                         <b-input-text
                             v-model="yandexMapModel"
                             :error="errors['attributes.yandexMap']"
-                            :disabled="isFirstLoading"
+                            :disabled="isDisabled"
                             :placeholder="t('mc.ticket.flagman.placeholder.yandexMap')"
-                            name="yandexMap"
                             class="full-width"
                         />
                     </div>
@@ -240,9 +223,8 @@ const onSave = handleSubmit(async (formValues) => {
                         <b-input-text
                             v-model="twoGisMapModel"
                             :error="errors['attributes.twoGisMap']"
-                            :disabled="isFirstLoading"
+                            :disabled="isDisabled"
                             :placeholder="t('mc.ticket.flagman.placeholder.twoGisMap')"
-                            name="twoGisMap"
                             class="full-width"
                         />
                     </div>
@@ -251,10 +233,9 @@ const onSave = handleSubmit(async (formValues) => {
                         <b-textarea
                             v-model="messageModel"
                             :error="errors['message']"
-                            :disabled="isFirstLoading"
+                            :disabled="isDisabled"
                             :placeholder="t('mc.ticket.general.placeholder.message')"
                             :maxlength="maxMessageLength"
-                            name="message"
                             class="full-width"
                         />
                     </div>
@@ -270,9 +251,8 @@ const onSave = handleSubmit(async (formValues) => {
                         <b-file-upload
                             v-model="filesModel"
                             :error="errors['files']"
-                            :disabled="isFirstLoading"
+                            :disabled="isDisabled"
                             :placeholder="t('mc.ticket.general.placeholder.files')"
-                            name="files"
                         />
                     </div>
 

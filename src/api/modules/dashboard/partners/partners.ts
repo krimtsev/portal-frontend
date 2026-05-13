@@ -12,7 +12,7 @@ import { http } from "@/api"
 import type {
     Pagination,
     PaginationFilter,
-} from "@/shared/pagination/pagination"
+} from "@/definitions/pagination.ts"
 
 export async function options() {
     return await http.get<PartnerOptionsResponse>("dashboard/partners/options")

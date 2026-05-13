@@ -12,9 +12,7 @@ const text = computed(() => valueOrDash(props.value))
 </script>
 
 <template>
-    <span class="b-text">
-        {{ text }}
-    </span>
+    <span class="b-text"> {{ text }} </span>
 </template>
 
 <style lang="scss" scoped>

@@ -7,7 +7,7 @@ import {
     defaultPaginationPage,
     type PaginationFilter,
     type PaginationPage,
-} from "@/shared/pagination/pagination"
+} from "@/definitions/pagination.ts"
 
 export const usePartnerGroupsStore = defineStore("partnerGroups", () => {
     const isLoading = ref<boolean>(false)

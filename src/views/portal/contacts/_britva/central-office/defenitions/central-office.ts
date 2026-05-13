@@ -1,4 +1,4 @@
-import { ContentType } from "@/shared/content/content"
+import { ContentType } from "@/definitions/content"
 
 export interface CentralOfficeUser {
     id:           number

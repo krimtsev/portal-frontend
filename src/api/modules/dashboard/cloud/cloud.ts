@@ -9,7 +9,7 @@ import type {
 } from "@v/dashboard/cloud/list/definitions/cloud-list"
 
 import { http } from "@/api"
-import type { Pagination, PaginationFilter } from "@/shared/pagination/pagination"
+import type { Pagination, PaginationFilter } from "@/definitions/pagination.ts"
 
 
 export async function tree(paginationFilter: PaginationFilter) {

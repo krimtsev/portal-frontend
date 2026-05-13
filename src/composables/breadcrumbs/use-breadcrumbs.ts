@@ -2,7 +2,7 @@ import { useRoute } from "vue-router"
 import { computed } from "vue"
 import { useI18n } from "vue-i18n"
 
-import type { Breadcrumb } from "@/shared/route-meta/route-meta"
+import type { Breadcrumb } from "@/definitions/route-meta.ts"
 
 export function useBreadcrumbs() {
     const route = useRoute()

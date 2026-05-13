@@ -1,4 +1,4 @@
-import type { Roles } from "@/shared/roles/roles"
+import type { Roles } from "@/definitions/roles"
 import type { UserAccess } from "@v/dashboard/users/edit/definitions/user"
 
 interface UserPartner {

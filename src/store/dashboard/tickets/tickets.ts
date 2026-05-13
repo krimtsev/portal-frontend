@@ -7,7 +7,7 @@ import {
     defaultPaginationPage,
     type PaginationFilter,
     type PaginationPage,
-} from "@/shared/pagination/pagination"
+} from "@/definitions/pagination.ts"
 
 export const useTicketsStore = defineStore("tickets", () => {
     const isLoading = ref<boolean>(false)
@@ -16,9 +16,9 @@ export const useTicketsStore = defineStore("tickets", () => {
         defaultPaginationFilter({
             search:  "",
             filters: {
-                category_id: [],
-                partner_id:  [],
-                state:       [],
+                department_id: [],
+                partner_id:    [],
+                state:         [],
             },
         }),
     )

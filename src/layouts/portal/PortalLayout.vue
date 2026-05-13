@@ -10,7 +10,7 @@ import { ProfileRouteName } from "@r/profile/route-names"
 import { menuData } from "@l/portal/data/menu"
 import BImage from "@c/common/b-image/b-image.vue"
 import BLink from "@c/common/b-link/b-link.vue"
-import { Roles } from "@/shared/roles/roles"
+import { Roles } from "@/definitions/roles.ts"
 
 
 const router = useRouter()

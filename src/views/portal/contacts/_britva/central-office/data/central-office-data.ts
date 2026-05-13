@@ -1,6 +1,6 @@
 import type { CentralOfficeUser } from "@v/portal/contacts/_britva/central-office/defenitions/central-office"
 
-import { ContentType } from "@/shared/content/content"
+import { ContentType } from "@/definitions/content"
 
 export const centralOfficeData: CentralOfficeUser[] = [
     {

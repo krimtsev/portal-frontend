@@ -7,6 +7,7 @@ import PrimeColumn from "primevue/column"
 import PrimeDataTable from "primevue/datatable"
 import PrimeFloatLabel from "primevue/floatlabel"
 import PrimeMultiSelect from "primevue/multiselect"
+import { useDepartmentStore } from "@s/department/department"
 import { useNotify } from "@/composables/notify/use-notify"
 import { ProfileRouteName } from "@r/profile/route-names"
 import { HttpError } from "@/api"
@@ -16,24 +17,23 @@ import BSkeleton from "@c/common/b-skeleton/b-skeleton.vue"
 import BTableText from "@c/common/b-table/b-table-text.vue"
 import PortalPage from "@c/portal/portal-page/portal-page.vue"
 import { TicketState, TicketType } from "@v/profile/tickets/edit/definitions/ticket"
-import type { TicketCategoriesItem } from "@v/profile/tickets/edit/definitions/ticket-category"
 import TicketStateBadge from "@v/profile/tickets/list/components/ticket-state-badge.vue"
 import type { TicketListItem } from "@v/profile/tickets/list/definitions/tickets-list"
-import { defaultPaginationFilter, defaultPaginationPage } from "@/shared/pagination/pagination"
-
+import { defaultPaginationFilter, defaultPaginationPage } from "@/definitions/pagination"
 
 const notify = useNotify()
-const { t, n } = useI18n()
 const router = useRouter()
+const { t, n } = useI18n()
+
+const departmentStore = useDepartmentStore()
 
 const isFirstLoading = ref(true)
 const isLoading = ref(true)
 
 const tickets = ref<TicketListItem[]>([])
-const categories = ref<TicketCategoriesItem[]>([])
 const paginationFilter = ref(defaultPaginationFilter({
     filters: {
-        category_id: [],
+        department_id: [],
     },
 }))
 const paginationPage = ref(defaultPaginationPage({
@@ -48,13 +48,13 @@ onMounted(() => {
 
 const setInitialData = () => {
     tickets.value = new Array(paginationPage.value.perPage).fill({
-        id:       0,
-        title:    "",
-        type:     TicketType.General,
-        category: null,
-        partner:  null,
-        user:     null,
-        state:    TicketState.New,
+        id:            0,
+        title:         "",
+        type:          TicketType.General,
+        department_id: null,
+        partner:       null,
+        user:          null,
+        state:         TicketState.New,
     })
 }
 
@@ -64,26 +64,17 @@ async function getData() {
 
     const [
         ticketData,
-        ticketCategoriesData,
     ] = await Promise.all([
         ticketsAPI.list(paginationFilter.value),
-        isFirstLoading.value ? ticketsAPI.categories() : null,
     ])
 
-    if (
-        ticketData instanceof HttpError ||
-        ticketCategoriesData instanceof HttpError
-    ) {
+    if (ticketData instanceof HttpError) {
         notify.error()
         return false
     }
 
     tickets.value = ticketData.list
     paginationPage.value = ticketData.page
-
-    if (ticketCategoriesData) {
-        categories.value = ticketCategoriesData.list
-    }
 
     isLoading.value = false
     isFirstLoading.value = false
@@ -150,6 +141,8 @@ const isDisabled = computed(() => {
 })
 
 const goTo = (id: string) => router.push({ name: ProfileRouteName.ProfileTicket, params: { id } })
+
+const departmentName = (id: number) => departmentStore.getTitleById(id)
 </script>
 
 <template>
@@ -160,20 +153,20 @@ const goTo = (id: string) => router.push({ name: ProfileRouteName.ProfileTicket,
         <div class="filter">
             <prime-float-label variant="on">
                 <prime-multi-select
-                    v-model="paginationFilter.filters.category_id"
-                    :options="categories"
+                    v-model="paginationFilter.filters.department_id"
+                    :options="departmentStore.options"
                     filter
                     :disabled="isDisabled"
                     :max-selected-labels="1"
                     option-label="title"
                     option-value="id"
-                    class="filter-category"
+                    class="filter-department"
                     selected-items-label="{0} выбрано"
                     append-to="self"
-                    input-id="category"
+                    input-id="department"
                     @hide="onChangeFilter"
                 />
-                <label for="category">Отдел</label>
+                <label for="department">Отдел</label>
             </prime-float-label>
         </div>
 
@@ -235,15 +228,15 @@ const goTo = (id: string) => router.push({ name: ProfileRouteName.ProfileTicket,
 
                 <prime-column
                     header="Отдел"
-                    field="category"
-                    class="table-category"
+                    field="department_id"
+                    class="table-department"
                 >
                     <template #body="{ data }">
                         <b-skeleton
                             :is-loading="isLoading"
                             full-width
                         >
-                            <b-table-text :text="data?.category?.title" />
+                            <b-table-text :text="departmentName(data?.department_id)" />
                         </b-skeleton>
                     </template>
                 </prime-column>
@@ -305,7 +298,7 @@ const goTo = (id: string) => router.push({ name: ProfileRouteName.ProfileTicket,
     .filter {
         margin-bottom: $indent-x2;
 
-        &-category {
+        &-department {
             @include col-width(250px);
         }
     }
@@ -328,7 +321,7 @@ const goTo = (id: string) => router.push({ name: ProfileRouteName.ProfileTicket,
             }
 
             &-partner,
-            &-category {
+            &-department {
                 @include col-fixed(250px);
             }
         }

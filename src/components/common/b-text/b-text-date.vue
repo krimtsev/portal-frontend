@@ -58,3 +58,9 @@ const display = computed(() => {
 <template>
     <span class="b-text-date">{{ display }}</span>
 </template>
+
+<style scoped lang="scss">
+.b-text-date {
+    white-space: nowrap;
+}
+</style>

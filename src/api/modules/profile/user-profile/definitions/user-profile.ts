@@ -1,11 +1,12 @@
-import { Roles } from "@/shared/roles/roles"
+import { Roles } from "@/definitions/roles.ts"
 
 export interface UserData {
-    login:  string
-    name:   string
-    role:   Roles
-    email:  string | null
-    avatar: string | null
+    login:       string
+    name:        string
+    role:        Roles
+    email:       string | null
+    avatar:      string | null
+    departments: number[]
 }
 
 export interface PartnerData {

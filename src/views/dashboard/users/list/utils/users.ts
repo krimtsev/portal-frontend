@@ -3,7 +3,7 @@ import { DateTime } from "luxon"
 import { downloadExternalFile } from "@/lib/files"
 import { type UsersExportData } from "@v/dashboard/users/list/definitions/users"
 import i18n from "@/plugins/i18n"
-import { Roles } from "@/shared/roles/roles"
+import { Roles } from "@/definitions/roles"
 import { UserAccessType } from "@v/dashboard/users/edit/definitions/user"
 
 export const stateList: { id: boolean, name: string }[] = [

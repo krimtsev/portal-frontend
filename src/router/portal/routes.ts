@@ -1,7 +1,7 @@
 import type { RouteLocationNormalized, RouteRecordRaw } from "vue-router"
 import { portalPaths } from "@r/portal/path"
 import { PortalRouteName } from "@r/portal/route-names"
-import { Roles } from "@/shared/roles/roles"
+import { Roles } from "@/definitions/roles.ts"
 import { useAppStore } from "@s/app/app"
 
 

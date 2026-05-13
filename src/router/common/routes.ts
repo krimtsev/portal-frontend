@@ -1,10 +1,9 @@
 import type { RouteRecordRaw } from "vue-router"
 import { commonPaths } from "@r/common/paths"
 import { CommonRouteName } from "@r/common/route-names"
-import GuestLayout from "@l/guest/GuestLayout.vue"
 import LoginView from "@v/auth/auth-view.vue"
 
-import { Roles } from "@/shared/roles/roles"
+import { Roles } from "@/definitions/roles.ts"
 
 const routes: RouteRecordRaw[] = [
     {
@@ -12,16 +11,14 @@ const routes: RouteRecordRaw[] = [
         name:      CommonRouteName.Auth,
         component: LoginView,
         meta:      {
-            layout: GuestLayout,
-            roles:  [Roles.UNAUTHORIZED],
+            roles: [Roles.UNAUTHORIZED],
         },
     },
     {
         path:      "/:pathMatch(.*)*",
         component: LoginView,
         meta:      {
-            layout: GuestLayout,
-            roles:  [Roles.UNAUTHORIZED],
+            roles: [Roles.UNAUTHORIZED],
         },
     },
 ]

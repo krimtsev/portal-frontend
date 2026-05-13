@@ -2,6 +2,7 @@
 import { computed, nextTick, onMounted, ref, useTemplateRef } from "vue"
 import { useI18n } from "vue-i18n"
 import { useRoute, useRouter } from "vue-router"
+import { useDepartmentStore } from "@s/department/department"
 import { useNotify } from "@/composables/notify/use-notify"
 import { useVeeForm } from "@/composables/vee-validate/use-validation"
 import { dashboardPaths } from "@r/dashboard/path"
@@ -34,42 +35,43 @@ import {
     TicketState,
     TicketType,
 } from "@v/profile/tickets/edit/definitions/ticket"
-import type { TicketCategoriesItem } from "@v/profile/tickets/edit/definitions/ticket-category"
 import {
     formatChanges,
     hasTimelineMessage,
     normalizeAttributes,
 } from "@v/profile/tickets/edit/utils/ticket"
-import { maxMessageLength } from "@v/profile/tickets/list/definitions/tickets-list"
 import { stateList } from "@v/profile/tickets/list/utils/ticket"
 import { downloadExternalFile } from "@/lib/files"
+import { maxMessageLength } from "@/constants/messages"
 
 const notify = useNotify()
 const route = useRoute()
 const router = useRouter()
 const { t } = useI18n()
 
+const departmentStore = useDepartmentStore()
+
 function defaultState(): TicketStateData {
     return {
-        title:       "",
-        type:        TicketType.General,
-        partner_id:  null,
-        category_id: null,
-        message:     "",
-        files:       [],
-        state:       TicketState.New,
+        title:         "",
+        type:          TicketType.General,
+        partner_id:    null,
+        department_id: null,
+        message:       "",
+        files:         [],
+        state:         TicketState.New,
     }
 }
 
 const ticketDetails = ref<TicketDetails>({
-    title:      "",
-    type:       TicketType.General,
-    category:   null,
-    partner:    null,
-    user:       null,
-    state:      TicketState.New,
-    attributes: {},
-    timeline:   [],
+    title:         "",
+    type:          TicketType.General,
+    department_id: null,
+    partner:       null,
+    user:          null,
+    state:         TicketState.New,
+    attributes:    {},
+    timeline:      [],
 })
 
 const isFirstLoading = ref(true)
@@ -77,7 +79,6 @@ const isLoading = ref(false)
 const isLoadingFile = ref(false)
 
 const ticketStateList = stateList()
-const ticketCategoriesList = ref<TicketCategoriesItem[]>([])
 const partnersList = ref<PartnerOptionItem[]>([])
 
 const ticketId = computed(() => route.params.id as string)
@@ -96,7 +97,7 @@ const {
 
 const [titleModel] = defineLazyField("title")
 const [partnerIdModel] = defineLazyField("partner_id")
-const [categoryIdModel] = defineLazyField("category_id")
+const [departmentIdModel] = defineLazyField("department_id")
 const [stateModel] = defineLazyField("state")
 const [messageModel] = defineLazyField("message")
 const [filesModel] = defineLazyField("files")
@@ -110,17 +111,14 @@ onMounted(async () => {
 
     const [
         ticketData,
-        categoriesData,
         partnersData,
     ] = await Promise.all([
         ticketsAPI.get(id),
-        ticketsAPI.categories(),
         partnersAPI.options(),
     ])
 
     if (
         ticketData instanceof HttpError ||
-        categoriesData instanceof HttpError ||
         partnersData instanceof HttpError
     ) {
         notify.error()
@@ -128,20 +126,19 @@ onMounted(async () => {
         return
     }
 
-    ticketCategoriesList.value = categoriesData.list
     partnersList.value = partnersData.list
 
     ticketDetails.value = ticketData.data
 
     resetForm({
         values: {
-            title:       ticketDetails.value.title,
-            partner_id:  ticketDetails.value.partner?.id || null,
-            category_id: ticketDetails.value.category?.id || null,
-            type:        ticketDetails.value.type || TicketType.General,
-            state:       ticketDetails.value.state,
-            message:     "",
-            files:       [],
+            title:         ticketDetails.value.title,
+            partner_id:    ticketDetails.value.partner?.id || null,
+            department_id: ticketDetails.value.department_id || null,
+            type:          ticketDetails.value.type || TicketType.General,
+            state:         ticketDetails.value.state,
+            message:       "",
+            files:         [],
         },
     })
 
@@ -253,10 +250,10 @@ const onSave = handleSubmit(async (formValues) => {
                 required
             >
                 <b-select
-                    v-model="categoryIdModel"
-                    :options="ticketCategoriesList"
+                    v-model="departmentIdModel"
+                    :options="departmentStore.options"
                     :disabled="isLoading"
-                    :error="errors['category_id']"
+                    :error="errors['department_id']"
                     filter
                     option-label="title"
                     option-value="id"

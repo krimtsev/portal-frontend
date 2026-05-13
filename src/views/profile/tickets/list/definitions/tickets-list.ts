@@ -1,10 +1,5 @@
 import { TicketType } from "@v/profile/tickets/edit/definitions/ticket"
 
-interface TicketCategory {
-    id:    number
-    title: string
-}
-
 interface TicketPartner {
     id:   number
     name: string
@@ -15,17 +10,13 @@ interface TicketUser {
     name:  string
 }
 
-export const maxTitleLength = 125
-export const maxMessageLength = 2000
-export const maxMessageLengthShort = 500
-
 export interface TicketListItem {
-    id:       string
-    title:    string
-    type:     TicketType
-    category: TicketCategory | null
-    partner:  TicketPartner | null
-    user:     TicketUser | null
+    id:            string
+    title:         string
+    type:          TicketType
+    department_id: number
+    partner:       TicketPartner | null
+    user:          TicketUser | null
     state: {
         key:   string
         value: string

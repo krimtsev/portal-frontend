@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Variants } from "@/shared/content/content"
+import type { Variants } from "@/definitions/content.ts"
 
 const props = withDefaults(defineProps<{
     title:    string

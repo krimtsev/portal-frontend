@@ -1,7 +1,7 @@
 import type { RouteRecordRaw } from "vue-router"
 import { dashboardPaths } from "@r/dashboard/path"
 import { DashboardRouteName } from "@r/dashboard/route-names"
-import { Roles } from "@/shared/roles/roles"
+import { Roles } from "@/definitions/roles.ts"
 
 const routes: RouteRecordRaw[] = [
     {

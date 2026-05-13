@@ -13,7 +13,7 @@ import BTableText from "@c/common/b-table/b-table-text.vue"
 import PortalPage from "@c/portal/portal-page/portal-page.vue"
 import PortalUserCard from "@c/portal/portal-user-card/portal-user-card.vue"
 import type { CertificateItem } from "@v/portal/certificates/definitions/certificates"
-import { defaultPaginationFilter, defaultPaginationPage } from "@/shared/pagination/pagination"
+import { defaultPaginationFilter, defaultPaginationPage } from "@/definitions/pagination"
 
 const notify = useNotify()
 const { t, n } = useI18n()

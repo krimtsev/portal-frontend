@@ -1,5 +1,5 @@
 import rawEnv from "./env.js"
-import { Partner } from "@/shared/partner/partner"
+import { Partner } from "@/definitions/partner.ts"
 
 export interface Env {
     app: {

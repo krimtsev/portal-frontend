@@ -3,7 +3,7 @@ import { reg } from "@/lib/validator"
 import { FilesSchema } from "@c/common/b-upload-file/schemas/file-upload.schema"
 import { Qualification } from "@v/profile/tickets/create/specialist/_britva/definitions/specialist"
 import {
-    CategoryIdSchema,
+    DepartmentIdSchema,
     MessageSchema,
     PartnerIdSchema,
     TitleSchema,
@@ -33,12 +33,12 @@ const AttributesSchema = z.object({
 
 export const FormSchema = toTypedSchema(
     z.object({
-        title:       TitleSchema,
-        category_id: CategoryIdSchema,
-        type:        TypeSchema,
-        attributes:  AttributesSchema,
-        message:     MessageSchema,
-        partner_id:  PartnerIdSchema,
-        files:       FilesSchema,
+        title:         TitleSchema,
+        department_id: DepartmentIdSchema,
+        type:          TypeSchema,
+        attributes:    AttributesSchema,
+        message:       MessageSchema,
+        partner_id:    PartnerIdSchema,
+        files:         FilesSchema,
     }),
 )

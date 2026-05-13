@@ -23,7 +23,7 @@ import { normalizeData } from "@v/portal/contacts/franchisee/utils/franchisee"
 import {
     defaultPaginationFilter,
     defaultPaginationPage,
-} from "@/shared/pagination/pagination"
+} from "@/definitions/pagination"
 
 const notify = useNotify()
 const { t, n } = useI18n()

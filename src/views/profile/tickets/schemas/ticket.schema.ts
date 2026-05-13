@@ -1,6 +1,6 @@
 import * as z from "zod"
-import { maxMessageLength, maxTitleLength } from "@v/profile/tickets/list/definitions/tickets-list"
-import { TicketType } from "@v/profile/tickets/edit/definitions/ticket.ts"
+import { maxMessageLength, maxTitleLength } from "@/constants/messages"
+import { TicketType } from "@v/profile/tickets/edit/definitions/ticket"
 
 /** General schema **/
 
@@ -28,6 +28,6 @@ export const TitleSchema = z.string()
     .max(maxTitleLength, { message: `Максимальная длина ${maxTitleLength} символов` })
     .nonempty()
 
-export const CategoryIdSchema = z.number({ message: "Выберите отдел" })
+export const DepartmentIdSchema = z.number({ message: "Выберите отдел" })
 
 export const TypeSchema = z.enum(TicketType)

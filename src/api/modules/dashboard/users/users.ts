@@ -7,7 +7,7 @@ import type {
     UsersListItem,
 } from "@v/dashboard/users/list/definitions/users"
 import { http } from "@/api"
-import type { Pagination, PaginationFilter } from "@/shared/pagination/pagination"
+import type { Pagination, PaginationFilter } from "@/definitions/pagination.ts"
 
 export async function list(paginationFilter: PaginationFilter) {
     return await http.post<Pagination<UsersListItem[]>>("dashboard/users/list", paginationFilter)
