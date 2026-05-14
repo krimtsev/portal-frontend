@@ -28,6 +28,9 @@ export interface PartnersExportData {
     ogrnip:          string
     contract_number: string
     address:         string
+    email:           string
+    yclients_id:     string
+    mango_telnum:    string
     disabled:        boolean
     start_at:        string
 }

@@ -35,6 +35,9 @@ export async function exportXLS(partners: PartnersExportData[]) {
         { header: "ОГРНИП", key: "ogrnip", width: 20 },
         { header: "Номер договора", key: "contract_number", width: 15 },
         { header: "Адрес организации", key: "address", width: 30 },
+        { header: "Электронная почта", key: "email", width: 20 },
+        { header: "Yclients ID", key: "yclients_id", width: 20 },
+        { header: "Mango телефон ", key: "mango_telnum", width: 20 },
         { header: "Статус", key: "status", width: 15 },
         { header: "Дата подписания", key: "start_at", width: 30 },
     ]
@@ -48,6 +51,9 @@ export async function exportXLS(partners: PartnersExportData[]) {
             ogrnip:          partner.ogrnip,
             contract_number: partner.contract_number,
             address:         partner.address,
+            email:           partner.email,
+            yclients_id:     partner.yclients_id,
+            mango_telnum:    partner.mango_telnum,
             status:          partner.disabled
                 ? i18n.global.t("mc.dashboard.partners.state.disabled")
                 : i18n.global.t("mc.dashboard.partners.state.active"),
