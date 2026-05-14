@@ -15,6 +15,7 @@ export interface UsersListItem {
     disabled:      boolean
     last_activity: string
     access:        UserAccess
+    departments:   number[]
 }
 
 export interface UsersExportData {
@@ -23,6 +24,8 @@ export interface UsersExportData {
     login:         string
     role:          Roles
     partner:       string
+    email:         string
     disabled:      boolean
     last_activity: string
+    departments:   number[]
 }

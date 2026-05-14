@@ -5,6 +5,7 @@ import { type UsersExportData } from "@v/dashboard/users/list/definitions/users"
 import i18n from "@/plugins/i18n"
 import { Roles } from "@/definitions/roles"
 import { UserAccessType } from "@v/dashboard/users/edit/definitions/user"
+import { useDepartmentStore } from "@s/department/department"
 
 export const stateList: { id: boolean, name: string }[] = [
     {
@@ -40,6 +41,8 @@ export const accessList: { id: UserAccessType, name: string }[] = [
 ]
 
 export async function exportXLS(users: UsersExportData[]) {
+    const departmentStore = useDepartmentStore()
+
     const date = DateTime.now().toFormat("dd.MM.yyyy")
     const workbook = new ExcelJS.Workbook()
     const worksheet = workbook.addWorksheet("Пользователи", {
@@ -57,6 +60,8 @@ export async function exportXLS(users: UsersExportData[]) {
         { header: "Филиал", key: "partner", width: 30 },
         { header: "Статус", key: "status", width: 15 },
         { header: "Имя", key: "name", width: 30 },
+        { header: "Почта", key: "email", width: 20 },
+        { header: "Отдел", key: "departments", width: 30 },
         { header: "Активность", key: "activity", width: 30 },
     ]
 
@@ -69,7 +74,10 @@ export async function exportXLS(users: UsersExportData[]) {
             status:  user.disabled
                 ? i18n.global.t("mc.dashboard.users.state.disabled")
                 : i18n.global.t("mc.dashboard.users.state.active"),
-            name:     user.name,
+            name:        user.name,
+            email:       user.email,
+            departments: user.departments.map(id => departmentStore.getTitleById(id))
+                .join(", "),
             activity: user.last_activity,
         })
     })

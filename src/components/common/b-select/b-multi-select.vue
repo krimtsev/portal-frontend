@@ -43,12 +43,23 @@ const props = withDefaults(defineProps<{
 
 const { t } = useI18n()
 
+const isOptionsEmpty = computed(() => {
+    return model.value?.length > 0 && props.options.length === 0
+})
+
 const selectedItemsLabel = computed(() => {
+    if (isOptionsEmpty.value) return props.placeholder
+
     if (props.selectedItemsLabel) return props.selectedItemsLabel
 
     if (!!props.selectedCount) {
         return t("mc.select.elements", props.selectedCount)
     }
+})
+
+const maxSelectedLabels = computed(() => {
+    if (isOptionsEmpty.value) return 0
+    return props.maxSelectedLabels
 })
 </script>
 
@@ -65,7 +76,7 @@ const selectedItemsLabel = computed(() => {
             :invalid="!!props.error"
             :loading="props.isLoading"
             :show-clear="props.showClear"
-            :max-selected-labels="props.maxSelectedLabels"
+            :max-selected-labels="maxSelectedLabels"
             :append-to="props.appendTo"
             :selected-items-label="selectedItemsLabel"
             :show-toggle-all="props.showToggleAll"

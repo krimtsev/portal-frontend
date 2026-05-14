@@ -5,6 +5,7 @@ import { useRouter } from "vue-router"
 import PrimeColumn from "primevue/column"
 import PrimeDataTable from "primevue/datatable"
 import { useUsersStore } from "@s/dashboard/users/users"
+import { useDepartmentStore } from "@s/department/department.ts"
 import { useNotify } from "@/composables/notify/use-notify"
 import { useOpenRoute } from "@/composables/route/use-open-route"
 import { DashboardRouteName } from "@r/dashboard/route-names"
@@ -36,11 +37,18 @@ const notify = useNotify()
 const { t, n } = useI18n()
 const router = useRouter()
 const { openRoute } = useOpenRoute()
+
 const usersStore = useUsersStore()
+const departmentStore = useDepartmentStore()
 
 const users = ref<UsersListItem[]>([])
 const partners = ref<PartnerOptionItem[]>([])
 const isExporting = ref(false)
+
+const getDepartments = (ids: number[]) => {
+    return ids.map(id => departmentStore.getTitleById(id))
+        .join(", ")
+}
 
 const paginationInfo = computed(() => {
     return t("mc.pagination.table",
@@ -212,6 +220,23 @@ async function onExportXLS() {
             </b-toolbar-item>
 
             <template #more>
+                <b-toolbar-item header="Отделы">
+                    <b-multi-select
+                        v-model="usersStore.filter.filters.department_id"
+                        :options="departmentStore.options"
+                        :selected-count="usersStore.filter.filters.department_id.length"
+                        :disabled="usersStore.isLoading"
+                        option-label="title"
+                        option-value="id"
+                        filter
+                        show-clear
+                        placeholder="Выберите отдел"
+                        class="filter-department"
+                        @hide="onChangeFilter"
+                        @clear="onChangeFilter"
+                    />
+                </b-toolbar-item>
+
                 <b-toolbar-item header="Доступы">
                     <b-multi-select
                         v-model="usersStore.filter.filters.access"
@@ -329,6 +354,16 @@ async function onExportXLS() {
                 </prime-column>
 
                 <prime-column
+                    field="departments"
+                    header="Отдел"
+                    class="table-departments"
+                >
+                    <template #body="{ data }">
+                        <b-table-text :text="getDepartments(data.departments)" />
+                    </template>
+                </prime-column>
+
+                <prime-column
                     field="location_map"
                     header="Карта"
                     class="table-location-map"
@@ -376,7 +411,8 @@ async function onExportXLS() {
         @include table;
 
         .table {
-            &-login {
+            &-login,
+            &-departments {
                 @include col-fixed(200px);
             }
         }
@@ -386,7 +422,8 @@ async function onExportXLS() {
         &-partner,
         &-role,
         &-state,
-        &-access{
+        &-access,
+        &-department {
             @include col-width(250px);
         }
     }

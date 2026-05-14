@@ -16,10 +16,11 @@ export const useUsersStore = defineStore("users", () => {
         defaultPaginationFilter({
             search:  "",
             filters: {
-                partner_id: [],
-                disabled:   [],
-                role:       [],
-                access:     [],
+                partner_id:    [],
+                department_id: [],
+                disabled:      [],
+                role:          [],
+                access:        [],
             },
         }),
     )

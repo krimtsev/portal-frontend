@@ -8,7 +8,7 @@ export interface UserData {
     email:       string
     notes:       string
     partner_id:  number | null
-    departments: string[]
+    departments: number[]
     disabled:    boolean
     access:      UserAccess
 }
