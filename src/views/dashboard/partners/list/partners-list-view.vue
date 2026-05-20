@@ -294,7 +294,7 @@ async function onExportXLS() {
                 </prime-column>
 
                 <prime-column
-                    header="Дата открытия"
+                    header="Дата подписания"
                     field="start_at"
                     class="table-start-at"
                 >

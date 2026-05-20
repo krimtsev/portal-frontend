@@ -70,6 +70,17 @@ export const PartnerSchema = toTypedSchema(
                 ),
         ),
 
+        opened_at: z.preprocess(
+            (val) => val === "" ? null : val,
+            z.string()
+                .nullable()
+                .optional()
+                .refine(
+                    (val) => !val || isIsoDate(val),
+                    { message: "Неверный формат даты" },
+                ),
+        ),
+
         disabled: z.boolean(),
 
         telnums: z.array(telnumZodSchema),

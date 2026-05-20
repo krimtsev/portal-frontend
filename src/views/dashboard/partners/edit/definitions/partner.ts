@@ -10,6 +10,7 @@ export interface PartnerData {
     mango_telnum:    string
     address:         string
     start_at:        Date | null
+    opened_at:       Date | null
     disabled:        boolean
     telnums:         PartnerTelnumItem[]
 }

@@ -33,13 +33,14 @@ export async function exportXLS(partners: PartnersExportData[]) {
         { header: "Организация", key: "organization", width: 35 },
         { header: "ИНН", key: "inn", width: 20 },
         { header: "ОГРНИП", key: "ogrnip", width: 20 },
-        { header: "Номер договора", key: "contract_number", width: 15 },
+        { header: "Номер договора", key: "contract_number", width: 20 },
         { header: "Адрес организации", key: "address", width: 30 },
         { header: "Электронная почта", key: "email", width: 20 },
         { header: "Yclients ID", key: "yclients_id", width: 20 },
         { header: "Mango телефон ", key: "mango_telnum", width: 20 },
         { header: "Статус", key: "status", width: 15 },
-        { header: "Дата подписания", key: "start_at", width: 30 },
+        { header: "Дата открытия", key: "opened_at", width: 20 },
+        { header: "Дата подписания", key: "start_at", width: 20 },
     ]
 
     partners.forEach((partner) => {
@@ -57,7 +58,8 @@ export async function exportXLS(partners: PartnersExportData[]) {
             status:          partner.disabled
                 ? i18n.global.t("mc.dashboard.partners.state.disabled")
                 : i18n.global.t("mc.dashboard.partners.state.active"),
-            start_at: partner.start_at,
+            opened_at: partner.opened_at,
+            start_at:  partner.start_at,
         })
     })
 

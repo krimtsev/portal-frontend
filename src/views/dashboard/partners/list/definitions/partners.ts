@@ -32,5 +32,6 @@ export interface PartnersExportData {
     yclients_id:     string
     mango_telnum:    string
     disabled:        boolean
+    opened_at:       string
     start_at:        string
 }

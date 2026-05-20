@@ -41,6 +41,7 @@ function defaultState(): PartnerData {
         mango_telnum:    "",
         address:         "",
         start_at:        null,
+        opened_at:       null,
         disabled:        true,
         telnums:         [],
     }
@@ -76,6 +77,7 @@ const [yclientsIdModel] = defineLazyField("yclients_id")
 const [mangoTelnumModel] = defineLazyField("mango_telnum")
 const [addressModel] = defineLazyField("address")
 const [startAtModel] = defineLazyField("start_at")
+const [openedAtModel] = defineLazyField("opened_at")
 const [disabledModel] = defineLazyField("disabled")
 const [telnumsModel] = defineLazyField("telnums")
 
@@ -116,6 +118,7 @@ onMounted(async () => {
                 mango_telnum:    partner.mango_telnum,
                 address:         partner.address,
                 start_at:        partner.start_at || null,
+                opened_at:       partner.opened_at || null,
                 disabled:        partner.disabled,
                 telnums:         partner.telnums || [],
             },
@@ -234,6 +237,16 @@ const onSave = handleSubmit(async (formValues) => {
                 />
             </b-form-item>
 
+            <b-form-item label="Дата открытия">
+                <b-date-picker
+                    v-model="openedAtModel"
+                    :disabled="isLoading"
+                    :error="errors['opened_at']"
+                    update-model-type="string"
+                    show-button-bar
+                />
+            </b-form-item>
+
             <b-form-item label="Дата подписания">
                 <b-date-picker
                     v-model="startAtModel"
@@ -300,9 +313,3 @@ const onSave = handleSubmit(async (formValues) => {
         </b-form-card>
     </b-form>
 </template>
-
-<style scoped lang="scss">
-.partner-view {
-
-}
-</style>
