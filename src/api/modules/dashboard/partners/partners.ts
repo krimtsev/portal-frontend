@@ -12,13 +12,14 @@ import { http } from "@/api"
 import type {
     Pagination,
     PaginationFilter,
-} from "@/definitions/pagination.ts"
+} from "@/definitions/pagination"
+import type { PartnerFilters } from "@s/dashboard/partners/partners"
 
 export async function options() {
     return await http.get<PartnerOptionsResponse>("dashboard/partners/options")
 }
 
-export async function list(paginationFilter: PaginationFilter) {
+export async function list(paginationFilter: PaginationFilter<PartnerFilters>) {
     return await http.post<Pagination<PartnerListItem[]>>("dashboard/partners/list", paginationFilter)
 }
 

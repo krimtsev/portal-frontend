@@ -23,3 +23,7 @@ export interface TicketListItem {
     }
     last_message_at: string
 }
+
+export interface TicketFilters {
+    department_id: number[]
+}

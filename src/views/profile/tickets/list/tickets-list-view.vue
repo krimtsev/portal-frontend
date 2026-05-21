@@ -19,7 +19,10 @@ import PortalPage from "@c/portal/portal-page/portal-page.vue"
 import { TicketState, TicketType } from "@v/profile/tickets/edit/definitions/ticket"
 import TicketStateBadge from "@v/profile/tickets/list/components/ticket-state-badge.vue"
 import type { TicketListItem } from "@v/profile/tickets/list/definitions/tickets-list"
-import { defaultPaginationFilter, defaultPaginationPage } from "@/definitions/pagination"
+import {
+    defaultPaginationFilter,
+    defaultPaginationPage,
+} from "@/definitions/pagination"
 
 const notify = useNotify()
 const router = useRouter()
@@ -106,29 +109,10 @@ function onPageChange({ page }: { page: number }) {
 }
 
 function onChangeFilter() {
-    const currentFilters = paginationFilter.value.filters
-    const prevFilters = prevPaginationFilter.value.filters
+    const currentDepartment = paginationFilter.value.filters.department_id
+    const prevDepartment = prevPaginationFilter.value.filters.department_id
 
-    let hasChanged = false
-
-    for (const key in currentFilters) {
-        const currentValue = currentFilters[key]
-        const prevValue = prevFilters[key]
-
-        if (Array.isArray(currentValue)) {
-            if (!isEqual(currentValue, prevValue)) {
-                hasChanged = true
-                break
-            }
-        } else {
-            if (currentValue !== prevValue) {
-                hasChanged = true
-                break
-            }
-        }
-    }
-
-    if (!hasChanged) return
+    if (isEqual(currentDepartment, prevDepartment)) return
 
     paginationFilter.value.page = 1
     prevPaginationFilter.value = cloneDeep(paginationFilter.value)

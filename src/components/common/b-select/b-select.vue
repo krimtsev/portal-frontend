@@ -6,6 +6,7 @@ const model = defineModel<any>()
 
 const emit = defineEmits<{
     (e: "hide"): void
+    (e: "clear"): void
 }>()
 
 const props = withDefaults(defineProps<{
@@ -22,8 +23,8 @@ const props = withDefaults(defineProps<{
     placeholder: "",
     disabled:    false,
     error:       "",
-    optionLabel: "label",
-    optionValue: "value",
+    optionLabel: "title",
+    optionValue: "id",
     isLoading:   false,
     showClear:   false,
     filter:      undefined,
@@ -45,7 +46,17 @@ const props = withDefaults(defineProps<{
             :show-clear="props.showClear"
             class="select"
             @hide="emit('hide')"
-        />
+        >
+            <template #clearicon="{ clearCallback }">
+                <i
+                    class="pi pi-times clear-icon"
+                    @click.stop="(event) => {
+                        clearCallback(event)
+                        emit('clear')
+                    }"
+                />
+            </template>
+        </prime-select>
 
         <b-input-error :error="props.error" />
     </div>
@@ -65,6 +76,12 @@ const props = withDefaults(defineProps<{
         &.p-invalid {
             border-color: var(--p-form-field-invalid-border-color);
         }
+    }
+
+    .clear-icon {
+        align-self: center;
+        color: var(--p-form-field-icon-color);
+        inset-inline-end: var(--p-multiselect-dropdown-width);
     }
 
     .b-input-error {

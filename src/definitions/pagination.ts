@@ -12,24 +12,26 @@ export interface PaginationPage {
     to:          number
 }
 
-export interface PaginationFilter {
+export interface PaginationFilter<T = Record<string, string[] | boolean[] | number[]>> {
     page:      number
     sortBy:    string
     sortOrder: string
     perPage:   number
     search:    string
-    filters:   Record<string, string[] | boolean[] | number[]>
+    filters:   T
 }
 
 
-export function defaultPaginationFilter(params: Partial<PaginationFilter> = {}): PaginationFilter {
+export function defaultPaginationFilter<T = Record<string, string[] | boolean[] | number[]>>(
+    params: Partial<PaginationFilter<T>> = {},
+): PaginationFilter<T> {
     return {
         page:      1,
         sortBy:    "id",
         sortOrder: "asc",
         perPage:   20,
         search:    "",
-        filters:   {},
+        filters:   {} as unknown as T,
         ...params,
     }
 }

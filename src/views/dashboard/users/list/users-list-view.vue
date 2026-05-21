@@ -17,7 +17,8 @@ import BEmptyResult from "@c/common/b-empty/b-empty-result.vue"
 import BExport from "@c/common/b-export/b-export.vue"
 import BInputSearch from "@c/common/b-input-search/b-input-search.vue"
 import ListLoadingState from "@c/common/b-loading-state/list-loading-state.vue"
-import BMultiSelect from "@c/common/b-select/b-multi-select.vue"
+import BMultiSelect, { type MultiSelectItem } from "@c/common/b-select/b-multi-select.vue"
+import BSelect from "@c/common/b-select/b-select.vue"
 import BTableText from "@c/common/b-table/b-table-text.vue"
 import BTextDate from "@c/common/b-text/b-text-date.vue"
 import BToolbar from "@c/common/b-toolbar/b-toolbar.vue"
@@ -32,6 +33,7 @@ import {
     rolesList,
     stateList,
 } from "@v/dashboard/users/list/utils/users"
+import { FilterType } from "@/definitions/filter.ts"
 
 const notify = useNotify()
 const { t, n } = useI18n()
@@ -160,6 +162,26 @@ async function onExportXLS() {
         isExporting.value = false
     }
 }
+
+const partnerOptions = computed<MultiSelectItem[]>(() => {
+    return [
+        {
+            id:    "basic",
+            items: [{
+                id:    FilterType.WITHOUT_DATA,
+                title: "Без филиала",
+            }],
+        },
+        {
+            id:    "partners",
+            title: "Филилалы",
+            items: partners.value.map(item => ({
+                id:    item.id,
+                title: item.name,
+            })),
+        },
+    ]
+})
 </script>
 
 <template>
@@ -171,10 +193,10 @@ async function onExportXLS() {
             <b-toolbar-item header="Филиал">
                 <b-multi-select
                     v-model="usersStore.filter.filters.partner_id"
-                    :options="partners"
+                    :options="partnerOptions"
                     :selected-count="usersStore.filter.filters.partner_id.length"
                     :disabled="usersStore.isLoading"
-                    option-label="name"
+                    option-label="title"
                     option-value="id"
                     filter
                     show-clear
@@ -203,10 +225,9 @@ async function onExportXLS() {
             </b-toolbar-item>
 
             <b-toolbar-item header="Статус">
-                <b-multi-select
+                <b-select
                     v-model="usersStore.filter.filters.disabled"
                     :options="stateList"
-                    :selected-count="usersStore.filter.filters.disabled.length"
                     :disabled="usersStore.isLoading"
                     option-label="name"
                     option-value="id"

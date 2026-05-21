@@ -271,6 +271,8 @@ const onSave = handleSubmit(async (formValues) => {
                     :disabled="isLoading"
                     :error="errors['state']"
                     filter
+                    option-label="title"
+                    option-value="id"
                     placeholder="Выберите статус"
                 />
             </b-form-item>

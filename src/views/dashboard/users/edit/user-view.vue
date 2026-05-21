@@ -170,16 +170,16 @@ function onCreatePassword() {
 
 const rolesList = [
     {
-        label: t("mc.roles.user"),
-        value: Roles.USER,
+        id:    Roles.USER,
+        title: t("mc.roles.user"),
     },
     {
-        label: t("mc.roles.admin"),
-        value: Roles.ADMIN,
+        id:    Roles.ADMIN,
+        title: t("mc.roles.admin"),
     },
     {
-        label: t("mc.roles.sysadmin"),
-        value: Roles.SYSADMIN,
+        id:    Roles.SYSADMIN,
+        title: t("mc.roles.sysadmin"),
     },
 ]
 </script>
@@ -246,6 +246,8 @@ const rolesList = [
                     v-model="roleModel"
                     :disabled="isLoading"
                     :options="rolesList"
+                    option-value="id"
+                    option-label="title"
                     :error="errors['role']"
                 />
             </b-form-item>

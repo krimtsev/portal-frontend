@@ -4,6 +4,12 @@ import { useI18n } from "vue-i18n"
 import PrimeMultiSelect from "primevue/multiselect"
 import BInputError from "@c/common/b-input-error/b-input-error.vue"
 
+export interface MultiSelectItem {
+    id:            string | number | boolean
+    items?:        MultiSelectItem[]
+    [key: string]: any
+}
+
 const model = defineModel<any>()
 
 const emit = defineEmits<{
@@ -12,7 +18,7 @@ const emit = defineEmits<{
 }>()
 
 const props = withDefaults(defineProps<{
-    options:             any[]
+    options:             MultiSelectItem[]
     placeholder?:        string
     disabled?:           boolean
     error?:              string
@@ -30,8 +36,8 @@ const props = withDefaults(defineProps<{
     placeholder:        "",
     disabled:           false,
     error:              "",
-    optionLabel:        "label",
-    optionValue:        "value",
+    optionLabel:        "title",
+    optionValue:        "id",
     isLoading:          false,
     showClear:          false,
     maxSelectedLabels:  1,
@@ -43,8 +49,10 @@ const props = withDefaults(defineProps<{
 
 const { t } = useI18n()
 
+const isGrouped = computed(() => Array.isArray(props.options[0]?.items))
+
 const isOptionsEmpty = computed(() => {
-    return model.value?.length > 0 && props.options.length === 0
+    return (model.value?.length ?? 0) > 0 && props.options.length === 0
 })
 
 const selectedItemsLabel = computed(() => {
@@ -67,7 +75,7 @@ const maxSelectedLabels = computed(() => {
     <div class="b-multi-select">
         <prime-multi-select
             v-model="model"
-            :options="props.options"
+            :options="options"
             :disabled="props.disabled"
             :filter="props.filter"
             :option-label="props.optionLabel"
@@ -80,6 +88,12 @@ const maxSelectedLabels = computed(() => {
             :append-to="props.appendTo"
             :selected-items-label="selectedItemsLabel"
             :show-toggle-all="props.showToggleAll"
+            :option-group-label="isGrouped
+                ? props.optionLabel
+                : undefined"
+            :option-group-children="isGrouped
+                ? 'items'
+                : undefined"
             class="select"
             @hide="emit('hide')"
         >
@@ -91,6 +105,15 @@ const maxSelectedLabels = computed(() => {
                         emit('clear')
                     }"
                 />
+            </template>
+
+            <template #optiongroup="{ option }">
+                <div
+                    class="option-group-label"
+                    :data-empty="!option[props.optionLabel]"
+                >
+                    {{ option[props.optionLabel] }}
+                </div>
             </template>
         </prime-multi-select>
 
@@ -122,6 +145,10 @@ const maxSelectedLabels = computed(() => {
         align-self: center;
         color: var(--p-form-field-icon-color);
         inset-inline-end: var(--p-multiselect-dropdown-width);
+    }
+
+    :deep(.p-multiselect-option-group:has([data-empty="true"])) {
+        display: none;
     }
 }
 </style>

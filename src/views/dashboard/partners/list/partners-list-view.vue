@@ -15,7 +15,7 @@ import BEmptyResult from "@c/common/b-empty/b-empty-result.vue"
 import BExport from "@c/common/b-export/b-export.vue"
 import BInputSearch from "@c/common/b-input-search/b-input-search.vue"
 import ListLoadingState from "@c/common/b-loading-state/list-loading-state.vue"
-import BMultiSelect from "@c/common/b-select/b-multi-select.vue"
+import BSelect from "@c/common/b-select/b-select.vue"
 import BTableText from "@c/common/b-table/b-table-text.vue"
 import BTextDate from "@c/common/b-text/b-text-date.vue"
 import BToolbar from "@c/common/b-toolbar/b-toolbar.vue"
@@ -148,10 +148,9 @@ async function onExportXLS() {
             :show-more="!partnersStore.isLoading"
         >
             <b-toolbar-item header="Статус">
-                <b-multi-select
+                <b-select
                     v-model="partnersStore.filter.filters.disabled"
                     :options="stateList"
-                    :selected-count="partnersStore.filter.filters.disabled.length"
                     :disabled="partnersStore.isLoading"
                     option-label="name"
                     option-value="id"

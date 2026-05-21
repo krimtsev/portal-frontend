@@ -14,7 +14,9 @@
         "build": "cross-env NODE_ENV=production node builder/build.js && vite build",
         "preview": "vite preview",
         "lint": "eslint src/**/*.{js,ts,vue}",
-        "lint:fix": "eslint src/**/*.{js,ts,vue} --fix"
+        "lint:fix": "eslint src/**/*.{js,ts,vue} --fix",
+        "typecheck": "vue-tsc --noEmit -p tsconfig.app.json",
+        "validate": "pnpm typecheck && pnpm lint"
     },
     "dependencies": {
         "@primeuix/themes": "1.0.1",

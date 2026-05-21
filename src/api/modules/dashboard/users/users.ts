@@ -8,8 +8,9 @@ import type {
 } from "@v/dashboard/users/list/definitions/users"
 import { http } from "@/api"
 import type { Pagination, PaginationFilter } from "@/definitions/pagination.ts"
+import type { UserFilters } from "@s/dashboard/users/users"
 
-export async function list(paginationFilter: PaginationFilter) {
+export async function list(paginationFilter: PaginationFilter<UserFilters>) {
     return await http.post<Pagination<UsersListItem[]>>("dashboard/users/list", paginationFilter)
 }
 

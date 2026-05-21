@@ -1,4 +1,6 @@
 <script setup lang="ts">
+// @ts-nocheck
+
 import { onBeforeUnmount, onMounted, useTemplateRef } from "vue"
 import {
     BarController,

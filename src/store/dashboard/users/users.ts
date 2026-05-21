@@ -7,25 +7,33 @@ import {
     defaultPaginationPage,
     type PaginationFilter,
     type PaginationPage,
-} from "@/definitions/pagination.ts"
+} from "@/definitions/pagination"
+
+export interface UserFilters {
+    partner_id:    number[]
+    department_id: number[]
+    disabled:      boolean | null
+    role:          string[]
+    access:        string[]
+}
 
 export const useUsersStore = defineStore("users", () => {
     const isLoading = ref<boolean>(false)
 
-    const initialFilter = ref(
+    const initialFilter = ref<PaginationFilter<UserFilters>>(
         defaultPaginationFilter({
             search:  "",
             filters: {
                 partner_id:    [],
                 department_id: [],
-                disabled:      [],
+                disabled:      null,
                 role:          [],
                 access:        [],
             },
         }),
     )
 
-    const currentFilter = ref<PaginationFilter>(
+    const currentFilter = ref<PaginationFilter<UserFilters>>(
         cloneDeep(initialFilter.value),
     )
 

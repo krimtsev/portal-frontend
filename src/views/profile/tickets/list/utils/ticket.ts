@@ -11,10 +11,10 @@ export function stateName(state: string): string {
     return stateMap[state] ?? state
 }
 
-export function stateList(): { label: string, value: string }[] {
+export function stateList(): { id: string, title: string }[] {
     return Object.entries(stateMap)
-        .map(([value, label]) => ({
-            label,
-            value,
+        .map(([title, id]) => ({
+            title,
+            id,
         }))
 }

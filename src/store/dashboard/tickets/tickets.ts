@@ -7,12 +7,18 @@ import {
     defaultPaginationPage,
     type PaginationFilter,
     type PaginationPage,
-} from "@/definitions/pagination.ts"
+} from "@/definitions/pagination"
+
+export interface TicketFilters {
+    department_id: string[]
+    partner_id:    string[]
+    state:         string[]
+}
 
 export const useTicketsStore = defineStore("tickets", () => {
     const isLoading = ref<boolean>(false)
 
-    const initialFilter = ref(
+    const initialFilter = ref<PaginationFilter<TicketFilters>>(
         defaultPaginationFilter({
             search:  "",
             filters: {
@@ -23,7 +29,7 @@ export const useTicketsStore = defineStore("tickets", () => {
         }),
     )
 
-    const currentFilter = ref<PaginationFilter>(
+    const currentFilter = ref<PaginationFilter<TicketFilters>>(
         cloneDeep(initialFilter.value),
     )
 
