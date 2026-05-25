@@ -197,8 +197,8 @@ const departmentName = (id: number) => departmentStore.getTitleById(id)
                     :selected-items-label="t('mc.select.elements', ticketsStore.filter.filters.state.length)"
                     :max-selected-labels="1"
                     :disabled="ticketsStore.isLoading"
-                    option-label="id"
-                    option-value="title"
+                    option-label="title"
+                    option-value="id"
                     filter
                     show-clear
                     placeholder="Выберите статус"
