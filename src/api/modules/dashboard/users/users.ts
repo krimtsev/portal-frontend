@@ -3,7 +3,7 @@ import type {
     UserResponse,
 } from "@v/dashboard/users/edit/definitions/user"
 import type {
-    UsersExportData,
+    UsersExportItem,
     UsersListItem,
 } from "@v/dashboard/users/list/definitions/users"
 import { http } from "@/api"
@@ -27,5 +27,5 @@ export async function update(id: string, data: UserData) {
 }
 
 export async function exportData() {
-    return await http.get<UsersExportData[]>("dashboard/users/export")
+    return await http.get<UsersExportItem[]>("dashboard/users/export")
 }

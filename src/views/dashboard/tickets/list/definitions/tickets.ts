@@ -1,4 +1,4 @@
-export interface TicketsExportData {
+export interface TicketsExportItem {
     id:            number
     title:         string
     department_id: number

@@ -1,5 +1,5 @@
 import type { TicketStateData } from "@v/dashboard/tickets/edit/definitions/ticket"
-import type { TicketsExportData } from "@v/dashboard/tickets/list/definitions/tickets"
+import type { TicketsExportItem } from "@v/dashboard/tickets/list/definitions/tickets"
 import type { TicketResponse } from "@v/profile/tickets/edit/definitions/ticket"
 import type { TicketListItem } from "@v/profile/tickets/list/definitions/tickets-list"
 
@@ -30,5 +30,5 @@ export async function download(id: string | number, name: string) {
 }
 
 export async function exportData() {
-    return await http.get<TicketsExportData[]>("dashboard/tickets/export")
+    return await http.get<TicketsExportItem[]>("dashboard/tickets/export")
 }

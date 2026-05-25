@@ -86,6 +86,15 @@ const routes: RouteRecordRaw[] = [
         },
     },
     {
+        path:      dashboardPaths.DashboardRoyaltyList,
+        name:      DashboardRouteName.DashboardRoyaltyList,
+        component: () => import("@v/dashboard/royalty/list/royalty-list-view.vue"),
+        meta:      {
+            roles:      [Roles.ADMIN, Roles.SYSADMIN],
+            breadcrumb: "mc.dashboard.sidebar.royalty",
+        },
+    },
+    {
         path:      dashboardPaths.DashboardCloudList,
         name:      DashboardRouteName.DashboardCloudList,
         component: () => import("@v/dashboard/cloud/list/cloud-list-view.vue"),

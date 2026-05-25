@@ -18,7 +18,7 @@ export interface UsersListItem {
     departments:   number[]
 }
 
-export interface UsersExportData {
+export interface UsersExportItem {
     id:            number
     name:          string
     login:         string

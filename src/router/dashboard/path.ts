@@ -11,4 +11,5 @@ export const dashboardPaths = {
     DashboardPartnerGroup:  "/dashboard/partner-group/:id",
     DashboardCloudList:     "/dashboard/cloud-list",
     DashboardCloud:         "/dashboard/cloud/:id",
+    DashboardRoyaltyList:   "/dashboard/royalty-list",
 }

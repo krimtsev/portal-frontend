@@ -17,17 +17,22 @@ interface DatePicker {
     showClear?:       boolean
     updateModelType?: "date" | "string"
     showButtonBar?:   boolean
+    selectionMode?:   "single" | "multiple" | "range"
+    minDate?:         Date
+    maxDate?:         Date
+    showOtherMonths?: boolean
 }
 
 const modelValue = defineModel<Date | Date[] | (Date | null)[] | null | undefined>()
 
 const props = withDefaults(defineProps<Partial<DatePicker>>(), {
-    placeholder: "",
-    disabled:    false,
-    error:       "",
-    manualInput: false,
-    showClear:   false,
-    dateFormat:  "yy-mm-dd",
+    placeholder:     "",
+    disabled:        false,
+    error:           "",
+    manualInput:     false,
+    showClear:       false,
+    dateFormat:      "yy-mm-dd",
+    showOtherMonths: false,
 })
 
 const internalModel = computed({
@@ -69,8 +74,12 @@ const internalModel = computed({
             :update-model-type="props.updateModelType"
             :show-button-bar="props.showButtonBar"
             :invalid="!!props.error"
+            :selection-mode="props.selectionMode"
+            :min-date="props.minDate"
+            :max-date="props.maxDate"
             fluid
             class="date-picker"
+            :show-other-months="props.showOtherMonths"
         />
 
         <b-input-error :error="props.error" />

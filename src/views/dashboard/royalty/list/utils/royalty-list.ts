@@ -1,0 +1,60 @@
+import type { RoyaltyExportItem } from "@v/dashboard/royalty/list/definitions/royalty-list"
+
+export function exportXLS(royalty: RoyaltyExportItem[]) {
+    return royalty
+    // const date = DateTime.now().toFormat("dd.MM.yyyy")
+    // const workbook = new ExcelJS.Workbook()
+    // const worksheet = workbook.addWorksheet("Пользователи", {
+    //     views: [{
+    //         state:  "frozen",
+    //         xSplit: 1,
+    //         ySplit: 1,
+    //     }],
+    // })
+    //
+    // worksheet.columns = [
+    //     { header: "ID", key: "id", width: 10 },
+    //     { header: "Имя партнера", key: "name", width: 25 },
+    //     { header: "Организация", key: "organization", width: 35 },
+    //     { header: "ИНН", key: "inn", width: 20 },
+    //     { header: "ОГРНИП", key: "ogrnip", width: 20 },
+    //     { header: "Номер договора", key: "contract_number", width: 20 },
+    //     { header: "Адрес организации", key: "address", width: 30 },
+    //     { header: "Электронная почта", key: "email", width: 20 },
+    //     { header: "Yclients ID", key: "yclients_id", width: 20 },
+    //     { header: "Mango телефон ", key: "mango_telnum", width: 20 },
+    //     { header: "Статус", key: "status", width: 15 },
+    //     { header: "Дата открытия", key: "opened_at", width: 20 },
+    //     { header: "Дата подписания", key: "start_at", width: 20 },
+    // ]
+    //
+    // partners.forEach((partner) => {
+    //     worksheet.addRow({
+    //         id:              partner.id,
+    //         name:            partner.name,
+    //         organization:    partner.organization,
+    //         inn:             partner.inn,
+    //         ogrnip:          partner.ogrnip,
+    //         contract_number: partner.contract_number,
+    //         address:         partner.address,
+    //         email:           partner.email,
+    //         yclients_id:     partner.yclients_id,
+    //         mango_telnum:    partner.mango_telnum,
+    //         status:          partner.disabled
+    //             ? i18n.global.t("mc.dashboard.partners.state.disabled")
+    //             : i18n.global.t("mc.dashboard.partners.state.active"),
+    //         opened_at: partner.opened_at,
+    //         start_at:  partner.start_at,
+    //     })
+    // })
+    //
+    // const headerRow = worksheet.getRow(1)
+    // headerRow.font = { bold: true }
+    //
+    // const buffer = await workbook.xlsx.writeBuffer()
+    // const blob = new Blob([buffer], {
+    //     type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    // })
+
+    // downloadExternalFile(blob, `Филиалы - ${date}.xlsx`)
+}

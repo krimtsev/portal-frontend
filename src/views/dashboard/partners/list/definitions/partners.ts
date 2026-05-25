@@ -20,7 +20,7 @@ export interface PartnerListItem {
     disabled:        boolean
 }
 
-export interface PartnersExportData {
+export interface PartnersExportItem {
     id:              number
     organization:    string
     name:            string
