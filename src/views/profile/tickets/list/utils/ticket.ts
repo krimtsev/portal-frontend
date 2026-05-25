@@ -13,7 +13,7 @@ export function stateName(state: string): string {
 
 export function stateList(): { id: string, title: string }[] {
     return Object.entries(stateMap)
-        .map(([title, id]) => ({
+        .map(([id, title]) => ({
             title,
             id,
         }))
