@@ -9,9 +9,11 @@ import {
 } from "@/definitions/pagination"
 
 export interface PaginationOptions<T = Record<string, any>> {
-    search?:  string
-    filters?: T
-    perPage?: number
+    search?:    string
+    filters?:   T
+    perPage?:   number
+    sortBy?:    string
+    sortOrder?: string
 }
 
 export function usePagination<T>(options: PaginationOptions<T> = {}) {
@@ -19,8 +21,10 @@ export function usePagination<T>(options: PaginationOptions<T> = {}) {
 
     const initialFilter = ref<PaginationFilter<T>>(
         defaultPaginationFilter({
-            search:  options.search ?? "",
-            filters: (options.filters ?? {}) as T,
+            sortBy:    options.sortBy ?? "id",
+            sortOrder: options.sortOrder ?? "asc",
+            search:    options.search ?? "",
+            filters:   (options.filters ?? {}) as T,
         }),
     )
 

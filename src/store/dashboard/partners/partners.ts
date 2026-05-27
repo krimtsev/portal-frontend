@@ -11,5 +11,6 @@ export const usePartnersStore = defineStore("partners", () => {
         filters: {
             disabled: null,
         },
+        sortBy: "name",
     })
 })

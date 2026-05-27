@@ -21,9 +21,14 @@ interface DatePicker {
     minDate?:         Date
     maxDate?:         Date
     showOtherMonths?: boolean
+    view?:            "date" | "month" | "year"
 }
 
 const modelValue = defineModel<Date | Date[] | (Date | null)[] | null | undefined>()
+
+const emit = defineEmits<{
+    (e: "hide"): void
+}>()
 
 const props = withDefaults(defineProps<Partial<DatePicker>>(), {
     placeholder:     "",
@@ -33,6 +38,7 @@ const props = withDefaults(defineProps<Partial<DatePicker>>(), {
     showClear:       false,
     dateFormat:      "yy-mm-dd",
     showOtherMonths: false,
+    view:            "date",
 })
 
 const internalModel = computed({
@@ -77,9 +83,14 @@ const internalModel = computed({
             :selection-mode="props.selectionMode"
             :min-date="props.minDate"
             :max-date="props.maxDate"
+            :view="props.view"
             fluid
             class="date-picker"
+            :class="{
+                'readonly-input': !props.disabled && !props.manualInput,
+            }"
             :show-other-months="props.showOtherMonths"
+            @hide="emit('hide')"
         />
 
         <b-input-error :error="props.error" />
@@ -99,6 +110,12 @@ const internalModel = computed({
     :deep(.p-inputtext)  {
         &.p-invalid {
             border-color: var(--p-form-field-invalid-border-color);
+        }
+    }
+
+    .readonly-input {
+        :deep(.p-inputtext) {
+            cursor: pointer;
         }
     }
 

@@ -6,22 +6,21 @@ import PrimeDataTable from "primevue/datatable"
 import { useRoyaltyStore } from "@s/dashboard/royalty/royalty.ts"
 import { useNotify } from "@/composables/notify/use-notify"
 import { HttpError } from "@/api"
+import * as partnersAPI from "@/api/modules/dashboard/partners/partners"
 import * as royaltyAPI from "@/api/modules/dashboard/royalty/royalty"
 import BDatePicker from "@c/common/b-date-picker/b-date-picker.vue"
 import BEmptyResult from "@c/common/b-empty/b-empty-result.vue"
-import BExport from "@c/common/b-export/b-export.vue"
-import BInputSearch from "@c/common/b-input-search/b-input-search.vue"
 import ListLoadingState from "@c/common/b-loading-state/list-loading-state.vue"
+import BMultiSelect from "@c/common/b-select/b-multi-select.vue"
 import BTableText from "@c/common/b-table/b-table-text.vue"
 import BTextDate from "@c/common/b-text/b-text-date.vue"
 import BToolbar from "@c/common/b-toolbar/b-toolbar.vue"
 import BToolbarItem from "@c/common/b-toolbar/b-toolbar-item.vue"
+import type { PartnerOptionItem } from "@v/dashboard/partners/list/definitions/partners"
 import type { RoyaltyListItem } from "@v/dashboard/royalty/list/definitions/royalty-list"
-import { exportXLS } from "@v/dashboard/royalty/list/utils/royalty-list"
 import {
     getAnalyticsStartDate,
-    getMonthToYesterdayRange,
-    getYesterdayDate,
+    getPreviousMonth,
 } from "@/lib/date-helpers"
 
 
@@ -30,10 +29,10 @@ const { t, n } = useI18n()
 
 const royaltyStore = useRoyaltyStore()
 const minDate = ref(getAnalyticsStartDate())
-const maxDate = ref(getYesterdayDate())
+const maxDate = ref(getPreviousMonth())
 
 const royalty = ref<RoyaltyListItem[]>([])
-const isExporting = ref(false)
+const partners = ref<PartnerOptionItem[]>([])
 
 const paginationInfo = computed(() => {
     return t("mc.pagination.table",
@@ -61,25 +60,29 @@ function onPageChange({ page }: { page: number }) {
     refreshRoyalty()
 }
 
-onMounted(() => {
+onMounted(async () => {
     royaltyStore.setIsLoading(true)
 
-    royaltyStore.filter.filters.period = getMonthToYesterdayRange()
+    const [
+        royaltyData,
+        partnersData,
+    ] = await Promise.all([
+        royaltyAPI.list(royaltyStore.filter),
+        partnersAPI.options(),
+    ])
 
-    // const [
-    //     royaltyData,
-    // ] = await Promise.all([
-    //     royaltyAPI.list(royaltyStore.filter),
-    // ])
-    //
-    // if (royaltyData instanceof HttpError) {
-    //     notify.error()
-    //     return
-    // }
-    //
-    // royalty.value = royaltyData.list
-    //
-    // royaltyStore.setPagination(royaltyData.page)
+    if (
+        royaltyData instanceof HttpError ||
+        partnersData instanceof HttpError
+    ) {
+        notify.error()
+        return
+    }
+
+    royalty.value = royaltyData.list
+    partners.value = partnersData.list
+
+    royaltyStore.setPagination(royaltyData.page)
     royaltyStore.setIsLoading(false)
 })
 
@@ -107,63 +110,41 @@ function onChangeFilter() {
 
     refreshRoyalty()
 }
-
-async function onExportXLS() {
-    isExporting.value = true
-
-    try {
-        const royaltyData = await royaltyAPI.exportData()
-
-        if (royaltyData instanceof HttpError) {
-            notify.error()
-            return
-        }
-
-        await exportXLS(royaltyData)
-    } finally {
-        isExporting.value = false
-    }
-}
 </script>
 
 <template>
     <div class="royalty-list-view">
         <b-toolbar no-paddings>
             <b-toolbar-item header="Период">
-                {{ royaltyStore.filter.filters.period }}
                 <b-date-picker
-                    v-model="royaltyStore.filter.filters.period"
+                    v-model="royaltyStore.filter.filters.date"
                     :placeholder="t('mc.ticket.certificate.placeholder.paymentDate')"
-                    date-format="dd-mm-yy"
-                    selection-mode="range"
-                    class="filter-period"
+                    date-format="MM yy"
+                    class="filter-date"
                     :min-date="minDate"
                     :max-date="maxDate"
+                    view="month"
+                    :disabled="royaltyStore.isLoading"
+                    @hide="onChangeFilter"
+                />
+            </b-toolbar-item>
+
+            <b-toolbar-item header="Филиал">
+                <b-multi-select
+                    v-model="royaltyStore.filter.filters.partner_id"
+                    :options="partners"
+                    :selected-count="royaltyStore.filter.filters.partner_id.length"
+                    :disabled="royaltyStore.isLoading"
+                    option-label="name"
+                    option-value="id"
+                    filter
+                    show-clear
+                    placeholder="Выберите филиал"
+                    class="filter-partner"
                     @hide="onChangeFilter"
                     @clear="onChangeFilter"
                 />
             </b-toolbar-item>
-
-            <template #right-side>
-                <b-toolbar-item>
-                    <b-export
-                        :types="{ xls: true }"
-                        :disabled="{ xls: royaltyStore.isLoading || isExporting }"
-                        :loading="{ xls: isExporting }"
-                        @export-xls="onExportXLS"
-                    />
-                </b-toolbar-item>
-
-                <b-toolbar-item>
-                    <b-input-search
-                        v-model="royaltyStore.filter.search"
-                        :disabled="royaltyStore.isLoading"
-                        placeholder="Найти филиал"
-                        class="search"
-                        @change="onChangeFilter"
-                    />
-                </b-toolbar-item>
-            </template>
         </b-toolbar>
 
         <div class="table-wrapper">
@@ -193,70 +174,90 @@ async function onExportXLS() {
 
                 <prime-column
                     header="Филиал"
-                    field="name"
+                    field="partner_name"
                     class="table-name"
                 />
 
                 <prime-column
-                    header="Организация"
-                    field="organization"
+                    header="Валовая выручка"
+                    field="gross_revenue"
                     class="table-organization"
                 >
                     <template #body="{ data }">
-                        <b-table-text :text="data?.organization" />
+                        <b-table-text :text="data?.gross_revenue" />
                     </template>
                 </prime-column>
 
                 <prime-column
-                    header="ИНН"
-                    field="inn"
+                    header="Роялти"
+                    field="royalty_amount"
                     class="table-inn"
                 >
                     <template #body="{ data }">
-                        <b-table-text :text="data?.inn" />
+                        <b-table-text :text="data?.royalty_amount" />
                     </template>
                 </prime-column>
 
                 <prime-column
-                    header="Номер договора"
-                    field="contract_number"
+                    header="Роялти %"
+                    field="royalty_percent"
+                    class="table-inn"
+                >
+                    <template #body="{ data }">
+                        <b-table-text :text="data?.royalty_percent" />
+                    </template>
+                </prime-column>
+
+                <prime-column
+                    header="НДС"
+                    field="vat_amount"
                     class="table-contract-number"
                 >
                     <template #body="{ data }">
-                        <b-table-text :text="data?.contract_number" />
+                        <b-table-text :text="data?.vat_amount" />
                     </template>
                 </prime-column>
 
                 <prime-column
-                    header="Телефон"
-                    field="mango_telnum"
-                    class="table-mango-telnum"
-                >
-                    <template #body="{ data }">
-                        <b-table-text :text="data?.mango_telnum" />
-                    </template>
-                </prime-column>
-
-                <prime-column
-                    header="Yclients"
-                    field="yclients_id"
+                    header="НДС %"
+                    field="vat_percent"
                     class="table-yclients-id"
                 >
                     <template #body="{ data }">
-                        <b-table-text :text="data?.yclients_id" />
+                        <b-table-text :text="data?.vat_percent" />
                     </template>
                 </prime-column>
 
                 <prime-column
-                    header="Дата подписания"
-                    field="start_at"
+                    header="Роялти + НДС"
+                    field="royalty_with_vat"
+                    class="table-mango-telnum"
+                >
+                    <template #body="{ data }">
+                        <b-table-text :text="data?.royalty_with_vat" />
+                    </template>
+                </prime-column>
+
+                <prime-column
+                    header="Дата открытия"
+                    field="opened_at"
                     class="table-start-at"
                 >
                     <template #body="{ data }">
                         <b-text-date
-                            :value="data?.start_at"
+                            :value="data?.opened_at"
                             show-format="yyyy-MM-dd"
                         />
+                    </template>
+                </prime-column>
+
+                <prime-column
+                    header="Дней"
+                    field="days_count"
+                    class="table-mango-telnum"
+                >
+                    <template #body="{ data }">
+                        <b-table-text :text="data?.days_count" />
                     </template>
                 </prime-column>
             </prime-data-table>
@@ -279,7 +280,8 @@ async function onExportXLS() {
     }
 
     .filter {
-        &-period {
+        &-date,
+        &-partner {
             @include col-width(250px);
         }
     }
