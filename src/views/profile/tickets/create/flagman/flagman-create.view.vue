@@ -20,6 +20,7 @@ import PortalPage from "@c/portal/portal-page/portal-page.vue"
 import type { TicketFlagman } from "@v/profile/tickets/create/flagman/definitions/flagman"
 import { FormSchema } from "@v/profile/tickets/create/flagman/schemas/flagman.schema"
 import { TicketType } from "@v/profile/tickets/edit/definitions/ticket"
+import { stripTimezone } from "@/lib/date-helpers"
 import { maxMessageLength } from "@/constants/messages"
 import { DepartmentType } from "@/definitions/departments"
 
@@ -109,7 +110,15 @@ const onSave = handleSubmit(async (formValues) => {
 
     isLoading.value = true
 
-    const ticketResponse = await ticketAPI.create(formValues)
+    const payload = {
+        ...formValues,
+        attributes: {
+            ...formValues.attributes,
+            openingDate: stripTimezone(formValues.attributes.openingDate),
+        },
+    }
+
+    const ticketResponse = await ticketAPI.create(payload)
 
     isLoading.value = false
 
@@ -183,7 +192,6 @@ const onSave = handleSubmit(async (formValues) => {
                             :error="errors['attributes.openingDate']"
                             :disabled="isDisabled"
                             :placeholder="t('mc.ticket.flagman.placeholder.openingDate')"
-                            hour-format="24"
                             date-format="yy-mm-dd"
                             class="full-width"
                         />

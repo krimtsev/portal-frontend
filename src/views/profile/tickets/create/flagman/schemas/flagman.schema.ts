@@ -34,12 +34,7 @@ export const AttributesSchema = z.object({
     twoGisMap: z.string()
         .url({ message: "Укажите правильный формат URL" }),
 
-    openingDate: z.date({ message: "Укажите дату" })
-        .transform((date) => {
-            const d = new Date(date)
-            d.setHours(0, 0, 0, 0)
-            return d
-        }),
+    openingDate: z.date({ message: "Укажите дату" }),
 
     missedReports: z.string()
         .min(2, { message: "Опишите ситуацию с отчетами" }),

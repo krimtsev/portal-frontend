@@ -15,7 +15,7 @@ interface DatePicker {
     dateFormat?:      string
     manualInput?:     boolean
     showClear?:       boolean
-    updateModelType?: "date" | "string"
+    modelType?:       "date" | "string"
     showButtonBar?:   boolean
     selectionMode?:   "single" | "multiple" | "range"
     minDate?:         Date
@@ -24,7 +24,7 @@ interface DatePicker {
     view?:            "date" | "month" | "year"
 }
 
-const modelValue = defineModel<Date | Date[] | (Date | null)[] | null | undefined>()
+const modelValue = defineModel<string | Date | Array<Date> | Array<Date | null> | undefined | null>()
 
 const emit = defineEmits<{
     (e: "hide"): void
@@ -38,6 +38,7 @@ const props = withDefaults(defineProps<Partial<DatePicker>>(), {
     showClear:       false,
     dateFormat:      "yy-mm-dd",
     showOtherMonths: false,
+    modelType:       "date",
     view:            "date",
 })
 
@@ -45,21 +46,20 @@ const internalModel = computed({
     get() {
         if (!modelValue.value) return null
 
-        if (modelValue.value instanceof Date) {
-            return modelValue.value
-        }
-
         if (typeof modelValue.value === "string") {
-            return DateTime
-                .fromISO(modelValue.value, { zone: "utc" })
-                .toLocal()
+            return DateTime.fromFormat(modelValue.value, "yyyy-MM-dd", { zone: "utc" })
                 .toJSDate()
         }
 
         return modelValue.value
     },
     set(value) {
-        modelValue.value = value ?? null
+        if (value instanceof Date && typeof modelValue.value === "string") {
+            modelValue.value = DateTime.fromJSDate(value, { zone: "utc" })
+                .toFormat("yyyy-MM-dd")
+        } else {
+            modelValue.value = value
+        }
     },
 })
 </script>
@@ -77,7 +77,7 @@ const internalModel = computed({
             :date-format="props.dateFormat"
             :manual-input="props.manualInput"
             :show-clear="props.showClear"
-            :update-model-type="props.updateModelType"
+            :update-model-type="props.modelType"
             :show-button-bar="props.showButtonBar"
             :invalid="!!props.error"
             :selection-mode="props.selectionMode"

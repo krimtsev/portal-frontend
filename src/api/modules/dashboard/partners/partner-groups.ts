@@ -6,9 +6,8 @@ import type {
     PartnerGroupOptionsResponse,
     PartnerGroupsListItem,
 } from "@v/dashboard/partner-groups/list/definitions/partner-groups"
-
+import type { Pagination, PaginationFilter } from "@/definitions/pagination"
 import { http } from "@/api"
-import type { Pagination, PaginationFilter } from "@/definitions/pagination.ts"
 
 
 export async function options() {

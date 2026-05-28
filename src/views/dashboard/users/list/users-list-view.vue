@@ -5,7 +5,7 @@ import { useRouter } from "vue-router"
 import PrimeColumn from "primevue/column"
 import PrimeDataTable from "primevue/datatable"
 import { useUsersStore } from "@s/dashboard/users/users"
-import { useDepartmentStore } from "@s/department/department.ts"
+import { useDepartmentStore } from "@s/department/department"
 import { useNotify } from "@/composables/notify/use-notify"
 import { useOpenRoute } from "@/composables/route/use-open-route"
 import { DashboardRouteName } from "@r/dashboard/route-names"
@@ -20,7 +20,7 @@ import ListLoadingState from "@c/common/b-loading-state/list-loading-state.vue"
 import BMultiSelect, { type MultiSelectItem } from "@c/common/b-select/b-multi-select.vue"
 import BSelect from "@c/common/b-select/b-select.vue"
 import BTableText from "@c/common/b-table/b-table-text.vue"
-import BTextDate from "@c/common/b-text/b-text-date.vue"
+import BTextDate from "@c/common/b-text-date/b-text-date.vue"
 import BToolbar from "@c/common/b-toolbar/b-toolbar.vue"
 import BToolbarItem from "@c/common/b-toolbar/b-toolbar-item.vue"
 import StateIcon from "@c/state-icon/state-icon.vue"
@@ -33,7 +33,7 @@ import {
     rolesList,
     stateList,
 } from "@v/dashboard/users/list/utils/users"
-import { FilterType } from "@/definitions/filter.ts"
+import { FilterType } from "@/definitions/filter"
 
 const notify = useNotify()
 const { t, n } = useI18n()

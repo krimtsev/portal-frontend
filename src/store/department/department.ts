@@ -4,7 +4,7 @@ import { useI18n } from "vue-i18n"
 import {
     DepartmentType,
     type DepartmentItem,
-} from "@/definitions/departments.ts"
+} from "@/definitions/departments"
 
 export const useDepartmentStore = defineStore("departments", () => {
     const { t } = useI18n()

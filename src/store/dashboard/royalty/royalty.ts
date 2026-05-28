@@ -1,10 +1,10 @@
 import { defineStore } from "pinia"
-import { usePagination } from "@/composables/store/use-pagination.ts"
-import { getPreviousMonth } from "@/lib/date-helpers"
+import { usePagination } from "@/composables/store/use-pagination"
+import { formatDateToString, getPreviousMonth } from "@/lib/date-helpers"
 
 export interface RoyaltyFilters {
     partner_id: number[]
-    date:       Date | null
+    date:       string | null
 }
 
 export const useRoyaltyStore = defineStore("royalty", () => {
@@ -12,7 +12,7 @@ export const useRoyaltyStore = defineStore("royalty", () => {
         search:  "",
         filters: {
             partner_id: [],
-            date:       getPreviousMonth(),
+            date:       formatDateToString(getPreviousMonth(), true),
         },
         sortBy: "name",
     })

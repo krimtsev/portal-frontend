@@ -242,7 +242,6 @@ const onSave = handleSubmit(async (formValues) => {
                     v-model="openedAtModel"
                     :disabled="isLoading"
                     :error="errors['opened_at']"
-                    update-model-type="string"
                     show-button-bar
                 />
             </b-form-item>
@@ -252,7 +251,6 @@ const onSave = handleSubmit(async (formValues) => {
                     v-model="startAtModel"
                     :disabled="isLoading"
                     :error="errors['start_at']"
-                    update-model-type="string"
                     show-button-bar
                 />
             </b-form-item>

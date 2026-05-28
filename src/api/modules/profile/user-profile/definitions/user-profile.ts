@@ -1,4 +1,4 @@
-import { Roles } from "@/definitions/roles.ts"
+import { Roles } from "@/definitions/roles"
 
 export interface UserData {
     login:       string

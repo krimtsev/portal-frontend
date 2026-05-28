@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from "vue"
 import PrimeSkeleton, { type SkeletonProps } from "primevue/skeleton"
-import type { Variants } from "@/definitions/content.ts"
+import type { Variants } from "@/definitions/content"
 
 interface ISkeletonProps extends SkeletonProps {
     variant?:   Variants

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { $sanitizeHtml } from "@/lib/sanitize-html"
-import { ContentType } from "@/definitions/content.ts"
+import { ContentType } from "@/definitions/content"
 
 interface ContentProps {
     content:      string | string[]

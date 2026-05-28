@@ -1,7 +1,7 @@
 import type { RouteRecordRaw } from "vue-router"
 import { profilePaths } from "@r/profile/path"
 import { ProfileRouteName } from "@r/profile/route-names"
-import { Roles } from "@/definitions/roles.ts"
+import { Roles } from "@/definitions/roles"
 
 
 const roles = [Roles.USER, Roles.ADMIN, Roles.SYSADMIN]

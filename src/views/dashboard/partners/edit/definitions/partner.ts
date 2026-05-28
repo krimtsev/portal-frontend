@@ -9,8 +9,8 @@ export interface PartnerData {
     yclients_id:     string
     mango_telnum:    string
     address:         string
-    start_at:        Date | null
-    opened_at:       Date | null
+    start_at:        string | null
+    opened_at:       string | null
     disabled:        boolean
     telnums:         PartnerTelnumItem[]
 }

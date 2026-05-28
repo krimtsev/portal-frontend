@@ -79,7 +79,7 @@ export function normalizeAttributes(details: TicketDetails) {
                 label === "paymentDate"
             ) {
                 value = DateTime.fromISO(value, { zone: "utc" })
-                    .toFormat("dd-MM-yyyy H:mm:ss")
+                    .toFormat("yyyy-MM-dd H:mm")
             }
 
             if (
@@ -87,7 +87,7 @@ export function normalizeAttributes(details: TicketDetails) {
                 label === "openingDate"
             ) {
                 value = DateTime.fromISO(value, { zone: "utc" })
-                    .toFormat("dd-MM-yyyy")
+                    .toFormat("yyyy-MM-dd ")
             }
 
             if (

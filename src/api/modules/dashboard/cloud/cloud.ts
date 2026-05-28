@@ -7,9 +7,8 @@ import type {
     CloudListItem,
     CloudOptionsResponse,
 } from "@v/dashboard/cloud/list/definitions/cloud-list"
-
+import type { Pagination, PaginationFilter } from "@/definitions/pagination"
 import { http } from "@/api"
-import type { Pagination, PaginationFilter } from "@/definitions/pagination.ts"
 
 
 export async function tree(paginationFilter: PaginationFilter) {

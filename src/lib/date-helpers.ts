@@ -36,3 +36,58 @@ export function getPreviousMonth(): Date {
     const startOfMinusMonth = baseDate.startOf("month")
     return startOfMinusMonth.toJSDate()
 }
+
+/**
+ * Преобразует объект Date в локальную строку 'yyyy-MM-dd' без таймзоны
+ * Выход: "2026-05-28"
+ */
+export function formatDateToString(date: Date | null, isMonthView = false): string | null {
+    if (!date) return null
+
+    let dt = DateTime.fromJSDate(date)
+    if (isMonthView) {
+        dt = dt.startOf("month")
+    }
+
+    return dt.toFormat("yyyy-MM-dd")
+}
+
+/**
+ * Парсит строку 'yyyy-MM-dd' обратно в локальный объект Date
+ */
+export function parseStringToDate(dateStr: string | null): Date | null {
+    if (!dateStr) return null
+
+    return DateTime.fromFormat(dateStr, "yyyy-MM-dd")
+        .toJSDate()
+}
+
+/**
+ * Преобразует объект Date в локальную строку 'yyyy-MM-dd HH:mm' без таймзоны
+ * Выход: "2026-05-28 21:38"
+ */
+export function formatDateTimeToString(date: Date | null): string | null {
+    if (!date) return null
+    return DateTime.fromJSDate(date)
+        .toFormat("yyyy-MM-dd HH:mm")
+}
+
+/**
+ * Парсит строку 'yyyy-MM-dd HH:mm' обратно в локальный объект Date
+ */
+export function parseStringToDateTime(dateStr: string | null | undefined): Date | null {
+    if (!dateStr) return null
+    return DateTime.fromFormat(dateStr, "yyyy-MM-dd HH:mm")
+        .toJSDate()
+}
+
+/**
+ * Удаляет локальную таймзону, фиксируя видимые компоненты даты (год, месяц, день, часы...) строго в UTC.
+ * Вход: Sun May 31 2026 14:20:00 GMT+0300
+ * Выход: Sun May 31 2026 14:20:00 GMT+0000
+ */
+export function stripTimezone(date: Date | null): DateTime | null {
+    if (!date) return null
+    return DateTime.fromJSDate(date).toUTC(0, { keepLocalTime: true })
+}
+

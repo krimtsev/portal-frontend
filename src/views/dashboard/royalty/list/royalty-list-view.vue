@@ -3,7 +3,7 @@ import { computed, onMounted, ref } from "vue"
 import { useI18n } from "vue-i18n"
 import PrimeColumn from "primevue/column"
 import PrimeDataTable from "primevue/datatable"
-import { useRoyaltyStore } from "@s/dashboard/royalty/royalty.ts"
+import { useRoyaltyStore } from "@s/dashboard/royalty/royalty"
 import { useNotify } from "@/composables/notify/use-notify"
 import { HttpError } from "@/api"
 import * as partnersAPI from "@/api/modules/dashboard/partners/partners"
@@ -13,14 +13,16 @@ import BEmptyResult from "@c/common/b-empty/b-empty-result.vue"
 import ListLoadingState from "@c/common/b-loading-state/list-loading-state.vue"
 import BMultiSelect from "@c/common/b-select/b-multi-select.vue"
 import BTableText from "@c/common/b-table/b-table-text.vue"
-import BTextDate from "@c/common/b-text/b-text-date.vue"
+import BTextDate from "@c/common/b-text-date/b-text-date.vue"
 import BToolbar from "@c/common/b-toolbar/b-toolbar.vue"
 import BToolbarItem from "@c/common/b-toolbar/b-toolbar-item.vue"
 import type { PartnerOptionItem } from "@v/dashboard/partners/list/definitions/partners"
 import type { RoyaltyListItem } from "@v/dashboard/royalty/list/definitions/royalty-list"
 import {
+    formatDateToString,
     getAnalyticsStartDate,
     getPreviousMonth,
+    parseStringToDate,
 } from "@/lib/date-helpers"
 
 
@@ -110,6 +112,13 @@ function onChangeFilter() {
 
     refreshRoyalty()
 }
+
+const filterDate = computed({
+    get: () => parseStringToDate(royaltyStore.filter.filters.date),
+    set: (value) => {
+        royaltyStore.filter.filters.date = formatDateToString(value, true)
+    },
+})
 </script>
 
 <template>
@@ -117,14 +126,14 @@ function onChangeFilter() {
         <b-toolbar no-paddings>
             <b-toolbar-item header="Период">
                 <b-date-picker
-                    v-model="royaltyStore.filter.filters.date"
+                    v-model="filterDate"
                     :placeholder="t('mc.ticket.certificate.placeholder.paymentDate')"
                     date-format="MM yy"
-                    class="filter-date"
                     :min-date="minDate"
                     :max-date="maxDate"
                     view="month"
                     :disabled="royaltyStore.isLoading"
+                    class="filter-date"
                     @hide="onChangeFilter"
                 />
             </b-toolbar-item>
@@ -219,16 +228,6 @@ function onChangeFilter() {
                 </prime-column>
 
                 <prime-column
-                    header="НДС %"
-                    field="vat_percent"
-                    class="table-yclients-id"
-                >
-                    <template #body="{ data }">
-                        <b-table-text :text="data?.vat_percent" />
-                    </template>
-                </prime-column>
-
-                <prime-column
                     header="Роялти + НДС"
                     field="royalty_with_vat"
                     class="table-mango-telnum"
@@ -239,13 +238,13 @@ function onChangeFilter() {
                 </prime-column>
 
                 <prime-column
-                    header="Дата открытия"
-                    field="opened_at"
+                    header="Дата подписания"
+                    field="start_at"
                     class="table-start-at"
                 >
                     <template #body="{ data }">
                         <b-text-date
-                            :value="data?.opened_at"
+                            :value="data?.start_at"
                             show-format="yyyy-MM-dd"
                         />
                     </template>

@@ -6,7 +6,3 @@ import type { RoyaltyListItem } from "@v/dashboard/royalty/list/definitions/roya
 export async function list(paginationFilter: PaginationFilter<RoyaltyFilters>) {
     return await http.post<Pagination<RoyaltyListItem[]>>("dashboard/royalty/list", paginationFilter)
 }
-
-export async function exportData() {
-    return await http.get<RoyaltyListItem[]>("dashboard/royalty/export")
-}

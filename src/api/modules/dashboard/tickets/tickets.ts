@@ -2,9 +2,8 @@ import type { TicketStateData } from "@v/dashboard/tickets/edit/definitions/tick
 import type { TicketsExportItem } from "@v/dashboard/tickets/list/definitions/tickets"
 import type { TicketResponse } from "@v/profile/tickets/edit/definitions/ticket"
 import type { TicketListItem } from "@v/profile/tickets/list/definitions/tickets-list"
-
+import type { Pagination, PaginationFilter } from "@/definitions/pagination"
 import { http } from "@/api"
-import type { Pagination, PaginationFilter } from "@/definitions/pagination.ts"
 
 export async function list(paginationFilter: PaginationFilter) {
     return await http.post<Pagination<TicketListItem[]>>("dashboard/tickets/list", paginationFilter)

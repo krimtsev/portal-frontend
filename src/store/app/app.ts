@@ -1,8 +1,8 @@
 import { defineStore } from "pinia"
 import { computed, ref } from "vue"
-import { Partner } from "@/definitions/partner.ts"
+import { Partner } from "@/definitions/partner"
 import env from "~/env"
-import { Roles } from "@/definitions/roles.ts"
+import { Roles } from "@/definitions/roles"
 import { useAuthStore } from "@s/auth/auth"
 
 export const useAppStore = defineStore("app", () => {
