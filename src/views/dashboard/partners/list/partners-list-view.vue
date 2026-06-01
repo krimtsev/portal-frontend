@@ -22,7 +22,9 @@ import BToolbar from "@c/common/b-toolbar/b-toolbar.vue"
 import BToolbarItem from "@c/common/b-toolbar/b-toolbar-item.vue"
 import PartnerStateTag from "@v/dashboard/partners/list/components/partner-state-tag.vue"
 import { type PartnerListItem } from "@v/dashboard/partners/list/definitions/partners"
-import { exportXLS, stateList } from "@v/dashboard/partners/list/utils/partners"
+import { exportXLS, partnerStateOptions } from "@v/dashboard/partners/list/utils/partners"
+import { boolToStatus, statusToBool } from "@/lib/status"
+import { Status } from "@/definitions/status"
 
 
 const notify = useNotify()
@@ -139,6 +141,15 @@ async function onExportXLS() {
         isExporting.value = false
     }
 }
+
+const partnerState = computed({
+    get() {
+        return boolToStatus(partnersStore.filter.filters.disabled)
+    },
+    set(newValue: Status) {
+        partnersStore.filter.filters.disabled = statusToBool(newValue)
+    },
+})
 </script>
 
 <template>
@@ -149,8 +160,8 @@ async function onExportXLS() {
         >
             <b-toolbar-item header="Статус">
                 <b-select
-                    v-model="partnersStore.filter.filters.disabled"
-                    :options="stateList"
+                    v-model="partnerState"
+                    :options="partnerStateOptions"
                     :disabled="partnersStore.isLoading"
                     option-label="name"
                     option-value="id"
@@ -158,8 +169,7 @@ async function onExportXLS() {
                     show-clear
                     placeholder="Выберите статус"
                     class="filter-state"
-                    @hide="onChangeFilter"
-                    @clear="onChangeFilter"
+                    @change="onChangeFilter"
                 />
             </b-toolbar-item>
 

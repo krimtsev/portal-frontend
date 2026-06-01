@@ -6,14 +6,15 @@ import i18n from "@/plugins/i18n"
 import { Roles } from "@/definitions/roles"
 import { UserAccessType } from "@v/dashboard/users/edit/definitions/user"
 import { useDepartmentStore } from "@s/department/department"
+import { Status } from "@/definitions/status"
 
-export const stateList: { id: boolean, name: string }[] = [
+export const userStateOptions: { id: string, name: string }[] = [
     {
-        id:   false,
+        id:   Status.ACTIVE,
         name: i18n.global.t("mc.dashboard.users.state.active"),
     },
     {
-        id:   true,
+        id:   Status.DISABLED,
         name: i18n.global.t("mc.dashboard.users.state.disabled"),
     },
 ]

@@ -28,6 +28,7 @@ const modelValue = defineModel<string | Date | Array<Date> | Array<Date | null> 
 
 const emit = defineEmits<{
     (e: "hide"): void
+    (e: "date-select", value: Date): void
 }>()
 
 const props = withDefaults(defineProps<Partial<DatePicker>>(), {
@@ -62,6 +63,10 @@ const internalModel = computed({
         }
     },
 })
+
+function dateSelect(value: Date) {
+    emit("date-select", value)
+}
 </script>
 
 <template>
@@ -91,6 +96,7 @@ const internalModel = computed({
             }"
             :show-other-months="props.showOtherMonths"
             @hide="emit('hide')"
+            @date-select="dateSelect"
         />
 
         <b-input-error :error="props.error" />

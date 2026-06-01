@@ -25,7 +25,7 @@ import { exportXLS } from "@v/dashboard/tickets/list/utils/tickets"
 import { checkActiveState } from "@v/profile/tickets/edit/utils/ticket"
 import TicketStateBadge from "@v/profile/tickets/list/components/ticket-state-badge.vue"
 import type { TicketListItem } from "@v/profile/tickets/list/definitions/tickets-list"
-import { stateList } from "@v/profile/tickets/list/utils/ticket"
+import { ticketStateList } from "@v/profile/tickets/list/utils/ticket"
 
 
 const notify = useNotify()
@@ -35,7 +35,7 @@ const { t, n } = useI18n()
 const ticketsStore = useTicketsStore()
 const departmentStore = useDepartmentStore()
 
-const ticketStateList = stateList()
+const ticketStateOptions = ticketStateList()
 const tickets = ref<TicketListItem[]>([])
 const partners = ref<PartnerOptionItem[]>([])
 const isExporting = ref(false)
@@ -167,8 +167,7 @@ const departmentName = (id: number) => departmentStore.getTitleById(id)
                     show-clear
                     placeholder="Выберите отдел"
                     class="filter-department"
-                    @hide="onChangeFilter"
-                    @clear="onChangeFilter"
+                    @submit="onChangeFilter"
                 />
             </b-toolbar-item>
 
@@ -185,26 +184,24 @@ const departmentName = (id: number) => departmentStore.getTitleById(id)
                     show-clear
                     placeholder="Выберите филиал"
                     class="filter-partner"
-                    @hide="onChangeFilter"
-                    @clear="onChangeFilter"
+                    @submit="onChangeFilter"
                 />
             </b-toolbar-item>
 
             <b-toolbar-item header="Статус">
                 <b-multi-select
                     v-model="ticketsStore.filter.filters.state"
-                    :options="ticketStateList"
+                    :options="ticketStateOptions"
                     :selected-items-label="t('mc.select.elements', ticketsStore.filter.filters.state.length)"
                     :max-selected-labels="1"
                     :disabled="ticketsStore.isLoading"
-                    option-label="id"
-                    option-value="title"
+                    option-label="title"
+                    option-value="id"
                     filter
                     show-clear
                     placeholder="Выберите статус"
                     class="filter-state"
-                    @hide="onChangeFilter"
-                    @clear="onChangeFilter"
+                    @submit="onChangeFilter"
                 />
             </b-toolbar-item>
 

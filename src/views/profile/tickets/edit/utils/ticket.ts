@@ -1,11 +1,13 @@
 import { DateTime } from "luxon"
 import {
-    type TicketDetails,
-    type TicketEvent,
+    AttributeDisplayType,
     TicketMessageType,
     TicketState,
-    type TicketTimeline,
     TicketType,
+    type FieldConfig,
+    type TicketDetails,
+    type TicketEvent,
+    type TicketTimeline, type Attribute,
 } from "@v/profile/tickets/edit/definitions/ticket"
 import { stateName } from "@v/profile/tickets/list/utils/ticket"
 import i18n from "@/plugins/i18n"
@@ -61,56 +63,68 @@ export function hasTimelineMessage(timeline: TicketTimeline) {
     })
 }
 
+const attributeLabel = (type?: TicketType, key?: string): string => {
+    if (!type || !key) return ""
+    return i18n.global.t(`mc.ticket.${type}.placeholder.${key}`)
+}
+
 export function normalizeAttributes(details: TicketDetails) {
-    const attributeLabel = (key?: string): string => {
-        if (!details) return ""
+    const rawAttributes = details?.attributes || {}
+    const ticketType = details?.type
 
-        const type = details.type
-        if (!type || !key) return ""
-
-        return i18n.global.t(`mc.ticket.${type}.placeholder.${key}`)
+    if (!ticketType || !TICKET_FIELDS_ORDER[ticketType]) {
+        return []
     }
 
-    return Object.entries(details?.attributes || {})
-        .filter(([_, value]) => !!value)
-        .map(([label, value]) => {
-            if (
-                details.type === TicketType.Certificate &&
-                label === "paymentDate"
-            ) {
-                value = DateTime.fromISO(value, { zone: "utc" })
-                    .toFormat("yyyy-MM-dd H:mm")
-            }
+    const fieldsConfig = TICKET_FIELDS_ORDER[ticketType]
+    const list: Attribute[] = []
 
-            if (
-                details.type === TicketType.Flagman &&
-                label === "openingDate"
-            ) {
-                value = DateTime.fromISO(value, { zone: "utc" })
-                    .toFormat("yyyy-MM-dd ")
-            }
+    for (const field of fieldsConfig) {
+        const rawValue = rawAttributes[field.key]
 
-            if (
-                details.type === TicketType.Specialist &&
-                label === "qualification"
-            ) {
-                const qualification = value[0].toLowerCase() + value.slice(1)
-                value = i18n.global.t(`mc.ticket.barberQualification.${qualification}`)
-            }
+        if (!rawValue) {
+            continue
+        }
 
-            if (
-                details.type === TicketType.Administrator &&
-                label === "qualification"
-            ) {
-                const qualification = value[0].toLowerCase() + value.slice(1)
-                value = i18n.global.t(`mc.ticket.adminQualification.${qualification}`)
-            }
+        let value = String(rawValue)
 
-            return {
-                label: attributeLabel(label),
-                value,
+        if (field.displayType === AttributeDisplayType.DateTime) {
+            value = DateTime.fromISO(value, { zone: "utc" })
+                .toFormat("yyyy-MM-dd H:mm")
+        }
+
+        if (field.displayType === AttributeDisplayType.Date) {
+            value = DateTime.fromISO(value, { zone: "utc" })
+                .toFormat("yyyy-MM-dd ")
+        }
+
+        let text = ""
+        if (field.displayType === AttributeDisplayType.Link) {
+            if (URL.canParse(value)) {
+                text = new URL(value).origin
             }
+        }
+
+        if (field.key === "qualification") {
+            const qualificationKey = value[0].toLowerCase() + value.slice(1)
+
+            if (ticketType === TicketType.Specialist) {
+                value = i18n.global.t(`mc.ticket.barberQualification.${qualificationKey}`)
+            } else if (ticketType === TicketType.Administrator) {
+                value = i18n.global.t(`mc.ticket.adminQualification.${qualificationKey}`)
+            }
+        }
+
+        list.push({
+            key:         field.key,
+            label:       attributeLabel(ticketType, field.key),
+            value,
+            text,
+            displayType: field.displayType ?? AttributeDisplayType.Text,
         })
+    }
+
+    return list
 }
 
 export function checkActiveState(value: TicketState) {
@@ -119,4 +133,54 @@ export function checkActiveState(value: TicketState) {
         TicketState.Waiting,
         TicketState.InProgress,
     ].includes(value)
+}
+
+export const TICKET_FIELDS_ORDER: Record<string, FieldConfig[]> = {
+    [TicketType.Administrator]: [
+        { key: "name" },
+        { key: "qualification" },
+        { key: "phone", displayType: AttributeDisplayType.Phone },
+        { key: "experience" },
+    ],
+    [TicketType.Blacklist]: [
+        { key: "name" },
+        { key: "phone", displayType: AttributeDisplayType.Phone },
+        { key: "duration" },
+    ],
+    [TicketType.Certificate]: [
+        { key: "name" },
+        { key: "code" },
+        { key: "sum" },
+        { key: "paymentDate", displayType: AttributeDisplayType.DateTime },
+    ],
+    [TicketType.Design]: [
+        { key: "name" },
+        { key: "phone", displayType: AttributeDisplayType.Phone },
+        { key: "format" },
+        { key: "promotion" },
+        { key: "registration", displayType: AttributeDisplayType.Link },
+        { key: "instagram", displayType: AttributeDisplayType.Link },
+        { key: "telegram", displayType: AttributeDisplayType.Link },
+        { key: "website", displayType: AttributeDisplayType.Link },
+        { key: "yandexMap", displayType: AttributeDisplayType.Link },
+        { key: "twoGisMap", displayType: AttributeDisplayType.Link },
+    ],
+    [TicketType.Flagman]: [
+        { key: "returnRate" },
+        { key: "auditScore" },
+        { key: "mastersCount" },
+        { key: "openingDate", displayType: AttributeDisplayType.Date },
+        { key: "cosmeticBrands" },
+        { key: "missedReports" },
+        { key: "yandexMap", displayType: AttributeDisplayType.Link },
+        { key: "twoGisMap", displayType: AttributeDisplayType.Link },
+    ],
+    [TicketType.Specialist]: [
+        { key: "name" },
+        { key: "phone", displayType: AttributeDisplayType.Phone },
+        { key: "qualification" },
+        { key: "experience" },
+        { key: "statistics" },
+        { key: "linkToWorks", displayType: AttributeDisplayType.Link },
+    ],
 }

@@ -90,3 +90,24 @@ export interface TicketDetails {
 export interface TicketResponse {
     data: TicketDetails
 }
+
+export enum AttributeDisplayType {
+    Text = "text",
+    Link = "link",
+    Phone = "phone",
+    Date = "Date",
+    DateTime = "DateTime",
+}
+
+export interface FieldConfig {
+    key:          string
+    displayType?: AttributeDisplayType
+}
+
+export interface Attribute {
+    key:         string
+    label:       string
+    value:       string
+    text:        string // Записываем дол. информацию
+    displayType: AttributeDisplayType
+}

@@ -134,7 +134,7 @@ const filterDate = computed({
                     view="month"
                     :disabled="royaltyStore.isLoading"
                     class="filter-date"
-                    @hide="onChangeFilter"
+                    @date-select="onChangeFilter"
                 />
             </b-toolbar-item>
 
@@ -150,8 +150,7 @@ const filterDate = computed({
                     show-clear
                     placeholder="Выберите филиал"
                     class="filter-partner"
-                    @hide="onChangeFilter"
-                    @clear="onChangeFilter"
+                    @submit="onChangeFilter"
                 />
             </b-toolbar-item>
         </b-toolbar>
@@ -190,7 +189,7 @@ const filterDate = computed({
                 <prime-column
                     header="Валовая выручка"
                     field="gross_revenue"
-                    class="table-organization"
+                    class="table-gross-revenue"
                 >
                     <template #body="{ data }">
                         <b-table-text :text="data?.gross_revenue" />
@@ -200,7 +199,7 @@ const filterDate = computed({
                 <prime-column
                     header="Роялти"
                     field="royalty_amount"
-                    class="table-inn"
+                    class="table-royalty-amount"
                 >
                     <template #body="{ data }">
                         <b-table-text :text="data?.royalty_amount" />
@@ -210,7 +209,7 @@ const filterDate = computed({
                 <prime-column
                     header="Роялти %"
                     field="royalty_percent"
-                    class="table-inn"
+                    class="table-royalty-percent"
                 >
                     <template #body="{ data }">
                         <b-table-text :text="data?.royalty_percent" />
@@ -220,7 +219,7 @@ const filterDate = computed({
                 <prime-column
                     header="НДС"
                     field="vat_amount"
-                    class="table-contract-number"
+                    class="table-vat-amount"
                 >
                     <template #body="{ data }">
                         <b-table-text :text="data?.vat_amount" />
@@ -230,7 +229,7 @@ const filterDate = computed({
                 <prime-column
                     header="Роялти + НДС"
                     field="royalty_with_vat"
-                    class="table-mango-telnum"
+                    class="table-royalty-with-vat"
                 >
                     <template #body="{ data }">
                         <b-table-text :text="data?.royalty_with_vat" />
@@ -253,7 +252,7 @@ const filterDate = computed({
                 <prime-column
                     header="Дней"
                     field="days_count"
-                    class="table-mango-telnum"
+                    class="table-days-count"
                 >
                     <template #body="{ data }">
                         <b-table-text :text="data?.days_count" />

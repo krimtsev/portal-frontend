@@ -17,9 +17,43 @@ export default {
                 },
             },
         },
-        button: {
-            paddingX: "{button.paddingX}",
-            paddingY: "{button.paddingY}",
+        select: {
+            option: {
+                padding: "{select.padding.y} 0.75rem",
+            },
+        },
+        multiselect: {
+            option: {
+                padding: "{multiselect.padding.y} 0.75rem",
+            },
+        },
+        togglebutton: {
+            colorScheme: {
+                dark: {
+                    root: {
+                        checked: {
+                            color: "{surface.900}",
+                        },
+                    },
+                    content: {
+                        checked: {
+                            background: "{primary.500}",
+                        },
+                    },
+                },
+                light: {
+                    root: {
+                        checked: {
+                            color: "{surface.900}",
+                        },
+                    },
+                    content: {
+                        checked: {
+                            background: "{primary.500}",
+                        },
+                    },
+                },
+            },
         },
         datatable: {
             colorScheme: {
@@ -36,6 +70,7 @@ export default {
                             border: {
                                 color: "{surface.600}",
                             },
+                            padding: "0.9rem 1rem",
                         },
                     },
                     row: {
@@ -200,10 +235,6 @@ export default {
                 lg:   "16px",
                 xl:   "20px",
             },
-        },
-        button: {
-            paddingX: "1.1429rem",
-            paddingY: "0.797rem",
         },
         formField: {
             border: {

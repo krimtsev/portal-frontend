@@ -80,7 +80,7 @@ const labelText = computed(() => {
 
         .label {
             display: block;
-            color: var(--p-contrast-color);
+            color: var(--p-surface-0);
 
             &-content {
                 display: inline;

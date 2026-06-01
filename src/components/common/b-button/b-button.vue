@@ -4,6 +4,7 @@ import PrimeButton from "primevue/button"
 
 type ButtonType = "submit" | "reset" | "button"
 type ButtonVariant = "primary" | "secondary" | "danger"
+type ButtonSize = "small" | "large"
 
 const emit = defineEmits<{
     (e: "click"): void
@@ -15,11 +16,13 @@ const props = withDefaults(defineProps<{
     disabled?:  boolean
     isLoading?: boolean
     variant?:   ButtonVariant
+    size?:      ButtonSize
 }>(), {
     label:    "",
     disabled: false,
     type:     undefined,
     variant:  undefined,
+    size:     undefined,
 })
 
 const severity = computed(() => {
@@ -34,6 +37,7 @@ const severity = computed(() => {
         :disabled="props.disabled"
         :loading="props.isLoading"
         :severity="severity"
+        :size="props.size"
         class="b-button"
         @click="emit('click')"
     />

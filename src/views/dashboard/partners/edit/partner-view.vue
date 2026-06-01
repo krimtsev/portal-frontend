@@ -20,7 +20,8 @@ import type { PartnerGroupOptionItem } from "@v/dashboard/partner-groups/list/de
 import PartnerTelnums from "@v/dashboard/partners/edit/components/partner-telnums.vue"
 import type { PartnerData } from "@v/dashboard/partners/edit/definitions/partner"
 import { PartnerSchema } from "@v/dashboard/partners/edit/schemas/partner.schema"
-import { stateList } from "@v/dashboard/partners/list/utils/partners"
+import { partnerStateOptions } from "@v/dashboard/partners/list/utils/partners"
+import { Status } from "@/definitions/status"
 
 
 const notify = useNotify()
@@ -161,6 +162,17 @@ const onSave = handleSubmit(async (formValues) => {
         name: DashboardRouteName.DashboardPartners,
     })
 })
+
+const partnerState = computed({
+    get() {
+        return disabledModel.value
+            ? Status.DISABLED
+            : Status.ACTIVE
+    },
+    set(newValue: Status) {
+        disabledModel.value = newValue === Status.DISABLED
+    },
+})
 </script>
 
 <template>
@@ -260,9 +272,9 @@ const onSave = handleSubmit(async (formValues) => {
                 class="label-align-center"
             >
                 <b-select-button
-                    v-model="disabledModel"
+                    v-model="partnerState"
                     :disabled="isLoading"
-                    :options="stateList"
+                    :options="partnerStateOptions"
                     :error="errors['disabled']"
                     option-label="name"
                     option-value="id"

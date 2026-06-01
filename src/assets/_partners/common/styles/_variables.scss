@@ -14,6 +14,7 @@ $form-left-part-width: 208px;
 $dialog-left-part-width: 208px;
 $input-width: 296px;
 $label-indent: $indent + 4px;
+$max-form-item: $form-left-part-width + ($input-width * 2);
 
 $breakpoints-xxl: 1920px;
 $breakpoints-xl: 1600px;

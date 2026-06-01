@@ -24,10 +24,11 @@ import BTextarea from "@c/common/b-textarea/b-textarea.vue"
 import type { PartnerOptionItem } from "@v/dashboard/partners/list/definitions/partners"
 import type { UserData } from "@v/dashboard/users/edit/definitions/user"
 import { UserSchema } from "@v/dashboard/users/edit/schemas/user.schema"
-import { stateList } from "@v/dashboard/users/list/utils/users"
+import { rolesList, userStateOptions } from "@v/dashboard/users/list/utils/users"
 import { generatePassword } from "@/lib/utils"
 import { maxMessageLength } from "@/constants/messages"
 import { Roles } from "@/definitions/roles"
+import { Status } from "@/definitions/status"
 
 
 const notify = useNotify()
@@ -168,20 +169,16 @@ function onCreatePassword() {
     passwordModel.value = generatePassword()
 }
 
-const rolesList = [
-    {
-        id:    Roles.USER,
-        title: t("mc.roles.user"),
+const userState = computed({
+    get() {
+        return disabledModel.value
+            ? Status.DISABLED
+            : Status.ACTIVE
     },
-    {
-        id:    Roles.ADMIN,
-        title: t("mc.roles.admin"),
+    set(newValue: Status) {
+        disabledModel.value = newValue === Status.DISABLED
     },
-    {
-        id:    Roles.SYSADMIN,
-        title: t("mc.roles.sysadmin"),
-    },
-]
+})
 </script>
 
 <template>
@@ -247,7 +244,7 @@ const rolesList = [
                     :disabled="isLoading"
                     :options="rolesList"
                     option-value="id"
-                    option-label="title"
+                    option-label="name"
                     :error="errors['role']"
                 />
             </b-form-item>
@@ -291,18 +288,15 @@ const rolesList = [
                 class="label-align-center"
             >
                 <b-select-button
-                    v-model="disabledModel"
-                    :options="stateList"
+                    v-model="userState"
+                    :options="userStateOptions"
                     :error="errors['disabled']"
                     option-label="name"
                     option-value="id"
-                >
-                    <template #option="{ option }">
-                        <span :class="option.id ? 'is-disabled' : 'is-active'">
-                            {{ option.name }}
-                        </span>
-                    </template>
-                </b-select-button>
+                    :option-class="{
+                        [Status.DISABLED]: 'status-danger',
+                    }"
+                />
             </b-form-item>
 
             <b-form-item label="Примечания">

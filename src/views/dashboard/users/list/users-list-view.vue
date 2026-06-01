@@ -26,13 +26,14 @@ import BToolbarItem from "@c/common/b-toolbar/b-toolbar-item.vue"
 import StateIcon from "@c/state-icon/state-icon.vue"
 import type { PartnerOptionItem } from "@v/dashboard/partners/list/definitions/partners"
 import UserStateTag from "@v/dashboard/users/list/components/user-state-tag.vue"
-import type { UsersListItem } from "@v/dashboard/users/list/definitions/users"
+import { type UsersListItem } from "@v/dashboard/users/list/definitions/users"
 import {
     accessList,
     exportXLS,
     rolesList,
-    stateList,
+    userStateOptions,
 } from "@v/dashboard/users/list/utils/users"
+import { boolToStatus, statusToBool } from "@/lib/status"
 import { FilterType } from "@/definitions/filter"
 
 const notify = useNotify()
@@ -182,6 +183,11 @@ const partnerOptions = computed<MultiSelectItem[]>(() => {
         },
     ]
 })
+
+const userState = computed({
+    get: () => boolToStatus(usersStore.filter.filters.disabled),
+    set: (val) => usersStore.filter.filters.disabled = statusToBool(val),
+})
 </script>
 
 <template>
@@ -194,7 +200,6 @@ const partnerOptions = computed<MultiSelectItem[]>(() => {
                 <b-multi-select
                     v-model="usersStore.filter.filters.partner_id"
                     :options="partnerOptions"
-                    :selected-count="usersStore.filter.filters.partner_id.length"
                     :disabled="usersStore.isLoading"
                     option-label="title"
                     option-value="id"
@@ -202,8 +207,7 @@ const partnerOptions = computed<MultiSelectItem[]>(() => {
                     show-clear
                     placeholder="Выберите филиал"
                     class="filter-partner"
-                    @hide="onChangeFilter"
-                    @clear="onChangeFilter"
+                    @submit="onChangeFilter"
                 />
             </b-toolbar-item>
 
@@ -211,7 +215,6 @@ const partnerOptions = computed<MultiSelectItem[]>(() => {
                 <b-multi-select
                     v-model="usersStore.filter.filters.role"
                     :options="rolesList"
-                    :selected-count="usersStore.filter.filters.role.length"
                     :disabled="usersStore.isLoading"
                     option-label="name"
                     option-value="id"
@@ -219,15 +222,14 @@ const partnerOptions = computed<MultiSelectItem[]>(() => {
                     show-clear
                     placeholder="Выберите роль"
                     class="filter-role"
-                    @hide="onChangeFilter"
-                    @clear="onChangeFilter"
+                    @submit="onChangeFilter"
                 />
             </b-toolbar-item>
 
             <b-toolbar-item header="Статус">
                 <b-select
-                    v-model="usersStore.filter.filters.disabled"
-                    :options="stateList"
+                    v-model="userState"
+                    :options="userStateOptions"
                     :disabled="usersStore.isLoading"
                     option-label="name"
                     option-value="id"
@@ -235,8 +237,7 @@ const partnerOptions = computed<MultiSelectItem[]>(() => {
                     show-clear
                     placeholder="Выберите статус"
                     class="filter-state"
-                    @hide="onChangeFilter"
-                    @clear="onChangeFilter"
+                    @change="onChangeFilter"
                 />
             </b-toolbar-item>
 
@@ -253,8 +254,7 @@ const partnerOptions = computed<MultiSelectItem[]>(() => {
                         show-clear
                         placeholder="Выберите отдел"
                         class="filter-department"
-                        @hide="onChangeFilter"
-                        @clear="onChangeFilter"
+                        @submit="onChangeFilter"
                     />
                 </b-toolbar-item>
 
@@ -270,8 +270,7 @@ const partnerOptions = computed<MultiSelectItem[]>(() => {
                         show-clear
                         placeholder="Выберите доступы"
                         class="filter-access"
-                        @hide="onChangeFilter"
-                        @clear="onChangeFilter"
+                        @submit="onChangeFilter"
                     />
                 </b-toolbar-item>
 

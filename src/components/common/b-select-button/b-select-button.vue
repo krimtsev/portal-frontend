@@ -12,6 +12,7 @@ const props = withDefaults(defineProps<{
     optionLabel?: string
     optionValue?: string
     allowEmpty?:  boolean
+    optionClass?: string | Record<string, string> | ((option: any) => string)
 }>(), {
     name:        undefined,
     disabled:    false,
@@ -19,7 +20,23 @@ const props = withDefaults(defineProps<{
     allowEmpty:  false,
     optionLabel: undefined,
     optionValue: undefined,
+    optionClass: undefined,
 })
+
+function resolveOptionClass(option: any): string {
+    if (!props.optionClass) return ""
+
+    if (typeof props.optionClass === "function") {
+        return props.optionClass(option)
+    }
+
+    if (typeof props.optionClass === "object") {
+        const val = props.optionValue ? option[props.optionValue] : option
+        return props.optionClass[val] || ""
+    }
+
+    return option[props.optionClass] || ""
+}
 </script>
 
 <template>
@@ -36,9 +53,11 @@ const props = withDefaults(defineProps<{
             class="select-button"
         >
             <template #option="slotProps">
-                <slot name="option" v-bind="slotProps">
-                    {{ slotProps.option[props.optionLabel || 'name'] }}
-                </slot>
+                <span :class="resolveOptionClass(slotProps.option)">
+                    <slot name="option" v-bind="slotProps">
+                        {{ slotProps.option[props.optionLabel || 'name'] }}
+                    </slot>
+                </span>
             </template>
         </prime-select-button>
 
@@ -48,22 +67,16 @@ const props = withDefaults(defineProps<{
 
 <style scoped lang="scss">
 .b-select-button {
-    display: flex;
-    flex-direction: column;
-    //width: $input-width;
-
     &.full-width {
         width: 100%;
     }
 
     :deep(.p-selectbutton) {
-        .p-togglebutton-checked .p-togglebutton-content {
-            background: var(--p-primary-color);
-            color: var(--p-primary-contrast-color);
-        }
-
-        &.p-invalid {
-            border-color: var(--p-form-field-invalid-border-color);
+        .p-togglebutton:has(.status-danger).p-togglebutton-checked {
+            .p-togglebutton-content {
+                background-color: var(--p-red-400);
+                border-color: var(--p-red-400);
+            }
         }
     }
 
