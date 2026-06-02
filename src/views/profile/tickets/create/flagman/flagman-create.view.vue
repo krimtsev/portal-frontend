@@ -192,7 +192,6 @@ const onSave = handleSubmit(async (formValues) => {
                             :error="errors['attributes.openingDate']"
                             :disabled="isDisabled"
                             :placeholder="t('mc.ticket.flagman.placeholder.openingDate')"
-                            date-format="yy-mm-dd"
                             class="full-width"
                         />
                     </div>

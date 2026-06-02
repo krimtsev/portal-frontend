@@ -7,11 +7,13 @@ import {
     type FieldConfig,
     type TicketDetails,
     type TicketEvent,
-    type TicketTimeline, type Attribute,
+    type TicketTimeline,
+    type Attribute,
 } from "@v/profile/tickets/edit/definitions/ticket"
 import { stateName } from "@v/profile/tickets/list/utils/ticket"
 import i18n from "@/plugins/i18n"
 import { useDepartmentStore } from "@s/department/department"
+import { maxLinkLength } from "@/constants/link"
 
 const FIELD_LABELS: Record<string, string> = {
     state:         "Статус",
@@ -89,20 +91,20 @@ export function normalizeAttributes(details: TicketDetails) {
         let value = String(rawValue)
 
         if (field.displayType === AttributeDisplayType.DateTime) {
-            value = DateTime.fromISO(value, { zone: "utc" })
+            value = DateTime.fromISO(value)
                 .toFormat("yyyy-MM-dd H:mm")
         }
 
         if (field.displayType === AttributeDisplayType.Date) {
-            value = DateTime.fromISO(value, { zone: "utc" })
-                .toFormat("yyyy-MM-dd ")
+            value = DateTime.fromISO(value)
+                .toFormat("yyyy-MM-dd")
         }
 
         let text = ""
         if (field.displayType === AttributeDisplayType.Link) {
-            if (URL.canParse(value)) {
-                text = new URL(value).origin
-            }
+            text = value.length > maxLinkLength
+                ? `${value.slice(0, maxLinkLength)}...`
+                : value
         }
 
         if (field.key === "qualification") {

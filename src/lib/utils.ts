@@ -27,3 +27,14 @@ export function generatePassword(length: number = 10): string {
 export function sleep(ms = 0) {
     return new Promise((resolve) => setTimeout(resolve, ms))
 }
+
+export function formatPrice(price: number, digits = 2) {
+    const pow = Math.pow(10, digits)
+    const truncatedPrice = Math.trunc(price * pow) / pow
+
+    return new Intl.NumberFormat("ru-RU", {
+        style:                 "decimal",
+        minimumFractionDigits: digits,
+        maximumFractionDigits: digits,
+    }).format(truncatedPrice)
+}

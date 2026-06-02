@@ -21,6 +21,7 @@ import PartnerTelnums from "@v/dashboard/partners/edit/components/partner-telnum
 import type { PartnerData } from "@v/dashboard/partners/edit/definitions/partner"
 import { PartnerSchema } from "@v/dashboard/partners/edit/schemas/partner.schema"
 import { partnerStateOptions } from "@v/dashboard/partners/list/utils/partners"
+import { formatDateToString, parseStringToDate } from "@/lib/date-helpers"
 import { Status } from "@/definitions/status"
 
 
@@ -173,6 +174,24 @@ const partnerState = computed({
         disabledModel.value = newValue === Status.DISABLED
     },
 })
+
+const openedAt = computed({
+    get() {
+        return parseStringToDate(openedAtModel.value)
+    },
+    set(date: Date | null) {
+        openedAtModel.value = formatDateToString(date)
+    },
+})
+
+const startAt = computed({
+    get() {
+        return parseStringToDate(startAtModel.value)
+    },
+    set(date: Date | null) {
+        startAtModel.value = formatDateToString(date)
+    },
+})
 </script>
 
 <template>
@@ -251,7 +270,7 @@ const partnerState = computed({
 
             <b-form-item label="Дата открытия">
                 <b-date-picker
-                    v-model="openedAtModel"
+                    v-model="openedAt"
                     :disabled="isLoading"
                     :error="errors['opened_at']"
                     show-button-bar
@@ -260,7 +279,7 @@ const partnerState = computed({
 
             <b-form-item label="Дата подписания">
                 <b-date-picker
-                    v-model="startAtModel"
+                    v-model="startAt"
                     :disabled="isLoading"
                     :error="errors['start_at']"
                     show-button-bar

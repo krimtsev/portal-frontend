@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { computed } from "vue"
-import { DateTime } from "luxon"
 import PrimeDatePicker from "primevue/datepicker"
 import BInputError from "@c/common/b-input-error/b-input-error.vue"
 
@@ -24,7 +22,7 @@ interface DatePicker {
     view?:            "date" | "month" | "year"
 }
 
-const modelValue = defineModel<string | Date | Array<Date> | Array<Date | null> | undefined | null>()
+const modelValue = defineModel<Date | Array<Date> | Array<Date | null> | undefined | null>()
 
 const emit = defineEmits<{
     (e: "hide"): void
@@ -43,27 +41,6 @@ const props = withDefaults(defineProps<Partial<DatePicker>>(), {
     view:            "date",
 })
 
-const internalModel = computed({
-    get() {
-        if (!modelValue.value) return null
-
-        if (typeof modelValue.value === "string") {
-            return DateTime.fromFormat(modelValue.value, "yyyy-MM-dd", { zone: "utc" })
-                .toJSDate()
-        }
-
-        return modelValue.value
-    },
-    set(value) {
-        if (value instanceof Date && typeof modelValue.value === "string") {
-            modelValue.value = DateTime.fromJSDate(value, { zone: "utc" })
-                .toFormat("yyyy-MM-dd")
-        } else {
-            modelValue.value = value
-        }
-    },
-})
-
 function dateSelect(value: Date) {
     emit("date-select", value)
 }
@@ -72,7 +49,7 @@ function dateSelect(value: Date) {
 <template>
     <div class="b-date-picker">
         <prime-date-picker
-            v-model="internalModel"
+            v-model="modelValue"
             :name="props.name"
             :disabled="props.disabled"
             :placeholder="props.placeholder"
