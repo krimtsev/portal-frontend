@@ -275,6 +275,10 @@ const filterDate = computed({
 
     :deep(.p-datatable) {
         @include table;
+
+        .table-royalty-with-vat {
+            color: var(--p-orange-300);
+        }
     }
 
     .filter {
