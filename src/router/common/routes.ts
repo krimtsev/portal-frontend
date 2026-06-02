@@ -2,8 +2,7 @@ import type { RouteRecordRaw } from "vue-router"
 import { commonPaths } from "@r/common/paths"
 import { CommonRouteName } from "@r/common/route-names"
 import LoginView from "@v/auth/auth-view.vue"
-
-import { Roles } from "@/definitions/roles.ts"
+import { Roles } from "@/definitions/roles"
 
 const routes: RouteRecordRaw[] = [
     {

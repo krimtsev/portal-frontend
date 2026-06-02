@@ -61,7 +61,7 @@ const linkProps = computed(() => {
         line-height: 1;
 
         &.is-external {
-            color: var(--p-primary-600);
+            color: var(--p-primary-color);
         }
 
         &:hover,

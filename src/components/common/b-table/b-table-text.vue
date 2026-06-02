@@ -15,7 +15,11 @@ const textElementRef = useTemplateRef<HTMLElement | null>("textElementRef")
 const isTruncated = ref(false)
 
 const textOrDash = computed(() => {
-    if (props.text) return props.text
+    const isValueEmpty = props.text === null ||
+        props.text === undefined ||
+        props.text === ""
+
+    if (!isValueEmpty) return props.text
     return props.showEmpty ? "" : "—"
 })
 

@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { computed } from "vue"
-import { DateTime } from "luxon"
 import PrimeDatePicker from "primevue/datepicker"
 import BInputError from "@c/common/b-input-error/b-input-error.vue"
 
@@ -15,48 +13,43 @@ interface DatePicker {
     dateFormat?:      string
     manualInput?:     boolean
     showClear?:       boolean
-    updateModelType?: "date" | "string"
+    modelType?:       "date" | "string"
     showButtonBar?:   boolean
+    selectionMode?:   "single" | "multiple" | "range"
+    minDate?:         Date
+    maxDate?:         Date
+    showOtherMonths?: boolean
+    view?:            "date" | "month" | "year"
 }
 
-const modelValue = defineModel<Date | Date[] | (Date | null)[] | null | undefined>()
+const modelValue = defineModel<Date | Array<Date> | Array<Date | null> | undefined | null>()
+
+const emit = defineEmits<{
+    (e: "hide"): void
+    (e: "date-select", value: Date): void
+}>()
 
 const props = withDefaults(defineProps<Partial<DatePicker>>(), {
-    placeholder: "",
-    disabled:    false,
-    error:       "",
-    manualInput: false,
-    showClear:   false,
-    dateFormat:  "yy-mm-dd",
+    placeholder:     "",
+    disabled:        false,
+    error:           "",
+    manualInput:     false,
+    showClear:       false,
+    dateFormat:      "yy-mm-dd",
+    showOtherMonths: false,
+    modelType:       "date",
+    view:            "date",
 })
 
-const internalModel = computed({
-    get() {
-        if (!modelValue.value) return null
-
-        if (modelValue.value instanceof Date) {
-            return modelValue.value
-        }
-
-        if (typeof modelValue.value === "string") {
-            return DateTime
-                .fromISO(modelValue.value, { zone: "utc" })
-                .toLocal()
-                .toJSDate()
-        }
-
-        return modelValue.value
-    },
-    set(value) {
-        modelValue.value = value ?? null
-    },
-})
+function dateSelect(value: Date) {
+    emit("date-select", value)
+}
 </script>
 
 <template>
     <div class="b-date-picker">
         <prime-date-picker
-            v-model="internalModel"
+            v-model="modelValue"
             :name="props.name"
             :disabled="props.disabled"
             :placeholder="props.placeholder"
@@ -66,11 +59,21 @@ const internalModel = computed({
             :date-format="props.dateFormat"
             :manual-input="props.manualInput"
             :show-clear="props.showClear"
-            :update-model-type="props.updateModelType"
+            :update-model-type="props.modelType"
             :show-button-bar="props.showButtonBar"
             :invalid="!!props.error"
+            :selection-mode="props.selectionMode"
+            :min-date="props.minDate"
+            :max-date="props.maxDate"
+            :view="props.view"
             fluid
             class="date-picker"
+            :class="{
+                'readonly-input': !props.disabled && !props.manualInput,
+            }"
+            :show-other-months="props.showOtherMonths"
+            @hide="emit('hide')"
+            @date-select="dateSelect"
         />
 
         <b-input-error :error="props.error" />
@@ -90,6 +93,12 @@ const internalModel = computed({
     :deep(.p-inputtext)  {
         &.p-invalid {
             border-color: var(--p-form-field-invalid-border-color);
+        }
+    }
+
+    .readonly-input {
+        :deep(.p-inputtext) {
+            cursor: pointer;
         }
     }
 

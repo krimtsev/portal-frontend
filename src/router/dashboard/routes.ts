@@ -1,7 +1,7 @@
 import type { RouteRecordRaw } from "vue-router"
 import { dashboardPaths } from "@r/dashboard/path"
 import { DashboardRouteName } from "@r/dashboard/route-names"
-import { Roles } from "@/definitions/roles.ts"
+import { Roles } from "@/definitions/roles"
 
 const routes: RouteRecordRaw[] = [
     {
@@ -83,6 +83,15 @@ const routes: RouteRecordRaw[] = [
         meta:      {
             roles:      [Roles.SYSADMIN],
             breadcrumb: "mc.dashboard.sidebar.partners",
+        },
+    },
+    {
+        path:      dashboardPaths.DashboardRoyaltyList,
+        name:      DashboardRouteName.DashboardRoyaltyList,
+        component: () => import("@v/dashboard/royalty/list/royalty-list-view.vue"),
+        meta:      {
+            roles:      [Roles.ADMIN, Roles.SYSADMIN],
+            breadcrumb: "mc.dashboard.sidebar.royalty",
         },
     },
     {

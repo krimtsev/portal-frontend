@@ -11,7 +11,7 @@ export function stateName(state: string): string {
     return stateMap[state] ?? state
 }
 
-export function stateList(): { id: string, title: string }[] {
+export function ticketStateList(): { id: string, title: string }[] {
     return Object.entries(stateMap)
         .map(([id, title]) => ({
             title,

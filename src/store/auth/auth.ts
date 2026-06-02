@@ -11,7 +11,7 @@ import type {
 } from "@/api/modules/auth/definitions/auth"
 import router from "@/router"
 import { CommonRouteName } from "@/router/common/route-names"
-import { Roles } from "@/definitions/roles.ts"
+import { Roles } from "@/definitions/roles"
 
 function defaultUserData(): UserData {
     return {

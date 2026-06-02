@@ -3,11 +3,11 @@ import type {
     UserResponse,
 } from "@v/dashboard/users/edit/definitions/user"
 import type {
-    UsersExportData,
+    UsersExportItem,
     UsersListItem,
 } from "@v/dashboard/users/list/definitions/users"
 import { http } from "@/api"
-import type { Pagination, PaginationFilter } from "@/definitions/pagination.ts"
+import type { Pagination, PaginationFilter } from "@/definitions/pagination"
 import type { UserFilters } from "@s/dashboard/users/users"
 
 export async function list(paginationFilter: PaginationFilter<UserFilters>) {
@@ -27,5 +27,5 @@ export async function update(id: string, data: UserData) {
 }
 
 export async function exportData() {
-    return await http.get<UsersExportData[]>("dashboard/users/export")
+    return await http.get<UsersExportItem[]>("dashboard/users/export")
 }

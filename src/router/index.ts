@@ -9,7 +9,7 @@ import { CommonRouteName } from "@r/common/route-names"
 import { PortalRouteName } from "@r/portal/route-names"
 import routes, { addCustomizationRoutes } from "@r/routes"
 import i18n from "@/plugins/i18n"
-import type { Roles } from "@/definitions/roles.ts"
+import type { Roles } from "@/definitions/roles"
 
 const router = createRouter({
     history: createWebHistory(),

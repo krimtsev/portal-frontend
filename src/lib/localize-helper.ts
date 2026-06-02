@@ -1,5 +1,5 @@
 import i18n from "@/plugins/i18n"
-import type { Roles } from "@/definitions/roles.ts"
+import type { Roles } from "@/definitions/roles"
 
 export function getRoleName(role?: Roles) {
     if (!role) return ""

@@ -6,16 +6,13 @@ import type { TicketOpening } from "@v/profile/tickets/create/opening/definition
 import type { TicketSpecialist } from "@v/profile/tickets/create/specialist/_britva/definitions/specialist"
 import type { TicketResponse } from "@v/profile/tickets/edit/definitions/ticket"
 import type { TicketListItem } from "@v/profile/tickets/list/definitions/tickets-list"
-
+import type { TicketFlagman } from "@v/profile/tickets/create/flagman/definitions/flagman"
+import type { TicketAdministrator } from "@v/profile/tickets/create/administrator/_britva/definitions/administrator"
+import type { Pagination, PaginationFilter } from "@/definitions/pagination"
 import { http } from "@/api"
-import type { Pagination, PaginationFilter } from "@/definitions/pagination.ts"
 
-type TicketRequestParams = TicketBlacklist |
-    TicketCertificate |
-    TicketDesign |
-    TicketGeneral |
-    TicketSpecialist |
-    TicketOpening
+type TicketRequestParams = TicketAdministrator | TicketBlacklist | TicketCertificate | TicketDesign |
+    TicketFlagman | TicketGeneral | TicketOpening | TicketSpecialist
 
 export async function list(paginationFilter: PaginationFilter) {
     return await http.post<Pagination<TicketListItem[]>>("profile/tickets/list", paginationFilter)

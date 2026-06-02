@@ -17,9 +17,15 @@ export default {
                 },
             },
         },
-        button: {
-            paddingX: "{button.paddingX}",
-            paddingY: "{button.paddingY}",
+        select: {
+            option: {
+                padding: "{select.padding.y} 0.75rem",
+            },
+        },
+        multiselect: {
+            option: {
+                padding: "{multiselect.padding.y} 0.75rem",
+            },
         },
         datatable: {
             colorScheme: {
@@ -37,6 +43,7 @@ export default {
                                 color: "{surface.600}",
                             },
                         },
+                        padding: "0.9rem 1rem",
                     },
                 },
             },

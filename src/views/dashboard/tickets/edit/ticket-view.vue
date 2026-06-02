@@ -22,6 +22,8 @@ import BForm from "@c/common/b-form/b-form.vue"
 import BFormCard from "@c/common/b-form/b-form-card.vue"
 import BFormItem from "@c/common/b-form/b-form-item.vue"
 import BInputText from "@c/common/b-input/b-input-text.vue"
+import BLink from "@c/common/b-link/b-link.vue"
+import BTelnumLink from "@c/common/b-link/b-telnum-link.vue"
 import BSelect from "@c/common/b-select/b-select.vue"
 import BTextarea from "@c/common/b-textarea/b-textarea.vue"
 import BFileUpload from "@c/common/b-upload-file/b-file-upload.vue"
@@ -29,6 +31,7 @@ import type { PartnerOptionItem } from "@v/dashboard/partners/list/definitions/p
 import type { TicketStateData } from "@v/dashboard/tickets/edit/definitions/ticket"
 import { TicketSchema } from "@v/dashboard/tickets/edit/schemas/ticket.schema"
 import {
+    AttributeDisplayType,
     type TicketDetails,
     type TicketMessage,
     TicketMessageType,
@@ -40,7 +43,7 @@ import {
     hasTimelineMessage,
     normalizeAttributes,
 } from "@v/profile/tickets/edit/utils/ticket"
-import { stateList } from "@v/profile/tickets/list/utils/ticket"
+import { ticketStateList } from "@v/profile/tickets/list/utils/ticket"
 import { downloadExternalFile } from "@/lib/files"
 import { maxMessageLength } from "@/constants/messages"
 
@@ -78,7 +81,7 @@ const isFirstLoading = ref(true)
 const isLoading = ref(false)
 const isLoadingFile = ref(false)
 
-const ticketStateList = stateList()
+const ticketStateOptions = ticketStateList()
 const partnersList = ref<PartnerOptionItem[]>([])
 
 const ticketId = computed(() => route.params.id as string)
@@ -267,7 +270,7 @@ const onSave = handleSubmit(async (formValues) => {
             >
                 <b-select
                     v-model="stateModel"
-                    :options="ticketStateList"
+                    :options="ticketStateOptions"
                     :disabled="isLoading"
                     :error="errors['state']"
                     filter
@@ -283,12 +286,26 @@ const onSave = handleSubmit(async (formValues) => {
             title="Дополнительная информация"
         >
             <b-form-item
-                v-for="({label, value}) in attributes"
-                :key="label"
-                :label="label"
-                class="label-align-center short-gap"
+                v-for="attribute in attributes"
+                :key="attribute.key"
+                :label="attribute.label"
+                class="label-align-top short-gap"
             >
-                <span> {{ value }} </span>
+                <b-link
+                    v-if="attribute.displayType === AttributeDisplayType.Link"
+                    :href="attribute.value"
+                    :label="attribute.text"
+                />
+                <b-telnum-link
+                    v-else-if="attribute.displayType === AttributeDisplayType.Phone"
+                    :value="attribute.value"
+                />
+                <span
+                    v-else
+                    class="attribute-text"
+                >
+                    {{ attribute.value }}
+                </span>
             </b-form-item>
         </b-form-card>
 
@@ -371,6 +388,10 @@ const onSave = handleSubmit(async (formValues) => {
     .message,
     .files {
         width: 100%;
+    }
+
+    .attribute-text {
+        white-space: pre-line;
     }
 }
 </style>

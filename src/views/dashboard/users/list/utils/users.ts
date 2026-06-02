@@ -1,19 +1,20 @@
 import ExcelJS from "exceljs"
 import { DateTime } from "luxon"
 import { downloadExternalFile } from "@/lib/files"
-import { type UsersExportData } from "@v/dashboard/users/list/definitions/users"
+import { type UsersExportItem } from "@v/dashboard/users/list/definitions/users"
 import i18n from "@/plugins/i18n"
 import { Roles } from "@/definitions/roles"
 import { UserAccessType } from "@v/dashboard/users/edit/definitions/user"
 import { useDepartmentStore } from "@s/department/department"
+import { Status } from "@/definitions/status"
 
-export const stateList: { id: boolean, name: string }[] = [
+export const userStateOptions: { id: string, name: string }[] = [
     {
-        id:   false,
+        id:   Status.ACTIVE,
         name: i18n.global.t("mc.dashboard.users.state.active"),
     },
     {
-        id:   true,
+        id:   Status.DISABLED,
         name: i18n.global.t("mc.dashboard.users.state.disabled"),
     },
 ]
@@ -40,7 +41,7 @@ export const accessList: { id: UserAccessType, name: string }[] = [
     },
 ]
 
-export async function exportXLS(users: UsersExportData[]) {
+export async function exportXLS(users: UsersExportItem[]) {
     const departmentStore = useDepartmentStore()
 
     const date = DateTime.now().toFormat("dd.MM.yyyy")

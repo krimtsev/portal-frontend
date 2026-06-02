@@ -21,6 +21,7 @@ import PortalPage from "@c/portal/portal-page/portal-page.vue"
 import type { TicketCertificate } from "@v/profile/tickets/create/certificate/definitions/certificate"
 import { FormSchema } from "@v/profile/tickets/create/certificate/schemas/certificate.schema"
 import { TicketType } from "@v/profile/tickets/edit/definitions/ticket"
+import { stripTimezone } from "@/lib/date-helpers"
 import { maxMessageLength } from "@/constants/messages"
 import { DepartmentType } from "@/definitions/departments"
 
@@ -102,7 +103,15 @@ const onSave = handleSubmit(async (formValues) => {
 
     isLoading.value = true
 
-    const ticketResponse = await ticketAPI.create(formValues)
+    const payload = {
+        ...formValues,
+        attributes: {
+            ...formValues.attributes,
+            paymentDate: stripTimezone(formValues.attributes.paymentDate),
+        },
+    }
+
+    const ticketResponse = await ticketAPI.create(payload)
 
     isLoading.value = false
 

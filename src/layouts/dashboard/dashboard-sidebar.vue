@@ -97,6 +97,16 @@ const items = computed<DashboardMenuItem[]>(() => {
     })
 
     menu.push({
+        key:         "royalty",
+        label:       t("mc.dashboard.sidebar.royalty"),
+        icon:        "pi pi-chart-line",
+        route:       dashboardPaths.DashboardRoyaltyList,
+        activeNames: [
+            DashboardRouteName.DashboardRoyaltyList,
+        ],
+    })
+
+    menu.push({
         key:         "cloud",
         label:       t("mc.dashboard.sidebar.cloud"),
         icon:        "pi pi-folder",
@@ -218,7 +228,7 @@ watch(
 
 <style scoped lang="scss">
 .dashboard-sidebar {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     width: 18rem;
@@ -247,7 +257,7 @@ watch(
             position: relative;
             outline: 0 none;
             cursor: pointer;
-            padding: 8px 16px;
+            padding: var(--p-button-padding-y) var(--p-button-padding-x);
             color: var(--text-color);
             text-decoration: none;
             border-radius: 8px;

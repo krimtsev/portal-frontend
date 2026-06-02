@@ -17,6 +17,8 @@ import {
     ChatMessageType,
 } from "@c/chat/definitions/chat-message"
 import BButton from "@c/common/b-button/b-button.vue"
+import BLink from "@c/common/b-link/b-link.vue"
+import BTelnumLink from "@c/common/b-link/b-telnum-link.vue"
 import BSkeleton from "@c/common/b-skeleton/b-skeleton.vue"
 import BText from "@c/common/b-text/b-text.vue"
 import BTextarea from "@c/common/b-textarea/b-textarea.vue"
@@ -25,6 +27,7 @@ import PortalCard from "@c/portal/portal-card/portal-card.vue"
 import PortalFormItem from "@c/portal/portal-form-item/portal-form-item.vue"
 import PortalPage from "@c/portal/portal-page/portal-page.vue"
 import {
+    AttributeDisplayType,
     type Ticket,
     type TicketDetails,
     type TicketMessage,
@@ -294,17 +297,26 @@ const departmentName = (id: number | null) => {
                     class="mb-x2"
                 >
                     <portal-form-item
-                        v-for="{ label, value } in attributes"
-                        :key="label"
-                        :label="label"
+                        v-for="attribute in attributes"
+                        :key="attribute.key"
+                        :label="attribute.label"
                         class="label-align-top"
                     >
-                        <b-skeleton
-                            :is-loading="isFirstLoading"
-                            width="200px"
+                        <b-link
+                            v-if="attribute.displayType === AttributeDisplayType.Link"
+                            :href="attribute.value"
+                            :label="attribute.text"
+                        />
+                        <b-telnum-link
+                            v-else-if="attribute.displayType === AttributeDisplayType.Phone"
+                            :value="attribute.value"
+                        />
+                        <span
+                            v-else
+                            class="attribute-text"
                         >
-                            <b-text :value="value" />
-                        </b-skeleton>
+                            {{ attribute.value }}
+                        </span>
                     </portal-form-item>
                 </portal-card>
 
@@ -430,6 +442,10 @@ const departmentName = (id: number | null) => {
         .flex-2 {
             flex: 2;
         }
+    }
+
+    .attribute-text {
+        white-space: pre-line;
     }
 }
 </style>

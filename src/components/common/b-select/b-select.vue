@@ -5,6 +5,7 @@ import BInputError from "@c/common/b-input-error/b-input-error.vue"
 const model = defineModel<any>()
 
 const emit = defineEmits<{
+    (e: "change"): void
     (e: "hide"): void
     (e: "clear"): void
 }>()
@@ -19,6 +20,7 @@ const props = withDefaults(defineProps<{
     optionValue?: string
     isLoading?:   boolean
     showClear?:   boolean
+    checkmark?:   boolean
 }>(), {
     placeholder: "",
     disabled:    false,
@@ -28,7 +30,14 @@ const props = withDefaults(defineProps<{
     isLoading:   false,
     showClear:   false,
     filter:      undefined,
+    checkmark:   true,
 })
+
+const onClear = (event: Event, clearCallback: Function) => {
+    clearCallback(event)
+    emit("clear")
+    emit("change")
+}
 </script>
 
 <template>
@@ -44,16 +53,15 @@ const props = withDefaults(defineProps<{
             :invalid="!!props.error"
             :loading="props.isLoading"
             :show-clear="props.showClear"
+            :checkmark="props.checkmark"
             class="select"
+            @change="emit('change')"
             @hide="emit('hide')"
         >
             <template #clearicon="{ clearCallback }">
                 <i
                     class="pi pi-times clear-icon"
-                    @click.stop="(event) => {
-                        clearCallback(event)
-                        emit('clear')
-                    }"
+                    @click.stop="onClear($event, clearCallback)"
                 />
             </template>
         </prime-select>

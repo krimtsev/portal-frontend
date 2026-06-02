@@ -1,11 +1,11 @@
 import ExcelJS from "exceljs"
 import { DateTime } from "luxon"
 import { downloadExternalFile } from "@/lib/files"
-import type { TicketsExportData } from "@v/dashboard/tickets/list/definitions/tickets"
+import type { TicketsExportItem } from "@v/dashboard/tickets/list/definitions/tickets"
 import { stateName } from "@v/profile/tickets/list/utils/ticket"
 import { useDepartmentStore } from "@s/department/department"
 
-export async function exportXLS(tickets: TicketsExportData[]) {
+export async function exportXLS(tickets: TicketsExportItem[]) {
     const departmentStore = useDepartmentStore()
 
     const date = DateTime.now().toFormat("dd.MM.yyyy")
