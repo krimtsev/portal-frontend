@@ -51,26 +51,28 @@ const routes: RouteRecordRaw[] = [
     },
     {
         path:      dashboardPaths.DashboardPartners,
-        name:      DashboardRouteName.DashboardPartners,
-        component: () => import("@v/dashboard/partners/list/partners-list-view.vue"),
+        component: () => import("@v/dashboard/partners/partners-view.vue"),
         meta:      {
             roles:      [Roles.SYSADMIN],
             breadcrumb: "mc.dashboard.sidebar.partners",
         },
+        children: [
+            {
+                path:      dashboardPaths.DashboardPartners,
+                name:      DashboardRouteName.DashboardPartners,
+                component: () => import("@v/dashboard/partners/company/list/partners-list-view.vue"),
+            },
+            {
+                path:      dashboardPaths.DashboardPartnerGroups,
+                name:      DashboardRouteName.DashboardPartnerGroups,
+                component: () => import("@v/dashboard/partners/groups/list/partner-groups-list-view.vue"),
+            },
+        ],
     },
     {
         path:      dashboardPaths.DashboardPartner,
         name:      DashboardRouteName.DashboardPartner,
-        component: () => import("@v/dashboard/partners/edit/partner-view.vue"),
-        meta:      {
-            roles:      [Roles.SYSADMIN],
-            breadcrumb: "mc.dashboard.sidebar.partners",
-        },
-    },
-    {
-        path:      dashboardPaths.DashboardPartnerGroups,
-        name:      DashboardRouteName.DashboardPartnerGroups,
-        component: () => import("@v/dashboard/partner-groups/list/partner-groups-list-view.vue"),
+        component: () => import("@v/dashboard/partners/company/edit/partner-view.vue"),
         meta:      {
             roles:      [Roles.SYSADMIN],
             breadcrumb: "mc.dashboard.sidebar.partners",
@@ -79,16 +81,16 @@ const routes: RouteRecordRaw[] = [
     {
         path:      dashboardPaths.DashboardPartnerGroup,
         name:      DashboardRouteName.DashboardPartnerGroup,
-        component: () => import("@v/dashboard/partner-groups/edit/partner-groups-view.vue"),
+        component: () => import("@v/dashboard/partners/groups/edit/partner-groups-view.vue"),
         meta:      {
             roles:      [Roles.SYSADMIN],
             breadcrumb: "mc.dashboard.sidebar.partners",
         },
     },
     {
-        path:      dashboardPaths.DashboardRoyaltyList,
-        name:      DashboardRouteName.DashboardRoyaltyList,
-        component: () => import("@v/dashboard/royalty/list/royalty-list-view.vue"),
+        path:      dashboardPaths.DashboardRoyalty,
+        name:      DashboardRouteName.DashboardRoyalty,
+        component: () => import("@v/dashboard/royalty/royalty-view.vue"),
         meta:      {
             roles:      [Roles.ADMIN, Roles.SYSADMIN],
             breadcrumb: "mc.dashboard.sidebar.royalty",

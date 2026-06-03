@@ -16,8 +16,8 @@ import BTableText from "@c/common/b-table/b-table-text.vue"
 import BTextDate from "@c/common/b-text-date/b-text-date.vue"
 import BToolbar from "@c/common/b-toolbar/b-toolbar.vue"
 import BToolbarItem from "@c/common/b-toolbar/b-toolbar-item.vue"
-import type { PartnerOptionItem } from "@v/dashboard/partners/list/definitions/partners"
-import type { RoyaltyListItem } from "@v/dashboard/royalty/list/definitions/royalty-list"
+import type { PartnerOptionItem } from "@v/dashboard/partners/company/list/definitions/partners"
+import type { RoyaltyListItem } from "@v/dashboard/royalty/definitions/royalty"
 import {
     formatDateToString,
     getAnalyticsStartDate,
@@ -122,7 +122,7 @@ const filterDate = computed({
 </script>
 
 <template>
-    <div class="royalty-list-view">
+    <div class="royalty-view">
         <b-toolbar no-paddings>
             <b-toolbar-item header="Период">
                 <b-date-picker
@@ -264,7 +264,7 @@ const filterDate = computed({
 </template>
 
 <style scoped lang="scss">
-.royalty-list-view {
+.royalty-view {
     @include list-view;
 
     padding-top: $indent-x2;

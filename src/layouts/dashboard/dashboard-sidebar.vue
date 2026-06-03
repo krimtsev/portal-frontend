@@ -52,35 +52,15 @@ const items = computed<DashboardMenuItem[]>(() => {
         })
 
         menu.push({
-            key:         "partners_root",
+            key:         "partners",
             label:       t("mc.dashboard.sidebar.partners"),
             icon:        "pi pi-briefcase",
+            route:       dashboardPaths.DashboardPartners,
             activeNames: [
                 DashboardRouteName.DashboardPartners,
                 DashboardRouteName.DashboardPartner,
-            ],
-            highlightOnExpand: false,
-            items:             [
-                {
-                    key:         "partner_list",
-                    label:       t("mc.dashboard.sidebar.partnerList"),
-                    icon:        "pi pi-list",
-                    route:       dashboardPaths.DashboardPartners,
-                    activeNames: [
-                        DashboardRouteName.DashboardPartners,
-                        DashboardRouteName.DashboardPartner,
-                    ],
-                },
-                {
-                    key:         "partner_group",
-                    label:       t("mc.dashboard.sidebar.partnerGroups"),
-                    icon:        "pi pi-th-large",
-                    route:       dashboardPaths.DashboardPartnerGroups,
-                    activeNames: [
-                        DashboardRouteName.DashboardPartnerGroups,
-                        DashboardRouteName.DashboardPartnerGroup,
-                    ],
-                },
+                DashboardRouteName.DashboardPartnerGroups,
+                DashboardRouteName.DashboardPartnerGroup,
             ],
         })
     }
@@ -100,9 +80,9 @@ const items = computed<DashboardMenuItem[]>(() => {
         key:         "royalty",
         label:       t("mc.dashboard.sidebar.royalty"),
         icon:        "pi pi-chart-line",
-        route:       dashboardPaths.DashboardRoyaltyList,
+        route:       dashboardPaths.DashboardRoyalty,
         activeNames: [
-            DashboardRouteName.DashboardRoyaltyList,
+            DashboardRouteName.DashboardRoyalty,
         ],
     })
 

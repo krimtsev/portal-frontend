@@ -15,9 +15,9 @@ import BFormCard from "@c/common/b-form/b-form-card.vue"
 import BFormItem from "@c/common/b-form/b-form-item.vue"
 import BInputText from "@c/common/b-input/b-input-text.vue"
 import BMultiSelect from "@c/common/b-select/b-multi-select.vue"
-import type { PartnerGroupData } from "@v/dashboard/partner-groups/edit/definitions/partner-group"
-import { PartnerGroupSchema } from "@v/dashboard/partner-groups/edit/schemas/partner-group.schema"
-import type { PartnerOptionItem } from "@v/dashboard/partners/list/definitions/partners"
+import type { PartnerOptionItem } from "@v/dashboard/partners/company/list/definitions/partners"
+import type { PartnerGroupData } from "@v/dashboard/partners/groups/edit/definitions/partner-group"
+import { PartnerGroupSchema } from "@v/dashboard/partners/groups/edit/schemas/partner-group.schema"
 
 
 const notify = useNotify()

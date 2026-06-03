@@ -10,5 +10,5 @@ export enum DashboardRouteName {
     DashboardPartnerGroup = "DashboardPartnerGroup",
     DashboardCloud = "DashboardCloud",
     DashboardCloudList = "DashboardCloudList",
-    DashboardRoyaltyList = "DashboardRoyaltyList",
+    DashboardRoyalty = "DashboardRoyalty",
 }

@@ -1,7 +1,7 @@
 import ExcelJS from "exceljs"
 import { DateTime } from "luxon"
 import { downloadExternalFile } from "@/lib/files"
-import type { PartnersExportItem } from "@v/dashboard/partners/list/definitions/partners"
+import type { PartnersExportItem } from "@v/dashboard/partners/company/list/definitions/partners"
 import i18n from "@/plugins/i18n"
 import { Status } from "@/definitions/status"
 

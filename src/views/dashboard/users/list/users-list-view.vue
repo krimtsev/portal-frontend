@@ -24,7 +24,7 @@ import BTextDate from "@c/common/b-text-date/b-text-date.vue"
 import BToolbar from "@c/common/b-toolbar/b-toolbar.vue"
 import BToolbarItem from "@c/common/b-toolbar/b-toolbar-item.vue"
 import StateIcon from "@c/state-icon/state-icon.vue"
-import type { PartnerOptionItem } from "@v/dashboard/partners/list/definitions/partners"
+import type { PartnerOptionItem } from "@v/dashboard/partners/company/list/definitions/partners"
 import UserStateTag from "@v/dashboard/users/list/components/user-state-tag.vue"
 import { type UsersListItem } from "@v/dashboard/users/list/definitions/users"
 import {

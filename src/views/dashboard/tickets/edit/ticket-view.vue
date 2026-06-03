@@ -27,7 +27,7 @@ import BTelnumLink from "@c/common/b-link/b-telnum-link.vue"
 import BSelect from "@c/common/b-select/b-select.vue"
 import BTextarea from "@c/common/b-textarea/b-textarea.vue"
 import BFileUpload from "@c/common/b-upload-file/b-file-upload.vue"
-import type { PartnerOptionItem } from "@v/dashboard/partners/list/definitions/partners"
+import type { PartnerOptionItem } from "@v/dashboard/partners/company/list/definitions/partners"
 import type { TicketStateData } from "@v/dashboard/tickets/edit/definitions/ticket"
 import { TicketSchema } from "@v/dashboard/tickets/edit/schemas/ticket.schema"
 import {

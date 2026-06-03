@@ -17,7 +17,7 @@ import ListLoadingState from "@c/common/b-loading-state/list-loading-state.vue"
 import BTableText from "@c/common/b-table/b-table-text.vue"
 import BToolbar from "@c/common/b-toolbar/b-toolbar.vue"
 import BToolbarItem from "@c/common/b-toolbar/b-toolbar-item.vue"
-import type { PartnerGroupsListItem } from "@v/dashboard/partner-groups/list/definitions/partner-groups"
+import type { PartnerGroupsListItem } from "@v/dashboard/partners/groups/list/definitions/partner-groups"
 
 
 const notify = useNotify()

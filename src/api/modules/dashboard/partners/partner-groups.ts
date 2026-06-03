@@ -1,11 +1,11 @@
 import type {
     PartnerGroupData,
     PartnerGroupResponse,
-} from "@v/dashboard/partner-groups/edit/definitions/partner-group"
+} from "@v/dashboard/partners/groups/edit/definitions/partner-group"
 import type {
     PartnerGroupOptionsResponse,
     PartnerGroupsListItem,
-} from "@v/dashboard/partner-groups/list/definitions/partner-groups"
+} from "@v/dashboard/partners/groups/list/definitions/partner-groups"
 import type { Pagination, PaginationFilter } from "@/definitions/pagination"
 import { http } from "@/api"
 

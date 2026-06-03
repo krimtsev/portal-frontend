@@ -186,6 +186,11 @@ export default {
                 },
             },
         },
+        tabs: {
+            tab: {
+                padding: "1.1429rem 1.1429rem",
+            },
+        },
     },
     semantic: {
         border: {

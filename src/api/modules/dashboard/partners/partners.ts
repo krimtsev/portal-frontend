@@ -1,12 +1,12 @@
 import type {
     PartnerData,
     PartnerResponse,
-} from "@v/dashboard/partners/edit/definitions/partner"
+} from "@v/dashboard/partners/company/edit/definitions/partner"
 import type {
     PartnerListItem,
     PartnerOptionsResponse,
     PartnersExportItem,
-} from "@v/dashboard/partners/list/definitions/partners"
+} from "@v/dashboard/partners/company/list/definitions/partners"
 
 import { http } from "@/api"
 import type {

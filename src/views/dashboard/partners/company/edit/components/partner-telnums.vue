@@ -9,8 +9,8 @@ import BDialogSection from "@c/common/b-dialog/b-dialog-section.vue"
 import BInputTelnum from "@c/common/b-input/b-input-telnum.vue"
 import BInputText from "@c/common/b-input/b-input-text.vue"
 import BTelnumLink from "@c/common/b-link/b-telnum-link.vue"
-import type { PartnerTelnumItem } from "@v/dashboard/partners/edit/definitions/partner"
-import { PartnerTelnumSchema } from "@v/dashboard/partners/edit/schemas/partner.schema"
+import type { PartnerTelnumItem } from "@v/dashboard/partners/company/edit/definitions/partner"
+import { PartnerTelnumSchema } from "@v/dashboard/partners/company/edit/schemas/partner.schema"
 
 
 const model = defineModel<PartnerTelnumItem[]>({ default: () => [] })
