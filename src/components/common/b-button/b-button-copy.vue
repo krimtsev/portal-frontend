@@ -23,6 +23,7 @@ const { t } = useI18n()
 const notify = useNotify()
 
 const success = ref(false)
+const copyTimer = ref<number | null>(null)
 
 const notifyCopySuccess = async () => {
     try {
@@ -31,7 +32,11 @@ const notifyCopySuccess = async () => {
         notify.success(t("mc.notify.copy"))
         success.value = true
 
-        window.setTimeout(() => {
+        if (copyTimer.value !== null) {
+            window.clearTimeout(copyTimer.value)
+        }
+
+        copyTimer.value = window.setTimeout(() => {
             success.value = false
         }, 5000)
 
