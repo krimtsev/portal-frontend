@@ -66,20 +66,26 @@ const onRemove = () => {
 <template>
     <div class="b-form">
         <div class="header">
-            <div
-                class="button-back"
-                @click="goBack"
-            >
-                <b-svg
-                    name="pi-angle-left"
-                    size="1.5rem"
+            <div class="header-left">
+                <div
+                    class="button-back"
+                    @click="goBack"
+                >
+                    <b-svg
+                        name="pi-angle-left"
+                        size="1.5rem"
+                    />
+                </div>
+
+                <b-title
+                    :title="props.title"
+                    variant="sm"
                 />
             </div>
 
-            <b-title
-                :title="props.title"
-                variant="sm"
-            />
+            <div class="header-right">
+                <slot name="header-right" />
+            </div>
         </div>
 
         <div
@@ -144,13 +150,24 @@ const onRemove = () => {
 
     .header {
         display: flex;
-        justify-content: flex-start;
+        justify-content: space-between;
         position: relative;
-        align-items: center;
         box-shadow: inset 0 -1px 0 0 var(--p-surface-600);
         background-color: var(--p-dashboard-card-background);
         border-top-left-radius: $border-radius;
         border-top-right-radius: $border-radius;
+
+        &-left {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        &-right {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
 
         .button-back {
             display: flex;

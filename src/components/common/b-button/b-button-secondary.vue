@@ -8,6 +8,7 @@ const emit = defineEmits<{
 const props = defineProps<{
     label:     string
     disabled?: boolean
+    icon?:     string
 }>()
 </script>
 
@@ -15,6 +16,7 @@ const props = defineProps<{
     <prime-button
         :label="props.label"
         :disabled="props.disabled"
+        :icon="props.icon"
         class="b-button-secondary"
         @click="emit('click')"
     />
@@ -25,7 +27,7 @@ const props = defineProps<{
     white-space: nowrap;
     min-width: 104px;
     background: transparent;
-    color: var(--p-surface-400);
+    color: var(--p-surface-300);
     border: 1px solid var(--p-form-field-border-color);
 
     &:not(:disabled):hover {

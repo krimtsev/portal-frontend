@@ -23,6 +23,9 @@
             "input": {
                 "placeholder": "Введите текст"
             },
+            "button": {
+                "copy": "Скопировать"
+            },
             "textArea": {
                 "placeholder": "@:(mc.common.input.placeholder)",
                 "value": "{0} из {1}"
@@ -58,7 +61,8 @@
             "error": "Ошибка. Попробуйте еще раз.",
             "success": "Настройки успешно сохранены",
             "updated": "Настройки успешно обновлены",
-            "remove": "Настройки успешно удалены"
+            "remove": "Настройки успешно удалены",
+            "copy": "Скопировано в буфер обмена"
         },
         "placeholder": {
             "login": "ivan",

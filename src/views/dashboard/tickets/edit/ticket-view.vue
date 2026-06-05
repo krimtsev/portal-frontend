@@ -18,6 +18,7 @@ import {
     type ChatMessageFile,
     ChatMessageType,
 } from "@c/chat/definitions/chat-message"
+import BButtonCopy from "@c/common/b-button/b-button-copy.vue"
 import BForm from "@c/common/b-form/b-form.vue"
 import BFormCard from "@c/common/b-form/b-form-card.vue"
 import BFormItem from "@c/common/b-form/b-form-item.vue"
@@ -209,6 +210,13 @@ const onSave = handleSubmit(async (formValues) => {
 
     await nextTick(() => chatRef.value?.scrollToBottom())
 })
+
+const copyText = computed(() => {
+    if (!attributes.value.length) return ""
+    return attributes.value
+        .map(attr => `${attr.label}: ${attr.value}`)
+        .join("\n\n")
+})
 </script>
 
 <template>
@@ -306,6 +314,13 @@ const onSave = handleSubmit(async (formValues) => {
                 >
                     {{ attribute.value }}
                 </span>
+            </b-form-item>
+
+            <b-form-item class="mt-x0">
+                <b-button-copy
+                    class="mr-x2"
+                    :text="copyText"
+                />
             </b-form-item>
         </b-form-card>
 
