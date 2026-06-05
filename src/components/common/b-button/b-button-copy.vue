@@ -36,8 +36,8 @@ const notifyCopySuccess = async () => {
         }, 5000)
 
         await navigator.clipboard.writeText(props.text)
-    } catch (err) {
-        console.error("Ошибка при копировании: ", err)
+    } catch {
+        notify.error("Ошибка при копировании")
     }
 }
 </script>
