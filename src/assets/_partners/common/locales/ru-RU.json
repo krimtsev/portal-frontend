@@ -24,7 +24,8 @@
                 "placeholder": "Введите текст"
             },
             "button": {
-                "copy": "Скопировать"
+                "copy": "Скопировать",
+                "copied": "Скопировано"
             },
             "textArea": {
                 "placeholder": "@:(mc.common.input.placeholder)",
