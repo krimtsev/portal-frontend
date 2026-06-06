@@ -3,16 +3,19 @@ import { computed, ref } from "vue"
 import { useI18n } from "vue-i18n"
 import { useNotify } from "@/composables/notify/use-notify"
 import BButtonSecondary from "@c/common/b-button/b-button-secondary.vue"
+import i18n from "@/plugins/i18n.ts"
 
 const emit = defineEmits<{
     (e: "click"): void
 }>()
 
 const props = withDefaults(defineProps<{
+    label?:    string
     disabled?: boolean
     text:      string
     onlyIcon?: boolean
 }>(), {
+    label:    i18n.global.t("mc.common.button.copy"),
     disabled: false,
     text:     "",
     onlyIcon: false,
@@ -46,9 +49,9 @@ const notifyCopySuccess = async () => {
 }
 
 const label = computed(() => {
-    if (props.onlyIcon) return ""
+    if (props.onlyIcon || !props.label) return ""
     if (success.value) return t("mc.common.button.copied")
-    return t("mc.common.button.copy")
+    return props.label
 })
 </script>
 
