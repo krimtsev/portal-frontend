@@ -63,6 +63,7 @@
         "eslint-plugin-vue": "10.4.0",
         "lefthook": "2.1.4",
         "recursive-copy": "2.0.14",
+        "rollup-plugin-visualizer": "^7.0.1",
         "sass-embedded": "1.87.0",
         "typescript": "5.8.3",
         "unplugin-vue-components": "28.8.0",

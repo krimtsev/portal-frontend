@@ -1,14 +1,13 @@
 import rawEnv from "./env.js"
 import { Partner } from "@/definitions/partner"
 
-export interface Env {
-    app: {
-        partner: Partner
-        host:    string
-        port:    number
-    }
-    api: string
+export interface PartnerConfig {
+    host: string
+    port: number
+    api:  string
 }
+
+export type Env = Record<Partner, PartnerConfig>
 
 const env: Env = rawEnv
 export default env

@@ -19,7 +19,7 @@
             "@r/*": ["./src/router/*"],
             "@s/*": ["./src/store/*"],
             "@h/*": ["./src/hooks/*"],
-            "@a/*": ["./.generated/assets/*"]
+            "@a/*": ["./src/assets/*"]
         }
     },
     "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue"]
