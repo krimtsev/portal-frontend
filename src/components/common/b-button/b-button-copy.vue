@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue"
+import { computed, ref } from "vue"
 import { useI18n } from "vue-i18n"
 import { useNotify } from "@/composables/notify/use-notify"
 import BButtonSecondary from "@c/common/b-button/b-button-secondary.vue"
@@ -13,10 +13,12 @@ const props = withDefaults(defineProps<{
     label?:    string
     disabled?: boolean
     text:      string
+    onlyIcon?: boolean
 }>(), {
     label:    () => i18n.global.t("mc.common.button.copy"),
     disabled: false,
     text:     "",
+    onlyIcon: false,
 })
 
 const { t } = useI18n()
@@ -29,7 +31,7 @@ const notifyCopySuccess = async () => {
     try {
         emit("click")
 
-        notify.success(t("mc.notify.copy"))
+        notify.success(t("mc.notify.copy.success"))
         success.value = true
 
         if (copyTimer.value !== null) {
@@ -42,20 +44,26 @@ const notifyCopySuccess = async () => {
 
         await navigator.clipboard.writeText(props.text)
     } catch {
-        notify.error("Ошибка при копировании")
+        notify.error("mc.notify.copy.error")
     }
 }
+
+const label = computed(() => {
+    if (props.onlyIcon) return ""
+    return props.label
+})
 </script>
 
 <template>
     <b-button-secondary
-        :label="props.label"
+        :label="label"
         :disabled="props.disabled"
         :icon="success
             ? 'pi pi-check'
             : 'pi pi-clone'
         "
         class="b-button-copy"
+        :class="{ 'only-icon': !label }"
         @click="notifyCopySuccess"
     />
 </template>
@@ -64,5 +72,9 @@ const notifyCopySuccess = async () => {
 .b-button-copy {
     white-space: nowrap;
     min-width: 104px;
+
+    &.only-icon {
+        min-width: 40px;
+    }
 }
 </style>

@@ -213,9 +213,25 @@ const onSave = handleSubmit(async (formValues) => {
 
 const copyText = computed(() => {
     if (!attributes.value.length) return ""
-    return attributes.value
-        .map(attr => `${attr.label}: ${attr.value}`)
-        .join("\n\n")
+
+    const lines: string[] = []
+
+    if (titleModel.value) {
+        lines.push(`Тема запроса: ${titleModel.value}`)
+    }
+
+    if (partnerIdModel.value) {
+        const currentPartner = partnersList.value.find(p => p.id === partnerIdModel.value)
+        if (currentPartner) {
+            lines.push(`Филиал: ${currentPartner.name}`)
+        }
+    }
+
+    attributes.value.forEach(attr => {
+        lines.push(`${attr.label}: ${attr.value}`)
+    })
+
+    return lines.join("\n\n")
 })
 </script>
 
@@ -317,10 +333,7 @@ const copyText = computed(() => {
             </b-form-item>
 
             <b-form-item class="mt-x0">
-                <b-button-copy
-                    class="mr-x2"
-                    :text="copyText"
-                />
+                <b-button-copy :text="copyText" />
             </b-form-item>
         </b-form-card>
 
