@@ -12,10 +12,8 @@ export function createPartnerConfig(partnerName, mode = "development") {
         throw new Error(`❌ Конфигурация для партнера "${partnerName}" не найдена`)
     }
 
-    const isProd = mode === "production"
-    const generatedBaseDirName = isProd ? ".prod" : ".dev"
     const rootDir = process.cwd()
-    const partnerGeneratedDir = path.resolve(rootDir, generatedBaseDirName, partnerName)
+    const partnerGeneratedDir = path.resolve(rootDir, ".build", partnerName)
     const partnerAssetsDir = path.resolve(partnerGeneratedDir, "assets")
 
     return {
@@ -101,8 +99,7 @@ export function createPartnerConfig(partnerName, mode = "development") {
 
             watch: {
                 ignored: [
-                    "**/.dev/**",
-                    "**/.prod/**",
+                    "**/.build/**",
                     "**/.temp_cache/**",
                     "**/dist/**",
                     "**/node_modules/**"

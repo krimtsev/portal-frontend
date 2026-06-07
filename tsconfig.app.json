@@ -10,6 +10,9 @@
         "noFallthroughCasesInSwitch": true,
         "noUncheckedSideEffectImports": true,
 
+        "resolveJsonModule": true,
+        "allowSyntheticDefaultImports": true,
+
         "paths": {
             "~/*": ["./*"],
             "@/*": ["./src/*"],
@@ -19,12 +22,15 @@
             "@r/*": ["./src/router/*"],
             "@s/*": ["./src/store/*"],
             "@h/*": ["./src/hooks/*"],
-            "@a/*": ["./src/assets/*"]
+            "@a/*": [
+                "./.build/britva/assets/*",
+                "./.build/soda/assets/*"
+            ]
         }
     },
     "include": [
         "src/**/*.ts",
         "src/**/*.tsx",
-        "src/**/*.vue"
+        "src/**/*.vue",
     ]
 }

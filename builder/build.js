@@ -21,8 +21,7 @@ const __filename = url.fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 const srcDir = path.resolve(__dirname, "..", "src")
 
-const generatedBaseDirName = isProduction ? ".prod" : ".dev"
-const baseGeneratedDir = path.resolve(__dirname, "..", generatedBaseDirName)
+const baseGeneratedDir = path.resolve(__dirname, "..", ".build")
 const partnersAssetsDir = path.resolve(srcDir, "assets", "_partners")
 const basePublicDir = path.resolve(__dirname, "..", "public", "partner")
 
@@ -46,8 +45,7 @@ if (!activePartners.length) {
 
 const viteServers = []
 const dirsToClean = [
-    ".dev",
-    ".prod",
+    ".build",
     ".temp_cache",
     "dist",
 ]
