@@ -7,10 +7,10 @@ import type {
 } from "axios"
 import axios from "axios"
 import qs from "qs"
-
 import { HttpMethod } from "@/api/definitions/api"
 import { Queue } from "@/api/queue"
 import { requestsHistory } from "@/api/requests-history"
+import partnerContext from "virtual:partner"
 
 export class HttpError {
     code:    number
@@ -36,7 +36,7 @@ export interface AbortControllerConfig {
 
 const prefix = "api/v1"
 
-const url = (import.meta.env.VITE_API_URL) as string || ""
+const url = partnerContext.api || ""
 
 async function authGuard(error: any) {
     const status = error.response?.status

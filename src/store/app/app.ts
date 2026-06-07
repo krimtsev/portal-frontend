@@ -3,6 +3,7 @@ import { computed, ref } from "vue"
 import { Partner } from "@/definitions/partner"
 import { Roles } from "@/definitions/roles"
 import { useAuthStore } from "@s/auth/auth"
+import partnerContext from "virtual:partner"
 
 export const useAppStore = defineStore("app", () => {
     const authStore = useAuthStore()
@@ -11,7 +12,7 @@ export const useAppStore = defineStore("app", () => {
     const isDisabled = ref(false)
     const isRoutesLoaded = ref(false)
 
-    const currentPartner = (import.meta.env.VITE_APP_PARTNER) as Partner
+    const currentPartner = partnerContext.name as Partner
 
     const isBritva = computed(() => currentPartner === Partner.Britva)
     const isSoda = computed(() => currentPartner === Partner.Soda)

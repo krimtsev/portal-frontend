@@ -4,7 +4,7 @@
     "version": "0.1.0",
     "type": "module",
     "engines": {
-        "node": ">=20.0.0",
+        "node": ">=24.0.0",
         "npm": "Please use pnpm",
         "yarn": "Please use pnpm"
     },

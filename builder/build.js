@@ -1,10 +1,10 @@
 import fs from "node:fs"
 import path from "node:path"
 import url from "node:url"
-import { execSync } from "child_process"
-import { createServer } from "vite"
+import { createServer, build } from "vite"
 import deepMerge from "deepmerge"
 import copy from "recursive-copy"
+import { createPartnerConfig } from "./partner-config.js"
 import {
     throwError,
     logInfo,
@@ -23,7 +23,6 @@ const srcDir = path.resolve(__dirname, "..", "src")
 
 const generatedBaseDirName = isProduction ? ".prod" : ".dev"
 const baseGeneratedDir = path.resolve(__dirname, "..", generatedBaseDirName)
-
 const partnersAssetsDir = path.resolve(srcDir, "assets", "_partners")
 const basePublicDir = path.resolve(__dirname, "..", "public", "partner")
 
@@ -46,10 +45,18 @@ if (!activePartners.length) {
 }
 
 const viteServers = []
+const dirsToClean = [
+    ".dev",
+    ".prod",
+    ".temp_cache",
+    "dist",
+]
 
 ;(async () => {
-    logInfo(`🧹 Cleaning generated directory [${generatedBaseDirName}]...`)
-    removeDirectory(baseGeneratedDir)
+    for (const dir of dirsToClean) {
+        removeDirectory(path.resolve(__dirname, "..", dir))
+    }
+
     createDirectory(baseGeneratedDir)
 
     logInfo(`🚀 Starting pipeline for partners: ${activePartners.map(p => p.name).join(", ")}`)
@@ -63,17 +70,9 @@ const viteServers = []
 
     for (const partner of activePartners) {
         logInfo(`🏭 Building Vite app for [${partner.name}]...`)
-        // Запускаем сборку Vite как отдельный изолированный подпроцесс,
-        // передавая имя конкретного партнера в окружение
-        execSync(`npx vite build`, {
-            stdio: "inherit",
-            env: {
-                ...process.env,
-                VITE_APP_PARTNER: partner.name,
-                NODE_ENV: "production"
-            }
-        })
+        await build(createPartnerConfig(partner.name, "production"))
     }
+
     logInfo("✨ All partners compiled successfully!")
 }
 })()
@@ -197,19 +196,7 @@ async function startDevPool(partners) {
     for (const partner of partners) {
         logDebug(`▶️ Initializing Vite Server for [${partner.name}] on ${partner.host}:${partner.port}`)
 
-        process.env.VITE_APP_PARTNER = partner.name
-        process.env.VITE_APP_HOST = partner.host
-        process.env.VITE_APP_PORT = partner.port
-        process.env.VITE_API_URL = partner.api
-
-        const server = await createServer({
-            configFile: path.resolve(__dirname, "..", "vite.config.ts"),
-            server: {
-                host: partner.host,
-                port: partner.port,
-            },
-            mode: "development",
-        })
+        const server = await createServer(createPartnerConfig(partner.name, "development"))
 
         await server.listen()
         viteServers.push(server)

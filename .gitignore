@@ -27,5 +27,6 @@ env.js
 .generated
 .dev
 .prod
+.temp_cache
 .token_github
 
