@@ -22,7 +22,7 @@
         "@primeuix/themes": "1.0.1",
         "@primevue/forms": "4.3.5",
         "@vee-validate/zod": "4.15.1",
-        "axios": "1.13.5",
+        "axios": "~1.16.1",
         "chart.js": "^4.5.1",
         "dompurify": "^3.4.0",
         "exceljs": "^4.4.0",
