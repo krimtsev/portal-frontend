@@ -244,6 +244,15 @@ const copyText = computed(() => {
         class="ticket-view"
         @save="onSave"
     >
+        <template #header-right>
+            <b-button-copy
+                v-if="ticketDetails?.attributes"
+                :text="copyText"
+                only-icon
+                class="mr-x2"
+            />
+        </template>
+
         <b-form-card title="Данные филиала">
             <b-form-item
                 label="Тема запроса"
@@ -330,10 +339,6 @@ const copyText = computed(() => {
                 >
                     {{ attribute.value }}
                 </span>
-            </b-form-item>
-
-            <b-form-item class="mt-x0">
-                <b-button-copy :text="copyText" />
             </b-form-item>
         </b-form-card>
 
