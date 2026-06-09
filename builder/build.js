@@ -59,20 +59,22 @@ const dirsToClean = [
 
     logInfo(`🚀 Starting pipeline for partners: ${activePartners.map(p => p.name).join(", ")}`)
 
-    await Promise.all(activePartners.map(partner => buildPartner(partner.name)))
+    for (const partner of activePartners) {
+        await buildPartner(partner.name)
+    }
 
     if (isDevelop) {
         await startDevPool(activePartners)
     } else {
-    logInfo("📦 Starting production build for each partner...")
+        logInfo("📦 Starting production build for each partner...")
 
-    for (const partner of activePartners) {
-        logInfo(`🏭 Building Vite app for [${partner.name}]...`)
-        await build(createPartnerConfig(partner.name, "production"))
+        for (const partner of activePartners) {
+            logInfo(`🏭 Building Vite app for [${partner.name}]...`)
+            await build(createPartnerConfig(partner.name, "production"))
+        }
+
+        logInfo("✨ All partners compiled successfully!")
     }
-
-    logInfo("✨ All partners compiled successfully!")
-}
 })()
 
 async function buildPartner(partnerName) {

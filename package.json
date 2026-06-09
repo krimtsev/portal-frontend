@@ -10,8 +10,7 @@
     },
     "scripts": {
         "dev": "cross-env NODE_ENV=develop node builder/build.js",
-        "generate": "cross-env NODE_ENV=develop node builder/build.js",
-        "build": "cross-env NODE_ENV=production node builder/build.js && vite build",
+        "build": "cross-env NODE_ENV=production node builder/build.js",
         "preview": "vite preview",
         "lint": "eslint src/**/*.{js,ts,vue}",
         "lint:fix": "eslint src/**/*.{js,ts,vue} --fix",
