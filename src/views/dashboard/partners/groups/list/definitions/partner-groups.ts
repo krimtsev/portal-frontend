@@ -8,7 +8,8 @@ export interface PartnerGroupOptionsResponse {
 }
 
 export interface PartnerGroupsListItem {
-    id:    number
-    title: string
-    total: number
+    id:       number
+    title:    string
+    total:    number
+    partners: string[]
 }

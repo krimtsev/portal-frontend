@@ -1,7 +1,6 @@
 import { defineStore } from "pinia"
 import { computed, reactive, ref } from "vue"
 import { getCookie } from "@/lib/cookie"
-
 import { HttpError } from "@/api"
 import * as authAPI from "@/api/modules/auth/auth"
 import type {
@@ -31,8 +30,9 @@ function defaultUserAccessData(): UserAccessData {
 }
 
 export const useAuthStore = defineStore("auth", () => {
-    let user = reactive<UserData>(defaultUserData())
-    let userAccess = reactive<UserAccessData>(defaultUserAccessData())
+    const user = reactive<UserData>(defaultUserData())
+    const userAccess = reactive<UserAccessData>(defaultUserAccessData())
+
     const isAuthenticated = ref(false)
     const isLoading = ref(true)
 
@@ -103,8 +103,8 @@ export const useAuthStore = defineStore("auth", () => {
     }
 
     async function reset(redirect: boolean) {
-        user = defaultUserData()
-        userAccess = defaultUserAccessData()
+        Object.assign(user, defaultUserData())
+        Object.assign(userAccess, defaultUserAccessData())
 
         isAuthenticated.value = false
         setLoading(false)
