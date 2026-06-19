@@ -97,6 +97,26 @@ const routes: RouteRecordRaw[] = [
         },
     },
     {
+        path:      dashboardPaths.DashboardStatisticsStaff,
+        component: () => import("@v/dashboard/statistics/statistics-view.vue"),
+        meta:      {
+            roles:      [Roles.SYSADMIN],
+            breadcrumb: "mc.dashboard.sidebar.statistics",
+        },
+        children: [
+            {
+                path:      dashboardPaths.DashboardStatisticsStaff,
+                name:      DashboardRouteName.DashboardStatisticsStaff,
+                component: () => import("@v/dashboard/statistics/statistics-staff/statistics-staff-view.vue"),
+            },
+            {
+                path:      dashboardPaths.DashboardStatisticsPartner,
+                name:      DashboardRouteName.DashboardStatisticsPartner,
+                component: () => import("@v/dashboard/statistics/statistics-partner/statistics-partner-view.vue"),
+            },
+        ],
+    },
+    {
         path:      dashboardPaths.DashboardCloudList,
         name:      DashboardRouteName.DashboardCloudList,
         component: () => import("@v/dashboard/cloud/list/cloud-list-view.vue"),

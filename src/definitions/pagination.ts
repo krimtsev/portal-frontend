@@ -1,6 +1,13 @@
-export interface Pagination<T>{
-    list: T
-    page: PaginationPage
+export interface ListQueryFilter<T = Record<string, string[] | boolean[] | number[]>> {
+    sortBy:    string
+    sortOrder: string
+    search:    string
+    filters:   T
+}
+
+export interface PaginationFilter<T = Record<string, string[] | boolean[] | number[]>> extends ListQueryFilter<T> {
+    page:    number
+    perPage: number
 }
 
 export interface PaginationPage {
@@ -12,15 +19,22 @@ export interface PaginationPage {
     to:          number
 }
 
-export interface PaginationFilter<T = Record<string, string[] | boolean[] | number[]>> {
-    page:      number
-    sortBy:    string
-    sortOrder: string
-    perPage:   number
-    search:    string
-    filters:   T
+export interface Pagination<T>{
+    list: T
+    page: PaginationPage
 }
 
+export function defaultListQueryFilter<T>(
+    params: Partial<ListQueryFilter<T>> = {},
+): ListQueryFilter<T> {
+    return {
+        sortBy:    "id",
+        sortOrder: "asc",
+        search:    "",
+        filters:   {} as unknown as T,
+        ...params,
+    }
+}
 
 export function defaultPaginationFilter<T = Record<string, string[] | boolean[] | number[]>>(
     params: Partial<PaginationFilter<T>> = {},

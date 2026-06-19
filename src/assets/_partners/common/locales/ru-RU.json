@@ -217,7 +217,8 @@
                 "partnerList": "Список",
                 "partnerGroups": "Группы",
                 "cloud": "Файлы",
-                "royalty": "Роялти"
+                "royalty": "Роялти",
+                "statistics": "Статистика"
             },
             "users": {
                 "state": {

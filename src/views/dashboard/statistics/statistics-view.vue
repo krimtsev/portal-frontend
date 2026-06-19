@@ -16,18 +16,18 @@ interface PageTab {
 
 const pagesTabs: PageTab[] = [
     {
-        id:   DashboardRouteName.DashboardPartners,
-        text: "Спиок филиалов",
+        id:   DashboardRouteName.DashboardStatisticsStaff,
+        text: "Статистика по сотрудникам",
     },
     {
-        id:   DashboardRouteName.DashboardPartnerGroups,
-        text: "Группы филиалов",
+        id:   DashboardRouteName.DashboardStatisticsPartner,
+        text: "Статистика по филиалам",
     },
 ]
 
 const activeTab = computed({
     get() {
-        return (route.name as string) || DashboardRouteName.DashboardPartners
+        return (route.name as string) || DashboardRouteName.DashboardStatisticsStaff
     },
     set(name: string) {
         router.push({ name })
@@ -40,8 +40,8 @@ const onTabChange = (val: string | number) => {
 </script>
 
 <template>
-    <div class="partners-view">
-        <div class="partners-header mb-x2">
+    <div class="statistics-view">
+        <div class="statistics-header mb-x2">
             <prime-tabs
                 :value="activeTab"
                 @update:value="onTabChange"
@@ -52,7 +52,7 @@ const onTabChange = (val: string | number) => {
                         :key="tab.id"
                         :value="tab.id"
                     >
-                        <span class="partners-tab-item">
+                        <span class="statistics-tab-item">
                             <span>{{ tab.text }}</span>
                         </span>
                     </prime-tab>
@@ -60,21 +60,21 @@ const onTabChange = (val: string | number) => {
             </prime-tabs>
         </div>
 
-        <div class="partners-content">
+        <div class="statistics-content">
             <router-view />
         </div>
     </div>
 </template>
 
 <style scoped lang="scss">
-.partners-view {
+.statistics-view {
     width: 100%;
 
     :deep(.p-tablist) {
         background: transparent;
     }
 
-    .partners-tab-item {
+    .statistics-tab-item {
         display: inline-flex;
         align-items: center;
         gap: $indent-x1;

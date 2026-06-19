@@ -4,6 +4,7 @@ import { useI18n } from "vue-i18n"
 
 const props = defineProps<{
     title?:       string
+    description?: string
     widthBorder?: boolean
 }>()
 
@@ -24,12 +25,20 @@ const title = computed(() => {
         <div class="image-container">
             <i
                 class="pi pi-times-circle"
-                style="font-size: 2rem"
+                style="font-size: 3rem"
             />
         </div>
+
         <div class="text-container">
             <div class="title">
                 {{ title }}
+            </div>
+
+            <div
+                v-if="description"
+                class="description"
+            >
+                {{ description }}
             </div>
         </div>
     </div>
@@ -51,11 +60,24 @@ const title = computed(() => {
         border-radius: $indent-x2;
     }
 
+    .image-container {
+        color: var(--p-surface-300);
+    }
+
     .text-container {
         @include flex-center;
 
         flex-direction: column;
         overflow-wrap: break-word;
+
+        .title {
+            font-size: 1.5rem;
+            color: var(--p-surface-300);
+        }
+
+        .description {
+            margin-top: $indent-x1;
+        }
     }
 }
 </style>

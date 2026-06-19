@@ -87,6 +87,17 @@ const items = computed<DashboardMenuItem[]>(() => {
     })
 
     menu.push({
+        key:         "statistics",
+        label:       t("mc.dashboard.sidebar.statistics"),
+        icon:        "pi pi-chart-bar",
+        route:       dashboardPaths.DashboardStatisticsStaff,
+        activeNames: [
+            DashboardRouteName.DashboardStatisticsStaff,
+            DashboardRouteName.DashboardStatisticsPartner,
+        ],
+    })
+
+    menu.push({
         key:         "cloud",
         label:       t("mc.dashboard.sidebar.cloud"),
         icon:        "pi pi-folder",
