@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from "vue"
 import PrimeCarousel from "primevue/carousel"
-import type { MessageItem } from "@/api/modules/messages/messages"
+import type { MessageItem } from "@/api/modules/app/definitions/app"
 import BSkeleton from "@c/common/b-skeleton/b-skeleton.vue"
 import PortalCard from "@c/portal/portal-card/portal-card.vue"
 
