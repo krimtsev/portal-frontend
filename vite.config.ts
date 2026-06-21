@@ -1,61 +1,11 @@
-import path from "node:path"
-import { defineConfig, loadEnv } from "vite"
-import vue from "@vitejs/plugin-vue"
-import env from "./env"
+import { defineConfig } from "vite"
+// @ts-ignore
+import envConfig from "./env.js"
+// @ts-ignore
+import { createPartnerConfig } from "./builder/partner-config.js"
 
-export default ({ mode }: { mode: never }) => {
-    process.env = {
-        ...process.env,
-        ...loadEnv(mode, process.cwd()),
-    }
+export default ({ mode }: { mode: string }) => {
+    const defaultPartner = Object.keys(envConfig)[0]
 
-    // https://vite.dev/config/
-    return defineConfig({
-        mode,
-
-        plugins: [
-            vue(),
-        ],
-
-        resolve: {
-            alias: {
-                "~":  path.resolve(__dirname),
-                "@":  path.resolve(__dirname, "src"),
-                "@l": path.resolve(__dirname, "src", "layouts"),
-                "@c": path.resolve(__dirname, "src", "components"),
-                "@v": path.resolve(__dirname, "src", "views"),
-                "@r": path.resolve(__dirname, "src", "router"),
-                "@s": path.resolve(__dirname, "src", "store"),
-                "@h": path.resolve(__dirname, "src", "hooks"),
-                "@a": path.resolve(__dirname, ".generated", "assets"),
-            },
-        },
-
-        css: {
-            preprocessorOptions: {
-                scss: {
-                    additionalData: `
-                        @use "@a/styles/_variables.scss" as *;
-                        @use "@a/styles/_gradients.scss" as *;
-                        @use "@a/styles/_typography.scss" as *;
-                        @use "@a/styles/_mixins.scss" as *;
-                    `,
-                },
-            },
-        },
-
-        build: {
-            cssCodeSplit: true,
-            outDir:       "dist",
-            assetsDir:    "assets",
-        },
-
-        server: {
-            host: env.app.host,
-            port: env.app.port,
-            cors: false,
-        },
-    })
+    return defineConfig(createPartnerConfig(defaultPartner, mode))
 }
-
-
