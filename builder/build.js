@@ -1,30 +1,29 @@
 import fs from "node:fs"
 import path from "node:path"
 import url from "node:url"
-import { spawn } from "node:child_process"
+import { createServer, build } from "vite"
 import deepMerge from "deepmerge"
 import copy from "recursive-copy"
+import { createPartnerConfig } from "./partner-config.js"
 import {
     throwError,
     logInfo,
     logDebug,
     createDirectory,
     removeDirectory,
-    killPort,
 } from "./utils/utils.js"
 import env from "./../env.js"
-import chokidar from "chokidar"
-
 
 const isProduction = process.env.NODE_ENV === "production"
 const isDevelop = process.env.NODE_ENV === "develop"
-const partner = env.app.partner
 
 const __filename = url.fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 const srcDir = path.resolve(__dirname, "..", "src")
-const generatedDir = path.resolve(__dirname, "..", ".generated")
+
+const baseGeneratedDir = path.resolve(__dirname, "..", ".build")
 const partnersAssetsDir = path.resolve(srcDir, "assets", "_partners")
+const basePublicDir = path.resolve(__dirname, "..", "public", "partner")
 
 const defaultCopyOptions = {
     dot:       true,
@@ -34,37 +33,71 @@ const defaultCopyOptions = {
     ],
 }
 
-if (!partner) {
-    throwError("Partner is not defined")
+const activePartners = Object.entries(env)
+    .map(([name, config]) => ({
+        name,
+        ...config,
+    }))
+
+if (!activePartners.length) {
+    throwError("Partners configuration is empty in env.js")
 }
 
-removeDirectory(generatedDir)
-createDirectory(generatedDir)
+const viteServers = []
+const dirsToClean = [
+    ".build",
+    ".temp_cache",
+    "dist",
+]
 
-async function build() {
-    logInfo(`⚙️ Start build for ${partner}:`)
+;(async () => {
+    for (const dir of dirsToClean) {
+        removeDirectory(path.resolve(__dirname, "..", dir))
+    }
 
-    mergeLocales()
-    await copyFilesToAssets("prime", partner)
-    await copyFilesToAssets("styles")
-    await copyFilesToAssets("fonts")
-    await copyFilesToAssets("svg")
-    mergeFiles("images")
-    await copyPublic()
-}
+    createDirectory(baseGeneratedDir)
 
-(async () => {
-    await build()
+    logInfo(`🚀 Starting pipeline for partners: ${activePartners.map(p => p.name).join(", ")}`)
+
+    for (const partner of activePartners) {
+        await buildPartner(partner.name)
+    }
 
     if (isDevelop) {
-        await watchDevChanges()
+        await startDevPool(activePartners)
+    } else {
+        logInfo("📦 Starting production build for each partner...")
+
+        for (const partner of activePartners) {
+            logInfo(`🏭 Building Vite app for [${partner.name}]...`)
+            await build(createPartnerConfig(partner.name, "production"))
+        }
+
+        logInfo("✨ All partners compiled successfully!")
     }
 })()
 
-function mergeLocales() {
+async function buildPartner(partnerName) {
+    const partnerGenDir = path.resolve(baseGeneratedDir, partnerName)
+
+    createDirectory(partnerGenDir)
+
+    mergeLocales(partnerName, partnerGenDir)
+    await copyFilesToAssets("prime", partnerName, partnerGenDir)
+    await copyFilesToAssets("styles", partnerName, partnerGenDir)
+    await copyFilesToAssets("fonts", partnerName, partnerGenDir)
+    await copyFilesToAssets("svg", partnerName, partnerGenDir)
+    mergeFiles("images", partnerName, partnerGenDir)
+    mergeFiles("docs", partnerName, partnerGenDir)
+    await copyPublic(partnerName)
+
+    logInfo(`✅ Initial assets ready for [${partnerName}]`)
+}
+
+function mergeLocales(partnerName, partnerGenDir) {
     const commonDir = path.resolve(partnersAssetsDir, "common", "locales")
-    const partnerDir = path.resolve(partnersAssetsDir, partner, "locales")
-    const outDir = path.resolve(generatedDir, "assets", "locales")
+    const partnerDir = path.resolve(partnersAssetsDir, partnerName, "locales")
+    const outDir = path.resolve(partnerGenDir, "assets", "locales")
 
     createDirectory(outDir)
 
@@ -81,30 +114,25 @@ function mergeLocales() {
             : {}
 
         const merged = deepMerge(commonJson, partnerJson)
-
         fs.writeFileSync(outputPath, JSON.stringify(merged, null, 2), "utf8")
-        logInfo(`✔️ locale: ${locale} merged`)
     }
+    logInfo(`✔️ [${partnerName}] locales compiled`)
 }
 
-async function copyFilesToAssets(dir, partner = "common") {
-    const sourceDir = path.resolve(partnersAssetsDir, partner, dir)
-    const outputDir = path.resolve(generatedDir, "assets", dir)
+async function copyFilesToAssets(dir, partnerName, partnerGenDir) {
+    const commonDir = path.resolve(partnersAssetsDir, "common", dir)
+    const partnerDir = path.resolve(partnersAssetsDir, partnerName, dir)
+    const outputDir = path.resolve(partnerGenDir, "assets", dir)
 
     createDirectory(outputDir)
-
-    try {
-        const results = await copy(sourceDir, outputDir, defaultCopyOptions)
-        logInfo(`✔️ ${dir}: ${results.length} files copied`)
-    } catch (error) {
-        throwError(`Error copying files ${error}`)
-    }
+    if (fs.existsSync(commonDir)) await copy(commonDir, outputDir, defaultCopyOptions)
+    if (fs.existsSync(partnerDir)) await copy(partnerDir, outputDir, defaultCopyOptions)
 }
 
-function mergeFiles(type) {
+function mergeFiles(type, partnerName, partnerGenDir) {
     const commonDir = path.resolve(partnersAssetsDir, "common", type)
-    const partnerDir = path.resolve(partnersAssetsDir, partner, type)
-    const outDir = path.resolve(generatedDir, "assets", type)
+    const partnerDir = path.resolve(partnersAssetsDir, partnerName, type)
+    const outDir = path.resolve(partnerGenDir, "assets", type)
 
     createDirectory(outDir)
 
@@ -128,7 +156,6 @@ function mergeFiles(type) {
 
     const commonFiles = fs.existsSync(commonDir) ? collectFilesRecursively(commonDir) : []
     const partnerFiles = fs.existsSync(partnerDir) ? collectFilesRecursively(partnerDir) : []
-
     const allFiles = new Set([...commonFiles, ...partnerFiles])
 
     for (const file of allFiles) {
@@ -148,113 +175,90 @@ function mergeFiles(type) {
         }
     }
 
-    logInfo(`✔️ ${type}: ${allFiles.size} merged`)
+    logInfo(`✔️ [${partnerName}] ${type}: ${allFiles.size} files merged`)
 }
 
-async function copyPublic() {
-    const partnerDir = path.resolve(partnersAssetsDir, partner, "public")
-    const outDir = path.resolve(__dirname, "..", "public", "partner")
+async function copyPublic(partnerName) {
+    const partnerDir = path.resolve(partnersAssetsDir, partnerName, "public")
+    const outDir = path.resolve(basePublicDir, partnerName)
 
     createDirectory(outDir)
 
     try {
         const results = await copy(partnerDir, outDir, defaultCopyOptions)
-        logInfo(`✔️ public: ${results.length} files copied`)
+        logInfo(`✔️ [${partnerName}] public: ${results.length} files synchronized`)
     } catch (error) {
-        throwError(`Error copying files ${error}`)
+        throwError(`Error copying public for ${partnerName}: ${error}`)
     }
 }
 
-async function watchDevChanges() {
-    killPort(env.app.port)
+async function startDevPool(partners) {
+    for (const partner of partners) {
+        logDebug(`▶️ Initializing Vite Server for [${partner.name}] on ${partner.host}:${partner.port}`)
 
-    const watcher = chokidar.watch(partnersAssetsDir, {
-        persistent:       true, // держим процесс работы
-        ignoreInitial:    true, // игнорируем события при старте
-        awaitWriteFinish: true, // ждем завершения записи файла
-    })
+        const server = await createServer(createPartnerConfig(partner.name, "development"))
 
-    // Стартуем Vite
-    const vite = spawn("npx", ["vite"], {
-        stdio:    "inherit", // показываем логи Vite в терминале
-        shell:    true,      // чтобы работало одинаково на Windows и Unix
-        detached: false,   // не отделяем от родительского процесса
-    })
-
-    const cleanExit = () => {
-        logInfo("🛑 Terminating watcher and Vite...")
-
-        // Останавливаем файловый watcher
-        watcher.close()
-        if (!vite.killed) {
-            vite.kill()
-        }
-        process.exit(0)
+        await server.listen()
+        viteServers.push(server)
     }
 
-    process.on("SIGINT", cleanExit)
-    process.on("SIGTERM", cleanExit)
-    process.on("SIGHUP", cleanExit) // Завершам при закрытии редактора
-    process.on("exit", cleanExit) // Завершение при нажатии Ctrl+C или завершении процесса
+    logInfo("💫 All Vite servers are running inside single process.")
 
-    vite.on("error", (err) => {
-        console.error("❌ Vite process error:", err)
-        cleanExit()
-    })
+    if (viteServers.length > 0) {
+        const masterWatcher = viteServers[0].watcher
 
-    vite.on("exit", (code, signal) => {
-        console.log(`⚡ Vite exited with code ${code} and signal ${signal}`)
-        cleanExit()
-    })
+        masterWatcher.add(partnersAssetsDir)
 
-    watcher
-        .on("add", (filePath) => {
-            console.log(`File added: ${filePath}`)
-            // Запуск сборки при добавлении нового файла
-            rebuild(filePath)
-        })
-        .on("change", (filePath, stats, prevStats, prevPath) => {
-            console.log(`File changed: ${filePath}`)
-            // Запуск сборки при изменении файла
-            rebuild(filePath)
-        })
-        .on("unlink", (filePath) => {
-            console.log(`File removed: ${filePath}`)
-            // Запуск сборки при удалении файла
-            rebuild(filePath)
-        })
-        .on("error", (error) => {
-            console.error(`Watcher error: ${error}`)
-        })
+        masterWatcher.on("all", async (event, filePath) => {
+            const relativePath = path.relative(partnersAssetsDir, filePath)
+            const [targetPartner, dirName] = relativePath.split(path.sep)
+            if (!dirName) return
 
-    logInfo("💫 Watching for file changes in ...")
-    logDebug(`▶️ Vite started with PID: ${vite.pid}`)
+            if (targetPartner === "common") {
+                for (const p of partners) {
+                    await rebuildSpecificStep(dirName, p.name)
+                }
+            } else if (partners.some(p => p.name === targetPartner)) {
+                await rebuildSpecificStep(dirName, targetPartner)
+            }
+
+            viteServers.forEach(server => server.ws.send({ type: "full-reload" }))
+        })
+    }
 }
 
 // Функция для перезапуска сборки
-async function rebuild(filePath) {
-    const dirName = path.basename(path.dirname(filePath))
-    logInfo(`🔄 Rebuilding ${dirName} ...`)
+async function rebuildSpecificStep(dirName, partnerName) {
+    const partnerGenDir = path.resolve(baseGeneratedDir, partnerName)
+
     switch (dirName) {
         case "locales":
-            await mergeLocales()
+            mergeLocales(partnerName, partnerGenDir)
             break
         case "styles":
-            await copyFilesToAssets(dirName)
-            break
         case "prime":
-            await copyFilesToAssets(dirName, partner)
+        case "fonts":
+        case "svg":
+            await copyFilesToAssets(dirName, partnerName, partnerGenDir)
             break
         case "images":
-            await mergeFiles(dirName)
-            break
         case "docs":
-            await mergeFiles(dirName)
+            mergeFiles(dirName, partnerName, partnerGenDir)
             break
         case "public":
-            await copyPublic()
+            await copyPublic(partnerName)
             break
         default:
-            await build()
+            await buildPartner(partnerName)
     }
 }
+
+const cleanExit = async () => {
+    logInfo("\n🛑 Shutting down all Vite servers...")
+    await Promise.all(viteServers.map(server => server.close()))
+    logInfo("✅ All ports released safely. Exiting.")
+    process.exit(0)
+}
+
+process.on("SIGINT", cleanExit)
+process.on("SIGTERM", cleanExit)

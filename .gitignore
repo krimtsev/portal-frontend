@@ -24,6 +24,7 @@ dist-ssr
 *.sw?
 
 env.js
-.generated
+.build/
+.temp_cache/
 .token_github
 

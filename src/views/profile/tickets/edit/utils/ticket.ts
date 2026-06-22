@@ -16,6 +16,7 @@ import { useDepartmentStore } from "@s/department/department"
 import { maxLinkLength } from "@/constants/link"
 
 const FIELD_LABELS: Record<string, string> = {
+    title:         "Тема",
     state:         "Статус",
     department_id: "Отдел",
     partner:       "Партнёр",

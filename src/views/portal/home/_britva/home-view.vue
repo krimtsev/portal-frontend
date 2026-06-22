@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue"
+import { computed, onMounted } from "vue"
 import { useRouter } from "vue-router"
+import { useAuthStore } from "@s/auth/auth"
+import { useHomeStore } from "@s/home/home"
 import { useNotify } from "@/composables/notify/use-notify"
 import { portalPaths } from "@r/portal/path"
 import { PortalRouteName } from "@r/portal/route-names"
 import { ProfileRouteName } from "@r/profile/route-names"
 import { HttpError } from "@/api"
-import type { MessageItem } from "@/api/modules/messages/messages"
-import * as messagesAPI from "@/api/modules/messages/messages"
+import * as appAPI from "@/api/modules/app/app"
 import BButtonGroup from "@c/common/b-button-groups/b-button-group.vue"
 import BImage from "@c/common/b-image/b-image.vue"
 import PortalCard from "@c/portal/portal-card/portal-card.vue"
@@ -19,21 +20,26 @@ import { Qualification } from "@v/profile/tickets/create/specialist/_britva/defi
 
 const router = useRouter()
 const notify = useNotify()
-
-const messages = ref<MessageItem[]>([])
-const isLoading = ref(true)
+const homeStore = useHomeStore()
+const authStore = useAuthStore()
 
 onMounted(async () => {
-    const data = await messagesAPI.list()
+    if (!homeStore.isLoaded) {
+        homeStore.setLoading(true)
+        const data = await appAPI.home()
 
-    if (data instanceof HttpError) {
-        notify.error()
-        return false
+        if (data instanceof HttpError) {
+            notify.error()
+            return false
+        }
+
+        homeStore.setData(data)
+        homeStore.setLoading(false)
+        homeStore.setLoaded(true)
     }
-
-    messages.value = data.list
-    isLoading.value = false
 })
+
+const hasPartner = computed(() => !!authStore.user.partner?.id)
 </script>
 
 <template>
@@ -81,12 +87,16 @@ onMounted(async () => {
                 class="col-4 tablet-col-6 mobile-col-12 row-span-2"
             >
                 <portal-card
-                    title="Аналитика показателей (заработает позже)"
+                    title="Аналитика показателей"
                     menu-title
                     class="card-height-x2"
                     class-content="d-flex align-items-end"
                 >
-                    <portal-user-analytics-chart />
+                    <portal-user-analytics-chart
+                        :value="homeStore.finances"
+                        :is-loading="homeStore.isLoading"
+                        :has-partner="hasPartner"
+                    />
                 </portal-card>
             </div>
 
@@ -105,8 +115,8 @@ onMounted(async () => {
 
             <div class="col-4 mobile-col-12 tablet-col-6">
                 <portal-messages
-                    :is-loading="isLoading"
-                    :messages="messages"
+                    :is-loading="homeStore.isLoading"
+                    :messages="homeStore.messages"
                     class="card-height"
                 />
             </div>
@@ -219,6 +229,7 @@ $min-height: 195px;
         background: $partner-revers-gradient;
         border: 1px solid var(--p-portal-card-background);
         min-height: $min-height;
+        overflow: hidden;
     }
 }
 </style>

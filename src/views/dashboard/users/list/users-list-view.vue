@@ -218,7 +218,6 @@ const userState = computed({
                     :disabled="usersStore.isLoading"
                     option-label="name"
                     option-value="id"
-                    filter
                     show-clear
                     placeholder="Выберите роль"
                     class="filter-role"
@@ -233,7 +232,6 @@ const userState = computed({
                     :disabled="usersStore.isLoading"
                     option-label="name"
                     option-value="id"
-                    filter
                     show-clear
                     placeholder="Выберите статус"
                     class="filter-state"

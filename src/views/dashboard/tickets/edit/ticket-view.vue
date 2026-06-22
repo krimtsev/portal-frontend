@@ -18,6 +18,7 @@ import {
     type ChatMessageFile,
     ChatMessageType,
 } from "@c/chat/definitions/chat-message"
+import BButtonCopy from "@c/common/b-button/b-button-copy.vue"
 import BForm from "@c/common/b-form/b-form.vue"
 import BFormCard from "@c/common/b-form/b-form-card.vue"
 import BFormItem from "@c/common/b-form/b-form-item.vue"
@@ -209,6 +210,29 @@ const onSave = handleSubmit(async (formValues) => {
 
     await nextTick(() => chatRef.value?.scrollToBottom())
 })
+
+const copyText = computed(() => {
+    if (!attributes.value.length) return ""
+
+    const lines: string[] = []
+
+    if (titleModel.value) {
+        lines.push(`Тема запроса: ${titleModel.value}`)
+    }
+
+    if (partnerIdModel.value) {
+        const currentPartner = partnersList.value.find(p => p.id === partnerIdModel.value)
+        if (currentPartner) {
+            lines.push(`Филиал: ${currentPartner.name}`)
+        }
+    }
+
+    attributes.value.forEach(attr => {
+        lines.push(`${attr.label}: ${attr.value}`)
+    })
+
+    return lines.join("\n\n")
+})
 </script>
 
 <template>
@@ -220,6 +244,15 @@ const onSave = handleSubmit(async (formValues) => {
         class="ticket-view"
         @save="onSave"
     >
+        <template #header-right>
+            <b-button-copy
+                v-if="ticketDetails?.attributes"
+                :text="copyText"
+                only-icon
+                class="mr-x2"
+            />
+        </template>
+
         <b-form-card title="Данные филиала">
             <b-form-item
                 label="Тема запроса"

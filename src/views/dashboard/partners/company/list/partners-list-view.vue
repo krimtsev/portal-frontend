@@ -165,7 +165,6 @@ const partnerState = computed({
                     :disabled="partnersStore.isLoading"
                     option-label="name"
                     option-value="id"
-                    filter
                     show-clear
                     placeholder="Выберите статус"
                     class="filter-state"

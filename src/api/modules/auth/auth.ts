@@ -3,12 +3,11 @@ import type {
     AuthData,
     LoginCredentials,
 } from "@/api/modules/auth/definitions/auth"
-// @ts-ignore
-import env from "~/env"
+import partnerContext from "virtual:partner"
 
 export async function csrf() {
     return await http.get("sanctum/csrf-cookie", {
-        baseURL:         env.api,
+        baseURL:         partnerContext.api,
         withCredentials: true,
         withXSRFToken:   true,
     })

@@ -182,11 +182,16 @@ function goToNew() {
 
                 <prime-column
                     header="В группе"
-                    field="total"
-                    class="table-total"
+                    field="partners"
+                    class="table-partners"
                 >
                     <template #body="{ data }">
-                        <b-table-text :text="data?.total" />
+                        <div
+                            v-for="(partnerName, index) in data.partners"
+                            :key="index"
+                        >
+                            {{ partnerName }}
+                        </div>
                     </template>
                 </prime-column>
             </prime-data-table>
@@ -209,6 +214,14 @@ function goToNew() {
 
         .table-title {
             @include col-fixed(350px);
+
+            vertical-align: text-top;
+        }
+
+        .table-partners {
+            display: flex;
+            flex-direction: column;
+            gap: calc($indent-x1 / 2);
         }
     }
 }

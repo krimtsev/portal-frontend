@@ -170,7 +170,7 @@ const onRemove = async () => {
                 />
             </b-form-item>
 
-            <b-form-item label="Партнеры">
+            <b-form-item label="Филиалы">
                 <b-multi-select
                     v-model="partnersModel"
                     :disabled="isLoading"

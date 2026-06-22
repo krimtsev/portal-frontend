@@ -14,7 +14,6 @@ export function downloadFile(file: string, filename?: string) {
     const link = document.createElement("a")
     link.href = filePath
     link.download = filename ?? getUnlocalizedFileName(filePath)
-    console.log(link)
     link.click()
 }
 
