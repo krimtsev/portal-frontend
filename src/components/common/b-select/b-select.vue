@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { nextTick, useTemplateRef, watch } from "vue"
 import PrimeSelect from "primevue/select"
 import BInputError from "@c/common/b-input-error/b-input-error.vue"
 
@@ -33,16 +34,38 @@ const props = withDefaults(defineProps<{
     checkmark:   true,
 })
 
+const selectRef = useTemplateRef<InstanceType<typeof PrimeSelect>>("selectRef")
+
 const onClear = (event: Event, clearCallback: Function) => {
     clearCallback(event)
     emit("clear")
     emit("change")
 }
+
+watch(
+    () => (selectRef.value as any)?.overlayVisible,
+    (isVisible) => {
+        if (isVisible && props.filter) {
+            nextTick(() => {
+                const selectInstance = selectRef.value as any
+                const overlayElement = selectInstance?.overlay
+
+                if (overlayElement) {
+                    const input = overlayElement.querySelector('input[role="searchbox"]') as HTMLInputElement | null
+                    if (input) {
+                        input.focus()
+                    }
+                }
+            })
+        }
+    },
+)
 </script>
 
 <template>
     <div class="b-select">
         <prime-select
+            ref="selectRef"
             v-model="model"
             :options="props.options"
             :disabled="props.disabled"
@@ -54,6 +77,7 @@ const onClear = (event: Event, clearCallback: Function) => {
             :loading="props.isLoading"
             :show-clear="props.showClear"
             :checkmark="props.checkmark"
+            :auto-filter-focus="false"
             class="select"
             @change="emit('change')"
             @hide="emit('hide')"

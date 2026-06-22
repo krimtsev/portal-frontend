@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, useTemplateRef, watch } from "vue"
+import { computed, nextTick, ref, useTemplateRef, watch } from "vue"
 import { useI18n } from "vue-i18n"
 import PrimeButton from "primevue/button"
 import PrimeMultiSelect from "primevue/multiselect"
@@ -113,6 +113,25 @@ const onClear = (event: Event, clearCallback: Function) => {
     emit("submit", model.value)
     emit("clear")
 }
+
+watch(
+    () => (multiselectRef.value as any)?.overlayVisible,
+    (isVisible) => {
+        if (isVisible && props.filter) {
+            nextTick(() => {
+                const selectInstance = multiselectRef.value as any
+                const overlayElement = selectInstance?.overlay
+
+                if (overlayElement) {
+                    const input = overlayElement.querySelector('input[role="searchbox"]') as HTMLInputElement | null
+                    if (input) {
+                        input.focus()
+                    }
+                }
+            })
+        }
+    },
+)
 </script>
 
 <template>
@@ -133,6 +152,7 @@ const onClear = (event: Event, clearCallback: Function) => {
             :append-to="props.appendTo"
             :selected-items-label="selectedItemsLabel"
             :show-toggle-all="props.showToggleAll"
+            :auto-filter-focus="false"
             :option-group-label="isGrouped
                 ? props.optionLabel
                 : undefined"
