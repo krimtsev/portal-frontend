@@ -155,7 +155,7 @@ const onSave = handleSubmit(async (formValues) => {
                             option-label="name"
                             option-value="partner_id"
                             filter
-                            class="full-width"
+                            full-width
                         />
                     </div>
 

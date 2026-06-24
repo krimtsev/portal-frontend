@@ -144,7 +144,7 @@ const onSave = handleSubmit(async (formValues) => {
                             option-label="name"
                             option-value="partner_id"
                             :placeholder="t('mc.common.partner')"
-                            class="full-width"
+                            full-width
                         />
                     </div>
 

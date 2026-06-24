@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { nextTick, useTemplateRef, watch } from "vue"
+import { computed, nextTick, useTemplateRef, watch } from "vue"
 import PrimeSelect from "primevue/select"
 import BInputError from "@c/common/b-input-error/b-input-error.vue"
 
@@ -12,26 +12,32 @@ const emit = defineEmits<{
 }>()
 
 const props = withDefaults(defineProps<{
-    options:      any[]
-    placeholder?: string
-    disabled?:    boolean
-    error?:       string
-    filter?:      boolean
-    optionLabel?: string
-    optionValue?: string
-    isLoading?:   boolean
-    showClear?:   boolean
-    checkmark?:   boolean
+    options:       any[]
+    placeholder?:  string
+    disabled?:     boolean
+    error?:        string
+    filter?:       boolean
+    optionLabel?:  string
+    optionValue?:  string
+    isLoading?:    boolean
+    showClear?:    boolean
+    checkmark?:    boolean
+    appendTo?:     "body" | "self"
+    overlayWidth?: string
+    fullWidth?:    boolean
 }>(), {
-    placeholder: "",
-    disabled:    false,
-    error:       "",
-    optionLabel: "title",
-    optionValue: "id",
-    isLoading:   false,
-    showClear:   false,
-    filter:      undefined,
-    checkmark:   true,
+    placeholder:  "",
+    disabled:     false,
+    error:        "",
+    optionLabel:  "title",
+    optionValue:  "id",
+    isLoading:    false,
+    showClear:    false,
+    filter:       undefined,
+    checkmark:    true,
+    appendTo:     "body",
+    overlayWidth: "296px",
+    fullWidth:    false,
 })
 
 const selectRef = useTemplateRef<InstanceType<typeof PrimeSelect>>("selectRef")
@@ -60,10 +66,28 @@ watch(
         }
     },
 )
+
+
+const panelStyle = computed(() => {
+    if (props.fullWidth) {
+        return props.appendTo === "self"
+            ? { width: "100%", "min-width": "100%" }
+            : { width: "auto" }
+    }
+    return {
+        "min-width": props.overlayWidth,
+        width:       props.overlayWidth,
+    }
+})
 </script>
 
 <template>
-    <div class="b-select">
+    <div
+        class="b-select"
+        :class="{
+            'full-width': props.fullWidth,
+        }"
+    >
         <prime-select
             ref="selectRef"
             v-model="model"
@@ -78,6 +102,8 @@ watch(
             :show-clear="props.showClear"
             :checkmark="props.checkmark"
             :auto-filter-focus="false"
+            :append-to="props.appendTo"
+            :panel-style="panelStyle"
             class="select"
             @change="emit('change')"
             @hide="emit('hide')"

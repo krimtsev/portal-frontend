@@ -4,8 +4,9 @@ import type { TicketResponse } from "@v/profile/tickets/edit/definitions/ticket"
 import type { TicketListItem } from "@v/profile/tickets/list/definitions/tickets-list"
 import type { Pagination, PaginationFilter } from "@/definitions/pagination"
 import { http } from "@/api"
+import type { TicketFilters } from "@s/dashboard/tickets/tickets"
 
-export async function list(paginationFilter: PaginationFilter) {
+export async function list(paginationFilter: PaginationFilter<TicketFilters>) {
     return await http.post<Pagination<TicketListItem[]>>("dashboard/tickets/list", paginationFilter)
 }
 

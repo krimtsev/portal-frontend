@@ -71,7 +71,7 @@ const title = computed(() => {
         overflow-wrap: break-word;
 
         .title {
-            font-size: 1.5rem;
+            font-size: 1.1429rem;
             color: var(--p-surface-300);
         }
 

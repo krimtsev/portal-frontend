@@ -8,6 +8,7 @@ import { useNotify } from "@/composables/notify/use-notify"
 import { HttpError } from "@/api"
 import * as partnersAPI from "@/api/modules/dashboard/partners/partners"
 import * as statisticsAPI from "@/api/modules/dashboard/statistics/statistics"
+import BAvatar from "@c/common/b-avatar/b-avatar.vue"
 import BDatePicker from "@c/common/b-date-picker/b-date-picker.vue"
 import BEmptyResult from "@c/common/b-empty/b-empty-result.vue"
 import ListLoadingState from "@c/common/b-loading-state/list-loading-state.vue"
@@ -103,17 +104,15 @@ function onChangeFilter() {
 }
 
 function clearName(data: StatisticsStaffItem) {
-    // if (data.firstname) {
-    //     return [data.surname, data.firstname].join(" ")
-    // }
+    if (data.firstname) {
+        return [data.surname, data.firstname].join(" ")
+    }
 
-    //return data.name.replace(/\s*\(.*\)/g, "")
-    return data.name
+    return data.name.replace(/\s*\(.*\)/g, "")
 }
 
 function clearSpecialization(text: string) {
-    //return text.replace(/\s*\[.*]/g, "")
-    return text
+    return text.replace(/\s*\[.*]/g, "")
 }
 </script>
 
@@ -171,22 +170,22 @@ function clearSpecialization(text: string) {
                 lazy
             >
                 <prime-column
-                    header="#"
-                    field="staff_id"
-                    class="table-staff-id"
+                    field="avatar"
+                    class="table-avatar"
                 >
                     <template #body="{ data }">
-                        <b-table-text
-                            :text="data.staff_id"
-                        />
+                        <b-avatar :src="data.avatar" />
                     </template>
                 </prime-column>
 
                 <prime-column
-                    header="Сотрудник"
                     field="name"
                     class="table-name"
                 >
+                    <template #header>
+                        <b-table-text text="Сотрудник" />
+                    </template>
+
                     <template #body="{ data }">
                         <b-table-text
                             :text="clearName(data)"
@@ -196,30 +195,39 @@ function clearSpecialization(text: string) {
                 </prime-column>
 
                 <prime-column
-                    header="Продажи абонементов и сертификатов"
                     field="transaction_loyalty"
                     class="table-transaction-loyalty"
                 >
+                    <template #header>
+                        <b-table-text text="Абонементы и сертификаты" />
+                    </template>
+
                     <template #body="{ data }">
                         <b-table-text :text="data.transaction_loyalty" />
                     </template>
                 </prime-column>
 
                 <prime-column
-                    header="Валовая выручка"
                     field="income_total"
                     class="table-income-total"
                 >
+                    <template #header>
+                        <b-table-text text="Валовая выручка" />
+                    </template>
+
                     <template #body="{ data }">
                         <b-table-text :text="data.income_total" />
                     </template>
                 </prime-column>
 
                 <prime-column
-                    header="Средний чек"
                     field="average_sum"
                     class="table-average_sum"
                 >
+                    <template #header>
+                        <b-table-text text="Средний чек" />
+                    </template>
+
                     <template #body="{ data }">
                         <b-table-text
                             :text="data.average_sum"
@@ -228,62 +236,91 @@ function clearSpecialization(text: string) {
                 </prime-column>
 
                 <prime-column
-                    header="Доп. услуги"
                     field="additional_services"
-                    class="table-specialization"
+                    class="table-additional-services"
                 >
+                    <template #header>
+                        <b-table-text text="Дополнительные услуги" />
+                    </template>
+
                     <template #body="{ data }">
                         <b-table-text :text="data.additional_services" />
                     </template>
                 </prime-column>
 
                 <prime-column
-                    header="Продажи (без сертов)"
                     field="transaction_sales"
                     class="table-transaction-sales"
-                />
-
-                <prime-column
-                    header="Сумма доп. услуг и продаж"
-                    field="sum"
-                    class="table-sum"
                 >
+                    <template #header>
+                        <b-table-text text="Продажи (без сертов)" />
+                    </template>
+
                     <template #body="{ data }">
-                        <b-table-text :text="data.sum" />
+                        <b-table-text :text="data.transaction_sales" />
                     </template>
                 </prime-column>
 
-                <!--                <prime-column-->
-                <!--                    header="Возвращаемость"-->
-                <!--                    field="specialization"-->
-                <!--                    class="table-specialization"-->
-                <!--                />-->
+                <prime-column
+                    field="services_with_transactions"
+                    class="table-services-with-transactions"
+                >
+                    <template #header>
+                        <b-table-text text="Сумма дополнительных услуг и продаж" />
+                    </template>
+
+                    <template #body="{ data }">
+                        <b-table-text :text="data.services_with_transactions" />
+                    </template>
+                </prime-column>
 
                 <prime-column
-                    header="Всего отзывов"
                     field="rating"
                     class="table-rating"
                 >
+                    <template #header>
+                        <b-table-text text="Всего отзывов" />
+                    </template>
+
                     <template #body="{ data }">
                         <b-table-text :text="`${data.rating_total} (${data.rating_best})`" />
                     </template>
                 </prime-column>
 
                 <prime-column
-                    header="Заполняемость %"
                     field="fullness_percent"
                     class="table-fullness-percent"
                 >
+                    <template #header>
+                        <b-table-text text="Заполняемость %" />
+                    </template>
+
                     <template #body="{ data }">
                         <b-table-text :text="data.fullness_percent" />
                     </template>
                 </prime-column>
 
                 <prime-column
-                    header="Новые клиенты"
+                    field="retention_percent"
+                    class="table-retention-percent"
+                >
+                    <template #header>
+                        <b-table-text text="Возвращаемость %" />
+                    </template>
+
+                    <template #body="{ data }">
+                        <b-table-text :text="data.retention_percent" />
+                    </template>
+                </prime-column>
+
+                <prime-column
                     field="client_new"
                     class="table-clien-new"
                 >
+                    <template #header>
+                        <b-table-text text="Новые клиенты" />
+                    </template>
+
                     <template #body="{ data }">
                         <b-table-text :text="data.client_new" />
                     </template>
@@ -305,6 +342,34 @@ function clearSpecialization(text: string) {
 
     :deep(.p-datatable) {
         @include table;
+
+        .p-datatable-header-cell {
+            text-wrap: nowrap;
+            overflow: hidden;
+        }
+
+        .table {
+            &-avatar {
+                @include col-fixed(65px);
+            }
+
+            &-name {
+                @include col-fixed(230px);
+            }
+
+            &-transaction-loyalty,
+            &-income-total,
+            &-average_sum,
+            &-additional-services,
+            &-transaction-sales,
+            &-services-with-transactions,
+            &-rating,
+            &-fullness-percent,
+            &-retention-percent,
+            &-clien-new {
+                @include col-fixed(110px);
+            }
+        }
     }
 
     .filter {

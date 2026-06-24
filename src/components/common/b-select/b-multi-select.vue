@@ -34,6 +34,8 @@ const props = withDefaults(defineProps<{
     showToggleAll?:      boolean
     appendTo?:           "body" | "self"
     submitLabel?:        string
+    overlayWidth?:       string
+    fullWidth?:          boolean
 }>(), {
     placeholder:        "",
     disabled:           false,
@@ -43,10 +45,12 @@ const props = withDefaults(defineProps<{
     isLoading:          false,
     showClear:          false,
     maxSelectedLabels:  1,
-    appendTo:           "self",
+    appendTo:           "body",
     showToggleAll:      false,
     selectedItemsLabel: undefined,
     submitLabel:        "Применить",
+    overlayWidth:       "296px",
+    fullWidth:          false,
 })
 
 const { t } = useI18n()
@@ -132,10 +136,27 @@ watch(
         }
     },
 )
+
+const panelStyle = computed(() => {
+    if (props.fullWidth) {
+        return props.appendTo === "self"
+            ? { width: "100%", "min-width": "100%" }
+            : { width: "auto" }
+    }
+    return {
+        "min-width": props.overlayWidth,
+        width:       props.overlayWidth,
+    }
+})
 </script>
 
 <template>
-    <div class="b-multi-select">
+    <div
+        class="b-multi-select"
+        :class="{
+            'full-width': props.fullWidth,
+        }"
+    >
         <prime-multi-select
             ref="multiselectRef"
             v-model="internalValue"
@@ -159,6 +180,7 @@ watch(
             :option-group-children="isGrouped
                 ? 'items'
                 : undefined"
+            :panel-style="panelStyle"
             class="select"
             @hide="handleHide"
         >
@@ -201,10 +223,6 @@ watch(
 
     &.full-width {
         width: 100%;
-    }
-
-    :deep(.p-multiselect-overlay) {
-        min-width: 294px;
     }
 
     :deep(.p-inputtext)  {
