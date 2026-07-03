@@ -5,7 +5,7 @@ export interface PartnerFilters {
     disabled: boolean | null
 }
 
-export const usePartnersStore = defineStore("partners", () => {
+export const usePartnersStore = defineStore("dashboard-partners", () => {
     return usePagination<PartnerFilters>({
         search:  "",
         filters: {

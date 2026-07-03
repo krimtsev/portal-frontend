@@ -7,7 +7,7 @@ export interface RoyaltyFilters {
     date:       string | null
 }
 
-export const useRoyaltyStore = defineStore("royalty", () => {
+export const useRoyaltyStore = defineStore("dashboard-royalty", () => {
     return usePagination<RoyaltyFilters>({
         search:  "",
         filters: {

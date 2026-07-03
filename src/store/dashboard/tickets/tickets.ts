@@ -7,7 +7,7 @@ export interface TicketFilters {
     state:         string[]
 }
 
-export const useTicketsStore = defineStore("tickets", () => {
+export const useTicketsStore = defineStore("dashboard-tickets", () => {
     return usePagination<TicketFilters>({
         search:  "",
         filters: {

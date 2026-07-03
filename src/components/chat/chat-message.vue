@@ -2,8 +2,8 @@
 import { computed } from "vue"
 import { imageSrc } from "@h/images/images"
 import { DateTime } from "luxon"
-import PrimeAvatar from "primevue/avatar"
 import { ChatMessageType } from "@c/chat/definitions/chat-message"
+import BAvatar from "@c/common/b-avatar/b-avatar.vue"
 
 const props = defineProps<{
     text?:    string | string[]
@@ -32,7 +32,7 @@ const messages = computed((): string[] => {
     return [props.text]
 })
 
-const shape = computed((): string => props.rounded ? "circle" : "square")
+const shape = computed(() => props.rounded ? "circle" : "square")
 </script>
 
 <template>
@@ -50,11 +50,12 @@ const shape = computed((): string => props.rounded ? "circle" : "square")
                     class="avatar"
                     :class="[
                         `avatar-${type}`,
+                        shape
                     ]"
                     alt=""
                 >
 
-                <prime-avatar
+                <b-avatar
                     v-else-if="avatarLabel"
                     :label="avatarLabel"
                     :shape="shape"

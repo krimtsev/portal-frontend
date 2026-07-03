@@ -59,6 +59,10 @@
     text-align: center;
 }
 
+.bg-transparent {
+    background-color: transparent !important;
+}
+
 // gap
 @for $i from 1 through 3 {
     .gap-#{$i},

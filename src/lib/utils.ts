@@ -38,3 +38,7 @@ export function formatPrice(price: number, digits = 2) {
         maximumFractionDigits: digits,
     }).format(truncatedPrice)
 }
+
+export function toString(value: number | string) {
+    return value.toString()
+}

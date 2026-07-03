@@ -7,7 +7,7 @@ type ButtonSize = "small" | "large"
 type ButtonSeverity = "secondary" | "success" | "info" | "warn" | "help" | "danger" | "contrast"
 
 const emit = defineEmits<{
-    (e: "click"): void
+    (e: "click", event: Event): void
 }>()
 
 const props = withDefaults(defineProps<{
@@ -43,7 +43,7 @@ const props = withDefaults(defineProps<{
         :label="props.label"
         :loading="isLoading"
         :disabled="disabled"
-        @click="emit('click')"
+        @click="emit('click', $event)"
     >
         <template #icon>
             <b-svg

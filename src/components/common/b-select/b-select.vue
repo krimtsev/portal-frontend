@@ -35,7 +35,7 @@ const props = withDefaults(defineProps<{
     showClear:    false,
     filter:       undefined,
     checkmark:    true,
-    appendTo:     "body",
+    appendTo:     "self",
     overlayWidth: "296px",
     fullWidth:    false,
 })

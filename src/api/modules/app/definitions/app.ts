@@ -1,9 +1,5 @@
-export interface PartnerFinance {
-    [key: string]: {
-        income_total: number
-        percent:      number
-    }
-}
+import type { MonthsBarChartData } from "@c/charts/definitions/charts"
+
 
 export interface MessageItem {
     id:          number
@@ -13,5 +9,5 @@ export interface MessageItem {
 
 export interface PortalHome {
     messages: MessageItem[]
-    finances: PartnerFinance
+    finances: MonthsBarChartData
 }

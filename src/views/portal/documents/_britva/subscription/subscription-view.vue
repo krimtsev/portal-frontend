@@ -129,7 +129,7 @@ import { subscriptionData } from "@v/portal/documents/_britva/subscription/data/
 
             <b-image
                 src="portal/abik-example.png"
-                rounded
+                border="rounded"
                 full
             />
         </portal-card>

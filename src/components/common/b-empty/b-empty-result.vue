@@ -19,7 +19,7 @@ const title = computed(() => {
     <div
         class="b-empty-result"
         :class="{
-            'border': widthBorder
+            'border': props.widthBorder
         }"
     >
         <div class="image-container">

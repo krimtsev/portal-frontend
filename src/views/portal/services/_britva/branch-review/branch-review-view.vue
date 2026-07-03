@@ -15,14 +15,14 @@ import PortalPage from "@c/portal/portal-page/portal-page.vue"
                     src="employees/grechishnikov.jpg"
                     width="150"
                     height="150"
-                    rounded
+                    border="rounded"
                 />
 
                 <b-image
                     src="employees/filippov.jpg"
                     width="150"
                     height="150"
-                    rounded
+                    border="rounded"
                 />
 
                 <div class="content">

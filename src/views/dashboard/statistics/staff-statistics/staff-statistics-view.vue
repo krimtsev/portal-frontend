@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue"
-import { useI18n } from "vue-i18n"
 import PrimeColumn from "primevue/column"
 import PrimeDataTable from "primevue/datatable"
-import { useStatisticsStaffStore } from "@s/dashboard/statistics/statistics-staff"
+import { usePartnerStatisticsStore } from "@s/dashboard/statistics/partner-statistics"
 import { useNotify } from "@/composables/notify/use-notify"
 import { HttpError } from "@/api"
 import * as partnersAPI from "@/api/modules/dashboard/partners/partners"
@@ -17,7 +16,7 @@ import BTableText from "@c/common/b-table/b-table-text.vue"
 import BToolbar from "@c/common/b-toolbar/b-toolbar.vue"
 import BToolbarItem from "@c/common/b-toolbar/b-toolbar-item.vue"
 import type { PartnerOptionItem } from "@v/dashboard/partners/company/list/definitions/partners"
-import type { StatisticsStaffItem } from "@v/dashboard/statistics/statistics-staff/definitions/statistic-staff"
+import type { StaffStatisticsItem } from "@v/dashboard/statistics/staff-statistics/definitions/statistic-staff"
 import {
     formatDateToString,
     getAnalyticsStartDate,
@@ -26,89 +25,89 @@ import {
 } from "@/lib/date-helpers"
 
 const notify = useNotify()
-const { t } = useI18n()
 
-const statisticsStaffStore = useStatisticsStaffStore()
+const partnerStatisticsStore = usePartnerStatisticsStore()
 const minDate = ref(getAnalyticsStartDate())
 const maxDate = ref(getPreviousMonth())
 
-const statisticsStaff = ref<StatisticsStaffItem[]>([])
+const staffStatistics = ref<StaffStatisticsItem[]>([])
 const partners = ref<PartnerOptionItem[]>([])
 
 const filterDate = computed({
-    get: () => parseStringToDate(statisticsStaffStore.filter.filters.date),
+    get: () => parseStringToDate(partnerStatisticsStore.filter.filters.date),
     set: (value: Date | null) => {
-        statisticsStaffStore.filter.filters.date = formatDateToString(value, true)
+        partnerStatisticsStore.filter.filters.date = formatDateToString(value, true)
     },
 })
 
 const filterPartner = computed({
-    get: () => statisticsStaffStore.filter.filters.partner_id,
+    get: () => partnerStatisticsStore.filter.filters.partner_id,
     set: (value: number) => {
-        statisticsStaffStore.filter.filters.partner_id = value
+        partnerStatisticsStore.filter.filters.partner_id = value
     },
 })
 
 onMounted(async () => {
-    statisticsStaffStore.setIsLoading(true)
+    partnerStatisticsStore.setIsLoading(true)
 
     const isSelectedPartner = !!filterPartner.value
 
     const [
-        statisticsStaffData,
+        staffStatisticsData,
         partnersData,
     ] = await Promise.all([
         isSelectedPartner
-            ? statisticsAPI.getStaffList(statisticsStaffStore.filter)
+            ? statisticsAPI.getStaffList(partnerStatisticsStore.filter)
             : null,
         partnersAPI.options(),
     ])
 
     if (
-        statisticsStaffData instanceof HttpError ||
+        staffStatisticsData instanceof HttpError ||
         partnersData instanceof HttpError
     ) {
         notify.error()
         return
     }
 
-    if (statisticsStaffData) {
-        statisticsStaff.value = statisticsStaffData.list
+    if (staffStatisticsData) {
+        staffStatistics.value = staffStatisticsData.list
     }
 
     partners.value = partnersData.list
-    statisticsStaffStore.setIsLoading(false)
+    partnerStatisticsStore.setIsLoading(false)
 })
 
-async function refreshStatisticsStaff() {
-    statisticsStaffStore.setIsLoading(true)
+async function refreshStaffStatistics() {
+    partnerStatisticsStore.setIsLoading(true)
 
 
-    const statisticsStaffData = await statisticsAPI.getStaffList(statisticsStaffStore.filter)
+    const staffStatisticsData = await statisticsAPI.getStaffList(partnerStatisticsStore.filter)
 
-    if (statisticsStaffData instanceof HttpError) {
+    if (staffStatisticsData instanceof HttpError) {
         notify.error()
-        statisticsStaffStore.setIsLoading(false)
+        partnerStatisticsStore.setIsLoading(false)
         return
     }
 
-    statisticsStaff.value = statisticsStaffData.list
-    statisticsStaffStore.setIsLoading(false)
+    staffStatistics.value = staffStatisticsData.list
+    partnerStatisticsStore.setIsLoading(false)
 }
 
 function onChangeFilter() {
-    if (!statisticsStaffStore.isChanged) return
+    if (!partnerStatisticsStore.isChanged) return
 
-    statisticsStaffStore.commitFilter()
-    refreshStatisticsStaff()
+    partnerStatisticsStore.commitFilter()
+    refreshStaffStatistics()
 }
 
-function clearName(data: StatisticsStaffItem) {
-    if (data.firstname) {
-        return [data.surname, data.firstname].join(" ")
-    }
-
-    return data.name.replace(/\s*\(.*\)/g, "")
+function clearName(data: StaffStatisticsItem) {
+    return data.name
+    // if (data.firstname) {
+    //     return [data.surname, data.firstname].join(" ")
+    // }
+    //
+    // return data.name.replace(/\s*\(.*\)/g, "")
 }
 
 function clearSpecialization(text: string) {
@@ -117,17 +116,17 @@ function clearSpecialization(text: string) {
 </script>
 
 <template>
-    <div class="statistics-staff-view">
+    <div class="staff-statistics-view">
         <b-toolbar no-paddings>
             <b-toolbar-item header="Период">
                 <b-date-picker
                     v-model="filterDate"
-                    :placeholder="t('mc.ticket.certificate.placeholder.paymentDate')"
+                    placeholder="Выберите период"
                     date-format="MM yy"
                     :min-date="minDate"
                     :max-date="maxDate"
                     view="month"
-                    :disabled="statisticsStaffStore.isLoading"
+                    :disabled="partnerStatisticsStore.isLoading"
                     class="filter-date"
                     @date-select="onChangeFilter"
                 />
@@ -137,7 +136,7 @@ function clearSpecialization(text: string) {
                 <b-select
                     v-model="filterPartner"
                     :options="partners"
-                    :disabled="statisticsStaffStore.isLoading"
+                    :disabled="partnerStatisticsStore.isLoading"
                     option-label="name"
                     option-value="id"
                     filter
@@ -149,7 +148,7 @@ function clearSpecialization(text: string) {
         </b-toolbar>
 
         <div class="table-wrapper">
-            <list-loading-state v-if="statisticsStaffStore.isLoading" />
+            <list-loading-state v-if="partnerStatisticsStore.isLoading" />
 
             <b-empty-result
                 v-else-if="!filterPartner"
@@ -157,13 +156,13 @@ function clearSpecialization(text: string) {
             />
 
             <b-empty-result
-                v-else-if="!statisticsStaffStore.isLoading && !statisticsStaff.length"
+                v-else-if="!partnerStatisticsStore.isLoading && !staffStatistics.length"
                 title="Нет данных"
             />
 
             <prime-data-table
                 v-else
-                :value="statisticsStaff"
+                :value="staffStatistics"
                 class="table"
                 data-key="id"
                 scrollable
@@ -174,7 +173,10 @@ function clearSpecialization(text: string) {
                     class="table-avatar"
                 >
                     <template #body="{ data }">
-                        <b-avatar :src="data.avatar" />
+                        <b-avatar
+                            :src="data.avatar"
+                            shape="square"
+                        />
                     </template>
                 </prime-column>
 
@@ -191,6 +193,19 @@ function clearSpecialization(text: string) {
                             :text="clearName(data)"
                             :subtext="clearSpecialization(data?.specialization)"
                         />
+                    </template>
+                </prime-column>
+
+                <prime-column
+                    field="work_days_count"
+                    class="table-work-days-count"
+                >
+                    <template #header>
+                        <b-table-text text="Кол-во смен" />
+                    </template>
+
+                    <template #body="{ data }">
+                        <b-table-text :text="data.work_days_count" />
                     </template>
                 </prime-column>
 
@@ -292,11 +307,11 @@ function clearSpecialization(text: string) {
                     class="table-fullness-percent"
                 >
                     <template #header>
-                        <b-table-text text="Заполняемость %" />
+                        <b-table-text text="Заполняемость" />
                     </template>
 
                     <template #body="{ data }">
-                        <b-table-text :text="data.fullness_percent" />
+                        <b-table-text :text="`${data.fullness_percent}%`" />
                     </template>
                 </prime-column>
 
@@ -305,11 +320,11 @@ function clearSpecialization(text: string) {
                     class="table-retention-percent"
                 >
                     <template #header>
-                        <b-table-text text="Возвращаемость %" />
+                        <b-table-text text="Возвращаемость" />
                     </template>
 
                     <template #body="{ data }">
-                        <b-table-text :text="data.retention_percent" />
+                        <b-table-text :text="`${data.retention_percent}%`" />
                     </template>
                 </prime-column>
 
@@ -325,13 +340,26 @@ function clearSpecialization(text: string) {
                         <b-table-text :text="data.client_new" />
                     </template>
                 </prime-column>
+
+                <prime-column
+                    field="client_return"
+                    class="table-client-return"
+                >
+                    <template #header>
+                        <b-table-text text="Постоянные клиенты" />
+                    </template>
+
+                    <template #body="{ data }">
+                        <b-table-text :text="data.client_return" />
+                    </template>
+                </prime-column>
             </prime-data-table>
         </div>
     </div>
 </template>
 
 <style scoped lang="scss">
-.statistics-staff-view {
+.staff-statistics-view {
     @include list-view;
 
     padding-top: $indent-x2;
@@ -366,7 +394,9 @@ function clearSpecialization(text: string) {
             &-rating,
             &-fullness-percent,
             &-retention-percent,
-            &-clien-new {
+            &-clien-new,
+            &-client-return,
+            &-work-days-count {
                 @include col-fixed(110px);
             }
         }

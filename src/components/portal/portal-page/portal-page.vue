@@ -59,7 +59,12 @@ const isLoadingContent = computed(() => {
         <slot name="top-side" />
 
         <div class="grid">
-            <div class="col-8 desktop-col-8 tablet-col-12 mobile-col-12">
+            <div
+                class="tablet-col-12 mobile-col-12"
+                :class="[
+                    props.withoutRightSide ? 'col-12 desktop-col-12' : 'col-8 desktop-col-8',
+                ]"
+            >
                 <div
                     v-if="isLoadingContent"
                     class="content flex-center"
@@ -92,7 +97,10 @@ const isLoadingContent = computed(() => {
                 </div>
             </div>
 
-            <div class="col-4 tablet-hidden">
+            <div
+                v-if="!props.withoutRightSide"
+                class="col-4 tablet-hidden"
+            >
                 <div class="flex-center">
                     <template v-if="!$slots['right-side']">
                         <b-image :src="rightImageSrc" />

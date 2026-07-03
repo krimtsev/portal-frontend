@@ -10,7 +10,7 @@ const routes: RouteRecordRaw[] = [
     {
         path:      profilePaths.Profile,
         name:      ProfileRouteName.Profile,
-        component: () => import("@v/profile/profile-list/profile-list-view.vue"),
+        component: () => import("@v/profile/profile-view.vue"),
         meta:      {
             roles,
         },
@@ -32,9 +32,9 @@ const routes: RouteRecordRaw[] = [
         },
     },
     {
-        path:      profilePaths.ProfileAnalytics,
-        name:      ProfileRouteName.ProfileAnalytics,
-        component: () => import("@v/profile/analytics/analytics-view.vue"),
+        path:      profilePaths.ProfileStatisticsStaff,
+        name:      ProfileRouteName.ProfileStatisticsStaff,
+        component: () => import("@v/profile/statistics/staff-statistics/staff-statistics-view.vue"),
         meta:      {
             roles,
         },

@@ -1,4 +1,4 @@
-export interface StatisticsStaffItem {
+export interface StaffStatisticsItem {
     name:                       string
     firstname:                  string
     surname:                    string
@@ -6,6 +6,7 @@ export interface StatisticsStaffItem {
     average_sum:                number
     additional_services:        number
     client_new:                 number
+    client_return:              number
     fullness_percent:           number
     income_total:               number
     rating_best:                number
@@ -17,5 +18,6 @@ export interface StatisticsStaffItem {
     staff_id:                   number
     transaction_loyalty:        number
     transaction_sales:          number
+    work_days_count:            number
 }
 

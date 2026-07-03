@@ -15,19 +15,20 @@ import {
     LinearScale,
     Tooltip,
 } from "chart.js"
-import type { PartnerFinance } from "@/api/modules/app/definitions/app"
-
+import type { MonthsBarChartData } from "@c/charts/definitions/charts"
 
 const props = withDefaults(
     defineProps<{
-        value:      PartnerFinance
-        isLoading:  boolean
-        hasPartner: boolean
+        data:        MonthsBarChartData
+        isLoading:   boolean
+        limit?:      number
+        isNegative?: boolean
     }>(),
     {
-        value:      () => ({}),
+        data:       () => ({}),
         isLoading:  false,
-        hasPartner: false,
+        limit:      4,
+        isNegative: false,
     },
 )
 
@@ -37,30 +38,31 @@ const chartCanvasRef = useTemplateRef<HTMLCanvasElement>("chartCanvasRef")
 let chart: Chart<"bar", number[], string> | null = null
 
 const chartData = computed(() => {
-    const skeleton = [
-        { label: "", value: 200, isMock: true, percent: 0, isSkeleton: true },
-        { label: "", value: 150, isMock: true, percent: 0, isSkeleton: true },
-        { label: "", value: 300, isMock: true, percent: 0, isSkeleton: true },
-        { label: "", value: 450, isMock: true, percent: 0, isSkeleton: true },
-    ]
+    const skeleton = Array.from({ length: props.limit }, (_, i) => ({
+        label:      "",
+        value:      [200, 150, 300, 450, 250, 350][i % 6],
+        isMock:     true,
+        percent:    0,
+        isSkeleton: true,
+    }))
 
-    if (props.isLoading || !props.value || Object.keys(props.value).length === 0) {
+    if (props.isLoading || !props.data || Object.keys(props.data).length === 0) {
         return skeleton
     }
 
-    const entries = Object.entries(props.value).sort((a, b) => a[0].localeCompare(b[0]))
-    const lastFour = entries.slice(-4)
+    const entries = Object.entries(props.data).sort((a, b) => a[0].localeCompare(b[0]))
+    const lastFour = entries.slice(-props.limit)
 
     return lastFour.map(([dateString, item]) => {
         const date = new Date(dateString)
         const monthName = new Intl.DateTimeFormat("ru-RU", { month: "long" }).format(date)
         const label = monthName.charAt(0).toUpperCase() + monthName.slice(1)
 
-        const isMock = !item.income_total || item.income_total <= 0
+        const isMock = !item.value || item.value <= 0
 
         return {
             label,
-            value:      isMock ? 0 : item.income_total,
+            value:      isMock ? 0 : item.value,
             isMock,
             percent:    item.percent,
             isSkeleton: false,
@@ -90,14 +92,16 @@ function createDiagonalPattern(ctx: CanvasRenderingContext2D, color = "rgba(255,
     return ctx.createPattern(patternCanvas, "repeat") || "rgba(0,0,0,0.1)"
 }
 
-function createGradient(ctx: CanvasRenderingContext2D) {
+function createGradient(ctx: CanvasRenderingContext2D, isNegative: boolean) {
     if (typeof document === "undefined") return "rgba(0,0,0,0.1)"
 
+    const colorPrefix = isNegative ? "--p-red" : "--p-primary"
+
     const startColor = getComputedStyle(document.documentElement)
-        .getPropertyValue("--p-primary-400")
+        .getPropertyValue(`${colorPrefix}-400`)
         .trim()
     const endColor = getComputedStyle(document.documentElement)
-        .getPropertyValue("--p-primary-700")
+        .getPropertyValue(`${colorPrefix}-700`)
         .trim()
 
     const gradient = ctx.createLinearGradient(0, 0, 0, 250)
@@ -128,7 +132,7 @@ function drawBadge(ctx: CanvasRenderingContext2D, x: number, y: number, text: st
 
 function createChart(ctx: CanvasRenderingContext2D) {
     const pattern = createDiagonalPattern(ctx)
-    const gradient = createGradient(ctx)
+    const gradient = createGradient(ctx, props.isNegative)
 
     return new Chart(ctx, {
         type: "bar",
@@ -141,7 +145,7 @@ function createChart(ctx: CanvasRenderingContext2D) {
                     borderRadius:    24,
                     borderSkipped:   false,
                     minBarLength:    30,
-                    barThickness:    "flex", // Первичная инициализация согласно типам
+                    barThickness:    "flex",
                 },
             ],
         },
@@ -149,7 +153,7 @@ function createChart(ctx: CanvasRenderingContext2D) {
             responsive:          true,
             maintainAspectRatio: false,
             layout:              {
-                padding: { top: 60, bottom: 24 }, // Добавлен отступ снизу для месяцев
+                padding: { top: 60, bottom: 24 },
             },
             scales: {
                 x: {
@@ -199,17 +203,7 @@ function createChart(ctx: CanvasRenderingContext2D) {
                     canvasCtx.font = "14px 'Akzidenz-Grotesk Pro'"
                     canvasCtx.textAlign = "center"
 
-                    if (!props.hasPartner) {
-                        canvasCtx.save()
-                        canvasCtx.fillStyle = "rgba(255, 255, 255, 0.5)" // В тон названий месяцев
-                        canvasCtx.font = "500 16px 'Akzidenz-Grotesk Pro'"
-                        canvasCtx.textBaseline = "top"
-                        canvasCtx.fillText("Нет привязки к партнеру", chartInstance.width / 2, 16)
-                        canvasCtx.restore()
-                    }
-
                     meta.data.forEach((bar, i) => {
-                        // Явное приведение типа элемента к геометрии BarElement для TS
                         const barProps = bar as unknown as { x: number, y: number, base: number }
                         const x = barProps.x
                         const topY = barProps.y
@@ -218,12 +212,12 @@ function createChart(ctx: CanvasRenderingContext2D) {
 
                         if (!dataItem) return
 
-                        // Название месяца (перенесено под бар)
+                        // Название месяца
                         canvasCtx.fillStyle = "rgba(255, 255, 255, 0.4)"
                         canvasCtx.textBaseline = "top"
                         canvasCtx.fillText(labels[i] || "", x, bottomY + 8)
 
-                        // Значение income_total (выводится сверху бара)
+                        // Универсальное значение (value)
                         if (!dataItem.isSkeleton) {
                             canvasCtx.fillStyle = getComputedStyle(document.documentElement)
                                 .getPropertyValue("--p-surface-100")
@@ -246,13 +240,13 @@ function createChart(ctx: CanvasRenderingContext2D) {
 }
 
 watch(
-    chartData,
-    (newData) => {
+    [chartData, () => props.isNegative],
+    ([newData, isNegative]) => {
         if (!chart) return
 
         const ctx = chart.ctx
         const pattern = createDiagonalPattern(ctx)
-        const gradient = createGradient(ctx)
+        const gradient = createGradient(ctx, isNegative as boolean)
 
         chart.data.labels = newData.map(d => d.label)
         chart.data.datasets[0].data = newData.map(d => d.value)
@@ -282,13 +276,13 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-    <div class="chart-container">
+    <div class="months-bar-chart">
         <canvas ref="chartCanvasRef" />
     </div>
 </template>
 
 <style scoped lang="scss">
-.chart-container {
+.months-bar-chart {
     width: 100%;
     min-height: 250px;
     padding: $indent-x1 $indent-x3 0;

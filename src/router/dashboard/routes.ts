@@ -107,12 +107,12 @@ const routes: RouteRecordRaw[] = [
             {
                 path:      dashboardPaths.DashboardStatisticsStaff,
                 name:      DashboardRouteName.DashboardStatisticsStaff,
-                component: () => import("@v/dashboard/statistics/statistics-staff/statistics-staff-view.vue"),
+                component: () => import("@v/dashboard/statistics/staff-statistics/staff-statistics-view.vue"),
             },
             {
                 path:      dashboardPaths.DashboardStatisticsPartner,
                 name:      DashboardRouteName.DashboardStatisticsPartner,
-                component: () => import("@v/dashboard/statistics/statistics-partner/statistics-partner-view.vue"),
+                component: () => import("@v/dashboard/statistics/partner-statistics/partner-statistics-view.vue"),
             },
         ],
     },

@@ -5,4 +5,5 @@ export interface PortalPage {
     isLoading?:        boolean // Прелоадер для загрузки страницы
     isLoadingTitle?:   boolean
     isLoadingContent?: boolean
+    withoutRightSide?: boolean
 }

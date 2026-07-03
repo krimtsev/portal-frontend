@@ -9,10 +9,10 @@ import { PortalRouteName } from "@r/portal/route-names"
 import { ProfileRouteName } from "@r/profile/route-names"
 import { HttpError } from "@/api"
 import * as appAPI from "@/api/modules/app/app"
+import MonthsBarChart from "@c/charts/months-bar-chart.vue"
 import BButtonGroup from "@c/common/b-button-groups/b-button-group.vue"
 import BImage from "@c/common/b-image/b-image.vue"
 import PortalCard from "@c/portal/portal-card/portal-card.vue"
-import PortalUserAnalyticsChart from "@c/portal/portal-charts/portal-user-analytics-chart.vue"
 import PortalInformationMenu from "@c/portal/portal-information-menu/portal-information-menu.vue"
 import PortalMessages from "@c/portal/portal-messages/portal-messages.vue"
 import { sections } from "@v/portal/home/_britva/data/home-data"
@@ -92,8 +92,8 @@ const hasPartner = computed(() => !!authStore.user.partner?.id)
                     class="card-height-x2"
                     class-content="d-flex align-items-end"
                 >
-                    <portal-user-analytics-chart
-                        :value="homeStore.finances"
+                    <months-bar-chart
+                        :data="homeStore.finances"
                         :is-loading="homeStore.isLoading"
                         :has-partner="hasPartner"
                     />

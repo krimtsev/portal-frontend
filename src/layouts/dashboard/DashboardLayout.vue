@@ -3,7 +3,6 @@ import { computed, onBeforeUnmount, onMounted, ref, useTemplateRef } from "vue"
 import { useI18n } from "vue-i18n"
 import { useRouter } from "vue-router"
 import sidebarBg from "@a/images/dashboard/sidebar.jpg"
-import PrimeAvatar from "primevue/avatar"
 import PrimeButton from "primevue/button"
 import { useAuthStore } from "@s/auth/auth"
 import { useDashboardStyle } from "@/composables/dashboard-style/use-dashboard-style"
@@ -11,6 +10,7 @@ import { PortalRouteName } from "@r/portal/route-names"
 import { ProfileRouteName } from "@r/profile/route-names"
 import Breadcrumbs from "@l/dashboard/components/breadcrumbs.vue"
 import DashboardSidebar from "@l/dashboard/dashboard-sidebar.vue"
+import BAvatar from "@c/common/b-avatar/b-avatar.vue"
 import BLink from "@c/common/b-link/b-link.vue"
 
 useDashboardStyle()
@@ -74,7 +74,6 @@ onBeforeUnmount(() => {
     document.removeEventListener("click", handleOutsideClick)
 })
 
-const menuRef = ref<any>(null)
 const profileItems = ref([
     {
         label:   t("mc.common.profile"),
@@ -100,9 +99,6 @@ const profileItems = ref([
         },
     },
 ])
-const toggleMenu = (event: PointerEvent) => {
-    menuRef.value.toggle(event)
-}
 </script>
 
 <template>
@@ -133,10 +129,10 @@ const toggleMenu = (event: PointerEvent) => {
                 </div>
 
                 <div class="topbar-end">
-                    <prime-avatar
+                    <b-avatar
                         :label="avatarLabel"
-                        class="mr-x2 cursor-pointer"
-                        @click="toggleMenu"
+                        class="mr-x2"
+                        shape="square"
                     />
 
                     <b-link

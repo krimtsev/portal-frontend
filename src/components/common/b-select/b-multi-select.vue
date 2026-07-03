@@ -45,7 +45,7 @@ const props = withDefaults(defineProps<{
     isLoading:          false,
     showClear:          false,
     maxSelectedLabels:  1,
-    appendTo:           "body",
+    appendTo:           "self",
     showToggleAll:      false,
     selectedItemsLabel: undefined,
     submitLabel:        "Применить",

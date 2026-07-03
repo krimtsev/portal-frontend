@@ -20,15 +20,6 @@ const goTo = (name: ProfileRouteName) => router.push({ name })
                 />
             </div>
 
-            <div class="col-3 tablet-col-4 mobile-col-12">
-                <portal-section-card
-                    icon="pi-key"
-                    title="Смена пароля"
-                    description="Обновите пароль для обеспечения безопасности вашей учетной записи."
-                    @click="goTo(ProfileRouteName.ProfileChangePassword)"
-                />
-            </div>
-
             <!-- <div class="col-3 tablet-col-4 mobile-col-12">
                 <portal-section-card
                     icon="pi-chart-bar"
@@ -38,13 +29,21 @@ const goTo = (name: ProfileRouteName) => router.push({ name })
                 />
             </div> -->
 
-
             <div class="col-3 tablet-col-4 mobile-col-12">
                 <portal-section-card
                     icon="pi-book"
                     title="Заявки"
                     description="Единый центр для создания и отслеживания служебных заявок. Оформляйте запросы на разработку дизайн-материалов, запросы на повышение квалификации сотрудников."
                     @click="goTo(ProfileRouteName.ProfileTickets)"
+                />
+            </div>
+
+            <div class="col-3 tablet-col-4 mobile-col-12">
+                <portal-section-card
+                    icon="pi-users"
+                    title="Аналитика по сотрудникам"
+                    description="Получите ключевые отчеты и метрики для оценки работы сотрудников. Анализируйте производительность, финансовые показатели и другие ключевые данные."
+                    @click="goTo(ProfileRouteName.ProfileStatisticsStaff)"
                 />
             </div>
 
@@ -56,6 +55,15 @@ const goTo = (name: ProfileRouteName) => router.push({ name })
                     @click="goTo(ProfileRouteName.ProfileTeam)"
                 />
             </div> -->
+
+            <div class="col-3 tablet-col-4 mobile-col-12">
+                <portal-section-card
+                    icon="pi-key"
+                    title="Смена пароля"
+                    description="Обновите пароль для обеспечения безопасности вашей учетной записи."
+                    @click="goTo(ProfileRouteName.ProfileChangePassword)"
+                />
+            </div>
         </div>
     </div>
 </template>

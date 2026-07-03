@@ -6,10 +6,11 @@ const props = defineProps<{
     local?:      boolean
     width?:      string
     height?:     string
-    rounded?:    boolean
+    border?:     "rounded" | "circle"
     full?:       boolean
     imageStyle?: any
     lazy?:       boolean
+    alt?:        string
 }>()
 
 const loaded = ref(false)
@@ -78,11 +79,13 @@ onBeforeUnmount(() => {
     <div
         ref="rootRef"
         class="b-image"
-        :class="{
-            'rounded': props.rounded,
-            'full': props.full,
-            'lazy': props.lazy
-        }"
+        :class="[
+            props.border ? `border-${props.border}` : '',
+            {
+                'full': props.full,
+                'lazy': props.lazy
+            }
+        ]"
         :style="{
             width: !props.full ? props.width : undefined,
             height: !props.full ? props.height : undefined,
@@ -99,7 +102,7 @@ onBeforeUnmount(() => {
             :width="props.width"
             :height="props.height"
             :style="props.imageStyle"
-            alt=""
+            :alt="props.alt"
             @load="onLoad"
         >
     </div>
@@ -110,11 +113,18 @@ onBeforeUnmount(() => {
     position: relative;
     overflow: hidden;
 
-    &.rounded {
+    &.border-rounded {
         :deep(img) {
             border-radius: $indent-x2;
         }
     }
+
+    &.border-circle {
+        :deep(img) {
+            border-radius: 50%;
+        }
+    }
+
     &.full {
         :deep(img) {
             width: 100%;

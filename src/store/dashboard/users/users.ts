@@ -9,7 +9,7 @@ export interface UserFilters {
     access:        string[]
 }
 
-export const useUsersStore = defineStore("users", () => {
+export const useUsersStore = defineStore("dashboard-users", () => {
     return usePagination<UserFilters>({
         search:  "",
         filters: {
