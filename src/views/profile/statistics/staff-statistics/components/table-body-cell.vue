@@ -59,12 +59,12 @@ const textClasses = computed(() => {
 
     &.cell-bg-positive {
         background: rgba(57, 72, 8, 1);
-        background: radial-gradient(30em 6em at bottom, rgb(58, 72, 9), rgb(119, 135, 18, 0.9));
+        background: radial-gradient(30em 6em at top, rgb(58, 72, 9), rgb(119, 135, 18, 0.9));
     }
 
     &.cell-bg-negative {
         background: rgba(48, 8, 8, 1);
-        background: radial-gradient(30em 6em at bottom, rgba(48, 8, 8, 1.0), rgba(150, 25, 25, 0.5));
+        background: radial-gradient(30em 6em at top, rgba(48, 8, 8, 1.0), rgba(150, 25, 25, 0.5));
     }
 
     .growth {
