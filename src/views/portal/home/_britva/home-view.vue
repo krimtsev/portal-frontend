@@ -96,6 +96,7 @@ const hasPartner = computed(() => !!authStore.user.partner?.id)
                         :data="homeStore.finances"
                         :is-loading="homeStore.isLoading"
                         :has-partner="hasPartner"
+                        class="months-bar-chart"
                     />
                 </portal-card>
             </div>
@@ -230,6 +231,10 @@ $min-height: 195px;
         border: 1px solid var(--p-portal-card-background);
         min-height: $min-height;
         overflow: hidden;
+    }
+
+    .months-bar-chart {
+        padding: $indent-x1 $indent-x3 0;
     }
 }
 </style>

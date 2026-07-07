@@ -39,6 +39,10 @@ export function formatPrice(price: number, digits = 2) {
     }).format(truncatedPrice)
 }
 
+export function formatNumber(value: number) {
+    return formatPrice(value, 0)
+}
+
 export function toString(value: number | string) {
     return value.toString()
 }

@@ -19,16 +19,16 @@ import type { MonthsBarChartData } from "@c/charts/definitions/charts"
 
 const props = withDefaults(
     defineProps<{
-        data:        MonthsBarChartData
-        isLoading:   boolean
-        limit?:      number
-        isNegative?: boolean
+        data:           MonthsBarChartData
+        isLoading?:     boolean
+        limit?:         number
+        highlightLast?: boolean
     }>(),
     {
-        data:       () => ({}),
-        isLoading:  false,
-        limit:      4,
-        isNegative: false,
+        data:          () => ({}),
+        isLoading:     false,
+        limit:         4,
+        highlightLast: false,
     },
 )
 
@@ -92,22 +92,46 @@ function createDiagonalPattern(ctx: CanvasRenderingContext2D, color = "rgba(255,
     return ctx.createPattern(patternCanvas, "repeat") || "rgba(0,0,0,0.1)"
 }
 
-function createGradient(ctx: CanvasRenderingContext2D, isNegative: boolean) {
+function createGradient(
+    ctx: CanvasRenderingContext2D,
+    startColorPrefix: string,
+    endColorPrefix: string,
+) {
     if (typeof document === "undefined") return "rgba(0,0,0,0.1)"
 
-    const colorPrefix = isNegative ? "--p-red" : "--p-primary"
-
     const startColor = getComputedStyle(document.documentElement)
-        .getPropertyValue(`${colorPrefix}-400`)
+        .getPropertyValue(`${startColorPrefix}`)
         .trim()
     const endColor = getComputedStyle(document.documentElement)
-        .getPropertyValue(`${colorPrefix}-700`)
+        .getPropertyValue(`${endColorPrefix}`)
         .trim()
 
     const gradient = ctx.createLinearGradient(0, 0, 0, 250)
     gradient.addColorStop(0, startColor)
     gradient.addColorStop(1, endColor)
     return gradient
+}
+
+function getBackgroundColors(ctx: CanvasRenderingContext2D, data: typeof chartData.value, highlightLast: boolean) {
+    const pattern = createDiagonalPattern(ctx)
+
+    return data.map((d, index) => {
+        if (d.isMock) return pattern
+
+        if (highlightLast) {
+            const isLast = index === data.length - 1
+            if (isLast) {
+                return createGradient(
+                    ctx,
+                    d.percent >= 0 ? "--p-primary-400" : "--p-red-400",
+                    d.percent >= 0 ? "--p-primary-700" : "--p-red-700",
+                )
+            }
+            return createGradient(ctx, "--p-neutral-700", "--p-neutral-900")
+        }
+
+        return createGradient(ctx, "--p-primary-400", "--p-primary-700")
+    })
 }
 
 function drawBadge(ctx: CanvasRenderingContext2D, x: number, y: number, text: string) {
@@ -131,9 +155,6 @@ function drawBadge(ctx: CanvasRenderingContext2D, x: number, y: number, text: st
 }
 
 function createChart(ctx: CanvasRenderingContext2D) {
-    const pattern = createDiagonalPattern(ctx)
-    const gradient = createGradient(ctx, props.isNegative)
-
     return new Chart(ctx, {
         type: "bar",
         data: {
@@ -141,10 +162,10 @@ function createChart(ctx: CanvasRenderingContext2D) {
             datasets: [
                 {
                     data:            chartData.value.map(d => d.value),
-                    backgroundColor: chartData.value.map(d => d.isMock ? pattern : gradient),
+                    backgroundColor: getBackgroundColors(ctx, chartData.value, props.highlightLast),
                     borderRadius:    24,
                     borderSkipped:   false,
-                    minBarLength:    30,
+                    minBarLength:    55,
                     barThickness:    "flex",
                 },
             ],
@@ -240,18 +261,18 @@ function createChart(ctx: CanvasRenderingContext2D) {
 }
 
 watch(
-    [chartData, () => props.isNegative],
-    ([newData, isNegative]) => {
+    [chartData, () => props.highlightLast],
+    ([newData, highlightLast]) => {
         if (!chart) return
 
         const ctx = chart.ctx
-        const pattern = createDiagonalPattern(ctx)
-        const gradient = createGradient(ctx, isNegative as boolean)
 
         chart.data.labels = newData.map(d => d.label)
         chart.data.datasets[0].data = newData.map(d => d.value)
-        chart.data.datasets[0].backgroundColor = newData.map(d =>
-            d.isMock ? pattern : gradient,
+        chart.data.datasets[0].backgroundColor = getBackgroundColors(
+            ctx,
+            newData,
+            highlightLast,
         )
 
         chart.update()
@@ -285,6 +306,5 @@ onBeforeUnmount(() => {
 .months-bar-chart {
     width: 100%;
     min-height: 250px;
-    padding: $indent-x1 $indent-x3 0;
 }
 </style>

@@ -172,6 +172,7 @@ const hasPartnerStatistics = computed(() => Object.keys(partnerStatistics.value)
 
         .month-bar-chart {
             min-height: 400px;
+            padding: $indent-x1 $indent-x3 0;
         }
     }
 

@@ -1,3 +1,5 @@
+import type { MonthsBarChartData } from "@c/charts/definitions/charts"
+
 export interface StaffStatisticsGrowth {
     additional_services:        number
     average_sum:                number
@@ -33,6 +35,7 @@ export interface StaffStatisticsData {
     transaction_loyalty:        number
     transaction_sales:          number
     work_days_count:            number
+    services_per_visit:         number
 }
 
 export interface StaffStatisticsItem extends StaffStatisticsData {
@@ -57,4 +60,10 @@ export interface StaffDetails {
 
     work_days: number
     date:      string
+
+    history: {
+        additional_services: MonthsBarChartData
+        average_sum:         MonthsBarChartData
+        income_goods:        MonthsBarChartData
+    }
 }

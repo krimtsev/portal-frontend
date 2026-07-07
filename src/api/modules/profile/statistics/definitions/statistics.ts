@@ -1,15 +1,20 @@
-export interface CompanyStatistics {
-    income_total:     number
-    income_goods:     number
-    income_services:  number
-    fullness_percent: number
-    record_completed: number
-    record_pending:   number
-    record_canceled:  number
-    record_total:     number
-    client_new:       number
-    client_return:    number
-    client_active:    number
-    client_lost:      number
-    client_total:     number
+interface TotalStatistics {
+    income_total:               number
+    fullness_percent:           number
+    client_new:                 number
+    client_return:              number
+    retention_percent:          number
+    rating_total:               number
+    rating_best:                number
+    additional_services:        number
+    transaction_sales:          number
+    services_with_transactions: number
+    transaction_loyalty:        number
+    average_sum:                number
+    work_days_count:            number
+    services_per_visit:         number
+}
+
+export interface TotalCompareStatistics extends TotalStatistics {
+    growth: TotalStatistics
 }

@@ -6,14 +6,14 @@ import type {
     StaffDetailsRequest,
     StaffStatisticsItem,
 } from "@v/profile/statistics/staff-statistics/definitions/statistic-staff"
-import type { CompanyStatistics } from "@/api/modules/profile/statistics/definitions/statistics"
+import type { TotalCompareStatistics } from "@/api/modules/profile/statistics/definitions/statistics"
 
 export async function getStaffCompare(params: ListQueryFilter<PartnerStatisticsFilters>) {
     return await http.get<{ list: StaffStatisticsItem[] }>("profile/statistics/staff/compare", { params })
 }
 
-export async function getCompanyStats(params: ListQueryFilter<PartnerStatisticsFilters>) {
-    return await http.get<{ data: CompanyStatistics }>("profile/statistics/company/stats", { params })
+export async function getTotalCompareStats(params: PartnerStatisticsFilters) {
+    return await http.get<{ data: TotalCompareStatistics }>("profile/statistics/staff/total-compare", { params })
 }
 
 export async function getStaffDetails(params: StaffDetailsRequest) {

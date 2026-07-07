@@ -24,6 +24,7 @@ import {
     getPreviousMonth,
     parseStringToDate,
 } from "@/lib/date-helpers"
+import { formatNumber } from "@/lib/utils"
 
 
 const notify = useNotify()
@@ -192,7 +193,7 @@ const filterDate = computed({
                     class="table-gross-revenue"
                 >
                     <template #body="{ data }">
-                        <b-table-text :text="data?.gross_revenue" />
+                        <b-table-text :text="formatNumber(data?.gross_revenue)" />
                     </template>
                 </prime-column>
 
@@ -202,7 +203,7 @@ const filterDate = computed({
                     class="table-royalty-amount"
                 >
                     <template #body="{ data }">
-                        <b-table-text :text="data?.royalty_amount" />
+                        <b-table-text :text="formatNumber(data?.royalty_amount)" />
                     </template>
                 </prime-column>
 
@@ -222,7 +223,7 @@ const filterDate = computed({
                     class="table-vat-amount"
                 >
                     <template #body="{ data }">
-                        <b-table-text :text="data?.vat_amount" />
+                        <b-table-text :text="formatNumber(data?.vat_amount)" />
                     </template>
                 </prime-column>
 
@@ -232,7 +233,7 @@ const filterDate = computed({
                     class="table-royalty-with-vat"
                 >
                     <template #body="{ data }">
-                        <b-table-text :text="data?.royalty_with_vat" />
+                        <b-table-text :text="formatNumber(data?.royalty_with_vat)" />
                     </template>
                 </prime-column>
 

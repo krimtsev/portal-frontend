@@ -281,7 +281,7 @@ function clearSpecialization(text: string) {
                     class="table-services-with-transactions"
                 >
                     <template #header>
-                        <b-table-text text="Сумма дополнительных услуг и продаж" />
+                        <b-table-text text="Дополнительные услуги и продажи" />
                     </template>
 
                     <template #body="{ data }">
@@ -294,11 +294,11 @@ function clearSpecialization(text: string) {
                     class="table-rating"
                 >
                     <template #header>
-                        <b-table-text text="Всего отзывов" />
+                        <b-table-text text="Отзывы (всего/пять)" />
                     </template>
 
                     <template #body="{ data }">
-                        <b-table-text :text="`${data.rating_total} (${data.rating_best})`" />
+                        <b-table-text :text="`${data.rating_total} / ${data.rating_best}`" />
                     </template>
                 </prime-column>
 
@@ -353,6 +353,19 @@ function clearSpecialization(text: string) {
                         <b-table-text :text="data.client_return" />
                     </template>
                 </prime-column>
+
+                <prime-column
+                    field="client_services_per_visit"
+                    class="table-services-per-visit"
+                >
+                    <template #header>
+                        <b-table-text text="KPI" />
+                    </template>
+
+                    <template #body="{ data }">
+                        <b-table-text :text="data.services_per_visit" />
+                    </template>
+                </prime-column>
             </prime-data-table>
         </div>
     </div>
@@ -396,7 +409,8 @@ function clearSpecialization(text: string) {
             &-retention-percent,
             &-clien-new,
             &-client-return,
-            &-work-days-count {
+            &-work-days-count,
+            &-services-per-visit {
                 @include col-fixed(110px);
             }
         }

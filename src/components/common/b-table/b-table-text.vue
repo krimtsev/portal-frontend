@@ -2,7 +2,7 @@
 import { computed, onMounted, onUnmounted, ref, useTemplateRef } from "vue"
 
 const props = withDefaults(defineProps<{
-    text:       string | number
+    text?:      string | number
     subtext?:   string
     showEmpty?: boolean
 }>(), {

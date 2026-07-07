@@ -1,17 +1,15 @@
 <script setup lang="ts" xmlns="http://www.w3.org/1999/html">
 import { computed, onMounted, ref } from "vue"
 import PrimeColumn from "primevue/column"
-import PrimeColumnGroup from "primevue/columngroup"
 import PrimeDataTable from "primevue/datatable"
 import PrimeFloatLabel from "primevue/floatlabel"
-import PrimeRow from "primevue/row"
 import { useAuthStore } from "@s/auth/auth"
 import { usePartnerStatisticsStore } from "@s/profile/statistics/partner-statistics"
 import { useNotify } from "@/composables/notify/use-notify"
 import { HttpError } from "@/api"
 import type { UserPartnerItem } from "@/api/modules/partner/partner"
 import * as partnerAPI from "@/api/modules/partner/partner"
-import type { CompanyStatistics } from "@/api/modules/profile/statistics/definitions/statistics"
+import type { TotalCompareStatistics } from "@/api/modules/profile/statistics/definitions/statistics"
 import * as statisticsAPI from "@/api/modules/profile/statistics/statistics"
 import BAvatar from "@c/common/b-avatar/b-avatar.vue"
 import BButtonIcon from "@c/common/b-button-icon/b-button-icon.vue"
@@ -25,7 +23,10 @@ import BToolbarItem from "@c/common/b-toolbar/b-toolbar-item.vue"
 import PortalPage from "@c/portal/portal-page/portal-page.vue"
 import StaffStatisticsDetails from "@v/profile/statistics/staff-statistics/components/staff-statistics-details.vue"
 import TableBodyCell from "@v/profile/statistics/staff-statistics/components/table-body-cell.vue"
-import type { StaffStatisticsItem } from "@v/profile/statistics/staff-statistics/definitions/statistic-staff"
+import type {
+    StaffDetails,
+    StaffStatisticsItem,
+} from "@v/profile/statistics/staff-statistics/definitions/statistic-staff"
 import {
     clearName,
     clearSpecialization,
@@ -37,7 +38,6 @@ import {
     parseStringToDate,
 } from "@/lib/date-helpers"
 import { $sanitizeHtml } from "@/lib/sanitize-html"
-import { toString } from "@/lib/utils"
 
 
 const notify = useNotify()
@@ -48,10 +48,10 @@ const minDate = ref(getAnalyticsStartDate())
 const maxDate = ref(getPreviousMonth())
 
 const staffStatistics = ref<StaffStatisticsItem[]>([])
-const companyStatistics = ref<CompanyStatistics>({} as CompanyStatistics)
+const totalCompare = ref<TotalCompareStatistics>({} as TotalCompareStatistics)
 const userPartners = ref<UserPartnerItem[]>([])
 
-const staffDetails = ref<Record<number, any>>({})
+const staffDetails = ref<Record<number, StaffDetails>>({})
 const staffDetailsLoading = ref<Record<number, boolean>>({})
 const expandedRows = ref<Record<number, boolean>>({})
 
@@ -83,26 +83,28 @@ onMounted(async () => {
             partner_id: userPartner.id,
             name:       userPartner.name,
         }]
-        filterDate.value = new Date("2026-05-01")
     }
 
     const [
         staffStatisticsResponse,
-        companyStatisticsResponse,
+        totalCompareStatisticsResponse,
         partnersResponse,
     ] = await Promise.all([
         isSelectedPartner.value
             ? statisticsAPI.getStaffCompare(partnerStatisticsStore.filter)
             : null,
         isSelectedPartner.value
-            ? statisticsAPI.getCompanyStats(partnerStatisticsStore.filter)
+            ? statisticsAPI.getTotalCompareStats({
+                partner_id: partnerStatisticsStore.filter.filters.partner_id,
+                date:       partnerStatisticsStore.filter.filters.date,
+            })
             : null,
         partnerAPI.userPartners(),
     ])
 
     if (
         staffStatisticsResponse instanceof HttpError ||
-        companyStatisticsResponse instanceof HttpError ||
+        totalCompareStatisticsResponse instanceof HttpError ||
         partnersResponse instanceof HttpError
     ) {
         notify.error()
@@ -113,8 +115,8 @@ onMounted(async () => {
         staffStatistics.value = staffStatisticsResponse.list
     }
 
-    if (companyStatisticsResponse) {
-        companyStatistics.value = companyStatisticsResponse?.data
+    if (totalCompareStatisticsResponse) {
+        totalCompare.value = totalCompareStatisticsResponse?.data
     }
 
     userPartners.value = partnersResponse.partners
@@ -124,16 +126,34 @@ onMounted(async () => {
 async function refreshStaffStatistics() {
     partnerStatisticsStore.setIsLoading(true)
 
+    const [
+        staffStatisticsResponse,
+        totalCompareStatisticsResponse,
+    ] = await Promise.all([
+        statisticsAPI.getStaffCompare(partnerStatisticsStore.filter),
+        statisticsAPI.getTotalCompareStats({
+            partner_id: partnerStatisticsStore.filter.filters.partner_id,
+            date:       partnerStatisticsStore.filter.filters.date,
+        }),
+    ])
 
-    const staffStatisticsData = await statisticsAPI.getStaffCompare(partnerStatisticsStore.filter)
 
-    if (staffStatisticsData instanceof HttpError) {
+    if (
+        staffStatisticsResponse instanceof HttpError ||
+        totalCompareStatisticsResponse instanceof HttpError
+    ) {
         notify.error()
         partnerStatisticsStore.setIsLoading(false)
         return
     }
 
-    staffStatistics.value = staffStatisticsData.list
+    staffStatistics.value = staffStatisticsResponse.list
+    totalCompare.value = totalCompareStatisticsResponse.data
+
+    staffDetails.value = {}
+    staffDetailsLoading.value = {}
+    expandedRows.value = {}
+
     partnerStatisticsStore.setIsLoading(false)
 }
 
@@ -295,6 +315,10 @@ async function onRowExpand(event: { data: StaffStatisticsItem }) {
                             />
                         </table-body-cell>
                     </template>
+
+                    <template #footer>
+                        <b-table-text text="Итого" />
+                    </template>
                 </prime-column>
 
                 <prime-column
@@ -310,6 +334,12 @@ async function onRowExpand(event: { data: StaffStatisticsItem }) {
                             <b-table-text :text="data.work_days_count" />
                         </table-body-cell>
                     </template>
+
+                    <template #footer>
+                        <table-body-cell>
+                            <b-table-text />
+                        </table-body-cell>
+                    </template>
                 </prime-column>
 
                 <prime-column
@@ -323,6 +353,12 @@ async function onRowExpand(event: { data: StaffStatisticsItem }) {
                     <template #body="{ data }">
                         <table-body-cell :growth="data.growth.transaction_loyalty">
                             <b-table-text :text="data.transaction_loyalty" />
+                        </table-body-cell>
+                    </template>
+
+                    <template #footer>
+                        <table-body-cell :growth="totalCompare.growth.transaction_loyalty">
+                            <b-table-text :text="totalCompare.transaction_loyalty" />
                         </table-body-cell>
                     </template>
                 </prime-column>
@@ -343,6 +379,12 @@ async function onRowExpand(event: { data: StaffStatisticsItem }) {
                             <b-table-text :text="data.income_total" />
                         </table-body-cell>
                     </template>
+
+                    <template #footer>
+                        <table-body-cell :growth="totalCompare.growth.income_total">
+                            <b-table-text :text="totalCompare.income_total" />
+                        </table-body-cell>
+                    </template>
                 </prime-column>
 
                 <prime-column
@@ -361,6 +403,12 @@ async function onRowExpand(event: { data: StaffStatisticsItem }) {
                             <b-table-text :text="data.average_sum" />
                         </table-body-cell>
                     </template>
+
+                    <template #footer>
+                        <table-body-cell :growth="totalCompare.growth.average_sum">
+                            <b-table-text :text="totalCompare.average_sum" />
+                        </table-body-cell>
+                    </template>
                 </prime-column>
 
                 <prime-column
@@ -372,8 +420,17 @@ async function onRowExpand(event: { data: StaffStatisticsItem }) {
                     </template>
 
                     <template #body="{ data }">
-                        <table-body-cell :growth="data.growth.additional_services">
+                        <table-body-cell
+                            :growth="data.growth.additional_services"
+                            highlight
+                        >
                             <b-table-text :text="data.additional_services" />
+                        </table-body-cell>
+                    </template>
+
+                    <template #footer>
+                        <table-body-cell :growth="totalCompare.growth.additional_services">
+                            <b-table-text :text="totalCompare.additional_services" />
                         </table-body-cell>
                     </template>
                 </prime-column>
@@ -391,6 +448,12 @@ async function onRowExpand(event: { data: StaffStatisticsItem }) {
                             <b-table-text :text="data.transaction_sales" />
                         </table-body-cell>
                     </template>
+
+                    <template #footer>
+                        <table-body-cell :growth="totalCompare.growth.transaction_sales">
+                            <b-table-text :text="totalCompare.transaction_sales" />
+                        </table-body-cell>
+                    </template>
                 </prime-column>
 
                 <prime-column
@@ -402,11 +465,14 @@ async function onRowExpand(event: { data: StaffStatisticsItem }) {
                     </template>
 
                     <template #body="{ data }">
-                        <table-body-cell
-                            :growth="data.growth.services_with_transactions"
-                            highlight
-                        >
+                        <table-body-cell :growth="data.growth.services_with_transactions">
                             <b-table-text :text="data.services_with_transactions" />
+                        </table-body-cell>
+                    </template>
+
+                    <template #footer>
+                        <table-body-cell :growth="totalCompare.growth.services_with_transactions">
+                            <b-table-text :text="totalCompare.services_with_transactions" />
                         </table-body-cell>
                     </template>
                 </prime-column>
@@ -416,12 +482,18 @@ async function onRowExpand(event: { data: StaffStatisticsItem }) {
                     class="table-rating"
                 >
                     <template #header>
-                        <div v-html="$sanitizeHtml('Всего<br>отзывов')" />
+                        <div v-html="$sanitizeHtml('Отзывы<br>(всего/пять)')" />
                     </template>
 
                     <template #body="{ data }">
                         <table-body-cell :growth="data.growth.rating_total">
-                            <b-table-text :text="`${data.rating_total} (${data.rating_best})`" />
+                            <b-table-text :text="`${data.rating_total} / ${data.rating_best}`" />
+                        </table-body-cell>
+                    </template>
+
+                    <template #footer>
+                        <table-body-cell :growth="totalCompare.growth.rating_total">
+                            <b-table-text :text="`${totalCompare.rating_total} / ${totalCompare.rating_best}`" />
                         </table-body-cell>
                     </template>
                 </prime-column>
@@ -439,6 +511,12 @@ async function onRowExpand(event: { data: StaffStatisticsItem }) {
                             <b-table-text :text="`${data.fullness_percent}%`" />
                         </table-body-cell>
                     </template>
+
+                    <template #footer>
+                        <table-body-cell :growth="totalCompare.growth.fullness_percent">
+                            <b-table-text :text="`${totalCompare.fullness_percent}%`" />
+                        </table-body-cell>
+                    </template>
                 </prime-column>
 
                 <prime-column
@@ -452,6 +530,12 @@ async function onRowExpand(event: { data: StaffStatisticsItem }) {
                     <template #body="{ data }">
                         <table-body-cell :growth="data.growth.retention_percent">
                             <b-table-text :text="`${data.retention_percent}%`" />
+                        </table-body-cell>
+                    </template>
+
+                    <template #footer>
+                        <table-body-cell :growth="totalCompare.growth.retention_percent">
+                            <b-table-text :text="`${totalCompare.retention_percent}%`" />
                         </table-body-cell>
                     </template>
                 </prime-column>
@@ -469,6 +553,12 @@ async function onRowExpand(event: { data: StaffStatisticsItem }) {
                             <b-table-text :text="data.client_new" />
                         </table-body-cell>
                     </template>
+
+                    <template #footer>
+                        <table-body-cell :growth="totalCompare.growth.client_new">
+                            <b-table-text :text="totalCompare.client_new" />
+                        </table-body-cell>
+                    </template>
                 </prime-column>
 
                 <prime-column
@@ -484,25 +574,32 @@ async function onRowExpand(event: { data: StaffStatisticsItem }) {
                             <b-table-text :text="data.client_return" />
                         </table-body-cell>
                     </template>
+
+                    <template #footer>
+                        <table-body-cell :growth="totalCompare.growth.client_return">
+                            <b-table-text :text="totalCompare.client_return" />
+                        </table-body-cell>
+                    </template>
                 </prime-column>
 
-                <prime-column-group type="footer">
-                    <prime-row>
-                        <prime-column footer="" :colspan="3" />
-                        <prime-column footer="-" />
-                        <prime-column footer="5" />
-                        <prime-column :footer="toString(companyStatistics.income_total)" />
-                        <prime-column footer="7" />
-                        <prime-column footer="8" />
-                        <prime-column :footer="toString(companyStatistics.income_goods)" />
-                        <prime-column footer="10" />
-                        <prime-column footer="*" />
-                        <prime-column footer="-" />
-                        <prime-column :footer="`${toString(companyStatistics.fullness_percent)}%`" />
-                        <prime-column :footer="toString(companyStatistics.client_new)" />
-                        <prime-column :footer="toString(companyStatistics.client_return)" />
-                    </prime-row>
-                </prime-column-group>
+                <prime-column
+                    field="services_per_visit"
+                    class="table-services-per-visit"
+                >
+                    <template #header>
+                        <div v-html="$sanitizeHtml('KPI')" />
+                    </template>
+
+                    <template #body="{ data }">
+                        <table-body-cell :growth="data.growth.services_per_visit">
+                            <b-table-text :text="data.services_per_visit" />
+                        </table-body-cell>
+                    </template>
+
+                    <template #footer>
+                        <b-table-text />
+                    </template>
+                </prime-column>
 
                 <template #expansion="slotProps">
                     <list-loading-state
@@ -571,6 +668,28 @@ async function onRowExpand(event: { data: StaffStatisticsItem }) {
                     border-radius: $indent-x2;
                 }
             }
+
+            .p-datatable-tfoot > tr {
+                background: transparent;
+
+                > td {
+                    border-width: 1px 0 1px 0;
+                    padding: 0;
+                    border-color: var(--p-datatable-body-cell-border-color);
+                }
+
+                > td:first-child {
+                    border-width: 1px 0 1px 1px;
+                    border-radius: $indent-x2 0 0 $indent-x2;
+                    border-color: var(--p-datatable-body-cell-border-color);
+                }
+
+                > td:last-child {
+                    border-width: 1px 1px 1px 0;
+                    border-radius: 0 $indent-x2 $indent-x2 0;
+                    border-color: var(--p-datatable-body-cell-border-color);
+                }
+            }
         }
 
         .table {
@@ -600,12 +719,16 @@ async function onRowExpand(event: { data: StaffStatisticsItem }) {
                 }
             }
 
-            &-rating,
             &-clien-new,
-            &-work-days-count {
+            &-work-days-count,
+            &-visits-count,
+            &-services-count,
+            &-visits-per-service,
+            &-services-per-visit {
                 @include col-fixed(90px);
             }
 
+            &-rating,
             &-income-total,
             &-average_sum,
             &-clien-return {
