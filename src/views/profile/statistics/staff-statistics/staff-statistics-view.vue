@@ -317,7 +317,9 @@ async function onRowExpand(event: { data: StaffStatisticsItem }) {
                     </template>
 
                     <template #footer>
-                        <b-table-text text="Итого" />
+                        <table-body-cell>
+                            <b-table-text text="Итого" />
+                        </table-body-cell>
                     </template>
                 </prime-column>
 
