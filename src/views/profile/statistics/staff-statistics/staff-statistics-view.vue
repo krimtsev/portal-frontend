@@ -76,7 +76,7 @@ const isSelectedPartner = computed(() => !!filterPartner.value)
 onMounted(async () => {
     partnerStatisticsStore.setIsLoading(true)
 
-    const userPartner = authStore.user.partner
+    const userPartner = authStore.partner
     if (userPartner?.id) {
         filterPartner.value = userPartner.id
         userPartners.value = [{

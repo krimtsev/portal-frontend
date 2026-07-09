@@ -26,6 +26,7 @@ import { checkActiveState } from "@v/profile/tickets/edit/utils/ticket"
 import TicketStateBadge from "@v/profile/tickets/list/components/ticket-state-badge.vue"
 import type { TicketListItem } from "@v/profile/tickets/list/definitions/tickets-list"
 import { ticketStateList } from "@v/profile/tickets/list/utils/ticket"
+import { formatStringToLocal } from "@/lib/date-helpers"
 
 
 const notify = useNotify()
@@ -311,13 +312,7 @@ const departmentName = (id: number) => departmentStore.getTitleById(id)
                     class="table-last-message-at"
                 >
                     <template #body="{ data }">
-                        <b-text-date
-                            :value="checkActiveState(data?.state)
-                                ? data?.last_message_at
-                                : ''
-                            "
-                            diff
-                        />
+                        <b-text-date :value="checkActiveState(data?.state) ? data?.last_message_at : ''" />
                     </template>
                 </prime-column>
 
@@ -327,7 +322,7 @@ const departmentName = (id: number) => departmentStore.getTitleById(id)
                     class="table-created-at"
                 >
                     <template #body="{ data }">
-                        <b-table-text :text="data?.created_at" />
+                        <b-table-text :text="formatStringToLocal(data?.created_at)" />
                     </template>
                 </prime-column>
             </prime-data-table>

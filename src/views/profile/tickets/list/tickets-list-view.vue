@@ -19,6 +19,7 @@ import PortalPage from "@c/portal/portal-page/portal-page.vue"
 import { TicketState, TicketType } from "@v/profile/tickets/edit/definitions/ticket"
 import TicketStateBadge from "@v/profile/tickets/list/components/ticket-state-badge.vue"
 import type { TicketListItem } from "@v/profile/tickets/list/definitions/tickets-list"
+import { formatStringToLocal } from "@/lib/date-helpers"
 import {
     defaultPaginationFilter,
     defaultPaginationPage,
@@ -268,7 +269,7 @@ const departmentName = (id: number) => departmentStore.getTitleById(id)
                             :is-loading="isLoading"
                             full-width
                         >
-                            <b-table-text :text="data?.created_at" />
+                            <b-table-text :text="formatStringToLocal(data?.created_at)" />
                         </b-skeleton>
                     </template>
                 </prime-column>

@@ -48,10 +48,6 @@ export const sections = computed((): Section[] => {
                     label:    "Таблица оплаты телефонии",
                     external: "https://docs.google.com/spreadsheets/d/1Y9zxXV-NZZvFHJNnESGBDiipCMNM1jjqQEzHqj8KRg0",
                 },
-                {
-                    label:    "Таблица маркетингово сбора",
-                    external: "https://docs.google.com/spreadsheets/d/1ka8_eTE18gQNr-LCCiKYKd_u0rG6dJ5R7oGFTQg6pdM",
-                },
             ],
         },
         {

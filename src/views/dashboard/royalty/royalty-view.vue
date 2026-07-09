@@ -13,7 +13,6 @@ import BEmptyResult from "@c/common/b-empty/b-empty-result.vue"
 import ListLoadingState from "@c/common/b-loading-state/list-loading-state.vue"
 import BMultiSelect from "@c/common/b-select/b-multi-select.vue"
 import BTableText from "@c/common/b-table/b-table-text.vue"
-import BTextDate from "@c/common/b-text-date/b-text-date.vue"
 import BToolbar from "@c/common/b-toolbar/b-toolbar.vue"
 import BToolbarItem from "@c/common/b-toolbar/b-toolbar-item.vue"
 import type { PartnerOptionItem } from "@v/dashboard/partners/company/list/definitions/partners"
@@ -243,10 +242,7 @@ const filterDate = computed({
                     class="table-start-at"
                 >
                     <template #body="{ data }">
-                        <b-text-date
-                            :value="data?.start_at"
-                            show-format="yyyy-MM-dd"
-                        />
+                        <b-table-text :text="data?.start_at" />
                     </template>
                 </prime-column>
 

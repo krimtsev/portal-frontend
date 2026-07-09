@@ -17,7 +17,6 @@ import BInputSearch from "@c/common/b-input-search/b-input-search.vue"
 import ListLoadingState from "@c/common/b-loading-state/list-loading-state.vue"
 import BSelect from "@c/common/b-select/b-select.vue"
 import BTableText from "@c/common/b-table/b-table-text.vue"
-import BTextDate from "@c/common/b-text-date/b-text-date.vue"
 import BToolbar from "@c/common/b-toolbar/b-toolbar.vue"
 import BToolbarItem from "@c/common/b-toolbar/b-toolbar-item.vue"
 import PartnerStateTag from "@v/dashboard/partners/company/list/components/partner-state-tag.vue"
@@ -307,10 +306,7 @@ const partnerState = computed({
                     class="table-start-at"
                 >
                     <template #body="{ data }">
-                        <b-text-date
-                            :value="data?.start_at"
-                            show-format="yyyy-MM-dd"
-                        />
+                        <b-table-text :text="data?.start_at" />
                     </template>
                 </prime-column>
             </prime-data-table>

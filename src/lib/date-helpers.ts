@@ -91,3 +91,40 @@ export function stripTimezone(date: Date | null): DateTime | null {
     return DateTime.fromJSDate(date).toUTC(0, { keepLocalTime: true })
 }
 
+/**
+ * Парсит полную серверную ISO-строку (например, "2026-07-09T00:00:00.000000Z")
+ * в нативный объект JS Date.
+ */
+export function parseServerIsoToDate(dateStr: string | null | undefined): Date | null {
+    if (!dateStr) return null
+
+    const dt = DateTime.fromISO(dateStr)
+    return dt.isValid ? dt.toJSDate() : null
+}
+
+/**
+ * Преобразует объект JS Date обратно в точный формат сервера
+ * с сохранением микросекунд и таймзоны UTC ("yyyy-MM-ddT00:00:00.000000Z")
+ */
+export function formatDateToServerIso(date: Date | null): string | null {
+    if (!date) return null
+
+    return DateTime.fromJSDate(date)
+        .startOf("day") // Сбрасываем время в 00:00:00, как это делает сервер для дат
+        .toFormat("yyyy-MM-dd'T'HH:mm:ss.000000'Z'") // Экранируем T и Z для строгого соответствия
+}
+
+/**
+ * Форматирует серверную дату/время.
+ * Если пришла строка с временем (yyyy-MM-dd HH:mm:ss), трактует её как UTC и переводит в Settings.defaultZone.
+ */
+export function formatStringToLocal(
+    dateStr: string | null | undefined,
+    outputFormat: string = "yyyy-MM-dd HH:mm",
+): string | null {
+    if (!dateStr) return null
+
+    return DateTime.fromFormat(dateStr, "yyyy-MM-dd HH:mm:ss", { zone: "utc" })
+        .setZone()
+        .toFormat(outputFormat)
+}

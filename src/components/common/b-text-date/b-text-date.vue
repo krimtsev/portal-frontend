@@ -2,33 +2,23 @@
 import { computed } from "vue"
 import { DateTime } from "luxon"
 
-interface Props {
-    value:       string | Date | null
+const props = withDefaults(defineProps<{
+    value:       string | null
     diff?:       boolean
     showFormat?: string
-}
-
-const props = defineProps<Props>()
-
-const dateTime = computed(() => {
-    if (!props.value) {
-        return null
-    }
-
-    if (props.value instanceof Date) {
-        return DateTime.fromJSDate(props.value)
-    }
-
-    let dt = DateTime.fromISO(props.value as string)
-
-    if (!dt.isValid) {
-        dt = DateTime.fromFormat(props.value as string, "yyyy-MM-dd HH:mm:ss")
-    }
-
-    return dt
+}>(), {
+    value:      null,
+    diff:       true,
+    showFormat: "yyyy-MM-dd HH:mm:ss",
 })
 
-// Вычисляем отображение
+const dateTime = computed(() => {
+    if (!props.value) return null
+
+    return DateTime.fromFormat(props.value, "yyyy-MM-dd HH:mm:ss", { zone: "utc" })
+        .setZone()
+})
+
 const display = computed(() => {
     if (!dateTime.value || !dateTime.value.isValid) {
         return "—"
@@ -49,8 +39,7 @@ const display = computed(() => {
 
         return parts.length ? parts.join(" ") : "0 м."
     } else {
-        const format = props.showFormat ?? "yyyy-MM-dd HH:mm:ss"
-        return dateTime.value.toFormat(format)
+        return dateTime.value.toFormat(props.showFormat)
     }
 })
 </script>

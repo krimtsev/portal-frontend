@@ -1,6 +1,6 @@
 import { http } from "@/api"
 import type {
-    AuthData,
+    AuthResponse,
     LoginCredentials,
 } from "@/api/modules/auth/definitions/auth"
 import partnerContext from "virtual:partner"
@@ -14,7 +14,7 @@ export async function csrf() {
 }
 
 export async function login({ login, password, remember }: LoginCredentials) {
-    return await http.post<AuthData>("login", {
+    return await http.post<{ data: AuthResponse }>("login", {
         login,
         password,
         remember,
@@ -26,5 +26,5 @@ export async function logout() {
 }
 
 export async function userData() {
-    return await http.get<AuthData>("user-data", { skipAuthGuard: true })
+    return await http.get<{ data: AuthResponse }>("user-data", { skipAuthGuard: true })
 }

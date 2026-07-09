@@ -53,6 +53,36 @@
                 "cancel": "Отклонено"
             }
         },
+        "timezone": {
+            "timezones": {
+                "Asia/Anadyr": "Россия/Анадырь",
+                "Asia/Barnaul": "Россия/Барнаул",
+                "Asia/Chita": "Россия/Чита",
+                "Asia/Irkutsk": "Россия/Иркутск",
+                "Asia/Kamchatka": "Россия/Камчатка",
+                "Asia/Khandyga": "Россия/Хандыга",
+                "Asia/Krasnoyarsk": "Россия/Красноярск",
+                "Asia/Magadan": "Россия/Магадан",
+                "Asia/Novokuznetsk": "Россия/Новокузнецк",
+                "Asia/Novosibirsk": "Россия/Новосибирск",
+                "Asia/Omsk": "Россия/Омск",
+                "Asia/Sakhalin": "Россия/Сахалин",
+                "Asia/Srednekolymsk": "Россия/Среднеколымск",
+                "Asia/Tomsk": "Россия/Томск",
+                "Asia/Ust-Nera": "Россия/Усть-Нера",
+                "Asia/Vladivostok": "Россия/Владивосток",
+                "Asia/Yakutsk": "Россия/Якутск",
+                "Asia/Yekaterinburg": "Россия/Екатеринбург",
+                "Europe/Astrakhan": "Россия/Астрахань",
+                "Europe/Kaliningrad": "Россия/Калининград",
+                "Europe/Kirov": "Россия/Киров",
+                "Europe/Moscow": "Россия/Москва",
+                "Europe/Samara": "Россия/Самара",
+                "Europe/Saratov": "Россия/Саратов",
+                "Europe/Ulyanovsk": "Россия/Ульяновск",
+                "Europe/Volgograd": "Россия/Волгоград"
+            }
+        },
         "select": {
             "default": "Выбрано {n} | Выбран {n} | Выбрано {n} | Выбрано {n}",
             "elements": "Выбрано {n} элементов | Выбран {n} элемент | Выбрано {n} элемента | Выбрано {n} элементов",

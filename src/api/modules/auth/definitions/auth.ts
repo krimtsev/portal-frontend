@@ -6,24 +6,34 @@ export interface LoginCredentials {
     remember: boolean
 }
 
+export interface AuthData {
+    user:         UserData
+    partner:      PartnerData | null
+    timeZoneName: string
+}
+
+export interface PartnerData {
+    id:       number
+    name:     string
+    disabled: boolean
+}
+
+
 export interface UserData {
-    login:   string
-    role:    Roles
-    name:    string
-    avatar:  string
-    email:   string
-    partner:    {
-        id:       number
-        name:     string
-        disabled: boolean
-    } | null
+    login:  string
+    role:   Roles
+    name:   string
+    avatar: string
+    email:  string
 }
 
 export interface UserAccessData {
     location_map: boolean
 }
 
-export interface AuthData {
-    user:   UserData
-    access: UserAccessData
+export interface AuthResponse {
+    user:         UserData
+    access:       UserAccessData
+    partner:      PartnerData | null
+    timeZoneName: string
 }

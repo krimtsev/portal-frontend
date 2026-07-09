@@ -39,7 +39,7 @@ onMounted(async () => {
     }
 })
 
-const hasPartner = computed(() => !!authStore.user.partner?.id)
+const hasPartner = computed(() => !!authStore.partner?.id)
 </script>
 
 <template>
