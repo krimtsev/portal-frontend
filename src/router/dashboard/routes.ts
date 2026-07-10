@@ -100,7 +100,7 @@ const routes: RouteRecordRaw[] = [
         path:      dashboardPaths.DashboardStatisticsStaff,
         component: () => import("@v/dashboard/statistics/statistics-view.vue"),
         meta:      {
-            roles:      [Roles.SYSADMIN],
+            roles:      [Roles.ADMIN, Roles.SYSADMIN],
             breadcrumb: "mc.dashboard.sidebar.statistics",
         },
         children: [
