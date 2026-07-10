@@ -6,6 +6,5 @@ export interface RoyaltyListItem {
     royalty_amount:   string
     vat_amount:       string
     royalty_with_vat: string
-    days_count:       number
     start_at:         string
 }

@@ -245,16 +245,6 @@ const filterDate = computed({
                         <b-table-text :text="data?.start_at" />
                     </template>
                 </prime-column>
-
-                <prime-column
-                    header="Дней"
-                    field="days_count"
-                    class="table-days-count"
-                >
-                    <template #body="{ data }">
-                        <b-table-text :text="data?.days_count" />
-                    </template>
-                </prime-column>
             </prime-data-table>
         </div>
     </div>
