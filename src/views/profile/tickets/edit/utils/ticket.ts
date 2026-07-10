@@ -92,12 +92,12 @@ export function normalizeAttributes(details: TicketDetails) {
         let value = String(rawValue)
 
         if (field.displayType === AttributeDisplayType.DateTime) {
-            value = DateTime.fromISO(value)
+            value = DateTime.fromISO(value, { zone: "utc" })
                 .toFormat("yyyy-MM-dd H:mm")
         }
 
         if (field.displayType === AttributeDisplayType.Date) {
-            value = DateTime.fromISO(value)
+            value = DateTime.fromISO(value, { zone: "utc" })
                 .toFormat("yyyy-MM-dd")
         }
 
