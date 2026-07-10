@@ -18,7 +18,7 @@ import BToolbarItem from "@c/common/b-toolbar/b-toolbar-item.vue"
 import type { PartnerOptionItem } from "@v/dashboard/partners/company/list/definitions/partners"
 import type { StaffStatisticsItem } from "@v/dashboard/statistics/staff-statistics/definitions/statistic-staff"
 import {
-    formatDateToString,
+    formatJSDateToStartDate,
     getAnalyticsStartDate,
     getPreviousMonth,
     parseStringToDate,
@@ -36,7 +36,7 @@ const partners = ref<PartnerOptionItem[]>([])
 const filterDate = computed({
     get: () => parseStringToDate(partnerStatisticsStore.filter.filters.date),
     set: (value: Date | null) => {
-        partnerStatisticsStore.filter.filters.date = formatDateToString(value, true)
+        partnerStatisticsStore.filter.filters.date = formatJSDateToStartDate(value)
     },
 })
 
@@ -79,8 +79,11 @@ onMounted(async () => {
 })
 
 async function refreshStaffStatistics() {
-    partnerStatisticsStore.setIsLoading(true)
+    const { partner_id, date } = partnerStatisticsStore.filter.filters
 
+    if (!partner_id || !date) return
+
+    partnerStatisticsStore.setIsLoading(true)
 
     const staffStatisticsData = await statisticsAPI.getStaffList(partnerStatisticsStore.filter)
 

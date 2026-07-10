@@ -62,23 +62,12 @@ export function parseStringToDate(dateStr: string | null): Date | null {
         .toJSDate()
 }
 
-/**
- * Преобразует объект Date в локальную строку 'yyyy-MM-dd HH:mm' без таймзоны
- * Выход: "2026-05-28 21:38"
- */
-export function formatDateTimeToString(date: Date | null): string | null {
-    if (!date) return null
-    return DateTime.fromJSDate(date)
-        .toFormat("yyyy-MM-dd HH:mm")
-}
+export function formatJSDateToStartDate(value: Date | null | undefined): string | null {
+    if (!value) return null
 
-/**
- * Парсит строку 'yyyy-MM-dd HH:mm' обратно в локальный объект Date
- */
-export function parseStringToDateTime(dateStr: string | null | undefined): Date | null {
-    if (!dateStr) return null
-    return DateTime.fromFormat(dateStr, "yyyy-MM-dd HH:mm")
-        .toJSDate()
+    const year = value.getFullYear()
+    const month = String(value.getMonth() + 1).padStart(2, "0")
+    return `${year}-${month}-01`
 }
 
 /**

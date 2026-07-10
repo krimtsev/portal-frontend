@@ -11,7 +11,7 @@ export const usePartnerStatisticsStore = defineStore("dashboard-partner-statisti
     return useListQuery<PartnerStatisticsFilters>({
         search:  "",
         filters: {
-            partner_id: 59, //null
+            partner_id: null,
             date:       formatDateToString(getPreviousMonth(), true),
         },
         sortBy: "name",
