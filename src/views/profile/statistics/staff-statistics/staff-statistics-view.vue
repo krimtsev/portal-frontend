@@ -32,7 +32,7 @@ import {
     clearSpecialization,
 } from "@v/profile/statistics/staff-statistics/utils/staff-statistics"
 import {
-    formatDateToString,
+    formatJSDateToStartDate,
     getAnalyticsStartDate,
     getPreviousMonth,
     parseStringToDate,
@@ -58,7 +58,7 @@ const expandedRows = ref<Record<number, boolean>>({})
 const filterDate = computed({
     get: () => parseStringToDate(partnerStatisticsStore.filter.filters.date),
     set: (value: Date | null) => {
-        partnerStatisticsStore.filter.filters.date = formatDateToString(value, true)
+        partnerStatisticsStore.filter.filters.date = formatJSDateToStartDate(value)
     },
 })
 
@@ -124,6 +124,10 @@ onMounted(async () => {
 })
 
 async function refreshStaffStatistics() {
+    const { partner_id, date } = partnerStatisticsStore.filter.filters
+
+    if (!partner_id || !date) return
+
     partnerStatisticsStore.setIsLoading(true)
 
     const [
@@ -131,12 +135,8 @@ async function refreshStaffStatistics() {
         totalCompareStatisticsResponse,
     ] = await Promise.all([
         statisticsAPI.getStaffCompare(partnerStatisticsStore.filter),
-        statisticsAPI.getTotalCompareStats({
-            partner_id: partnerStatisticsStore.filter.filters.partner_id,
-            date:       partnerStatisticsStore.filter.filters.date,
-        }),
+        statisticsAPI.getTotalCompareStats({ partner_id, date }),
     ])
-
 
     if (
         staffStatisticsResponse instanceof HttpError ||

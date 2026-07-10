@@ -18,7 +18,7 @@ import BToolbarItem from "@c/common/b-toolbar/b-toolbar-item.vue"
 import type { PartnerOptionItem } from "@v/dashboard/partners/company/list/definitions/partners"
 import type { RoyaltyListItem } from "@v/dashboard/royalty/definitions/royalty"
 import {
-    formatDateToString,
+    formatJSDateToStartDate,
     getAnalyticsStartDate,
     getPreviousMonth,
     parseStringToDate,
@@ -116,7 +116,7 @@ function onChangeFilter() {
 const filterDate = computed({
     get: () => parseStringToDate(royaltyStore.filter.filters.date),
     set: (value) => {
-        royaltyStore.filter.filters.date = formatDateToString(value, true)
+        royaltyStore.filter.filters.date = formatJSDateToStartDate(value)
     },
 })
 </script>
