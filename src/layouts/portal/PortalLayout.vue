@@ -150,11 +150,15 @@ body {
         .p-menubar-item {
             border: 1px solid #2B2B2B;
             border-radius: $indent-x4;
-            overflow: hidden;
 
             .p-menubar-item-content {
                 .p-menubar-item-link {
                     padding: calc($indent-x2 - 2px)  $indent-x2;
+                }
+
+                &:hover {
+                    border-radius: $indent-x4;
+                    overflow: hidden;
                 }
             }
 
@@ -163,6 +167,23 @@ body {
                 flex-direction: row-reverse;
                 justify-content: space-between;
                 align-items: center;
+            }
+
+            &.adt {
+                position: relative;
+
+                .p-menubar-item-content:before {
+                        content: "";
+                        position: absolute;
+                        font-size: 0.9em;
+                        bottom: 75%;
+                        right: 0px;
+                        z-index: 2;
+                        color: var(--p-surface-0);
+                        background: var(--p-red-600);
+                        padding: 8px 8px;
+                        border-radius: 16px;
+                }
             }
         }
 

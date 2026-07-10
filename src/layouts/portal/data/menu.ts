@@ -83,6 +83,13 @@ export function menuData(): MenuItem[] {
             },
         },
         {
+            label:   "Аналитика",
+            class:   "adt",
+            command: async () => {
+                await router.push({ name: ProfileRouteName.ProfileStatisticsStaff })
+            },
+        },
+        {
             label: "Контакты",
             items: [
                 {
