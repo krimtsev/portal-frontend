@@ -25,6 +25,7 @@ export interface StaffStatisticsData {
     client_new:                 number
     fullness_percent:           number
     income_total:               number
+    income_goods:               number
     rating_best:                number
     rating_total:               number
     record_completed:           number
