@@ -173,16 +173,31 @@ body {
                 position: relative;
 
                 .p-menubar-item-content:before {
-                        content: "";
-                        position: absolute;
-                        font-size: 0.9em;
-                        bottom: 75%;
-                        right: 0px;
-                        z-index: 2;
-                        color: var(--p-surface-0);
-                        background: var(--p-red-600);
-                        padding: 8px 8px;
-                        border-radius: 16px;
+                    content: "";
+                    position: absolute;
+                    font-size: 0.8em;
+                    bottom: 75%;
+                    right: 0px;
+                    z-index: 2;
+                    color: var(--p-surface-0);
+                    background: var(--p-red-600);
+                    padding: 8px 8px;
+                    border-radius: 16px;
+
+                    /* Добавляем анимацию */
+                    animation: pulse 1.5s infinite;
+                }
+            }
+
+            @keyframes pulse {
+                0% {
+                    box-shadow: 0 0 0 0 rgb(from var(--p-red-600) r g b / 0.7);
+                }
+                70% {
+                    box-shadow: 0 0 0 10px rgb(from var(--p-red-600) r g b / 0);
+                }
+                100% {
+                    box-shadow: 0 0 0 0 rgb(from var(--p-red-600) r g b / 0);
                 }
             }
         }
