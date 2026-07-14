@@ -105,15 +105,11 @@ function onChangeFilter() {
 }
 
 function clearName(data: StaffStatisticsItem) {
-    return data.name
-    // if (data.firstname) {
-    //     return [data.surname, data.firstname].join(" ")
-    // }
-    //
-    // return data.name.replace(/\s*\(.*\)/g, "")
+    return data.name || ""
 }
 
 function clearSpecialization(text: string) {
+    if (!text) return ""
     return text.replace(/\s*\[.*]/g, "")
 }
 </script>
@@ -167,7 +163,7 @@ function clearSpecialization(text: string) {
                 v-else
                 :value="staffStatistics"
                 class="table"
-                data-key="id"
+                data-key="staff_id"
                 scrollable
                 lazy
             >
