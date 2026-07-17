@@ -39,7 +39,8 @@ const hasDashboard = computed(() => {
 
 const avatarLabel = computed(() => {
     const login = authStore.user.login
-    return login[0].toUpperCase()
+    if (login) return login[0].toUpperCase()
+    return "_"
 })
 </script>
 
@@ -175,13 +176,12 @@ body {
                 .p-menubar-item-content:before {
                     content: "";
                     position: absolute;
-                    font-size: 0.8em;
                     bottom: 75%;
                     right: 0px;
                     z-index: 2;
                     color: var(--p-surface-0);
                     background: var(--p-red-600);
-                    padding: 8px 8px;
+                    padding: 6px 6px;
                     border-radius: 16px;
 
                     /* Добавляем анимацию */

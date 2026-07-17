@@ -210,19 +210,36 @@ async function startDevPool(partners) {
         masterWatcher.add(partnersAssetsDir)
 
         masterWatcher.on("all", async (event, filePath) => {
-            const relativePath = path.relative(partnersAssetsDir, filePath)
-            const [targetPartner, dirName] = relativePath.split(path.sep)
+            const normalizedPath = filePath.replace(/\\/g, "/")
+            const normalizedAssetsDir = partnersAssetsDir.replace(/\\/g, "/")
+
+            if (!normalizedPath.startsWith(normalizedAssetsDir)) return
+
+            const relativePath = normalizedPath.slice(normalizedAssetsDir.length + 1)
+            const parts = relativePath.split("/")
+            const targetPartner = parts[0]
+            const dirName = parts[1]
+
             if (!dirName) return
+
+            let assetsChanged = false
 
             if (targetPartner === "common") {
                 for (const p of partners) {
                     await rebuildSpecificStep(dirName, p.name)
                 }
+                assetsChanged = true
             } else if (partners.some(p => p.name === targetPartner)) {
                 await rebuildSpecificStep(dirName, targetPartner)
+                assetsChanged = true
             }
 
-            viteServers.forEach(server => server.ws.send({ type: "full-reload" }))
+            if (assetsChanged) {
+                viteServers.forEach(server => {
+                    server.moduleGraph.invalidateAll()
+                    server.ws.send({ type: "full-reload" })
+                })
+            }
         })
     }
 }

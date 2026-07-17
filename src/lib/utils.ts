@@ -46,3 +46,22 @@ export function formatNumber(value: number) {
 export function toString(value: number | string) {
     return value.toString()
 }
+
+
+export function formatMinutes(totalMinutes: number) {
+    if (!totalMinutes || totalMinutes <= 0) return "0м."
+
+    const MINUTES_IN_DAY = 24 * 60 // 1440
+    const MINUTES_IN_HOUR = 60
+
+    const days = Math.floor(totalMinutes / MINUTES_IN_DAY)
+    const hours = Math.floor((totalMinutes % MINUTES_IN_DAY) / MINUTES_IN_HOUR)
+    const minutes = totalMinutes % MINUTES_IN_HOUR
+
+    const parts = []
+    if (days > 0) parts.push(`${days}д.`)
+    if (hours > 0) parts.push(`${hours}ч.`)
+    if (minutes > 0 || parts.length === 0) parts.push(`${minutes}м.`)
+
+    return parts.join(" ")
+}
