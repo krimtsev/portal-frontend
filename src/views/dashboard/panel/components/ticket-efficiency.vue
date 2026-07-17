@@ -36,7 +36,7 @@ const averageTime = computed(() => formatMinutes(props.data.average_time))
                 </div>
                 <div class="ticket-efficiency-progress-bar">
                     <prime-progress-bar
-                        :value="77"
+                        :value="props.data.success_rate_percentage"
                         :show-value="false"
                         class="progress"
                     />
