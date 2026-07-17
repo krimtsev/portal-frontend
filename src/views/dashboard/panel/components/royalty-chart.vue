@@ -185,14 +185,11 @@ const initChart = () => {
                     chartData.value.forEach((dataItem, i) => {
                         if (dataItem.isSkeleton) return
 
-                        // 1. Цифры для Роялти (снизу)
                         const barRoyalty = metaRoyalty.data[i] as any
                         if (barRoyalty && dataItem.royalty > 0) {
                             canvasCtx.fillStyle = "#ffffff"
                             canvasCtx.textBaseline = "middle"
 
-                            // Безопасный расчет центра: смещаемся вниз от верхней точки (y)
-                            // ровно на половину высоты самого бара (высота = base - y)
                             const height = barRoyalty.base - barRoyalty.y
                             const middleY = barRoyalty.y + (height / 2)
 
@@ -203,13 +200,11 @@ const initChart = () => {
                             )
                         }
 
-                        // 2. Цифры для Оборота сети (сверху)
                         const barTurnover = metaTurnover.data[i] as any
                         if (barTurnover && dataItem.value > 0) {
                             canvasCtx.fillStyle = "#ffffff"
                             canvasCtx.textBaseline = "bottom"
 
-                            // Выводим текст строго над верхней границей верхнего бара
                             canvasCtx.fillText(
                                 formatNumber(dataItem.value),
                                 barTurnover.x,
