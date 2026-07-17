@@ -82,7 +82,7 @@ const yAxisConfig = computed(() => {
     const maxBarSum = Math.max(...chartData.value.map(d => d.value + d.royalty), 1000000)
 
     const rawStep = maxBarSum / 5
-    let stepSize = 10000000
+    let stepSize = 5000000
 
     if (rawStep > 20000000) {
         stepSize = Math.ceil(rawStep / 10000000) * 10000000
@@ -90,8 +90,6 @@ const yAxisConfig = computed(() => {
         stepSize = 20000000
     } else if (rawStep > 5000000) {
         stepSize = 10000000
-    } else {
-        stepSize = 5000000
     }
 
     const dynamicMax = Math.ceil(maxBarSum / stepSize) * stepSize + (stepSize * 2)
