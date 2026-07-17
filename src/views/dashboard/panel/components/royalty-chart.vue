@@ -1,19 +1,16 @@
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, onMounted, useTemplateRef, watch } from "vue"
-import Chart from "chart.js/auto"
+import {
+    BarController,
+    BarElement,
+    CategoryScale,
+    Chart,
+    LinearScale,
+} from "chart.js"
 import type { ChartData } from "@c/charts/definitions/charts"
 import { getBackgroundColors } from "@c/charts/utils/months-bar-chart"
 import ListLoadingState from "@c/common/b-loading-state/list-loading-state.vue"
-
-export interface RoyaltyData {
-    month:          string
-    income_total:   number
-    royalty_amount: number
-}
-
-interface RoyaltyChartData extends ChartData {
-    royalty: number
-}
+import { formatNumber } from "@/lib/utils"
 
 const props = withDefaults(
     defineProps<{
@@ -25,6 +22,19 @@ const props = withDefaults(
         isLoading: false,
     },
 )
+
+export interface RoyaltyData {
+    month:          string
+    income_total:   number
+    royalty_amount: number
+}
+
+interface RoyaltyChartData extends ChartData {
+    royalty: number
+}
+
+
+Chart.register(BarController, BarElement, CategoryScale, LinearScale)
 
 const chartRef = useTemplateRef<HTMLCanvasElement>("chartRef")
 let chartInstance: Chart | null = null
@@ -58,10 +68,38 @@ const chartData = computed<RoyaltyChartData[]>(() => {
             value:      d.income_total,
             isMock:     !d.income_total || d.income_total <= 0,
             isSkeleton: false,
-            percent:    0, // Нужно для типа ChartData
+            percent:    0,
             royalty:    d.royalty_amount,
         }
     })
+})
+
+const yAxisConfig = computed(() => {
+    if (chartData.value.length === 0 || chartData.value[0].isSkeleton) {
+        return { max: 140000000, stepSize: 20000000 }
+    }
+
+    const maxBarSum = Math.max(...chartData.value.map(d => d.value + d.royalty), 1000000)
+
+    const rawStep = maxBarSum / 5
+    let stepSize = 10000000
+
+    if (rawStep > 20000000) {
+        stepSize = Math.ceil(rawStep / 10000000) * 10000000
+    } else if (rawStep > 10000000) {
+        stepSize = 20000000
+    } else if (rawStep > 5000000) {
+        stepSize = 10000000
+    } else {
+        stepSize = 5000000
+    }
+
+    const dynamicMax = Math.ceil(maxBarSum / stepSize) * stepSize + (stepSize * 2)
+
+    return {
+        max: dynamicMax,
+        stepSize,
+    }
 })
 
 const initChart = () => {
@@ -70,7 +108,7 @@ const initChart = () => {
     const ctx = chartRef.value.getContext("2d")
     if (!ctx) return
 
-    const blueColor = getCssVar("--p-blue-500", "#3b82f6")
+    const blueColor = getCssVar("--p-primary-900", "#3b82f6")
     const ticksColor = getCssVar("--p-neutral-400", "#94a3b8")
 
     chartInstance = new Chart(ctx, {
@@ -79,108 +117,111 @@ const initChart = () => {
             labels:   chartData.value.map((d) => d.label),
             datasets: [
                 {
+                    label:           "Роялти",
+                    data:            chartData.value.map((d) => d.royalty),
+                    backgroundColor: blueColor,
+                    borderRadius:    6,
+                    minBarLength:    30,
+                },
+                {
                     label:           "Оборот сети",
                     data:            chartData.value.map((d) => d.value),
                     backgroundColor: getBackgroundColors(ctx, chartData.value, false),
                     borderRadius:    6,
-                    yAxisID:         "yTurnover",
-                    order:           2,
-                },
-                {
-                    label:                "Роялти",
-                    data:                 chartData.value.map((d) => d.royalty),
-                    type:                 "line",
-                    borderColor:          blueColor,
-                    backgroundColor:      blueColor,
-                    borderWidth:          3,
-                    tension:              0.3,
-                    pointBackgroundColor: blueColor,
-                    pointHoverRadius:     7,
-                    yAxisID:              "yRoyalty",
-                    order:                1,
                 },
             ],
         },
         options: {
             responsive:          true,
             maintainAspectRatio: false,
+            events:              [],
             plugins:             {
                 legend: {
                     display: false,
                 },
                 tooltip: {
-                    backgroundColor: "#1e293b",
-                    titleColor:      "#f1f5f9",
-                    bodyColor:       "#cbd5e1",
-                    borderColor:     "#334155",
-                    borderWidth:     1,
-                    padding:         12,
-                    boxPadding:      6,
-                    callbacks:       {
-                        label: function (context) {
-                            let label = context.dataset.label || ""
-                            if (label) {
-                                label += ": "
-                            }
-                            if (context.parsed.y !== null) {
-                                label += new Intl.NumberFormat("ru-RU", {
-                                    style:                 "currency",
-                                    currency:              "RUB",
-                                    maximumFractionDigits: 0 },
-                                )
-                                    .format(context.parsed.y)
-                            }
-                            return label
-                        },
-                    },
+                    enabled: false,
                 },
             },
             scales: {
                 x: {
-                    grid:  { display: false },
-                    ticks: { color: ticksColor },
+                    stacked: true,
+                    grid:    { display: false },
+                    ticks:   { color: ticksColor },
                 },
-                yTurnover: {
+                y: {
+                    stacked:  true,
                     type:     "linear",
                     position: "left",
+                    max:      yAxisConfig.value.max,
                     grid:     { color: "rgba(51, 65, 85, 0.3)" },
                     ticks:    {
                         color:    ticksColor,
+                        stepSize: yAxisConfig.value.stepSize,
                         callback: function (value) {
-                            return `${(Number(value) / 1_000_000).toFixed(1)} млн ₽`
+                            return `${(Number(value) / 1_000_000).toFixed(1)} млн`
                         },
                     },
                     title: {
                         display: true,
-                        text:    "Оборот сети",
-                        color:   ticksColor,
-                    },
-                },
-                yRoyalty: {
-                    type:     "linear",
-                    position: "right",
-                    grid:     { drawOnChartArea: false },
-                    ticks:    {
-                        color:    ticksColor,
-                        callback: function (value) {
-                            const num = Number(value)
-                            if (num >= 1_000_000) {
-                                return `${(num / 1_000_000).toFixed(1)} млн ₽`
-                            }
-                            if (num >= 1000) {
-                                return `${(num / 1_000).toFixed(0)} тыс ₽`
-                            }
-                            return `${num} ₽`
-                        },
-                    },
-                    title: {
-                        display: true,
-                        text:    "Роялти",
+                        text:    "Сумма в рублях",
                         color:   ticksColor,
                     },
                 },
             },
         },
+        plugins: [
+            {
+                id: "customBarLabels",
+                afterDraw(chartInst) {
+                    const canvasCtx = chartInst.ctx
+                    canvasCtx.save()
+                    canvasCtx.font = "bold 11px sans-serif"
+                    canvasCtx.textAlign = "center"
+
+                    const metaRoyalty = chartInst.getDatasetMeta(0)
+                    const metaTurnover = chartInst.getDatasetMeta(1)
+
+                    chartData.value.forEach((dataItem, i) => {
+                        if (dataItem.isSkeleton) return
+
+                        // 1. Цифры для Роялти (снизу)
+                        const barRoyalty = metaRoyalty.data[i] as any
+                        if (barRoyalty && dataItem.royalty > 0) {
+                            canvasCtx.fillStyle = "#ffffff"
+                            canvasCtx.textBaseline = "middle"
+
+                            // Безопасный расчет центра: смещаемся вниз от верхней точки (y)
+                            // ровно на половину высоты самого бара (высота = base - y)
+                            const height = barRoyalty.base - barRoyalty.y
+                            const middleY = barRoyalty.y + (height / 2)
+
+                            canvasCtx.fillText(
+                                formatNumber(dataItem.royalty),
+                                barRoyalty.x,
+                                middleY,
+                            )
+                        }
+
+                        // 2. Цифры для Оборота сети (сверху)
+                        const barTurnover = metaTurnover.data[i] as any
+                        if (barTurnover && dataItem.value > 0) {
+                            canvasCtx.fillStyle = "#ffffff"
+                            canvasCtx.textBaseline = "bottom"
+
+                            // Выводим текст строго над верхней границей верхнего бара
+                            canvasCtx.fillText(
+                                formatNumber(dataItem.value),
+                                barTurnover.x,
+                                barTurnover.y - 4,
+                            )
+                        }
+                    })
+
+                    canvasCtx.restore()
+                },
+            },
+        ],
     })
 }
 
@@ -210,9 +251,9 @@ watch(
         const ctx = chartInstance.ctx
 
         chartInstance.data.labels = newData.map((d) => d.label)
-        chartInstance.data.datasets[0].data = newData.map((d) => d.value)
-        chartInstance.data.datasets[0].backgroundColor = getBackgroundColors(ctx, newData, false)
-        chartInstance.data.datasets[1].data = newData.map((d) => d.royalty)
+        chartInstance.data.datasets[0].data = newData.map((d) => d.royalty)
+        chartInstance.data.datasets[1].data = newData.map((d) => d.value)
+        chartInstance.data.datasets[1].backgroundColor = getBackgroundColors(ctx, newData, false)
 
         chartInstance.update()
     },
@@ -325,9 +366,7 @@ onBeforeUnmount(() => {
         }
 
         &-royalty {
-            width: 0.75rem;
-            height: 2px;
-            background-color: var(--p-blue-400);
+            background-color: var(--p-primary-900);
             position: relative;
 
             &::after {
@@ -335,7 +374,7 @@ onBeforeUnmount(() => {
                 position: absolute;
                 width: 6px;
                 height: 6px;
-                background-color: var(--p-blue-400);
+                background-color: var(--p-primary-900);
                 border-radius: 50%;
                 left: 50%;
                 top: 50%;
