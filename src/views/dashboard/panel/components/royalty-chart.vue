@@ -174,7 +174,7 @@ const initChart = () => {
                 afterDraw(chartInst) {
                     const canvasCtx = chartInst.ctx
                     canvasCtx.save()
-                    canvasCtx.font = "bold 11px sans-serif"
+                    canvasCtx.font = "bold 12px sans-serif"
                     canvasCtx.textAlign = "center"
 
                     const metaRoyalty = chartInst.getDatasetMeta(0)
