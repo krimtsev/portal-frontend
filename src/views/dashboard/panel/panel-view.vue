@@ -67,15 +67,15 @@ const partnerMetrics = computed((): PanelSplitMetric[] => {
 const jobsMetrics = computed((): PanelSplitMetric[] => {
     return [
         {
-            label: "default",
+            label: "Default",
             value: analutics.value.jobs.default_count,
         },
         {
-            label: "yclients",
+            label: "Yclients",
             value: analutics.value.jobs.yclients_count,
         },
         {
-            label:   "failed",
+            label:   "Failed",
             value:   analutics.value.jobs.failed_count,
             variant: "danger",
         },
