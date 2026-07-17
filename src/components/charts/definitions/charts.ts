@@ -5,3 +5,10 @@ export interface MonthsBarChartData {
     }
 }
 
+export interface ChartData {
+    label:      string
+    value:      number
+    isMock:     boolean
+    percent:    number
+    isSkeleton: boolean
+}

@@ -28,7 +28,7 @@ function defaultAuthData(): AuthData {
             email:  "",
         },
         partner:      null,
-        timeZoneName: "",
+        timeZoneName: "Europe/Moscow",
     }
 }
 
