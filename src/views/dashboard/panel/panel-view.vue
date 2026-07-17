@@ -126,18 +126,18 @@ const jobsMetrics = computed((): PanelSplitMetric[] => {
         </section>
 
         <section class="second-section">
-            <panel-period-card
-                :is-loading="isLoading"
-                :data="analutics.periods"
-                title="Поступило заявок"
-            />
-
             <panel-split-card
                 :is-loading="isLoading"
                 title="Партнеры"
                 :total="analutics.partners.total_count"
                 subtext="всего партнеров"
                 :metrics="partnerMetrics"
+            />
+
+            <panel-period-card
+                :is-loading="isLoading"
+                :data="analutics.periods"
+                title="Поступило заявок"
             />
 
             <ticket-efficiency
