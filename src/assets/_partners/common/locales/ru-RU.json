@@ -259,7 +259,8 @@
                 "partnerGroups": "Группы",
                 "cloud": "Файлы",
                 "royalty": "Роялти",
-                "statistics": "Статистика"
+                "statistics": "Статистика",
+                "eventCalendar": "Календарь событий"
             },
             "users": {
                 "state": {
@@ -291,6 +292,11 @@
                 "notify": {
                     "created": "Каталог создан",
                     "filesUploaded": "Файлы успешно загружены"
+                }
+            },
+            "eventCalendar": {
+                "notify": {
+                    "created": "Событие создано"
                 }
             }
         }

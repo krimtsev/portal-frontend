@@ -14,7 +14,7 @@ import type {
 import router from "@/router"
 import { CommonRouteName } from "@/router/common/route-names"
 import { Roles } from "@/definitions/roles"
-import { isSupportedTimezone } from "@/lib/timezones.ts"
+import { isSupportedTimezone } from "@/lib/timezones"
 import { Settings } from "luxon"
 
 
@@ -59,7 +59,10 @@ export const useAuthStore = defineStore("auth", () => {
         user.value = response.user
         userAccess.value = response.access
         partner.value = response.partner
-        timeZoneName.value = response.timeZoneName
+
+        if (response.time_zone_name) {
+            timeZoneName.value = response.time_zone_name
+        }
 
         setDefaultZoneName(timeZoneName.value)
     }

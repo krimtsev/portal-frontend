@@ -1,0 +1,37 @@
+<script setup lang="ts">
+import { useI18n } from "vue-i18n"
+import PrimeButton from "primevue/button"
+import BDialog from "@c/common/b-dialog/b-dialog.vue"
+
+const model = defineModel<boolean>()
+
+const emit = defineEmits<{
+    (e: "confirm"): void
+}>()
+
+const props = defineProps<{
+    title?:     string
+    isLoading?: boolean
+}>()
+
+const { t } = useI18n()
+</script>
+
+<template>
+    <b-dialog
+        v-model:visible="model"
+        :title="props.title"
+        class="b-dialog-info"
+    >
+        <slot />
+
+        <template #footer>
+            <prime-button
+                type="button"
+                :label="t('mc.dialog.default.confirm')"
+                :loading="props.isLoading"
+                @click="emit('confirm')"
+            />
+        </template>
+    </b-dialog>
+</template>

@@ -128,7 +128,7 @@ const onRemove = () => {
                 <div class="right-side">
                     <prime-button
                         v-if="removeText && !isLoading"
-                        :label="t('mc.common.remove')"
+                        :label="removeText"
                         :disabled="isLoading"
                         severity="danger"
                         variant="text"

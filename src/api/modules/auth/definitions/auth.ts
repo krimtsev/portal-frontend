@@ -32,8 +32,8 @@ export interface UserAccessData {
 }
 
 export interface AuthResponse {
-    user:         UserData
-    access:       UserAccessData
-    partner:      PartnerData | null
-    timeZoneName: string
+    user:           UserData
+    access:         UserAccessData
+    partner:        PartnerData | null
+    time_zone_name: string | null
 }

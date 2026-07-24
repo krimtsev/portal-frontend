@@ -33,9 +33,9 @@ import {
 } from "@v/profile/statistics/staff-statistics/utils/staff-statistics"
 import {
     formatJSDateToStartDate,
-    getAnalyticsStartDate,
-    getPreviousMonth,
-    parseStringToDate,
+    formatStringDateToJSDate,
+    getAnalyticsStartJSDate,
+    getPreviousMonthJSDate,
 } from "@/lib/date-helpers"
 import { $sanitizeHtml } from "@/lib/sanitize-html"
 
@@ -44,8 +44,8 @@ const notify = useNotify()
 const authStore = useAuthStore()
 
 const partnerStatisticsStore = usePartnerStatisticsStore()
-const minDate = ref(getAnalyticsStartDate())
-const maxDate = ref(getPreviousMonth())
+const minDate = ref(getAnalyticsStartJSDate())
+const maxDate = ref(getPreviousMonthJSDate())
 
 const staffStatistics = ref<StaffStatisticsItem[]>([])
 const totalCompare = ref<TotalCompareStatistics>({} as TotalCompareStatistics)
@@ -56,7 +56,7 @@ const staffDetailsLoading = ref<Record<number, boolean>>({})
 const expandedRows = ref<Record<number, boolean>>({})
 
 const filterDate = computed({
-    get: () => parseStringToDate(partnerStatisticsStore.filter.filters.date),
+    get: () => formatStringDateToJSDate(partnerStatisticsStore.filter.filters.date),
     set: (value: Date | null) => {
         partnerStatisticsStore.filter.filters.date = formatJSDateToStartDate(value)
     },

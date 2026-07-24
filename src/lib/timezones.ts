@@ -14,3 +14,6 @@ export function isSupportedTimezone(id: string): boolean {
     }
 }
 
+export function getUserTimeZone(): string {
+    return Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC"
+}

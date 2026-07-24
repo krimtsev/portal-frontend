@@ -198,6 +198,22 @@ export default {
             footer: {
                 padding: "0 2rem 2rem 2rem",
             },
+            colorScheme: {
+                dark: {
+                    root: {
+                        border: {
+                            color: "{surface.600}",
+                        },
+                    },
+                },
+                light: {
+                    root: {
+                        border: {
+                            color: "{surface.600}",
+                        },
+                    },
+                },
+            },
         },
         fileupload: {
             header: {

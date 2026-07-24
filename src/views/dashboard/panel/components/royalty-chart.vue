@@ -12,6 +12,13 @@ import { getBackgroundColors } from "@c/charts/utils/months-bar-chart"
 import ListLoadingState from "@c/common/b-loading-state/list-loading-state.vue"
 import { formatNumber } from "@/lib/utils"
 
+export interface RoyaltyData {
+    month:            string
+    income_total:     number
+    all_income_total: number
+    royalty_amount:   number
+}
+
 const props = withDefaults(
     defineProps<{
         data:       RoyaltyData[]
@@ -23,14 +30,9 @@ const props = withDefaults(
     },
 )
 
-export interface RoyaltyData {
-    month:          string
-    income_total:   number
-    royalty_amount: number
-}
-
 interface RoyaltyChartData extends ChartData {
-    royalty: number
+    royalty:   number
+    allIncome: number
 }
 
 
@@ -55,6 +57,7 @@ const chartData = computed<RoyaltyChartData[]>(() => {
             isSkeleton: true,
             percent:    0,
             royalty:    0,
+            allIncome:  0,
         }))
     }
 
@@ -70,6 +73,7 @@ const chartData = computed<RoyaltyChartData[]>(() => {
             isSkeleton: false,
             percent:    0,
             royalty:    d.royalty_amount,
+            allIncome:  d.all_income_total,
         }
     })
 })
@@ -79,7 +83,11 @@ const yAxisConfig = computed(() => {
         return { max: 140000000, stepSize: 20000000 }
     }
 
-    const maxBarSum = Math.max(...chartData.value.map(d => d.value + d.royalty), 1000000)
+    // Находим максимальное значение между (Оборот + Роялти) и (Общий оборот)
+    const maxBarSum = Math.max(
+        ...chartData.value.map(d => Math.max(d.value + d.royalty, d.allIncome)),
+        1000000,
+    )
 
     const rawStep = maxBarSum / 5
     let stepSize = 5000000
@@ -92,7 +100,8 @@ const yAxisConfig = computed(() => {
         stepSize = 10000000
     }
 
-    const dynamicMax = Math.ceil(maxBarSum / stepSize) * stepSize + (stepSize * 2)
+    // const dynamicMax = Math.ceil(maxBarSum / stepSize) * stepSize + (stepSize * 2)
+    const dynamicMax = Math.ceil(maxBarSum / stepSize) * stepSize + stepSize
 
     return {
         max: dynamicMax,
@@ -106,7 +115,8 @@ const initChart = () => {
     const ctx = chartRef.value.getContext("2d")
     if (!ctx) return
 
-    const blueColor = getCssVar("--p-primary-900", "#3b82f6")
+    const royaltyColor = getCssVar("--p-lime-800", "#3b82f6")
+    const incomeColor = getCssVar("--p-lime-600", "#64748b")
     const ticksColor = getCssVar("--p-neutral-400", "#94a3b8")
 
     chartInstance = new Chart(ctx, {
@@ -117,15 +127,24 @@ const initChart = () => {
                 {
                     label:           "Роялти",
                     data:            chartData.value.map((d) => d.royalty),
-                    backgroundColor: blueColor,
+                    backgroundColor: royaltyColor,
                     borderRadius:    6,
                     minBarLength:    30,
+                    stack:           "Stack 0", // Оборотом сети
                 },
                 {
                     label:           "Оборот сети",
                     data:            chartData.value.map((d) => d.value),
+                    backgroundColor: incomeColor,
+                    borderRadius:    6,
+                    stack:           "Stack 0", // Роялти
+                },
+                {
+                    label:           "Общий оборот (Все)",
+                    data:            chartData.value.map((d) => d.allIncome),
                     backgroundColor: getBackgroundColors(ctx, chartData.value, false),
                     borderRadius:    6,
+                    stack:           "Stack 1", // Общий оборотом сети
                 },
             ],
         },
@@ -174,15 +193,17 @@ const initChart = () => {
                 afterDraw(chartInst) {
                     const canvasCtx = chartInst.ctx
                     canvasCtx.save()
-                    canvasCtx.font = "bold 12px sans-serif"
+                    canvasCtx.font = "bold 0.85714rem sans-serif"
                     canvasCtx.textAlign = "center"
 
                     const metaRoyalty = chartInst.getDatasetMeta(0)
                     const metaTurnover = chartInst.getDatasetMeta(1)
+                    const metaAllIncome = chartInst.getDatasetMeta(2)
 
                     chartData.value.forEach((dataItem, i) => {
                         if (dataItem.isSkeleton) return
 
+                        // Отрисовка текста для Роялти
                         const barRoyalty = metaRoyalty.data[i] as any
                         if (barRoyalty && dataItem.royalty > 0) {
                             canvasCtx.fillStyle = "#ffffff"
@@ -198,6 +219,7 @@ const initChart = () => {
                             )
                         }
 
+                        // Отрисовка текста для Оборота сети
                         const barTurnover = metaTurnover.data[i] as any
                         if (barTurnover && dataItem.value > 0) {
                             canvasCtx.fillStyle = "#ffffff"
@@ -207,6 +229,19 @@ const initChart = () => {
                                 formatNumber(dataItem.value),
                                 barTurnover.x,
                                 barTurnover.y - 4,
+                            )
+                        }
+
+                        // Отрисовка текста для Общего оборота
+                        const barAllIncome = metaAllIncome.data[i] as any
+                        if (barAllIncome && dataItem.allIncome > 0) {
+                            canvasCtx.fillStyle = "#ffffff"
+                            canvasCtx.textBaseline = "bottom"
+
+                            canvasCtx.fillText(
+                                formatNumber(dataItem.allIncome),
+                                barAllIncome.x,
+                                barAllIncome.y - 4, // Отступ над колонкой
                             )
                         }
                     })
@@ -247,6 +282,7 @@ watch(
         chartInstance.data.datasets[0].data = newData.map((d) => d.royalty)
         chartInstance.data.datasets[1].data = newData.map((d) => d.value)
         chartInstance.data.datasets[1].backgroundColor = getBackgroundColors(ctx, newData, false)
+        chartInstance.data.datasets[2].data = newData.map((d) => d.allIncome)
 
         chartInstance.update()
     },
@@ -278,6 +314,10 @@ onBeforeUnmount(() => {
                 </div>
 
                 <div class="chart-legend">
+                    <div class="chart-legend-item">
+                        <span class="legend-color legend-color-all" />
+                        <span class="chart-legend-label">Общий оборот (Все)</span>
+                    </div>
                     <div class="chart-legend-item">
                         <span class="legend-color legend-color-total" />
                         <span class="chart-legend-label">Оборот сети</span>
@@ -353,13 +393,18 @@ onBeforeUnmount(() => {
         border-radius: 2px;
         display: inline-block;
 
-        &-total {
+        &-all {
             background-color: var(--p-primary-400);
             border: 1px solid var(--p-primary-700);
         }
 
+        &-total {
+            background-color: var(--p-lime-600);
+            border: 1px solid var(--p-lime-600);
+        }
+
         &-royalty {
-            background-color: var(--p-primary-900);
+            background-color: var(--p-lime-800);
             position: relative;
 
             &::after {
@@ -367,7 +412,7 @@ onBeforeUnmount(() => {
                 position: absolute;
                 width: 6px;
                 height: 6px;
-                background-color: var(--p-primary-900);
+                background-color: var(--p-lime-800);
                 border-radius: 50%;
                 left: 50%;
                 top: 50%;

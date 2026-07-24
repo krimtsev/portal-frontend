@@ -19,9 +19,9 @@ import type { PartnerOptionItem } from "@v/dashboard/partners/company/list/defin
 import type { RoyaltyListItem } from "@v/dashboard/royalty/definitions/royalty"
 import {
     formatJSDateToStartDate,
-    getAnalyticsStartDate,
-    getPreviousMonth,
-    parseStringToDate,
+    formatStringDateToJSDate,
+    getAnalyticsStartJSDate,
+    getPreviousMonthJSDate,
 } from "@/lib/date-helpers"
 import { formatNumber } from "@/lib/utils"
 
@@ -30,8 +30,8 @@ const notify = useNotify()
 const { t, n } = useI18n()
 
 const royaltyStore = useRoyaltyStore()
-const minDate = ref(getAnalyticsStartDate())
-const maxDate = ref(getPreviousMonth())
+const minDate = ref(getAnalyticsStartJSDate())
+const maxDate = ref(getPreviousMonthJSDate())
 
 const royalty = ref<RoyaltyListItem[]>([])
 const partners = ref<PartnerOptionItem[]>([])
@@ -114,7 +114,7 @@ function onChangeFilter() {
 }
 
 const filterDate = computed({
-    get: () => parseStringToDate(royaltyStore.filter.filters.date),
+    get: () => formatStringDateToJSDate(royaltyStore.filter.filters.date),
     set: (value) => {
         royaltyStore.filter.filters.date = formatJSDateToStartDate(value)
     },

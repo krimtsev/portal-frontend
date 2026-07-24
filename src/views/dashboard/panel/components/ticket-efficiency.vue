@@ -31,7 +31,7 @@ const averageTime = computed(() => formatMinutes(props.data.average_time))
         <div class="ticket-efficiency-wrapper">
             <div class="ticket-efficiency-item">
                 <div class="ticket-efficiency-item-info">
-                    <span class="ticket-efficiency-item-label">Успешность закрытия</span>
+                    <span class="ticket-efficiency-item-label">Успешность закрытия за 30 дней</span>
                     <span class="ticket-efficiency-item-value">{{ props.data.success_rate_percentage }}%</span>
                 </div>
                 <div class="ticket-efficiency-progress-bar">

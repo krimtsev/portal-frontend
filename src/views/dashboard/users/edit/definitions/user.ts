@@ -39,3 +39,13 @@ export interface UserResponse {
         access:      UserAccess
     }
 }
+
+export interface UserOptionItem {
+    id:    number
+    name:  string
+    login: string
+}
+
+export interface UserOptionsResponse {
+    list: UserOptionItem[]
+}

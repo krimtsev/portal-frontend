@@ -134,6 +134,24 @@ const routes: RouteRecordRaw[] = [
             breadcrumb: "mc.dashboard.sidebar.cloud",
         },
     },
+    {
+        path:      dashboardPaths.DashboardEventCalendar,
+        name:      DashboardRouteName.DashboardEventCalendar,
+        component: () => import("@v/dashboard/event-calendar/edit/event-calendar-view.vue"),
+        meta:      {
+            roles:      [Roles.ADMIN, Roles.SYSADMIN],
+            breadcrumb: "mc.dashboard.sidebar.eventCalendar",
+        },
+    },
+    {
+        path:      dashboardPaths.DashboardEventCalendarList,
+        name:      DashboardRouteName.DashboardEventCalendarList,
+        component: () => import("@v/dashboard/event-calendar/list/event-calendar-list-view.vue"),
+        meta:      {
+            roles:      [Roles.ADMIN, Roles.SYSADMIN],
+            breadcrumb: "mc.dashboard.sidebar.eventCalendar",
+        },
+    },
 ]
 
 export default routes
