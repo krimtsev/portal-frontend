@@ -6,7 +6,7 @@ import BDialog from "@c/common/b-dialog/b-dialog.vue"
 const model = defineModel<boolean>()
 
 const emit = defineEmits<{
-    (e: "confirm"): void
+    (e: "close"): void
 }>()
 
 const props = defineProps<{
@@ -28,9 +28,10 @@ const { t } = useI18n()
         <template #footer>
             <prime-button
                 type="button"
-                :label="t('mc.dialog.default.confirm')"
+                :label="t('mc.dialog.default.close')"
                 :loading="props.isLoading"
-                @click="emit('confirm')"
+                variant="outlined"
+                @click="emit('close')"
             />
         </template>
     </b-dialog>

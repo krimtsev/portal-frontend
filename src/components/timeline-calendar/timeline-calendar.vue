@@ -1,32 +1,48 @@
 <script setup lang="ts">
 import { computed, ref } from "vue"
+import Skeleton from "primevue/skeleton"
 import BButtonIcon from "@c/common/b-button-icon/b-button-icon.vue"
 import BDialogInfo from "@c/common/b-dialog/b-dialog-info.vue"
 import BTableText from "@c/common/b-table/b-table-text.vue"
-
-export interface TimelineEvent {
-    id:           string | number
-    title:        string
-    description?: string
-    start_at:     string
-    end_at:       string
-    colorTheme?:  "green" | "orange"
-}
-
-export interface ProcessedTimelineEvent extends TimelineEvent {
-    startCol:     number
-    endCol:       number
-    durationDays: number
-    gridRow:      number // Новое свойство для управления строкой события
-}
+import type {
+    ProcessedTimelineEvent,
+    TimelineEvent,
+} from "@c/timeline-calendar/definitions/timeline-calendar"
 
 const props = defineProps<{
-    events: TimelineEvent[]
+    title:      string
+    emptyText:  string
+    events:     TimelineEvent[]
+    isLoading?: boolean
 }>()
 
 const currentDate = ref(new Date())
-const isExpanded = ref(false) // Состояние раскрытия календаря
-const MAX_VISIBLE_ROWS = 1
+const isExpanded = ref(false)
+const MAX_VISIBLE_ROWS = 3
+
+const minEventDate = computed(() => {
+    if (!props.events.length) return new Date()
+    return new Date(Math.min(...props.events.map(e => new Date(e.start_at).getTime())))
+})
+
+const maxEventDate = computed(() => {
+    if (!props.events.length) return new Date()
+    return new Date(Math.max(...props.events.map(e => new Date(e.end_at).getTime())))
+})
+
+const canGoPrev = computed(() => {
+    if (!props.events.length) return false
+    const currentMonthStart = new Date(currentDate.value.getFullYear(), currentDate.value.getMonth(), 1)
+    const minMonthStart = new Date(minEventDate.value.getFullYear(), minEventDate.value.getMonth(), 1)
+    return currentMonthStart > minMonthStart
+})
+
+const canGoNext = computed(() => {
+    if (!props.events.length) return false
+    const currentMonthStart = new Date(currentDate.value.getFullYear(), currentDate.value.getMonth(), 1)
+    const maxMonthStart = new Date(maxEventDate.value.getFullYear(), maxEventDate.value.getMonth(), 1)
+    return currentMonthStart < maxMonthStart
+})
 
 const changeMonth = (offset: number) => {
     currentDate.value = new Date(
@@ -34,7 +50,6 @@ const changeMonth = (offset: number) => {
         currentDate.value.getMonth() + offset,
         1,
     )
-    //isExpanded.value = false // Сбрасываем раскрытие при смене месяца
 }
 
 const formattedMonth = computed(() => {
@@ -56,13 +71,12 @@ const processedEvents = computed<ProcessedTimelineEvent[]>(() => {
     const monthStart = new Date(currentDate.value.getFullYear(), currentDate.value.getMonth(), 1)
     const monthEnd = new Date(currentDate.value.getFullYear(), currentDate.value.getMonth() + 1, 0, 23, 59, 59)
 
-    // 1. Фильтруем и подготавливаем колонки
-    const filteredEvents = props.events.map(event => {
+    // Используем reduce для строгой типизации и избавления от ошибок TS
+    const filteredEvents = props.events.reduce<ProcessedTimelineEvent[]>((acc, event) => {
         const start = new Date(event.start_at)
         const end = new Date(event.end_at)
 
-        // Фильтруем то, что вообще не попадает в текущий месяц
-        if (end < monthStart || start > monthEnd) return null
+        if (end < monthStart || start > monthEnd) return acc
 
         let startCol = 1
         if (start >= monthStart) {
@@ -77,33 +91,35 @@ const processedEvents = computed<ProcessedTimelineEvent[]>(() => {
         const diffTime = Math.abs(end.getTime() - start.getTime())
         const durationDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
 
-        return {
+        acc.push({
             ...event,
             startCol,
             endCol,
             durationDays: durationDays || 1,
-            gridRow:      0, // Заполнитель, вычислим ниже
-        }
-    }).filter((event): event is ProcessedTimelineEvent => event !== null)
+            gridRow:      0,
+            colorVariant: "",
+        } as ProcessedTimelineEvent)
 
-    // 2. Сортируем события для корректного расчета строк (по началу, затем по длине)
+        return acc
+    }, [])
+
     filteredEvents.sort((a, b) => a.startCol - b.startCol || (b.endCol - a.endCol))
 
-    // 3. Вычисляем строку (grid-row) для каждого события
     const rowsEndCols: number[] = []
 
-    filteredEvents.forEach(event => {
+    filteredEvents.forEach((event, index) => {
+        event.colorVariant = `event-color-${index % 5}`
+
         let placed = false
         for (let i = 0; i < rowsEndCols.length; i++) {
-            // Если предыдущее событие на этой строке закончилось до начала текущего
             if (rowsEndCols[i] < event.startCol) {
-                event.gridRow = i + 2 // +2 т.к. 1-я строка занята шапкой дней
+                event.gridRow = i + 2
                 rowsEndCols[i] = event.endCol
                 placed = true
                 break
             }
         }
-        // Если подходящая строка не найдена, создаем новую
+
         if (!placed) {
             event.gridRow = rowsEndCols.length + 2
             rowsEndCols.push(event.endCol)
@@ -113,18 +129,15 @@ const processedEvents = computed<ProcessedTimelineEvent[]>(() => {
     return filteredEvents
 })
 
-// Отображаемые события (учитывают лимит строк, если календарь свернут)
 const visibleEvents = computed(() => {
     if (isExpanded.value) return processedEvents.value
     return processedEvents.value.filter(e => e.gridRow <= MAX_VISIBLE_ROWS + 1)
 })
 
-// Флаг: есть ли скрытые события (чтобы показать кнопку)
 const hasHiddenEvents = computed(() => {
     return processedEvents.value.some(e => e.gridRow > MAX_VISIBLE_ROWS + 1)
 })
 
-// --- Состояние модального окна ---
 const isDialogVisible = ref(false)
 const selectedEvent = ref<ProcessedTimelineEvent | null>(null)
 
@@ -140,27 +153,42 @@ const toggleExpand = () => {
 
 <template>
     <div class="timeline-widget">
-        <div class="timeline-widget-wrapper">
+        <div class="timeline-widget-header">
+            <div
+                v-if="props.title"
+                class="timeline-widget-title"
+            >
+                {{ props.title }}
+            </div>
+
             <div class="timeline-header">
-                <b-button-icon
-                    icon="pi pi-chevron-left"
-                    severity="secondary"
-                    @click="changeMonth(-1)"
-                />
+                <div class="timeline-navigate">
+                    <b-button-icon
+                        v-show="canGoPrev"
+                        icon="pi pi-chevron-left"
+                        severity="secondary"
+                        :disabled="props.isLoading"
+                        @click="changeMonth(-1)"
+                    />
+                </div>
 
                 <h4 class="month-title">{{ formattedMonth }}</h4>
 
-                <b-button-icon
-                    icon="pi pi-chevron-right"
-                    severity="secondary"
-                    @click="changeMonth(1)"
-                />
+                <div class="timeline-navigate">
+                    <b-button-icon
+                        v-show="canGoNext"
+                        icon="pi pi-chevron-right"
+                        severity="secondary"
+                        :disabled="props.isLoading"
+                        @click="changeMonth(1)"
+                    />
+                </div>
             </div>
+        </div>
 
-            <!-- Сетка календаря отображается всегда -->
+        <div class="timeline-widget-wrapper">
             <div class="timeline-grid-wrapper">
                 <div class="timeline-grid">
-                    <!-- Шапка с днями -->
                     <div
                         v-for="day in daysInMonth"
                         :key="'header-day-' + day"
@@ -170,28 +198,55 @@ const toggleExpand = () => {
                         {{ day }}
                     </div>
 
-                    <!-- Разделительная линия под днями -->
                     <div
                         class="header-divider"
                         :style="{ gridColumn: `1 / span 31`, gridRow: 1 }"
                     />
 
-                    <!-- Текст, если нет событий (занимает 2-ю строку сетки) -->
+                    <template v-if="props.isLoading">
+                        <div
+                            class="timeline-event"
+                            style="grid-area: 2 / 1 / auto / 12"
+                        >
+                            <Skeleton height="1rem" style="width: 100%" />
+                        </div>
+
+                        <div
+                            class="timeline-event"
+                            style="grid-area: 3 / 8 / auto / 20;"
+                        >
+                            <Skeleton height="1rem" style="width: 100%" />
+                        </div>
+
+                        <div
+                            class="timeline-event"
+                            style="grid-area: 3 / 22 / auto / 26;"
+                        >
+                            <Skeleton height="1rem" style="width: 100%" />
+                        </div>
+
+                        <div
+                            class="timeline-event"
+                            style="grid-area: 4 / 15 / auto / 29;"
+                        >
+                            <Skeleton height="1rem" style="width: 100%" />
+                        </div>
+                    </template>
+
                     <div
-                        v-if="processedEvents.length === 0"
+                        v-else-if="processedEvents.length === 0"
                         class="empty-state"
                         :style="{ gridColumn: '1 / span 31', gridRow: 2 }"
                     >
-                        В этом месяце нет запланированных событий
+                        {{ props.emptyText }}
                     </div>
 
-                    <!-- События -->
                     <template v-else>
                         <div
                             v-for="event in visibleEvents"
                             :key="event.id"
                             class="timeline-event"
-                            :class="['event-' + (event.colorTheme || 'green')]"
+                            :class="event.colorVariant"
                             :style="{ gridColumn: `${event.startCol} / ${event.endCol}`, gridRow: event.gridRow }"
                             @click="onEventClick(event)"
                         >
@@ -201,9 +256,8 @@ const toggleExpand = () => {
                 </div>
             </div>
 
-            <!-- Кнопка Показать все / Свернуть -->
             <div
-                v-if="hasHiddenEvents"
+                v-if="hasHiddenEvents && !props.isLoading"
                 class="expand-wrapper"
                 @click="toggleExpand"
             >
@@ -215,13 +269,18 @@ const toggleExpand = () => {
         <b-dialog-info
             v-model="isDialogVisible"
             :title="selectedEvent?.title"
-            @confirm="isDialogVisible = false"
+            @close="isDialogVisible = false"
         >
-            <div v-if="selectedEvent?.description" class="event-description">
-                {{ selectedEvent.description }}
-            </div>
-            <div v-else class="event-description empty">
-                Описание отсутствует
+            <div>
+                <div v-if="selectedEvent?.description"> {{ selectedEvent.description }} </div>
+                <div v-else> Описание отсутствует </div>
+
+                <div
+                    v-if="selectedEvent?.responsible_users"
+                    class="mt-x2"
+                >
+                    Ответственные: {{ selectedEvent.responsible_users.join(", ") }}
+                </div>
             </div>
         </b-dialog-info>
     </div>
@@ -229,27 +288,64 @@ const toggleExpand = () => {
 
 <style scoped lang="scss">
 .timeline-widget {
-    width: 100%;
-    background: var(--p-portal-card-background);
-    border-radius: $indent-x4;
-    padding: $indent-x1 $indent-x2;
+    @include portal-card();
 
-    .timeline-header {
+    height: 100%;
+    min-height: 242px;
+    flex-direction: column;
+
+    &-wrapper {
+        height: 100%;
+    }
+
+    &-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: $indent-x1;
+        margin-bottom: $indent-x2;
+    }
+
+    &-title {
+        @include card-title(rgba(255, 255, 255, 0.9));
+
+        padding-left: $indent-x2;
+        margin-bottom: 0;
+    }
+
+    .timeline-header {
+        display: flex;
+        align-items: center;
+        gap: $indent-x1;
 
         .month-title {
             @include h5();
+
+            text-align: center;
             text-transform: capitalize;
+            margin: 0;
+            width: 100px;
+        }
+    }
+
+    .timeline-navigate {
+        width: 35px;
+        height: 35px;
+    }
+
+    .timeline-loading {
+        padding: $indent-x2;
+        display: flex;
+        flex-direction: column;
+        gap: $indent-x1;
+
+        .loading-skeleton {
+            border-radius: $indent-x1;
         }
     }
 
     .empty-state {
         text-align: center;
-        margin: 0 4px;
-        padding: 4px 8px 32px;
+        padding: calc($indent-x3 - 1px);
         color: var(--p-surface-400);
         align-self: center;
     }
@@ -266,6 +362,10 @@ const toggleExpand = () => {
         gap: $indent-x1 0;
         position: relative;
         padding-bottom: $indent-x1;
+
+        &-wrapper {
+            height: 100%;
+        }
     }
 
     .day-header {
@@ -283,16 +383,47 @@ const toggleExpand = () => {
 
     .timeline-event {
         margin: 0 4px;
-        padding: 4px 8px;
+        padding: 4px 8px 4px 12px;
         border-radius: $indent-x1;
         display: flex;
         align-items: center;
         cursor: pointer;
         overflow: hidden;
         transition: opacity 0.2s;
+        position: relative;
 
         &:hover {
             opacity: 0.9;
+        }
+
+        &::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+        }
+
+        &.event-color-0 {
+            background-color: color-mix(in srgb, var(--p-green-500) 50%, transparent);
+            &::before { background-color: var(--p-green-500); }
+        }
+        &.event-color-1 {
+            background-color: color-mix(in srgb, var(--p-orange-500) 50%, transparent);
+            &::before { background-color: var(--p-orange-500); }
+        }
+        &.event-color-2 {
+            background-color: color-mix(in srgb, var(--p-blue-500) 50%, transparent);
+            &::before { background-color: var(--p-blue-500); }
+        }
+        &.event-color-3 {
+            background-color: color-mix(in srgb, var(--p-purple-500) 50%, transparent);
+            &::before { background-color: var(--p-purple-500); }
+        }
+        &.event-color-4 {
+            background-color: color-mix(in srgb, var(--p-red-500) 50%, transparent);
+            &::before { background-color: var(--p-red-500); }
         }
 
         .event-text {
@@ -303,14 +434,6 @@ const toggleExpand = () => {
             width: 100%;
             user-select: none;
             font-size: 12px;
-        }
-
-        &.event-green {
-            background-color: #4a8f3c;
-        }
-
-        &.event-orange {
-            background-color: #d9822b;
         }
     }
 

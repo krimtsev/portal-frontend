@@ -15,7 +15,7 @@ import BImage from "@c/common/b-image/b-image.vue"
 import PortalCard from "@c/portal/portal-card/portal-card.vue"
 import PortalInformationMenu from "@c/portal/portal-information-menu/portal-information-menu.vue"
 import PortalMessages from "@c/portal/portal-messages/portal-messages.vue"
-import TimelineCalendar, { type TimelineEvent } from "@c/timeline-calendar/timeline-calendar.vue"
+import TimelineCalendar from "@c/timeline-calendar/timeline-calendar.vue"
 import { sections } from "@v/portal/home/_britva/data/home-data"
 import { Qualification } from "@v/profile/tickets/create/specialist/_britva/definitions/specialist"
 
@@ -27,130 +27,30 @@ const authStore = useAuthStore()
 onMounted(async () => {
     if (!homeStore.isLoaded) {
         homeStore.setLoading(true)
-        const data = await appAPI.home()
+        const response = await appAPI.home()
 
-        if (data instanceof HttpError) {
+        if (response instanceof HttpError) {
             notify.error()
             return false
         }
 
-        homeStore.setData(data)
+        homeStore.setData(response.data)
         homeStore.setLoading(false)
         homeStore.setLoaded(true)
     }
 })
 
 const hasPartner = computed(() => !!authStore.partner?.id)
-
-const myEvents: TimelineEvent[] = [
-    {
-        id:          1,
-        title:       "Весь месяц: Главный релиз",
-        start_at:    "2026-07-01T00:00:00",
-        end_at:      "2026-07-31T23:59:59",
-        description: "ОПИСАНИЕ !",
-        colorTheme:  "green",
-    },
-    {
-        id:         2,
-        title:      "Спринт 1",
-        start_at:   "2026-07-02T00:00:00",
-        end_at:     "2026-07-08T23:59:59",
-        colorTheme: "orange",
-    },
-    {
-        id:         3,
-        title:      "Короткая задача c очень длинным текстом",
-        start_at:   "2026-07-05T00:00:00",
-        end_at:     "2026-07-06T23:59:59",
-        colorTheme: "green",
-    },
-    {
-        id:         4,
-        title:      "Весь месяц: Главный релиз",
-        start_at:   "2026-08-01T00:00:00",
-        end_at:     "2026-08-02T23:59:59",
-        colorTheme: "green",
-    },
-    {
-        id:          5,
-        title:       "Весь месяц: Главный релиз",
-        start_at:    "2026-08-01T00:00:00",
-        end_at:      "2026-08-15T23:59:59",
-        description: "ОПИСАНИЕ !",
-        colorTheme:  "green",
-    },
-    {
-        id:         6,
-        title:      "Короткая задача",
-        start_at:   "2026-08-15T00:00:00",
-        end_at:     "2026-08-18T23:59:59",
-        colorTheme: "orange",
-    },
-    {
-        id:         7,
-        title:      "Короткая задача",
-        start_at:   "2026-08-18T00:00:00",
-        end_at:     "2026-08-21T23:59:59",
-        colorTheme: "orange",
-    },
-    {
-        id:         8,
-        title:      "Короткая задача",
-        start_at:   "2026-08-22T00:00:00",
-        end_at:     "2026-08-31T23:59:59",
-        colorTheme: "orange",
-    },
-    {
-        id:         9,
-        title:      "Весь месяц: Главный релиз",
-        start_at:   "2026-09-01T00:00:00",
-        end_at:     "2026-09-20T23:59:59",
-        colorTheme: "green",
-    },
-    {
-        id:         10,
-        title:      "Весь месяц: Главный релиз",
-        start_at:   "2026-09-02T00:00:00",
-        end_at:     "2026-09-21T23:59:59",
-        colorTheme: "green",
-    },
-    {
-        id:         11,
-        title:      "Весь месяц: Главный релиз",
-        start_at:   "2026-09-03T00:00:00",
-        end_at:     "2026-09-22T23:59:59",
-        colorTheme: "green",
-    },
-    {
-        id:         12,
-        title:      "Весь месяц: Главный релиз",
-        start_at:   "2026-09-04T00:00:00",
-        end_at:     "2026-09-23T23:59:59",
-        colorTheme: "green",
-    },
-    {
-        id:         13,
-        title:      "Весь месяц: Главный релиз",
-        start_at:   "2026-09-05T00:00:00",
-        end_at:     "2026-09-24T23:59:59",
-        colorTheme: "green",
-    },
-]
 </script>
 
 <template>
     <div class="home-view">
         <div class="grid">
-            <div class="col-12 tablet-col-12 mobile-col-12">
-                <timeline-calendar :events="myEvents" />
-            </div>
-
             <div class="col-8 tablet-col-12 mobile-col-12">
                 <portal-information-menu :sections="sections" />
             </div>
 
-            <div class="col-4 tablet-col-6 mobile-col-12 tablet-row-span-2">
+            <div class="col-4 tablet-col-12 mobile-col-12 tablet-row-span-2">
                 <portal-card
                     title="Поиск сертификатов"
                     :path="portalPaths.Certificates"
@@ -161,6 +61,66 @@ const myEvents: TimelineEvent[] = [
                         <b-image
                             src="template/gift-card.png"
                             full
+                        />
+                    </div>
+                </portal-card>
+            </div>
+
+            <div class="col-8 tablet-col-12 mobile-col-12">
+                <timeline-calendar
+                    title="Календарь мероприятий"
+                    empty-text="В этом месяце нет запланированных мероприятий"
+                    :events="homeStore.events"
+                    :is-loading="homeStore.isLoading"
+                />
+            </div>
+
+            <div class="col-4 mobile-col-12 tablet-col-6">
+                <portal-card
+                    title="Популярные заявки"
+                    menu-title
+                    class="request-block card-height"
+                    class-title="mb-x2"
+                >
+                    <div class="buttons-wrapper">
+                        <b-button-group
+                            label="Заявка на ТОП-МАСТЕРА"
+                            @click="router.push({
+                                name: ProfileRouteName.ProfileTicketSpecialist,
+                                query: {
+                                    qualification: Qualification.TobBarber
+                                }
+                            })"
+                        />
+
+                        <b-button-group
+                            label="Заявка на БРЕНД-МАСТЕРА"
+                            @click="router.push({
+                                name: ProfileRouteName.ProfileTicketSpecialist,
+                                query: {
+                                    qualification: Qualification.BrandBarber
+                                }
+                            })"
+                        />
+
+                        <b-button-group
+                            label="Заявка на сертификат"
+                            @click="router.push({ name: ProfileRouteName.ProfileTicketCertificate })"
+                        />
+
+                        <b-button-group
+                            label="Заявка на черный список"
+                            @click="router.push({ name: ProfileRouteName.ProfileTicketBlacklist })"
+                        />
+
+                        <b-button-group
+                            label="Заявка на макет"
+                            @click="router.push({ name: ProfileRouteName.ProfileTicketDesign })"
+                        />
+
+                        <b-button-group
+                            label="Заявка на индивидуальное согласование"
+                            @click="router.push({ name: ProfileRouteName.ProfileTicketGeneral })"
                         />
                     </div>
                 </portal-card>
@@ -225,40 +185,25 @@ const myEvents: TimelineEvent[] = [
 
             <div class="col-4 mobile-col-12 tablet-col-6">
                 <portal-card
-                    title="Популярные заявки"
+                    title="Контакты"
                     menu-title
-                    class="request-block card-height"
+                    class="contacts-block card-height"
                     class-title="mb-x2"
                 >
                     <div class="buttons-wrapper">
                         <b-button-group
-                            label="Заявка на ТОП-МАСТЕРА"
-                            @click="router.push({
-                                name: ProfileRouteName.ProfileTicketSpecialist,
-                                query: {
-                                    qualification: Qualification.TobBarber
-                                }
-                            })"
+                            label="Партнеры"
+                            @click="router.push({ name: PortalRouteName.ContactPartners })"
                         />
 
                         <b-button-group
-                            label="Заявка на БРЕНД-МАСТЕРА"
-                            @click="router.push({
-                                name: ProfileRouteName.ProfileTicketSpecialist,
-                                query: {
-                                    qualification: Qualification.BrandBarber
-                                }
-                            })"
+                            label="Владельцы франшиз"
+                            @click="router.push({ name: PortalRouteName.ContactFranchisee })"
                         />
 
                         <b-button-group
-                            label="Заявка на сертификат"
-                            @click="router.push({ name: ProfileRouteName.ProfileTicketCertificate })"
-                        />
-
-                        <b-button-group
-                            label="Заявка на индивидуальное согласование"
-                            @click="router.push({ name: ProfileRouteName.ProfileTicketGeneral })"
+                            label="Сотрудники центрального офиса"
+                            @click="router.push({ name: PortalRouteName.ContactCentralOffice })"
                         />
                     </div>
                 </portal-card>
@@ -304,6 +249,19 @@ $min-height: 195px;
     }
 
     .request-block {
+        min-height: calc($min-height + 48px);
+        max-height: 100%;
+
+        .buttons-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: $indent-x1;
+            max-height: calc(3 * 40px + ($indent-x1 * 2));
+            overflow: hidden;
+        }
+    }
+
+    .contacts-block {
         min-height: $min-height;
 
         .buttons-wrapper {
@@ -318,6 +276,7 @@ $min-height: 195px;
     .files-block {
         position: relative;
         min-height: $min-height;
+        max-height: 100%;
 
         :deep(.b-image) {
             position: absolute;

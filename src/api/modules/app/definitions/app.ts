@@ -1,5 +1,5 @@
 import type { MonthsBarChartData } from "@c/charts/definitions/charts"
-
+import type { TimelineEvent } from "@c/timeline-calendar/definitions/timeline-calendar"
 
 export interface MessageItem {
     id:          number
@@ -10,4 +10,5 @@ export interface MessageItem {
 export interface PortalHome {
     messages: MessageItem[]
     finances: MonthsBarChartData
+    events:   TimelineEvent[]
 }

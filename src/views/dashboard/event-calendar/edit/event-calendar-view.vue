@@ -106,7 +106,7 @@ onMounted(async () => {
         resetForm({
             values: {
                 title:                data.title,
-                description:          data.description,
+                description:          data.description || "",
                 start_at:             data.start_at,
                 end_at:               data.end_at,
                 department_id:        data.department_id,
