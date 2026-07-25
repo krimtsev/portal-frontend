@@ -20,6 +20,7 @@ import BInputText from "@c/common/b-input/b-input-text.vue"
 import BMultiSelect from "@c/common/b-select/b-multi-select.vue"
 import BSelect from "@c/common/b-select/b-select.vue"
 import BTextarea from "@c/common/b-textarea/b-textarea.vue"
+import { defaultMaxRows } from "@c/common/b-textarea/definitions/textarea.ts"
 import type { EventCalendarData } from "@v/dashboard/event-calendar/edit/definitions/event-calendar"
 import { EventCalendarSchema } from "@v/dashboard/event-calendar/edit/schemas/event-calendar.schema.ts"
 import type { UserOptionItem } from "@v/dashboard/users/edit/definitions/user"
@@ -189,6 +190,10 @@ const onRemove = async () => {
         name: DashboardRouteName.DashboardEventCalendarList,
     })
 }
+
+const descriptionRows = computed(() => {
+    return defaultMaxRows * 3
+})
 </script>
 
 <template>
@@ -224,6 +229,7 @@ const onRemove = async () => {
                     :disabled="isLoading"
                     :error="errors['description']"
                     :maxlength="maxDescriptionLength"
+                    :rows="descriptionRows"
                     class="full-width"
                 />
             </b-form-item>

@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import { computed, ref } from "vue"
-import Skeleton from "primevue/skeleton"
+import { useDepartmentStore } from "@s/department/department"
 import BButtonIcon from "@c/common/b-button-icon/b-button-icon.vue"
 import BDialogInfo from "@c/common/b-dialog/b-dialog-info.vue"
 import BTableText from "@c/common/b-table/b-table-text.vue"
+import TimelineCalendarLoading from "@c/timeline-calendar/components/timeline-calendar-loading.vue"
 import type {
     ProcessedTimelineEvent,
     TimelineEvent,
 } from "@c/timeline-calendar/definitions/timeline-calendar"
+import { $sanitizeHtml } from "@/lib/sanitize-html"
 
 const props = defineProps<{
     title:      string
@@ -16,18 +18,26 @@ const props = defineProps<{
     isLoading?: boolean
 }>()
 
+const departmentStore = useDepartmentStore()
+
 const currentDate = ref(new Date())
 const isExpanded = ref(false)
 const MAX_VISIBLE_ROWS = 3
 
 const minEventDate = computed(() => {
-    if (!props.events.length) return new Date()
-    return new Date(Math.min(...props.events.map(e => new Date(e.start_at).getTime())))
+    const today = new Date()
+    if (!props.events.length) return today
+
+    const minEventTime = Math.min(...props.events.map(e => new Date(e.start_at).getTime()))
+    return new Date(Math.min(minEventTime, today.getTime()))
 })
 
 const maxEventDate = computed(() => {
-    if (!props.events.length) return new Date()
-    return new Date(Math.max(...props.events.map(e => new Date(e.end_at).getTime())))
+    const today = new Date()
+    if (!props.events.length) return today
+
+    const maxEventTime = Math.max(...props.events.map(e => new Date(e.end_at).getTime()))
+    return new Date(Math.max(maxEventTime, today.getTime()))
 })
 
 const canGoPrev = computed(() => {
@@ -149,6 +159,23 @@ const onEventClick = (event: ProcessedTimelineEvent) => {
 const toggleExpand = () => {
     isExpanded.value = !isExpanded.value
 }
+
+const description = computed(() => {
+    const value = selectedEvent.value?.description
+    if (!value) return ""
+    return $sanitizeHtml(value)
+})
+
+const responsibleUsers = computed(() => {
+    if (!selectedEvent.value || !selectedEvent.value.responsible_users?.length) return ""
+    return selectedEvent.value.responsible_users.join(", ")
+})
+
+const department = computed(() => {
+    const value = selectedEvent.value?.department_id
+    if (!value) return ""
+    return departmentStore.getTitleById(value)
+})
 </script>
 
 <template>
@@ -204,33 +231,7 @@ const toggleExpand = () => {
                     />
 
                     <template v-if="props.isLoading">
-                        <div
-                            class="timeline-event"
-                            style="grid-area: 2 / 1 / auto / 12"
-                        >
-                            <Skeleton height="1rem" style="width: 100%" />
-                        </div>
-
-                        <div
-                            class="timeline-event"
-                            style="grid-area: 3 / 8 / auto / 20;"
-                        >
-                            <Skeleton height="1rem" style="width: 100%" />
-                        </div>
-
-                        <div
-                            class="timeline-event"
-                            style="grid-area: 3 / 22 / auto / 26;"
-                        >
-                            <Skeleton height="1rem" style="width: 100%" />
-                        </div>
-
-                        <div
-                            class="timeline-event"
-                            style="grid-area: 4 / 15 / auto / 29;"
-                        >
-                            <Skeleton height="1rem" style="width: 100%" />
-                        </div>
+                        <timeline-calendar-loading />
                     </template>
 
                     <div
@@ -269,17 +270,27 @@ const toggleExpand = () => {
         <b-dialog-info
             v-model="isDialogVisible"
             :title="selectedEvent?.title"
+            class="dialog-info"
+            append-to="self"
             @close="isDialogVisible = false"
         >
-            <div>
-                <div v-if="selectedEvent?.description"> {{ selectedEvent.description }} </div>
-                <div v-else> Описание отсутствует </div>
+            <div class="dialog-content">
+                <div class="description">
+                    <div v-html="$sanitizeHtml(description)" />
+                </div>
 
                 <div
-                    v-if="selectedEvent?.responsible_users"
-                    class="mt-x2"
+                    v-if="department"
+                    class="department"
                 >
-                    Ответственные: {{ selectedEvent.responsible_users.join(", ") }}
+                    Отдел: {{ department }}
+                </div>
+
+                <div
+                    v-if="responsibleUsers"
+                    class="responsible-users"
+                >
+                    Ответственные: <span class="responsible-users-list">{{ responsibleUsers }}</span>
                 </div>
             </div>
         </b-dialog-info>
@@ -433,7 +444,7 @@ const toggleExpand = () => {
             text-overflow: ellipsis;
             width: 100%;
             user-select: none;
-            font-size: 12px;
+            font-size: 0.857rem;
         }
     }
 
@@ -444,13 +455,29 @@ const toggleExpand = () => {
         gap: 8px;
         padding-top: $indent-x1;
         padding-bottom: $indent-x1;
-        color: var(--p-text-color-secondary, #999);
+        color: var(--p-surface-300);
         cursor: pointer;
-        font-size: 13px;
+        font-size: 0.929rem;
         transition: color 0.2s;
 
         &:hover {
-            color: var(--p-text-color, #fff);
+            color: var(--p-surface-400);
+        }
+    }
+
+    .dialog-info {
+        .dialog-content {
+            display: flex;
+            flex-direction: column;
+            gap: $indent-x2;
+
+            .description {
+                white-space: pre-line;
+            }
+
+            .responsible-users-list {
+                color: var(--p-primary-500);
+            }
         }
     }
 }

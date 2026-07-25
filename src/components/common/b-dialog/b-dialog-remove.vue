@@ -13,6 +13,7 @@ const emit = defineEmits<{
 const props = defineProps<{
     title?:     string
     isLoading?: boolean
+    appendTo?:  HTMLElement | "body" | "self"
 }>()
 
 const { t } = useI18n()
@@ -23,6 +24,7 @@ const { t } = useI18n()
         v-model:visible="model"
         :title="props.title"
         :show-header="false"
+        :append-to="props.appendTo"
         icon-name="pi pi-trash"
         class="b-dialog-remove"
     >

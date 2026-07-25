@@ -14,6 +14,7 @@ const props = withDefaults(defineProps<{
     closable?:   boolean
     iconName?:   string
     showHeader?: boolean
+    appendTo?:   HTMLElement | "body" | "self"
 }>(), {
     title:      undefined,
     style:      undefined,
@@ -23,6 +24,7 @@ const props = withDefaults(defineProps<{
     modal:      true,
     closable:   false,
     showHeader: true,
+    appendTo:   "body",
 })
 
 const dialogStyle = computed(() => ({
@@ -47,6 +49,7 @@ const contentStyle = computed(() => {
         :modal="props.modal"
         :closable="props.closable"
         :show-header="props.showHeader"
+        :append-to="appendTo"
         position="center"
         class="b-dialog"
     >

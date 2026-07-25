@@ -5,7 +5,7 @@ export const useEventCalendarStore = defineStore("event-calendar", () => {
     return usePagination({
         search:    "",
         filters:   {},
-        sortBy:    "id",
+        sortBy:    "start_at",
         sortOrder: "desc",
     })
 })

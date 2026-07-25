@@ -12,6 +12,7 @@ const emit = defineEmits<{
 const props = defineProps<{
     title?:     string
     isLoading?: boolean
+    appendTo?:  HTMLElement | "body" | "self"
 }>()
 
 const { t } = useI18n()
@@ -21,6 +22,7 @@ const { t } = useI18n()
     <b-dialog
         v-model:visible="model"
         :title="props.title"
+        :append-to="appendTo"
         class="b-dialog-info"
     >
         <slot />
