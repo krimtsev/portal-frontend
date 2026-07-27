@@ -11,12 +11,19 @@ import type {
 } from "@c/timeline-calendar/definitions/timeline-calendar"
 import { $sanitizeHtml } from "@/lib/sanitize-html"
 
-const props = defineProps<{
-    title:      string
-    emptyText:  string
-    events:     TimelineEvent[]
-    isLoading?: boolean
-}>()
+const props = withDefaults(
+    defineProps<{
+        title:          string
+        emptyText:      string
+        events:         TimelineEvent[]
+        isLoading?:     boolean
+        showDayOfWeek?: boolean
+    }>(),
+    {
+        isLoading:     false,
+        showDayOfWeek: false,
+    },
+)
 
 const departmentStore = useDepartmentStore()
 
@@ -77,11 +84,31 @@ const daysInMonth = computed(() => {
     ).getDate()
 })
 
+const daysList = computed(() => {
+    const year = currentDate.value.getFullYear()
+    const month = currentDate.value.getMonth()
+    const totalDays = daysInMonth.value
+
+    return Array.from({ length: totalDays }, (_, i) => {
+        const dayNumber = i + 1
+        const date = new Date(year, month, dayNumber)
+        const dayOfWeekIndex = date.getDay() // 0 = Воскресенье, 6 = Суббота
+        const isWeekend = dayOfWeekIndex === 0 || dayOfWeekIndex === 6
+
+        const dayOfWeekName = date.toLocaleString("ru-RU", { weekday: "short" })
+
+        return {
+            day: dayNumber,
+            dayOfWeekName,
+            isWeekend,
+        }
+    })
+})
+
 const processedEvents = computed<ProcessedTimelineEvent[]>(() => {
     const monthStart = new Date(currentDate.value.getFullYear(), currentDate.value.getMonth(), 1)
     const monthEnd = new Date(currentDate.value.getFullYear(), currentDate.value.getMonth() + 1, 0, 23, 59, 59)
 
-    // Используем reduce для строгой типизации и избавления от ошибок TS
     const filteredEvents = props.events.reduce<ProcessedTimelineEvent[]>((acc, event) => {
         const start = new Date(event.start_at)
         const end = new Date(event.end_at)
@@ -217,12 +244,19 @@ const department = computed(() => {
             <div class="timeline-grid-wrapper">
                 <div class="timeline-grid">
                     <div
-                        v-for="day in daysInMonth"
-                        :key="'header-day-' + day"
+                        v-for="item in daysList"
+                        :key="'header-day-' + item.day"
                         class="day-header"
-                        :style="{ gridColumn: day, gridRow: 1 }"
+                        :class="{ 'is-weekend': item.isWeekend }"
+                        :style="{ gridColumn: item.day, gridRow: 1 }"
                     >
-                        {{ day }}
+                        <span class="day-number">{{ item.day }}</span>
+                        <span
+                            v-if="props.showDayOfWeek"
+                            class="day-name"
+                        >
+                            {{ item.dayOfWeekName }}
+                        </span>
                     </div>
 
                     <div
@@ -380,10 +414,36 @@ const department = computed(() => {
     }
 
     .day-header {
-        text-align: center;
-        padding-bottom: $indent-x1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: calc($indent-x1 / 2) 0;
         align-self: end;
-        font-size: 12px;
+        font-size: 0.857rem;
+        border-radius: $indent-x1 $indent-x1 0 0;
+
+        .day-number {
+            font-weight: 600;
+            line-height: 1;
+        }
+
+        .day-name {
+            font-size: 0.714rem;
+            color: var(--p-surface-400);
+            text-transform: lowercase;
+            margin-top: 2px;
+            line-height: 1;
+        }
+
+        &.is-weekend {
+            background-color: color-mix(in srgb, var(--p-gray-500) 15%, transparent);
+
+            .day-number,
+            .day-name {
+                color: var(--p-gray-400);
+            }
+        }
     }
 
     .header-divider {

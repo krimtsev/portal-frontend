@@ -40,7 +40,7 @@ onMounted(async () => {
     }
 })
 
-const hasPartner = computed(() => !!authStore.partner?.id)
+const partnerName = computed(() => authStore.partner?.name)
 </script>
 
 <template>
@@ -72,6 +72,7 @@ const hasPartner = computed(() => !!authStore.partner?.id)
                     empty-text="В этом месяце нет запланированных мероприятий"
                     :events="homeStore.events"
                     :is-loading="homeStore.isLoading"
+                    show-day-of-week
                 />
             </div>
 
@@ -148,7 +149,7 @@ const hasPartner = computed(() => !!authStore.partner?.id)
                 class="col-4 tablet-col-6 mobile-col-12 row-span-2"
             >
                 <portal-card
-                    title="Аналитика показателей"
+                    :title="`Аналитика показателей по ${partnerName}`"
                     menu-title
                     class="card-height-x2"
                     class-content="d-flex align-items-end"
@@ -156,7 +157,7 @@ const hasPartner = computed(() => !!authStore.partner?.id)
                     <months-bar-chart
                         :data="homeStore.finances"
                         :is-loading="homeStore.isLoading"
-                        :has-partner="hasPartner"
+                        :has-partner="!!partnerName"
                         class="months-bar-chart"
                     />
                 </portal-card>
