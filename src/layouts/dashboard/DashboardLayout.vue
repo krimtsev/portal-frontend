@@ -176,7 +176,7 @@ const profileItems = ref([
             position: fixed;
             top: 0;
             left: 0;
-            width: 18rem;
+            width: 19rem;
             height: 100%;
             z-index: -1;
             background-image: var(--sidebar-bg);

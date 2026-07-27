@@ -2,6 +2,7 @@ import {
     createRouter,
     createWebHistory,
     type RouteLocationNormalized,
+    type RouterScrollBehavior,
 } from "vue-router"
 import { useAppStore } from "@s/app/app"
 import { useAuthStore } from "@s/auth/auth"
@@ -11,9 +12,17 @@ import routes, { addCustomizationRoutes } from "@r/routes"
 import i18n from "@/plugins/i18n"
 import type { Roles } from "@/definitions/roles"
 
+const scrollBehavior: RouterScrollBehavior = (_to, _from, savedPosition) => {
+    if (savedPosition) {
+        return savedPosition
+    }
+    return { top: 0, behavior: "smooth" }
+}
+
 const router = createRouter({
     history: createWebHistory(),
     routes,
+    scrollBehavior,
 })
 
 function setTitle(to: RouteLocationNormalized) {

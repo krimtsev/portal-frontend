@@ -1,0 +1,40 @@
+<script setup lang="ts">
+import { useI18n } from "vue-i18n"
+import PrimeButton from "primevue/button"
+import BDialog from "@c/common/b-dialog/b-dialog.vue"
+
+const model = defineModel<boolean>()
+
+const emit = defineEmits<{
+    (e: "close"): void
+}>()
+
+const props = defineProps<{
+    title?:     string
+    isLoading?: boolean
+    appendTo?:  HTMLElement | "body" | "self"
+}>()
+
+const { t } = useI18n()
+</script>
+
+<template>
+    <b-dialog
+        v-model:visible="model"
+        :title="props.title"
+        :append-to="appendTo"
+        class="b-dialog-info"
+    >
+        <slot />
+
+        <template #footer>
+            <prime-button
+                type="button"
+                :label="t('mc.dialog.default.close')"
+                :loading="props.isLoading"
+                variant="outlined"
+                @click="emit('close')"
+            />
+        </template>
+    </b-dialog>
+</template>

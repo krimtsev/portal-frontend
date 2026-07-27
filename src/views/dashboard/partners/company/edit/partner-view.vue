@@ -21,7 +21,7 @@ import type { PartnerData } from "@v/dashboard/partners/company/edit/definitions
 import { PartnerSchema } from "@v/dashboard/partners/company/edit/schemas/partner.schema"
 import { partnerStateOptions } from "@v/dashboard/partners/company/list/utils/partners"
 import type { PartnerGroupOptionItem } from "@v/dashboard/partners/groups/list/definitions/partner-groups"
-import { formatDateToString, parseStringToDate } from "@/lib/date-helpers"
+import { formatJSDateToStringDate, formatStringDateToJSDate } from "@/lib/date-helpers"
 import { Status } from "@/definitions/status"
 
 
@@ -177,19 +177,19 @@ const partnerState = computed({
 
 const openedAt = computed({
     get() {
-        return parseStringToDate(openedAtModel.value)
+        return formatStringDateToJSDate(openedAtModel.value)
     },
     set(date: Date | null) {
-        openedAtModel.value = formatDateToString(date)
+        openedAtModel.value = formatJSDateToStringDate(date)
     },
 })
 
 const startAt = computed({
     get() {
-        return parseStringToDate(startAtModel.value)
+        return formatStringDateToJSDate(startAtModel.value)
     },
     set(date: Date | null) {
-        startAtModel.value = formatDateToString(date)
+        startAtModel.value = formatJSDateToStringDate(date)
     },
 })
 </script>

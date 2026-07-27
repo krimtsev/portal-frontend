@@ -1,5 +1,6 @@
 import type {
     UserData,
+    UserOptionsResponse,
     UserResponse,
 } from "@v/dashboard/users/edit/definitions/user"
 import type {
@@ -28,4 +29,8 @@ export async function update(id: string, data: UserData) {
 
 export async function exportData() {
     return await http.get<UsersExportItem[]>("dashboard/users/export")
+}
+
+export async function options() {
+    return await http.get<UserOptionsResponse>("dashboard/users/options")
 }

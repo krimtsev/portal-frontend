@@ -19,22 +19,22 @@ import type { PartnerOptionItem } from "@v/dashboard/partners/company/list/defin
 import type { StaffStatisticsItem } from "@v/dashboard/statistics/staff-statistics/definitions/statistic-staff"
 import {
     formatJSDateToStartDate,
-    getAnalyticsStartDate,
-    getPreviousMonth,
-    parseStringToDate,
+    formatStringDateToJSDate,
+    getAnalyticsStartJSDate,
+    getPreviousMonthJSDate,
 } from "@/lib/date-helpers"
 
 const notify = useNotify()
 
 const partnerStatisticsStore = usePartnerStatisticsStore()
-const minDate = ref(getAnalyticsStartDate())
-const maxDate = ref(getPreviousMonth())
+const minDate = ref(getAnalyticsStartJSDate())
+const maxDate = ref(getPreviousMonthJSDate())
 
 const staffStatistics = ref<StaffStatisticsItem[]>([])
 const partners = ref<PartnerOptionItem[]>([])
 
 const filterDate = computed({
-    get: () => parseStringToDate(partnerStatisticsStore.filter.filters.date),
+    get: () => formatStringDateToJSDate(partnerStatisticsStore.filter.filters.date),
     set: (value: Date | null) => {
         partnerStatisticsStore.filter.filters.date = formatJSDateToStartDate(value)
     },

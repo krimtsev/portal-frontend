@@ -77,6 +77,17 @@ const items = computed<DashboardMenuItem[]>(() => {
     })
 
     menu.push({
+        key:         "eventCalendar",
+        label:       t("mc.dashboard.sidebar.eventCalendar"),
+        icon:        "pi pi-calendar-clock",
+        route:       dashboardPaths.DashboardEventCalendarList,
+        activeNames: [
+            DashboardRouteName.DashboardEventCalendarList,
+            DashboardRouteName.DashboardEventCalendar,
+        ],
+    })
+
+    menu.push({
         key:         "royalty",
         label:       t("mc.dashboard.sidebar.royalty"),
         icon:        "pi pi-chart-line",
@@ -222,7 +233,7 @@ watch(
     position: absolute;
     top: 0;
     left: 0;
-    width: 18rem;
+    width: 19rem;
     height: 100%;
     transform: translateX(0);
     transition: transform .3s cubic-bezier(0, 0, .2, 1);

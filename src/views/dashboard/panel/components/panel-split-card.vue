@@ -113,7 +113,7 @@ const props = defineProps<{
         color: var(--p-neutral-400);
 
         &-label {
-            font-size: 0.8125rem;
+            font-size: 0.85714rem;
             color: #94a3b8;
             display: flex;
             align-items: center;

@@ -1,6 +1,7 @@
 import { defineStore } from "pinia"
 import { ref } from "vue"
 import type {
+    EventCalendar,
     MessageItem,
     PortalHome,
 } from "@/api/modules/app/definitions/app"
@@ -12,6 +13,7 @@ export const useHomeStore = defineStore("home", () => {
 
     const messages = ref<MessageItem[]>([])
     const finances = ref<MonthsBarChartData>({})
+    const events = ref<EventCalendar[]>([])
 
     function setLoading(value: boolean) {
         isLoading.value = value
@@ -24,6 +26,7 @@ export const useHomeStore = defineStore("home", () => {
     function setData(data: PortalHome) {
         finances.value = data.finances
         messages.value = data.messages
+        events.value = data.events
     }
 
     return {
@@ -31,6 +34,7 @@ export const useHomeStore = defineStore("home", () => {
         isLoaded,
         messages,
         finances,
+        events,
         setLoading,
         setLoaded,
         setData,

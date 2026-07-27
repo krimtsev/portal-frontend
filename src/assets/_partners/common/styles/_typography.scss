@@ -33,6 +33,12 @@
     line-height: $line-height-p; // 24px
 }
 
+@mixin h5() {
+    font-weight: 500;
+    font-size: $font-size-h5; // 14px
+    line-height: $line-height-h5; // 16px
+}
+
 @mixin h4() {
     font-weight: 500;
     font-size: $font-size-h4; // 18px
