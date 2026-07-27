@@ -72,6 +72,7 @@ const partnerName = computed(() => authStore.partner?.name)
                     empty-text="В этом месяце нет запланированных мероприятий"
                     :events="homeStore.events"
                     :is-loading="homeStore.isLoading"
+                    show-day-of-week
                 />
             </div>
 
