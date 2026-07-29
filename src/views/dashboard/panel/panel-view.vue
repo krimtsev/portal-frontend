@@ -2,7 +2,7 @@
 import { computed, onMounted, ref } from "vue"
 import { merge } from "lodash"
 import { useAuthStore } from "@s/auth/auth"
-import { useNotify } from "@/composables/notify/use-notify"
+import { useNotify } from "@/composables/notify/use-notify.ts"
 import { HttpError } from "@/api"
 import * as panelAPI from "@/api/modules/dashboard/panel/panel"
 import BTitle from "@c/common/b-title/b-title.vue"

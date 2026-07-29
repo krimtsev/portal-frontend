@@ -26,5 +26,5 @@ export async function logout() {
 }
 
 export async function userData() {
-    return await http.get<{ data: AuthResponse }>("user-data", { skipAuthGuard: true })
+    return await http.get<{ data: AuthResponse }>("user-data", { disableAutoReauth: true })
 }

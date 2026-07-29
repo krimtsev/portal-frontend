@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from "vue"
-import { useNotify } from "@/composables/notify/use-notify"
+import { useNotify } from "@/composables/notify/use-notify.ts"
 import { HttpError } from "@/api"
 import * as cloudFilesAPI from "@/api/modules/dashboard/cloud/cloud-files"
 import BDialogRemove from "@c/common/b-dialog/b-dialog-remove.vue"

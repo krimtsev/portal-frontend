@@ -1,11 +1,11 @@
 import { defineStore } from "pinia"
 import { ref } from "vue"
 import type {
-    EventCalendar,
     MessageItem,
     PortalHome,
 } from "@/api/modules/app/definitions/app"
 import type { MonthsBarChartData } from "@c/charts/definitions/charts"
+import type { TimelineEvent } from "@c/timeline-calendar/definitions/timeline-calendar"
 
 export const useHomeStore = defineStore("home", () => {
     const isLoading = ref(true)
@@ -13,7 +13,7 @@ export const useHomeStore = defineStore("home", () => {
 
     const messages = ref<MessageItem[]>([])
     const finances = ref<MonthsBarChartData>({})
-    const events = ref<EventCalendar[]>([])
+    const events = ref<TimelineEvent[]>([])
 
     function setLoading(value: boolean) {
         isLoading.value = value
@@ -29,6 +29,15 @@ export const useHomeStore = defineStore("home", () => {
         events.value = data.events
     }
 
+    function resetData() {
+        setLoading(true)
+        setLoaded(false)
+
+        finances.value = {}
+        messages.value = []
+        events.value = []
+    }
+
     return {
         isLoading,
         isLoaded,
@@ -38,5 +47,6 @@ export const useHomeStore = defineStore("home", () => {
         setLoading,
         setLoaded,
         setData,
+        resetData,
     }
 })

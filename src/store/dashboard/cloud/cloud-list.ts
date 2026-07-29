@@ -1,5 +1,5 @@
 import { defineStore } from "pinia"
-import { usePagination } from "@/composables/store/use-pagination"
+import { usePagination } from "@/composables/store/use-pagination.ts"
 
 export const useCloudListStore = defineStore("dashboard-cloud-list", () => {
     return usePagination({

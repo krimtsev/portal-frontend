@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from "vue"
-import { useRoutePath } from "@/composables/route/use-route-path"
+import { useRoutePath } from "@/composables/route/use-route-path.ts"
 import BImage from "@c/common/b-image/b-image.vue"
 import type { CloudFolderItem } from "@v/portal/cloud/definitions/cloud"
 import { cloudImages } from "@v/portal/cloud/utils/cloud"

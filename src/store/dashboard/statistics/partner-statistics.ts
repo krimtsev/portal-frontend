@@ -1,5 +1,5 @@
 import { defineStore } from "pinia"
-import { useListQuery } from "@/composables/store/use-list-query"
+import { useListQuery } from "@/composables/store/use-list-query.ts"
 import {
     formatJSDateToStartDateString,
     getPreviousMonthJSDate,

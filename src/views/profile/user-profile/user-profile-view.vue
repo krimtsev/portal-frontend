@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue"
 import { useDepartmentStore } from "@s/department/department"
-import { useNotify } from "@/composables/notify/use-notify"
+import { useNotify } from "@/composables/notify/use-notify.ts"
 import { HttpError } from "@/api"
 import type { PartnerData, UserData } from "@/api/modules/profile/user-profile/definitions/user-profile"
 import * as userProfileAPI from "@/api/modules/profile/user-profile/user-profile"

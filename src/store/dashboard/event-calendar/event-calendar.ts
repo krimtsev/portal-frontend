@@ -1,5 +1,5 @@
 import { defineStore } from "pinia"
-import { usePagination } from "@/composables/store/use-pagination"
+import { usePagination } from "@/composables/store/use-pagination.ts"
 
 export const useEventCalendarStore = defineStore("event-calendar", () => {
     return usePagination({

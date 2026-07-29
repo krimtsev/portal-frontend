@@ -37,6 +37,14 @@ router.beforeEach(async (to: RouteLocationNormalized, _from, next) => {
 
     setTitle(to)
 
+    if (authStore.isMaintenance) {
+        if (to.name === CommonRouteName.Maintenance) {
+            return next()
+        }
+
+        return next({ name: CommonRouteName.Maintenance })
+    }
+
     if (authStore.isLoading || !authStore.isAuthenticated) {
         if (to.name !== CommonRouteName.Auth) {
             if (to.fullPath === "/") {

@@ -3,8 +3,8 @@ import { computed, onMounted, ref } from "vue"
 import { useI18n } from "vue-i18n"
 import { useRoute, useRouter } from "vue-router"
 import { useDepartmentStore } from "@s/department/department"
-import { useNotify } from "@/composables/notify/use-notify"
-import { useVeeForm } from "@/composables/vee-validate/use-validation"
+import { useNotify } from "@/composables/notify/use-notify.ts"
+import { useVeeForm } from "@/composables/vee-validate/use-validation.ts"
 import { dashboardPaths } from "@r/dashboard/path"
 import { DashboardRouteName } from "@r/dashboard/route-names"
 import { HttpError } from "@/api"
@@ -326,14 +326,6 @@ const userState = computed({
         display: flex;
         align-items: flex-start;
         gap: $indent-x1;
-    }
-
-    :deep(.b-select-button) {
-        .p-togglebutton:has(.is-disabled).p-togglebutton-checked {
-            .p-togglebutton-content {
-                background-color: var(--p-red-400);
-            }
-        }
     }
 }
 </style>

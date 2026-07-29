@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from "vue"
 import { useI18n } from "vue-i18n"
-import { useNotify } from "@/composables/notify/use-notify"
+import { useNotify } from "@/composables/notify/use-notify.ts"
 import BButtonSecondary from "@c/common/b-button/b-button-secondary.vue"
 import i18n from "@/plugins/i18n.ts"
 

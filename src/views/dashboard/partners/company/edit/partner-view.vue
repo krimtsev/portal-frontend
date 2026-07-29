@@ -2,8 +2,8 @@
 import { computed, onMounted, ref } from "vue"
 import { useI18n } from "vue-i18n"
 import { useRoute, useRouter } from "vue-router"
-import { useNotify } from "@/composables/notify/use-notify"
-import { useVeeForm } from "@/composables/vee-validate/use-validation"
+import { useNotify } from "@/composables/notify/use-notify.ts"
+import { useVeeForm } from "@/composables/vee-validate/use-validation.ts"
 import { dashboardPaths } from "@r/dashboard/path"
 import { DashboardRouteName } from "@r/dashboard/route-names"
 import { HttpError } from "@/api"
@@ -202,7 +202,7 @@ const startAt = computed({
         :path-back="dashboardPaths.DashboardPartners"
         :is-loading="isLoading"
         :is-first-loading="isFirstLoading"
-        class="user-view"
+        class="partner-view"
         @save="onSave"
     >
         <b-form-card title="Основные данные">
@@ -297,6 +297,9 @@ const startAt = computed({
                     :error="errors['disabled']"
                     option-label="name"
                     option-value="id"
+                    :option-class="{
+                        [Status.DISABLED]: 'status-danger',
+                    }"
                 />
             </b-form-item>
 

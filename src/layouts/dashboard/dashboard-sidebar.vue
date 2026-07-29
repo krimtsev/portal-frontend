@@ -119,6 +119,19 @@ const items = computed<DashboardMenuItem[]>(() => {
         ],
     })
 
+    if (authStore.isSysAdmin) {
+        menu.push({
+            key:         "settings",
+            label:       t("mc.dashboard.sidebar.settings"),
+            icon:        "pi pi-cog",
+            route:       dashboardPaths.DashboardSettings,
+            activeNames: [
+                DashboardRouteName.DashboardSettings,
+                DashboardRouteName.DashboardMaintenance,
+            ],
+        })
+    }
+
     return menu
 })
 

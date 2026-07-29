@@ -4,8 +4,8 @@ import { useI18n } from "vue-i18n"
 import { useRoute, useRouter } from "vue-router"
 import { DateTime } from "luxon"
 import { useDepartmentStore } from "@s/department/department"
-import { useNotify } from "@/composables/notify/use-notify"
-import { useVeeForm } from "@/composables/vee-validate/use-validation"
+import { useNotify } from "@/composables/notify/use-notify.ts"
+import { useVeeForm } from "@/composables/vee-validate/use-validation.ts"
 import { dashboardPaths } from "@r/dashboard/path"
 import { DashboardRouteName } from "@r/dashboard/route-names"
 import { HttpError } from "@/api"
@@ -294,7 +294,5 @@ const descriptionRows = computed(() => {
 </template>
 
 <style scoped lang="scss">
-.event-calendar-view {
-
-}
+.event-calendar-view {}
 </style>

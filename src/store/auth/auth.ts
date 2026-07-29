@@ -16,6 +16,7 @@ import { CommonRouteName } from "@/router/common/route-names"
 import { Roles } from "@/definitions/roles"
 import { isSupportedTimezone } from "@/lib/timezones"
 import { Settings } from "luxon"
+import { useHomeStore } from "@s/home/home"
 
 
 function defaultAuthData(): AuthData {
@@ -39,6 +40,8 @@ function defaultUserAccessData(): UserAccessData {
 }
 
 export const useAuthStore = defineStore("auth", () => {
+    const homeStore = useHomeStore()
+
     const initialData = defaultAuthData()
 
     const user = ref<UserData>(initialData.user)
@@ -48,6 +51,7 @@ export const useAuthStore = defineStore("auth", () => {
 
     const isAuthenticated = ref(false)
     const isLoading = ref(true)
+    const isMaintenance = ref(false)
 
     const isSysAdmin = computed(() => user.value.role === Roles.SYSADMIN)
 
@@ -136,6 +140,8 @@ export const useAuthStore = defineStore("auth", () => {
         isAuthenticated.value = false
         setLoading(false)
 
+        homeStore.resetData()
+
         if (redirect) {
             await router.push({ name: CommonRouteName.Auth })
         }
@@ -158,6 +164,12 @@ export const useAuthStore = defineStore("auth", () => {
         isLoading.value = value
     }
 
+    async function enableMaintenance() {
+        isMaintenance.value = true
+
+        await router.push({ name: CommonRouteName.Maintenance })
+    }
+
     return {
         user,
         partner,
@@ -167,6 +179,7 @@ export const useAuthStore = defineStore("auth", () => {
         isAuthenticated,
         isLoading,
         isSysAdmin,
+        isMaintenance,
 
         auth,
         initUserData,
@@ -176,5 +189,6 @@ export const useAuthStore = defineStore("auth", () => {
         reset,
         setLoading,
         setTimeZone,
+        enableMaintenance,
     }
 })

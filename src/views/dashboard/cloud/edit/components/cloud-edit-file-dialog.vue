@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from "vue"
-import { useNotify } from "@/composables/notify/use-notify"
-import { useVeeForm } from "@/composables/vee-validate/use-validation"
+import { useNotify } from "@/composables/notify/use-notify.ts"
+import { useVeeForm } from "@/composables/vee-validate/use-validation.ts"
 import { HttpError } from "@/api"
 import * as cloudFilesAPI from "@/api/modules/dashboard/cloud/cloud-files"
 import BDialogConfirm from "@c/common/b-dialog/b-dialog-confirm.vue"

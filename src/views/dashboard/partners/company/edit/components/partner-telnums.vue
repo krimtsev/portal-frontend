@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from "vue"
-import { useVeeForm } from "@/composables/vee-validate/use-validation"
+import { useVeeForm } from "@/composables/vee-validate/use-validation.ts"
 import BButtonSecondary from "@c/common/b-button/b-button-secondary.vue"
 import BButtonIcon from "@c/common/b-button-icon/b-button-icon.vue"
 import BDialogConfirm from "@c/common/b-dialog/b-dialog-confirm.vue"
