@@ -17,6 +17,7 @@ import { Roles } from "@/definitions/roles"
 import { isSupportedTimezone } from "@/lib/timezones"
 import { Settings } from "luxon"
 import { useHomeStore } from "@s/home/home"
+import { useMaintenanceStore } from "@s/maintenance/maintenance"
 
 
 function defaultAuthData(): AuthData {
@@ -41,6 +42,7 @@ function defaultUserAccessData(): UserAccessData {
 
 export const useAuthStore = defineStore("auth", () => {
     const homeStore = useHomeStore()
+    const maintenanceStore = useMaintenanceStore()
 
     const initialData = defaultAuthData()
 
@@ -51,7 +53,6 @@ export const useAuthStore = defineStore("auth", () => {
 
     const isAuthenticated = ref(false)
     const isLoading = ref(true)
-    const isMaintenance = ref(false)
 
     const isSysAdmin = computed(() => user.value.role === Roles.SYSADMIN)
 
@@ -101,6 +102,10 @@ export const useAuthStore = defineStore("auth", () => {
 
         setAuthData(response.data)
 
+        if (response.maintenance) {
+            maintenanceStore.setMaintenanceData(response.maintenance)
+        }
+
         isAuthenticated.value = true
         setLoading(false)
     }
@@ -124,6 +129,11 @@ export const useAuthStore = defineStore("auth", () => {
         }
 
         setAuthData(response.data)
+
+        if (response.maintenance) {
+            maintenanceStore.setMaintenanceData(response.maintenance)
+        }
+
         isAuthenticated.value = true
 
         return true
@@ -164,12 +174,6 @@ export const useAuthStore = defineStore("auth", () => {
         isLoading.value = value
     }
 
-    async function enableMaintenance() {
-        isMaintenance.value = true
-
-        await router.push({ name: CommonRouteName.Maintenance })
-    }
-
     return {
         user,
         partner,
@@ -179,7 +183,6 @@ export const useAuthStore = defineStore("auth", () => {
         isAuthenticated,
         isLoading,
         isSysAdmin,
-        isMaintenance,
 
         auth,
         initUserData,
@@ -189,6 +192,5 @@ export const useAuthStore = defineStore("auth", () => {
         reset,
         setLoading,
         setTimeZone,
-        enableMaintenance,
     }
 })

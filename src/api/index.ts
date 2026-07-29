@@ -11,6 +11,7 @@ import { HttpMethod } from "@/api/definitions/api"
 import { Queue } from "@/api/queue"
 import { requestsHistory } from "@/api/requests-history"
 import partnerContext from "virtual:partner"
+import { useMaintenanceStore } from "@s/maintenance/maintenance"
 
 export class HttpError {
     code:    number
@@ -49,9 +50,10 @@ async function authGuard(error: any, customConfig?: CustomAxiosRequestConfig) {
     const reason = error.response?.data?.reason
 
     const authStore = useAuthStore()
+    const maintenanceStore = useMaintenanceStore()
 
     if (status === 503 && reason === Reason.Maintenance) {
-        return authStore.enableMaintenance()
+        return maintenanceStore.enableMaintenance()
     }
 
     if (status === 401 && message === "Unauthenticated.") {

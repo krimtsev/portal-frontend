@@ -11,6 +11,7 @@ import { PortalRouteName } from "@r/portal/route-names"
 import routes, { addCustomizationRoutes } from "@r/routes"
 import i18n from "@/plugins/i18n"
 import type { Roles } from "@/definitions/roles"
+import { useMaintenanceStore } from "@s/maintenance/maintenance"
 
 const scrollBehavior: RouterScrollBehavior = (_to, _from, savedPosition) => {
     if (savedPosition) {
@@ -34,10 +35,11 @@ function setTitle(to: RouteLocationNormalized) {
 router.beforeEach(async (to: RouteLocationNormalized, _from, next) => {
     const appStore = useAppStore()
     const authStore = useAuthStore()
+    const maintenanceStore = useMaintenanceStore()
 
     setTitle(to)
 
-    if (authStore.isMaintenance) {
+    if (maintenanceStore.isMaintenance && !maintenanceStore.isAllowedAccess) {
         if (to.name === CommonRouteName.Maintenance) {
             return next()
         }

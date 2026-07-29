@@ -2,6 +2,7 @@
 import { computed, onMounted, ref } from "vue"
 import { useI18n } from "vue-i18n"
 import { useRouter } from "vue-router"
+import { useMaintenanceStore } from "@s/maintenance/maintenance"
 import { useNotify } from "@/composables/notify/use-notify"
 import { useVeeForm } from "@/composables/vee-validate/use-validation"
 import { dashboardPaths } from "@r/dashboard/path"
@@ -19,6 +20,7 @@ import { Status } from "@/definitions/status"
 
 const notify = useNotify()
 const router = useRouter()
+const maintenanceStore = useMaintenanceStore()
 const { t } = useI18n()
 
 
@@ -92,6 +94,10 @@ const onSave = handleSubmit(async (formValues) => {
         notify.error()
         return
     }
+
+    maintenanceStore.setMaintenanceData({
+        enabled: formValues.enabled,
+    })
 
     notify.success(t("mc.notify.success"))
 
