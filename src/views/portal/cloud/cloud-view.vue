@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from "vue"
-import { useNotify } from "@/composables/notify/use-notify.ts"
-import { useRoutePath } from "@/composables/route/use-route-path.ts"
+import { useNotify } from "@/composables/notify/use-notify"
+import { useRoutePath } from "@/composables/route/use-route-path"
 import { HttpError } from "@/api"
 import * as cloudAPI from "@/api/modules/cloud/cloud"
 import BBreadcrumb from "@c/common/b-breadcrumb/b-breadcrumb.vue"

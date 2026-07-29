@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed, ref } from "vue"
 import { useI18n } from "vue-i18n"
-import { useNotify } from "@/composables/notify/use-notify.ts"
+import { useNotify } from "@/composables/notify/use-notify"
 import BButtonSecondary from "@c/common/b-button/b-button-secondary.vue"
-import i18n from "@/plugins/i18n.ts"
+import i18n from "@/plugins/i18n"
 
 const emit = defineEmits<{
     (e: "click"): void

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue"
-import { useNotify } from "@/composables/notify/use-notify.ts"
+import { useNotify } from "@/composables/notify/use-notify"
 import { HttpError } from "@/api"
 import * as cloudAPI from "@/api/modules/cloud/cloud"
 import BSpinner from "@c/common/b-spinner/b-spinner.vue"

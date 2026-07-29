@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useBreadcrumbs } from "@/composables/breadcrumbs/use-breadcrumbs.ts"
+import { useBreadcrumbs } from "@/composables/breadcrumbs/use-breadcrumbs"
 
 const { breadcrumbs } = useBreadcrumbs()
 </script>
