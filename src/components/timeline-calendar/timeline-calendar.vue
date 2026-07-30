@@ -89,11 +89,15 @@ const daysList = computed(() => {
     const month = currentDate.value.getMonth()
     const totalDays = daysInMonth.value
 
+    const today = new Date()
+    const isCurrentMonthAndYear = today.getFullYear() === year && today.getMonth() === month
+
     return Array.from({ length: totalDays }, (_, i) => {
         const dayNumber = i + 1
         const date = new Date(year, month, dayNumber)
         const dayOfWeekIndex = date.getDay() // 0 = Воскресенье, 6 = Суббота
         const isWeekend = dayOfWeekIndex === 0 || dayOfWeekIndex === 6
+        const isToday = isCurrentMonthAndYear && today.getDate() === dayNumber
 
         const dayOfWeekName = date.toLocaleString("ru-RU", { weekday: "short" })
 
@@ -101,6 +105,7 @@ const daysList = computed(() => {
             day: dayNumber,
             dayOfWeekName,
             isWeekend,
+            isToday,
         }
     })
 })
@@ -247,7 +252,10 @@ const department = computed(() => {
                         v-for="item in daysList"
                         :key="'header-day-' + item.day"
                         class="day-header"
-                        :class="{ 'is-weekend': item.isWeekend }"
+                        :class="{
+                            'is-weekend': item.isWeekend,
+                            'is-today': item.isToday
+                        }"
                         :style="{ gridColumn: item.day, gridRow: 1 }"
                     >
                         <span class="day-number">{{ item.day }}</span>
@@ -442,6 +450,15 @@ const department = computed(() => {
             .day-number,
             .day-name {
                 color: var(--p-gray-400);
+            }
+        }
+
+        &.is-today {
+            background-color: var(--p-primary-500);
+
+            .day-number,
+            .day-name {
+                color: var(--p-surface-900);
             }
         }
     }
