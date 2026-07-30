@@ -18,7 +18,7 @@ import ListLoadingState from "@c/common/b-loading-state/list-loading-state.vue"
 import BTableText from "@c/common/b-table/b-table-text.vue"
 import BToolbar from "@c/common/b-toolbar/b-toolbar.vue"
 import BToolbarItem from "@c/common/b-toolbar/b-toolbar-item.vue"
-import type { EventCalendarListItem } from "@v/dashboard/event-calendar/list/definitions/event-calendar-list.ts"
+import type { EventCalendarListItem } from "@v/dashboard/event-calendar/list/definitions/event-calendar-list"
 import { formatStringToLocal } from "@/lib/date-helpers"
 
 

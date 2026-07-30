@@ -202,7 +202,7 @@ const startAt = computed({
         :path-back="dashboardPaths.DashboardPartners"
         :is-loading="isLoading"
         :is-first-loading="isFirstLoading"
-        class="user-view"
+        class="partner-view"
         @save="onSave"
     >
         <b-form-card title="Основные данные">
@@ -297,6 +297,9 @@ const startAt = computed({
                     :error="errors['disabled']"
                     option-label="name"
                     option-value="id"
+                    :option-class="{
+                        [Status.DISABLED]: 'status-danger',
+                    }"
                 />
             </b-form-item>
 

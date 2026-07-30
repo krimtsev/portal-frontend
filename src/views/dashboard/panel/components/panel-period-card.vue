@@ -4,7 +4,7 @@ import BSelectButton from "@c/common/b-select-button/b-select-button.vue"
 import BSkeleton from "@c/common/b-skeleton/b-skeleton.vue"
 import type { TicketsPeriodsData } from "@v/dashboard/panel/definitions/panel"
 import { periodOptions } from "@v/dashboard/panel/utils/panel"
-import { PeriodOptions } from "@/definitions/period.ts"
+import { PeriodOptions } from "@/definitions/period"
 
 const props = defineProps<{
     title:     string

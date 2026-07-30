@@ -327,13 +327,5 @@ const userState = computed({
         align-items: flex-start;
         gap: $indent-x1;
     }
-
-    :deep(.b-select-button) {
-        .p-togglebutton:has(.is-disabled).p-togglebutton-checked {
-            .p-togglebutton-content {
-                background-color: var(--p-red-400);
-            }
-        }
-    }
 }
 </style>

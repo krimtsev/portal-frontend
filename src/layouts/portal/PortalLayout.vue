@@ -10,6 +10,7 @@ import { menuData } from "@l/portal/data/menu"
 import BAvatar from "@c/common/b-avatar/b-avatar.vue"
 import BImage from "@c/common/b-image/b-image.vue"
 import BLink from "@c/common/b-link/b-link.vue"
+import TechnicalWorks from "@c/technical-works/technical-works.vue"
 import { Roles } from "@/definitions/roles"
 
 
@@ -46,6 +47,8 @@ const avatarLabel = computed(() => {
 
 <template>
     <div class="portal-layout">
+        <technical-works />
+
         <div class="wrapper">
             <prime-menubar
                 :model="menuItems"

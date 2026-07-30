@@ -11,6 +11,7 @@ import { HttpMethod } from "@/api/definitions/api"
 import { Queue } from "@/api/queue"
 import { requestsHistory } from "@/api/requests-history"
 import partnerContext from "virtual:partner"
+import { useMaintenanceStore } from "@s/maintenance/maintenance"
 
 export class HttpError {
     code:    number
@@ -25,8 +26,9 @@ export class HttpError {
 }
 
 export interface CustomAxiosRequestConfig extends Omit<AxiosRequestConfig, "signal"> {
-    abortController?: AbortController
-    skipAuthGuard?:   boolean
+    abortController?:   AbortController
+    skipAuthGuard?:     boolean
+    disableAutoReauth?: boolean
 }
 
 export interface AbortControllerConfig {
@@ -34,18 +36,33 @@ export interface AbortControllerConfig {
     internal?:  boolean
 }
 
+enum Reason {
+    Maintenance = "maintenance",
+}
+
 const prefix = "api/v1"
 
 const url = partnerContext.api || ""
 
-async function authGuard(error: any) {
+async function authGuard(error: any, customConfig?: CustomAxiosRequestConfig) {
     const status = error.response?.status
     const message = error.response?.data?.message
+    const reason = error.response?.data?.reason
+
+    const authStore = useAuthStore()
+    const maintenanceStore = useMaintenanceStore()
+
+    if (status === 503 && reason === Reason.Maintenance) {
+        return maintenanceStore.enableMaintenance()
+    }
 
     if (status === 401 && message === "Unauthenticated.") {
-        const authStore = useAuthStore()
-        await authStore.csrf()
-        const success = await authStore.initUserData()
+        let success = false
+
+        if (!customConfig?.disableAutoReauth) {
+            await authStore.csrf()
+            success = await authStore.initUserData()
+        }
 
         if (!success) {
             await authStore.reset(true)
@@ -123,7 +140,7 @@ class Http {
         } catch (err: unknown) {
             const error = err as AxiosError<any>
             if (!customConfig?.skipAuthGuard) {
-                await authGuard(error)
+                await authGuard(error, customConfig)
             }
             requestsHistory.push(url, HttpMethod.GET, error.response?.status, error.response?.data)
             return new HttpError(
@@ -143,7 +160,7 @@ class Http {
             return res.data
         } catch (err: unknown) {
             const error = err as AxiosError<any>
-            await authGuard(error)
+            await authGuard(error, customConfig)
             requestsHistory.push(url, HttpMethod.POST, error.response?.status, error.response?.data)
             return new HttpError(
                 error.response?.status,
@@ -160,7 +177,7 @@ class Http {
             return res.data
         } catch (err: unknown) {
             const error = err as AxiosError<any>
-            await authGuard(error)
+            await authGuard(error, customConfig)
             requestsHistory.push(url, HttpMethod.PUT, error.response?.status, error.response?.data)
             return new HttpError(
                 error.response?.status,
@@ -177,7 +194,7 @@ class Http {
             return res.data
         } catch (err: unknown) {
             const error = err as AxiosError<any>
-            await authGuard(error)
+            await authGuard(error, customConfig)
             requestsHistory.push(url, HttpMethod.PATCH, error.response?.status, error.response?.data)
             return new HttpError(
                 error.response?.status,
@@ -194,7 +211,7 @@ class Http {
             return res.data
         } catch (err: unknown) {
             const error = err as AxiosError<any>
-            await authGuard(error)
+            await authGuard(error, customConfig)
             requestsHistory.push(url, HttpMethod.DELETE, error.response?.status, error.response?.data)
             return new HttpError(
                 error.response?.status,

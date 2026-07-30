@@ -156,6 +156,7 @@ const onRemove = () => {
         background-color: var(--p-dashboard-card-background);
         border-top-left-radius: $border-radius;
         border-top-right-radius: $border-radius;
+        min-height: 56px;
 
         &-left {
             display: flex;

@@ -20,9 +20,9 @@ import BInputText from "@c/common/b-input/b-input-text.vue"
 import BMultiSelect from "@c/common/b-select/b-multi-select.vue"
 import BSelect from "@c/common/b-select/b-select.vue"
 import BTextarea from "@c/common/b-textarea/b-textarea.vue"
-import { defaultMaxRows } from "@c/common/b-textarea/definitions/textarea.ts"
+import { defaultMaxRows } from "@c/common/b-textarea/definitions/textarea"
 import type { EventCalendarData } from "@v/dashboard/event-calendar/edit/definitions/event-calendar"
-import { EventCalendarSchema } from "@v/dashboard/event-calendar/edit/schemas/event-calendar.schema.ts"
+import { EventCalendarSchema } from "@v/dashboard/event-calendar/edit/schemas/event-calendar.schema"
 import type { UserOptionItem } from "@v/dashboard/users/edit/definitions/user"
 import {
     formatJSDateToStringDate,
@@ -294,7 +294,5 @@ const descriptionRows = computed(() => {
 </template>
 
 <style scoped lang="scss">
-.event-calendar-view {
-
-}
+.event-calendar-view {}
 </style>

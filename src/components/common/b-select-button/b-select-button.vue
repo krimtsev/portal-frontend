@@ -78,6 +78,12 @@ function resolveOptionClass(option: any): string {
                 border-color: var(--p-red-400);
             }
         }
+        .p-togglebutton:has(.status-disabled).p-togglebutton-checked {
+            .p-togglebutton-content {
+                background-color: var(--p-surface-400);
+                border-color: var(--p-surface-400);
+            }
+        }
     }
 
     .b-input-error {

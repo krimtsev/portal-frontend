@@ -8,7 +8,7 @@ import {
     clearName,
     clearSpecialization,
 } from "@v/profile/statistics/staff-statistics/utils/staff-statistics"
-import { formatPrice } from "@/lib/utils.ts"
+import { formatPrice } from "@/lib/utils"
 
 
 interface Props {

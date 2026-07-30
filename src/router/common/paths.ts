@@ -1,3 +1,4 @@
 export const commonPaths = {
-    Auth: "/auth",
+    Auth:        "/auth",
+    Maintenance: "/maintenance",
 }

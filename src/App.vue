@@ -3,8 +3,8 @@ import { computed, defineAsyncComponent } from "vue"
 import { RouterView, useRoute } from "vue-router"
 import PrimeToast from "primevue/toast"
 import { useAppStore } from "@s/app/app"
-import { CommonRouteName } from "@r/common/route-names"
 import { dashboardPaths } from "@r/dashboard/path"
+import { getMeta } from "@r/utils"
 
 
 const DashboardLayout = defineAsyncComponent(() => import("@l/dashboard/DashboardLayout.vue"))
@@ -14,26 +14,28 @@ const GuestLayout = defineAsyncComponent(() => import("@l/guest/GuestLayout.vue"
 const route = useRoute()
 const appStore = useAppStore()
 
-const layout = computed(() => {
-    if (route.meta.layout) {
-        return route.meta.layout
-    }
-
-    if (!appStore.isRoutesLoaded || route.name === CommonRouteName.Auth) {
-        return GuestLayout
+const layout = computed((): string => {
+    if (!appStore.isRoutesLoaded) {
+        return "guest-layout"
     }
 
     if (route.path.startsWith(dashboardPaths.Dashboard)) {
-        return DashboardLayout
+        return "dashboard-layout"
     }
 
-    return PortalLayout
+    return getMeta(route)?.layout || "portal-layout"
 })
+
+const layoutComponent = computed(() => ({
+    "dashboard-layout": DashboardLayout,
+    "portal-layout":    PortalLayout,
+    "guest-layout":     GuestLayout,
+})[layout.value] ?? layout.value)
 </script>
 
 <template>
     <prime-toast position="top-center" />
-    <component :is="layout">
+    <component :is="layoutComponent">
         <router-view v-slot="{ Component, route: viewRoute }">
             <transition name="layout-fade" mode="out-in">
                 <component :is="Component" :key="viewRoute.fullPath" />

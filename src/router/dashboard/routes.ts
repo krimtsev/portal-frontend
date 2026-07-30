@@ -152,6 +152,24 @@ const routes: RouteRecordRaw[] = [
             breadcrumb: "mc.dashboard.sidebar.eventCalendar",
         },
     },
+    {
+        path:      dashboardPaths.DashboardSettings,
+        name:      DashboardRouteName.DashboardSettings,
+        component: () => import("@v/dashboard/settings/_settings/settings-view.vue"),
+        meta:      {
+            roles:      [Roles.SYSADMIN],
+            breadcrumb: "mc.dashboard.sidebar.settings",
+        },
+    },
+    {
+        path:      dashboardPaths.DashboardMaintenance,
+        name:      DashboardRouteName.DashboardMaintenance,
+        component: () => import("@v/dashboard/settings/maintenance/maintenance-view.vue"),
+        meta:      {
+            roles:      [Roles.SYSADMIN],
+            breadcrumb: "mc.dashboard.sidebar.settings",
+        },
+    },
 ]
 
 export default routes

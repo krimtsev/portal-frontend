@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue"
 import { useI18n } from "vue-i18n"
-import { usePartnerStatisticsStore } from "@s/dashboard/statistics/partner-statistics.ts"
+import { usePartnerStatisticsStore } from "@s/dashboard/statistics/partner-statistics"
 import { useNotify } from "@/composables/notify/use-notify"
 import { HttpError } from "@/api"
 import * as partnersAPI from "@/api/modules/dashboard/partners/partners"

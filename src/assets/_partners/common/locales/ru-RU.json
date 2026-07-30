@@ -261,7 +261,8 @@
                 "cloud": "Файлы",
                 "royalty": "Роялти",
                 "statistics": "Статистика",
-                "eventCalendar": "Календарь событий"
+                "eventCalendar": "Календарь событий",
+                "settings": "Настройки"
             },
             "users": {
                 "state": {
@@ -298,6 +299,21 @@
             "eventCalendar": {
                 "notify": {
                     "created": "Событие создано"
+                }
+            },
+            "settings": {
+                "page": {
+                    "basicSection": "Основные настройки"
+                },
+                "maintenance": {
+                    "title": "Технические работы",
+                    "announce": "Уведомление сотрудников портала о проведении технических работ."
+                }
+            },
+            "maintenance": {
+                "state": {
+                    "enabled": "Включено",
+                    "disabled": "Отключено"
                 }
             }
         }

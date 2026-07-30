@@ -4,6 +4,7 @@ import type {
     LoginCredentials,
 } from "@/api/modules/auth/definitions/auth"
 import partnerContext from "virtual:partner"
+import type { MaintenanceData } from "@v/dashboard/settings/maintenance/definitions/maintenance"
 
 export async function csrf() {
     return await http.get("sanctum/csrf-cookie", {
@@ -14,7 +15,10 @@ export async function csrf() {
 }
 
 export async function login({ login, password, remember }: LoginCredentials) {
-    return await http.post<{ data: AuthResponse }>("login", {
+    return await http.post<{
+        data:         AuthResponse
+        maintenance?: MaintenanceData
+    }>("login", {
         login,
         password,
         remember,
@@ -26,5 +30,8 @@ export async function logout() {
 }
 
 export async function userData() {
-    return await http.get<{ data: AuthResponse }>("user-data", { skipAuthGuard: true })
+    return await http.get<{
+        data:         AuthResponse
+        maintenance?: MaintenanceData
+    }>("user-data", { disableAutoReauth: true })
 }
