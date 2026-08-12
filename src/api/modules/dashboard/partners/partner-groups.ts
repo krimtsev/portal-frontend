@@ -19,17 +19,17 @@ export async function list(paginationFilter: PaginationFilter) {
 }
 
 export async function get(id: string) {
-    return await http.get<PartnerGroupResponse>(`dashboard/partner-groups/partner-group/${id}`)
+    return await http.get<PartnerGroupResponse>(`dashboard/partner-groups/group/${id}`)
 }
 
 export async function create(id: string, data: PartnerGroupData) {
-    return await http.post<null>(`dashboard/partner-groups/partner-group/${id}`, data)
+    return await http.post<null>(`dashboard/partner-groups/group/${id}`, data)
 }
 
 export async function update(id: string, data: PartnerGroupData) {
-    return await http.put<null>(`dashboard/partner-groups/partner-group/${id}`, data)
+    return await http.put<null>(`dashboard/partner-groups/group/${id}`, data)
 }
 
 export async function remove(id: string) {
-    return await http.delete<null>(`dashboard/partner-groups/partner-group/${id}`)
+    return await http.delete<null>(`dashboard/partner-groups/group/${id}`)
 }

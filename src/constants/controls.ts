@@ -1,7 +1,7 @@
-import { Status } from "@/definitions/status.ts"
-import i18n from "@/plugins/i18n.ts"
+import { Status } from "@/definitions/status"
+import i18n from "@/plugins/i18n"
 
-export const maintenanceStateOptions: { id: string, name: string }[] = [
+export const controlOptions: { id: string, name: string }[] = [
     {
         id:   Status.ACTIVE,
         name: i18n.global.t("mc.common.controls.enabled"),

@@ -61,6 +61,8 @@ const items = computed<DashboardMenuItem[]>(() => {
                 DashboardRouteName.DashboardPartner,
                 DashboardRouteName.DashboardPartnerGroups,
                 DashboardRouteName.DashboardPartnerGroup,
+                DashboardRouteName.DashboardPartnerNotifications,
+                DashboardRouteName.DashboardPartnerNotification,
             ],
         })
     }

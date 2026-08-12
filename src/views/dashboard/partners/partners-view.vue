@@ -23,6 +23,10 @@ const pagesTabs: PageTab[] = [
         id:   DashboardRouteName.DashboardPartnerGroups,
         text: "Группы филиалов",
     },
+    {
+        id:   DashboardRouteName.DashboardPartnerNotifications,
+        text: "Настройка уведомлений",
+    },
 ]
 
 const activeTab = computed({

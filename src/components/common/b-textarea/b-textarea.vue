@@ -22,6 +22,8 @@ const props = withDefaults(defineProps<{
     hideCount?:   boolean
     maxlength?:   string | number
     label?:       string
+    autoResize?:  boolean
+    maxRows?:     number | string
 }>(), {
     name:        undefined,
     label:       "",
@@ -32,9 +34,13 @@ const props = withDefaults(defineProps<{
     cols:        defaultMaxCols,
     maxlength:   defaultMaxLength,
     hint:        undefined,
+    autoResize:  false,
+    maxRows:     defaultMaxRows * 3,
 })
 
 const { t } = useI18n()
+
+const maxRowsCount = computed(() => Number(props.maxRows))
 
 const hint = computed(() => {
     if (!props.hint) return []
@@ -63,6 +69,7 @@ const count = computed(() => model.value.length || 0)
             :invalid="!!props.error"
             :disabled="props.disabled"
             :maxlength="-1"
+            :auto-resize="props.autoResize"
             style="resize: none"
             class="textarea"
         />
@@ -104,6 +111,11 @@ const count = computed(() => model.value.length || 0)
     :deep(.p-textarea)  {
         &.p-invalid {
             border-color: var(--p-form-field-invalid-border-color);
+        }
+
+        &.p-textarea-resizable {
+            max-height: calc(v-bind(maxRowsCount) * 1lh + 1rem);
+            overflow-y: auto !important;
         }
     }
 
