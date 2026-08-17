@@ -42,6 +42,8 @@ export const PartnerNotificationSchema = toTypedSchema(
 
             new_clients_days: z.number({ message: "Поле обязательно для заполнения" })
                 .min(0),
+
+            send_missed_calls: z.boolean(),
         }),
     }),
 )

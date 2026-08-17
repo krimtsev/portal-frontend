@@ -42,6 +42,7 @@ function defaultState(): PartnerNotificationData {
             lost_clients_days:     0,
             returned_clients_days: 0,
             new_clients_days:      0,
+            send_missed_calls:     false,
         },
     }
 }
@@ -71,6 +72,7 @@ const [paymentDateModel] = defineLazyField("notification_channel.payment_date")
 const [lostClientsDaysModel] = defineLazyField("report_settings.lost_clients_days")
 const [returnedClientsDaysModel] = defineLazyField("report_settings.returned_clients_days")
 const [newClientsDaysModel] = defineLazyField("report_settings.new_clients_days")
+const [sendMissedCallsModel] = defineLazyField("report_settings.send_missed_calls")
 
 onMounted(async () => {
     isFirstLoading.value = true
@@ -155,6 +157,18 @@ const checkPayment = computed({
     },
     set(newValue: Status) {
         checkPaymentModel.value = newValue === Status.ACTIVE
+    },
+})
+
+const sendMissedCalls = computed({
+    get() {
+        console.log(sendMissedCallsModel.value)
+        return sendMissedCallsModel.value
+            ? Status.ACTIVE
+            : Status.DISABLED
+    },
+    set(newValue: Status) {
+        sendMissedCallsModel.value = newValue === Status.ACTIVE
     },
 })
 </script>
@@ -262,6 +276,18 @@ const checkPayment = computed({
                     v-model="lostClientsDaysModel"
                     :error="errors['report_settings.lost_clients_days']"
                     :disabled="isLoading"
+                />
+            </b-form-item>
+
+            <b-form-item label="Пропущенные звонки">
+                <b-select-button
+                    v-model="sendMissedCalls"
+                    :options="controlOptions"
+                    option-label="name"
+                    option-value="id"
+                    :option-class="{
+                        [Status.DISABLED]: 'status-disabled',
+                    }"
                 />
             </b-form-item>
         </b-form-card>

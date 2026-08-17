@@ -223,7 +223,30 @@ const partnerState = computed({
                 </prime-column>
 
                 <prime-column
-                    header="Telegram ID"
+                    field="send_missed_calls"
+                    class="table-send-missed-calls"
+                >
+                    <template #header>
+                        <b-table-text text="Потерянные звонки" />
+                    </template>
+
+                    <template #body="{ data }">
+                        <partner-state-tag :active="data?.report_settings?.send_missed_calls" />
+                    </template>
+                </prime-column>
+
+                <prime-column
+                    header="Yclients"
+                    field="yclients_id"
+                    class="table-yclients-id"
+                >
+                    <template #body="{ data }">
+                        <b-table-text :text="data?.yclients_id" />
+                    </template>
+                </prime-column>
+
+                <prime-column
+                    header="Telegram"
                     field="telegram_chat_id"
                     class="table-telegram-chat-id"
                 >
@@ -287,6 +310,16 @@ const partnerState = computed({
 
         .table {
             &-payment-date {
+                @include col-fixed(120px);
+            }
+
+            &-new-clients-days,
+            &-returned-clients-days,
+            &-lost-clients-days {
+                @include col-fixed(110px);
+            }
+
+            &-send-missed-calls {
                 @include col-fixed(120px);
             }
         }

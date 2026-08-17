@@ -11,6 +11,8 @@ html[data-layout="dashboard"] {
     --p-treetable-header-cell-background: transparent;
     --p-treetable-row-background: transparent;
 
+    --p-togglebutton-content-border-radius: var(--p-border-radius-sm);
+
     .p-datatable,
     .p-treetable {
         .p-datatable-tbody > tr,
