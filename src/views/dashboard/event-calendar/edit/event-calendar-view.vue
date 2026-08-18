@@ -190,10 +190,6 @@ const onRemove = async () => {
         name: DashboardRouteName.DashboardEventCalendarList,
     })
 }
-
-const descriptionRows = computed(() => {
-    return defaultMaxRows * 3
-})
 </script>
 
 <template>
@@ -229,7 +225,8 @@ const descriptionRows = computed(() => {
                     :disabled="isLoading"
                     :error="errors['description']"
                     :maxlength="maxDescriptionLength"
-                    :rows="descriptionRows"
+                    :rows="defaultMaxRows"
+                    auto-resize
                     class="full-width"
                 />
             </b-form-item>

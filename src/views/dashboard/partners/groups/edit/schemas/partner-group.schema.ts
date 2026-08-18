@@ -6,7 +6,10 @@ export const PartnerGroupSchema = toTypedSchema(
         title: z.string()
             .min(1, { message: "Поле обязательно для заполнения" }),
 
-        partners: z.array(z.number()),
+        partners: z.array(z.number())
+            .nonempty({
+                message: "Список филиалов не может быть пустым",
+            }),
     }),
 )
 

@@ -53,6 +53,10 @@
                 "success": "Решено",
                 "closed": "Закрыто",
                 "cancel": "Отклонено"
+            },
+            "controls": {
+                "enabled": "Включено",
+                "disabled": "Отключено"
             }
         },
         "timezone": {
@@ -290,6 +294,15 @@
                     "created": "Группа партнеров создана"
                 }
             },
+            "partnerNotification": {
+                "state": {
+                    "active": "Отправляются",
+                    "disabled": "Отключены"
+                },
+                "notify": {
+                    "created": "Группа партнеров создана"
+                }
+            },
             "cloud": {
                 "notify": {
                     "created": "Каталог создан",
@@ -308,12 +321,6 @@
                 "maintenance": {
                     "title": "Технические работы",
                     "announce": "Уведомление сотрудников портала о проведении технических работ."
-                }
-            },
-            "maintenance": {
-                "state": {
-                    "enabled": "Включено",
-                    "disabled": "Отключено"
                 }
             }
         }

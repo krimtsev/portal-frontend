@@ -67,6 +67,11 @@ const routes: RouteRecordRaw[] = [
                 name:      DashboardRouteName.DashboardPartnerGroups,
                 component: () => import("@v/dashboard/partners/groups/list/partner-groups-list-view.vue"),
             },
+            {
+                path:      dashboardPaths.DashboardPartnerNotifications,
+                name:      DashboardRouteName.DashboardPartnerNotifications,
+                component: () => import("@v/dashboard/partners/notifications/list/partner-notifications-list-view.vue"),
+            },
         ],
     },
     {
@@ -81,7 +86,16 @@ const routes: RouteRecordRaw[] = [
     {
         path:      dashboardPaths.DashboardPartnerGroup,
         name:      DashboardRouteName.DashboardPartnerGroup,
-        component: () => import("@v/dashboard/partners/groups/edit/partner-groups-view.vue"),
+        component: () => import("@v/dashboard/partners/groups/edit/partner-group-view.vue"),
+        meta:      {
+            roles:      [Roles.SYSADMIN],
+            breadcrumb: "mc.dashboard.sidebar.partners",
+        },
+    },
+    {
+        path:      dashboardPaths.DashboardPartnerNotification,
+        name:      DashboardRouteName.DashboardPartnerNotification,
+        component: () => import("@v/dashboard/partners/notifications/edit/partner-notification-view.vue"),
         meta:      {
             roles:      [Roles.SYSADMIN],
             breadcrumb: "mc.dashboard.sidebar.partners",

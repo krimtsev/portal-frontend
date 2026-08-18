@@ -8,6 +8,8 @@ export enum DashboardRouteName {
     DashboardPartner = "DashboardPartner",
     DashboardPartnerGroups = "DashboardPartnerGroups",
     DashboardPartnerGroup = "DashboardPartnerGroup",
+    DashboardPartnerNotifications = "DashboardPartnerNotifications",
+    DashboardPartnerNotification = "DashboardPartnerNotification",
     DashboardCloud = "DashboardCloud",
     DashboardCloudList = "DashboardCloudList",
     DashboardRoyalty = "DashboardRoyalty",

@@ -412,7 +412,7 @@ const department = computed(() => {
         display: grid;
         grid-template-columns: repeat(31, minmax(30px, 1fr));
         grid-template-rows: repeat(1, minmax(30px, 1fr));
-        gap: $indent-x1 0;
+        gap: $indent-x1 2px;
         position: relative;
         padding-bottom: $indent-x1;
 
@@ -458,7 +458,7 @@ const department = computed(() => {
 
             .day-number,
             .day-name {
-                color: var(--p-surface-900);
+                color: var(--p-portal-card-background);
             }
         }
     }
