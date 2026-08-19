@@ -24,4 +24,6 @@ export enum PortalRouteName {
     ContactCentralOffice = "ContactCentralOffice",
     ContactFranchisee = "ContactFranchisee",
     ContactPartners = "ContactPartners",
+    IntegrationVideoAnalytics = "IntegrationVideoAnalytics",
+    IntegrationTelephonyQuality = "IntegrationTelephonyQuality",
 }
