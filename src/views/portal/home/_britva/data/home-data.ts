@@ -121,6 +121,19 @@ export const sections = computed((): Section[] => {
                 },
             ],
         },
+        {
+            title: "Обязательные интеграции",
+            items: [
+                {
+                    label: "Система видеoаналитики IVIDEON",
+                    path:  portalPaths.IntegrationVideoAnalytics,
+                },
+                {
+                    label: "Контроль качества телефонии DIALOGIC AI",
+                    path:  portalPaths.IntegrationTelephonyQuality,
+                },
+            ],
+        },
     ]
 
     const additionally = {
