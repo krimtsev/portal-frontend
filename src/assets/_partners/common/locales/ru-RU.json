@@ -57,6 +57,9 @@
             "controls": {
                 "enabled": "Включено",
                 "disabled": "Отключено"
+            },
+            "files": {
+                "notFound": "Файл не найден"
             }
         },
         "timezone": {

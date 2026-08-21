@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import { ref } from "vue"
+import { useI18n } from "vue-i18n"
+import { useNotify } from "@/composables/notify/use-notify"
+import { HttpError } from "@/api"
 import * as filesAPI from "@/api/modules/files/files"
 import BBlockquote from "@c/common/b-blockquote/b-blockquote.vue"
 import BButtonDownload from "@c/common/b-button/b-button-download.vue"
@@ -7,19 +11,51 @@ import PortalCard from "@c/portal/portal-card/portal-card.vue"
 import PortalPage from "@c/portal/portal-page/portal-page.vue"
 import { downloadExternalFile } from "@/lib/files"
 
-async function handleNotificationDownload() {
-    const fileBlob = await filesAPI.downloadPartnerFile("video-analytics", "notification.docx")
+const notify = useNotify()
+const { t } = useI18n()
 
-    if (fileBlob instanceof Blob) {
-        downloadExternalFile(fileBlob, "Стандарт IVIDION.docx")
+const isLoadingNotification = ref(false)
+const isLoadingInstruction = ref(false)
+
+async function handleNotificationDownload() {
+    if (isLoadingNotification.value) return
+
+    isLoadingNotification.value = true
+
+    try {
+        const fileBlob = await filesAPI.downloadPartnerFile("video-analytics", "notification.docx")
+
+        if (fileBlob instanceof HttpError) {
+            notify.error(t("mc.common.files.notFound"))
+            return
+        }
+
+        if (fileBlob instanceof Blob) {
+            downloadExternalFile(fileBlob, "Стандарт IVIDION.docx")
+        }
+    } finally {
+        isLoadingNotification.value = false
     }
 }
 
-async function handleInstructionsDownload() {
-    const fileBlob = await filesAPI.downloadPartnerFile("video-analytics", "instructions.pdf")
+async function handleInstructionDownload() {
+    if (isLoadingInstruction.value) return
 
-    if (fileBlob instanceof Blob) {
-        downloadExternalFile(fileBlob, "Инструкция по подключению.pdf")
+    isLoadingInstruction.value = true
+
+    try {
+        const fileBlob = await filesAPI.downloadPartnerFile("video-analytics", "instructions.pdf")
+
+        if (fileBlob instanceof HttpError) {
+            notify.error(t("mc.common.files.notFound"))
+            return
+        }
+
+        if (fileBlob instanceof Blob) {
+            downloadExternalFile(fileBlob, "Инструкция по подключению.pdf")
+        }
+    } finally {
+        isLoadingInstruction.value = false
     }
 }
 </script>
@@ -57,6 +93,7 @@ async function handleInstructionsDownload() {
 
                 <b-button-download
                     label="Стандарт IVIDION.docx"
+                    :loading="isLoadingNotification"
                     @click="handleNotificationDownload"
                 />
             </div>
@@ -127,7 +164,8 @@ async function handleInstructionsDownload() {
 
                 <b-button-download
                     label="Инструкция по подключению.pdf"
-                    @click="handleInstructionsDownload"
+                    :loading="isLoadingInstruction"
+                    @click="handleInstructionDownload"
                 />
             </div>
         </portal-card>
