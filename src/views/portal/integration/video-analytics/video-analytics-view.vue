@@ -31,7 +31,7 @@ async function handleNotificationDownload() {
         }
 
         if (fileBlob instanceof Blob) {
-            downloadExternalFile(fileBlob, "Стандарт IVIDION.docx")
+            downloadExternalFile(fileBlob, "Стандарт IVIDEON.docx")
         }
     } finally {
         isLoadingNotification.value = false
@@ -62,7 +62,7 @@ async function handleInstructionDownload() {
 
 <template>
     <portal-page
-        title="Система видеoаналитики IVIDION"
+        title="Система видеoаналитики IVIDEON"
         class="video-analytics-view"
     >
         <portal-card title="Новый стандарт сети BRITVA от 18.08.2026">
@@ -79,7 +79,7 @@ async function handleInstructionDownload() {
 
                 <p>
                     С августа мы начинаем внедрение нового инструмента контроля качества на базе
-                    искусственного интеллекта. Это система видеоаналитики от компании IVIDION
+                    искусственного интеллекта. Это система видеоаналитики от компании IVIDEON
                     (сотрудничают с Dodo, CDEK, ПИК, Тинькофф и другими компаниями), которая будет помогать
                     автоматически отслеживать важные операционные моменты и формировать отчёты по ним.
                 </p>
@@ -92,7 +92,7 @@ async function handleInstructionDownload() {
                 </b-blockquote>
 
                 <b-button-download
-                    label="Стандарт IVIDION.docx"
+                    label="Стандарт IVIDEON.docx"
                     :loading="isLoadingNotification"
                     @click="handleNotificationDownload"
                 />
@@ -150,12 +150,12 @@ async function handleInstructionDownload() {
                         (минимум 2 камеры на филиал, учитывайте планировку).
                     </li>
                     <li>Договор NDA заключается индивидуально с каждым франчайзи.</li>
-                    <li>Счёт выставляет IVIDION напрямую.</li>
+                    <li>Счёт выставляет IVIDEON напрямую.</li>
                 </ul>
 
                 <b-blockquote>
                     <p class="mb-x0">
-                        Договорились с IVIDION, что заходим всей сетью, поэтому выбили для нас хорошие условия.
+                        Договорились с IVIDEON, что заходим всей сетью, поэтому выбили для нас хорошие условия.
                     </p>
                     <p class="mb-x0">
                         <strong>Срок подключения для всех филиалов:</strong> до 25 октября 2026 г.
