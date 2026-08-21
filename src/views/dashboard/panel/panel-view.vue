@@ -19,7 +19,7 @@ const notify = useNotify()
 const authStore = useAuthStore()
 
 const isLoading = ref(true)
-const analutics = ref<AnalyticsData>(defaultAnalyticsData())
+const analytics = ref<AnalyticsData>(defaultAnalyticsData())
 
 onMounted(async () => {
     isLoading.value = true
@@ -31,13 +31,13 @@ onMounted(async () => {
         return
     }
 
-    analutics.value = merge(analutics.value, resp.data)
+    analytics.value = merge(analytics.value, resp.data)
 
     isLoading.value = false
 })
 
 const ticketsCompleted = computed(() => {
-    const { total_count, pending_count, new_count } = analutics.value.tickets
+    const { total_count, pending_count, new_count } = analytics.value.tickets
 
     const completedCount = total_count - (pending_count + new_count)
     const percent = total_count > 0
@@ -54,12 +54,12 @@ const partnerMetrics = computed((): PanelSplitMetric[] => {
     return [
         {
             label:   "Активные",
-            value:   analutics.value.partners.active_count,
+            value:   analytics.value.partners.active_count,
             variant: "success",
         },
         {
             label: "Неактивные",
-            value: analutics.value.partners.inactive_count,
+            value: analytics.value.partners.inactive_count,
         },
     ]
 })
@@ -68,15 +68,15 @@ const jobsMetrics = computed((): PanelSplitMetric[] => {
     return [
         {
             label: "Default",
-            value: analutics.value.jobs.default_count,
+            value: analytics.value.jobs.default_count,
         },
         {
             label: "Yclients",
-            value: analutics.value.jobs.yclients_count,
+            value: analytics.value.jobs.yclients_count,
         },
         {
             label:   "Failed",
-            value:   analutics.value.jobs.failed_count,
+            value:   analytics.value.jobs.failed_count,
             variant: "danger",
         },
     ]
@@ -96,13 +96,13 @@ const jobsMetrics = computed((): PanelSplitMetric[] => {
         <section class="first-section">
             <panel-card
                 :is-loading="isLoading"
-                :value="formatNumber(analutics.tickets.total_count)"
+                :value="formatNumber(analytics.tickets.total_count)"
                 title="Всего заявок на портале"
             />
 
             <panel-card
                 :is-loading="isLoading"
-                :value="formatNumber(analutics.tickets.new_count)"
+                :value="formatNumber(analytics.tickets.new_count)"
                 title="Новые заявки"
                 status="new"
                 subtext="ожидают обработки"
@@ -110,7 +110,7 @@ const jobsMetrics = computed((): PanelSplitMetric[] => {
 
             <panel-card
                 :is-loading="isLoading"
-                :value="formatNumber(analutics.tickets.pending_count)"
+                :value="formatNumber(analytics.tickets.pending_count)"
                 title="В ожидании"
                 status="waiting"
                 subtext="требуют действия"
@@ -129,27 +129,27 @@ const jobsMetrics = computed((): PanelSplitMetric[] => {
             <panel-split-card
                 :is-loading="isLoading"
                 title="Партнеры"
-                :total="analutics.partners.total_count"
+                :total="analytics.partners.total_count"
                 subtext="всего партнеров"
                 :metrics="partnerMetrics"
             />
 
             <panel-period-card
                 :is-loading="isLoading"
-                :data="analutics.periods"
+                :data="analytics.periods"
                 title="Поступило заявок"
             />
 
             <ticket-efficiency
                 :is-loading="isLoading"
-                :data="analutics.efficiency"
+                :data="analytics.efficiency"
             />
         </section>
 
         <section class="third-section">
             <royalty-chart
                 :is-loading="isLoading"
-                :data="analutics.royalty_stats"
+                :data="analytics.royalty_stats"
             />
         </section>
 
@@ -160,7 +160,7 @@ const jobsMetrics = computed((): PanelSplitMetric[] => {
             <panel-split-card
                 :is-loading="isLoading"
                 title="Очереди задач"
-                :total="analutics.jobs.total_count"
+                :total="analytics.jobs.total_count"
                 subtext="всего в работе"
                 :metrics="jobsMetrics"
             />
@@ -191,7 +191,5 @@ const jobsMetrics = computed((): PanelSplitMetric[] => {
         grid-template-columns: repeat(3, 1fr);
         gap: $indent-x2;
     }
-
-
 }
 </style>

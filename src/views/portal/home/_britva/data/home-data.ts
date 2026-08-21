@@ -125,7 +125,7 @@ export const sections = computed((): Section[] => {
             title: "Обязательные интеграции",
             items: [
                 {
-                    label: "Система видеoаналитики IVIDEON",
+                    label: "Система видеoаналитики IVIDION",
                     path:  portalPaths.IntegrationVideoAnalytics,
                 },
                 {

@@ -51,6 +51,15 @@ watch(showImage, (isShown) => {
     if (isShown) resolveImagePath()
 }, { immediate: !props.lazy })
 
+watch(
+    () => props.src,
+    (newSrc) => {
+        if (newSrc && showImage.value) {
+            resolveImagePath()
+        }
+    },
+)
+
 onMounted(() => {
     if (props.lazy && rootRef.value) {
         observer = new IntersectionObserver(

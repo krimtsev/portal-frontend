@@ -1,15 +1,20 @@
 <script setup lang="ts">
+import { ref } from "vue"
+import PrimeImage from "primevue/image"
+import * as filesAPI from "@/api/modules/files/files"
 import BBlockquote from "@c/common/b-blockquote/b-blockquote.vue"
 import PortalCard from "@c/portal/portal-card/portal-card.vue"
 import PortalPage from "@c/portal/portal-page/portal-page.vue"
+
+const imageUrl = ref(filesAPI.getStorageLink("dialogic-ai", "image_1.jpg"))
 </script>
 
 <template>
     <portal-page
-        title="Система видеoаналитики IVIDEON"
+        title="Контроль качества телефонии DIALOGIC AI"
         class="telephony-quality-view"
     >
-        <portal-card title="Новый стандарт сети BRITVA от 18.08.2026: Контроль телефонии (Dialogic AI)">
+        <portal-card title="Новый стандарт сети BRITVA от 18.08.2026">
             <div class="content">
                 <p>
                     С августа мы начинаем внедрение нового инструмента контроля качества телефонии на
@@ -49,12 +54,19 @@ import PortalPage from "@c/portal/portal-page/portal-page.vue"
                     так и с компьютера, а также в боте в Telegram.
                 </p>
             </div>
+
+            <prime-image
+                :src="imageUrl"
+                alt="Как работает DIALOGIC AI"
+                width="100%"
+                preview
+            />
         </portal-card>
 
         <portal-card title="Условия и стоимость">
             <div class="content">
                 <ul>
-                    <li><strong>Стоимость подключения:</strong> 2 499 ₽ в месяц с филиала.</li>
+                    <li><strong>Стоимость подключения:</strong> 2 999 ₽ в месяц с филиала.</li>
                     <li>Договор и условия использования оформляются отдельно.</li>
                 </ul>
 
