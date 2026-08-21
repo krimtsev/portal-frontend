@@ -44,7 +44,7 @@ async function handleInstructionDownload() {
     isLoadingInstruction.value = true
 
     try {
-        const fileBlob = await filesAPI.downloadPartnerFile("video-analytics", "instructions.pdf")
+        const fileBlob = await filesAPI.downloadPartnerFile("video-analytics", "instruction.pdf")
 
         if (fileBlob instanceof HttpError) {
             notify.error(t("mc.common.files.notFound"))
