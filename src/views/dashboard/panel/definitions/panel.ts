@@ -1,11 +1,12 @@
 import { PeriodOptions } from "@/definitions/period"
+import type { RoyaltyData } from "@v/dashboard/panel/components/royalty-chart.vue"
 
 export interface AnalyticsData {
     tickets:       TicketsData
     partners:      ActivityData
     efficiency:    TicketsEfficiencyData
     periods:       TicketsPeriodsData
-    royalty_stats: RoyaltyStats[]
+    royalty_stats: RoyaltyData[]
     jobs:          JobsData
 }
 
@@ -35,12 +36,6 @@ export interface TicketsPeriodsData {
     [PeriodOptions.Day]:        TicketsPeriodsValue
     [PeriodOptions.SevenDays]:  TicketsPeriodsValue
     [PeriodOptions.ThirtyDays]: TicketsPeriodsValue
-}
-
-export interface RoyaltyStats {
-    income_total:   number
-    royalty_amount: number
-    month:          string
 }
 
 export interface JobsData {

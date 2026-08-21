@@ -1,13 +1,32 @@
 <script setup lang="ts">
+import * as filesAPI from "@/api/modules/files/files"
 import BBlockquote from "@c/common/b-blockquote/b-blockquote.vue"
+import BButtonDownload from "@c/common/b-button/b-button-download.vue"
 import BDivider from "@c/common/b-divider/b-divider.vue"
 import PortalCard from "@c/portal/portal-card/portal-card.vue"
 import PortalPage from "@c/portal/portal-page/portal-page.vue"
+import { downloadExternalFile } from "@/lib/files"
+
+async function handleNotificationDownload() {
+    const fileBlob = await filesAPI.downloadPartnerFile("video-analytics", "notification.docx")
+
+    if (fileBlob instanceof Blob) {
+        downloadExternalFile(fileBlob, "Стандарт IVIDION.docx")
+    }
+}
+
+async function handleInstructionsDownload() {
+    const fileBlob = await filesAPI.downloadPartnerFile("video-analytics", "instructions.pdf")
+
+    if (fileBlob instanceof Blob) {
+        downloadExternalFile(fileBlob, "Инструкция по подключению.pdf")
+    }
+}
 </script>
 
 <template>
     <portal-page
-        title="Контроль качества телефонии DIALOGIC AI"
+        title="Система видеoаналитики IVIDION"
         class="video-analytics-view"
     >
         <portal-card title="Новый стандарт сети BRITVA от 18.08.2026">
@@ -24,7 +43,7 @@ import PortalPage from "@c/portal/portal-page/portal-page.vue"
 
                 <p>
                     С августа мы начинаем внедрение нового инструмента контроля качества на базе
-                    искусственного интеллекта. Это система видеоаналитики от компании IVIDEON
+                    искусственного интеллекта. Это система видеоаналитики от компании IVIDION
                     (сотрудничают с Dodo, CDEK, ПИК, Тинькофф и другими компаниями), которая будет помогать
                     автоматически отслеживать важные операционные моменты и формировать отчёты по ним.
                 </p>
@@ -35,6 +54,11 @@ import PortalPage from "@c/portal/portal-page/portal-page.vue"
                         Материалы с камер не будут использоваться как способ давления на партнёров или команды.
                     </p>
                 </b-blockquote>
+
+                <b-button-download
+                    label="Стандарт IVIDION.docx"
+                    @click="handleNotificationDownload"
+                />
             </div>
         </portal-card>
 
@@ -89,21 +113,22 @@ import PortalPage from "@c/portal/portal-page/portal-page.vue"
                         (минимум 2 камеры на филиал, учитывайте планировку).
                     </li>
                     <li>Договор NDA заключается индивидуально с каждым франчайзи.</li>
-                    <li>Счёт выставляет Ivideon напрямую.</li>
+                    <li>Счёт выставляет IVIDION напрямую.</li>
                 </ul>
 
                 <b-blockquote>
                     <p class="mb-x0">
-                        Договорились с Ivideon, что заходим всей сетью, поэтому выбили для нас хорошие условия.
+                        Договорились с IVIDION, что заходим всей сетью, поэтому выбили для нас хорошие условия.
                     </p>
                     <p class="mb-x0">
                         <strong>Срок подключения для всех филиалов:</strong> до 25 октября 2026 г.
                     </p>
                 </b-blockquote>
 
-                <p>
-                    Инструкция по подключению будет опубликована отдельным постом.
-                </p>
+                <b-button-download
+                    label="Инструкция по подключению.pdf"
+                    @click="handleInstructionsDownload"
+                />
             </div>
         </portal-card>
     </portal-page>
