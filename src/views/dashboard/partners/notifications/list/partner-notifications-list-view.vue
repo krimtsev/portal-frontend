@@ -9,6 +9,7 @@ import { useOpenRoute } from "@/composables/route/use-open-route"
 import { DashboardRouteName } from "@r/dashboard/route-names"
 import { HttpError } from "@/api"
 import * as partnerNotificationsAPI from "@/api/modules/dashboard/partners/partner-notifications"
+import BButtonSecondary from "@c/common/b-button/b-button-secondary.vue"
 import BEmptyResult from "@c/common/b-empty/b-empty-result.vue"
 import BInputSearch from "@c/common/b-input-search/b-input-search.vue"
 import ListLoadingState from "@c/common/b-loading-state/list-loading-state.vue"
@@ -18,10 +19,18 @@ import BToolbar from "@c/common/b-toolbar/b-toolbar.vue"
 import BToolbarItem from "@c/common/b-toolbar/b-toolbar-item.vue"
 import PartnerStateTag from "@v/dashboard/partners/company/list/components/partner-state-tag.vue"
 import { partnerStateOptions } from "@v/dashboard/partners/company/list/utils/partners"
+import PartnerNotificationDialog
+    from "@v/dashboard/partners/notifications/list/components/partner-notification-dialog.vue"
 import PartnerNotificationStateTag
     from "@v/dashboard/partners/notifications/list/components/partner-notification-state-tag.vue"
 import type { PartnerNotificationsListItem } from "@v/dashboard/partners/notifications/list/definitions/partner-notifications"
-import { boolToStatus, statusToBool } from "@/lib/status"
+import { receiveMessagesStateOptions } from "@v/dashboard/partners/notifications/list/utils/partner-notifications"
+import {
+    boolToStatus,
+    disabledToStatus,
+    statusToBool,
+    statusToDisabled,
+} from "@/lib/status"
 import { Status } from "@/definitions/status"
 
 
@@ -32,6 +41,7 @@ const { openRoute } = useOpenRoute()
 const partnerNotificationsStore = usePartnerNotificationsStore()
 
 const partnerNotifications = ref<PartnerNotificationsListItem[]>([])
+const isNotificationDialog = ref(false)
 
 const paginationInfo = computed(() => {
     return t("mc.pagination.table",
@@ -116,17 +126,29 @@ const onClick = (id: string, event: MouseEvent) => {
 
 const partnerState = computed({
     get() {
-        return boolToStatus(partnerNotificationsStore.filter.filters.disabled)
+        return disabledToStatus(partnerNotificationsStore.filter.filters.disabled)
     },
     set(newValue: Status) {
-        partnerNotificationsStore.filter.filters.disabled = statusToBool(newValue)
+        partnerNotificationsStore.filter.filters.disabled = statusToDisabled(newValue)
+    },
+})
+
+const receiveMessagesState = computed({
+    get() {
+        return boolToStatus(partnerNotificationsStore.filter.filters.receive_messages)
+    },
+    set(newValue: Status) {
+        partnerNotificationsStore.filter.filters.receive_messages = statusToBool(newValue)
     },
 })
 </script>
 
 <template>
     <div class="partner-notifications-list-view">
-        <b-toolbar no-paddings>
+        <b-toolbar
+            no-paddings
+            :show-more="!partnerNotificationsStore.isLoading"
+        >
             <b-toolbar-item header="Статус филиала">
                 <b-select
                     v-model="partnerState"
@@ -140,6 +162,29 @@ const partnerState = computed({
                     @change="onChangeFilter"
                 />
             </b-toolbar-item>
+
+            <b-toolbar-item header="Уведопления">
+                <b-select
+                    v-model="receiveMessagesState"
+                    :options="receiveMessagesStateOptions"
+                    :disabled="partnerNotificationsStore.isLoading"
+                    option-label="name"
+                    option-value="id"
+                    show-clear
+                    placeholder="Выберите статус"
+                    class="filter-state"
+                    @change="onChangeFilter"
+                />
+            </b-toolbar-item>
+
+            <template #more>
+                <b-toolbar-item>
+                    <b-button-secondary
+                        label="Сообщение"
+                        @click="isNotificationDialog = true"
+                    />
+                </b-toolbar-item>
+            </template>
 
             <template #right-side>
                 <b-toolbar-item>
@@ -293,6 +338,8 @@ const partnerState = computed({
             </prime-data-table>
         </div>
     </div>
+
+    <partner-notification-dialog v-model="isNotificationDialog" />
 </template>
 
 <style scoped lang="scss">

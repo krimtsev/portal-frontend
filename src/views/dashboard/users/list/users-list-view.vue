@@ -33,7 +33,7 @@ import {
     userStateOptions,
 } from "@v/dashboard/users/list/utils/users"
 import { formatStringToLocal } from "@/lib/date-helpers"
-import { boolToStatus, statusToBool } from "@/lib/status"
+import { disabledToStatus, statusToDisabled } from "@/lib/status"
 import { FilterType } from "@/definitions/filter"
 
 const notify = useNotify()
@@ -185,8 +185,8 @@ const partnerOptions = computed<MultiSelectItem[]>(() => {
 })
 
 const userState = computed({
-    get: () => boolToStatus(usersStore.filter.filters.disabled),
-    set: (val) => usersStore.filter.filters.disabled = statusToBool(val),
+    get: () => disabledToStatus(usersStore.filter.filters.disabled),
+    set: (val) => usersStore.filter.filters.disabled = statusToDisabled(val),
 })
 </script>
 

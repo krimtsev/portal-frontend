@@ -22,7 +22,7 @@ import BToolbarItem from "@c/common/b-toolbar/b-toolbar-item.vue"
 import PartnerStateTag from "@v/dashboard/partners/company/list/components/partner-state-tag.vue"
 import { type PartnerListItem } from "@v/dashboard/partners/company/list/definitions/partners"
 import { exportXLS, partnerStateOptions } from "@v/dashboard/partners/company/list/utils/partners"
-import { boolToStatus, statusToBool } from "@/lib/status"
+import { disabledToStatus, statusToDisabled } from "@/lib/status"
 import { Status } from "@/definitions/status"
 
 
@@ -143,10 +143,10 @@ async function onExportXLS() {
 
 const partnerState = computed({
     get() {
-        return boolToStatus(partnersStore.filter.filters.disabled)
+        return disabledToStatus(partnersStore.filter.filters.disabled)
     },
     set(newValue: Status) {
-        partnersStore.filter.filters.disabled = statusToBool(newValue)
+        partnersStore.filter.filters.disabled = statusToDisabled(newValue)
     },
 })
 </script>
