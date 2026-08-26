@@ -21,5 +21,3 @@ export interface PartnerNotificationsListItem {
     notification_channel: PartnerNotificationChannel
     report_settings:      PartnerReportSettings
 }
-
-

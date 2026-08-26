@@ -23,6 +23,7 @@ const props = defineProps<{
     hideSaveButton?:   boolean
     hideCancelButton?: boolean
     pathBack?:         string
+    saveText?:         string
     removeText?:       string
 }>()
 
@@ -112,7 +113,7 @@ const onRemove = () => {
                 <div class="left-side">
                     <prime-button
                         v-if="!hideSaveButton"
-                        :label="t('mc.common.save')"
+                        :label="saveText ?? t('mc.common.save')"
                         :disabled="isLoading"
                         @click="onSave"
                     />

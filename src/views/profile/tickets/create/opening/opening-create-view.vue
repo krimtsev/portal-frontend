@@ -144,6 +144,7 @@ const onSave = handleSubmit(async (formValues) => {
                             :error="errors['files']"
                             :disabled="isDisabled"
                             :placeholder="t('mc.ticket.general.placeholder.files')"
+                            class="full-width"
                         />
                     </div>
 

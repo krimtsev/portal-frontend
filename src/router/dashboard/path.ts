@@ -11,6 +11,7 @@ export const dashboardPaths = {
     DashboardPartnerGroup:         "/dashboard/partners/groups/:id",
     DashboardPartnerNotifications: "/dashboard/partners/notifications",
     DashboardPartnerNotification:  "/dashboard/partners/notification/:id",
+    DashboardPartnerMessage:       "/dashboard/partners/message",
     DashboardCloudList:            "/dashboard/cloud",
     DashboardCloud:                "/dashboard/cloud/:id",
     DashboardRoyalty:              "/dashboard/royalty",

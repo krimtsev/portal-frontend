@@ -289,6 +289,11 @@ defineExpose({ clear })
     display: flex;
     flex-direction: column;
     gap: $indent-x1;
+    width: $input-width;
+
+    &.full-width {
+        width: 100%;
+    }
 
     .actions {
         width: 100%;

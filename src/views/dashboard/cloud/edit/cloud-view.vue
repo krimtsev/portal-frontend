@@ -255,7 +255,7 @@ const fileUpload = uploadForm.handleSubmit(async (formValues) => {
                     :disabled="isLoading"
                     :is-processing="isProcessing"
                     show-actions
-                    class="upload-files"
+                    class="upload-files full-width"
                     @upload="fileUpload"
                 />
             </b-form-item>

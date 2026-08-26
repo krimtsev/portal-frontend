@@ -6,9 +6,10 @@ import PrimeMultiSelect from "primevue/multiselect"
 import BInputError from "@c/common/b-input-error/b-input-error.vue"
 
 export interface MultiSelectItem {
-    id:            string | number | boolean
-    items?:        MultiSelectItem[]
-    [key: string]: any
+    id:              string | number | boolean
+    items?:          MultiSelectItem[]
+    isSingleChoice?: boolean
+    [key: string]:   any
 }
 
 const model = defineModel<any>()
@@ -58,6 +59,42 @@ const { t } = useI18n()
 const multiselectRef = useTemplateRef<InstanceType<typeof PrimeMultiSelect>>("multiselectRef")
 
 const internalValue = ref<any>()
+
+const singleChoiceIds = computed(() => {
+    const ids: any[] = []
+
+    props.options.forEach(groupOrItem => {
+        if (groupOrItem.items && groupOrItem.isSingleChoice) {
+            groupOrItem.items.forEach(item => ids.push(item[props.optionValue]))
+        } else if (groupOrItem.isSingleChoice) {
+            ids.push(groupOrItem[props.optionValue])
+        }
+    })
+
+    return ids
+})
+
+const onUpdateInternalValue = (newValue: any[]) => {
+    if (!singleChoiceIds.value.length) {
+        internalValue.value = newValue || []
+        return
+    }
+
+    const oldVal = internalValue.value || []
+    const newVal = newValue || []
+
+    const addedItem = newVal.find(v => !oldVal.includes(v))
+
+    if (addedItem !== undefined) {
+        if (singleChoiceIds.value.includes(addedItem)) {
+            internalValue.value = [addedItem]
+        } else {
+            internalValue.value = newVal.filter(v => !singleChoiceIds.value.includes(v))
+        }
+    } else {
+        internalValue.value = newVal
+    }
+}
 
 const isGrouped = computed(() => Array.isArray(props.options[0]?.items))
 
@@ -159,7 +196,8 @@ const panelStyle = computed(() => {
     >
         <prime-multi-select
             ref="multiselectRef"
-            v-model="internalValue"
+            :model-value="internalValue"
+            @update:model-value="onUpdateInternalValue"
             :options="options"
             :disabled="props.disabled"
             :filter="props.filter"

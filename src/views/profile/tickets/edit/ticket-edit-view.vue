@@ -385,7 +385,7 @@ const departmentName = (id: number | null) => {
                             :disabled="isDisabled"
                             :placeholder="t('mc.ticket.general.placeholder.files')"
                             name="files"
-                            class="files"
+                            class="files full-width"
                         />
                     </div>
 

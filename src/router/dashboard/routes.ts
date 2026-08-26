@@ -102,6 +102,15 @@ const routes: RouteRecordRaw[] = [
         },
     },
     {
+        path:      dashboardPaths.DashboardPartnerMessage,
+        name:      DashboardRouteName.DashboardPartnerMessage,
+        component: () => import("@v/dashboard/partners/notifications/message/partner-notification-message-view.vue"),
+        meta:      {
+            roles:      [Roles.SYSADMIN],
+            breadcrumb: "mc.dashboard.sidebar.partners",
+        },
+    },
+    {
         path:      dashboardPaths.DashboardRoyalty,
         name:      DashboardRouteName.DashboardRoyalty,
         component: () => import("@v/dashboard/royalty/royalty-view.vue"),

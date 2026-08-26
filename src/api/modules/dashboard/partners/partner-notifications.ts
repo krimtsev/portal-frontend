@@ -8,7 +8,6 @@ import type {
 } from "@v/dashboard/partners/notifications/list/definitions/partner-notifications"
 import type { PartnerNotificationFilters } from "@s/dashboard/partners/partner-notifications"
 
-
 export async function list(paginationFilter: PaginationFilter<PartnerNotificationFilters>) {
     return await http.post<Pagination<PartnerNotificationsListItem[]>>("dashboard/partner-notifications/list", paginationFilter)
 }
@@ -16,7 +15,9 @@ export async function list(paginationFilter: PaginationFilter<PartnerNotificatio
 export async function get(id: string) {
     return await http.get<{ data: PartnerNotificationData }>(`dashboard/partner-notifications/partner/${id}`)
 }
+
 export async function update(id: string, data: PartnerNotificationData) {
     return await http.put<null>(`dashboard/partner-notifications/partner/${id}`, data)
 }
+
 

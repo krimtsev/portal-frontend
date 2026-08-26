@@ -19,8 +19,6 @@ import BToolbar from "@c/common/b-toolbar/b-toolbar.vue"
 import BToolbarItem from "@c/common/b-toolbar/b-toolbar-item.vue"
 import PartnerStateTag from "@v/dashboard/partners/company/list/components/partner-state-tag.vue"
 import { partnerStateOptions } from "@v/dashboard/partners/company/list/utils/partners"
-import PartnerNotificationDialog
-    from "@v/dashboard/partners/notifications/list/components/partner-notification-dialog.vue"
 import PartnerNotificationStateTag
     from "@v/dashboard/partners/notifications/list/components/partner-notification-state-tag.vue"
 import type { PartnerNotificationsListItem } from "@v/dashboard/partners/notifications/list/definitions/partner-notifications"
@@ -32,6 +30,7 @@ import {
     statusToDisabled,
 } from "@/lib/status"
 import { Status } from "@/definitions/status"
+import router from "@/router"
 
 
 const notify = useNotify()
@@ -41,7 +40,6 @@ const { openRoute } = useOpenRoute()
 const partnerNotificationsStore = usePartnerNotificationsStore()
 
 const partnerNotifications = ref<PartnerNotificationsListItem[]>([])
-const isNotificationDialog = ref(false)
 
 const paginationInfo = computed(() => {
     return t("mc.pagination.table",
@@ -141,6 +139,10 @@ const receiveMessagesState = computed({
         partnerNotificationsStore.filter.filters.receive_messages = statusToBool(newValue)
     },
 })
+
+async function goToCreateMessage() {
+    await router.push({ name: DashboardRouteName.DashboardPartnerMessage })
+}
 </script>
 
 <template>
@@ -181,7 +183,7 @@ const receiveMessagesState = computed({
                 <b-toolbar-item>
                     <b-button-secondary
                         label="Сообщение"
-                        @click="isNotificationDialog = true"
+                        @click="goToCreateMessage"
                     />
                 </b-toolbar-item>
             </template>
@@ -338,8 +340,6 @@ const receiveMessagesState = computed({
             </prime-data-table>
         </div>
     </div>
-
-    <partner-notification-dialog v-model="isNotificationDialog" />
 </template>
 
 <style scoped lang="scss">

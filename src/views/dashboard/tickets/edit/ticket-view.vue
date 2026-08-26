@@ -408,7 +408,7 @@ const copyText = computed(() => {
                     :error="errors['files']"
                     :placeholder="t('mc.ticket.general.placeholder.files')"
                     name="files"
-                    class="files"
+                    class="files full-width"
                 />
             </b-form-item>
         </b-form-card>
