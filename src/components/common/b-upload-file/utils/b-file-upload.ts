@@ -46,6 +46,7 @@ export const DEFAULT_ACCEPT = [
 
 export const DEFAULT_MAX_SIZE_MB = 200
 export const DEFAULT_FILES_LIMIT = 5
+export const DEFAULT_TELEGRAM_MAX_SIZE_MB = 20
 
 export const megabytesToBytes = (mb: number): number => mb * 1024 * 1024
 export const bytesToMegabytes = (mb: number): number => mb / 1024 / 1024

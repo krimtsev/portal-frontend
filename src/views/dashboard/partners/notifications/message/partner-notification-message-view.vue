@@ -19,7 +19,7 @@ import {
     BroadcastNotificationSchema,
 } from "@v/dashboard/partners/notifications/message/schemas/partner-notifications-message.schema"
 import { createMessageFormData } from "@v/dashboard/partners/notifications/message/utils/partner-notification-message"
-import { maxMessageLength } from "@/constants/messages"
+import { telegramMessageLength } from "@/constants/messages"
 import { FilterType } from "@/definitions/filter"
 
 
@@ -158,7 +158,7 @@ const partnerOptions = computed<MultiSelectItem[]>(() => {
                     :error="errors['message']"
                     :disabled="isLoading"
                     placeholder="Сообщение"
-                    :maxlength="maxMessageLength"
+                    :maxlength="telegramMessageLength"
                     class="full-width"
                 />
             </b-form-item>
