@@ -40,13 +40,27 @@ const severity = computed(() => {
     text-decoration: none;
 
     &.inactive {
-        background: transparent;
-        border: 1px solid var(--p-form-field-border-color);
+        color: var(--p-btn-group-color);
+        background: var(--p-btn-group-background);
+        border: 1px solid var(--p-btn-group-border-color);
 
         &[disabled] {
             background: var(--p-form-field-disabled-background);
             color: var(--p-form-field-disabled-color);
         }
+
+        &:hover {
+            background: var(--p-btn-group-hover-background);
+            color: var(--p-btn-group-hover-color);
+            border-color: var(--p-btn-group-hover-border-color);
+        }
+
+        &:active {
+            background: var(--p-btn-group-active-background);
+            color: var(--p-btn-group-active-color);
+            border-color: var(--p-btn-group-hover-active-color);
+        }
+
     }
 }
 </style>

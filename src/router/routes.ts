@@ -6,6 +6,7 @@ interface Customization {
     hasDashboard?: boolean
     isBritva?:     boolean
     isSoda?:       boolean
+    isLapki?:      boolean
 }
 
 const getProfileRoutes = () => import(/* webpackChunkName: "profile-routes" */ "@r/profile/routes")
@@ -14,6 +15,7 @@ const getDashboardRoutes = () => import(/* webpackChunkName: "dashboard-routes" 
 
 const getBritvaRoutes = () => import(/* webpackChunkName: "portal-britva" */ "@r/portal/_britva/routes")
 const getSodaRoutes = () => import(/* webpackChunkName: "portal-soda" */ "@r/portal/_soda/routes")
+const getLapkiRoutes = () => import(/* webpackChunkName: "portal-soda" */ "@r/portal/_lapki/routes")
 
 async function lazyLoadRoutes(customization: Customization): Promise<RouteRecordRaw[]> {
     const customizationRoutes: RouteRecordRaw[] = []
@@ -32,6 +34,9 @@ async function lazyLoadRoutes(customization: Customization): Promise<RouteRecord
     } else if (customization.isSoda) {
         const module = await getSodaRoutes()
         customizationRoutes.push(...(module.default || module))
+    } else if (customization.isLapki) {
+        const module = await getLapkiRoutes()
+        customizationRoutes.push(...(module.default || module))
     }
 
     // TODO: Переделать на динамическое добавление роутов для админа
@@ -49,6 +54,7 @@ export async function addCustomizationRoutes(router: Router) {
         hasDashboard: appStore.hasDashboard,
         isBritva:     appStore.isBritva,
         isSoda:       appStore.isSoda,
+        isLapki:      appStore.isLapki,
     }
 
     const routes = await lazyLoadRoutes(customization)

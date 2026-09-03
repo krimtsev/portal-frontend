@@ -44,7 +44,7 @@ const props = defineProps<{
     width: 100%;
     height: 100%;
     min-height: 296px;
-    background-color: var(--p-dashboard-card-background);
+    background-color: var(--p-list-loading-background);
     padding-top: $indent-x2;
 
     &.border {

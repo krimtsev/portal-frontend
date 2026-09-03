@@ -16,6 +16,7 @@ export const useAppStore = defineStore("app", () => {
 
     const isBritva = computed(() => currentPartner === Partner.Britva)
     const isSoda = computed(() => currentPartner === Partner.Soda)
+    const isLapki = computed(() => currentPartner === Partner.Lapki)
 
     const hasDashboard = computed(() => [Roles.SYSADMIN, Roles.ADMIN].includes(authStore.user?.role))
     const showLocationMap = computed(() => authStore.userAccess.location_map)
@@ -38,6 +39,7 @@ export const useAppStore = defineStore("app", () => {
         isRoutesLoaded,
         isBritva,
         isSoda,
+        isLapki,
         hasDashboard,
         showLocationMap,
 

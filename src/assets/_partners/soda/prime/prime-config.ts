@@ -269,9 +269,32 @@ export default {
                     color: "{primary.500}",
                 },
                 formField: {
-                    invalidPlaceholderColor: "{surface.500}",
-                    invalidBorderColor:      "{red.500}",
-                    background:              "{surface.0}",
+                    background:  "{surface.950}",
+                    color:       "{surface.50}",
+                    placeholder: {
+                        color: "{surface.500}",
+                    },
+                    border: {
+                        color: "{surface.600}",
+                    },
+                    hover: {
+                        border: {
+                            color: "{surface.500}",
+                        },
+                    },
+                    focus: {
+                        border: {
+                            color: "{primary.500}",
+                        },
+                    },
+                    invalid: {
+                        border: {
+                            color: "{red.500}",
+                        },
+                        placeholder: {
+                            color: "{surface.500}",
+                        },
+                    },
                 },
                 portal: {
                     card: {
@@ -334,9 +357,32 @@ export default {
                     color: "{primary.500}",
                 },
                 formField: {
-                    invalidPlaceholderColor: "{surface.500}",
-                    invalidBorderColor:      "{red.500}",
-                    background:              "{surface.950}",
+                    background:  "{surface.950}",
+                    color:       "{surface.50}",
+                    placeholder: {
+                        color: "{surface.500}",
+                    },
+                    border: {
+                        color: "{surface.600}",
+                    },
+                    hover: {
+                        border: {
+                            color: "{surface.500}",
+                        },
+                    },
+                    focus: {
+                        border: {
+                            color: "{primary.500}",
+                        },
+                    },
+                    invalid: {
+                        border: {
+                            color: "{red.500}",
+                        },
+                        placeholder: {
+                            color: "{surface.500}",
+                        },
+                    },
                 },
                 portal: {
                     card: {

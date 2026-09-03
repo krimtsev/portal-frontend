@@ -44,9 +44,9 @@ const props = defineProps<PortalSectionCardItem>()
         min-height: 152px;
         height: 100%;
         border-radius: $indent-x4;
-        border: 1px solid var(--p-surface-600);
+        border: 1px solid var(--p-portal-card-border-color);
         z-index: 2;
-        background: var(--p-surface-950);
+        background: var(--p-portal-card-background);
         padding: $indent-x3 $indent-x3 $indent-x3 0;
 
         .icon {
@@ -58,7 +58,7 @@ const props = defineProps<PortalSectionCardItem>()
             :deep(.b-svg) {
                 @include h3();
 
-                color: var(--p-surface-400);
+                color: var(--p-portal-card-icon-color);
             }
         }
 
@@ -66,7 +66,7 @@ const props = defineProps<PortalSectionCardItem>()
             @include p();
 
             margin-top: $indent-x2;
-            color: var(--p-surface-400);
+            color: var(--p-portal-card-description-color);
         }
     }
 }

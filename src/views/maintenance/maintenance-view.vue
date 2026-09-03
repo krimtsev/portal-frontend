@@ -5,12 +5,12 @@ import BImage from "@c/common/b-image/b-image.vue"
 <template>
     <div class="auth-view">
         <div class="logo">
-            <b-image src="logos/logo.png" width="80px" />
+            <b-image src="logos/logo.svg" height="46px" />
         </div>
 
         <div class="wrapper">
             <div class="form">
-                <b-image src="logos/logo-large.png" width="100%" />
+                <b-image src="template/default-sidebar.png" width="100%" />
 
                 <div class="form-card">
                     <p class="title">Ведутся технические работы</p>

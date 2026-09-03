@@ -8,7 +8,7 @@ import { HttpError } from "@/api"
 import * as sheetAPI from "@/api/modules/sheet/sheet"
 import BEmptyResult from "@c/common/b-empty/b-empty-result.vue"
 import BInputSearch from "@c/common/b-input-search/b-input-search.vue"
-import BSkeleton from "@c/common/b-skeleton/b-skeleton.vue"
+import ListLoadingState from "@c/common/b-loading-state/list-loading-state.vue"
 import BTableText from "@c/common/b-table/b-table-text.vue"
 import PortalPage from "@c/portal/portal-page/portal-page.vue"
 import PortalUserCard from "@c/portal/portal-user-card/portal-user-card.vue"
@@ -106,73 +106,63 @@ const firstPage = computed(() => {
                 @change="onSearchChange"
             />
 
-            <prime-data-table
-                :value="certificates"
-                :rows="paginationPage.perPage"
-                :total-records="paginationPage.total"
-                :loading="isLoading"
-                :first="firstPage"
-                :paginator="showPaginator"
-                show-gridlines
-                lazy
-                class="table"
-                @page="onPageChange"
-            >
-                <template #paginatorstart>
-                    {{ paginationInfo }}
-                </template>
+            <div class="table-wrapper">
+                <list-loading-state v-if="isLoading" />
 
-                <template #loading />
+                <b-empty-result
+                    v-else-if="!isLoading && !certificates.length"
+                    title="Нет сертификатов"
+                    width-border
+                />
 
-                <template #empty>
-                    <b-empty-result />
-                </template>
-
-                <prime-column
-                    header="Номинал"
-                    field="price"
-                    class="table-price"
+                <prime-data-table
+                    v-else
+                    :value="certificates"
+                    :rows="paginationPage.perPage"
+                    :total-records="paginationPage.total"
+                    :first="firstPage"
+                    :paginator="showPaginator"
+                    class="table"
+                    @page="onPageChange"
+                    data-key="id"
+                    scrollable
+                    lazy
                 >
-                    <template #body="{ data }">
-                        <b-skeleton
-                            :is-loading="isLoading"
-                            full-width
-                        >
+                    <template #paginatorstart>
+                        {{ paginationInfo }}
+                    </template>
+
+                    <prime-column
+                        header="Номинал"
+                        field="price"
+                        class="table-price"
+                    >
+                        <template #body="{ data }">
                             <b-table-text :text="data?.price" />
-                        </b-skeleton>
-                    </template>
-                </prime-column>
+                        </template>
+                    </prime-column>
 
-                <prime-column
-                    header="Номер"
-                    field="identifier"
-                    class="table-identifier"
-                >
-                    <template #body="{ data }">
-                        <b-skeleton
-                            :is-loading="isLoading"
-                            full-width
-                        >
+                    <prime-column
+                        header="Номер"
+                        field="identifier"
+                        class="table-identifier"
+                    >
+                        <template #body="{ data }">
                             <b-table-text :text="data?.identifier" />
-                        </b-skeleton>
-                    </template>
-                </prime-column>
+                        </template>
+                    </prime-column>
 
-                <prime-column
-                    header="Филиал"
-                    field="partner"
-                    class="table-partner"
-                >
-                    <template #body="{ data }">
-                        <b-skeleton
-                            :is-loading="isLoading"
-                            full-width
-                        >
+                    <prime-column
+                        header="Филиал"
+                        field="partner"
+                        class="table-partner"
+                    >
+                        <template #body="{ data }">
                             <b-table-text :text="data?.partner" />
-                        </b-skeleton>
-                    </template>
-                </prime-column>
-            </prime-data-table>
+                        </template>
+                    </prime-column>
+                </prime-data-table>
+            </div>
         </div>
 
         <template #right-side>
@@ -212,17 +202,7 @@ const firstPage = computed(() => {
         max-width: 550px;
     }
 
-    :deep(.p-datatable) {
-        @include table-outer-header;
-
-        .table {
-            &-price,
-            &-identifier,
-            &-partner {
-                width: calc(100% / 3);
-            }
-        }
-    }
+    @include table-wrapper;
 
     .users-info {
         display: flex;

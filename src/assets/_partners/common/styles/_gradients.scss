@@ -1,13 +1,34 @@
-$partner-gradient: radial-gradient(
-    104.99% 104.99% at 50% 101.58%,
-    var(--p-form-field-background) 60%,
-    var(--p-primary-500) 84.89%,
-    var(--p-primary-200) 100%
-);
+html.light-mode {
+    --partner-gradient: radial-gradient(
+            104.99% 104.99% at 50% 101.58%,
+            var(--p-form-field-background) 60%,
+            var(--p-primary-500) 84.89%,
+            var(--p-primary-200) 100%
+    );
 
-$partner-revers-gradient: radial-gradient(
-        100% 100% at 50.08% 0%,
-        var(--p-portal-card-background) 60%,
-        var(--p-primary-500) 84.89%,
-        var(--p-primary-200) 100%
-);
+    --partner-revers-gradient: radial-gradient(
+            100% 100% at 50.08% 0%,
+            var(--p-portal-card-background) 60%,
+            var(--p-primary-500) 84.89%,
+            var(--p-primary-200) 100%
+    );
+}
+
+html.dark-mode {
+    --partner-gradient: radial-gradient(
+            104.99% 104.99% at 50% 101.58%,
+            var(--p-form-field-background) 60%,
+            var(--p-primary-500) 84.89%,
+            var(--p-primary-200) 100%
+    );
+
+    --partner-revers-gradient: radial-gradient(
+            100% 100% at 50.08% 0%,
+            var(--p-portal-card-background) 60%,
+            var(--p-primary-500) 84.89%,
+            var(--p-primary-200) 100%
+    );
+}
+
+$partner-gradient: var(--partner-gradient);
+$partner-revers-gradient: var(--partner-revers-gradient);

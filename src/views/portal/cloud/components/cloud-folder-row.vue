@@ -49,16 +49,12 @@ function onClick() {
         width: auto;
 
         .icon {
-            color: var(--p-surface-700);
+            color: var(--p-cloud-folder-color);
         }
 
         &:hover {
             :deep(.b-svg) {
-                color: var(--p-primary-500);
-            }
-
-            .name {
-                font-weight: 600;
+                color: var(--p-cloud-folder-hover-color);
             }
         }
     }

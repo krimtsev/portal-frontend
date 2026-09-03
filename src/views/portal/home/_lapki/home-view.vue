@@ -1,0 +1,311 @@
+<script setup lang="ts">
+import { computed, onMounted } from "vue"
+import { useRouter } from "vue-router"
+import { useAuthStore } from "@s/auth/auth"
+import { useHomeStore } from "@s/home/home"
+import { useNotify } from "@/composables/notify/use-notify"
+import { portalPaths } from "@r/portal/path"
+import { PortalRouteName } from "@r/portal/route-names"
+import { ProfileRouteName } from "@r/profile/route-names"
+import { HttpError } from "@/api"
+import * as appAPI from "@/api/modules/app/app"
+import MonthsBarChart from "@c/charts/months-bar-chart.vue"
+import BButtonGroup from "@c/common/b-button-groups/b-button-group.vue"
+import BImage from "@c/common/b-image/b-image.vue"
+import PortalCard from "@c/portal/portal-card/portal-card.vue"
+import PortalInformationMenu from "@c/portal/portal-information-menu/portal-information-menu.vue"
+import PortalMessages from "@c/portal/portal-messages/portal-messages.vue"
+import TimelineCalendar from "@c/timeline-calendar/timeline-calendar.vue"
+import { sections } from "@v/portal/home/_lapki/data/home-data"
+import { Qualification } from "@v/profile/tickets/create/specialist/_lapki/definitions/specialist"
+
+const router = useRouter()
+const notify = useNotify()
+const homeStore = useHomeStore()
+const authStore = useAuthStore()
+
+onMounted(async () => {
+    if (!homeStore.isLoaded) {
+        homeStore.setLoading(true)
+        const response = await appAPI.home()
+
+        if (response instanceof HttpError) {
+            notify.error()
+            return false
+        }
+
+        homeStore.setData(response.data)
+        homeStore.setLoading(false)
+        homeStore.setLoaded(true)
+    }
+})
+
+const partnerName = computed(() => authStore.partner?.name)
+</script>
+
+<template>
+    <div class="home-view">
+        <div class="grid">
+            <div class="col-8 tablet-col-12 mobile-col-12">
+                <portal-information-menu :sections="sections" />
+            </div>
+
+            <div class="col-4 tablet-col-12 mobile-col-12 tablet-row-span-2">
+                <portal-card
+                    title="Поиск сертификатов"
+                    :path="portalPaths.Certificates"
+                    menu-title
+                    class="certificate-block"
+                >
+                    <div class="image-block">
+                        <b-image
+                            src="template/gift-card.png"
+                            full
+                        />
+                    </div>
+                </portal-card>
+            </div>
+
+            <div class="col-8 tablet-col-12 mobile-col-12">
+                <timeline-calendar
+                    title="Календарь мероприятий"
+                    empty-text="В этом месяце нет запланированных мероприятий"
+                    :events="homeStore.events"
+                    :is-loading="homeStore.isLoading"
+                    show-day-of-week
+                    class="event-calendar-block"
+                />
+            </div>
+
+            <div class="col-4 mobile-col-12 tablet-col-6">
+                <portal-card
+                    title="Популярные заявки"
+                    menu-title
+                    class="request-block card-height"
+                    class-title="mb-x2"
+                >
+                    <div class="buttons-wrapper">
+                        <b-button-group
+                            label="Заявка на ТОП-МАСТЕРА"
+                            @click="router.push({
+                                name: ProfileRouteName.ProfileTicketSpecialist,
+                                query: {
+                                    qualification: Qualification.TobBarber
+                                }
+                            })"
+                        />
+
+                        <b-button-group
+                            label="Заявка на БРЕНД-МАСТЕРА"
+                            @click="router.push({
+                                name: ProfileRouteName.ProfileTicketSpecialist,
+                                query: {
+                                    qualification: Qualification.BrandBarber
+                                }
+                            })"
+                        />
+
+                        <b-button-group
+                            label="Заявка на сертификат"
+                            @click="router.push({ name: ProfileRouteName.ProfileTicketCertificate })"
+                        />
+
+                        <b-button-group
+                            label="Заявка на черный список"
+                            @click="router.push({ name: ProfileRouteName.ProfileTicketBlacklist })"
+                        />
+
+                        <b-button-group
+                            label="Заявка на макет"
+                            @click="router.push({ name: ProfileRouteName.ProfileTicketDesign })"
+                        />
+
+                        <b-button-group
+                            label="Заявка на индивидуальное согласование"
+                            @click="router.push({ name: ProfileRouteName.ProfileTicketGeneral })"
+                        />
+                    </div>
+                </portal-card>
+            </div>
+
+            <div class="col-4 tablet-col-6 mobile-col-12">
+                <portal-card
+                    title="Облако файлов"
+                    :path="{
+                        name: PortalRouteName.Cloud
+                    }"
+                    menu-title
+                    path-position-left
+                    class="files-block card-height"
+                >
+                    <b-image
+                        src="template/files.png"
+                        height="195px"
+                    />
+                </portal-card>
+            </div>
+
+            <div
+                v-glow="{ position: 'top-right' }"
+                class="col-4 tablet-col-6 mobile-col-12 row-span-2"
+            >
+                <portal-card
+                    :title="`Аналитика показателей по ${partnerName}`"
+                    menu-title
+                    class="analytics-block card-height-x2"
+                    class-content="d-flex align-items-end"
+                >
+                    <months-bar-chart
+                        :data="homeStore.finances"
+                        :is-loading="homeStore.isLoading"
+                        :has-partner="!!partnerName"
+                        class="months-bar-chart"
+                    />
+                </portal-card>
+            </div>
+
+            <div class="col-4 mobile-col-12 tablet-col-6">
+                <portal-card
+                    title="Страница для администраторов"
+                    menu-title
+                    class="admin-block card-height"
+                    :background="{
+                        src: 'template/admin-card-bg.png',
+                        height: '130',
+                    }"
+                    path="https://britva.tech/britva"
+                />
+            </div>
+
+            <div class="col-4 mobile-col-12 tablet-col-6">
+                <portal-messages
+                    :is-loading="homeStore.isLoading"
+                    :messages="homeStore.messages"
+                    class="card-height"
+                />
+            </div>
+
+            <div class="col-4 mobile-col-12 tablet-col-6">
+                <portal-card
+                    title="Контакты"
+                    menu-title
+                    class="contacts-block card-height"
+                    class-title="mb-x2"
+                >
+                    <div class="buttons-wrapper">
+                        <b-button-group
+                            label="Партнеры"
+                            @click="router.push({ name: PortalRouteName.ContactPartners })"
+                        />
+
+                        <b-button-group
+                            label="Владельцы франшиз"
+                            @click="router.push({ name: PortalRouteName.ContactFranchisee })"
+                        />
+
+                        <b-button-group
+                            label="Сотрудники центрального офиса"
+                            @click="router.push({ name: PortalRouteName.ContactCentralOffice })"
+                        />
+                    </div>
+                </portal-card>
+            </div>
+        </div>
+    </div>
+</template>
+
+<style scoped lang="scss">
+$min-height: 195px;
+
+.home-view {
+    display: flex;
+    flex-direction: column;
+    gap: $indent-x1;
+
+    :deep(.portal-card) {
+        height: 100%;
+    }
+
+    .card-height {
+        max-height: $portal-card-min-height;
+    }
+
+    @media (min-width: $layout-desktop-width) {
+        .card-height-x2 {
+            max-height: calc(($portal-card-min-height * 2) + $indent-x1);
+        }
+    }
+
+    .certificate-block,
+    .event-calendar-block,
+    .request-block,
+    .files-block,
+    .contacts-block,
+    .analytics-block {
+        background: var(--p-secondary-500);
+    }
+
+    .certificate-block {
+        :deep(.p-image) {
+            img {
+                width: auto;
+            }
+        }
+
+        .image-block {
+            @include flex-center;
+
+            height: 100%;
+        }
+    }
+
+    .request-block {
+        min-height: calc($min-height + 48px);
+        max-height: 100%;
+
+        .buttons-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: $indent-x1;
+            max-height: calc(3 * 40px + ($indent-x1 * 2));
+            overflow: hidden;
+        }
+    }
+
+    .contacts-block {
+        min-height: $min-height;
+
+        .buttons-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: $indent-x1;
+            max-height: calc(2 * 40px + $indent-x1);
+            overflow: hidden;
+        }
+    }
+
+    .files-block {
+        position: relative;
+        min-height: $min-height;
+        max-height: 100%;
+
+        :deep(.b-image) {
+            position: absolute;
+            right: 0;
+            top: $indent-x1;
+        }
+    }
+
+    .admin-block {
+        position: relative;
+        background: $partner-revers-gradient;
+        border: 1px solid var(--p-portal-card-background);
+        min-height: $min-height;
+        overflow: hidden;
+    }
+
+    .months-bar-chart {
+        padding: $indent-x1 $indent-x3 0;
+    }
+}
+</style>

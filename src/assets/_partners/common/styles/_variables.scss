@@ -30,20 +30,20 @@ $layout-mobile-width: $breakpoints-sm;
 
 $portal-layout-max-width: $layout-max-width;
 
-$font-size-h1: 2.8571rem; // 40px
-$font-size-h2: 2.2857rem; // 32px
-$font-size-h3: 1.7143rem; // 24px
-$font-size-h4: 1.2857rem; // 18px
-$font-size-h5: 1rem;      // 14px
-$font-size-p: 1.1429rem;  // 16px
+$font-size-h1: var(--p-typography-font-size-h1);
+$font-size-h2: var(--p-typography-font-size-h2);
+$font-size-h3: var(--p-typography-font-size-h3);
+$font-size-h4: var(--p-typography-font-size-h4);
+$font-size-h5: var(--p-typography-font-size-h5);
+$font-size-p:  var(--p-typography-font-size-p);
 
-$line-height-h1: 3.4286rem; // 48px
-$line-height-h2: 2.8571rem; // 40px
-$line-height-h3: 2.2857rem; // 32px
-$line-height-h4: 1.7143rem; // 24px
-$line-height-h5: 1.1429rem; // 16px
-$line-height-p: 1.7143rem; // 24px
-$line-height-form: 2rem; // 28px
+$line-height-h1: var(--p-typography-line-height-h1);
+$line-height-h2: var(--p-typography-line-height-h2);
+$line-height-h3: var(--p-typography-line-height-h3);
+$line-height-h4: var(--p-typography-line-height-h4);
+$line-height-h5: var(--p-typography-line-height-h5);
+$line-height-p:  var(--p-typography-line-height-p);
+$line-height-form: var(--p-typography-line-height-form);
 
 $portal-card-min-height: 195px;
 

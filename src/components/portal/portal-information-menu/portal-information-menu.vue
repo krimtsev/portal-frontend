@@ -13,6 +13,7 @@ const props = defineProps<{
         title="Информация"
         menu-title
         v-glow="{ position: 'top-left' }"
+        class="portal-card"
     >
         <div class="portal-information-menu grid">
             <div
@@ -47,6 +48,11 @@ const props = defineProps<{
 </template>
 
 <style scoped lang="scss">
+.portal-card {
+    background: var(--p-portal-menu-background);
+    border: 1px solid var(--p-portal-menu-border-color);
+}
+
 .portal-information-menu {
     @media (min-width: $layout-mobile-width) {
         display: block;
@@ -65,27 +71,46 @@ const props = defineProps<{
         }
     }
 
-    @media (max-width: $layout-desktop-width) {
+    @media (max-width: $breakpoints-xl) {
         column-count: 2;
     }
 
     .section-title {
-        @include title(var(--p-surface-400));
+        @include title(var(--p-portal-menu-title-color));
 
         margin-bottom: $indent-x2;
     }
 
     .section-item {
-        border-bottom: 1px solid var(--p-surface-600);
+        border-bottom: 1px solid var(--p-portal-menu-divider-color);
         padding: $indent-x1 $indent-x2;
 
-        :deep(.button-link) {
-            color: var(--p-surface-100);
-            text-decoration: none;
-            cursor: pointer;
+        :deep() {
+            display: block;
+        }
 
-            &:hover {
-                color: var(--p-primary-700);
+        :deep(.b-link) {
+            display: block;
+
+            .button-link {
+                @include text-overflow;
+
+                color: var(--p-portal-menu-link-color);
+                text-decoration: none;
+                cursor: pointer;
+                display: block;
+
+                &:hover {
+                    color: var(--p-portal-menu-link-hover-color);
+                }
+
+                &:focus {
+                    color: var(--p-portal-menu-link-focus-color);
+                }
+
+                &:active {
+                    color: var(--p-portal-menu-link-active-color);
+                }
             }
         }
     }

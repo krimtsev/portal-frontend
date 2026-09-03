@@ -20,29 +20,40 @@ export function createGradient(
     return gradient
 }
 
-export function createDiagonalPattern(ctx: CanvasRenderingContext2D, color = "rgba(255,255,255,0.08)") {
+export function createDiagonalPattern(ctx: CanvasRenderingContext2D) {
     const patternCanvas = document.createElement("canvas")
     const size = 20
     patternCanvas.width = size
     patternCanvas.height = size
     const pctx = patternCanvas.getContext("2d")
 
-    if (!pctx) return "rgba(0,0,0,0.1)"
+    const fillStyle = getComputedStyle(document.documentElement)
+        .getPropertyValue("--p-chart-bar-empty-color")
+        .trim()
+    const strokeStyle = getComputedStyle(document.documentElement)
+        .getPropertyValue("--p-chart-bar-empty-background")
+        .trim()
 
-    pctx.fillStyle = "rgba(0,0,0,0)"
+    if (!pctx) return strokeStyle
+
+    pctx.fillStyle = fillStyle
     pctx.fillRect(0, 0, size, size)
 
-    pctx.strokeStyle = color
+    pctx.strokeStyle = strokeStyle
     pctx.lineWidth = 3
     pctx.beginPath()
     pctx.moveTo(0, size)
     pctx.lineTo(size, 0)
     pctx.stroke()
 
-    return ctx.createPattern(patternCanvas, "repeat") || "rgba(0,0,0,0.1)"
+    return ctx.createPattern(patternCanvas, "repeat") || strokeStyle
 }
 
-export function getBackgroundColors(ctx: CanvasRenderingContext2D, data: ChartData[], highlightLast: boolean) {
+export function getBackgroundColors(
+    ctx: CanvasRenderingContext2D,
+    data: ChartData[],
+    highlightLast: boolean,
+) {
     const pattern = createDiagonalPattern(ctx)
 
     return data.map((d, index) => {

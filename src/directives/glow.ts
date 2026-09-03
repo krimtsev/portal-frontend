@@ -31,7 +31,9 @@ const glowDirective: Directive<HTMLElement, GlowOptions> = {
 
         const options = binding.value || {}
 
-        const color = options.color ?? "rgba(255,255,255,0.9)"
+        const color = options.color ?? getComputedStyle(document.documentElement)
+            .getPropertyValue("--p-glow-color")
+            .trim()
         const blur = options.blur ?? 100
         const size = options.size ?? 150
         const opacity = options.opacity ?? 0.4

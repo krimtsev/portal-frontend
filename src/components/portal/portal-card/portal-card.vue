@@ -70,7 +70,6 @@ const onClick = () => {
         >
             <b-button-icon
                 icon="pi pi-angle-right"
-                severity="contrast"
                 size="large"
                 rounded
                 class="icon"
@@ -98,8 +97,9 @@ const onClick = () => {
 
     .card {
         &-title {
-            @include card-title(rgba(255, 255, 255, 0.9));
+            @include card-title(var(--p-portal-card-title-color));
 
+            font-weight: var(--p-portal-card-title-font-weight);
             margin-bottom: $indent-x2;
         }
 
@@ -120,9 +120,17 @@ const onClick = () => {
             }
 
             :deep(.b-button-icon) {
+                color: var(--p-portal-button-color);
+                background: var(--p-portal-button-background);
                 border: 1px solid var(--p-portal-button-border-color);
 
                 &:not(:disabled):hover {
+                    color: var(--p-portal-button-hover-color);
+                    border-color: var(--p-portal-button-hover-border-color);
+                }
+
+                &:not(:disabled):active {
+                    color: var(--p-portal-button-active-color);
                     border-color: var(--p-portal-button-active-border-color);
                 }
             }

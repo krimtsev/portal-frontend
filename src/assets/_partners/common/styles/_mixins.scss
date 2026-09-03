@@ -196,7 +196,7 @@ $cloud-file-types: (
             &:hover {
                 .icon.#{$ext} {
                     background-color: var(#{$color});
-                    color: var(--p-surface-950);
+                    color: var(--p-cloud-file-color);
                 }
             }
         }
@@ -281,5 +281,22 @@ $cloud-file-types: (
     .table-cell-content {
         display: flex;
         justify-content: $justify;
+    }
+}
+
+@mixin table-wrapper() {
+    .table-wrapper {
+        margin-top: $indent-x2;
+    }
+
+    .list-loading-state {
+        padding: $indent-x2;
+        border-radius: $indent-x2;
+        border: 1px solid var(--p-divider-border-color);
+    }
+
+    :deep(.p-datatable-table-container) {
+        border-radius: $indent-x2;
+        border: 1px solid var(--p-divider-border-color);
     }
 }

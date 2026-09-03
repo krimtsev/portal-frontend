@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router"
+import { useAppStore } from "@s/app/app"
 import { ProfileRouteName } from "@r/profile/route-names"
 import PortalSectionCard from "@c/portal/portal-section-card/portal-section-card.vue"
 
 const router = useRouter()
 
 const goTo = (name: ProfileRouteName) => router.push({ name })
+
+const appStore = useAppStore()
 </script>
 
 <template>
@@ -20,16 +23,10 @@ const goTo = (name: ProfileRouteName) => router.push({ name })
                 />
             </div>
 
-            <!-- <div class="col-3 tablet-col-4 mobile-col-12">
-                <portal-section-card
-                    icon="pi-chart-bar"
-                    title="Аналитика по филиалу"
-                    description="Получите ключевые отчеты и метрики для оценки работы филиала. Анализируйте производительность, финансовые показатели и другие ключевые данные для принятия обоснованных решений."
-                    @click="goTo(ProfileRouteName.ProfileAnalytics)"
-                />
-            </div> -->
-
-            <div class="col-3 tablet-col-4 mobile-col-12">
+            <div
+                v-if="appStore.isBritva"
+                class="col-3 tablet-col-4 mobile-col-12"
+            >
                 <portal-section-card
                     icon="pi-book"
                     title="Заявки"
@@ -38,7 +35,10 @@ const goTo = (name: ProfileRouteName) => router.push({ name })
                 />
             </div>
 
-            <div class="col-3 tablet-col-4 mobile-col-12">
+            <div
+                v-if="appStore.isBritva"
+                class="col-3 tablet-col-4 mobile-col-12"
+            >
                 <portal-section-card
                     icon="pi-users"
                     title="Аналитика по сотрудникам"

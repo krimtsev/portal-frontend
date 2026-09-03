@@ -1,0 +1,24 @@
+{
+    "mc": {
+        "partner": {
+            "title": "Портал для франчайзи LAPKI",
+            "name": "LAPKI",
+            "assistant": "Клифф"
+        },
+        "ticket": {
+            "barberQualification": {
+                "barberPlus": "БАРБЕР+",
+                "tobBarber": "ТОП-БАРБЕР",
+                "tobBarberPlus": "ТОП-БАРБЕР+",
+                "brandBarber": "БРЕНД-БАРБЕР",
+                "brandBarberPlus": "БРЕНД-БАРБЕР+",
+                "brandBarberPro": "БРЕНД-БАРБЕР ПРО",
+                "expert": "ЭКСПЕРТ"
+            },
+            "adminQualification": {
+                "senior": "Старший администратор",
+                "manager": "Руководитель филиала"
+            }
+        }
+    }
+}

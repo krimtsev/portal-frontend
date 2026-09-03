@@ -54,9 +54,9 @@ function onClick() {
         min-height: 279px;
         width: 100%;
         border-radius: $indent-x4;
-        border: 1px solid var(--p-surface-600);
+        border: 1px solid var(--p-portal-card-border-color);
         z-index: 2;
-        background: var(--p-surface-950);
+        background: var(--p-portal-card-background);
 
         .image {
             position: relative;

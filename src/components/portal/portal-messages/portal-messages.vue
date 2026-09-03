@@ -72,7 +72,7 @@ const autoplayInterval = computed(() => {
 
 <style scoped lang="scss">
 .portal-messages {
-    background: var(--p-primary-500);
+    background: $portal-message-gradient;
     min-height: $portal-card-min-height;
 
     :deep(.p-carousel) {
@@ -95,13 +95,13 @@ const autoplayInterval = computed(() => {
             padding-left: $indent-x2;
 
             .title {
-                @include card-title(var(--p-surface-950));
+                @include card-title(var(--p-portal-message-title-color));
 
                 margin-bottom: $indent-x2;
             }
 
             .description {
-                color: var(--p-surface-950);
+                color: var(--p-portal-message-description-color);
             }
         }
 

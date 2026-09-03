@@ -359,8 +359,9 @@ const department = computed(() => {
     }
 
     &-title {
-        @include card-title(rgba(255, 255, 255, 0.9));
+        @include card-title(var(--p-portal-card-title-color));
 
+        font-weight: var(--p-portal-card-title-font-weight);
         padding-left: $indent-x2;
         margin-bottom: 0;
     }
@@ -373,16 +374,25 @@ const department = computed(() => {
         .month-title {
             @include h5();
 
+            color: var(--p-portal-card-title-color);
             text-align: center;
             text-transform: capitalize;
             margin: 0;
-            width: 100px;
+            width: 110px;
         }
     }
 
     .timeline-navigate {
         width: 35px;
         height: 35px;
+
+        .b-button-icon {
+            color: var(--p-timeline-calendar-navigate-color);
+
+            &:hover {
+                color: var(--p-timeline-calendar-navigate-hover-color);
+            }
+        }
     }
 
     .timeline-loading {
@@ -434,31 +444,32 @@ const department = computed(() => {
         .day-number {
             font-weight: 600;
             line-height: 1;
+            color: var(--p-timeline-calendar-day-number-color);
         }
 
         .day-name {
             font-size: 0.714rem;
-            color: var(--p-surface-400);
+            color: var(--p-timeline-calendar-day-name-color);
             text-transform: lowercase;
             margin-top: 2px;
             line-height: 1;
         }
 
         &.is-weekend {
-            background-color: color-mix(in srgb, var(--p-gray-500) 15%, transparent);
+            background-color: color-mix(in srgb, var(--p-timeline-calendar-weekend-background) 15%, transparent);
 
             .day-number,
             .day-name {
-                color: var(--p-gray-400);
+                color: var(--p-timeline-calendar-weekend-color);
             }
         }
 
         &.is-today {
-            background-color: var(--p-primary-500);
+            background-color: var(--p-timeline-calendar-today-background);
 
             .day-number,
             .day-name {
-                color: var(--p-portal-card-background);
+                color: var(--p-timeline-calendar-today-color);
             }
         }
     }

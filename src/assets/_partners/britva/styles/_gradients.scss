@@ -1,0 +1,65 @@
+:root,
+html.light-mode {
+    --partner-gradient: radial-gradient(
+        104.99% 104.99% at 50% 101.58%,
+        var(--p-form-field-background) 60%,
+        var(--p-primary-500) 84.89%,
+        var(--p-primary-200) 100%
+    );
+
+    --partner-revers-gradient: radial-gradient(
+        100% 100% at 50.08% 0%,
+        var(--p-portal-card-background) 60%,
+        var(--p-primary-500) 84.89%,
+        var(--p-primary-200) 100%
+    );
+
+    --portal-message-gradient: radial-gradient(
+        circle at 0% 0%,
+        var(--p-primary-500) 5%,
+        var(--p-primary-400) 90%,
+        var(--p-primary-500) 100%
+    );
+
+    --image-preload: linear-gradient(
+            90deg,
+            var(--p-surface-600),
+            var(--p-surface-700),
+            var(--p-surface-800)
+    )
+}
+
+html.dark-mode {
+    --partner-gradient: radial-gradient(
+        104.99% 104.99% at 50% 101.58%,
+        var(--p-form-field-background) 60%,
+        var(--p-primary-500) 84.89%,
+        var(--p-primary-200) 100%
+    );
+
+    --partner-revers-gradient: radial-gradient(
+        100% 100% at 50.08% 0%,
+        var(--p-portal-card-background) 60%,
+        var(--p-primary-500) 84.89%,
+        var(--p-primary-200) 100%
+    );
+
+    --portal-message-gradient: radial-gradient(
+        circle at 0% 0%,
+        var(--p-primary-500) 5%,
+        var(--p-primary-400) 90%,
+        var(--p-primary-500) 100%
+    );
+
+    --image-preload-gradient: linear-gradient(
+        90deg,
+        var(--p-surface-600),
+        var(--p-surface-700),
+        var(--p-surface-800)
+    )
+}
+
+$partner-gradient: var(--partner-gradient);
+$partner-revers-gradient: var(--partner-revers-gradient);
+$portal-message-gradient: var(--portal-message-gradient);
+$image-preload-gradient: var(--image-preload-gradient);

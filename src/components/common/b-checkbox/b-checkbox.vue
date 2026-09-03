@@ -44,6 +44,7 @@ const props = withDefaults(defineProps<{
     .label {
         margin-left: $indent;
         cursor: pointer;
+        color: var(--p-checkbox-label-color);
     }
 }
 </style>

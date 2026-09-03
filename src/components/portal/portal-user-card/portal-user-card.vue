@@ -50,17 +50,20 @@ const src = computed(() => imageSrc(props.avatar))
     padding: $indent-x4 ;
     background: transparent;
     border-radius: $indent-x4;
-    border: 1px solid var(--p-surface-600);
+    border: 1px solid var(--p-portal-user-card-border-color);
 
     .header {
+        width: 172px;
+        height: 172px;
+        border-radius: $indent-x4;
+        border: 1px solid var(--p-portal-user-card-border-color);
+        overflow: hidden;
+
         .avatar {
-            display: inline-block;
-            overflow: hidden;
-            border-radius: $indent-x4;
-            border: 1px solid var(--p-primary-500);
+            display: block;
+            width: 100%;
+            height: 100%;
             object-fit: cover;
-            width: 172px;
-            height: 172px;
         }
     }
 
@@ -72,7 +75,7 @@ const src = computed(() => imageSrc(props.avatar))
         margin-top: $indent-x1;
 
         a {
-            color: var(--p-surface-0);
+            color: var(--p-portal-user-card-link-color);
         }
     }
 }

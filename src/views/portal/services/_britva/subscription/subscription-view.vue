@@ -130,5 +130,13 @@ import PortalUserCard from "@c/portal/portal-user-card/portal-user-card.vue"
             margin-top: $indent-x2;
         }
     }
+
+    :deep(.portal-user-card) {
+        .avatar {
+            object-position: top;
+            transform: scale(1.5);
+            transform-origin: top center;
+        }
+    }
 }
 </style>

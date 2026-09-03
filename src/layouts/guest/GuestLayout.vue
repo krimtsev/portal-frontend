@@ -4,12 +4,6 @@
     </div>
 </template>
 
-<style>
-body {
-    font-family: "Akzidenz-Grotesk Pro", sans-serif;
-}
-</style>
-
 <style scoped lang="scss">
 .guest-layout {
     width: 100%;

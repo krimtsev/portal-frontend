@@ -1,0 +1,65 @@
+:root,
+html.light-mode {
+    --partner-gradient: radial-gradient(
+        60% 60% at 50% 100%,
+        var(--p-primary-300) 30%,
+        var(--p-primary-400) 50%,
+        var(--p-primary-500) 100%
+    );
+
+    --partner-revers-gradient: radial-gradient(
+        125% 100% at 50% 0%,
+        color-mix(in srgb, var(--p-primary-0) 100%, transparent) 50%,
+        color-mix(in srgb, var(--p-primary-400) 40%, transparent) 75%,
+        color-mix(in srgb, var(--p-primary-400) 100%, transparent) 100%
+    );
+
+    --portal-message-gradient: radial-gradient(
+        circle at 35% -50%,
+        var(--p-primary-600) 30%,
+        var(--p-primary-400) 85%,
+        var(--p-primary-0) 100%
+    );
+
+    --image-preload-gradient: linear-gradient(
+        90deg,
+        var(--p-surface-50),
+        var(--p-surface-100),
+        var(--p-surface-200)
+    );
+}
+
+html.dark-mode {
+    --partner-gradient: radial-gradient(
+        104.99% 104.99% at 50% 101.58%,
+        var(--p-form-field-background) 60%,
+        var(--p-primary-500) 84.89%,
+        var(--p-primary-200) 100%
+    );
+
+    --partner-revers-gradient: radial-gradient(
+        125% 100% at 50.08% 0%,
+        var(--p-primary-0) 50%,
+        var(--p-primary-400) 75%,
+        var(--p-primary-400) 100%
+    );
+
+    --portal-message-gradient: radial-gradient(
+        circle at 35% -50%,
+        var(--p-primary-600) 30%,
+        var(--p-primary-400) 85%,
+        var(--p-primary-0) 100%
+    );
+
+    --image-preload-gradient: linear-gradient(
+            90deg,
+            var(--p-surface-50),
+            var(--p-surface-100),
+            var(--p-surface-200)
+    );
+}
+
+$partner-gradient: var(--partner-gradient);
+$partner-revers-gradient: var(--partner-revers-gradient);
+$portal-message-gradient: var(--portal-message-gradient);
+$image-preload-gradient: var(--image-preload-gradient);

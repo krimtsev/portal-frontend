@@ -24,7 +24,8 @@
             "@h/*": ["./src/hooks/*"],
             "@a/*": [
                 "./.build/britva/assets/*",
-                "./.build/soda/assets/*"
+                "./.build/soda/assets/*",
+                "./.build/lapki/assets/*"
             ]
         }
     },

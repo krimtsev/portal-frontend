@@ -23,5 +23,11 @@ const slots = useSlots()
 <style scoped lang="scss">
 .b-breadcrumb {
     background: transparent;
+
+    :deep(.p-breadcrumb-item)  {
+        > span {
+            color: var(--p-breadcrumb-item-link);
+        }
+    }
 }
 </style>

@@ -18,7 +18,7 @@ const instance = getCurrentInstance()
 
 const rightImageSrc = computed(() => {
     if (props.rightImage) return props.rightImage
-    return "logos/logo-large.png"
+    return "template/default-sidebar.png"
 })
 
 const hasSaveAction = computed(() => {

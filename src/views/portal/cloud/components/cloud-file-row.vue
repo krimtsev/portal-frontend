@@ -105,22 +105,13 @@ async function onClick() {
             line-height: 39px;
             flex-shrink: 0;
             vertical-align: middle;
+            background: var(--p-cloud-file-background);
         }
 
         .name {
             display: flex;
             align-items: center;
             position: relative;
-        }
-
-        &:hover {
-            .name {
-                font-weight: 600;
-            }
-
-            .icon {
-                color: var(--p-surface-950);
-            }
         }
 
         @include file-colors;

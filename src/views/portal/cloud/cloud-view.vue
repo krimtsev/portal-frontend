@@ -251,7 +251,7 @@ const isEmptyResult = computed(() => {
     }
 
     .title {
-        color: var(--p-surface-500);
+        color: var(--p-cloud-title);
     }
 
     .folders {
@@ -280,7 +280,7 @@ const isEmptyResult = computed(() => {
         flex-wrap: wrap;
         gap: $indent-x3;
         overflow: hidden;
-        padding-bottom: $indent-x3;
+        padding-bottom: $indent-x4;
     }
 }
 </style>

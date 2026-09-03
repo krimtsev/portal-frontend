@@ -35,7 +35,7 @@ defineProps<{
         min-width: 208px;
         margin-top: $indent-x1;
         margin-right: $indent-x2;
-        color: var(--p-surface-400);
+        color: var(--p-portal-form-item-label);
 
         .label {
             @include p();

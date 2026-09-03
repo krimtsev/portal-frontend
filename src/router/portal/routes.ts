@@ -71,6 +71,22 @@ const routes: RouteRecordRaw[] = [
             next()
         },
     },
+    {
+        path:      portalPaths.IntegrationTelephonyQuality,
+        name:      PortalRouteName.IntegrationTelephonyQuality,
+        component: () => import("@v/portal/integration/telephony-quality/telephony-quality-view.vue"),
+        meta:      {
+            roles,
+        },
+    },
+    {
+        path:      portalPaths.IntegrationVideoAnalytics,
+        name:      PortalRouteName.IntegrationVideoAnalytics,
+        component: () => import("@v/portal/integration/video-analytics/video-analytics-view.vue"),
+        meta:      {
+            roles,
+        },
+    },
 ]
 
 export default routes

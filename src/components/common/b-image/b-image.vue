@@ -153,12 +153,7 @@ onBeforeUnmount(() => {
         inset: 0;
         pointer-events: none;
         transition: opacity 0.35s ease, visibility 0s linear 0.35s;
-        background: linear-gradient(
-                90deg,
-                var(--p-surface-600),
-                var(--p-surface-700),
-                var(--p-surface-800)
-        );
+        background: $image-preload-gradient;
         background-size: 200% 100%;
         animation: shimmer 1.5s linear infinite;
     }

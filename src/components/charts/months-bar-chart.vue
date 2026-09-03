@@ -161,7 +161,7 @@ function createChart(ctx: CanvasRenderingContext2D) {
                     const labels = chartInstance.data.labels as string[]
 
                     canvasCtx.save()
-                    canvasCtx.font = "14px 'Akzidenz-Grotesk Pro'"
+                    canvasCtx.font = "13px sans-serif"
                     canvasCtx.textAlign = "center"
 
                     meta.data.forEach((bar, i) => {
@@ -174,14 +174,16 @@ function createChart(ctx: CanvasRenderingContext2D) {
                         if (!dataItem) return
 
                         // Название месяца
-                        canvasCtx.fillStyle = "rgba(255, 255, 255, 0.4)"
+                        canvasCtx.fillStyle = getComputedStyle(document.documentElement)
+                            .getPropertyValue("--p-chart-bar-month-color")
+                            .trim()
                         canvasCtx.textBaseline = "top"
                         canvasCtx.fillText(labels[i] || "", x, bottomY + 8)
 
                         // Универсальное значение (value)
                         if (!dataItem.isSkeleton) {
                             canvasCtx.fillStyle = getComputedStyle(document.documentElement)
-                                .getPropertyValue("--p-surface-100")
+                                .getPropertyValue("--p-chart-bar-value-color")
                                 .trim()
                             canvasCtx.textBaseline = "bottom"
                             canvasCtx.fillText(dataItem.value.toLocaleString("ru-RU"), x, topY - 8)

@@ -75,12 +75,17 @@ onMounted(async () => {
 <template>
     <div class="auth-view">
         <div class="logo">
-            <b-image src="logos/logo.png" width="80px" />
+            <b-image src="logos/logo.svg" height="46px" />
         </div>
 
         <div class="wrapper">
             <div class="form">
-                <b-image src="logos/logo-large.png" width="100%" />
+                <div class="form-logo">
+                    <b-image
+                        src="logos/logo-auth.png"
+                        width="100%"
+                    />
+                </div>
 
                 <div class="form-card">
                     <template v-if="!appStore.isLoading">
@@ -89,7 +94,7 @@ onMounted(async () => {
                             :placeholder="t('mc.common.login')"
                             :error="errors['login']"
                             :disabled="authStore.isLoading"
-                            class="full-width"
+                            class="full-width input"
                         />
 
                         <b-input-password
@@ -97,7 +102,7 @@ onMounted(async () => {
                             :placeholder="t('mc.common.password')"
                             :error="errors['password']"
                             :disabled="authStore.isLoading"
-                            class="full-width"
+                            class="full-width input"
                         />
 
                         <div class="flex-center">
@@ -145,20 +150,61 @@ onMounted(async () => {
     }
 
     .form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
         width: 398px;
+        height: 100%;
+        padding-top: $indent-x4;
+
+        &-logo {
+            width: 398px;
+            padding: 0 $indent-x4;
+
+            @media (max-width: $breakpoints-xl) {
+                width: calc(270px + (398 - 270) * ((100vw - #{$breakpoints-lg}) / (1600 - 1336)));
+                margin: 0 auto;
+            }
+
+            @media (max-width: $breakpoints-lg) {
+                width: 270px;
+            }
+        }
 
         &-card {
             width: 100%;
-            height: 218px;
+            min-height: 218px;
             display: flex;
             flex-direction: column;
-            margin-top: 25%;
             gap: $indent-x2;
+            margin-top: 53px;
+        }
+
+        :deep(.input) {
+            input::placeholder {
+                color: var(--p-auth-input-placeholder-color);
+            }
+            input {
+                background-color: var(--p-auth-input-background);
+                border-color: var(--p-auth-input-border-color);
+
+                &:hover {
+                    border-color: var(--p-auth-input-hover-border-color);
+                }
+                &:focus {
+                    border-color: var(--p-auth-input-focus-border-color);
+                }
+            }
+        }
+
+        :deep(.b-checkbox) {
+            .label {
+                color: var(--p-auth-checkbox-label-color);
+            }
         }
     }
 
     .logo {
-        width: 80px;
         height: 46px;
         margin-bottom: $indent-x2;
     }

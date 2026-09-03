@@ -209,6 +209,25 @@ export default {
         },
     },
     semantic: {
+        typography: {
+            fontSize: {
+                h1: "2.8571rem",
+                h2: "2.2857rem",
+                h3: "1.7143rem",
+                h4: "1.2857rem",
+                h5: "1rem",
+                p:  "1.1429rem",
+            },
+            lineHeight: {
+                h1:   "3.4286rem",
+                h2:   "2.8571rem",
+                h3:   "2.2857rem",
+                h4:   "1.7143rem",
+                h5:   "1.1429rem",
+                p:    "1.7143rem",
+                form: "2rem",
+            },
+        },
         border: {
             radius: {
                 none: "0px",

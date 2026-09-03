@@ -4,41 +4,40 @@ html[data-layout="dashboard"] {
     --p-form-field-border-radius: var(--p-border-radius-md);
     --p-checkbox-border-radius: var(--p-border-radius-xs);
     --p-tag-border-radius: var(--p-border-radius-sm);
-
-    --p-datatable-header-cell-background: transparent;
-    --p-datatable-row-background: transparent;
-
-    --p-treetable-header-cell-background: transparent;
-    --p-treetable-row-background: transparent;
-
     --p-togglebutton-content-border-radius: var(--p-border-radius-sm);
 
-    .p-datatable,
-    .p-treetable {
-        .p-datatable-tbody > tr,
-        .p-treetable-tbody > tr {
-            &:last-child {
-                td {
-                    border: none;
-                }
-            }
-        }
+    //--p-datatable-header-cell-background: transparent;
+    //--p-datatable-row-background: transparent;
 
-        .p-datatable-table-container[data-p="empty"],
-        .p-treetable-table-container[data-p="empty"] {
-            display: none;
-        }
+    //--p-treetable-header-cell-background: transparent;
+    //--p-treetable-row-background: transparent;
 
-        &:not(.show-empty) {
-            .p-datatable-empty-message[data-pc-section="emptymessage"],
-            .p-treetable-empty-message[data-pc-section="emptymessage"] {
-                display: none;
-            }
-        }
-
-        .p-datatable-paginator-bottom,
-        .p-treetable-paginator-bottom {
-            padding-top: $indent-x2;
-        }
-    }
+    //.p-datatable,
+    //.p-treetable {
+    //    .p-datatable-tbody > tr,
+    //    .p-treetable-tbody > tr {
+    //        &:last-child {
+    //            td {
+    //                border: none;
+    //            }
+    //        }
+    //    }
+    //
+    //    .p-datatable-table-container[data-p="empty"],
+    //    .p-treetable-table-container[data-p="empty"] {
+    //        display: none;
+    //    }
+    //
+    //    &:not(.show-empty) {
+    //        .p-datatable-empty-message[data-pc-section="emptymessage"],
+    //        .p-treetable-empty-message[data-pc-section="emptymessage"] {
+    //            display: none;
+    //        }
+    //    }
+    //
+    //    .p-datatable-paginator-bottom,
+    //    .p-treetable-paginator-bottom {
+    //        padding-top: $indent-x2;
+    //    }
+    //}
 }

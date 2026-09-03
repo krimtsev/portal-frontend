@@ -187,7 +187,7 @@ watch(
             <div class="sidebar-header">
                 <span class="logo">
                     <b-image
-                        src="logos/logo.png"
+                        src="logos/logo.svg"
                         class="cursor-pointer"
                         @click="goToHome"
                     />

@@ -13,7 +13,10 @@ import BSkeleton from "@c/common/b-skeleton/b-skeleton.vue"
             </div>
 
             <div class="name">
-                <b-skeleton height="1rem" />
+                <b-skeleton
+                    height="1rem"
+                    width="17rem"
+                />
             </div>
         </div>
     </div>

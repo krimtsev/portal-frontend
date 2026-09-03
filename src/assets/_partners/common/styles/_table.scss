@@ -1,0 +1,43 @@
+@use "variables" as *;
+
+html {
+    --p-datatable-header-cell-background: transparent;
+    --p-datatable-row-background: transparent;
+
+    --p-treetable-header-cell-background: transparent;
+    --p-treetable-row-background: transparent;
+
+    .p-datatable,
+    .p-treetable {
+        .p-datatable-tbody > tr,
+        .p-treetable-tbody > tr {
+            &:last-child {
+                td {
+                    border: none;
+                }
+            }
+        }
+
+        .p-datatable-table-container[data-p="empty"],
+        .p-treetable-table-container[data-p="empty"] {
+            display: none;
+        }
+
+        &:not(.show-empty) {
+            .p-datatable-empty-message[data-pc-section="emptymessage"],
+            .p-treetable-empty-message[data-pc-section="emptymessage"] {
+                display: none;
+            }
+        }
+
+        .p-datatable-paginator-bottom,
+        .p-treetable-paginator-bottom {
+            padding-top: $indent-x2;
+            border-width: 0;
+        }
+    }
+
+    .p-paginator-page:not(.p-disabled):not(.p-paginator-page-selected):hover {
+        border: 1px solid var(--p-paginator-nav-button-hover-border-color);
+    }
+}

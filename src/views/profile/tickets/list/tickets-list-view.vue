@@ -13,7 +13,7 @@ import { ProfileRouteName } from "@r/profile/route-names"
 import { HttpError } from "@/api"
 import * as ticketsAPI from "@/api/modules/profile/tickets/tickets"
 import BEmptyResult from "@c/common/b-empty/b-empty-result.vue"
-import BSkeleton from "@c/common/b-skeleton/b-skeleton.vue"
+import ListLoadingState from "@c/common/b-loading-state/list-loading-state.vue"
 import BTableText from "@c/common/b-table/b-table-text.vue"
 import PortalPage from "@c/portal/portal-page/portal-page.vue"
 import { TicketState, TicketType } from "@v/profile/tickets/edit/definitions/ticket"
@@ -155,27 +155,30 @@ const departmentName = (id: number) => departmentStore.getTitleById(id)
             </prime-float-label>
         </div>
 
-        <div class="content">
+        <div class="table-wrapper">
+            <list-loading-state v-if="isLoading" />
+
+            <b-empty-result
+                v-else-if="!isLoading && !tickets.length"
+                title="Нет сертификатов"
+                width-border
+            />
+
             <prime-data-table
+                v-else
                 :value="tickets"
                 :rows="paginationPage.perPage"
                 :total-records="paginationPage.total"
-                :loading="isLoading"
                 :first="firstPage"
                 :paginator="showPaginator"
-                show-gridlines
-                lazy
                 class="table"
                 @page="onPageChange"
+                data-key="id"
+                scrollable
+                lazy
             >
                 <template #paginatorstart>
                     {{ paginationInfo }}
-                </template>
-
-                <template #loading />
-
-                <template #empty>
-                    <b-empty-result />
                 </template>
 
                 <prime-column
@@ -184,12 +187,7 @@ const departmentName = (id: number) => departmentStore.getTitleById(id)
                     class="table-id"
                 >
                     <template #body="{ data }">
-                        <b-skeleton
-                            :is-loading="isLoading"
-                            full-width
-                        >
-                            <b-table-text :text="data?.id" />
-                        </b-skeleton>
+                        <b-table-text :text="data?.id" />
                     </template>
                 </prime-column>
 
@@ -199,15 +197,10 @@ const departmentName = (id: number) => departmentStore.getTitleById(id)
                     class="table-title link-text"
                 >
                     <template #body="{ data }">
-                        <b-skeleton
-                            :is-loading="isLoading"
-                            full-width
-                        >
-                            <b-table-text
-                                :text="data?.title"
-                                @click="goTo(data?.id)"
-                            />
-                        </b-skeleton>
+                        <b-table-text
+                            :text="data?.title"
+                            @click="goTo(data?.id)"
+                        />
                     </template>
                 </prime-column>
 
@@ -217,12 +210,7 @@ const departmentName = (id: number) => departmentStore.getTitleById(id)
                     class="table-department"
                 >
                     <template #body="{ data }">
-                        <b-skeleton
-                            :is-loading="isLoading"
-                            full-width
-                        >
-                            <b-table-text :text="departmentName(data?.department_id)" />
-                        </b-skeleton>
+                        <b-table-text :text="departmentName(data?.department_id)" />
                     </template>
                 </prime-column>
 
@@ -232,12 +220,7 @@ const departmentName = (id: number) => departmentStore.getTitleById(id)
                     class="table-partner"
                 >
                     <template #body="{ data }">
-                        <b-skeleton
-                            :is-loading="isLoading"
-                            full-width
-                        >
-                            <b-table-text :text="data?.partner?.name" />
-                        </b-skeleton>
+                        <b-table-text :text="data?.partner?.name" />
                     </template>
                 </prime-column>
 
@@ -247,15 +230,10 @@ const departmentName = (id: number) => departmentStore.getTitleById(id)
                     class="table-state"
                 >
                     <template #body="{ data }">
-                        <b-skeleton
-                            :is-loading="isLoading"
-                            full-width
-                        >
-                            <ticket-state-badge
-                                :value="data?.state"
-                                rounded
-                            />
-                        </b-skeleton>
+                        <ticket-state-badge
+                            :value="data?.state"
+                            rounded
+                        />
                     </template>
                 </prime-column>
 
@@ -265,12 +243,7 @@ const departmentName = (id: number) => departmentStore.getTitleById(id)
                     class="table-create-date"
                 >
                     <template #body="{ data }">
-                        <b-skeleton
-                            :is-loading="isLoading"
-                            full-width
-                        >
-                            <b-table-text :text="formatStringToLocal(data?.created_at)" />
-                        </b-skeleton>
+                        <b-table-text :text="formatStringToLocal(data?.created_at)" />
                     </template>
                 </prime-column>
             </prime-data-table>
@@ -288,10 +261,9 @@ const departmentName = (id: number) => departmentStore.getTitleById(id)
         }
     }
 
-    :deep(.p-datatable) {
-        @include table-outer-header;
-        @include table;
+    @include table-wrapper;
 
+    :deep(.p-datatable) {
         .table {
             &-id {
                 @include col-fixed(80px);
@@ -309,12 +281,6 @@ const departmentName = (id: number) => departmentStore.getTitleById(id)
             &-department {
                 @include col-fixed(250px);
             }
-        }
-    }
-
-    :deep(.p-multiselect) {
-        .p-inputtext {
-            padding-block: 0.5rem;
         }
     }
 }

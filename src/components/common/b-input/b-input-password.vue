@@ -71,7 +71,7 @@ $icon-size: calc(var(--p-icon-size) * 1.2);
         @include small-text();
 
         padding-top: $indent-x1;
-        color: var(--p-surface-400);
+        color: var(--p-form-field-hint-color);
     }
 
     :deep(.p-password-input) {

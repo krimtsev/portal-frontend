@@ -10,7 +10,7 @@ import BEmptyResult from "@c/common/b-empty/b-empty-result.vue"
 import BInputSearch from "@c/common/b-input-search/b-input-search.vue"
 import BSocialLinks from "@c/common/b-link/b-social-links.vue"
 import BTelnumLink from "@c/common/b-link/b-telnum-link.vue"
-import BSkeleton from "@c/common/b-skeleton/b-skeleton.vue"
+import ListLoadingState from "@c/common/b-loading-state/list-loading-state.vue"
 import BTableText from "@c/common/b-table/b-table-text.vue"
 import PortalButtonNavigation from "@c/portal/portal-button-navigation/portal-button-navigation.vue"
 import PortalPage from "@c/portal/portal-page/portal-page.vue"
@@ -114,53 +114,48 @@ const firstPage = computed(() => {
                 @change="onSearchChange"
             />
 
-            <prime-data-table
-                :value="franchisee"
-                :rows="paginationPage.perPage"
-                :total-records="paginationPage.total"
-                :loading="isLoading"
-                :first="firstPage"
-                :paginator="showPaginator"
-                show-gridlines
-                lazy
-                class="table"
-                @page="onPageChange"
-            >
-                <template #paginatorstart>
-                    {{ paginationInfo }}
-                </template>
+            <div class="table-wrapper">
+                <list-loading-state v-if="isLoading" />
 
-                <template #loading />
+                <b-empty-result
+                    v-else-if="!isLoading && !franchisee.length"
+                    title="Нет контактов"
+                    width-border
+                />
 
-                <template #empty>
-                    <b-empty-result />
-                </template>
-
-                <prime-column
-                    header="Филиал"
-                    field="filial"
-                    class="table-filial"
+                <prime-data-table
+                    v-else
+                    :value="franchisee"
+                    :rows="paginationPage.perPage"
+                    :total-records="paginationPage.total"
+                    :first="firstPage"
+                    :paginator="showPaginator"
+                    class="table"
+                    @page="onPageChange"
+                    data-key="id"
+                    scrollable
+                    lazy
                 >
-                    <template #body="{ data }">
-                        <b-skeleton
-                            :is-loading="isLoading"
-                            full-width
-                        >
-                            <b-table-text :text="data?.filial" />
-                        </b-skeleton>
+                    <template #paginatorstart>
+                        {{ paginationInfo }}
                     </template>
-                </prime-column>
 
-                <prime-column
-                    header="Имя"
-                    field="names"
-                    class="table-names"
-                >
-                    <template #body="{ data }">
-                        <b-skeleton
-                            :is-loading="isLoading"
-                            full-width
-                        >
+                    <prime-column
+                        header="Филиал"
+                        field="filial"
+                        class="table-filial"
+                    >
+                        <template #body="{ data }">
+                            <b-table-text :text="data?.filial" />
+                        </template>
+                    </prime-column>
+
+                    <prime-column
+                        header="Имя"
+                        field="names"
+                        class="table-names"
+                    >
+                        <template #body="{ data }">
                             <template v-if="data?.names.length">
                                 <div class="cell-value">
                                     <b-table-text
@@ -170,27 +165,21 @@ const firstPage = computed(() => {
                                     />
                                 </div>
                             </template>
-
                             <div
                                 v-else
                                 class="cell-value"
                             >
                                 —
                             </div>
-                        </b-skeleton>
-                    </template>
-                </prime-column>
+                        </template>
+                    </prime-column>
 
-                <prime-column
-                    header="Контакт"
-                    field="telnums"
-                    class="table-telnums"
-                >
-                    <template #body="{ data }">
-                        <b-skeleton
-                            :is-loading="isLoading"
-                            full-width
-                        >
+                    <prime-column
+                        header="Контакт"
+                        field="telnums"
+                        class="table-telnums"
+                    >
+                        <template #body="{ data }">
                             <template v-if="data?.telnums.length">
                                 <div class="cell-value">
                                     <div
@@ -205,17 +194,16 @@ const firstPage = computed(() => {
                                     </div>
                                 </div>
                             </template>
-
                             <div
                                 v-else
                                 class="cell-value"
                             >
                                 —
                             </div>
-                        </b-skeleton>
-                    </template>
-                </prime-column>
-            </prime-data-table>
+                        </template>
+                    </prime-column>
+                </prime-data-table>
+            </div>
         </div>
     </portal-page>
 </template>
@@ -226,22 +214,12 @@ const firstPage = computed(() => {
         max-width: 550px;
     }
 
-    :deep(.p-datatable) {
-        @include table-outer-header;
+    @include table-wrapper;
 
-        .table {
-            &-filial,
-            &-names,
-            &-telnums {
-                width: calc(100% / 3);
-            }
-        }
-
-        .cell-value {
-            display: flex;
-            flex-direction: column;
-            gap: $indent-x1;
-        }
+    .cell-value {
+        display: flex;
+        flex-direction: column;
+        gap: $indent-x1;
     }
 }
 </style>

@@ -56,7 +56,7 @@ const avatarLabel = computed(() => {
             >
                 <template #start>
                     <b-image
-                        src="logos/logo.png"
+                        src="logos/logo.svg"
                         class="cursor-pointer"
                         @click="goToHome"
                     />
@@ -102,12 +102,6 @@ const avatarLabel = computed(() => {
     </div>
 </template>
 
-<style>
-body {
-    font-family: "Akzidenz-Grotesk Pro", sans-serif;
-}
-</style>
-
 <style scoped lang="scss">
 .portal-layout {
     width: 100%;
@@ -131,6 +125,7 @@ body {
             &:not(:last-child)::after {
                 content: "|";
                 margin-right: $indent-x2;
+                color: var(--p-navigation-divider-color);
             }
         }
     }
@@ -142,6 +137,7 @@ body {
         border-radius: 0;
         margin-bottom: 64px;
         z-index: 3;
+        font-weight: var(--p-menubar-base-item-font-weight);
 
         .p-menubar-start {
             margin-right: 64px;
@@ -152,17 +148,12 @@ body {
         }
 
         .p-menubar-item {
-            border: 1px solid #2B2B2B;
-            border-radius: $indent-x4;
-
             .p-menubar-item-content {
+                border: 1px solid var(--p-menubar-item-border-color);
+                overflow: hidden;
+
                 .p-menubar-item-link {
                     padding: calc($indent-x2 - 2px)  $indent-x2;
-                }
-
-                &:hover {
-                    border-radius: $indent-x4;
-                    overflow: hidden;
                 }
             }
 
@@ -207,8 +198,9 @@ body {
 
         .p-menubar-submenu {
             .p-menubar-item {
-                border: none;
-                border-radius: $indent-x1;
+                .p-menubar-item-content {
+                    border: none;
+                }
             }
         }
 
@@ -244,6 +236,26 @@ body {
             .two-columns[data-p-active="false"] {
                 > .p-menubar-submenu {
                     display: none !important;
+                }
+            }
+        }
+
+        .b-link {
+            .button-link {
+                color: var(--p-navigation-link-color);
+                font-weight: var(--p-navigation-link-font-weight);
+
+                &.is-external {
+                    color: var(--p-navigation-link-external-color);
+                }
+
+                &:hover,
+                &:focus-visible {
+                    color: var(--p-navigation-link-hover-color);
+                }
+
+                &:active {
+                    color: var(--p-navigation-link-active-color);
                 }
             }
         }

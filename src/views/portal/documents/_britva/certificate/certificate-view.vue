@@ -8,7 +8,7 @@ import PortalPage from "@c/portal/portal-page/portal-page.vue"
 <template>
     <portal-page
         class="certificate-view"
-        title="Подарочные сертификаты"
+        title="Система работы сертификатов"
         right-image="template/gift.png"
     >
         <b-title
@@ -156,16 +156,20 @@ import PortalPage from "@c/portal/portal-page/portal-page.vue"
                             <li>Без лишних символов или пробелов</li>
                         </ul>
 
-                        <p>Если есть проблемы по физическим сертификатам, можете писать Диме +7 (999) 48-45-317 
-							<b-link
+                        <p>
+                            Если есть проблемы по физическим сертификатам, можете писать Диме +7 (999) 48-45-317
+                            <b-link
                                 label="@krimtsev"
-                                href="https://t.me/krimtsev"/>
-						</p>
-                        <p>Если есть проблемы по электронными сертификатам, можете писать Артему +7 (965) 291-49-02
-							<b-link
+                                href="https://t.me/krimtsev"
+                            />
+                        </p>
+                        <p>
+                            Если есть проблемы по электронными сертификатам, можете писать Артему +7 (965) 291-49-02
+                            <b-link
                                 label="@performus"
-                                href="https://t.me/performus"/>
-						</p>
+                                href="https://t.me/performus"
+                            />
+                        </p>
                     </div>
                 </portal-card>
             </div>
