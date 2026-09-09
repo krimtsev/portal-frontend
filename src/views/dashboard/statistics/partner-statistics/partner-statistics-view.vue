@@ -113,7 +113,7 @@ const hasPartnerStatistics = computed(() => Object.keys(partnerStatistics.value)
             <b-toolbar-item header="Период">
                 <b-date-picker
                     v-model="filterDate"
-                    :placeholder="t('mc.ticket.certificate.placeholder.paymentDate')"
+                    :placeholder="t('mc.common.placeholder.period')"
                     date-format="MM yy"
                     :min-date="minDate"
                     :max-date="maxDate"
@@ -132,7 +132,7 @@ const hasPartnerStatistics = computed(() => Object.keys(partnerStatistics.value)
                     option-label="name"
                     option-value="id"
                     filter
-                    placeholder="Выберите филиал"
+                    :placeholder="t('mc.common.placeholder.partner')"
                     class="filter-partner"
                     @change="onChangeFilter"
                 />

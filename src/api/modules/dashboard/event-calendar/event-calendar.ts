@@ -4,7 +4,7 @@ import type { EventCalendarListItem } from "@v/dashboard/event-calendar/list/def
 import type { EventCalendarData } from "@v/dashboard/event-calendar/edit/definitions/event-calendar"
 
 export async function list(paginationFilter: PaginationFilter) {
-    return await http.get<Pagination<EventCalendarListItem[]>>("dashboard/event-calendar/list", { params: paginationFilter })
+    return await http.post<Pagination<EventCalendarListItem[]>>("dashboard/event-calendar/list", paginationFilter)
 }
 
 export async function get(batchId: string) {

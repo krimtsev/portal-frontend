@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue"
+import { useI18n } from "vue-i18n"
 import PrimeColumn from "primevue/column"
 import PrimeDataTable from "primevue/datatable"
 import { usePartnerStatisticsStore } from "@s/dashboard/statistics/partner-statistics"
@@ -25,6 +26,7 @@ import {
 } from "@/lib/date-helpers"
 
 const notify = useNotify()
+const { t } = useI18n()
 
 const partnerStatisticsStore = usePartnerStatisticsStore()
 const minDate = ref(getAnalyticsStartJSDate())
@@ -139,7 +141,7 @@ function clearSpecialization(text: string) {
                     option-label="name"
                     option-value="id"
                     filter
-                    placeholder="Выберите филиал"
+                    :placeholder="t('mc.common.placeholder.partner')"
                     class="filter-partner"
                     @change="onChangeFilter"
                 />

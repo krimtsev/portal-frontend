@@ -9,11 +9,40 @@ html {
 
     .p-datatable,
     .p-treetable {
-        .p-datatable-tbody > tr,
-        .p-treetable-tbody > tr {
-            &:last-child {
-                td {
-                    border: none;
+        &:not(.p-datatable-gridlines):not(.p-treetable-gridlines) {
+            .p-datatable-tbody > tr,
+            .p-treetable-tbody > tr {
+                &:last-child {
+                    td {
+                        border: none;
+                    }
+                }
+            }
+        }
+
+        &.p-datatable-gridlines {
+            .p-datatable-header-cell:first-child {
+                border-start-start-radius: var(--p-form-field-border-radius);
+            }
+
+            .p-datatable-header-cell:last-child {
+                border-start-end-radius: var(--p-form-field-border-radius);
+            }
+
+            .p-datatable-tfoot {
+                > tr {
+                    > td {
+                        border-top-width: 6px;
+                        border-style: double;
+                    }
+
+                    > td:first-child {
+                        border-end-start-radius: var(--p-form-field-border-radius);
+                    }
+
+                    > td:last-child {
+                        border-end-end-radius: var(--p-form-field-border-radius);
+                    }
                 }
             }
         }

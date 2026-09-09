@@ -142,7 +142,7 @@ const partnerOptions = computed<MultiSelectItem[]>(() => {
                     :options="partnerOptions"
                     option-label="title"
                     option-value="id"
-                    placeholder="Выберите филиалы"
+                    :placeholder="t('mc.common.placeholder.partners')"
                     :disabled="isLoading"
                     :error="errors['partner_ids']"
                     filter

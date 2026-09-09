@@ -183,7 +183,7 @@ const departmentName = (id: number) => departmentStore.getTitleById(id)
                     option-value="id"
                     filter
                     show-clear
-                    placeholder="Выберите филиал"
+                    :placeholder="t('mc.common.placeholder.partner')"
                     class="filter-partner"
                     @submit="onChangeFilter"
                 />

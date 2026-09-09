@@ -205,7 +205,7 @@ const userState = computed({
                     option-value="id"
                     filter
                     show-clear
-                    placeholder="Выберите филиал"
+                    :placeholder="t('mc.common.placeholder.partner')"
                     class="filter-partner"
                     @submit="onChangeFilter"
                 />

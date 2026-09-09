@@ -93,9 +93,10 @@ const items = computed<DashboardMenuItem[]>(() => {
         key:         "royalty",
         label:       t("mc.dashboard.sidebar.royalty"),
         icon:        "pi pi-chart-line",
-        route:       dashboardPaths.DashboardRoyalty,
+        route:       dashboardPaths.DashboardRoyaltyPercent,
         activeNames: [
-            DashboardRouteName.DashboardRoyalty,
+            DashboardRouteName.DashboardRoyaltyPercent,
+            DashboardRouteName.DashboardRoyaltyRecords,
         ],
     })
 

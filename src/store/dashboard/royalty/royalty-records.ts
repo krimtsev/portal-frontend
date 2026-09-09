@@ -5,16 +5,16 @@ import {
     getPreviousMonthJSDate,
 } from "@/lib/date-helpers"
 
-export interface RoyaltyFilters {
-    partner_id: number[]
+export interface RoyaltyRecordsFilters {
+    partner_id: number | null
     date:       string | null
 }
 
-export const useRoyaltyStore = defineStore("dashboard-royalty", () => {
-    return usePagination<RoyaltyFilters>({
+export const useRoyaltyRecordsStore = defineStore("dashboard-royalty-records", () => {
+    return usePagination<RoyaltyRecordsFilters>({
         search:  "",
         filters: {
-            partner_id: [],
+            partner_id: null,
             date:       formatJSDateToStartDateString(getPreviousMonthJSDate()),
         },
         sortBy: "name",

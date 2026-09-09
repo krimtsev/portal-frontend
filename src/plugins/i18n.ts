@@ -44,7 +44,7 @@ const options: I18nOptions = {
             },
         },
     },
-    pluralizationRules: {
+    pluralRules: {
         "ru-RU": function (choice, choicesLength) {
             if (choicesLength === 2) {
                 if (choice === 0) return 1

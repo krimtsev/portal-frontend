@@ -202,6 +202,16 @@ export default {
                             color: "{primary.300}",
                         },
                     },
+                    footer: {
+                        color: "{surface.0}",
+                        cell:  {
+                            color:      "{primary.400}",
+                            background: "transparent",
+                            border:     {
+                                color: "{content.border.color}",
+                            },
+                        },
+                    },
                 },
             },
         },

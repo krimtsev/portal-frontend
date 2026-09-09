@@ -69,3 +69,7 @@
     font-size: $font-size-h1; // 40px
     line-height: $line-height-h1; // 48px
 }
+
+@mixin small-label() {
+    font-size: 0.85714rem; // 12px
+}

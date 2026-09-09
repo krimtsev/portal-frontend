@@ -277,7 +277,7 @@ const copyText = computed(() => {
                     filter
                     option-label="name"
                     option-value="id"
-                    placeholder="Выберите филиал"
+                    :placeholder="t('mc.common.placeholder.partner')"
                 />
             </b-form-item>
 

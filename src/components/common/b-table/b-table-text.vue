@@ -2,13 +2,15 @@
 import { computed, onMounted, onUnmounted, ref, useTemplateRef } from "vue"
 
 const props = withDefaults(defineProps<{
-    text?:      string | number | null
-    subtext?:   string
-    showEmpty?: boolean
+    text?:         string | number | null
+    subtext?:      string
+    smallSubtext?: boolean
+    showEmpty?:    boolean
 }>(), {
-    text:      "",
-    showEmpty: false,
-    subtext:   undefined,
+    text:         "",
+    showEmpty:    false,
+    subtext:      undefined,
+    smallSubtext: false,
 })
 
 const textElementRef = useTemplateRef<HTMLElement | null>("textElementRef")
@@ -62,6 +64,9 @@ const tooltipValue = computed(() => {
         <div
             v-if="subtext"
             class="subtext"
+            :class="{
+                'small-subtext': props.smallSubtext,
+            }"
         >
             {{ subtext }}
         </div>
@@ -88,6 +93,10 @@ const tooltipValue = computed(() => {
         color: var(--p-surface-500);
         display: block;
         width: 100%;
+
+        &.small-subtext {
+            @include small-label();
+        }
     }
 }
 </style>

@@ -177,6 +177,16 @@ export default {
                             background: "{surface.700}",
                         },
                     },
+                    footer: {
+                        color: "{surface.0}",
+                        cell:  {
+                            color:      "{surface.0}",
+                            background: "transparent",
+                            border:     {
+                                color: "{content.border.color}",
+                            },
+                        },
+                    },
                 },
             },
         },
