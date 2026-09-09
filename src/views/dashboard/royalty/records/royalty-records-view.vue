@@ -86,6 +86,11 @@ function formatDayHeader(day: number): string {
 }
 
 async function refreshRoyalty() {
+    if (
+        !royaltyStore.filter.filters.partner_id ||
+        !royaltyStore.filter.filters.date
+    ) return
+
     royaltyStore.setIsLoading(true)
 
     const royaltyData = await royaltyAPI.recordsList(royaltyStore.filter)
