@@ -6,9 +6,9 @@ import PortalAccordionPanel from "@c/portal/portal-accordion/portal-accordion-pa
 import PortalButtonNavigation from "@c/portal/portal-button-navigation/portal-button-navigation.vue"
 import PortalContent from "@c/portal/portal-content/portal-content.vue"
 import PortalPage from "@c/portal/portal-page/portal-page.vue"
-import FinesRightSection from "@v/portal/documents/_britva/components/fines-right-section/fines-right-section.vue"
-import { buttonNavigation } from "@v/portal/documents/_britva/data/button-navigation"
+import { buttonNavigation } from "@v/portal/documents/_britva/definitions/documents"
 import { mangoAuditData } from "@v/portal/documents/_britva/mango-audit/data/mango-audit-data"
+import FinesRightSection from "@v/portal/documents/components/fines-right-section/fines-right-section.vue"
 </script>
 
 <template>
@@ -16,7 +16,10 @@ import { mangoAuditData } from "@v/portal/documents/_britva/mango-audit/data/man
         class="mango-audit-view"
         title="Бальная система по mango-аудиту"
     >
-        <template #top-side>
+        <template
+            v-if="buttonNavigation.length > 1"
+            #top-side
+        >
             <portal-button-navigation :buttons="buttonNavigation" />
         </template>
 

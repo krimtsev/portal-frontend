@@ -14,6 +14,7 @@ const routes: RouteRecordRaw[] = [
             roles,
         },
     },
+
     {
         path:      portalPaths.DocumentCertificate,
         name:      PortalRouteName.DocumentCertificate,
@@ -31,6 +32,15 @@ const routes: RouteRecordRaw[] = [
         },
     },
     {
+        path:      portalPaths.DocumentFines,
+        name:      PortalRouteName.DocumentFines,
+        component: () => import("@v/portal/documents/_lapki/fines/fines-view.vue"),
+        meta:      {
+            roles,
+        },
+    },
+
+    {
         path:      portalPaths.ServiceSubscription,
         name:      PortalRouteName.ServiceSubscription,
         component: () => import("@v/portal/services/_lapki/subscription/subscription-view.vue"),
@@ -46,6 +56,7 @@ const routes: RouteRecordRaw[] = [
             roles,
         },
     },
+
     {
         path:      portalPaths.ContactCentralOffice,
         name:      PortalRouteName.ContactCentralOffice,
@@ -62,6 +73,7 @@ const routes: RouteRecordRaw[] = [
             roles,
         },
     },
+
     {
         path:      portalPaths.AdditionallyDiscount,
         name:      PortalRouteName.AdditionallyDiscount,

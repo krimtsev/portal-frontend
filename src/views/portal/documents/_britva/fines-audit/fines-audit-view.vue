@@ -9,10 +9,10 @@ import PortalAccordionHeader from "@c/portal/portal-accordion/portal-accordion-h
 import PortalAccordionPanel from "@c/portal/portal-accordion/portal-accordion-panel.vue"
 import PortalButtonNavigation from "@c/portal/portal-button-navigation/portal-button-navigation.vue"
 import PortalPage from "@c/portal/portal-page/portal-page.vue"
-import FinesRightSection from "@v/portal/documents/_britva/components/fines-right-section/fines-right-section.vue"
-import { buttonNavigation } from "@v/portal/documents/_britva/data/button-navigation"
+import { buttonNavigation } from "@v/portal/documents/_britva/definitions/documents"
 import { finesAuditData } from "@v/portal/documents/_britva/fines-audit/data/fines-audit-data"
 import type { FinesAuditContent } from "@v/portal/documents/_britva/fines-audit/definitions/fines-audit"
+import FinesRightSection from "@v/portal/documents/components/fines-right-section/fines-right-section.vue"
 
 const { n } = useI18n()
 
@@ -28,7 +28,10 @@ const formatPrice = (item: FinesAuditContent) => {
         class="fines-audit-view"
         title="Аудит и штрафы"
     >
-        <template #top-side>
+        <template
+            v-if="buttonNavigation.length > 1"
+            #top-side
+        >
             <portal-button-navigation :buttons="buttonNavigation" />
         </template>
 

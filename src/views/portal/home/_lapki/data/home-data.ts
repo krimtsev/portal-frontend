@@ -44,6 +44,10 @@ export const sections = computed((): Section[] => {
                     label: "Система работы сертификатов",
                     path:  portalPaths.DocumentCertificate,
                 },
+                {
+                    label: "Штрафы",
+                    path:  portalPaths.DocumentFines,
+                },
             ],
         },
         {

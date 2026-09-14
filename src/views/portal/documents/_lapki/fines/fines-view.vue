@@ -7,8 +7,8 @@ import PortalAccordionPanel from "@c/portal/portal-accordion/portal-accordion-pa
 import PortalButtonNavigation from "@c/portal/portal-button-navigation/portal-button-navigation.vue"
 import PortalContent from "@c/portal/portal-content/portal-content.vue"
 import PortalPage from "@c/portal/portal-page/portal-page.vue"
-import { buttonNavigation } from "@v/portal/documents/_britva/definitions/documents"
-import { finesData } from "@v/portal/documents/_britva/fines/data/fines-data"
+import { buttonNavigation } from "@v/portal/documents/_lapki/definitions/documents"
+import { finesData } from "@v/portal/documents/_lapki/fines/data/fines-data"
 import FinesRightSection from "@v/portal/documents/components/fines-right-section/fines-right-section.vue"
 
 const { n } = useI18n()

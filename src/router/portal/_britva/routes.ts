@@ -14,6 +14,7 @@ const routes: RouteRecordRaw[] = [
             roles,
         },
     },
+
     {
         path:      portalPaths.DocumentSubscription,
         name:      PortalRouteName.DocumentSubscription,
@@ -54,6 +55,7 @@ const routes: RouteRecordRaw[] = [
             roles,
         },
     },
+
     {
         path:      portalPaths.ServicePaidCO,
         name:      PortalRouteName.ServicePaidCO,
@@ -102,6 +104,7 @@ const routes: RouteRecordRaw[] = [
             roles,
         },
     },
+
     {
         path:      portalPaths.AdditionallyDiscount,
         name:      PortalRouteName.AdditionallyDiscount,
@@ -110,6 +113,7 @@ const routes: RouteRecordRaw[] = [
             roles,
         },
     },
+
     {
         path:      portalPaths.ContactCentralOffice,
         name:      PortalRouteName.ContactCentralOffice,
