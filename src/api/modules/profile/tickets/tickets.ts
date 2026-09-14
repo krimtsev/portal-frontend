@@ -3,11 +3,11 @@ import type { TicketCertificate } from "@v/profile/tickets/create/certificate/de
 import type { TicketDesign } from "@v/profile/tickets/create/design/definitions/design"
 import type { TicketGeneral } from "@v/profile/tickets/create/general/definitions/general"
 import type { TicketOpening } from "@v/profile/tickets/create/opening/definitions/opening"
-import type { TicketSpecialist } from "@v/profile/tickets/create/specialist/_britva/definitions/specialist"
+import type { TicketSpecialist } from "@v/profile/tickets/create/specialist/definitions/specialist"
 import type { TicketResponse } from "@v/profile/tickets/edit/definitions/ticket"
 import type { TicketListItem } from "@v/profile/tickets/list/definitions/tickets-list"
 import type { TicketFlagman } from "@v/profile/tickets/create/flagman/definitions/flagman"
-import type { TicketAdministrator } from "@v/profile/tickets/create/administrator/_britva/definitions/administrator"
+import type { TicketAdministrator } from "@v/profile/tickets/create/administrator/definitions/administrator"
 import type { Pagination, PaginationFilter } from "@/definitions/pagination"
 import { http } from "@/api"
 

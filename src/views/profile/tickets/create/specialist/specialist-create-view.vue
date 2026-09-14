@@ -2,6 +2,7 @@
 import { computed, onMounted, ref } from "vue"
 import { useI18n } from "vue-i18n"
 import { useRoute, useRouter } from "vue-router"
+import { useAppStore } from "@s/app/app"
 import { useDepartmentStore } from "@s/department/department"
 import { useNotify } from "@/composables/notify/use-notify"
 import { useVeeForm } from "@/composables/vee-validate/use-validation"
@@ -18,9 +19,10 @@ import BSelect from "@c/common/b-select/b-select.vue"
 import BTextarea from "@c/common/b-textarea/b-textarea.vue"
 import BFileUpload from "@c/common/b-upload-file/b-file-upload.vue"
 import PortalPage from "@c/portal/portal-page/portal-page.vue"
-import { Qualification, type TicketSpecialist } from "@v/profile/tickets/create/specialist/_britva/definitions/specialist"
-import { FormSchema } from "@v/profile/tickets/create/specialist/_britva/schemas/specialist.schema"
-import { qualificationName } from "@v/profile/tickets/create/specialist/_britva/utils/specialist"
+import type { SpecialistQualification, TicketSpecialist } from "@v/profile/tickets/create/specialist/definitions/specialist"
+import { createFormSchema } from "@v/profile/tickets/create/specialist/schemas/specialist.schema"
+import { specialistQualificationName } from "@v/profile/tickets/create/specialist/utils/specialist-utils"
+import { getActiveQualifications } from "@v/profile/tickets/create/specialist/utils/specialist-utils"
 import { TicketType } from "@v/profile/tickets/edit/definitions/ticket"
 import { maxMessageLength } from "@/constants/messages"
 import { DepartmentType } from "@/definitions/departments"
@@ -29,6 +31,7 @@ import { DepartmentType } from "@/definitions/departments"
 const notify = useNotify()
 const router = useRouter()
 const route = useRoute()
+const appStore = useAppStore()
 const { t } = useI18n()
 
 const departmentStore = useDepartmentStore()
@@ -42,12 +45,13 @@ const userPartners = ref<UserPartners>({
 })
 
 function defaultState(): TicketSpecialist {
+    const availableQualifications = getActiveQualifications(appStore.currentPartner)
     const queryQualification = route.query.qualification as string | undefined
 
     const qualification = queryQualification &&
-        Object.values(Qualification).includes(queryQualification as Qualification)
-            ? (queryQualification as Qualification)
-            : Qualification.BarberPlus
+        availableQualifications.includes(queryQualification as SpecialistQualification)
+            ? (queryQualification as SpecialistQualification)
+            : availableQualifications[0]
 
     return {
         title:         t("mc.ticket.specialist.title"),
@@ -67,10 +71,12 @@ function defaultState(): TicketSpecialist {
     }
 }
 
-const qualificationItems = Object.values(Qualification).map(value => ({
-    value,
-    label: qualificationName(value),
-}))
+const qualificationItems = computed(() => {
+    return getActiveQualifications(appStore.currentPartner).map(value => ({
+        value,
+        label: specialistQualificationName(value),
+    }))
+})
 
 const isDisabled = computed(() => isFirstLoading.value || isLoading.value)
 
@@ -82,7 +88,7 @@ const {
     setErrors,
     setFieldValue,
 } = useVeeForm<TicketSpecialist>({
-    validationSchema: FormSchema,
+    validationSchema: createFormSchema(appStore.currentPartner),
     initialValues:    defaultState(),
 })
 

@@ -1,19 +1,18 @@
 import * as z from "zod"
+import { toTypedSchema } from "@vee-validate/zod"
 import { reg } from "@/lib/validator"
 import { FilesSchema } from "@c/common/b-upload-file/schemas/file-upload.schema"
-import { Qualification } from "@v/profile/tickets/create/specialist/_britva/definitions/specialist"
+import { AdminQualification } from "@v/profile/tickets/create/administrator/definitions/administrator"
 import {
     DepartmentIdSchema,
     MessageSchema,
     PartnerIdSchema,
     TitleSchema,
     TypeSchema,
-    UrlSchemaOptional,
 } from "@v/profile/tickets/schemas/ticket.schema"
-import { toTypedSchema } from "@vee-validate/zod"
 
 const AttributesSchema = z.object({
-    qualification: z.enum(Qualification),
+    qualification: z.enum(AdminQualification),
 
     name: z.string()
         .min(1, { message: "Введите имя сотрудника" }),
@@ -24,11 +23,6 @@ const AttributesSchema = z.object({
 
     experience: z.string()
         .min(1, { message: "Укажите стаж работы в филиале" }),
-
-    statistics: z.string()
-        .min(1, { message: "Укажите статистику" }),
-
-    linkToWorks: UrlSchemaOptional,
 })
 
 export const FormSchema = toTypedSchema(

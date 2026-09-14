@@ -18,9 +18,9 @@ import BSelect from "@c/common/b-select/b-select.vue"
 import BTextarea from "@c/common/b-textarea/b-textarea.vue"
 import BFileUpload from "@c/common/b-upload-file/b-file-upload.vue"
 import PortalPage from "@c/portal/portal-page/portal-page.vue"
-import { Qualification, type TicketAdministrator } from "@v/profile/tickets/create/administrator/_britva/definitions/administrator"
-import { FormSchema } from "@v/profile/tickets/create/administrator/_britva/schemas/administrator.schema"
-import { qualificationName } from "@v/profile/tickets/create/administrator/_britva/utils/administrator"
+import { AdminQualification, type TicketAdministrator } from "@v/profile/tickets/create/administrator/definitions/administrator"
+import { FormSchema } from "@v/profile/tickets/create/administrator/schemas/administrator.schema"
+import { adminQualificationName } from "@v/profile/tickets/create/administrator/utils/administrator"
 import { TicketType } from "@v/profile/tickets/edit/definitions/ticket"
 import { maxMessageLength } from "@/constants/messages"
 import { DepartmentType } from "@/definitions/departments"
@@ -45,9 +45,9 @@ function defaultState(): TicketAdministrator {
     const queryQualification = route.query.qualification as string | undefined
 
     const qualification = queryQualification &&
-        Object.values(Qualification).includes(queryQualification as Qualification)
-            ? (queryQualification as Qualification)
-            : Qualification.Senior
+        Object.values(AdminQualification).includes(queryQualification as AdminQualification)
+            ? (queryQualification as AdminQualification)
+            : AdminQualification.Senior
 
     return {
         title:         t("mc.ticket.administrator.title"),
@@ -67,9 +67,9 @@ function defaultState(): TicketAdministrator {
 
 const isDisabled = computed(() => isFirstLoading.value || isLoading.value)
 
-const qualificationItems = Object.values(Qualification).map(value => ({
+const qualificationItems = Object.values(AdminQualification).map(value => ({
     value,
-    label: qualificationName(value),
+    label: adminQualificationName(value),
 }))
 
 const {

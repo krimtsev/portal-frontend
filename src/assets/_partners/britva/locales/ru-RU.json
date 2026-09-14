@@ -14,10 +14,6 @@
                 "brandBarberPlus": "БРЕНД-БАРБЕР+",
                 "brandBarberPro": "БРЕНД-БАРБЕР ПРО",
                 "expert": "ЭКСПЕРТ"
-            },
-            "adminQualification": {
-                "senior": "Старший администратор",
-                "manager": "Руководитель филиала"
             }
         }
     }

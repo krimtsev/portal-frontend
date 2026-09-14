@@ -17,7 +17,7 @@ import PortalInformationMenu from "@c/portal/portal-information-menu/portal-info
 import PortalMessages from "@c/portal/portal-messages/portal-messages.vue"
 import TimelineCalendar from "@c/timeline-calendar/timeline-calendar.vue"
 import { sections } from "@v/portal/home/_lapki/data/home-data"
-import { Qualification } from "@v/profile/tickets/create/specialist/_lapki/definitions/specialist"
+import { LapkiQualification } from "@v/profile/tickets/create/specialist/_lapki/definitions/specialist"
 
 const router = useRouter()
 const notify = useNotify()
@@ -91,7 +91,7 @@ const hasPartnerName = computed(() => !!partnerName.value)
                             @click="router.push({
                                 name: ProfileRouteName.ProfileTicketSpecialist,
                                 query: {
-                                    qualification: Qualification.TobBarber
+                                    qualification: LapkiQualification.TopGroomer
                                 }
                             })"
                         />
@@ -101,7 +101,7 @@ const hasPartnerName = computed(() => !!partnerName.value)
                             @click="router.push({
                                 name: ProfileRouteName.ProfileTicketSpecialist,
                                 query: {
-                                    qualification: Qualification.BrandBarber
+                                    qualification: LapkiQualification.BrandGroomer
                                 }
                             })"
                         />

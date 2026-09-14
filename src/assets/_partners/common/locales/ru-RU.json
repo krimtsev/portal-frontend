@@ -248,6 +248,10 @@
                     "files": "Добавить файлы",
                     "qualification": "Специализация"
                 }
+            },
+            "adminQualification": {
+                "senior": "Старший администратор",
+                "manager": "Руководитель филиала"
             }
         },
         "department": {

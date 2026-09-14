@@ -14,6 +14,10 @@ import { stateName } from "@v/profile/tickets/list/utils/ticket"
 import i18n from "@/plugins/i18n"
 import { useDepartmentStore } from "@s/department/department"
 import { maxLinkLength } from "@/constants/link"
+import { adminQualificationName } from "@v/profile/tickets/create/administrator/utils/administrator"
+import type { SpecialistQualification } from "@v/profile/tickets/create/specialist/definitions/specialist"
+import { specialistQualificationName } from "@v/profile/tickets/create/specialist/utils/specialist-utils"
+import { AdminQualification } from "@v/profile/tickets/create/administrator/definitions/administrator"
 
 const FIELD_LABELS: Record<string, string> = {
     title:         "Тема",
@@ -109,12 +113,10 @@ export function normalizeAttributes(details: TicketDetails) {
         }
 
         if (field.key === "qualification") {
-            const qualificationKey = value[0].toLowerCase() + value.slice(1)
-
             if (ticketType === TicketType.Specialist) {
-                value = i18n.global.t(`mc.ticket.barberQualification.${qualificationKey}`)
+                value = specialistQualificationName(rawValue as SpecialistQualification)
             } else if (ticketType === TicketType.Administrator) {
-                value = i18n.global.t(`mc.ticket.adminQualification.${qualificationKey}`)
+                value = adminQualificationName(rawValue as AdminQualification)
             }
         }
 

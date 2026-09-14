@@ -17,7 +17,7 @@ import PortalInformationMenu from "@c/portal/portal-information-menu/portal-info
 import PortalMessages from "@c/portal/portal-messages/portal-messages.vue"
 import TimelineCalendar from "@c/timeline-calendar/timeline-calendar.vue"
 import { sections } from "@v/portal/home/_britva/data/home-data"
-import { Qualification } from "@v/profile/tickets/create/specialist/_britva/definitions/specialist"
+import { BarberQualification } from "@v/profile/tickets/create/specialist/_britva/definitions/specialist"
 
 const router = useRouter()
 const notify = useNotify()
@@ -89,7 +89,7 @@ const partnerName = computed(() => authStore.partner?.name)
                             @click="router.push({
                                 name: ProfileRouteName.ProfileTicketSpecialist,
                                 query: {
-                                    qualification: Qualification.TobBarber
+                                    qualification: BarberQualification.TobBarber
                                 }
                             })"
                         />
@@ -99,7 +99,7 @@ const partnerName = computed(() => authStore.partner?.name)
                             @click="router.push({
                                 name: ProfileRouteName.ProfileTicketSpecialist,
                                 query: {
-                                    qualification: Qualification.BrandBarber
+                                    qualification: BarberQualification.BrandBarber
                                 }
                             })"
                         />

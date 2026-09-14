@@ -91,7 +91,7 @@ const routes: RouteRecordRaw[] = [
     {
         path:      profilePaths.ProfileTicketSpecialist,
         name:      ProfileRouteName.ProfileTicketSpecialist,
-        component: () => import("@v/profile/tickets/create/specialist/_britva/specialist-create-view.vue"),
+        component: () => import("@v/profile/tickets/create/specialist/specialist-create-view.vue"),
         meta:      {
             roles,
         },
@@ -116,7 +116,7 @@ const routes: RouteRecordRaw[] = [
     {
         path:      profilePaths.ProfileTicketAdministrator,
         name:      ProfileRouteName.ProfileTicketAdministrator,
-        component: () => import("@v/profile/tickets/create/administrator/_britva/administrator-create-view.vue"),
+        component: () => import("@v/profile/tickets/create/administrator/administrator-create-view.vue"),
         meta:      {
             roles,
         },
