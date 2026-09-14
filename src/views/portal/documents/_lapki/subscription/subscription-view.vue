@@ -5,7 +5,7 @@ import BImage from "@c/common/b-image/b-image.vue"
 import BTitle from "@c/common/b-title/b-title.vue"
 import PortalCard from "@c/portal/portal-card/portal-card.vue"
 import PortalPage from "@c/portal/portal-page/portal-page.vue"
-import { subscriptionData } from "@v/portal/documents/_LAPKI/subscription/data/subscription-data"
+import { subscriptionData } from "@v/portal/documents/_lapki/subscription/data/subscription-data"
 </script>
 
 <template>
