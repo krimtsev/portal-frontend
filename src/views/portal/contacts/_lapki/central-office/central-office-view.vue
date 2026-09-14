@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import PortalButtonNavigation from "@c/portal/portal-button-navigation/portal-button-navigation.vue"
 import PortalPage from "@c/portal/portal-page/portal-page.vue"
-import CentralOfficeUser from "@v/portal/contacts/_britva/central-office/components/central-office-user.vue"
-import { centralOfficeData } from "@v/portal/contacts/_britva/central-office/data/central-office-data"
-import { buttonNavigation } from "@v/portal/contacts/_britva/data/button-navigation"
+import CentralOfficeUser from "@v/portal/contacts/_lapki/central-office/components/central-office-user.vue"
+import { centralOfficeData } from "@v/portal/contacts/_lapki/central-office/data/central-office-data"
+import { buttonNavigation } from "@v/portal/contacts/_lapki/data/button-navigation"
 </script>
 
 <template>

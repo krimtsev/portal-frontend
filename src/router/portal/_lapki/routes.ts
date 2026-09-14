@@ -23,6 +23,14 @@ const routes: RouteRecordRaw[] = [
         },
     },
     {
+        path:      portalPaths.DocumentSubscription,
+        name:      PortalRouteName.DocumentSubscription,
+        component: () => import("@v/portal/documents/_lapki/subscription/subscription-view.vue"),
+        meta:      {
+            roles,
+        },
+    },
+    {
         path:      portalPaths.ServiceSubscription,
         name:      PortalRouteName.ServiceSubscription,
         component: () => import("@v/portal/services/_lapki/subscription/subscription-view.vue"),

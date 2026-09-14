@@ -14,7 +14,7 @@ import ListLoadingState from "@c/common/b-loading-state/list-loading-state.vue"
 import BTableText from "@c/common/b-table/b-table-text.vue"
 import PortalButtonNavigation from "@c/portal/portal-button-navigation/portal-button-navigation.vue"
 import PortalPage from "@c/portal/portal-page/portal-page.vue"
-import { buttonNavigation } from "@v/portal/contacts/_britva/data/button-navigation"
+import { buttonNavigation } from "@v/portal/contacts/definitions/contacts"
 import {
     type FranchiseeItem,
     FranchiseeSortBy,

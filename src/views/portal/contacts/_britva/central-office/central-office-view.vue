@@ -3,7 +3,7 @@ import PortalButtonNavigation from "@c/portal/portal-button-navigation/portal-bu
 import PortalPage from "@c/portal/portal-page/portal-page.vue"
 import CentralOfficeUser from "@v/portal/contacts/_britva/central-office/components/central-office-user.vue"
 import { centralOfficeData } from "@v/portal/contacts/_britva/central-office/data/central-office-data"
-import { buttonNavigation } from "@v/portal/contacts/_britva/data/button-navigation"
+import { buttonNavigation } from "@v/portal/contacts/definitions/contacts"
 </script>
 
 <template>

@@ -25,8 +25,21 @@ export const sections = computed((): Section[] => {
             ],
         },
         {
+            title: "Отчеты",
+            items: [
+                {
+                    label:    "Таблица оплаты телефонии",
+                    external: "https://docs.google.com/spreadsheets/d/1FTA921fxHaYwU2swklm_j3yFF0tJ3X9ugZAcHBix-Gg",
+                },
+            ],
+        },
+        {
             title: "Документация",
             items: [
+                {
+                    label: "Система работы абонементов",
+                    path:  portalPaths.DocumentSubscription,
+                },
                 {
                     label: "Система работы сертификатов",
                     path:  portalPaths.DocumentCertificate,

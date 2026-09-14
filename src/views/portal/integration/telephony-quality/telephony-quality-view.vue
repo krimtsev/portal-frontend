@@ -14,7 +14,7 @@ const imageUrl = ref(filesAPI.getStorageLink("dialogic-ai", "image_1.jpg"))
         title="Контроль качества телефонии DIALOGIC AI"
         class="telephony-quality-view"
     >
-        <portal-card title="Новый стандарт сети BRITVA от 18.08.2026">
+        <portal-card title="Новый стандарт сети от 18.08.2026">
             <div class="content">
                 <p>
                     С августа мы начинаем внедрение нового инструмента контроля качества телефонии на

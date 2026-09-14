@@ -12,7 +12,7 @@ import PortalPage from "@c/portal/portal-page/portal-page.vue"
         right-image="template/gift.png"
     >
         <b-title
-            title="Что такое подарочный сертификат BRITVA"
+            title="Что такое подарочный сертификат LAPKI"
             class="mt-x2 mb-x3"
         />
 
@@ -31,10 +31,10 @@ import PortalPage from "@c/portal/portal-page/portal-page.vue"
                         <ul>
                             <li>Карточки с номиналом и правилами использования</li>
                             <li>Открытки с пожеланиями</li>
-                            <li>Фирменного конверта с логотипом BRITVA</li>
+                            <li>Фирменного конверта с логотипом LAPKI</li>
                         </ul>
 
-                        <p>Используется в любом филиале сети BRITVA.</p>
+                        <p>Используется в любом филиале сети LAPKI.</p>
                     </div>
                 </portal-card>
             </div>
@@ -43,7 +43,7 @@ import PortalPage from "@c/portal/portal-page/portal-page.vue"
                 <portal-card title="Электронный сертификат">
                     <div class="content">
                         <ul>
-                            <li>Заказан и оплачен онлайн через сайт britvabarber.ru</li>
+                            <li>Заказан и оплачен онлайн через сайт LAPKIbarber.ru</li>
                             <li>Отправляется по SMS</li>
                             <li>Автоматически активируется в Yclients при оплате через сайт</li>
                         </ul>
@@ -56,7 +56,7 @@ import PortalPage from "@c/portal/portal-page/portal-page.vue"
                             <li>На странице указан номинал, срок действия и код</li>
                         </ul>
 
-                        <p>Используется в любом филиале сети BRITVA.</p>
+                        <p>Используется в любом филиале сети LAPKI.</p>
                     </div>
                 </portal-card>
             </div>
@@ -70,7 +70,7 @@ import PortalPage from "@c/portal/portal-page/portal-page.vue"
                                 У каждого филиала — своя нумерация, которая записана в таблице
                                 <b-link
                                     label="Поиск по сертификатам"
-                                    href="https://mybritva.ru/certificates"
+                                    href="https://myLAPKI.ru/certificates"
                                 />
                             </li>
                             <li>Подробная инструкция по пробитию — в видео-уроке по Yclients</li>
@@ -119,7 +119,7 @@ import PortalPage from "@c/portal/portal-page/portal-page.vue"
                                 Откройте вкладку
                                 <b-link
                                     label="Поиск по сертификатам"
-                                    href="https://mybritva.ru/certificates"
+                                    href="https://myLAPKI.ru/certificates"
                                 />
                             </li>
                             <li>Начните набирать необходимый код и нажмите Enter</li>
