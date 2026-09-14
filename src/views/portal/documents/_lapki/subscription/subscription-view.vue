@@ -14,9 +14,9 @@ import { subscriptionData } from "@v/portal/documents/_lapki/subscription/data/s
         title="Система работы абониментов"
         right-image="template/abik.png"
     >
-        <portal-card title="Годовой абонемент на стрижки и уход">
+        <portal-card title="Абонемент на услуги">
             <div class="content">
-                <p> В сети LAPKI доступны годовые абонементы на стрижки и моделирование бороды. </p>
+                <p> В сети LAPKI доступны абонементы на озоновый SPA-курс, гигиену полости рта и когтекюр.</p>
 
                 <ul>
                     <li>Абонементы действуют 12 месяцев с даты покупки и оформляются на одного гостя.</li>
@@ -29,10 +29,10 @@ import { subscriptionData } from "@v/portal/documents/_lapki/subscription/data/s
                 />
 
                 <ul>
-                    <li>10 одноимённых услуг (по выбранному типу).</li>
+                    <li>5 или 10 одноимённых услуг (по выбранному типу).</li>
                     <li>Привязка к конкретному филиалу.</li>
-                    <li>Уникальный код филиала на обратной стороне карты (например, NOV06 для Новокосино).</li>
-                    <li>Без баланса: оплачиваются только мужские стрижки и/или моделирование бороды.</li>
+                    <li>Уникальный код филиала на обратной стороне карты (например, AKAD06 для Академической).</li>
+                    <li>Без баланса: оплачиваются только выбраные услуги.</li>
                     <li>Другие услуги и товары оплачиваются отдельно.</li>
                 </ul>
             </div>
@@ -51,33 +51,13 @@ import { subscriptionData } from "@v/portal/documents/_lapki/subscription/data/s
                     />
 
                     <prime-column
-                        field="barber"
-                        header="БАРБЕР"
+                        field="fiveVisit"
+                        header="5 визитов"
                     />
 
                     <prime-column
-                        field="topBarber"
-                        header="ТОП-БАРБЕР"
-                    />
-
-                    <prime-column
-                        field="topBarberPlus"
-                        header="ТОП-БАРБЕР+"
-                    />
-
-                    <prime-column
-                        field="brandBarber"
-                        header="БРЕНД-БАРБЕР"
-                    />
-
-                    <prime-column
-                        field="brandBarberPlus"
-                        header="БРЕНД-БАРБЕР+"
-                    />
-
-                    <prime-column
-                        field="brandBarberPro"
-                        header="БРЕНД-БАРБЕР ПРО"
+                        field="tenVisit"
+                        header="10 визитов"
                     />
                 </prime-data-table>
             </div>
@@ -106,19 +86,9 @@ import { subscriptionData } from "@v/portal/documents/_lapki/subscription/data/s
 
             <div class="content">
                 <ul>
-                    <li>
-                        В системе Yclients у каждого филиала создаётся категория:
-                        Абонементы // СЕТЬ LAPKI
-                    </li>
+                    <li>В системе Yclients у каждого филиала создаётся категория товаров "Абонементы".</li>
                     <li>Внутри категории находятся все доступные типы абонементов.</li>
-                    <li>От продажи этих товаров 0% идет для сотрудников (админов и мастеров).</li>
-                    <li>
-                        Необходимо обновить схемы расчёта:
-                        <ul>
-                            <li>от продажи всех товаров — 10%</li>
-                            <li>от продажи абонементов — 0%</li>
-                        </ul>
-                    </li>
+                    <li>От продажи этих товаров 0% идет для сотрудников (администраторов и мастеров).</li>
                 </ul>
             </div>
 

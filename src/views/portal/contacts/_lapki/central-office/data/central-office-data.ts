@@ -65,7 +65,7 @@ export const centralOfficeData: CentralOfficeUser[] = [
         telnum:      "79962052321",
     },
     {
-        avatar:      "template/baranovskaya.jpg",
+        avatar:      "employees/baranovskaya.jpg",
         name:        "Елизавета Барановская",
         description: "офис-менеджер, часы работы: пн-пт с 10:00 до 20:00",
         content:     [
