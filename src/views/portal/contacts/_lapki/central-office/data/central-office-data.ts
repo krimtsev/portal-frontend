@@ -17,8 +17,11 @@ export const centralOfficeData: CentralOfficeUser[] = [
     {
         avatar:      "employees/smirnova.jpg",
         name:        "Екатерина Смирнова",
-        description: "часы работы: пн-пт c 11:00 до 22:00",
-        content:     [],
+        description: "генеральный директор сети, часы работы: пн-пт c 11:00 до 22:00",
+        content:     [
+            "Правообладатель товарного знака и носитель бренда",
+            "Решение конфликтных и неоднозначных ситуаций с ЦО",
+        ],
         contentType: ContentType.Bulleted,
         telnum:      "79163119886",
     },
