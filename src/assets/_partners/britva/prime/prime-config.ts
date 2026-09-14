@@ -468,6 +468,48 @@ export default {
                 },
             },
         },
+        accordion: {
+            colorScheme: {
+                dark: {
+                    root: {
+                        header: {
+                            color:      "{surface.200}",
+                            background: "{surface.800}",
+                            hover:      {
+                                color:      "{surface.0}",
+                                background: "{surface.800}",
+                            },
+                            toggle: {
+                                icon: {
+                                    color: "{surface.200}",
+                                    hover: {
+                                        color: "{surface.0}",
+                                    },
+                                    active: {
+                                        color: "{surface.0}",
+                                        hover: {
+                                            color: "{surface.0}",
+                                        },
+                                    },
+                                },
+                            },
+                            active: {
+                                color:      "{surface.100}",
+                                background: "{surface.800}",
+                                hover:      {
+                                    color:      "{surface.0}",
+                                    background: "{surface.800}",
+                                },
+                            },
+                        },
+                        content: {
+                            color:      "{surface.0}",
+                            background: "{surface.800}",
+                        },
+                    },
+                },
+            },
+        },
     },
     semantic: {
         typography: {

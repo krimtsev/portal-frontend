@@ -9,9 +9,5 @@ import PrimeAccordionContent from "primevue/accordioncontent"
 </template>
 
 <style scoped lang="scss">
-.portal-accordion-content {
-    :deep(.p-accordioncontent-content) {
-        background: var(--p-portal-card-background);
-    }
-}
+.portal-accordion-content {}
 </style>

@@ -500,6 +500,48 @@ export default {
                 },
             },
         },
+        accordion: {
+            colorScheme: {
+                light: {
+                    root: {
+                        header: {
+                            color:      "{primary.400}",
+                            background: "{primary.100}",
+                            hover:      {
+                                color:      "{primary.600}",
+                                background: "{primary.100}",
+                            },
+                            toggle: {
+                                icon: {
+                                    color: "{primary.400}",
+                                    hover: {
+                                        color: "{primary.600}",
+                                    },
+                                    active: {
+                                        color: "{primary.500}",
+                                        hover: {
+                                            color: "{primary.600}",
+                                        },
+                                    },
+                                },
+                            },
+                            active: {
+                                color:      "{primary.500}",
+                                background: "{secondary.500}",
+                                hover:      {
+                                    color:      "{primary.600}",
+                                    background: "{secondary.500}",
+                                },
+                            },
+                        },
+                        content: {
+                            color:      "{primary.500}",
+                            background: "{secondary.500}",
+                        },
+                    },
+                },
+            },
+        },
     },
     semantic: {
         typography: {
