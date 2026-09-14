@@ -6,7 +6,7 @@
             "assistant": "Клифф"
         },
         "ticket": {
-            "barberQualification": {
+            "specialistQualification": {
                 "barberPlus": "БАРБЕР+",
                 "tobBarber": "ТОП-БАРБЕР",
                 "tobBarberPlus": "ТОП-БАРБЕР+",
