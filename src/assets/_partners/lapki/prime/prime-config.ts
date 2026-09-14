@@ -185,6 +185,30 @@ export default {
                 padding: "{multiselect.padding.y} 0.75rem",
             },
         },
+        datepicker: {
+            colorScheme: {
+                light: {
+                    root: {
+                        date: {
+                            color: "{primary.500}",
+                            hover: {
+                                color:      "{primary.500}",
+                                background: "{primary.50}",
+                            },
+                        },
+                        select: {
+                            year: {
+                                color: "{primary.500}",
+                                hover: {
+                                    color:      "{primary.500}",
+                                    background: "{primary.50}",
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        },
         floatlabel: {
             colorScheme: {
                 light: {

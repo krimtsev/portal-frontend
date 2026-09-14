@@ -41,6 +41,7 @@ onMounted(async () => {
 })
 
 const partnerName = computed(() => authStore.partner?.name)
+const hasPartnerName = computed(() => !!partnerName.value)
 </script>
 
 <template>
@@ -150,7 +151,9 @@ const partnerName = computed(() => authStore.partner?.name)
                 class="col-4 tablet-col-6 mobile-col-12 row-span-2"
             >
                 <portal-card
-                    :title="`Аналитика показателей по ${partnerName}`"
+                    :title="hasPartnerName
+                        ? `Аналитика показателей по ${partnerName}`
+                        : 'Аналитика показателей'"
                     menu-title
                     class="analytics-block card-height-x2"
                     class-content="d-flex align-items-end"
@@ -158,7 +161,7 @@ const partnerName = computed(() => authStore.partner?.name)
                     <months-bar-chart
                         :data="homeStore.finances"
                         :is-loading="homeStore.isLoading"
-                        :has-partner="!!partnerName"
+                        :has-partner="hasPartnerName"
                         class="months-bar-chart"
                     />
                 </portal-card>

@@ -69,4 +69,15 @@ html {
     .p-paginator-page:not(.p-disabled):not(.p-paginator-page-selected):hover {
         border: 1px solid var(--p-paginator-nav-button-hover-border-color);
     }
+
+    .p-datepicker-panel {
+        .p-button-secondary {
+            color: var(--p-datepicker-select-year-color);
+
+            &:not(:disabled):hover {
+                background: var(--p-datepicker-select-year-hover-background);
+                color: var(--p-datepicker-select-year-hover-color);
+            }
+        }
+    }
 }

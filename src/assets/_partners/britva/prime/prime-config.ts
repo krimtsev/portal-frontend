@@ -92,7 +92,7 @@ export default {
                             color: "{surface.400}",
                         },
                         disabled: {
-                            color:           "{primary.500}",
+                            color:           "{surface.400}",
                             backgroundColor: "{surface.0}",
                         },
                     },
@@ -160,6 +160,30 @@ export default {
             },
             option: {
                 padding: "{multiselect.padding.y} 0.75rem",
+            },
+        },
+        datepicker: {
+            colorScheme: {
+                light: {
+                    root: {
+                        date: {
+                            color: "{surface.0}",
+                            hover: {
+                                color:      "{surface.0}",
+                                background: "{surface.800}",
+                            },
+                        },
+                        select: {
+                            year: {
+                                color: "{surface.0}",
+                                hover: {
+                                    color:      "{surface.0}",
+                                    background: "{surface.800}",
+                                },
+                            },
+                        },
+                    },
+                },
             },
         },
         togglebutton: {
