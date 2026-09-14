@@ -17,10 +17,8 @@ export const centralOfficeData: CentralOfficeUser[] = [
     {
         avatar:      "employees/smirnova.jpg",
         name:        "Екатерина Смирнова",
-        description: "-, часы работы: пн-пт c 11:00 до 22:00",
-        content:     [
-            "",
-        ],
+        description: "часы работы: пн-пт c 11:00 до 22:00",
+        content:     [],
         contentType: ContentType.Bulleted,
         telnum:      "79163119886",
     },
@@ -42,30 +40,24 @@ export const centralOfficeData: CentralOfficeUser[] = [
     {
         avatar:      "employees/rybinkaya.jpg",
         name:        "Надежда Рыбинская",
-        description: "-, часы работы: пн-пт c 11:00 до 22:00",
-        content:     [
-            "",
-        ],
+        description: "часы работы: пн-пт c 11:00 до 22:00",
+        content:     [],
         contentType: ContentType.Bulleted,
         telnum:      "79037496969",
     },
     {
         avatar:      "employees/kuznetsov.jpg",
         name:        "Кирилл Кузнецов",
-        description: "-, часы работы: пн-пт с 10:00 до 20:00",
-        content:     [
-            "",
-        ],
+        description: "часы работы: пн-пт с 10:00 до 20:00",
+        content:     [],
         contentType: ContentType.Bulleted,
         telnum:      "79962052321",
     },
     {
-        avatar:      "employees/kuznetsov.jpg",
+        avatar:      "employees/second-avatar.png",
         name:        "Снежанна Рыбочкина",
-        description: "-, часы работы: пн-пт с 10:00 до 20:00",
-        content:     [
-            "",
-        ],
+        description: "часы работы: пн-пт с 10:00 до 20:00",
+        content:     [],
         contentType: ContentType.Bulleted,
         telnum:      "79962052321",
     },
