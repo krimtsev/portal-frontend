@@ -8,13 +8,8 @@
         "ticket": {
             "specialistQualification": {
                 "groomer": "ГРУМЕР",
-                "groomerPlus": "ГРУМЕР+",
                 "topGroomer": "ТОР-ГРУМЕР",
-                "topGroomerPlus": "ТОР-ГРУМЕР+",
-                "brandGroomer": "БРЕНД-ГРУМЕР",
-                "brandGroomerPlus": "БРЕНД-ГРУМЕР+",
-                "brandGroomerPro": "БРЕНД-ГРУМЕР ПРО",
-                "groomerExpert": "ЭКСПЕРТ"
+                "brandGroomer": "БРЕНД-ГРУМЕР"
             }
         }
     }
