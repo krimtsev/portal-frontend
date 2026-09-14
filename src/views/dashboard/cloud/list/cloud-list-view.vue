@@ -179,7 +179,7 @@ const filters = computed(() => {
                         <b-button-icon
                             v-if="slotProps.node?.data.slug"
                             icon="pi pi-external-link"
-                            severity="contrast"
+                            severity="secondary"
                             size="small"
                             @click="goToPortal(slotProps.node?.data.path)"
                         />

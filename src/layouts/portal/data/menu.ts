@@ -1,8 +1,8 @@
 import { useRouter } from "vue-router"
 import { PortalRouteName } from "@r/portal/route-names"
 import { ProfileRouteName } from "@r/profile/route-names"
-import partnerContext from "virtual:partner"
 import { Partner } from "@/definitions/partner"
+import { useAppStore } from "@s/app/app"
 
 type MenuCommand = () => void
 
@@ -16,6 +16,7 @@ interface MenuItem {
 
 export function menuData(): MenuItem[] {
     const router = useRouter()
+    const appStore = useAppStore()
 
     const cloudItem: MenuItem = {
         label:   "Облако файлов",
@@ -63,7 +64,7 @@ export function menuData(): MenuItem[] {
         ],
     }
 
-    const ticketsBritva: MenuItem = {
+    const ticketsItem: MenuItem = {
         label: "Заявки",
         items: [
             {
@@ -96,12 +97,17 @@ export function menuData(): MenuItem[] {
                     await router.push({ name: ProfileRouteName.ProfileTicketBlacklist })
                 },
             },
-            {
-                label:   "Заявка на FLAGMAN",
-                command: async () => {
-                    await router.push({ name: ProfileRouteName.ProfileTicketFlagman })
-                },
-            },
+            ...(appStore.isBritva
+                ? [
+                    {
+                        label:   "Заявка на FLAGMAN",
+                        command: async () => {
+                            await router.push({ name: ProfileRouteName.ProfileTicketFlagman })
+                        },
+                    },
+                ]
+                : []
+            ),
             {
                 label:   "Индивидуальное согласование",
                 command: async () => {
@@ -117,12 +123,11 @@ export function menuData(): MenuItem[] {
         ],
     }
 
-    const currentPartner = partnerContext.name as Partner
-
-    switch (currentPartner) {
+    switch (appStore.currentPartner) {
         case Partner.Lapki:
             return [
                 cloudItem,
+                ticketsItem,
                 certificatesItem,
                 contactsItem,
             ]
@@ -130,6 +135,7 @@ export function menuData(): MenuItem[] {
         case Partner.Soda:
             return [
                 cloudItem,
+                ticketsItem,
                 certificatesItem,
                 analyticsItem,
                 contactsItem,
@@ -139,7 +145,7 @@ export function menuData(): MenuItem[] {
         default:
             return [
                 cloudItem,
-                ticketsBritva,
+                ticketsItem,
                 certificatesItem,
                 analyticsItem,
                 contactsItem,

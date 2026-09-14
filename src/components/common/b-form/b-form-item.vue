@@ -80,7 +80,7 @@ const labelText = computed(() => {
 
         .label {
             display: block;
-            color: var(--p-surface-0);
+            color: var(--p-dashboard-form-label-color);
 
             &-content {
                 display: inline;

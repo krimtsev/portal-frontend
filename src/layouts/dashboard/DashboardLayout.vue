@@ -2,7 +2,6 @@
 import { computed, onBeforeUnmount, onMounted, ref, useTemplateRef } from "vue"
 import { useI18n } from "vue-i18n"
 import { useRouter } from "vue-router"
-import sidebarBg from "@a/images/dashboard/sidebar.jpg"
 import PrimeButton from "primevue/button"
 import { useAuthStore } from "@s/auth/auth"
 import { useDashboardStyle } from "@/composables/dashboard-style/use-dashboard-style"
@@ -108,7 +107,6 @@ const profileItems = ref([
             'layout-desktop-inactive': !isMobile && !sidebarActive,
             'layout-mobile-active': isMobile && sidebarActive
         }"
-        :style="{ '--sidebar-bg': `url(${sidebarBg})` }"
     >
         <dashboard-sidebar ref="sidebarRef" />
 
@@ -155,10 +153,10 @@ const profileItems = ref([
 <style scoped lang="scss">
 .dashboard-layout {
     display: flex;
-    height: 100vh;
+    min-height: 100vh;
     width: 100%;
     position: relative;
-    overflow-x: auto; // fix mobile
+    overflow-x: auto;
 
     .menu-button {
         width: var(--p-avatar-width);
@@ -179,11 +177,6 @@ const profileItems = ref([
             width: 19rem;
             height: 100%;
             z-index: -1;
-            background-image: var(--sidebar-bg);
-            background-repeat: no-repeat;
-            background-size: cover;
-            background-position: top;
-            opacity: 0.15;
         }
     }
 }
@@ -270,6 +263,26 @@ const profileItems = ref([
             &:not(:last-child)::after {
                 content: "|";
                 margin-right: $indent-x2;
+            }
+        }
+
+        :deep(.b-link) {
+            .button-link {
+                color: var(--p-navigation-link-color);
+                font-weight: var(--p-navigation-link-font-weight);
+
+                &.is-external {
+                    color: var(--p-navigation-link-external-color);
+                }
+
+                &:hover,
+                &:focus-visible {
+                    color: var(--p-navigation-link-hover-color);
+                }
+
+                &:active {
+                    color: var(--p-navigation-link-active-color);
+                }
             }
         }
     }

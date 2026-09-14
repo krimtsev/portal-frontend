@@ -241,7 +241,7 @@ function tagText(workplace: number, days: number): string {
                 <prime-column-group type="footer">
                     <prime-row>
                         <prime-column
-                            footer="Итого:"
+                            footer="Рабочих мест:"
                             class="table-staff-footer"
                         />
                         <prime-column

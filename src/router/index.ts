@@ -12,6 +12,7 @@ import routes, { addCustomizationRoutes } from "@r/routes"
 import i18n from "@/plugins/i18n"
 import type { Roles } from "@/definitions/roles"
 import { useMaintenanceStore } from "@s/maintenance/maintenance"
+import type { Partner } from "@/definitions/partner"
 
 const scrollBehavior: RouterScrollBehavior = (_to, _from, savedPosition) => {
     if (savedPosition) {
@@ -72,10 +73,18 @@ router.beforeEach(async (to: RouteLocationNormalized, _from, next) => {
             return next({ name: PortalRouteName.Home, replace: true })
         }
 
+        // Проверка ролей
         const requiredRoles = to.meta?.roles as Roles[] | undefined
         const userRole = authStore.user?.role
 
         if (requiredRoles && !requiredRoles.includes(userRole)) {
+            return next({ name: PortalRouteName.Home, replace: true })
+        }
+
+        // Проверка партнера
+        const requiredPartners = to.meta?.partners as Partner[] | undefined
+
+        if (requiredPartners && !requiredPartners.includes(appStore.currentPartner)) {
             return next({ name: PortalRouteName.Home, replace: true })
         }
     } else {

@@ -316,25 +316,31 @@ defineExpose({ clear })
         align-items: center;
         justify-content: center;
         gap: $indent-x1;
-        border: 1px dashed var(--p-content-border-color);
-        border-radius: var(--p-form-field-border-radius);
+        border: 1px dashed var(--p-dropbox-border-color);
+        border-radius: var(--p-dropbox-border-radius);
+        background: var(--p-dropbox-background);
         padding: $indent-x2;
         min-height: 160px;
         cursor: pointer;
 
+        &:hover {
+            border-color: var(--p-dropbox-hover-border-color);
+        }
+
         .icon-wrapper {
             .icon {
                 font-size: 3rem;
-                color: var(--p-surface-500);
+                color: var(--p-dropbox-color);
             }
         }
 
         .description {
-            color: var(--p-surface-500);
+            color: var(--p-dropbox-color);
         }
 
         &.disabled {
-            background: var(--p-form-field-disabled-background);
+            color: var(--p-dropbox-disabled-color);
+            background: var(--p-dropbox-disabled-background);
             cursor: default;
         }
     }
@@ -345,14 +351,14 @@ defineExpose({ clear })
         gap: $indent-x1;
 
         .file-label {
-            color: var(--p-surface-400);
+            color: var(--p-dropbox-files-color);
         }
 
         .file-list {
             display: flex;
             flex-wrap: wrap;
             gap: $indent-x1;
-            color: var(--p-surface-400);
+            color: var(--p-dropbox-files-color);
 
             .file-item {
                 display: flex;
@@ -363,14 +369,14 @@ defineExpose({ clear })
                 .remove-icon {
                     font-size: 0.8rem;
                     line-height: 1rem;
-                    color: var(--p-surface-400);
+                    color: var(--p-dropbox-files-color);
                 }
 
                 &:hover:not(.file-item-disabled) {
-                    color: var(--p-surface-300);
+                    color: var(--p-dropbox-files-hover-color);
 
                     .remove-icon {
-                        color: var(--p-red-500);
+                        color: var(--p-dropbox-files-remove);
                     }
                 }
 

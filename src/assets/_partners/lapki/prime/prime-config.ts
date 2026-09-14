@@ -4,11 +4,16 @@ export default {
             colorScheme: {
                 light: {
                     root: {
-                        item: {
-                            color: "{primary.500}",
-                            link:  "{primary.600}",
+                        padding:    0,
+                        background: "transparent",
+                        item:       {
+                            color: "{primary.400}",
+                            link:  "{primary.500}",
                         },
                         separator: {
+                            color: "{primary.300}",
+                        },
+                        last: {
                             color: "{primary.500}",
                         },
                     },
@@ -86,9 +91,34 @@ export default {
                         placeholder: {
                             color: "{primary.500}",
                         },
+                        border: {
+                            color: "transparent",
+                        },
                         disabled: {
                             color:           "{primary.500}",
                             backgroundColor: "{surface.0}",
+                        },
+                    },
+                },
+            },
+        },
+        textarea: {
+            colorScheme: {
+                light: {
+                    root: {
+                        background:  "{primary.50}",
+                        placeholder: {
+                            color: "{primary.500}",
+                        },
+                        border: {
+                            color: "transparent",
+                        },
+                        disabled: {
+                            color:           "{primary.500}",
+                            backgroundColor: "{surface.0}",
+                        },
+                        label: {
+                            color: "{primary.500}",
                         },
                     },
                 },
@@ -101,6 +131,9 @@ export default {
                         background:  "{primary.50}",
                         placeholder: {
                             color: "{primary.500}",
+                        },
+                        border: {
+                            color: "transparent",
                         },
                         disabled: {
                             color:           "{primary.500}",
@@ -127,6 +160,9 @@ export default {
                         background:  "{primary.50}",
                         placeholder: {
                             color: "{primary.500}",
+                        },
+                        border: {
+                            color: "transparent",
                         },
                         disabled: {
                             color:           "{primary.500}",
@@ -162,13 +198,26 @@ export default {
             colorScheme: {
                 light: {
                     root: {
-                        checked: {
-                            color: "{surface.900}",
+                        background: "{primary.50}",
+                        color:      "{primary.400}",
+                        hover:      {
+                            color:      "{primary.500}",
+                            background: "{primary.50}",
                         },
-                    },
-                    content: {
+                        border: {
+                            color: "{primary.50}",
+                        },
                         checked: {
-                            background: "{primary.500}",
+                            color:      "{primary.0}",
+                            background: "{primary.50}",
+                            border:     {
+                                color: "{primary.50}",
+                            },
+                        },
+                        content: {
+                            checked: {
+                                background: "{primary.500}",
+                            },
                         },
                     },
                 },
@@ -199,7 +248,8 @@ export default {
                         color:      "{primary.400}",
                         background: "transparent",
                         hover:      {
-                            color: "{primary.300}",
+                            color:      "{primary.300}",
+                            background: "{primary.100}",
                         },
                     },
                     footer: {
@@ -220,21 +270,32 @@ export default {
                 light: {
                     header: {
                         cell: {
+                            color:  "{primary.400}",
                             border: {
-                                color: "{surface.600}",
+                                color: "{primary.200}",
                             },
                         },
                     },
                     body: {
                         cell: {
                             border: {
-                                color: "{surface.600}",
+                                color: "{primary.200}",
                             },
                         },
                     },
                     row: {
-                        hover: {
-                            background: "{surface.700}",
+                        color:      "{primary.400}",
+                        background: "transparent",
+                        hover:      {
+                            color:      "{primary.300}",
+                            background: "{primary.100}",
+                        },
+                    },
+                    node: {
+                        toggle: {
+                            button: {
+                                color: "{primary.400}",
+                            },
                         },
                     },
                 },
@@ -362,17 +423,27 @@ export default {
             colorScheme: {
                 light: {
                     root: {
-                        colorOne:   "{primary.100}",
-                        colorTwo:   "{primary.300}",
-                        colorThree: "{primary.500}",
-                        colorFour:  "{primary.700}",
+                        colorOne:   "{primary.200}",
+                        colorTwo:   "{primary.400}",
+                        colorThree: "{primary.600}",
+                        colorFour:  "{primary.800}",
                     },
                 },
             },
         },
         tabs: {
-            tab: {
-                padding: "1.1429rem 1.1429rem",
+            colorScheme: {
+                light: {
+                    root: {
+                        tab: {
+                            padding: "1.1429rem 1.1429rem",
+                            color:   "{primary.400}",
+                            hover:   {
+                                color: "{primary.500}",
+                            },
+                        },
+                    },
+                },
             },
         },
         checkbox: {
@@ -382,6 +453,50 @@ export default {
                         color: "{primary.500}",
                     },
                     background: "{primary.100}",
+                },
+            },
+        },
+        button: {
+            colorScheme: {
+                light: {
+                    root: {
+                        secondary: {
+                            color:      "{primary.400}",
+                            background: "transparent",
+                            border:     {
+                                color: "{primary.400}",
+                            },
+                            hover: {
+                                color:      "{primary.500}",
+                                background: "{primary.50}",
+                                border:     {
+                                    color: "{primary.500}",
+                                },
+                            },
+                            active: {
+                                color:      "{primary.600}",
+                                background: "{primary.100}",
+                                border:     {
+                                    color: "{primary.500}",
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        },
+        panelmenu: {
+            colorScheme: {
+                light: {
+                    root: {
+                        item: {
+                            color: "{primary.600}",
+                            focus: {
+                                color:      "{primary.600}",
+                                background: "{surface.0}",
+                            },
+                        },
+                    },
                 },
             },
         },
@@ -582,8 +697,73 @@ export default {
                     },
                 },
                 dashboard: {
-                    card: {
-                        background: "{primary.100}",
+                    sidebar: {
+                        color:      "{primary.600}",
+                        background: "{secondary.500}",
+                        border:     {
+                            radius: "{border.radius.md}",
+                            color:  "{primary.200}",
+                        },
+                        item: {
+                            color:  "{primary.500}",
+                            active: {
+                                background: "{primary.0}",
+                                border:     {
+                                    color: "{primary.500}",
+                                },
+                            },
+                        },
+                    },
+                    background: "{primary.100}",
+                    card:       {
+                        background: "{primary.0}",
+                        border:     {
+                            color: "{primary.200}",
+                        },
+                    },
+                    form: {
+                        back: {
+                            color: "{primary.300}",
+                        },
+                        border: {
+                            color: "{primary.200}",
+                        },
+                        shadow: "{primary.200}",
+                        label:  {
+                            color: "{primary.500}",
+                        },
+                    },
+                    settings: {
+                        card: {
+                            background: "{surface.0}",
+                            border:     {
+                                color: "{primary.200}",
+                            },
+                            title: {
+                                color: "{primary.400}",
+                            },
+                            text: {
+                                color: "{primary.300}",
+                            },
+                            hover: {
+                                border: {
+                                    color: "{primary.500}",
+                                },
+                                title: {
+                                    color: "{primary.500}",
+                                },
+                            },
+                            icon: {
+                                color: "{primary.300}",
+                            },
+                        },
+                    },
+                },
+                toolbar: {
+                    item: {
+                        header: {
+                            color: "{primary.400}",
+                        },
                     },
                 },
                 divider: {
@@ -732,8 +912,50 @@ export default {
                         background: "transparent",
                     },
                 },
+                empty: {
+                    color:  "{primary.400}",
+                    border: {
+                        color: "{primary.200}",
+                    },
+                },
                 glow: {
                     color: "{primary.500}",
+                },
+                dropbox: {
+                    background: "{primary.50}",
+                    color:      "{primary.500}",
+                    border:     {
+                        color:  "transparent",
+                        radius: "{form.field.border.radius}",
+                    },
+                    hover: {
+                        border: {
+                            color: "{form.field.hover.border.color}",
+                        },
+                    },
+                    disabled: {
+                        color:      "{primary.500}",
+                        background: "{form.field.disabled.background}",
+                    },
+                    files: {
+                        color: "{primary.500}",
+                        hover: {
+                            color: "{primary.400}",
+                        },
+                        remove: "{red.500}",
+                    },
+                },
+                link: {
+                    color: "{primary.400}",
+                    hover: {
+                        color: "{primary.500}",
+                    },
+                    active: {
+                        color: "{primary.600}",
+                    },
+                    external: {
+                        color: "{primary.color}",
+                    },
                 },
             },
         },

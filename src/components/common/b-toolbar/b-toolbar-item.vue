@@ -44,7 +44,7 @@ const header = computed(() => {
         position: relative;
         align-items: center;
         margin-bottom: $indent-x1;
-        color: var(--p-surface-200);
+        color: var(--p-toolbar-item-header-color);
     }
 }
 </style>

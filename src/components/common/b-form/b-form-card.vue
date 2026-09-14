@@ -28,6 +28,7 @@ const props = defineProps<{
 .b-form-card {
     background-color: var(--p-dashboard-card-background);
     padding: $indent-x2;
+    border: 1px solid var(--p-dashboard-form-border-color);
 
     .title {
         margin-bottom: $indent-x3;

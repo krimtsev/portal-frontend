@@ -2,7 +2,7 @@ import type { RouteRecordRaw } from "vue-router"
 import { dashboardPaths } from "@r/dashboard/path"
 import { DashboardRouteName } from "@r/dashboard/route-names"
 import { Roles } from "@/definitions/roles"
-import { useAppStore } from "@s/app/app"
+import { Partner } from "@/definitions/partner"
 
 const routes: RouteRecordRaw[] = [
     {
@@ -124,11 +124,14 @@ const routes: RouteRecordRaw[] = [
                 name:      DashboardRouteName.DashboardRoyaltyPercent,
                 component: () => import("@v/dashboard/royalty/percent/royalty-percent-view.vue"),
             },
-            ...(useAppStore().isBritva ? [{
+            {
                 path:      dashboardPaths.DashboardRoyaltyRecords,
                 name:      DashboardRouteName.DashboardRoyaltyRecords,
                 component: () => import("@v/dashboard/royalty/records/royalty-records-view.vue"),
-            }] : []),
+                meta:      {
+                    partners: [Partner.Britva],
+                },
+            },
         ],
     },
     {

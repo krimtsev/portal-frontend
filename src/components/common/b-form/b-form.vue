@@ -153,10 +153,13 @@ const onRemove = () => {
         display: flex;
         justify-content: space-between;
         position: relative;
-        box-shadow: inset 0 -1px 0 0 var(--p-surface-600);
+        box-shadow: inset 0 -1px 0 0 var(--p-dashboard-form-shadow);
         background-color: var(--p-dashboard-card-background);
         border-top-left-radius: $border-radius;
         border-top-right-radius: $border-radius;
+        border-width: 1px 1px 0 1px;
+        border-style: solid;
+        border-color: var(--p-dashboard-form-border-color);
         min-height: 56px;
 
         &-left {
@@ -180,7 +183,7 @@ const onRemove = () => {
             height: 56px;
 
             :deep(.b-svg) {
-                color: var(--p-surface-100);
+                color: var(--p-dashboard-form-back-color);
             }
 
             &:hover {
@@ -205,6 +208,9 @@ const onRemove = () => {
             background-color: var(--p-dashboard-card-background);
             border-bottom-left-radius: $border-radius;
             border-bottom-right-radius: $border-radius;
+            border-color:  var(--p-dashboard-form-border-color);
+            border-width: 0 1px 1px 1px;
+            border-style: solid;
 
             .main-content {
                 overflow: hidden;
@@ -219,6 +225,10 @@ const onRemove = () => {
     :deep() {
         article {
             border-radius: $border-radius;
+        }
+
+        article:first-child {
+            border-top-width: 0;
         }
 
         article + article {
@@ -237,6 +247,7 @@ const onRemove = () => {
         background-color: var(--p-dashboard-card-background);
         padding: $indent-x2;
         justify-content: space-between;
+        border: 1px solid var(--p-dashboard-form-border-color);
 
         .left-side,
         .right-side {

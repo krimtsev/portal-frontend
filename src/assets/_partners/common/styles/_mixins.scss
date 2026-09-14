@@ -238,6 +238,7 @@ $cloud-file-types: (
 @mixin list-view {
     border-radius: $indent-x2;
     background-color: var(--p-dashboard-card-background);
+    border: 1px solid var(--p-dashboard-card-border-color);
     padding: 0 $indent-x2 $indent-x3 $indent-x2;
 }
 
@@ -261,10 +262,18 @@ $cloud-file-types: (
 }
 
 @mixin table {
-    .p-datatable-tbody,
-    .p-treetable-tbody {
+    .p-datatable-tbody {
         tr:hover {
             background: var(--p-datatable-row-hover-background);
+
+            .link-text {
+                @include link-text;
+            }
+        }
+    }
+    .p-treetable-tbody {
+        tr:hover {
+            background: var(--p-treetable-row-hover-background);
 
             .link-text {
                 @include link-text;

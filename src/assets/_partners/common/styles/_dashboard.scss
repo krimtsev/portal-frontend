@@ -1,6 +1,8 @@
 @use "variables" as *;
 
 html[data-layout="dashboard"] {
+    background-color: var(--p-dashboard-background);
+
     --p-form-field-border-radius: var(--p-border-radius-md);
     --p-checkbox-border-radius: var(--p-border-radius-xs);
     --p-tag-border-radius: var(--p-border-radius-sm);

@@ -124,7 +124,7 @@ const count = computed(() => model.value.length || 0)
     }
 
     .label {
-        color: var(--p-surface-500);
+        color: var(--p-textarea-label-color);
         padding-bottom: $indent-x1;
     }
 
@@ -132,7 +132,7 @@ const count = computed(() => model.value.length || 0)
         @include small-text;
 
         padding-right: $indent-x1;
-        color: var(--p-surface-500);
+        color: var(--p-textarea-label-color);
     }
 
     .count + .hint {

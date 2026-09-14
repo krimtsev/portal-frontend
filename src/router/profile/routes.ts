@@ -2,6 +2,7 @@ import type { RouteRecordRaw } from "vue-router"
 import { profilePaths } from "@r/profile/path"
 import { ProfileRouteName } from "@r/profile/route-names"
 import { Roles } from "@/definitions/roles"
+import { Partner } from "@/definitions/partner"
 
 
 const roles = [Roles.USER, Roles.ADMIN, Roles.SYSADMIN]
@@ -109,6 +110,7 @@ const routes: RouteRecordRaw[] = [
         component: () => import("@v/profile/tickets/create/flagman/flagman-create.view.vue"),
         meta:      {
             roles,
+            partners: [Partner.Britva],
         },
     },
     {

@@ -246,19 +246,28 @@ watch(
 
 <style scoped lang="scss">
 .dashboard-sidebar {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 19rem;
-    height: 100%;
+    height: 100vh;
+    overflow-y: auto;
     transform: translateX(0);
     transition: transform .3s cubic-bezier(0, 0, .2, 1);
     z-index: 100;
 
+    background-color: var(--p-dashboard-sidebar-background);
+    border-width: 0 1px 0 0;
+    border-style: solid;
+    border-color: var(--p-dashboard-sidebar-border-color);
+    border-radius: 0 var(--p-dashboard-sidebar-border-radius) var(--p-dashboard-sidebar-border-radius) 0;
+
     .sidebar-wrapper {
         position: relative;
-        padding: 0 1.5rem;
-        height: 100%;
+        padding: 0 1.5rem 2rem 1.5rem; // Добавлен bottom-padding для удобства скролла
+        display: flex;
+        flex-direction: column;
+        min-height: 100%;
     }
 
     .sidebar-header {
@@ -266,9 +275,12 @@ watch(
         display: flex;
         justify-content: center;
         align-items: center;
+        flex-shrink: 0;
     }
 
     .sidebar-menu {
+        flex: 1;
+
         .sidebar-menu-item {
             display: flex;
             align-items: center;
@@ -276,14 +288,14 @@ watch(
             outline: 0 none;
             cursor: pointer;
             padding: var(--p-button-padding-y) var(--p-button-padding-x);
-            color: var(--text-color);
+            color: var(--p-dashboard-sidebar-item-color);
             text-decoration: none;
             border-radius: 8px;
             border-left: 8px solid transparent;
 
             &.active {
-                background-color: var(--p-dashboard-card-background);
-                border-left: 8px solid var(--p-primary-500);
+                background-color: var(--p-dashboard-sidebar-item-active-background);
+                border-left: 8px solid var(--p-dashboard-sidebar-item-active-border-color);
             }
         }
     }

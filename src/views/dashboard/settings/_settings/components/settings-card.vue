@@ -69,18 +69,18 @@ const goTo = () => {
     align-content: start;
     padding: $indent-x3;
     min-height: 150px;
-    background-color: var(--p-dashboard-card-background);
-    border: 1px solid var(--p-surface-600);
+    background-color: var(--p-dashboard-settings-card-background);
+    border: 1px solid var(--p-dashboard-settings-card-border-color);
     border-radius: $indent-x2;
     cursor: pointer;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     transition: box-shadow 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
 
     &:hover {
-        border-color: var(--p-primary-800);
+        border-color: var(--p-dashboard-settings-card-hover-border-color);
 
         .title {
-            color: var(--p-primary-500);
+            color: var(--p-dashboard-settings-card-hover-title-color);
         }
     }
 
@@ -90,13 +90,13 @@ const goTo = () => {
         align-items: flex-start;
         justify-content: center;
         padding-top: 2px;
-        color: var(--p-surface-0);
+        color: var(--p-dashboard-settings-card-icon-color);
     }
 
     .title {
         @include card-title;
 
-        color: var(--p-surface-0);
+        color: var(--p-dashboard-settings-card-title-color);
     }
 
     .text {
@@ -106,14 +106,14 @@ const goTo = () => {
         .announce {
             @include card-description;
 
-            color: var(--p-surface-400);
+            color: var(--p-dashboard-settings-card-text-color);
         }
 
         .hint {
             @include small-text;
 
             margin-top: $indent-x1;
-            color: var(--p-surface-400);
+            color: var(--p-dashboard-settings-card-text-color);
         }
     }
 }

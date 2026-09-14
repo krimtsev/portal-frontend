@@ -56,21 +56,21 @@ const linkProps = computed(() => {
         display: inline-flex;
         align-items: flex-end;
         text-decoration: none;
-        color: var(--p-surface-0);
+        color: var(--p-link-color);
         cursor: pointer;
         line-height: 1;
 
         &.is-external {
-            color: var(--p-primary-color);
+            color: var(--p-link-external-color);
         }
 
         &:hover,
         &:focus-visible {
-            color: var(--p-primary-hover-color);
+            color: var(--p-link-hover-color);
         }
 
         &:active {
-            color: var(--p-primary-active-color);
+            color: var(--p-link-active-color);
         }
     }
 

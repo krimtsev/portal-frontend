@@ -42,6 +42,7 @@ export const useAppStore = defineStore("app", () => {
         isLapki,
         hasDashboard,
         showLocationMap,
+        currentPartner,
 
         setLoading,
         setDisabled,

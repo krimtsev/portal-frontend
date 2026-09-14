@@ -56,12 +56,12 @@ const title = computed(() => {
     gap: $indent-x2;
 
     &.border {
-        border: 1px solid var(--p-divider-border-color);
+        border: 1px solid var(--p-empty-border-color);
         border-radius: $indent-x2;
     }
 
     .image-container {
-        color: var(--p-surface-300);
+        color: var(--p-empty-color);
     }
 
     .text-container {
@@ -72,7 +72,7 @@ const title = computed(() => {
 
         .title {
             font-size: 1.1429rem;
-            color: var(--p-surface-300);
+            color: var(--p-empty-color);
         }
 
         .description {
