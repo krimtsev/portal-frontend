@@ -252,6 +252,11 @@
             "adminQualification": {
                 "senior": "Старший администратор",
                 "manager": "Руководитель филиала"
+            },
+            "specialistQualification": {
+                "master": "МАСТЕР",
+                "topMaster": "ТОР-МАСТЕР",
+                "brandMaster": "БРЕНД-МАСТЕР"
             }
         },
         "department": {

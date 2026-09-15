@@ -4,13 +4,6 @@
             "title": "Портал для франчайзи LAPKI",
             "name": "LAPKI",
             "assistant": "Грум"
-        },
-        "ticket": {
-            "specialistQualification": {
-                "groomer": "ГРУМЕР",
-                "topGroomer": "ТОР-ГРУМЕР",
-                "brandGroomer": "БРЕНД-ГРУМЕР"
-            }
         }
     }
 }

@@ -17,7 +17,7 @@ import PortalInformationMenu from "@c/portal/portal-information-menu/portal-info
 import PortalMessages from "@c/portal/portal-messages/portal-messages.vue"
 import TimelineCalendar from "@c/timeline-calendar/timeline-calendar.vue"
 import { sections } from "@v/portal/home/_lapki/data/home-data"
-import { LapkiQualification } from "@v/profile/tickets/create/specialist/_lapki/definitions/specialist"
+import { DefaultQualification } from "@v/profile/tickets/create/specialist/definitions/specialist"
 
 const router = useRouter()
 const notify = useNotify()
@@ -87,11 +87,11 @@ const hasPartnerName = computed(() => !!partnerName.value)
                 >
                     <div class="buttons-wrapper">
                         <b-button-group
-                            label="Заявка на ТОП-МАСТЕРА"
+                            label="Заявка на МАСТЕРА"
                             @click="router.push({
                                 name: ProfileRouteName.ProfileTicketSpecialist,
                                 query: {
-                                    qualification: LapkiQualification.TopGroomer
+                                    qualification: DefaultQualification.Master
                                 }
                             })"
                         />
@@ -101,7 +101,7 @@ const hasPartnerName = computed(() => !!partnerName.value)
                             @click="router.push({
                                 name: ProfileRouteName.ProfileTicketSpecialist,
                                 query: {
-                                    qualification: LapkiQualification.BrandGroomer
+                                    qualification: DefaultQualification.BrandMaster
                                 }
                             })"
                         />
@@ -176,7 +176,7 @@ const hasPartnerName = computed(() => !!partnerName.value)
                         src: 'template/admin-card-bg.png',
                         height: '130',
                     }"
-                    path="https://britva.tech/britva"
+                    path="https://britva.tech/lapki"
                 />
             </div>
 

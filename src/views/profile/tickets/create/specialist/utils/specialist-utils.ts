@@ -2,14 +2,16 @@ import { Partner } from "@/definitions/partner"
 import i18n from "@/plugins/i18n"
 import { type SpecialistQualification } from "@v/profile/tickets/create/specialist/definitions/specialist"
 import { BarberQualification } from "@v/profile/tickets/create/specialist/_britva/definitions/specialist"
-import { LapkiQualification } from "@v/profile/tickets/create/specialist/_lapki/definitions/specialist"
 import { BarberQualificationTranslate } from "@v/profile/tickets/create/specialist/_britva/utils/specialist-utils"
-import { GroomerQualificationTranslate } from "@v/profile/tickets/create/specialist/_lapki/utils/specialist-utils"
+import {
+    LapkiQualificationTranslate,
+    LapkiQualification,
+} from "@v/profile/tickets/create/specialist/_lapki/utils/specialist-utils"
 
 
 const QUALIFICATION_TRANSLATE_MAP: Record<SpecialistQualification, string> = {
     ...BarberQualificationTranslate,
-    ...GroomerQualificationTranslate,
+    ...LapkiQualificationTranslate,
 }
 
 export const PARTNER_QUALIFICATIONS: Partial<Record<Partner, SpecialistQualification[]>> = {
