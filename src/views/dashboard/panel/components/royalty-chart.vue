@@ -118,6 +118,7 @@ const initChart = () => {
     const royaltyColor = getCssVar("--p-panel-royalty-revenue", "#3F6212")
     const incomeColor = getCssVar("--p-panel-royalty-income", "#65A30D")
     const ticksColor = getCssVar("--p-panel-royalty-ticks", "#C8C8C8")
+    const valueColor = getCssVar("--p-panel-royalty-legend-label", "#C8C8C8")
 
     chartInstance = new Chart(ctx, {
         type: "bar",
@@ -222,7 +223,7 @@ const initChart = () => {
                         // Отрисовка текста для Оборота сети
                         const barTurnover = metaTurnover.data[i] as any
                         if (barTurnover && dataItem.value > 0) {
-                            canvasCtx.fillStyle = "#ffffff"
+                            canvasCtx.fillStyle = valueColor
                             canvasCtx.textBaseline = "bottom"
 
                             canvasCtx.fillText(
@@ -235,7 +236,7 @@ const initChart = () => {
                         // Отрисовка текста для Общего оборота
                         const barAllIncome = metaAllIncome.data[i] as any
                         if (barAllIncome && dataItem.allIncome > 0) {
-                            canvasCtx.fillStyle = "#ffffff"
+                            canvasCtx.fillStyle = valueColor
                             canvasCtx.textBaseline = "bottom"
 
                             canvasCtx.fillText(

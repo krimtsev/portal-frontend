@@ -1068,6 +1068,18 @@ export default {
                     border:  {
                         color: "{primary.500}",
                     },
+                    period: {
+                        trend: {
+                            up: {
+                                background: "{green.500}",
+                                color:      "{green.100}",
+                            },
+                            down: {
+                                background: "{red.500}",
+                                color:      "{red.100}",
+                            },
+                        },
+                    },
                     royalty: {
                         legend: {
                             label: "{primary.500}",

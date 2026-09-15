@@ -1039,6 +1039,18 @@ export default {
                     border:  {
                         color: "{surface.600}",
                     },
+                    period: {
+                        trend: {
+                            up: {
+                                background: "{green.900}",
+                                color:      "{green.300}",
+                            },
+                            down: {
+                                background: "{red.900}",
+                                color:      "{red.300}",
+                            },
+                        },
+                    },
                     royalty: {
                         legend: {
                             label: "{surface.0}",

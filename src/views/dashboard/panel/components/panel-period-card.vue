@@ -118,13 +118,13 @@ const percentageChange = computed(() => {
             border-radius: 0.25rem;
 
             &-up {
-                background-color: var(--p-green-900);
-                color: var(--p-green-300);
+                background-color: var(--p-panel-period-trend-up-background);
+                color: var(--p-panel-period-trend-up-color);
             }
 
             &-down {
-                background-color: var(--p-red-900);
-                color: var(--p-red-300);
+                background-color: var(--p-panel-period-trend-down-background);
+                color: var(--p-panel-period-trend-down-color);
             }
         }
     }
