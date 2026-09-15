@@ -83,7 +83,7 @@ const percentageChange = computed(() => {
     justify-content: space-between;
     min-height: 12rem;
     padding: $indent-x2;
-    border: 1px solid var(--p-surface-600);
+    border: 1px solid var(--p-panel-border-color);
 
     &-header {
         display: flex;
@@ -108,7 +108,7 @@ const percentageChange = computed(() => {
             @include small-text;
 
             text-wrap: nowrap;
-            color: var(--p-surface-400);
+            color: var(--p-panel-subtext);
         }
 
         .trend {

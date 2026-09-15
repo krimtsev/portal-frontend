@@ -62,7 +62,7 @@ const props = defineProps<{
     justify-content: space-between;
     min-height: 12rem;
     padding: $indent-x2;
-    border: 1px solid var(--p-surface-600);
+    border: 1px solid var(--p-panel-border-color);
 
     &-header {
         display: flex;
@@ -84,17 +84,19 @@ const props = defineProps<{
         justify-content: center;
         flex: 1;
         gap: 8px;
-        border-right: 1px solid var(--p-surface-600);
+        border-right: 1px solid var(--p-panel-border-color);
         padding-right: $indent-x2;
 
         &-value {
             @include h2;
+
+            color: var(--p-panel-value);
             font-weight: 800;
         }
 
         &-subtext {
             @include small-text;
-            color: var(--p-surface-400);
+            color: var(--p-panel-subtext);
         }
     }
 

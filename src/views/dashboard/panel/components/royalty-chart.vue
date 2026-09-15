@@ -115,9 +115,9 @@ const initChart = () => {
     const ctx = chartRef.value.getContext("2d")
     if (!ctx) return
 
-    const royaltyColor = getCssVar("--p-lime-800", "#3b82f6")
-    const incomeColor = getCssVar("--p-lime-600", "#64748b")
-    const ticksColor = getCssVar("--p-neutral-400", "#94a3b8")
+    const royaltyColor = getCssVar("--p-panel-royalty-revenue", "#3F6212")
+    const incomeColor = getCssVar("--p-panel-royalty-income", "#65A30D")
+    const ticksColor = getCssVar("--p-panel-royalty-ticks", "#C8C8C8")
 
     chartInstance = new Chart(ctx, {
         type: "bar",
@@ -126,7 +126,7 @@ const initChart = () => {
             datasets: [
                 {
                     label:           "Роялти",
-                    data:            chartData.value.map((d) => d.royalty),
+                    data:            chartData.value.map((d) => d.royalty > 0 ? d.royalty : null),
                     backgroundColor: royaltyColor,
                     borderRadius:    6,
                     minBarLength:    30,
@@ -134,14 +134,14 @@ const initChart = () => {
                 },
                 {
                     label:           "Оборот сети",
-                    data:            chartData.value.map((d) => d.value),
+                    data:            chartData.value.map((d) => d.value > 0 ? d.value : null),
                     backgroundColor: incomeColor,
                     borderRadius:    6,
                     stack:           "Stack 0", // Роялти
                 },
                 {
                     label:           "Общий оборот (Все)",
-                    data:            chartData.value.map((d) => d.allIncome),
+                    data:            chartData.value.map((d) => d.allIncome > 0 ? d.allIncome : null),
                     backgroundColor: getBackgroundColors(ctx, chartData.value, false),
                     borderRadius:    6,
                     stack:           "Stack 1", // Общий оборотом сети
@@ -344,7 +344,7 @@ onBeforeUnmount(() => {
     flex-direction: column;
     justify-content: space-between;
     padding: $indent-x2;
-    border: 1px solid var(--p-surface-600);
+    border: 1px solid var(--p-panel-border-color);
 
     &-header {
         display: flex;
@@ -358,7 +358,7 @@ onBeforeUnmount(() => {
             .description {
                 @include small-text;
 
-                color: var(--p-surface-400);
+                color: var(--p-panel-subtext);
             }
         }
     }
@@ -383,7 +383,7 @@ onBeforeUnmount(() => {
         &-label {
             @include small-text;
 
-            color: var(--p-surface-0);
+            color: var(--p-panel-royalty-legend-label);
         }
     }
 
@@ -394,17 +394,17 @@ onBeforeUnmount(() => {
         display: inline-block;
 
         &-all {
-            background-color: var(--p-primary-400);
-            border: 1px solid var(--p-primary-700);
+            background-color: var(--p-panel-royalty-legend-all-background);
+            border: 1px solid var(--p-panel-royalty-legend-all-border-color);
         }
 
         &-total {
-            background-color: var(--p-lime-600);
-            border: 1px solid var(--p-lime-600);
+            background-color: var(--p-panel-royalty-legend-total-background);
+            border: 1px solid var(--p-panel-royalty-legend-total-border-color);
         }
 
         &-royalty {
-            background-color: var(--p-lime-800);
+            background-color: var(--p-panel-royalty-legend-turnover-background);
             position: relative;
 
             &::after {
@@ -412,7 +412,7 @@ onBeforeUnmount(() => {
                 position: absolute;
                 width: 6px;
                 height: 6px;
-                background-color: var(--p-lime-800);
+                background-color: var(--p-panel-royalty-legend-turnover-background);
                 border-radius: 50%;
                 left: 50%;
                 top: 50%;

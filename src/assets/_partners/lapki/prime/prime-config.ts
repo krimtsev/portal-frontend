@@ -1061,6 +1061,37 @@ export default {
                         color: "{primary.color}",
                     },
                 },
+                panel: {
+                    subtext: "{primary.400}",
+                    hint:    "{primary.300}",
+                    value:   "{primary.500}",
+                    border:  {
+                        color: "{primary.500}",
+                    },
+                    royalty: {
+                        legend: {
+                            label: "{primary.500}",
+                            all:   {
+                                background: "{primary.400}",
+                                border:     {
+                                    color: "{primary.700}",
+                                },
+                            },
+                            total: {
+                                background: "{amber.300}",
+                                border:     {
+                                    color: "{amber.300}",
+                                },
+                            },
+                            turnover: {
+                                background: "{amber.500}",
+                            },
+                        },
+                        revenue: "{amber.500}",
+                        income:  "{amber.300}",
+                        ticks:   "{primary.300}",
+                    },
+                },
             },
         },
     },

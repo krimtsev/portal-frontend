@@ -63,7 +63,7 @@ const averageTime = computed(() => formatMinutes(props.data.average_time))
     justify-content: space-between;
     min-height: 12rem;
     padding: $indent-x2;
-    border: 1px solid var(--p-surface-600);
+    border: 1px solid var(--p-panel-border-color);
 
     &-header {
         display: flex;
@@ -86,7 +86,7 @@ const averageTime = computed(() => formatMinutes(props.data.average_time))
         }
 
         &-label {
-            color: var(--p-surface-400);
+            color: var(--p-panel-subtext);
         }
 
         &-value {
@@ -94,14 +94,14 @@ const averageTime = computed(() => formatMinutes(props.data.average_time))
 
             line-height: inherit;
             font-weight: 800;
-            color: var(--p-surface-0);
+            color: var(--p-panel-value);
         }
 
         &-subtext {
             @include small-text;
 
             line-height: inherit;
-            color: var(--p-surface-500);
+            color: var(--p-panel-hint);
         }
     }
 

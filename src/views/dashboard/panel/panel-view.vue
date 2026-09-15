@@ -176,7 +176,7 @@ const jobsMetrics = computed((): PanelSplitMetric[] => {
     margin-top: $indent-x1;
 
     .panel-subtitle {
-        color: var(--p-surface-400);
+        color: var(--p-panel-subtext);
     }
 
     .first-section {
