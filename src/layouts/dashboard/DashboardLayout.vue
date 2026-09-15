@@ -197,7 +197,7 @@ const profileItems = ref([
         .dashboard-sidebar {
             transform: translateX(0);
             box-shadow: 2px 0 10px rgba(0,0,0,.3);
-            background: var(--p-surface-900);
+            background: var(--p-dashboard-sidebar-background);
         }
     }
 }

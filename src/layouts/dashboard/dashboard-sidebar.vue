@@ -246,11 +246,11 @@ watch(
 
 <style scoped lang="scss">
 .dashboard-sidebar {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     width: 19rem;
-    height: 100vh;
+    height: 100%;
     overflow-y: auto;
     transform: translateX(0);
     transition: transform .3s cubic-bezier(0, 0, .2, 1);
