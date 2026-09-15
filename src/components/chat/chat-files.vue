@@ -43,11 +43,11 @@ const props = defineProps<{
         cursor: pointer;
 
         &:hover {
-            color: var(--p-surface-600);
+            color: var(--p-chat-files-link-hover-color);
         }
 
         &:active {
-            color: var(--p-surface-400);
+            color: var(--p-chat-files-link-active-color);
         }
     }
 }

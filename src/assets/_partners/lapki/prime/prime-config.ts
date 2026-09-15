@@ -613,7 +613,7 @@ export default {
             0:   "#ffffff",
             50:  "#f3f9ff",
             100: "#f8fcff",
-            150: "#f8fcff",
+            150: "#e7f4fd",
             200: "#cfdce8",
             300: "#b2c8db",
             400: "#a0c5e4",
@@ -626,6 +626,19 @@ export default {
         },
         secondary: {
             500: "#FFF7D7",
+        },
+        red: {
+            50:  "#fef3f3",
+            100: "#fee5e5",
+            200: "#fecfcf",
+            300: "#fcadae",
+            400: "#f97f7f",
+            500: "#f15757",
+            600: "#df3c3c",
+            700: "#c03333",
+            800: "#a33232",
+            900: "#8b3333",
+            950: "#572323",
         },
         colorScheme: {
             light: {
@@ -848,14 +861,39 @@ export default {
                     },
                 },
                 chat: {
+                    background: "{primary.100}",
+                    border:     {
+                        color:  "transparent",
+                        radius: "{form.field.border.radius}",
+                    },
+                    message: {
+                        text: "{primary.500}",
+                        hint: "{primary.400}",
+                    },
                     sent: {
-                        color: "{primary.300}",
+                        color: "{primary.150}",
                     },
                     received: {
-                        color: "{slate.300}",
+                        color: "{secondary.500}",
                     },
                     system: {
-                        color: "{surface.300}",
+                        color: "{surface.50}",
+                    },
+                    scrollbar: {
+                        color: "{form.field.background}",
+                    },
+                    empty: {
+                        color: "{surface.500}",
+                    },
+                    files: {
+                        link: {
+                            hover: {
+                                color: "{surface.600}",
+                            },
+                            active: {
+                                color: "{surface.400}",
+                            },
+                        },
                     },
                 },
                 navigation: {

@@ -3,10 +3,10 @@ import {
     useRouter,
 } from "vue-router"
 
-export function useOpenRoute() {
+export function useRouteNavigator() {
     const router = useRouter()
 
-    const openRoute = async (
+    const navigate = async (
         to: RouteLocationRaw,
         event?: MouseEvent,
     ) => {
@@ -20,6 +20,6 @@ export function useOpenRoute() {
     }
 
     return {
-        openRoute,
+        navigate,
     }
 }

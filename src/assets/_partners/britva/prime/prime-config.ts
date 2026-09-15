@@ -594,6 +594,19 @@ export default {
         secondary: {
             500: "#b2cb1e",
         },
+        red: {
+            50:  "#fef2f2",
+            100: "#fee2e2",
+            200: "#fecaca",
+            300: "#fca5a5",
+            400: "#f87171",
+            500: "#ef4444",
+            600: "#dc2626",
+            700: "#b91c1c",
+            800: "#991b1b",
+            900: "#7f1d1d",
+            950: "#450a0a",
+        },
         colorScheme: {
             dark: {
                 surface: {
@@ -813,6 +826,15 @@ export default {
                     },
                 },
                 chat: {
+                    background: "{form.field.background}",
+                    border:     {
+                        color:  "{form.field.border.color}",
+                        radius: "{form.field.border.radius}",
+                    },
+                    message: {
+                        text: "{surface.950}",
+                        hint: "{surface.500}",
+                    },
                     sent: {
                         color: "{primary.300}",
                     },
@@ -821,6 +843,22 @@ export default {
                     },
                     system: {
                         color: "{surface.300}",
+                    },
+                    scrollbar: {
+                        color: "{form.field.background}",
+                    },
+                    empty: {
+                        color: "{surface.500}",
+                    },
+                    files: {
+                        link: {
+                            hover: {
+                                color: "{surface.600}",
+                            },
+                            active: {
+                                color: "{surface.400}",
+                            },
+                        },
                     },
                 },
                 navigation: {

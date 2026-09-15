@@ -6,7 +6,7 @@ import PrimeColumn from "primevue/column"
 import PrimeDataTable from "primevue/datatable"
 import { usePartnersStore } from "@s/dashboard/partners/partners"
 import { useNotify } from "@/composables/notify/use-notify"
-import { useOpenRoute } from "@/composables/route/use-open-route"
+import { useRouteNavigator } from "@/composables/route/use-route-navigator"
 import { DashboardRouteName } from "@r/dashboard/route-names"
 import { HttpError } from "@/api"
 import * as partnersAPI from "@/api/modules/dashboard/partners/partners"
@@ -29,7 +29,7 @@ import { Status } from "@/definitions/status"
 const notify = useNotify()
 const { t, n } = useI18n()
 const router = useRouter()
-const { openRoute } = useOpenRoute()
+const { navigate } = useRouteNavigator()
 
 const partnersStore = usePartnersStore()
 
@@ -108,7 +108,7 @@ function onChangeFilter() {
 }
 
 function onClick(id: string, event: MouseEvent) {
-    openRoute(
+    navigate(
         {
             name:   DashboardRouteName.DashboardPartner,
             params: { id },

@@ -352,7 +352,7 @@ const departmentName = (id: number | null) => {
 
                         <template v-else-if="item.type === TicketMessageType.Event">
                             <chat-message
-                                avatar="avatars/barber_system.png"
+                                avatar="avatars/system.png"
                                 :type="ChatMessageType.System"
                                 :name="t('mc.partner.assistant')"
                                 :text="formatChanges(item)"
@@ -402,7 +402,7 @@ const departmentName = (id: number | null) => {
                                 @click="onSave"
                             />
                             <b-button
-                                label="Закрыть"
+                                label="Закрыть заявку"
                                 :disabled="isDisabled"
                                 :is-loading="loadingState === LoadingState.Remove"
                                 variant="danger"
@@ -428,7 +428,7 @@ const departmentName = (id: number | null) => {
     }
 
     :deep(.chat-container) {
-        border: 1px solid var(--p-form-field-border-color);
+        border: 1px solid var(--p-chat-border-color);
     }
 
     .footer {

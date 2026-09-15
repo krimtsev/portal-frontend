@@ -5,7 +5,7 @@ import PrimeColumn from "primevue/column"
 import PrimeTreeTable from "primevue/treetable"
 import { useCloudListStore } from "@s/dashboard/cloud/cloud-list"
 import { useNotify } from "@/composables/notify/use-notify"
-import { useOpenRoute } from "@/composables/route/use-open-route"
+import { useRouteNavigator } from "@/composables/route/use-route-navigator"
 import { DashboardRouteName } from "@r/dashboard/route-names"
 import { PortalRouteName } from "@r/portal/route-names"
 import { HttpError } from "@/api"
@@ -23,7 +23,7 @@ import { type CloudListItem, CloudType } from "@v/dashboard/cloud/list/definitio
 
 const notify = useNotify()
 const router = useRouter()
-const { openRoute } = useOpenRoute()
+const { navigate } = useRouteNavigator()
 const cloudListStore = useCloudListStore()
 
 const cloudList = ref<CloudListItem[]>([])
@@ -48,7 +48,7 @@ onMounted(async () => {
 })
 
 const onClick = (id: string, event: MouseEvent) => {
-    openRoute(
+    navigate(
         {
             name:   DashboardRouteName.DashboardCloud,
             params: { id },

@@ -155,15 +155,14 @@ const shape = computed(() => props.rounded ? "circle" : "square")
         display: flex;
         flex-direction: column;
         gap: $indent-x1;
-        color: var(--p-surface-950);
+        color: var(--p-chat-message-text);
         white-space: pre-wrap;
     }
 
     .stamp {
         display: block;
-        color: inherit;
         margin-top: 4px;
-        opacity: .6;
+        color: var(--p-chat-message-hint);
         font-size: 0.85714rem;
         text-align: right;
     }

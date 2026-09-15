@@ -23,10 +23,7 @@ const appStore = useAppStore()
                 />
             </div>
 
-            <div
-                v-if="appStore.isBritva"
-                class="col-3 tablet-col-4 mobile-col-12"
-            >
+            <div class="col-3 tablet-col-4 mobile-col-12">
                 <portal-section-card
                     icon="pi-book"
                     title="Заявки"

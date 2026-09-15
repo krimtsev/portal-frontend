@@ -6,7 +6,7 @@ import PrimeColumn from "primevue/column"
 import PrimeDataTable from "primevue/datatable"
 import { usePartnerGroupsStore } from "@s/dashboard/partners/partner-groups"
 import { useNotify } from "@/composables/notify/use-notify"
-import { useOpenRoute } from "@/composables/route/use-open-route"
+import { useRouteNavigator } from "@/composables/route/use-route-navigator"
 import { DashboardRouteName } from "@r/dashboard/route-names"
 import { HttpError } from "@/api"
 import * as partnerGroupsAPI from "@/api/modules/dashboard/partners/partner-groups"
@@ -23,7 +23,7 @@ import type { PartnerGroupsListItem } from "@v/dashboard/partners/groups/list/de
 const notify = useNotify()
 const { t, n } = useI18n()
 const router = useRouter()
-const { openRoute } = useOpenRoute()
+const { navigate } = useRouteNavigator()
 
 const partnerGroupsStore = usePartnerGroupsStore()
 
@@ -101,7 +101,7 @@ function onChangeFilter() {
 }
 
 const onClick = (id: string, event: MouseEvent) => {
-    openRoute(
+    navigate(
         {
             name:   DashboardRouteName.DashboardPartnerGroup,
             params: { id },

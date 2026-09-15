@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue"
 import { useI18n } from "vue-i18n"
-import { useRouter } from "vue-router"
 import { cloneDeep, isEqual } from "lodash"
 import PrimeColumn from "primevue/column"
 import PrimeDataTable from "primevue/datatable"
@@ -9,6 +8,7 @@ import PrimeFloatLabel from "primevue/floatlabel"
 import PrimeMultiSelect from "primevue/multiselect"
 import { useDepartmentStore } from "@s/department/department"
 import { useNotify } from "@/composables/notify/use-notify"
+import { useRouteNavigator } from "@/composables/route/use-route-navigator"
 import { ProfileRouteName } from "@r/profile/route-names"
 import { HttpError } from "@/api"
 import * as ticketsAPI from "@/api/modules/profile/tickets/tickets"
@@ -25,8 +25,9 @@ import {
     defaultPaginationPage,
 } from "@/definitions/pagination"
 
+
 const notify = useNotify()
-const router = useRouter()
+const { navigate } = useRouteNavigator()
 const { t, n } = useI18n()
 
 const departmentStore = useDepartmentStore()
@@ -125,7 +126,15 @@ const isDisabled = computed(() => {
     return isFirstLoading.value || isLoading.value
 })
 
-const goTo = (id: string) => router.push({ name: ProfileRouteName.ProfileTicket, params: { id } })
+function onClick(id: number, event: MouseEvent) {
+    navigate(
+        {
+            name:   ProfileRouteName.ProfileTicket,
+            params: { id },
+        },
+        event,
+    )
+}
 
 const departmentName = (id: number) => departmentStore.getTitleById(id)
 </script>
@@ -199,7 +208,7 @@ const departmentName = (id: number) => departmentStore.getTitleById(id)
                     <template #body="{ data }">
                         <b-table-text
                             :text="data?.title"
-                            @click="goTo(data?.id)"
+                            @click="(e: MouseEvent) => onClick(data?.id, e)"
                         />
                     </template>
                 </prime-column>
@@ -264,6 +273,8 @@ const departmentName = (id: number) => departmentStore.getTitleById(id)
     @include table-wrapper;
 
     :deep(.p-datatable) {
+        @include table;
+
         .table {
             &-id {
                 @include col-fixed(80px);

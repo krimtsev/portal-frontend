@@ -376,7 +376,7 @@ const copyText = computed(() => {
 
                         <template v-else-if="item.type === TicketMessageType.Event">
                             <chat-message
-                                avatar="avatars/barber_system.png"
+                                avatar="avatars/system.png"
                                 :type="ChatMessageType.System"
                                 :name="t('mc.partner.assistant')"
                                 :text="formatChanges(item)"
