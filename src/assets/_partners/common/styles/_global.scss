@@ -9,7 +9,7 @@ html {
 
     .p-datatable,
     .p-treetable {
-        &:not(.p-datatable-gridlines):not(.p-treetable-gridlines) {
+        &:not(.p-datatable-gridlines):not(.p-treetable-gridlines):not(.with-last-border) {
             .p-datatable-tbody > tr,
             .p-treetable-tbody > tr {
                 &:last-child {

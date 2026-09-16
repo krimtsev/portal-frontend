@@ -990,7 +990,7 @@ export default {
                 empty: {
                     color:  "{surface.300}",
                     border: {
-                        color: "{primary.200}",
+                        color: "{surface.600}",
                     },
                 },
                 glow: {

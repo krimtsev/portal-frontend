@@ -260,7 +260,7 @@ async function onRowExpand(event: { data: StaffStatisticsItem }) {
                 v-else
                 v-model:expanded-rows="expandedRows"
                 :value="staffStatistics"
-                class="table"
+                class="table with-last-border"
                 scrollable
                 scroll-height="flex"
                 data-key="staff_id"
