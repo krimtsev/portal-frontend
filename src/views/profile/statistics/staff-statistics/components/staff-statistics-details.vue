@@ -4,11 +4,7 @@ import MonthsBarChart from "@c/charts/months-bar-chart.vue"
 import BImage from "@c/common/b-image/b-image.vue"
 import BSvg from "@c/common/b-svg/b-svg.vue"
 import type { StaffDetails } from "@v/profile/statistics/staff-statistics/definitions/statistic-staff"
-import {
-    clearName,
-    clearSpecialization,
-} from "@v/profile/statistics/staff-statistics/utils/staff-statistics"
-import { formatPrice } from "@/lib/utils"
+import { clearName, clearSpecialization, formatPrice } from "@/lib/utils"
 
 
 interface Props {

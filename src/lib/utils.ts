@@ -47,7 +47,6 @@ export function toString(value: number | string) {
     return value.toString()
 }
 
-
 export function formatMinutes(totalMinutes: number) {
     if (!totalMinutes || totalMinutes <= 0) return "0м."
 
@@ -64,4 +63,12 @@ export function formatMinutes(totalMinutes: number) {
     if (minutes > 0 || parts.length === 0) parts.push(`${minutes}м.`)
 
     return parts.join(" ")
+}
+
+export function clearName(text: string) {
+    return text.replace(/\s*\(.*\)/g, "")
+}
+
+export function clearSpecialization(text: string) {
+    return text.replace(/\s*\[.*]/g, "")
 }

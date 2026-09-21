@@ -28,16 +28,13 @@ import type {
     StaffStatisticsItem,
 } from "@v/profile/statistics/staff-statistics/definitions/statistic-staff"
 import {
-    clearName,
-    clearSpecialization,
-} from "@v/profile/statistics/staff-statistics/utils/staff-statistics"
-import {
     formatJSDateToStartDate,
     formatStringDateToJSDate,
     getAnalyticsStartJSDate,
     getPreviousMonthJSDate,
 } from "@/lib/date-helpers"
 import { $sanitizeHtml } from "@/lib/sanitize-html"
+import { clearName, clearSpecialization } from "@/lib/utils"
 
 
 const notify = useNotify()
@@ -741,7 +738,7 @@ async function onRowExpand(event: { data: StaffStatisticsItem }) {
                 @include col-fixed(120px);
             }
 
-            &-fullness-percent, {
+            &-fullness-percent {
                 @include col-fixed(130px);
             }
 

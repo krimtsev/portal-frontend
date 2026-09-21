@@ -24,6 +24,7 @@ import {
     getAnalyticsStartJSDate,
     getPreviousMonthJSDate,
 } from "@/lib/date-helpers"
+import { clearName, clearSpecialization } from "@/lib/utils"
 
 const notify = useNotify()
 const { t } = useI18n()
@@ -105,15 +106,6 @@ function onChangeFilter() {
     partnerStatisticsStore.commitFilter()
     refreshStaffStatistics()
 }
-
-function clearName(data: StaffStatisticsItem) {
-    return data.name || ""
-}
-
-function clearSpecialization(text: string) {
-    if (!text) return ""
-    return text.replace(/\s*\[.*]/g, "")
-}
 </script>
 
 <template>
@@ -191,8 +183,9 @@ function clearSpecialization(text: string) {
 
                     <template #body="{ data }">
                         <b-table-text
-                            :text="clearName(data)"
+                            :text="clearName(data?.name)"
                             :subtext="clearSpecialization(data?.specialization)"
+                            small-subtext
                         />
                     </template>
                 </prime-column>
