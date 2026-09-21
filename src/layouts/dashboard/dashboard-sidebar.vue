@@ -124,6 +124,19 @@ const items = computed<DashboardMenuItem[]>(() => {
 
     if (authStore.isSysAdmin) {
         menu.push({
+            key:         "payroll",
+            label:       t("mc.dashboard.sidebar.payroll"),
+            icon:        "pi pi-shopping-bag",
+            route:       dashboardPaths.DashboardPayrollPartner,
+            activeNames: [
+                DashboardRouteName.DashboardPayrollPartner,
+                DashboardRouteName.DashboardPayrollStaff,
+            ],
+        })
+    }
+
+    if (authStore.isSysAdmin) {
+        menu.push({
             key:         "settings",
             label:       t("mc.dashboard.sidebar.settings"),
             icon:        "pi pi-cog",

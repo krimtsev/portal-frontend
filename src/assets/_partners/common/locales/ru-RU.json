@@ -282,7 +282,8 @@
                 "royalty": "Роялти",
                 "statistics": "Статистика",
                 "eventCalendar": "Календарь событий",
-                "settings": "Настройки"
+                "settings": "Настройки",
+                "payroll": "Оплата труда"
             },
             "users": {
                 "state": {

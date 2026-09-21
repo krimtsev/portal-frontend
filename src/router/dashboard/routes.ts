@@ -208,6 +208,28 @@ const routes: RouteRecordRaw[] = [
             breadcrumb: "mc.dashboard.sidebar.settings",
         },
     },
+
+    {
+        path:      dashboardPaths.DashboardPayrollPartner,
+        component: () => import("@v/dashboard/payroll/payroll-view.vue"),
+        meta:      {
+            partners:   [Partner.Britva],
+            roles:      [Roles.SYSADMIN],
+            breadcrumb: "mc.dashboard.sidebar.payroll",
+        },
+        children: [
+            {
+                path:      dashboardPaths.DashboardPayrollPartner,
+                name:      DashboardRouteName.DashboardPayrollPartner,
+                component: () => import("@v/dashboard/payroll/partner/payroll-partner-view.vue"),
+            },
+            {
+                path:      dashboardPaths.DashboardPayrollStaff,
+                name:      DashboardRouteName.DashboardPayrollStaff,
+                component: () => import("@v/dashboard/payroll/staff/payroll-staff-view.vue"),
+            },
+        ],
+    },
 ]
 
 export default routes

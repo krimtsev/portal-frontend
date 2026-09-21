@@ -21,4 +21,6 @@ export enum DashboardRouteName {
     DashboardEventCalendar = "DashboardEventCalendar",
     DashboardSettings = "DashboardSettings",
     DashboardMaintenance = "DashboardMaintenance",
+    DashboardPayrollPartner = "DashboardPayrollPartner",
+    DashboardPayrollStaff = "DashboardPayrollStaff",
 }
