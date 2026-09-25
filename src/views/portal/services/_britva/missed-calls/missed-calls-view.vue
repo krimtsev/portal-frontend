@@ -84,12 +84,12 @@ function handleDownload() {
                         <b-image src="template/two-gis.png" />
 
                         <b-title
-                            title="1900 рублей"
+                            title="1600 рублей"
                             variant="md"
                             class="mb-x2"
                         />
 
-                        <p>Оплата на Р\С, реквизиты будут позже</p>
+                        <p>Оплата на Р\С ИП Крымцев</p>
                     </div>
                 </portal-card>
             </div>
