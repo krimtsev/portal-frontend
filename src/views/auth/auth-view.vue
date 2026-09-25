@@ -160,10 +160,10 @@ onMounted(async () => {
         &-logo {
             width: 398px;
             padding: 0 $indent-x4;
+            margin: 0 auto;
 
             @media (max-width: $breakpoints-xl) {
                 width: calc(270px + (398 - 270) * ((100vw - #{$breakpoints-lg}) / (1600 - 1336)));
-                margin: 0 auto;
             }
 
             @media (max-width: $breakpoints-lg) {

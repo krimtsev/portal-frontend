@@ -7,16 +7,22 @@ import {
     LapkiQualificationTranslate,
     LapkiQualification,
 } from "@v/profile/tickets/create/specialist/_lapki/utils/specialist-utils"
+import {
+    SodaQualificationTranslate,
+    SodaQualification,
+} from "@v/profile/tickets/create/specialist/_soda/utils/specialist-utils"
 
 
 const QUALIFICATION_TRANSLATE_MAP: Record<SpecialistQualification, string> = {
     ...BarberQualificationTranslate,
     ...LapkiQualificationTranslate,
+    ...SodaQualificationTranslate,
 }
 
 export const PARTNER_QUALIFICATIONS: Partial<Record<Partner, SpecialistQualification[]>> = {
     [Partner.Britva]: Object.values(BarberQualification),
     [Partner.Lapki]:  Object.values(LapkiQualification),
+    [Partner.Soda]:   Object.values(SodaQualification),
 }
 
 export function getActiveQualifications(partner: Partner): SpecialistQualification[] {

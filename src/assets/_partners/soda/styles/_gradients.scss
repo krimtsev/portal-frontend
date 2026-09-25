@@ -1,35 +1,65 @@
 :root,
 html.light-mode {
     --partner-gradient: radial-gradient(
-            60% 60% at 50% 100%,
-            var(--p-primary-300) 30%,
-            var(--p-primary-400) 50%,
-            var(--p-primary-500) 100%
+        95.58% 95.58% at 50% 101.58%,
+        var(--p-secondary-600) 12%,
+        var(--p-secondary-400) 58.39%,
+        var(--p-secondary-100) 100%
     );
 
     --partner-revers-gradient: radial-gradient(
-            100% 100% at 50.08% 0%,
-            var(--p-portal-card-background) 60%,
-            var(--p-primary-500) 84.89%,
-            var(--p-primary-200) 100%
+        100% 100% at 50.08% 0%,
+        #F9F9F8 60%,
+        #DCF2BD 84.89%,
+        #EFF490 100%
+    );
+
+    --portal-message-gradient: radial-gradient(
+        130% 130% at 30.29% 12.82%,
+        var(--p-secondary-600) 12%,
+        var(--p-secondary-400) 58.39%,
+        var(--p-secondary-100) 100%
+    );;
+
+    --image-preload-gradient: linear-gradient(
+        90deg,
+        var(--p-primary-50) 20%,
+        var(--p-primary-100) 50%,
+        var(--p-primary-200) 100%
     );
 }
 
 html.dark-mode {
     --partner-gradient: radial-gradient(
-            104.99% 104.99% at 50% 101.58%,
-            var(--p-form-field-background) 60%,
-            var(--p-primary-500) 84.89%,
-            var(--p-primary-200) 100%
+        104.99% 104.99% at 50% 101.58%,
+        var(--p-form-field-background) 60%,
+        var(--p-primary-500) 84.89%,
+        var(--p-primary-200) 100%
     );
 
     --partner-revers-gradient: radial-gradient(
-            100% 100% at 50.08% 0%,
-            var(--p-portal-card-background) 60%,
-            var(--p-primary-500) 84.89%,
-            var(--p-primary-200) 100%
+        125% 100% at 50.08% 0%,
+        var(--p-primary-0) 50%,
+        var(--p-primary-400) 75%,
+        var(--p-primary-400) 100%
+    );
+
+    --portal-message-gradient: radial-gradient(
+        circle at 35% -50%,
+        var(--p-primary-600) 30%,
+        var(--p-primary-400) 85%,
+        var(--p-primary-0) 100%
+    );
+
+    --image-preload-gradient: linear-gradient(
+        90deg,
+        var(--p-primary-50) 20%,
+        var(--p-primary-100) 50%,
+        var(--p-primary-200) 100%
     );
 }
 
 $partner-gradient: var(--partner-gradient);
 $partner-revers-gradient: var(--partner-revers-gradient);
+$portal-message-gradient: var(--portal-message-gradient);
+$image-preload-gradient: var(--image-preload-gradient);

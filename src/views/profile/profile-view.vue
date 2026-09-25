@@ -33,7 +33,7 @@ const appStore = useAppStore()
             </div>
 
             <div
-                v-if="appStore.isBritva"
+                v-if="!appStore.isLapki"
                 class="col-3 tablet-col-4 mobile-col-12"
             >
                 <portal-section-card

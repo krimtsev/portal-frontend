@@ -21,6 +21,7 @@ function handleDownload() {
     <portal-page
         class="missed-calls-view"
         title="Сервис пропущенных звонков"
+        right-image="template/missed-calls.png"
     >
         <p class="mb-x4">
             Мы запустили телеграм-бота, который присылает в ваши каналы или группы информацию о

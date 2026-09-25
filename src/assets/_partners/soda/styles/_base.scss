@@ -7,19 +7,17 @@
 }
 
 html {
-    font-family: "Actay", "Roboto", sans-serif;
+    font-family: "Aeonik Pro", "Roboto", sans-serif;
     font-size: 14px;
     font-weight: 400;
+    background-color: #ece9e1;
 }
 
 html,
 body {
     scroll-behavior: smooth;
     margin: 0;
-}
-
-html.dark-mode {
-    background-color: #020202;
+    color: var(--p-primary-color);
 }
 
 #app {

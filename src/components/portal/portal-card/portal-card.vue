@@ -126,11 +126,13 @@ const onClick = () => {
 
                 &:not(:disabled):hover {
                     color: var(--p-portal-button-hover-color);
+                    background: var(--p-portal-button-hover-background);
                     border-color: var(--p-portal-button-hover-border-color);
                 }
 
                 &:not(:disabled):active {
                     color: var(--p-portal-button-active-color);
+                    background: var(--p-portal-button-active-background);
                     border-color: var(--p-portal-button-active-border-color);
                 }
             }

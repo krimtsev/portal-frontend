@@ -126,6 +126,7 @@ const isLoadingContent = computed(() => {
     .footer {
         @include portal-card();
 
+        padding: $indent-x2 $indent-x4;
         flex-direction: row;
         gap: $indent-x2;
     }

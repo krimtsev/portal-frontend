@@ -91,6 +91,9 @@ export default {
                         placeholder: {
                             color: "{surface.400}",
                         },
+                        border: {
+                            color: "{form.field.border.color}",
+                        },
                         disabled: {
                             color:           "{surface.400}",
                             backgroundColor: "{surface.0}",
@@ -103,6 +106,7 @@ export default {
             colorScheme: {
                 dark: {
                     root: {
+                        color:       "{inputtext.color}",
                         background:  "{surface.950}",
                         placeholder: {
                             color: "{surface.400}",
@@ -122,6 +126,7 @@ export default {
             colorScheme: {
                 dark: {
                     root: {
+                        color:       "{inputtext.color}",
                         background:  "{surface.950}",
                         placeholder: {
                             color: "{surface.400}",
@@ -137,6 +142,7 @@ export default {
             colorScheme: {
                 dark: {
                     root: {
+                        color:       "{inputtext.color}",
                         background:  "{surface.950}",
                         placeholder: {
                             color: "{surface.400}",
@@ -676,6 +682,9 @@ export default {
                         border: {
                             color: "transparent",
                         },
+                        special: {
+                            background: "{surface.800}",
+                        },
                     },
                     form: {
                         item: {
@@ -713,13 +722,16 @@ export default {
                             color: "rgba(255, 255, 255, 0.16)",
                         },
                         active: {
-                            border: {
+                            color:      "{surface.0}",
+                            background: "transparent",
+                            border:     {
                                 color: "rgba(255, 255, 255, 0.3)",
                             },
                         },
                         hover: {
-                            color:  "{surface.0}",
-                            border: {
+                            color:      "{surface.0}",
+                            background: "transparent",
+                            border:     {
                                 color: "rgba(255, 255, 255, 0.3)",
                             },
                         },
@@ -967,6 +979,10 @@ export default {
                             color:      "rgba(0,0,0,0.1)",
                             background: "rgba(255,255,255,0.08)",
                         },
+                        column: {
+                            start: "{primary.400}",
+                            end:   "{primary.700}",
+                        },
                     },
                 },
                 cloud: {
@@ -1073,6 +1089,11 @@ export default {
                         revenue: "{lime.800}",
                         income:  "{lime.600}",
                         ticks:   "{neutral.400}",
+                    },
+                },
+                table: {
+                    subtext: {
+                        color: "{surface.500}",
                     },
                 },
             },

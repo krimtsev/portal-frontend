@@ -64,13 +64,13 @@ export function getBackgroundColors(
             if (isLast) {
                 return createGradient(
                     ctx,
-                    d.percent >= 0 ? "--p-primary-400" : "--p-red-400",
-                    d.percent >= 0 ? "--p-primary-700" : "--p-red-700",
+                    d.percent >= 0 ? "--p-chart-bar-column-start" : "--p-red-400",
+                    d.percent >= 0 ? "--p-chart-bar-column-end" : "--p-red-700",
                 )
             }
             return createGradient(ctx, "--p-neutral-700", "--p-neutral-900")
         }
 
-        return createGradient(ctx, "--p-primary-400", "--p-primary-700")
+        return createGradient(ctx, "--p-chart-bar-column-start", "--p-chart-bar-column-end")
     })
 }

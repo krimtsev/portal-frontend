@@ -245,7 +245,7 @@ $min-height: 195px;
     .files-block,
     .contacts-block,
     .analytics-block {
-        background: var(--p-secondary-500);
+        background: var(--p-portal-card-special-background);
     }
 
     .certificate-block {

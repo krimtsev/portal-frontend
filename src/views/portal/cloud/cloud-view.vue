@@ -105,7 +105,7 @@ const isEmptyResult = computed(() => {
     >
         <div class="content">
             <template v-if="slug">
-                <div class="breadcrumb mb-x1">
+                <div class="breadcrumb mb-x2">
                     <template v-if="isLoading">
                         <b-breadcrumb-skeleton class="pl-x0" />
                     </template>

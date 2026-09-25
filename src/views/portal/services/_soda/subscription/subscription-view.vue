@@ -1,0 +1,149 @@
+<script setup lang="ts">
+import BImage from "@c/common/b-image/b-image.vue"
+import BTitle from "@c/common/b-title/b-title.vue"
+import PortalCard from "@c/portal/portal-card/portal-card.vue"
+import PortalPage from "@c/portal/portal-page/portal-page.vue"
+import PortalUserCard from "@c/portal/portal-user-card/portal-user-card.vue"
+</script>
+
+<template>
+    <portal-page
+        class="subscription-view"
+        title="Подписка Яндекс.Карты и 2ГИС"
+        right-image="template/two-gis-side.png"
+    >
+        <portal-card title="Репутационная поддержка карточки филиала на картах от ЦО">
+            <div class="content">
+                <ol>
+                    <li>Контроль карточки филиала</li>
+                    <li>Яндекс.Карты и 2ГИС + бонус Яндекс.Навигатор</li>
+                </ol>
+            </div>
+        </portal-card>
+
+        <portal-card title="Ежемесячно:">
+            <div class="content">
+                <p>Наполнение:</p>
+
+                <ul>
+                    <li>Загрузка витрины, товаров и услуг</li>
+                    <li>Загрузка новых фотографий в карточку</li>
+                    <li>Удаление некачественных или неэстетичных фото клиентов</li>
+                    <li>Добавление в карточку красивых и реальных работ мастеров (фото и видео) **</li>
+                    <li>Актуализация и правка меню услуг</li>
+                    <li>Добавление фото и описаний услуг</li>
+                    <li>Загрузка сетевых видео в карточку</li>
+                    <li>Выкладка акций</li>
+                    <li>Публикация новостей в раздел «Новости»</li>
+                </ul>
+
+                <p>Контроль</p>
+
+                <ul>
+                    <li>Ежедневный контроль отзывов</li>
+                    <li>Ответы на все клиентские отзывы</li>
+                    <li>Удаление негативных отзывов (обжалование и удаление через модерацию)</li>
+                    <li>Проставление лайков и дизлайков ко всем отзывам в карточке</li>
+                    <li>Контроль приоритетного размещения карточки в выдаче</li>
+                    <li>Контроль отображения POI карточки (точка интереса на карте)</li>
+                    <li>Загрузка сторис в раздел STORIES в карточке</li>
+                    <li>Проверка работоспособности кнопки «Онлайн-запись»</li>
+                </ul>
+
+                <p>
+                    **100% увеличит приток новых гостей - по статистике около 70% клиентов смотрят реальные
+                    работы мастеров
+                </p>
+            </div>
+        </portal-card>
+
+        <b-title
+            title="Тарифы на подписку в месяц:"
+            variant="md"
+            class="mb-x2 mt-x4"
+        />
+
+        <div class="grid">
+            <div class="col-4 two-gis-card">
+                <portal-card>
+                    <div class="tariff">
+                        <b-image src="template/two-gis.png" />
+
+                        <b-title
+                            title="Пакет Бизнес"
+                            variant="md"
+                            class="mb-x2"
+                        />
+
+                        <p>1900 рублей</p>
+
+                        <p>Яндекс.Карты + Яндекс.Навигатор</p>
+                    </div>
+                </portal-card>
+            </div>
+
+            <div class="col-4 two-gis-card">
+                <portal-card>
+                    <div class="tariff">
+                        <b-image src="template/two-gis-arrow.png" />
+
+                        <b-title
+                            title="Пакет Премиум"
+                            variant="md"
+                            class="mb-x2"
+                        />
+
+                        <p>2900 рублей</p>
+
+                        <p>Яндекс.Карты + 2ГИС + Яндекс.Навигатор</p>
+                    </div>
+                </portal-card>
+            </div>
+
+            <div class="col-4">
+                <portal-user-card
+                    avatar="employees/lushnikova.jpg"
+                    telnum="79833130820"
+                    class="user-card"
+                >
+                    <div class="text-center">
+                        <p class="mb-x0">Для подключения напишите</p>
+                        <p class="mb-x0">Екатерине Лушниковой</p>
+                    </div>
+                </portal-user-card>
+            </div>
+        </div>
+    </portal-page>
+</template>
+
+<style lang="scss" scoped>
+.subscription-view {
+    .content {
+        @include text-content;
+    }
+
+    .tariff {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        p + p {
+            margin-top: $indent-x2;
+        }
+    }
+
+    .two-gis-card {
+        &:deep(.portal-card) {
+            background: var(--p-secondary-500);
+        }
+    }
+
+    :deep(.portal-user-card) {
+        .avatar {
+            object-position: top;
+            transform: scale(1.5);
+            transform-origin: top center;
+        }
+    }
+}
+</style>

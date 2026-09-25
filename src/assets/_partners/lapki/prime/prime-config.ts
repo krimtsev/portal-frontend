@@ -106,6 +106,7 @@ export default {
             colorScheme: {
                 light: {
                     root: {
+                        color:       "{inputtext.color}",
                         background:  "{primary.50}",
                         placeholder: {
                             color: "{primary.500}",
@@ -128,6 +129,7 @@ export default {
             colorScheme: {
                 light: {
                     root: {
+                        color:       "{inputtext.color}",
                         background:  "{primary.50}",
                         placeholder: {
                             color: "{primary.500}",
@@ -157,6 +159,7 @@ export default {
             colorScheme: {
                 light: {
                     root: {
+                        color:       "{inputtext.color}",
                         background:  "{primary.50}",
                         placeholder: {
                             color: "{primary.500}",
@@ -709,6 +712,9 @@ export default {
                         border: {
                             color: "transparent",
                         },
+                        special: {
+                            background: "{secondary.500}",
+                        },
                     },
                     form: {
                         item: {
@@ -746,14 +752,16 @@ export default {
                             color: "{primary.500}",
                         },
                         active: {
-                            color:  "{primary.700}",
-                            border: {
+                            color:      "{primary.700}",
+                            background: "transparent",
+                            border:     {
                                 color: "{primary.700}",
                             },
                         },
                         hover: {
-                            color:  "{primary.600}",
-                            border: {
+                            color:      "{primary.600}",
+                            background: "transparent",
+                            border:     {
                                 color: "{primary.600}",
                             },
                         },
@@ -996,6 +1004,10 @@ export default {
                             color:      "{primary.500}",
                             background: "{primary.600}",
                         },
+                        column: {
+                            start: "{primary.300}",
+                            end:   "{primary.600}",
+                        },
                     },
                 },
                 cloud: {
@@ -1102,6 +1114,11 @@ export default {
                         revenue: "{amber.500}",
                         income:  "{amber.300}",
                         ticks:   "{primary.300}",
+                    },
+                },
+                table: {
+                    subtext: {
+                        color: "color-mix(in srgb, {primary.500} 50%, transparent)",
                     },
                 },
             },

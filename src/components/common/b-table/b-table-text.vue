@@ -90,7 +90,7 @@ const tooltipValue = computed(() => {
         @include text-overflow;
 
         margin-top: calc($indent-x1 / 2);
-        color: var(--p-surface-500);
+        color: var(--p-table-subtext-color);
         display: block;
         width: 100%;
 
