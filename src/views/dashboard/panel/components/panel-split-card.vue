@@ -112,11 +112,11 @@ const props = defineProps<{
         justify-content: space-between;
         align-items: center;
 
-        color: var(--p-neutral-400);
+        color: var(--p-panel-metric-color);
 
         &-label {
             font-size: 0.85714rem;
-            color: #94a3b8;
+            color: var(--p-panel-metric-label-color);
             display: flex;
             align-items: center;
             gap: 0.375rem;

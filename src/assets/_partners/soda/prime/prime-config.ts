@@ -801,15 +801,15 @@ export default {
                 dashboard: {
                     sidebar: {
                         color:      "{primary.600}",
-                        background: "{secondary.500}",
+                        background: "{primary.50}",
                         border:     {
                             radius: "{border.radius.md}",
-                            color:  "{primary.200}",
+                            color:  "{divider.border.color}",
                         },
                         item: {
                             color:  "{primary.500}",
                             active: {
-                                background: "{primary.0}",
+                                background: "{primary.100}",
                                 border:     {
                                     color: "{primary.500}",
                                 },
@@ -1097,7 +1097,7 @@ export default {
                     hint:    "{primary.300}",
                     value:   "{primary.500}",
                     border:  {
-                        color: "{primary.500}",
+                        color: "{divider.border.color}",
                     },
                     period: {
                         trend: {
@@ -1121,18 +1121,24 @@ export default {
                                 },
                             },
                             total: {
-                                background: "{amber.300}",
+                                background: "{secondary.300}",
                                 border:     {
-                                    color: "{amber.300}",
+                                    color: "{secondary.300}",
                                 },
                             },
                             turnover: {
-                                background: "{amber.500}",
+                                background: "{secondary.500}",
                             },
                         },
-                        revenue: "{amber.500}",
-                        income:  "{amber.300}",
+                        revenue: "{secondary.500}",
+                        income:  "{secondary.300}",
                         ticks:   "{primary.300}",
+                    },
+                    metric: {
+                        color: "{primary.400}",
+                        label: {
+                            color: "{primary.300}",
+                        },
                     },
                 },
                 table: {

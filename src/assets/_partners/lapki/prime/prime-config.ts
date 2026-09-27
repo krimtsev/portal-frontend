@@ -1119,6 +1119,12 @@ export default {
                         income:  "{amber.300}",
                         ticks:   "{primary.300}",
                     },
+                    metric: {
+                        color: "{neutral.400}",
+                        label: {
+                            color: "#94a3b8",
+                        },
+                    },
                 },
                 table: {
                     subtext: {
