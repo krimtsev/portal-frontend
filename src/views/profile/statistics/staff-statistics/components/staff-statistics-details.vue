@@ -159,37 +159,38 @@ const income_goods_percent = computed(() => {
     padding: $indent-x1;
 
     .grid-item {
-        border: 1px solid var(--p-datatable-body-cell-border-color);
+        background: var(--p-statistics-details-item-background);
+        border: 1px solid var(--p-statistics-details-item-border-color);
         border-radius: $indent-x2;
         padding: $indent-x3 $indent-x4;
 
         &.trend-negative {
             background-image: linear-gradient(
                 180deg,
-                color-mix(in srgb, var(--p-red-700) 55%, transparent) 0%,
-                transparent 16%
+                var(--p-statistics-details-trend-negative-background) 0%,
+                transparent 21%
             );
 
             .sum .arrow {
-                color: var(--p-red-500);
+                color: var(--p-statistics-details-trend-negative-arrow-color);
             }
         }
 
         &.trend-positive {
             background-image: linear-gradient(
                 180deg,
-                color-mix(in srgb, var(--p-primary-600) 55%, transparent) 0%,
-                transparent 16%
+                var(--p-statistics-details-trend-positive-background) 0%,
+                transparent 21%
             );
 
             .sum .arrow {
-                color: var(--p-primary-500);
+                color: var(--p-statistics-details-trend-positive-arrow-color);
             }
         }
 
         .title {
             font-size: 1.2857rem;
-            color: var(--p-surface-400);
+            color: var(--p-statistics-details-title-color);
         }
 
         .sum {
@@ -220,7 +221,7 @@ const income_goods_percent = computed(() => {
         &-name {
             @include h2();
 
-            color: var(--p-primary-500);
+            color: var(--p-statistics-details-staff-name-color);
         }
 
         &-specialization {

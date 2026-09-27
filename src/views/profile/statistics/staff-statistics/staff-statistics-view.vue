@@ -636,6 +636,7 @@ async function onRowExpand(event: { data: StaffStatisticsItem }) {
                 .p-datatable-header-cell {
                     background: transparent;
                     border-width: 0;
+                    vertical-align: top;
                 }
             }
 
@@ -674,19 +675,20 @@ async function onRowExpand(event: { data: StaffStatisticsItem }) {
                 > td {
                     border-width: 1px 0 1px 0;
                     padding: 0;
-                    border-color: var(--p-datatable-body-cell-border-color);
+                    border-color: var(--p-statistics-footer-cell-border-color);
+                    background: var(--p-statistics-footer-background);
                 }
 
                 > td:first-child {
                     border-width: 1px 0 1px 1px;
                     border-radius: $indent-x2 0 0 $indent-x2;
-                    border-color: var(--p-datatable-body-cell-border-color);
+                    border-color: var(--p-statistics-footer-cell-border-color);
                 }
 
                 > td:last-child {
                     border-width: 1px 1px 1px 0;
                     border-radius: 0 $indent-x2 $indent-x2 0;
-                    border-color: var(--p-datatable-body-cell-border-color);
+                    border-color: var(--p-statistics-footer-cell-border-color);
                 }
             }
         }
@@ -713,7 +715,7 @@ async function onRowExpand(event: { data: StaffStatisticsItem }) {
 
                 .table-cell-name {
                     .text {
-                        color: var(--p-primary-500);
+                        color: var(--p-statistics-table-name-color);
                     }
                 }
             }

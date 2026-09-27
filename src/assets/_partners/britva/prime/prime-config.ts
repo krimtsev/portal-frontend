@@ -983,6 +983,10 @@ export default {
                             start: "{primary.400}",
                             end:   "{primary.700}",
                         },
+                        past: {
+                            start: "{neutral.700}",
+                            end:   "{neutral.900}",
+                        },
                     },
                 },
                 cloud: {
@@ -1094,6 +1098,86 @@ export default {
                 table: {
                     subtext: {
                         color: "{surface.500}",
+                    },
+                },
+                statistics: {
+                    cell: {
+                        positive: {
+                            background: {
+                                solid:    "rgb(57, 72, 8)",
+                                gradient: {
+                                    start: "rgb(41, 82, 37)",
+                                    end:   "rgb(187, 195, 37)",
+                                },
+                            },
+                            growth: {
+                                color: "rgb(178, 203, 30)",
+                            },
+                            text: {
+                                color: "{surface.0}",
+                            },
+                        },
+                        negative: {
+                            background: {
+                                solid:    "rgb(48, 8, 8)",
+                                gradient: {
+                                    start: "rgb(174, 39, 39)",
+                                    end:   "rgba(211, 121, 121, 0.55)",
+                                },
+                            },
+                            growth: {
+                                color: "rgb(255, 98, 98)",
+                            },
+                            text: {
+                                color: "{surface.0}",
+                            },
+                        },
+                    },
+                    footer: {
+                        background: "transparent",
+                        cell:       {
+                            border: {
+                                color:  "{datatable-body-cell-border-color}",
+                                border: {
+                                    color: "{datatable.body.cell.border.color}",
+                                },
+                            },
+                        },
+                    },
+                    details: {
+                        item: {
+                            background: "transparent",
+                            border:     {
+                                color: "{datatable.body.cell.border.color}",
+                            },
+                        },
+                        trend: {
+                            positive: {
+                                background: "color-mix(in srgb, {primary.600} 55%, transparent)",
+                                arrow:      {
+                                    color: "{primary.500}",
+                                },
+                            },
+                            negative: {
+                                background: "color-mix(in srgb, {red.700} 55%, transparent)",
+                                arrow:      {
+                                    color: "{red.500}",
+                                },
+                            },
+                        },
+                        title: {
+                            color: "{surface.400}",
+                        },
+                        staff: {
+                            name: {
+                                color: "{primary.500}",
+                            },
+                        },
+                    },
+                    table: {
+                        name: {
+                            color: "{primary.500}",
+                        },
                     },
                 },
             },

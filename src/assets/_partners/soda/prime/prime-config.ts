@@ -1023,6 +1023,10 @@ export default {
                             start: "{secondary.200}",
                             end:   "{secondary.700}",
                         },
+                        past: {
+                            start: "{primary.200}",
+                            end:   "{primary.400}",
+                        },
                     },
                 },
                 cloud: {
@@ -1134,6 +1138,79 @@ export default {
                 table: {
                     subtext: {
                         color: "color-mix(in srgb, {primary.500} 80%, transparent)",
+                    },
+                },
+                statistics: {
+                    cell: {
+                        positive: {
+                            color:      "rgba(236, 233, 226, 0.82)",
+                            background: {
+                                solid:    "rgb(57, 72, 8)",
+                                gradient: {
+                                    start: "rgb(41, 82, 37)",
+                                    end:   "rgb(187, 195, 37)",
+                                },
+                            },
+                            growth: {
+                                color: "rgb(178, 203, 30)",
+                            },
+                        },
+                        negative: {
+                            color:      "rgba(236, 233, 226, 0.82)",
+                            background: {
+                                solid:    "rgb(48, 8, 8)",
+                                gradient: {
+                                    start: "rgb(174, 39, 39, 1)",
+                                    end:   "rgba(211, 121, 121, 0.55)",
+                                },
+                            },
+                            growth: {
+                                color: "rgb(255, 98, 98)",
+                            },
+                        },
+                    },
+                    footer: {
+                        background: "{primary.50}",
+                        cell:       {
+                            border: {
+                                color: "transparent",
+                            },
+                        },
+                    },
+                    details: {
+                        item: {
+                            background: "{primary.50}",
+                            border:     {
+                                color: "{primary.100}",
+                            },
+                        },
+                        trend: {
+                            positive: {
+                                background: "color-mix(in srgb,var(--p-secondary-300) 85%,transparent)",
+                                arrow:      {
+                                    color: "{primary.500}",
+                                },
+                            },
+                            negative: {
+                                background: "color-mix(in srgb, {red.700} 55%, transparent)",
+                                arrow:      {
+                                    color: "{red.500}",
+                                },
+                            },
+                        },
+                        title: {
+                            color: "{primary.500}",
+                        },
+                        staff: {
+                            name: {
+                                color: "{primary.500}",
+                            },
+                        },
+                    },
+                    table: {
+                        name: {
+                            color: "{primary.500}",
+                        },
                     },
                 },
             },

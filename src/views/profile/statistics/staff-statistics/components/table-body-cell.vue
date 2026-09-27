@@ -21,7 +21,7 @@ const cellClasses = computed(() => {
 
 const textClasses = computed(() => {
     if (props.growth === undefined || props.growth === null) return ""
-    return props.growth >= 0 ? "text-positive" : "text-negative"
+    return props.growth >= 0 ? "growth-positive" : "growth-negative"
 })
 </script>
 
@@ -58,25 +58,28 @@ const textClasses = computed(() => {
     }
 
     &.cell-bg-positive {
-        background: rgba(57, 72, 8, 1);
-        background: radial-gradient(30em 6em at top, rgb(58, 72, 9), rgb(119, 135, 18, 0.9));
+        background: var(--p-statistics-cell-positive-background-solid);
+        background: radial-gradient(30em 6em at top, var(--p-statistics-cell-positive-background-gradient-start), var(--p-statistics-cell-positive-background-gradient-end));
+        color: var(--p-statistics-cell-positive-color);
     }
 
     &.cell-bg-negative {
-        background: rgba(48, 8, 8, 1);
-        background: radial-gradient(30em 6em at top, rgba(48, 8, 8, 1.0), rgba(150, 25, 25, 0.5));
+        background: var(--p-statistics-cell-negative-background-solid);
+        background: radial-gradient(30em 6em at top, var(--p-statistics-cell-negative-background-gradient-start), var(--p-statistics-cell-negative-background-gradient-end));
+        color: var(--p-statistics-cell-negative-color);
     }
 
     .growth {
         @include small-text;
+
         margin-top: -2rem;
 
-        &.text-positive {
-            color: rgba(178, 203, 30, 1);
+        &.growth-positive {
+            color: var(--p-statistics-cell-positive-growth-color);
         }
 
-        &.text-negative {
-            color: rgba(255, 98, 98, 1);
+        &.growth-negative {
+            color: var(--p-statistics-cell-negative-growth-color);
         }
     }
 }

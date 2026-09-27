@@ -68,7 +68,7 @@ export function getBackgroundColors(
                     d.percent >= 0 ? "--p-chart-bar-column-end" : "--p-red-700",
                 )
             }
-            return createGradient(ctx, "--p-neutral-700", "--p-neutral-900")
+            return createGradient(ctx, "--p-chart-bar-past-start", "--p-chart-bar-past-end")
         }
 
         return createGradient(ctx, "--p-chart-bar-column-start", "--p-chart-bar-column-end")
