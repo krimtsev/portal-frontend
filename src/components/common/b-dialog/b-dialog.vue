@@ -87,6 +87,10 @@ const contentStyle = computed(() => {
 
 <style scoped lang="scss">
 .b-dialog {
+    .dialog-header {
+        color: var(--p-dialog-header-color);
+    }
+
     .dialog-body {
         display: flex;
         gap: $indent-x2;

@@ -17,6 +17,7 @@ import {
     ChatMessageType,
 } from "@c/chat/definitions/chat-message"
 import BButton from "@c/common/b-button/b-button.vue"
+import BDialogConfirm from "@c/common/b-dialog/b-dialog-confirm.vue"
 import BLink from "@c/common/b-link/b-link.vue"
 import BTelnumLink from "@c/common/b-link/b-telnum-link.vue"
 import BSkeleton from "@c/common/b-skeleton/b-skeleton.vue"
@@ -61,6 +62,7 @@ const departmentStore = useDepartmentStore()
 const isFirstLoading = ref(true)
 const isLoadingFile = ref(false)
 const loadingState = ref<LoadingState | null>(null)
+const isCloseDialog = ref(false)
 
 const chatRef = useTemplateRef<{ scrollToBottom: () => void }>("chatRef")
 
@@ -213,7 +215,7 @@ const onSave = handleSubmit(async (formValues) => {
     }
 })
 
-async function onRemove() {
+async function onClose() {
     if (loadingState.value) return
 
     loadingState.value = LoadingState.Remove
@@ -228,6 +230,7 @@ async function onRemove() {
 
     loadingState.value = null
     ticketDetails.value.state = TicketState.Closed
+    isCloseDialog.value = true
 
     notify.success("Заявка успешно закрыта")
 
@@ -407,7 +410,7 @@ const departmentName = (id: number | null) => {
                                 :is-loading="loadingState === LoadingState.Remove"
                                 variant="danger"
                                 class="flex-1 full-width"
-                                @click="onRemove"
+                                @click="isCloseDialog = true"
                             />
                         </div>
                     </div>
@@ -415,6 +418,16 @@ const departmentName = (id: number | null) => {
             </div>
         </div>
     </portal-page>
+
+    <b-dialog-confirm
+        v-model:visible="isCloseDialog"
+        title="Закрыть заявку"
+        :is-loading="loadingState === LoadingState.Remove"
+        @confirm="onClose"
+        @cancel="isCloseDialog = false"
+    >
+        <div>Вы действительно хотите закрыть заявку «{{ ticketDetails.title }}»?</div>
+    </b-dialog-confirm>
 </template>
 
 <style scoped lang="scss">

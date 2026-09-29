@@ -437,8 +437,9 @@ export default {
             colorScheme: {
                 light: {
                     root: {
+                        color:  "{primary.500}",
                         border: {
-                            color: "{surface.600}",
+                            color: "transparent",
                         },
                     },
                 },
