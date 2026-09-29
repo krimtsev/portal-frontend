@@ -7,10 +7,8 @@ import {
     LapkiQualificationTranslate,
     LapkiQualification,
 } from "@v/profile/tickets/create/specialist/_lapki/utils/specialist-utils"
-import {
-    SodaQualificationTranslate,
-    SodaQualification,
-} from "@v/profile/tickets/create/specialist/_soda/utils/specialist-utils"
+import { SodaQualification } from "@v/profile/tickets/create/specialist/_soda/definitions/specialist"
+import { SodaQualificationTranslate } from "@v/profile/tickets/create/specialist/_soda/utils/specialist-utils"
 
 
 const QUALIFICATION_TRANSLATE_MAP: Record<SpecialistQualification, string> = {

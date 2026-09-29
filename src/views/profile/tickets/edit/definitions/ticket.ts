@@ -17,6 +17,8 @@ export enum TicketType {
     Flagman = "flagman",
     Administrator = "administrator",
     Opening = "opening",
+    Makeup = "makeup",
+    Podiatrist = "podiatrist",
 }
 
 export enum TicketState {

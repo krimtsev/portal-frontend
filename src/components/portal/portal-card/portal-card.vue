@@ -177,8 +177,16 @@ const onClick = () => {
 
     &.mobile-wrap-form {
         :deep(.portal-form-item) {
+            .portal-form-item-label {
+                max-width: 208px;
+            }
+
             @media (max-width: $layout-mobile-width) {
                 flex-wrap: wrap;
+
+                .portal-form-item-label {
+                    max-width: 100%;
+                }
 
                 .portal-form-item-content {
                     margin-top: $indent-x1;

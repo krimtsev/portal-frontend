@@ -110,7 +110,7 @@ const routes: RouteRecordRaw[] = [
         component: () => import("@v/profile/tickets/create/flagman/flagman-create.view.vue"),
         meta:      {
             roles,
-            partners: [Partner.Britva],
+            partners: [Partner.Britva, Partner.Soda],
         },
     },
     {
@@ -127,6 +127,24 @@ const routes: RouteRecordRaw[] = [
         component: () => import("@v/profile/tickets/create/opening/opening-create-view.vue"),
         meta:      {
             roles,
+        },
+    },
+    {
+        path:      profilePaths.ProfileTicketMakeup,
+        name:      ProfileRouteName.ProfileTicketMakeup,
+        component: () => import("@v/profile/tickets/create/makeup/makeup-create-view.vue"),
+        meta:      {
+            roles,
+            partners: [Partner.Soda],
+        },
+    },
+    {
+        path:      profilePaths.ProfileTicketPodiatrist,
+        name:      ProfileRouteName.ProfileTicketPodiatrist,
+        component: () => import("@v/profile/tickets/create/podiatrist/podiatrist-create-view.vue"),
+        meta:      {
+            roles,
+            partners: [Partner.Soda],
         },
     },
 ]

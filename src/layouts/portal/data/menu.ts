@@ -3,6 +3,7 @@ import { PortalRouteName } from "@r/portal/route-names"
 import { ProfileRouteName } from "@r/profile/route-names"
 import { Partner } from "@/definitions/partner"
 import { useAppStore } from "@s/app/app"
+import { computed } from "vue"
 
 type MenuCommand = () => void
 
@@ -64,88 +65,77 @@ export function menuData(): MenuItem[] {
         ],
     }
 
-    const ticketsItem: MenuItem = {
+    const ticketConfig = [
+        {
+            label: "Заявка на макет",
+            name:  ProfileRouteName.ProfileTicketDesign,
+        },
+        {
+            label: "Заявка на мастера",
+            name:  ProfileRouteName.ProfileTicketSpecialist,
+        },
+        {
+            label: "Заявка на администратора",
+            name:  ProfileRouteName.ProfileTicketAdministrator,
+        },
+        {
+            label: "Заявка на сертификат",
+            name:  ProfileRouteName.ProfileTicketCertificate,
+        },
+        {
+            label: "Заявка на черный список",
+            name:  ProfileRouteName.ProfileTicketBlacklist,
+        },
+        {
+            label:   "Заявка на FLAGMAN",
+            name:    ProfileRouteName.ProfileTicketFlagman,
+            visible: () => appStore.isBritva || appStore.isSoda,
+        },
+        {
+            label:   "Заявка на подолога",
+            name:    ProfileRouteName.ProfileTicketPodiatrist,
+            visible: () => appStore.isSoda,
+        },
+        {
+            label:   "Макияж для себя",
+            name:    ProfileRouteName.ProfileTicketMakeup,
+            visible: () => appStore.isSoda,
+        },
+        {
+            label: "Индивидуальное согласование",
+            name:  ProfileRouteName.ProfileTicketGeneral,
+        },
+        {
+            label: "Скоро открытие",
+            name:  ProfileRouteName.ProfileTicketOpening,
+        },
+    ]
+
+    const ticketsItem = computed<MenuItem>(() => ({
         label: "Заявки",
-        items: [
-            {
-                label:   "Заявка на макет",
-                command: async () => {
-                    await router.push({ name: ProfileRouteName.ProfileTicketDesign })
-                },
-            },
-            {
-                label:   "Заявка на мастера",
-                command: async () => {
-                    await router.push({ name: ProfileRouteName.ProfileTicketSpecialist })
-                },
-            },
-            {
-                label:   "Заявка на администратора",
-                command: async () => {
-                    await router.push({ name: ProfileRouteName.ProfileTicketAdministrator })
-                },
-            },
-            {
-                label:   "Заявка на сертификат",
-                command: async () => {
-                    await router.push({ name: ProfileRouteName.ProfileTicketCertificate })
-                },
-            },
-            {
-                label:   "Заявка на черный список",
-                command: async () => {
-                    await router.push({ name: ProfileRouteName.ProfileTicketBlacklist })
-                },
-            },
-            ...(appStore.isBritva
-                ? [
-                    {
-                        label:   "Заявка на FLAGMAN",
-                        command: async () => {
-                            await router.push({ name: ProfileRouteName.ProfileTicketFlagman })
-                        },
-                    },
-                ]
-                : []
-            ),
-            {
-                label:   "Индивидуальное согласование",
-                command: async () => {
-                    await router.push({ name: ProfileRouteName.ProfileTicketGeneral })
-                },
-            },
-            {
-                label:   "Скоро открытие",
-                command: async () => {
-                    await router.push({ name: ProfileRouteName.ProfileTicketOpening })
-                },
-            },
-        ],
-    }
+        items: ticketConfig
+            .filter(item => item.visible ? item.visible() : true)
+            .map(item => ({
+                label:   item.label,
+                command: () => router.push({ name: item.name }),
+            })),
+    }))
 
     switch (appStore.currentPartner) {
         case Partner.Lapki:
             return [
                 cloudItem,
-                ticketsItem,
+                ticketsItem.value,
                 certificatesItem,
                 contactsItem,
             ]
 
         case Partner.Soda:
-            return [
-                cloudItem,
-                ticketsItem,
-                certificatesItem,
-                analyticsItem,
-                contactsItem,
-            ]
-
         case Partner.Britva:
         default:
             return [
                 cloudItem,
-                ticketsItem,
+                ticketsItem.value,
                 certificatesItem,
                 analyticsItem,
                 contactsItem,

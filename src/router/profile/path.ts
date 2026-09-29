@@ -14,4 +14,6 @@ export const profilePaths = {
     ProfileTicketFlagman:       "/profile/ticket/flagman",
     ProfileTicketAdministrator: "/profile/ticket/administrator",
     ProfileTicketOpening:       "/profile/ticket/opening",
+    ProfileTicketMakeup:        "/profile/ticket/makeup",
+    ProfileTicketPodiatrist:    "/profile/ticket/podiatrist",
 }

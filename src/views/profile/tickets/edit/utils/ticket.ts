@@ -188,4 +188,20 @@ export const TICKET_FIELDS_ORDER: Record<string, FieldConfig[]> = {
         { key: "statistics" },
         { key: "linkToWorks", displayType: AttributeDisplayType.Link },
     ],
+    [TicketType.Makeup]: [
+        { key: "name" },
+        { key: "phone", displayType: AttributeDisplayType.Phone },
+        { key: "duration" },
+        { key: "statistics" },
+        { key: "linkToWorks", displayType: AttributeDisplayType.Link },
+    ],
+    [TicketType.Podiatrist]: [
+        { key: "name" },
+        { key: "phone", displayType: AttributeDisplayType.Phone },
+        { key: "duration" },
+        { key: "certificates" },
+        { key: "practice" },
+        { key: "blanc" },
+        { key: "armchairs" },
+    ],
 }

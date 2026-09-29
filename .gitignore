@@ -28,3 +28,4 @@ env.js
 .temp_cache/
 .token_github
 
+/.kilo/

@@ -886,7 +886,7 @@ export default {
                 chat: {
                     background: "{primary.100}",
                     border:     {
-                        color:  "transparent",
+                        color:  "{primary.200}",
                         radius: "{form.field.border.radius}",
                     },
                     message: {
