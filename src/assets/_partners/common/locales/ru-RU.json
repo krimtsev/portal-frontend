@@ -286,7 +286,7 @@
         },
         "department": {
             "it_department": "IT-отдел",
-            "network_admin": "Администарторы сети",
+            "network_admin": "Администраторы сети",
             "network_barbering": "Барберинг сети",
             "accounting": "Бухгалтерия",
             "community": "Комьюнитизация",
