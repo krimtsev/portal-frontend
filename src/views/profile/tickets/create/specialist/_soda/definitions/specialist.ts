@@ -4,7 +4,7 @@ export enum SodaQualification {
     TopStylist = "topStylist",
     ArtStylist = "artStylist",
     TopBrowAndMakeupArtist = "topBrowAndMakeupArtist",
-    BrandStylistAndMakeupArtist = "brandStylistAndMakeupArtist",
+    BrandBrowAndMakeupArtist = "brandBrowAndMakeupArtist",
     TopMassageTherapist = "topMassageTherapist",
     BrandMassageTherapist = "brandMassageTherapist",
 }

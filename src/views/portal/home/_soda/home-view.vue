@@ -17,7 +17,7 @@ import PortalInformationMenu from "@c/portal/portal-information-menu/portal-info
 import PortalMessages from "@c/portal/portal-messages/portal-messages.vue"
 import TimelineCalendar from "@c/timeline-calendar/timeline-calendar.vue"
 import { sections } from "@v/portal/home/_soda/data/home-data"
-import { DefaultQualification } from "@v/profile/tickets/create/specialist/definitions/specialist"
+import { SodaQualification } from "@v/profile/tickets/create/specialist/_soda/definitions/specialist"
 
 const router = useRouter()
 const notify = useNotify()
@@ -87,21 +87,21 @@ const hasPartnerName = computed(() => !!partnerName.value)
                 >
                     <div class="buttons-wrapper">
                         <b-button-group
-                            label="Заявка на МАСТЕРА"
+                            label="Заявка на ТОП-МАСТЕР НОГТЕВОГО СЕРВИСА"
                             @click="router.push({
                                 name: ProfileRouteName.ProfileTicketSpecialist,
                                 query: {
-                                    qualification: DefaultQualification.Master
+                                    qualification: SodaQualification.TopMasterNailService
                                 }
                             })"
                         />
 
                         <b-button-group
-                            label="Заявка на БРЕНД-МАСТЕРА"
+                            label="Заявка на ТОП-СТИЛИСТА"
                             @click="router.push({
                                 name: ProfileRouteName.ProfileTicketSpecialist,
                                 query: {
-                                    qualification: DefaultQualification.BrandMaster
+                                    qualification: SodaQualification.TopStylist
                                 }
                             })"
                         />
@@ -109,11 +109,6 @@ const hasPartnerName = computed(() => !!partnerName.value)
                         <b-button-group
                             label="Заявка на сертификат"
                             @click="router.push({ name: ProfileRouteName.ProfileTicketCertificate })"
-                        />
-
-                        <b-button-group
-                            label="Заявка на черный список"
-                            @click="router.push({ name: ProfileRouteName.ProfileTicketBlacklist })"
                         />
 
                         <b-button-group
