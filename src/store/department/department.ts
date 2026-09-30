@@ -1,71 +1,48 @@
 import { computed } from "vue"
 import { defineStore } from "pinia"
 import { useI18n } from "vue-i18n"
-import {
-    DepartmentType,
-    type DepartmentItem,
-} from "@/definitions/departments"
+import { type DepartmentItem, DepartmentType } from "@/definitions/departments"
+import { Partner } from "@/definitions/partner"
+import { useAppStore } from "@s/app/app"
 
 export const useDepartmentStore = defineStore("departments", () => {
     const { t } = useI18n()
+    const appStore = useAppStore()
 
-    const list: DepartmentItem[] = [
-        {
-            id:    1,
-            type:  DepartmentType.Franchise,
-            title: t("mc.department.franchise"),
-        },
-        {
-            id:    2,
-            type:  DepartmentType.Build,
-            title: t("mc.department.build"),
-        },
-        {
-            id:    3,
-            type:  DepartmentType.Marketing,
-            title: t("mc.department.marketing"),
-        },
-        {
-            id:    4,
-            type:  DepartmentType.NetworkAdmin,
-            title: t("mc.department.network_admin"),
-        },
-        {
-            id:    5,
-            type:  DepartmentType.NetworkBarbering,
-            title: t("mc.department.network_barbering"),
-        },
-        {
-            id:    6,
-            type:  DepartmentType.Community,
-            title: t("mc.department.community"),
-        },
-        {
-            id:    7,
-            type:  DepartmentType.OfficeManager,
-            title: t("mc.department.office_manager"),
-        },
-        {
-            id:    8,
-            type:  DepartmentType.ItDepartment,
-            title: t("mc.department.it_department"),
-        },
-        {
-            id:    9,
-            type:  DepartmentType.Accounting,
-            title: t("mc.department.accounting"),
-        },
+    const rawDepartments = [
+        { id: 1, type: DepartmentType.Franchise },
+        { id: 2, type: DepartmentType.Build },
+        { id: 3, type: DepartmentType.Marketing },
+        { id: 4, type: DepartmentType.NetworkAdmin },
+        { id: 5, type: DepartmentType.NetworkBarbering, allowed: [Partner.Britva] },
+        { id: 6, type: DepartmentType.Community },
+        { id: 7, type: DepartmentType.OfficeManager },
+        { id: 8, type: DepartmentType.ItDepartment },
+        { id: 9, type: DepartmentType.Accounting },
+        { id: 10, type: DepartmentType.NetworkNail, allowed: [Partner.Soda] },
+        { id: 11, type: DepartmentType.MakeupArtist, allowed: [Partner.Soda] },
+        { id: 12, type: DepartmentType.Stylist, allowed: [Partner.Soda] },
     ]
 
+    const departments = computed<DepartmentItem[]>(() => {
+        return rawDepartments
+            .filter(item => !item.allowed || item.allowed.includes(appStore.currentPartner))
+            .map(({ id, type }) => ({
+                id,
+                type,
+                title: t(`mc.department.${type}`),
+            }))
+    })
+
     const departmentsMap = computed(() => {
-        return list.reduce((acc, item) => {
+        return departments.value.reduce((acc, item) => {
             acc[item.id] = item
             return acc
         }, {} as Record<number, DepartmentItem>)
     })
 
     const sortedDepartmentList = computed(() => {
-        return [...list].sort((a, b) => a.title.localeCompare(b.title))
+        return [...departments.value].sort((a, b) => a.title.localeCompare(b.title))
     })
 
     const getTitleById = (id: string | number): string => {
@@ -74,7 +51,7 @@ export const useDepartmentStore = defineStore("departments", () => {
     }
 
     const getIdByType = (type: DepartmentType): number | null => {
-        return list.find(item => item.type === type)?.id || null
+        return departments.value.find(item => item.type === type)?.id || null
     }
 
     return {

@@ -168,6 +168,48 @@ export default {
                 padding: "{multiselect.padding.y} 0.75rem",
             },
         },
+        treeselect: {
+            colorScheme: {
+                light: {
+                    root: {
+                        color:       "{form.field.color}",
+                        background:  "{form.field.background}",
+                        placeholder: {
+                            color: "{form.field.placeholder.color}",
+                        },
+                        border: {
+                            color: "{form.field.border.color}",
+                        },
+                        disabled: {
+                            color:      "{form.field.disabled.color}",
+                            background: "{form.field.disabled.background}",
+                        },
+                    },
+                },
+            },
+        },
+        tree: {
+            node: {
+                color: "{text.color}",
+                focus: {
+                    color:      "{text.focus.color}",
+                    background: "{content.focus.background}",
+                },
+                hover: {
+                    color:      "{text.hover.color}",
+                    background: "{content.hover.background}",
+                },
+                toggle: {
+                    button: {
+                        color: "{text.muted.color}",
+                        hover: {
+                            color:      "{text.hover.color}",
+                            background: "{content.hover.background}",
+                        },
+                    },
+                },
+            },
+        },
         datepicker: {
             colorScheme: {
                 light: {

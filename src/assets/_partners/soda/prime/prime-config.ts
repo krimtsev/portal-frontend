@@ -189,6 +189,48 @@ export default {
                 padding: "{multiselect.padding.y} 0.75rem",
             },
         },
+        treeselect: {
+            colorScheme: {
+                light: {
+                    root: {
+                        color:       "{inputtext.color}",
+                        background:  "{primary.50}",
+                        placeholder: {
+                            color: "{primary.300}",
+                        },
+                        border: {
+                            color: "{primary.100}",
+                        },
+                        disabled: {
+                            color:      "{primary.500}",
+                            background: "{surface.100}",
+                        },
+                    },
+                },
+            },
+        },
+        tree: {
+            node: {
+                color: "{inputtext.color}",
+                focus: {
+                    color:      "{primary.500}",
+                    background: "{primary.100}",
+                },
+                hover: {
+                    color:      "{primary.500}",
+                    background: "{primary.100}",
+                },
+                toggle: {
+                    button: {
+                        color: "{primary.500}",
+                        hover: {
+                            color:      "{primary.600}",
+                            background: "{primary.200}",
+                        },
+                    },
+                },
+            },
+        },
         datepicker: {
             colorScheme: {
                 light: {
