@@ -39,6 +39,22 @@ const routes: RouteRecordRaw[] = [
             roles,
         },
     },
+    {
+        path:      portalPaths.DocumentFinesAudit,
+        name:      PortalRouteName.DocumentFinesAudit,
+        component: () => import("@v/portal/documents/_soda/fines-audit/fines-audit-view.vue"),
+        meta:      {
+            roles,
+        },
+    },
+    {
+        path:      portalPaths.DocumentMangoAudit,
+        name:      PortalRouteName.DocumentMangoAudit,
+        component: () => import("@v/portal/documents/_soda/mango-audit/mango-audit-view.vue"),
+        meta:      {
+            roles,
+        },
+    },
 
     {
         path:      portalPaths.ServiceSubscription,

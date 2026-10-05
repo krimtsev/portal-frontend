@@ -25,11 +25,32 @@ export const sections = computed((): Section[] => {
             ],
         },
         {
+            title: "Обучение",
+            items: [
+                {
+                    label:    "Перейти на портал обучения",
+                    external: "https://learn.mybritva.ru",
+                },
+                {
+                    label:    "Курс для администраторов",
+                    external: "https://start.bizon365.ru/kassa/britva/checkout/B9g3-lbT5fe?rnd=MTc5MDkzNTA0MzcwOXwyMTMuMTM1LjkwLjIyNg==",
+                },
+                {
+                    label:    "Курс для Мастера ногтевого сервиса",
+                    external: "https://start.bizon365.ru/kassa/britva/checkout/SqWPfe-Tczx?rnd=MTc5MDkzNTA1NDk0MnwyMTMuMTM1LjkwLjIyNg==",
+                },
+                {
+                    label:    "Курс для стилистов",
+                    external: "https://start.bizon365.ru/kassa/britva/checkout/B9eMUxZ69Ge?rnd=MTc5MDkzNTExMzgxMnwyMTMuMTM1LjkwLjIyNg==",
+                },
+            ],
+        },
+        {
             title: "Отчеты",
             items: [
                 {
                     label:    "Таблица оплаты телефонии",
-                    external: "https://docs.google.com/spreadsheets/d/1FTA921fxHaYwU2swklm_j3yFF0tJ3X9ugZAcHBix-Gg",
+                    external: "https://docs.google.com/spreadsheets/d/1EllHBxOGbK61fOl7rMqenM7oCF59e3_30F_JA3xTAw8",
                 },
             ],
         },
@@ -47,6 +68,10 @@ export const sections = computed((): Section[] => {
                 {
                     label: "Штрафы",
                     path:  portalPaths.DocumentFines,
+                },
+                {
+                    label: "Штрафы по аудиту",
+                    path:  portalPaths.DocumentFinesAudit,
                 },
             ],
         },

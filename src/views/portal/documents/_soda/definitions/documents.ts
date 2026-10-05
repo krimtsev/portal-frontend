@@ -6,4 +6,12 @@ export const buttonNavigation: PortalRouteButton[] = [
         label: "Общие штрафы",
         route: PortalRouteName.DocumentFines,
     },
+    {
+        label: "Общие по аудиту",
+        route: PortalRouteName.DocumentFinesAudit,
+    },
+    {
+        label: "Mango-аудит",
+        route: PortalRouteName.DocumentMangoAudit,
+    },
 ]
