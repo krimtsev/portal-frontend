@@ -1124,15 +1124,15 @@ export default {
                     },
                 },
                 link: {
-                    color: "{primary.400}",
+                    color: "{secondary.400}",
                     hover: {
-                        color: "{primary.500}",
+                        color: "{secondary.500}",
                     },
                     active: {
-                        color: "{primary.600}",
+                        color: "{secondary.600}",
                     },
                     external: {
-                        color: "{primary.color}",
+                        color: "{secondary.color}",
                     },
                 },
                 panel: {

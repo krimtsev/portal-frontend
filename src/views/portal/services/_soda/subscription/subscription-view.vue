@@ -132,12 +132,6 @@ import PortalUserCard from "@c/portal/portal-user-card/portal-user-card.vue"
         }
     }
 
-    .two-gis-card {
-        &:deep(.portal-card) {
-            background: var(--p-secondary-500);
-        }
-    }
-
     :deep(.portal-user-card) {
         .avatar {
             object-position: top;
