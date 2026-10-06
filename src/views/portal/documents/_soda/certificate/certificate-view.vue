@@ -43,7 +43,7 @@ import PortalPage from "@c/portal/portal-page/portal-page.vue"
                 <portal-card title="Электронный сертификат">
                     <div class="content">
                         <ul>
-                            <li>Заказан и оплачен онлайн через сайт soda.ru</li>
+                            <li>Заказан и оплачен онлайн через сайт sodanails.ru</li>
                             <li>Отправляется по SMS</li>
                             <li>Автоматически активируется в Yclients при оплате через сайт</li>
                         </ul>
@@ -70,7 +70,7 @@ import PortalPage from "@c/portal/portal-page/portal-page.vue"
                                 У каждого филиала — своя нумерация, которая записана в таблице
                                 <b-link
                                     label="Поиск по сертификатам"
-                                    href="https://my.soda.ru/certificates"
+                                    href="https://my.sodanails.ru/certificates"
                                 />
                             </li>
                             <li>Подробная инструкция по пробитию — в видео-уроке по Yclients</li>
@@ -119,7 +119,7 @@ import PortalPage from "@c/portal/portal-page/portal-page.vue"
                                 Откройте вкладку
                                 <b-link
                                     label="Поиск по сертификатам"
-                                    href="https://my.soda.ru/certificates"
+                                    href="https://my.sodanails.ru/certificates"
                                 />
                             </li>
                             <li>Начните набирать необходимый код и нажмите Enter</li>
