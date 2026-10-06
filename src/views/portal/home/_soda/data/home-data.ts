@@ -33,15 +33,15 @@ export const sections = computed((): Section[] => {
                 },
                 {
                     label:    "Курс для администраторов",
-                    external: "https://start.bizon365.ru/kassa/britva/checkout/B9g3-lbT5fe?rnd=MTc5MDkzNTA0MzcwOXwyMTMuMTM1LjkwLjIyNg==",
+                    external: "https://britva.kassa.bizon365.ru/buy/kurs-dlya-administratorov-soda",
                 },
                 {
-                    label:    "Курс для Мастера ногтевого сервиса",
-                    external: "https://start.bizon365.ru/kassa/britva/checkout/SqWPfe-Tczx?rnd=MTc5MDkzNTA1NDk0MnwyMTMuMTM1LjkwLjIyNg==",
+                    label:    "Курс для мастера ногтевого сервиса",
+                    external: "https://britva.kassa.bizon365.ru/buy/kurs-mastera-nogtevogo-servisa",
                 },
                 {
                     label:    "Курс для стилистов",
-                    external: "https://start.bizon365.ru/kassa/britva/checkout/B9eMUxZ69Ge?rnd=MTc5MDkzNTExMzgxMnwyMTMuMTM1LjkwLjIyNg==",
+                    external: "https://britva.kassa.bizon365.ru/buy/vvodnaya-informaciya-dlya-stilistov-soda",
                 },
             ],
         },

@@ -41,7 +41,7 @@ const pureNumber = computed(() => {
 .b-telnum-link {
     display: inline-flex;
     align-items: center;
-    color: var(--p-primary-color);
+    color: var(--p-link-color);
     text-decoration: none;
     cursor: pointer;
 
@@ -51,22 +51,22 @@ const pureNumber = computed(() => {
     }
 
     :deep(.b-svg) {
-        color: var(--p-primary-color);
+        color: var(--p-link-color);
     }
 
     &:hover {
-        color: var(--p-primary-hover-color);
+        color: var(--p-link-hover-color);
 
         :deep(.b-svg) {
-            color: var(--p-primary-hover-color);
+            color: var(--p-link-hover-color);
         }
     }
 
     &:active {
-        color: var(--p-primary-active-color);
+        color: var(--p-link-active-color);
 
         :deep(.b-svg) {
-            color: var(--p-primary-active-color);
+            color: var(--p-link-active-color);
         }
     }
 }
