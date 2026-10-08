@@ -1,20 +1,25 @@
-import type { SubscriptionData } from "@v/portal/documents/_lapki/subscription/definitions/subscriptions"
+import type { SubscriptionData } from "@v/portal/documents/_soda/subscription/definitions/subscriptions"
 
 export const subscriptionData: SubscriptionData[] = [
     {
-        service:   "Озоновый SPA-курс",
-        fiveVisit: "8 600",
-        tenVisit:		"16 200",
+        service:   "Расслабляющий массаж по 60 минут",
+        fiveVisit: "18 500",
+        tenVisit:  "35 100",
     },
     {
-        service:   "Гигиена полости рта собаки до 10 кг",
-        fiveVisit: "3 300",
-        tenVisit:		"6 600",
+        service:   "Расслабляющий массаж по 90 минут",
+        fiveVisit: "26 100",
+        tenVisit:  "49 500",
     },
     {
-        service:   "Когтекюр собаки до 10 кг",
-        fiveVisit: "2 800",
-        tenVisit:		"5 400",
+        service:   "Моделирующий массаж по 60 минут",
+        fiveVisit: "21 300",
+        tenVisit:  "40 500",
+    },
+    {
+        service:   "Моделирующий массаж по 90 минут",
+        fiveVisit: "31 800",
+        tenVisit:  "60 300",
     },
 ].map((item, index) => ({
     id: index + 1,

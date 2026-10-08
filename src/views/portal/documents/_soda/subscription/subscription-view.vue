@@ -16,7 +16,7 @@ import { subscriptionData } from "@v/portal/documents/_soda/subscription/data/su
     >
         <portal-card title="Абонемент на услуги">
             <div class="content">
-                <p> В сети SODA доступны абонементы на озоновый SPA-курс, гигиену полости рта и когтекюр.</p>
+                <p> В сети SODA доступны абонементы на расслабляющие и моделирующие массажи.</p>
 
                 <ul>
                     <li>Абонементы действуют 12 месяцев с даты покупки и оформляются на одного гостя.</li>
