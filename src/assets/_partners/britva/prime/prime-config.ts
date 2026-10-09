@@ -1169,8 +1169,8 @@ export default {
                             background: {
                                 solid:    "rgb(48, 8, 8)",
                                 gradient: {
-                                    start: "rgb(174, 39, 39)",
-                                    end:   "rgba(211, 121, 121, 0.55)",
+                                    start: "rgba(211, 121, 121, 0.55)",
+                                    end:   "rgb(174, 39, 39)",
                                 },
                             },
                             growth: {
