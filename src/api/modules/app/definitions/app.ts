@@ -1,4 +1,4 @@
-import type { MonthsBarChartData } from "@c/charts/definitions/charts"
+import type { MonthsBarChartData } from "@c/charts/months-bar-chart/definitions/charts"
 import type { TimelineEvent } from "@c/timeline-calendar/definitions/timeline-calendar"
 
 export interface MessageItem {

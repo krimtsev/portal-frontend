@@ -83,13 +83,18 @@ export function formatJSDateToStartDateString(date: Date | null | undefined): st
     return DateTime.fromJSDate(date)
         .startOf("month")
         .toFormat(DB_DATE_FORMAT)
-
 }
 
 // Текущий день (сегодня)
 export function getTodayJSDate(): Date {
     return DateTime.utc()
         .toJSDate()
+}
+
+// Возвращает текущий день в виде строки yyyy-MM-dd
+export function getTodayDateString(toUTC: boolean = false): string {
+    const dt = toUTC ? DateTime.utc() : DateTime.local()
+    return dt.toFormat(DB_DATE_FORMAT)
 }
 
 // Вчера (текущий день - 1 день)

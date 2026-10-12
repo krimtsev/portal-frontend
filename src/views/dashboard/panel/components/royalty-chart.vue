@@ -7,8 +7,8 @@ import {
     Chart,
     LinearScale,
 } from "chart.js"
-import type { ChartData } from "@c/charts/definitions/charts"
-import { getBackgroundColors } from "@c/charts/utils/months-bar-chart"
+import type { ChartData } from "@c/charts/months-bar-chart/definitions/charts"
+import { getBackgroundColors, getCssVar } from "@c/charts/months-bar-chart/utils/months-bar-chart"
 import ListLoadingState from "@c/common/b-loading-state/list-loading-state.vue"
 import { formatNumber } from "@/lib/utils"
 
@@ -40,13 +40,6 @@ Chart.register(BarController, BarElement, CategoryScale, LinearScale)
 
 const chartRef = useTemplateRef<HTMLCanvasElement>("chartRef")
 let chartInstance: Chart | null = null
-
-const getCssVar = (varName: string, fallback: string) => {
-    if (typeof document === "undefined") return fallback
-    return getComputedStyle(document.documentElement)
-        .getPropertyValue(varName)
-        .trim() || fallback
-}
 
 const chartData = computed<RoyaltyChartData[]>(() => {
     if (props.isLoading || !props.data || props.data.length === 0) {

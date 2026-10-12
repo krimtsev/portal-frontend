@@ -2,6 +2,7 @@ export enum ProfileRouteName {
     Profile = "Profile",
     ProfileUserProfile = "ProfileUserProfile",
     ProfileStatisticsStaff = "ProfileStatisticsStaff",
+    ProfileTelnumsIncoming = "ProfileTelnumsIncoming",
     ProfileChangePassword = "ProfileChangePassword",
     ProfileTeam = "ProfileTeam",
 

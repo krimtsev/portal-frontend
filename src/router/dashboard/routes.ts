@@ -208,6 +208,21 @@ const routes: RouteRecordRaw[] = [
             breadcrumb: "mc.dashboard.sidebar.settings",
         },
     },
+    {
+        path:      dashboardPaths.DashboardTelnumsIncoming,
+        component: () => import("@v/dashboard/telnums/telnums-view.vue"),
+        meta:      {
+            roles:      [Roles.ADMIN, Roles.SYSADMIN],
+            breadcrumb: "mc.dashboard.sidebar.telnums",
+        },
+        children: [
+            {
+                path:      dashboardPaths.DashboardTelnumsIncoming,
+                name:      DashboardRouteName.DashboardTelnumsIncoming,
+                component: () => import("@v/dashboard/telnums/telnums-incoming/telnums-incoming-view.vue"),
+            },
+        ],
+    },
 ]
 
 export default routes

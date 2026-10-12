@@ -44,6 +44,15 @@ const appStore = useAppStore()
                 />
             </div>
 
+            <div class="col-3 tablet-col-4 mobile-col-12">
+                <portal-section-card
+                    icon="pi-phone"
+                    title="Входящие звонки"
+                    description="Отслеживайте общую динамику и не теряйте клиентов. Здесь отображается точное количество входящих и пропущенных вызовов."
+                    @click="goTo(ProfileRouteName.ProfileTelnumsIncoming)"
+                />
+            </div>
+
             <!--  <div class="col-3 tablet-col-4 mobile-col-12">
                 <portal-section-card
                     icon="pi-users"

@@ -6,8 +6,8 @@ import { useNotify } from "@/composables/notify/use-notify"
 import { HttpError } from "@/api"
 import * as partnersAPI from "@/api/modules/dashboard/partners/partners"
 import * as statisticsAPI from "@/api/modules/dashboard/statistics/statistics"
-import type { MonthsBarChartData } from "@c/charts/definitions/charts"
-import MonthsBarChart from "@c/charts/months-bar-chart.vue"
+import type { MonthsBarChartData } from "@c/charts/months-bar-chart/definitions/charts"
+import MonthsBarChart from "@c/charts/months-bar-chart/months-bar-chart.vue"
 import BDatePicker from "@c/common/b-date-picker/b-date-picker.vue"
 import BEmptyResult from "@c/common/b-empty/b-empty-result.vue"
 import ListLoadingState from "@c/common/b-loading-state/list-loading-state.vue"
@@ -36,7 +36,7 @@ const partners = ref<PartnerOptionItem[]>([])
 const filterDate = computed({
     get: () => formatStringDateToJSDate(partnerStatisticsStore.filter.filters.date),
     set: (value: Date | null) => {
-        partnerStatisticsStore.filter.filters.date = formatJSDateToStartDate(value, true)
+        partnerStatisticsStore.filter.filters.date = formatJSDateToStartDate(value)
     },
 })
 

@@ -310,7 +310,8 @@
                 "royalty": "Роялти",
                 "statistics": "Статистика",
                 "eventCalendar": "Календарь событий",
-                "settings": "Настройки"
+                "settings": "Настройки",
+                "telnums": "Телефония"
             },
             "users": {
                 "state": {

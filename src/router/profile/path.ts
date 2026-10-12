@@ -3,6 +3,7 @@ export const profilePaths = {
     ProfileUserProfile:         "/profile/user-profile",
     ProfileChangePassword:      "/profile/change-password",
     ProfileStatisticsStaff:     "/profile/statistics/staff",
+    ProfileTelnumsIncoming:     "/profile/telnums/incoming",
     ProfileTeam:                "/profile/team",
     ProfileTicket:              "/profile/ticket/:id",
     ProfileTickets:             "/profile/tickets",

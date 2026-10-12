@@ -41,6 +41,14 @@ const routes: RouteRecordRaw[] = [
         },
     },
     {
+        path:      profilePaths.ProfileTelnumsIncoming,
+        name:      ProfileRouteName.ProfileTelnumsIncoming,
+        component: () => import("@v/profile/telnums-incoming/telnums-incoming-view.vue"),
+        meta:      {
+            roles,
+        },
+    },
+    {
         path:      profilePaths.ProfileTeam,
         name:      ProfileRouteName.ProfileTeam,
         component: () => import("@v/profile/team/team-view.vue"),

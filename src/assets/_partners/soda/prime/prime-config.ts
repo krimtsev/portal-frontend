@@ -1177,6 +1177,14 @@ export default {
                         income:  "{secondary.300}",
                         ticks:   "{primary.300}",
                     },
+                    callsPeriod: {
+                        legend: {
+                            label: "{primary.500}",
+                        },
+                        missed: "{red.800}",
+                        income: "{secondary.300}",
+                        ticks:  "{primary.300}",
+                    },
                     metric: {
                         color: "{primary.400}",
                         label: {

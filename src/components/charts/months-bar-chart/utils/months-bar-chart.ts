@@ -1,4 +1,4 @@
-import type { ChartData } from "@c/charts/definitions/charts"
+import type { ChartData } from "@c/charts/months-bar-chart/definitions/charts"
 
 export function createGradient(
     ctx: CanvasRenderingContext2D,
@@ -73,4 +73,11 @@ export function getBackgroundColors(
 
         return createGradient(ctx, "--p-chart-bar-column-start", "--p-chart-bar-column-end")
     })
+}
+
+export const getCssVar = (varName: string, fallback: string) => {
+    if (typeof document === "undefined") return fallback
+    return getComputedStyle(document.documentElement)
+        .getPropertyValue(varName)
+        .trim() || fallback
 }

@@ -112,6 +112,16 @@ const items = computed<DashboardMenuItem[]>(() => {
     })
 
     menu.push({
+        key:         "telnums",
+        label:       t("mc.dashboard.sidebar.telnums"),
+        icon:        "pi pi-phone",
+        route:       dashboardPaths.DashboardTelnumsIncoming,
+        activeNames: [
+            DashboardRouteName.DashboardTelnumsIncoming,
+        ],
+    })
+
+    menu.push({
         key:         "cloud",
         label:       t("mc.dashboard.sidebar.cloud"),
         icon:        "pi pi-folder",

@@ -1,0 +1,82 @@
+<script setup lang="ts">
+import { computed } from "vue"
+import { useRoute, useRouter } from "vue-router"
+import PrimeTab from "primevue/tab"
+import PrimeTabList from "primevue/tablist"
+import PrimeTabs from "primevue/tabs"
+import { DashboardRouteName } from "@r/dashboard/route-names"
+
+const route = useRoute()
+const router = useRouter()
+
+interface PageTab {
+    id:   string
+    text: string
+}
+
+const pagesTabs: PageTab[] = [
+    {
+        id:   DashboardRouteName.DashboardTelnumsIncoming,
+        text: "Входящие звонки",
+    },
+]
+
+const activeTab = computed({
+    get() {
+        return (route.name as string) || DashboardRouteName.DashboardTelnumsIncoming
+    },
+    set(name: string) {
+        router.push({ name })
+    },
+})
+
+const onTabChange = (val: string | number) => {
+    activeTab.value = String(val)
+}
+</script>
+
+<template>
+    <div class="telnums-view">
+        <div
+            v-if="pagesTabs.length > 1"
+            class="telnums-header mb-x2"
+        >
+            <prime-tabs
+                :value="activeTab"
+                @update:value="onTabChange"
+            >
+                <prime-tab-list>
+                    <prime-tab
+                        v-for="tab in pagesTabs"
+                        :key="tab.id"
+                        :value="tab.id"
+                    >
+                        <span class="telnums-tab-item">
+                            <span>{{ tab.text }}</span>
+                        </span>
+                    </prime-tab>
+                </prime-tab-list>
+            </prime-tabs>
+        </div>
+
+        <div class="telnums-content">
+            <router-view />
+        </div>
+    </div>
+</template>
+
+<style scoped lang="scss">
+.telnums-view {
+    width: 100%;
+
+    :deep(.p-tablist) {
+        background: transparent;
+    }
+
+    .telnums-tab-item {
+        display: inline-flex;
+        align-items: center;
+        gap: $indent-x1;
+    }
+}
+</style>

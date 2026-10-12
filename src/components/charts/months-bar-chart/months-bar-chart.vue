@@ -18,8 +18,8 @@ import {
 import type {
     ChartData,
     MonthsBarChartData,
-} from "@c/charts/definitions/charts"
-import { getBackgroundColors } from "@c/charts/utils/months-bar-chart"
+} from "@c/charts/months-bar-chart/definitions/charts"
+import { getBackgroundColors } from "@c/charts/months-bar-chart/utils/months-bar-chart"
 
 const props = withDefaults(
     defineProps<{

@@ -5,6 +5,7 @@ import { useAuthStore } from "@s/auth/auth"
 import { useNotify } from "@/composables/notify/use-notify"
 import { HttpError } from "@/api"
 import * as panelAPI from "@/api/modules/dashboard/panel/panel"
+import CallsPeriodChart from "@c/charts/calls-period-chart/calls-period-chart.vue"
 import BTitle from "@c/common/b-title/b-title.vue"
 import PanelCard from "@v/dashboard/panel/components/panel-card.vue"
 import PanelPeriodCard from "@v/dashboard/panel/components/panel-period-card.vue"
@@ -53,9 +54,8 @@ const ticketsCompleted = computed(() => {
 const partnerMetrics = computed((): PanelSplitMetric[] => {
     return [
         {
-            label:   "Активные",
-            value:   analytics.value.partners.active_count,
-            variant: "success",
+            label: "Всего партнеров",
+            value: analytics.value.partners.total_count,
         },
         {
             label: "Неактивные",
@@ -129,8 +129,8 @@ const jobsMetrics = computed((): PanelSplitMetric[] => {
             <panel-split-card
                 :is-loading="isLoading"
                 title="Партнеры"
-                :total="analytics.partners.total_count"
-                subtext="всего партнеров"
+                :total="analytics.partners.active_count"
+                subtext="активные партнеров"
                 :metrics="partnerMetrics"
             />
 
@@ -153,9 +153,16 @@ const jobsMetrics = computed((): PanelSplitMetric[] => {
             />
         </section>
 
+        <section class="fourth-section">
+            <calls-period-chart
+                :is-loading="isLoading"
+                :data="analytics.mango_calls"
+            />
+        </section>
+
         <section
             v-if="authStore.isSysAdmin"
-            class="fourth-section"
+            class="fifth-section"
         >
             <panel-split-card
                 :is-loading="isLoading"
@@ -186,7 +193,7 @@ const jobsMetrics = computed((): PanelSplitMetric[] => {
     }
 
     .second-section,
-    .fourth-section {
+    .fifth-section {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: $indent-x2;

@@ -7,6 +7,7 @@ export interface AnalyticsData {
     efficiency:    TicketsEfficiencyData
     periods:       TicketsPeriodsData
     royalty_stats: RoyaltyData[]
+    mango_calls:   MangoCallsData[]
     jobs:          JobsData
 }
 
@@ -43,4 +44,10 @@ export interface JobsData {
     default_count:  number
     yclients_count: number
     failed_count:   number
+}
+
+export interface MangoCallsData {
+    incoming: number
+    missed:   number
+    time:     string
 }

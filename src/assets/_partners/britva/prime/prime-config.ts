@@ -1136,6 +1136,14 @@ export default {
                         income:  "{lime.600}",
                         ticks:   "{neutral.400}",
                     },
+                    callsPeriod: {
+                        legend: {
+                            label: "{surface.0}",
+                        },
+                        missed: "{red.800}",
+                        income: "{lime.600}",
+                        ticks:  "{neutral.400}",
+                    },
                     metric: {
                         color: "{neutral.400}",
                         label: {

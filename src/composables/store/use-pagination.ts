@@ -43,12 +43,17 @@ export function usePagination<T>(options: PaginationOptions<T> = {}) {
         return !queryState.isLoading.value && pagination.value.total > pagination.value.perPage
     })
 
+    const sortOrder = computed(() => {
+        return queryState.filter.value.sortOrder === "desc" ? -1 : 1
+    })
+
     return {
         ...queryState,
         pagination,
         setPagination,
         setPage,
         resetPage,
+        sortOrder,
         isShowPagination,
     }
 }

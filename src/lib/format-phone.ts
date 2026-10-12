@@ -74,7 +74,7 @@ export function formatPhone(phone: string | number, options: FormatPhoneOptions 
 /**
  * Форматировать любой номер (8800 или любой другой)
  */
-export function formatTelnum(phone: string, options: FormatPhoneOptions): string {
+export function formatTelnum(phone: string, options: FormatPhoneOptions = { plus: false }): string {
     // Убираем все нецифровые символы
     const telnum = phone.replace(/\D/g, "")
 

@@ -1,4 +1,4 @@
-<script setup lang="ts" xmlns="http://www.w3.org/1999/html">
+<script setup lang="ts">
 import { computed, onMounted, ref } from "vue"
 import PrimeColumn from "primevue/column"
 import PrimeDataTable from "primevue/datatable"
@@ -35,7 +35,6 @@ import {
 } from "@/lib/date-helpers"
 import { $sanitizeHtml } from "@/lib/sanitize-html"
 import { clearName, clearSpecialization } from "@/lib/utils"
-
 
 const notify = useNotify()
 const authStore = useAuthStore()

@@ -1,0 +1,185 @@
+<script setup lang="ts">
+import { computed, onMounted, ref } from "vue"
+import { useI18n } from "vue-i18n"
+import PrimeFloatLabel from "primevue/floatlabel"
+import { useAuthStore } from "@s/auth/auth"
+import { useTelnumsIncomingStore } from "@s/profile/telnums/telnums-incoming"
+import { useNotify } from "@/composables/notify/use-notify"
+import { HttpError } from "@/api"
+import type { UserPartnerItem } from "@/api/modules/partner/partner"
+import * as partnerAPI from "@/api/modules/partner/partner"
+import * as telnumsIncomingAPI from "@/api/modules/profile/telnums/telnums-incomgin"
+import CallsPeriodChart from "@c/charts/calls-period-chart/calls-period-chart.vue"
+import BDatePicker from "@c/common/b-date-picker/b-date-picker.vue"
+import BEmptyResult from "@c/common/b-empty/b-empty-result.vue"
+import BSelect from "@c/common/b-select/b-select.vue"
+import BToolbar from "@c/common/b-toolbar/b-toolbar.vue"
+import BToolbarItem from "@c/common/b-toolbar/b-toolbar-item.vue"
+import PortalPage from "@c/portal/portal-page/portal-page.vue"
+import type { MangoCallsData } from "@v/dashboard/panel/definitions/panel"
+import {
+    formatJSDateToStringDate,
+    formatStringDateToJSDate,
+} from "@/lib/date-helpers"
+
+const notify = useNotify()
+const { t } = useI18n()
+
+const authStore = useAuthStore()
+const telnumsIncomingStore = useTelnumsIncomingStore()
+const telnumsIncoming = ref<MangoCallsData[]>([])
+const userPartners = ref<UserPartnerItem[]>([])
+
+onMounted(async () => {
+    telnumsIncomingStore.setIsLoading(true)
+
+    const userPartner = authStore.partner
+    if (userPartner?.id) {
+        telnumsIncomingStore.filter.filters.partner_id = userPartner.id
+        userPartners.value = [{
+            partner_id: userPartner.id,
+            name:       userPartner.name,
+        }]
+    }
+
+    const { partner_id, date } = telnumsIncomingStore.filter.filters
+    const hasData = !!partner_id && !!date
+
+    const [
+        telnumsIncomingData,
+        partnersResponse,
+    ] = await Promise.all([
+        hasData ? telnumsIncomingAPI.partnerDay(partner_id, { date }) : null,
+        partnerAPI.userPartners(),
+    ])
+
+    if (
+        telnumsIncomingData instanceof HttpError ||
+        partnersResponse instanceof HttpError
+    ) {
+        notify.error()
+        return
+    }
+
+    if (telnumsIncomingData) {
+        telnumsIncoming.value = telnumsIncomingData.data
+    }
+    userPartners.value = partnersResponse.partners
+    telnumsIncomingStore.setIsLoading(false)
+})
+
+async function refreshTelnumsIncoming() {
+    const { partner_id, date } = telnumsIncomingStore.filter.filters
+    if (!partner_id || !date) return
+
+    telnumsIncomingStore.setIsLoading(true)
+
+    const telnumsIncomingData = await telnumsIncomingAPI.partnerDay(partner_id, { date })
+
+    if (telnumsIncomingData instanceof HttpError) {
+        notify.error()
+        telnumsIncomingStore.setIsLoading(false)
+        return
+    }
+
+    telnumsIncoming.value = telnumsIncomingData.data
+    telnumsIncomingStore.setIsLoading(false)
+}
+
+function onChangeFilter() {
+    if (!telnumsIncomingStore.isChanged) return
+
+    telnumsIncomingStore.commitFilter()
+    refreshTelnumsIncoming()
+}
+
+const filterDate = computed({
+    get: () => formatStringDateToJSDate(telnumsIncomingStore.filter.filters.date),
+    set: (value) => {
+        telnumsIncomingStore.filter.filters.date = formatJSDateToStringDate(value)
+    },
+})
+
+const filterPartner = computed({
+    get: () => {
+        return telnumsIncomingStore.filter.filters.partner_id
+    },
+    set: (value: number | null) => {
+        telnumsIncomingStore.filter.filters.partner_id = value
+    },
+})
+</script>
+
+<template>
+    <portal-page
+        title="Входящие звонки"
+        class="telnums-incoming-view"
+        without-right-side
+    >
+        <b-toolbar
+            no-paddings
+            class="bg-transparent"
+        >
+            <b-toolbar-item>
+                <prime-float-label variant="on">
+                    <b-date-picker
+                        v-model="filterDate"
+                        :placeholder="t('mc.common.placeholder.period')"
+                        :disabled="telnumsIncomingStore.isLoading"
+                        class="filter-date"
+                        @date-select="onChangeFilter"
+                    />
+                    <label for="filter-date">Период</label>
+                </prime-float-label>
+            </b-toolbar-item>
+
+            <b-toolbar-item>
+                <prime-float-label variant="on">
+                    <b-select
+                        v-model="filterPartner"
+                        :options="userPartners"
+                        :disabled="telnumsIncomingStore.isLoading"
+                        option-label="name"
+                        option-value="partner_id"
+                        filter
+                        class="filter-partner"
+                        @change="onChangeFilter"
+                    />
+                    <label for="filter-date">Филиал</label>
+                </prime-float-label>
+            </b-toolbar-item>
+        </b-toolbar>
+
+        <div class="chart-wrapper">
+            <b-empty-result
+                v-if="!telnumsIncomingStore.isLoading && !telnumsIncoming.length"
+                title="Нет данных"
+            />
+
+            <calls-period-chart
+                v-else
+                :is-loading="telnumsIncomingStore.isLoading"
+                :data="telnumsIncoming"
+            />
+        </div>
+    </portal-page>
+</template>
+
+<style scoped lang="scss">
+.telnums-incoming-view {
+    .chart-wrapper {
+        margin-top: $indent-x2;
+    }
+
+    .filter {
+        margin-bottom: $indent-x2;
+
+        &-date,
+        &-partner {
+            @include col-width(250px);
+        }
+    }
+
+
+}
+</style>

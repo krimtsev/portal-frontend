@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from "vue"
-import MonthsBarChart from "@c/charts/months-bar-chart.vue"
+import MonthsBarChart from "@c/charts/months-bar-chart/months-bar-chart.vue"
 import BImage from "@c/common/b-image/b-image.vue"
 import BSvg from "@c/common/b-svg/b-svg.vue"
 import type { StaffDetails } from "@v/profile/statistics/staff-statistics/definitions/statistic-staff"

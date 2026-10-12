@@ -57,7 +57,7 @@ function defaultState(): EventCalendarData {
 const isFirstLoading = ref(true)
 const isLoading = ref(false)
 const isShowRemoveDialog = ref(false)
-const userOptions = ref<UserOptionItem[]>([])
+const users = ref<UserOptionItem[]>([])
 
 const batchId = computed(() => route.params.id as string)
 const isNew = computed(() => batchId.value === "!new")
@@ -116,7 +116,7 @@ onMounted(async () => {
         })
     }
 
-    userOptions.value = userOptionsResponse.list
+    users.value = userOptionsResponse.list
 
     isFirstLoading.value = false
 })
@@ -190,6 +190,15 @@ const onRemove = async () => {
         name: DashboardRouteName.DashboardEventCalendarList,
     })
 }
+
+const userOptions = computed(() => {
+    return users.value.map((user) => {
+        return {
+            id:   user.id,
+            name: user.name || user.login,
+        }
+    })
+})
 </script>
 
 <template>

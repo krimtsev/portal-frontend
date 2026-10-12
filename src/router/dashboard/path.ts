@@ -22,4 +22,5 @@ export const dashboardPaths = {
     DashboardEventCalendar:        "/dashboard/event-calendar/batch/:id",
     DashboardSettings:             "/dashboard/settings",
     DashboardMaintenance:          "/dashboard/settings/maintenance",
+    DashboardTelnumsIncoming:      "/dashboard/telnums/incoming",
 }
