@@ -208,14 +208,14 @@ export const centralOfficeData: CentralOfficeUser[] = [
         telnum:      "79266010030",
     },
     {
-        avatar:      "employees/salhina.png",
+        avatar:      "employees/salkhina.png",
         name:        "Дарья Сальхина",
-        description: "офис-менеджер, часы работы: пн-пт с 10:00 до 20:00",
+        description: "отдел маркетинга, часы работы: пн-пт с 10:00 до 20:00",
         content:     [
             "Финансовый учёт: подсчёт и аналитика роялти, а также контроль маркетингового сбора.",
         ],
         contentType: ContentType.Bulleted,
-        telnum:      "7257378549",
+        telnum:      "79257378549",
     },
     {
         avatar:      "employees/krimtseva.jpg",

@@ -261,6 +261,19 @@ export const centralOfficeData: CentralOfficeUser[] = [
         contentType: ContentType.Bulleted,
         telnum:      "79160222889",
     },
+	{
+        avatar:      "employees/serditova.jpg",
+        name:        "Олеся Сердитова",
+        description: "руководитель отдела визажистов, часы работы: пн-пт с 10:00 до 20:00",
+        content:     [
+            "Поиск бровистов/визажистов.",
+            "Обучение визажиста с 0.",
+            "Открытие услуги «Дневной макияж для себя».",
+            "«Мастер под ключ».",
+        ],
+        contentType: ContentType.Bulleted,
+        telnum:      "79818842508",
+    },
     {
         avatar:      "employees/krimtsev.jpg",
         name:        "Дмитрий Крымцев",
