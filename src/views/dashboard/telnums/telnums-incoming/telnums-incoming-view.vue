@@ -41,6 +41,8 @@ const expandedRows = ref<Record<number, boolean>>({})
 const chartDataMap = ref<Record<number, MangoCallsData[]>>({})
 const chartLoadingMap = ref<Record<number, boolean>>({})
 
+const dateRange = ref<Array<Date | null>>(committedRange())
+
 const paginationInfo = computed(() => {
     return t("mc.pagination.table",
         {
@@ -122,22 +124,20 @@ function onChangeFilter() {
     refreshPage()
 }
 
-const filterDate = computed({
-    get: () => formatStringDateToJSDate(telnumsIncomingStore.filter.filters.date),
-    set: (value) => {
-        telnumsIncomingStore.filter.filters.date = formatJSDateToStringDate(value)
-    },
-})
-
 async function onRowExpand(event: { data: TelnumsIncomingItem }) {
     const partner_id = event.data.id
-    const date = telnumsIncomingStore.filter.filters.date
+    const { date_from, date_to } = telnumsIncomingStore.filter.filters
 
-    if (chartDataMap.value[partner_id] || chartLoadingMap.value[partner_id] || !date) return
+    if (
+        chartDataMap.value[partner_id] ||
+        chartLoadingMap.value[partner_id] ||
+        !date_from ||
+        !date_to
+    ) return
 
     chartLoadingMap.value[partner_id] = true
 
-    const response = await telnumsIncomingAPI.partnerDay(partner_id, { date })
+    const response = await telnumsIncomingAPI.partnerPeriod(partner_id, { date_from, date_to })
 
     if (response instanceof HttpError) {
         notify.error()
@@ -166,6 +166,32 @@ function onSort(event: DataTableSortEvent) {
 
     onChangeFilter()
 }
+
+function committedRange(): Array<Date | null> {
+    const { date_from, date_to } = telnumsIncomingStore.filter.filters
+
+    return [
+        formatStringDateToJSDate(date_from),
+        formatStringDateToJSDate(date_to),
+    ]
+}
+
+function onDatePickerHide() {
+    const [date_from, date_to] = dateRange.value
+
+    if (!date_from) {
+        dateRange.value = committedRange()
+        return
+    }
+
+    const date_end = date_to ?? date_from
+    dateRange.value = [date_from, date_end]
+
+    telnumsIncomingStore.filter.filters.date_from = formatJSDateToStringDate(date_from)
+    telnumsIncomingStore.filter.filters.date_to = formatJSDateToStringDate(date_end)
+
+    onChangeFilter()
+}
 </script>
 
 <template>
@@ -173,11 +199,14 @@ function onSort(event: DataTableSortEvent) {
         <b-toolbar no-paddings>
             <b-toolbar-item header="Период">
                 <b-date-picker
-                    v-model="filterDate"
+                    v-model="dateRange"
+                    selection-mode="range"
+                    hide-on-range-selection
                     :placeholder="t('mc.common.placeholder.period')"
                     :disabled="telnumsIncomingStore.isLoading"
+                    :max-range-days="31"
                     class="filter-date"
-                    @date-select="onChangeFilter"
+                    @hide="onDatePickerHide"
                 />
             </b-toolbar-item>
 
@@ -266,6 +295,17 @@ function onSort(event: DataTableSortEvent) {
                 </prime-column>
 
                 <prime-column
+                    header="Итого"
+                    field="total_count"
+                    class="table-total-count"
+                    sortable
+                >
+                    <template #body="{ data }">
+                        <b-table-text :text="formatNumber(data?.total_count)" />
+                    </template>
+                </prime-column>
+
+                <prime-column
                     header="Успешные"
                     field="success_count"
                     class="table-success-count"
@@ -298,19 +338,11 @@ function onSort(event: DataTableSortEvent) {
                     </template>
                 </prime-column>
 
-                <prime-column
-                    header="Итого"
-                    field="total_count"
-                    class="table-total-count"
-                    sortable
-                >
-                    <template #body="{ data }">
-                        <b-table-text :text="formatNumber(data?.total_count)" />
-                    </template>
-                </prime-column>
+                <prime-column />
 
                 <template #expansion="slotProps">
                     <calls-period-chart
+                        title="Динамика звонков за 24 часа"
                         :is-loading="chartLoadingMap[slotProps.data.id]"
                         :data="chartDataMap[slotProps.data.id]"
                     />
@@ -340,10 +372,12 @@ function onSort(event: DataTableSortEvent) {
         .table {
             &-row-toggler {
                 @include col-fixed(65px);
+
+                padding: 0.65rem 1rem;
             }
 
             &-name {
-                @include col-fixed(250px);
+                @include col-fixed(300px);
             }
         }
     }

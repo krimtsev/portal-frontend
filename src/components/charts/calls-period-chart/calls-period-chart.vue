@@ -16,10 +16,12 @@ const props = withDefaults(
     defineProps<{
         data:       MangoCallsData[]
         isLoading?: boolean
+        title?:     string
     }>(),
     {
         data:      () => [],
         isLoading: false,
+        title:     "Динамика звонков за 12 часов",
     },
 )
 
@@ -223,7 +225,7 @@ onBeforeUnmount(() => {
         <template v-else>
             <div class="chart-header">
                 <div class="chart-header-title-group">
-                    <div class="title">Динамика звонков за 12 часов</div>
+                    <div class="title"> {{ props.title }} </div>
                 </div>
 
                 <div class="chart-legend">

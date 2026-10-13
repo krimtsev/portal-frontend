@@ -8,6 +8,6 @@ export async function list(paginationFilter: PaginationFilter<TelnumsIncomingFil
     return await http.post<Pagination<TelnumsIncomingItem[]>>("dashboard/telnums/incoming/list", paginationFilter)
 }
 
-export async function partnerDay(partnerId: number, params: { date: string }) {
+export async function partnerPeriod(partnerId: number, params: { date_from: string, date_to: string }) {
     return await http.get<{ data: MangoCallsData[] }>(`dashboard/telnums/incoming/${partnerId}/hourly`, { params })
 }

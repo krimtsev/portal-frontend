@@ -6,7 +6,8 @@ import {
 
 export interface TelnumsIncomingFilters {
     partner_id: number[]
-    date:       string | null
+    date_from:  string | null
+    date_to:    string | null
 }
 
 export const useTelnumsIncomingStore = defineStore("dashboard-telnums-incoming", () => {
@@ -14,7 +15,8 @@ export const useTelnumsIncomingStore = defineStore("dashboard-telnums-incoming",
         search:  "",
         filters: {
             partner_id: [],
-            date:       getTodayDateString(),
+            date_from:  getTodayDateString(),
+            date_to:    getTodayDateString(),
         },
         sortBy:    "name",
         sortOrder: "asc",

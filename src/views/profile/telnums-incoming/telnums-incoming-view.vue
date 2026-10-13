@@ -30,6 +30,8 @@ const telnumsIncomingStore = useTelnumsIncomingStore()
 const telnumsIncoming = ref<MangoCallsData[]>([])
 const userPartners = ref<UserPartnerItem[]>([])
 
+const dateRange = ref<Array<Date | null>>(committedRange())
+
 onMounted(async () => {
     telnumsIncomingStore.setIsLoading(true)
 
@@ -42,14 +44,14 @@ onMounted(async () => {
         }]
     }
 
-    const { partner_id, date } = telnumsIncomingStore.filter.filters
-    const hasData = !!partner_id && !!date
+    const { partner_id, date_from, date_to } = telnumsIncomingStore.filter.filters
+    const hasData = !!partner_id && !!date_from && !!date_to
 
     const [
         telnumsIncomingData,
         partnersResponse,
     ] = await Promise.all([
-        hasData ? telnumsIncomingAPI.partnerDay(partner_id, { date }) : null,
+        hasData ? telnumsIncomingAPI.partnerPeriod(partner_id, { date_from, date_to }) : null,
         partnerAPI.userPartners(),
     ])
 
@@ -68,21 +70,22 @@ onMounted(async () => {
     telnumsIncomingStore.setIsLoading(false)
 })
 
-async function refreshTelnumsIncoming() {
-    const { partner_id, date } = telnumsIncomingStore.filter.filters
-    if (!partner_id || !date) return
+async function refreshPage() {
+    const { partner_id, date_from, date_to } = telnumsIncomingStore.filter.filters
+
+    if (!partner_id || !date_from || !date_to) return
 
     telnumsIncomingStore.setIsLoading(true)
 
-    const telnumsIncomingData = await telnumsIncomingAPI.partnerDay(partner_id, { date })
+    const response = await telnumsIncomingAPI.partnerPeriod(partner_id, { date_from, date_to })
 
-    if (telnumsIncomingData instanceof HttpError) {
+    if (response instanceof HttpError) {
         notify.error()
         telnumsIncomingStore.setIsLoading(false)
         return
     }
 
-    telnumsIncoming.value = telnumsIncomingData.data
+    telnumsIncoming.value = response.data
     telnumsIncomingStore.setIsLoading(false)
 }
 
@@ -90,15 +93,8 @@ function onChangeFilter() {
     if (!telnumsIncomingStore.isChanged) return
 
     telnumsIncomingStore.commitFilter()
-    refreshTelnumsIncoming()
+    refreshPage()
 }
-
-const filterDate = computed({
-    get: () => formatStringDateToJSDate(telnumsIncomingStore.filter.filters.date),
-    set: (value) => {
-        telnumsIncomingStore.filter.filters.date = formatJSDateToStringDate(value)
-    },
-})
 
 const filterPartner = computed({
     get: () => {
@@ -108,6 +104,33 @@ const filterPartner = computed({
         telnumsIncomingStore.filter.filters.partner_id = value
     },
 })
+
+
+function committedRange(): Array<Date | null> {
+    const { date_from, date_to } = telnumsIncomingStore.filter.filters
+
+    return [
+        formatStringDateToJSDate(date_from),
+        formatStringDateToJSDate(date_to),
+    ]
+}
+
+function onDatePickerHide() {
+    const [date_from, date_to] = dateRange.value
+
+    if (!date_from) {
+        dateRange.value = committedRange()
+        return
+    }
+
+    const date_end = date_to ?? date_from
+    dateRange.value = [date_from, date_end]
+
+    telnumsIncomingStore.filter.filters.date_from = formatJSDateToStringDate(date_from)
+    telnumsIncomingStore.filter.filters.date_to = formatJSDateToStringDate(date_end)
+
+    onChangeFilter()
+}
 </script>
 
 <template>
@@ -123,11 +146,14 @@ const filterPartner = computed({
             <b-toolbar-item>
                 <prime-float-label variant="on">
                     <b-date-picker
-                        v-model="filterDate"
+                        v-model="dateRange"
+                        selection-mode="range"
+                        hide-on-range-selection
                         :placeholder="t('mc.common.placeholder.period')"
                         :disabled="telnumsIncomingStore.isLoading"
+                        :max-range-days="31"
                         class="filter-date"
-                        @date-select="onChangeFilter"
+                        @hide="onDatePickerHide"
                     />
                     <label for="filter-date">Период</label>
                 </prime-float-label>
@@ -158,6 +184,7 @@ const filterPartner = computed({
 
             <calls-period-chart
                 v-else
+                title="Динамика звонков за 24 часа"
                 :is-loading="telnumsIncomingStore.isLoading"
                 :data="telnumsIncoming"
             />
