@@ -106,6 +106,7 @@ function createChart(ctx: CanvasRenderingContext2D) {
                     borderRadius:    24,
                     borderSkipped:   false,
                     minBarLength:    55,
+                    maxBarThickness: 200,
                     barThickness:    "flex",
                 },
             ],

@@ -7,6 +7,7 @@ import {
     Chart,
     LinearScale,
 } from "chart.js"
+import { useAppStore } from "@s/app/app"
 import type { ChartData } from "@c/charts/months-bar-chart/definitions/charts"
 import { getBackgroundColors, getCssVar } from "@c/charts/months-bar-chart/utils/months-bar-chart"
 import ListLoadingState from "@c/common/b-loading-state/list-loading-state.vue"
@@ -35,8 +36,9 @@ interface RoyaltyChartData extends ChartData {
     allIncome: number
 }
 
-
 Chart.register(BarController, BarElement, CategoryScale, LinearScale)
+
+const appStore = useAppStore()
 
 const chartRef = useTemplateRef<HTMLCanvasElement>("chartRef")
 let chartInstance: Chart | null = null
@@ -76,9 +78,13 @@ const yAxisConfig = computed(() => {
         return { max: 140000000, stepSize: 20000000 }
     }
 
-    // Находим максимальное значение между (Оборот + Роялти) и (Общий оборот)
+    // Для Britva учитываем общий оборот (3-я колонка), для остальных — только стек Оборот+Роялти
     const maxBarSum = Math.max(
-        ...chartData.value.map(d => Math.max(d.value + d.royalty, d.allIncome)),
+        ...chartData.value.map(d =>
+            appStore.isBritva
+                ? Math.max(d.value + d.royalty, d.allIncome)
+                : d.value + d.royalty,
+        ),
         1000000,
     )
 
@@ -93,7 +99,6 @@ const yAxisConfig = computed(() => {
         stepSize = 10000000
     }
 
-    // const dynamicMax = Math.ceil(maxBarSum / stepSize) * stepSize + (stepSize * 2)
     const dynamicMax = Math.ceil(maxBarSum / stepSize) * stepSize + stepSize
 
     return {
@@ -113,34 +118,41 @@ const initChart = () => {
     const ticksColor = getCssVar("--p-panel-royalty-ticks", "#C8C8C8")
     const valueColor = getCssVar("--p-panel-royalty-legend-label", "#C8C8C8")
 
+    const datasets: any[] = [
+        {
+            label:           "Роялти",
+            data:            chartData.value.map((d) => d.royalty > 0 ? d.royalty : null),
+            backgroundColor: royaltyColor,
+            borderRadius:    6,
+            minBarLength:    30,
+            maxBarThickness: 100,
+            stack:           "Stack 0",
+        },
+        {
+            label:           "Оборот сети",
+            data:            chartData.value.map((d) => d.value > 0 ? d.value : null),
+            backgroundColor: incomeColor,
+            borderRadius:    6,
+            maxBarThickness: 100,
+            stack:           "Stack 0",
+        },
+    ]
+
+    if (appStore.isBritva) {
+        datasets.push({
+            label:           "Общий оборот (Все)",
+            data:            chartData.value.map((d) => d.allIncome > 0 ? d.allIncome : null),
+            backgroundColor: getBackgroundColors(ctx, chartData.value, false),
+            borderRadius:    6,
+            stack:           "Stack 1",
+        })
+    }
+
     chartInstance = new Chart(ctx, {
         type: "bar",
         data: {
-            labels:   chartData.value.map((d) => d.label),
-            datasets: [
-                {
-                    label:           "Роялти",
-                    data:            chartData.value.map((d) => d.royalty > 0 ? d.royalty : null),
-                    backgroundColor: royaltyColor,
-                    borderRadius:    6,
-                    minBarLength:    30,
-                    stack:           "Stack 0", // Оборотом сети
-                },
-                {
-                    label:           "Оборот сети",
-                    data:            chartData.value.map((d) => d.value > 0 ? d.value : null),
-                    backgroundColor: incomeColor,
-                    borderRadius:    6,
-                    stack:           "Stack 0", // Роялти
-                },
-                {
-                    label:           "Общий оборот (Все)",
-                    data:            chartData.value.map((d) => d.allIncome > 0 ? d.allIncome : null),
-                    backgroundColor: getBackgroundColors(ctx, chartData.value, false),
-                    borderRadius:    6,
-                    stack:           "Stack 1", // Общий оборотом сети
-                },
-            ],
+            labels: chartData.value.map((d) => d.label),
+            datasets,
         },
         options: {
             responsive:          true,
@@ -192,7 +204,7 @@ const initChart = () => {
 
                     const metaRoyalty = chartInst.getDatasetMeta(0)
                     const metaTurnover = chartInst.getDatasetMeta(1)
-                    const metaAllIncome = chartInst.getDatasetMeta(2)
+                    const metaAllIncome = appStore.isBritva ? chartInst.getDatasetMeta(2) : null
 
                     chartData.value.forEach((dataItem, i) => {
                         if (dataItem.isSkeleton) return
@@ -226,8 +238,8 @@ const initChart = () => {
                             )
                         }
 
-                        // Отрисовка текста для Общего оборота
-                        const barAllIncome = metaAllIncome.data[i] as any
+                        // Отрисовка текста для Общего оборота (только Britva)
+                        const barAllIncome = metaAllIncome?.data[i] as any
                         if (barAllIncome && dataItem.allIncome > 0) {
                             canvasCtx.fillStyle = valueColor
                             canvasCtx.textBaseline = "bottom"
@@ -235,7 +247,7 @@ const initChart = () => {
                             canvasCtx.fillText(
                                 formatNumber(dataItem.allIncome),
                                 barAllIncome.x,
-                                barAllIncome.y - 4, // Отступ над колонкой
+                                barAllIncome.y - 4,
                             )
                         }
                     })
@@ -276,7 +288,10 @@ watch(
         chartInstance.data.datasets[0].data = newData.map((d) => d.royalty)
         chartInstance.data.datasets[1].data = newData.map((d) => d.value)
         chartInstance.data.datasets[1].backgroundColor = getBackgroundColors(ctx, newData, false)
-        chartInstance.data.datasets[2].data = newData.map((d) => d.allIncome)
+
+        if (appStore.isBritva && chartInstance.data.datasets[2]) {
+            chartInstance.data.datasets[2].data = newData.map((d) => d.allIncome)
+        }
 
         chartInstance.update()
     },
@@ -308,7 +323,7 @@ onBeforeUnmount(() => {
                 </div>
 
                 <div class="chart-legend">
-                    <div class="chart-legend-item">
+                    <div v-if="appStore.isBritva" class="chart-legend-item">
                         <span class="legend-color legend-color-all" />
                         <span class="chart-legend-label">Общий оборот (Все)</span>
                     </div>
