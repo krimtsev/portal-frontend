@@ -2,7 +2,9 @@
 import { computed, onMounted, ref } from "vue"
 import { useI18n } from "vue-i18n"
 import PrimeColumn from "primevue/column"
+import PrimeColumnGroup from "primevue/columngroup"
 import PrimeDataTable from "primevue/datatable"
+import PrimeRow from "primevue/row"
 import { useRoyaltyPercentStore } from "@s/dashboard/royalty/royalty-percent"
 import { useNotify } from "@/composables/notify/use-notify"
 import { HttpError } from "@/api"
@@ -119,6 +121,29 @@ const filterDate = computed({
         royaltyStore.filter.filters.date = formatJSDateToStartDate(value)
     },
 })
+
+const isFooter = computed(() => {
+    const count = Number(royaltyStore.filter.filters.partner_id.length)
+    return count > 0 && count <= 20
+})
+
+const totals = computed(() => {
+    return royalty.value.reduce(
+        (acc, item) => {
+            acc.gross_revenue += Number(item.gross_revenue) || 0
+            acc.royalty_amount += Number(item.royalty_amount) || 0
+            acc.vat_amount += Number(item.vat_amount) || 0
+            acc.royalty_with_vat += Number(item.royalty_with_vat) || 0
+            return acc
+        },
+        {
+            gross_revenue:    0,
+            royalty_amount:   0,
+            vat_amount:       0,
+            royalty_with_vat: 0,
+        },
+    )
+})
 </script>
 
 <template>
@@ -184,7 +209,11 @@ const filterDate = computed({
                     header="Филиал"
                     field="partner_name"
                     class="table-name"
-                />
+                >
+                    <template #body="{ data }">
+                        <b-table-text :text="data?.partner_name" />
+                    </template>
+                </prime-column>
 
                 <prime-column
                     header="Валовая выручка"
@@ -245,6 +274,21 @@ const filterDate = computed({
                         <b-table-text :text="data?.start_at" />
                     </template>
                 </prime-column>
+
+                <prime-column-group
+                    v-if="isFooter"
+                    type="footer"
+                >
+                    <prime-row>
+                        <prime-column footer="Итого" />
+                        <prime-column :footer="formatNumber(totals.gross_revenue)" />
+                        <prime-column :footer="formatNumber(totals.royalty_amount)" />
+                        <prime-column footer="—" />
+                        <prime-column :footer="formatNumber(totals.vat_amount)" />
+                        <prime-column :footer="formatNumber(totals.royalty_with_vat)" />
+                        <prime-column footer="—" />
+                    </prime-row>
+                </prime-column-group>
             </prime-data-table>
         </div>
     </div>

@@ -940,7 +940,7 @@ export default {
                         color: "{primary.150}",
                     },
                     received: {
-                        color: "{secondary.500}",
+                        color: "{secondary.100}",
                     },
                     system: {
                         color: "{surface.50}",

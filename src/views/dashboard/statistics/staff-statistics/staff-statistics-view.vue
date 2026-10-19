@@ -106,6 +106,13 @@ function onChangeFilter() {
     partnerStatisticsStore.commitFilter()
     refreshStaffStatistics()
 }
+
+function workDaysCount(data: StaffStatisticsItem) {
+    if (data.work_days_count !== data.work_days_with_records_count) {
+        return `${data.work_days_count} (${data.work_days_with_records_count})`
+    }
+    return data.work_days_count
+}
 </script>
 
 <template>
@@ -199,7 +206,7 @@ function onChangeFilter() {
                     </template>
 
                     <template #body="{ data }">
-                        <b-table-text :text="data.work_days_count" />
+                        <b-table-text :text="workDaysCount(data)" />
                     </template>
                 </prime-column>
 

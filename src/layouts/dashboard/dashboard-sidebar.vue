@@ -89,16 +89,18 @@ const items = computed<DashboardMenuItem[]>(() => {
         ],
     })
 
-    menu.push({
-        key:         "royalty",
-        label:       t("mc.dashboard.sidebar.royalty"),
-        icon:        "pi pi-chart-line",
-        route:       dashboardPaths.DashboardRoyaltyPercent,
-        activeNames: [
-            DashboardRouteName.DashboardRoyaltyPercent,
-            DashboardRouteName.DashboardRoyaltyRecords,
-        ],
-    })
+    if (authStore.isSysAdmin) {
+        menu.push({
+            key:         "royalty",
+            label:       t("mc.dashboard.sidebar.royalty"),
+            icon:        "pi pi-chart-line",
+            route:       dashboardPaths.DashboardRoyaltyPercent,
+            activeNames: [
+                DashboardRouteName.DashboardRoyaltyPercent,
+                DashboardRouteName.DashboardRoyaltyRecords,
+            ],
+        })
+    }
 
     menu.push({
         key:         "statistics",
