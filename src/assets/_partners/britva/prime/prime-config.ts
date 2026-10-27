@@ -112,7 +112,7 @@ export default {
                             color: "{surface.400}",
                         },
                         disabled: {
-                            color:           "{primary.500}",
+                            color:           "{surface.400}",
                             backgroundColor: "{surface.0}",
                         },
                         label: {

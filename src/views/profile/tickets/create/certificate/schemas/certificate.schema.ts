@@ -9,7 +9,7 @@ import {
 } from "@v/profile/tickets/schemas/ticket.schema"
 import { toTypedSchema } from "@vee-validate/zod"
 
-const AttributesSchema = z.object({
+const BaseAttributesSchema = z.object({
     name: z.string()
         .min(1, { message: "Введите имя сотрудника" }),
 
@@ -21,14 +21,43 @@ const AttributesSchema = z.object({
         .min(1, { message: "Укажите код сертификата" }),
 })
 
-export const FormSchema = toTypedSchema(
-    z.object({
-        title:         TitleSchema,
-        department_id: DepartmentIdSchema,
-        type:          TypeSchema,
-        attributes:    AttributesSchema,
-        message:       MessageSchema,
-        partner_id:    PartnerIdSchema,
-        files:         FilesSchema,
-    }),
-)
+const BankDetailsSchema = z.object({
+    entrepreneurName: z.string()
+        .trim()
+        .min(1, { message: "Укажите ФИО предпринимателя" }),
+
+    inn: z.string()
+        .trim()
+        .regex(/^\d{12}$/, { message: "ИНН должен содержать 12 цифр" }),
+
+    checkingAccount: z.string()
+        .trim()
+        .regex(/^\d{20}$/, { message: "Расчетный счет должен содержать 20 цифр" }),
+
+    bankName: z.string()
+        .trim()
+        .min(1, { message: "Укажите наименование банка" }),
+
+    bik: z.string()
+        .trim()
+        .regex(/^\d{9}$/, { message: "БИК должен содержать 9 цифр" }),
+
+    correspondentAccount: z.string()
+        .trim()
+        .regex(/^\d{20}$/, { message: "Корреспондентский счет должен содержать 20 цифр" }),
+})
+
+export const createFormSchema = (isBankRequired: boolean) =>
+    toTypedSchema(
+        z.object({
+            title:         TitleSchema,
+            department_id: DepartmentIdSchema,
+            type:          TypeSchema,
+            attributes:    isBankRequired
+                ? BaseAttributesSchema.extend(BankDetailsSchema.shape)
+                : BaseAttributesSchema,
+            message:    MessageSchema,
+            partner_id: PartnerIdSchema,
+            files:      FilesSchema,
+        }),
+    )

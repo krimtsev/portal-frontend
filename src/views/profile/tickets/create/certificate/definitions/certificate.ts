@@ -5,6 +5,14 @@ export interface TicketAttributes {
     sum:         number | null
     paymentDate: Date | null
     name:        string
+
+    // Банковские реквизиты
+    entrepreneurName:     string
+    inn:                  string
+    checkingAccount:      string
+    bankName:             string
+    bik:                  string
+    correspondentAccount: string
 }
 
 export interface TicketCertificate extends Ticket {

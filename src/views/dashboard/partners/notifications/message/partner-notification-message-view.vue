@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue"
+import { useI18n } from "vue-i18n"
 import { useNotify } from "@/composables/notify/use-notify"
 import { useVeeForm } from "@/composables/vee-validate/use-validation"
 import { dashboardPaths } from "@r/dashboard/path"
@@ -24,6 +25,7 @@ import { FilterType } from "@/definitions/filter"
 
 
 const notify = useNotify()
+const { t } = useI18n()
 
 function defaultState(): PartnerMessageData {
     return {

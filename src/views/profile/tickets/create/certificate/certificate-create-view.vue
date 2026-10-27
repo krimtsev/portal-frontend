@@ -2,6 +2,7 @@
 import { computed, onMounted, ref } from "vue"
 import { useI18n } from "vue-i18n"
 import { useRouter } from "vue-router"
+import PrimeToggleSwitch from "primevue/toggleswitch"
 import { useDepartmentStore } from "@s/department/department"
 import { useNotify } from "@/composables/notify/use-notify"
 import { useVeeForm } from "@/composables/vee-validate/use-validation"
@@ -16,15 +17,15 @@ import BInputNumber from "@c/common/b-input/b-input-number.vue"
 import BInputText from "@c/common/b-input/b-input-text.vue"
 import BSelect from "@c/common/b-select/b-select.vue"
 import BTextarea from "@c/common/b-textarea/b-textarea.vue"
+import BTitle from "@c/common/b-title/b-title.vue"
 import BFileUpload from "@c/common/b-upload-file/b-file-upload.vue"
 import PortalPage from "@c/portal/portal-page/portal-page.vue"
 import type { TicketCertificate } from "@v/profile/tickets/create/certificate/definitions/certificate"
-import { FormSchema } from "@v/profile/tickets/create/certificate/schemas/certificate.schema"
+import { createFormSchema } from "@v/profile/tickets/create/certificate/schemas/certificate.schema"
 import { TicketType } from "@v/profile/tickets/edit/definitions/ticket"
 import { stripTimezone } from "@/lib/date-helpers"
 import { maxMessageLength } from "@/constants/messages"
 import { DepartmentType } from "@/definitions/departments"
-
 
 const notify = useNotify()
 const router = useRouter()
@@ -34,6 +35,7 @@ const departmentStore = useDepartmentStore()
 
 const isFirstLoading = ref(true)
 const isLoading = ref(false)
+const isBankRequired = ref(true)
 
 const userPartners = ref<UserPartners>({
     partner_id: null,
@@ -53,11 +55,21 @@ function defaultState(): TicketCertificate {
             sum:         null,
             paymentDate: null,
             name:        "",
+
+            //Банковские реквизиты
+            entrepreneurName:     "",
+            inn:                  "",
+            checkingAccount:      "",
+            bankName:             "",
+            bik:                  "",
+            correspondentAccount: "",
         },
     }
 }
 
 const isDisabled = computed(() => isFirstLoading.value || isLoading.value)
+
+const validationSchema = computed(() => createFormSchema(isBankRequired.value))
 
 const {
     errors,
@@ -67,8 +79,8 @@ const {
     setErrors,
     setFieldValue,
 } = useVeeForm<TicketCertificate>({
-    validationSchema: FormSchema,
-    initialValues:    defaultState(),
+    validationSchema,
+    initialValues: defaultState(),
 })
 
 const [partnerIdModel] = defineLazyField("partner_id")
@@ -78,6 +90,13 @@ const [codeModel] = defineLazyField("attributes.code")
 const [sumModel] = defineLazyField("attributes.sum")
 const [paymentDateModel] = defineLazyField("attributes.paymentDate")
 const [nameModel] = defineLazyField("attributes.name")
+
+const [entrepreneurNameModel] = defineLazyField("attributes.entrepreneurName")
+const [innModel] = defineLazyField("attributes.inn")
+const [checkingAccountModel] = defineLazyField("attributes.checkingAccount")
+const [bankNameModel] = defineLazyField("attributes.bankName")
+const [bikModel] = defineLazyField("attributes.bik")
+const [correspondentAccountModel] = defineLazyField("attributes.correspondentAccount")
 
 onMounted(async () => {
     isFirstLoading.value = true
@@ -103,12 +122,37 @@ const onSave = handleSubmit(async (formValues) => {
 
     isLoading.value = true
 
+    const {
+        entrepreneurName,
+        inn,
+        checkingAccount,
+        bankName,
+        bik,
+        correspondentAccount,
+        ...baseAttributes
+    } = formValues.attributes
+
+    const paymentDate = stripTimezone(formValues.attributes.paymentDate)
+
+    const attributes = isBankRequired.value
+        ? {
+            ...baseAttributes,
+            paymentDate,
+            entrepreneurName,
+            inn,
+            checkingAccount,
+            bankName,
+            bik,
+            correspondentAccount,
+        }
+        : {
+            ...baseAttributes,
+            paymentDate,
+        }
+
     const payload = {
         ...formValues,
-        attributes: {
-            ...formValues.attributes,
-            paymentDate: stripTimezone(formValues.attributes.paymentDate),
-        },
+        attributes,
     }
 
     const ticketResponse = await ticketAPI.create(payload)
@@ -192,6 +236,84 @@ const onSave = handleSubmit(async (formValues) => {
                             class="full-width"
                         />
                     </div>
+                </div>
+
+                <div class="bank-details">
+                    <b-title
+                        title="Реквизиты"
+                        variant="sm"
+                        class="my-x2"
+                    />
+
+                    <PrimeToggleSwitch v-model="isBankRequired" />
+                </div>
+
+                <div class="grid grid-reset-rows gap-x-2 gap-y-3">
+                    <template v-if="isBankRequired">
+                        <div class="col-6 mobile-col-12">
+                            <b-input-text
+                                v-model="entrepreneurNameModel"
+                                :error="errors['attributes.entrepreneurName']"
+                                :disabled="isDisabled"
+                                :placeholder="t('mc.ticket.certificate.placeholder.entrepreneurName')"
+                                class="full-width"
+                            />
+                        </div>
+
+                        <div class="col-6 mobile-col-12">
+                            <b-input-text
+                                v-model="innModel"
+                                :error="errors['attributes.inn']"
+                                :disabled="isDisabled"
+                                :placeholder="t('mc.ticket.certificate.placeholder.inn')"
+                                :maxlength="12"
+                                class="full-width"
+                            />
+                        </div>
+
+                        <div class="col-6 mobile-col-12">
+                            <b-input-text
+                                v-model="checkingAccountModel"
+                                :error="errors['attributes.checkingAccount']"
+                                :disabled="isDisabled"
+                                :placeholder="t('mc.ticket.certificate.placeholder.checkingAccount')"
+                                :maxlength="20"
+                                class="full-width"
+                            />
+                        </div>
+
+                        <div class="col-6 mobile-col-12">
+                            <b-input-text
+                                v-model="bankNameModel"
+                                :error="errors['attributes.bankName']"
+                                :disabled="isDisabled"
+                                :placeholder="t('mc.ticket.certificate.placeholder.bankName')"
+                                class="full-width"
+                            />
+                        </div>
+
+                        <div class="col-6 mobile-col-12">
+                            <b-input-text
+                                v-model="bikModel"
+                                :error="errors['attributes.bik']"
+                                :disabled="isDisabled"
+                                :placeholder="t('mc.ticket.certificate.placeholder.bik')"
+                                :maxlength="9"
+                                class="full-width"
+                            />
+                        </div>
+
+                        <div class="col-6 mobile-col-12">
+                            <b-input-text
+                                v-model="correspondentAccountModel"
+                                :error="errors['attributes.correspondentAccount']"
+                                :disabled="isDisabled"
+                                :placeholder="t('mc.ticket.certificate.placeholder.correspondentAccount')"
+                                :maxlength="20"
+                                class="full-width"
+                            />
+                        </div>
+                    </template>
 
                     <div class="col-12 mobile-col-12">
                         <b-textarea
@@ -232,5 +354,12 @@ const onSave = handleSubmit(async (formValues) => {
 <style scoped lang="scss">
 .certificate-create-view {
     margin-bottom: $indent-x4;
+
+    .bank-details {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: $indent-x1;
+    }
 }
 </style>

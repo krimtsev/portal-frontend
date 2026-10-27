@@ -157,6 +157,12 @@ export const TICKET_FIELDS_ORDER: Record<string, FieldConfig[]> = {
         { key: "code" },
         { key: "sum" },
         { key: "paymentDate", displayType: AttributeDisplayType.DateTime },
+        { key: "entrepreneurName" },
+        { key: "inn" },
+        { key: "checkingAccount" },
+        { key: "bankName" },
+        { key: "bik" },
+        { key: "correspondentAccount" },
     ],
     [TicketType.Design]: [
         { key: "name" },
