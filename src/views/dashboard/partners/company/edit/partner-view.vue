@@ -7,8 +7,10 @@ import { useVeeForm } from "@/composables/vee-validate/use-validation"
 import { dashboardPaths } from "@r/dashboard/path"
 import { DashboardRouteName } from "@r/dashboard/route-names"
 import { HttpError } from "@/api"
+import type { PartyData } from "@/api/modules/dashboard/dadata/dadata"
 import * as partnerGroupsAPI from "@/api/modules/dashboard/partners/partner-groups"
 import * as partnersAPI from "@/api/modules/dashboard/partners/partners"
+import BButtonSecondary from "@c/common/b-button/b-button-secondary.vue"
 import BDatePicker from "@c/common/b-date-picker/b-date-picker.vue"
 import BForm from "@c/common/b-form/b-form.vue"
 import BFormCard from "@c/common/b-form/b-form-card.vue"
@@ -16,6 +18,7 @@ import BFormItem from "@c/common/b-form/b-form-item.vue"
 import BInputText from "@c/common/b-input/b-input-text.vue"
 import BSelect from "@c/common/b-select/b-select.vue"
 import BSelectButton from "@c/common/b-select-button/b-select-button.vue"
+import DadataPartyDialog from "@v/dashboard/partners/company/edit/components/dadata-party-dialog.vue"
 import PartnerTelnums from "@v/dashboard/partners/company/edit/components/partner-telnums.vue"
 import type { PartnerData } from "@v/dashboard/partners/company/edit/definitions/partner"
 import { PartnerSchema } from "@v/dashboard/partners/company/edit/schemas/partner.schema"
@@ -52,6 +55,7 @@ function defaultState(): PartnerData {
 const isFirstLoading = ref(true)
 const isLoading = ref(false)
 const partnerGroups = ref<PartnerGroupOptionItem[]>([])
+const isDadataDialogVisible = ref(false)
 
 const partnerId = computed(() => route.params.id as string)
 const isNew = computed(() => partnerId.value === "!new")
@@ -192,6 +196,24 @@ const startAt = computed({
         startAtModel.value = formatJSDateToStringDate(date)
     },
 })
+
+function onDadataSelect(data: PartyData) {
+    if (!organizationModel.value && data.name) {
+        organizationModel.value = data.name
+    }
+    if (!innModel.value && data.inn) {
+        innModel.value = data.inn
+    }
+    if (!ogrnipModel.value && data.ogrn) {
+        ogrnipModel.value = data.ogrn
+    }
+    if (!emailModel.value && data.emails) {
+        emailModel.value = data.emails
+    }
+    if (!addressModel.value && data.address) {
+        addressModel.value = data.address
+    }
+}
 </script>
 
 <template>
@@ -205,6 +227,24 @@ const startAt = computed({
         class="partner-view"
         @save="onSave"
     >
+        <dadata-party-dialog
+            v-model="isDadataDialogVisible"
+            @select="onDadataSelect"
+        />
+
+        <template
+            v-if="!isLoading"
+            #header-right
+        >
+            <b-button-secondary
+                label="DaData"
+                icon="pi pi-database"
+                :disabled="isLoading"
+                class="mr-x2"
+                @click="isDadataDialogVisible = true"
+            />
+        </template>
+
         <b-form-card title="Основные данные">
             <b-form-item
                 label="Название филиала"

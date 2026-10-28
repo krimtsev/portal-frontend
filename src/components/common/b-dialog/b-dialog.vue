@@ -93,6 +93,7 @@ const contentStyle = computed(() => {
 
     .dialog-body {
         display: flex;
+        flex-direction: column;
         gap: $indent-x2;
     }
 

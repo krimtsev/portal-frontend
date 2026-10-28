@@ -210,6 +210,18 @@ export default {
                 },
             },
         },
+        radiobutton: {
+            colorScheme: {
+                light: {
+                    root: {
+                        background: "{surface.950}",
+                        border:     {
+                            color: "{form.field.border.color}",
+                        },
+                    },
+                },
+            },
+        },
         datepicker: {
             colorScheme: {
                 light: {

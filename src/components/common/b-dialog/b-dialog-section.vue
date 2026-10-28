@@ -5,7 +5,12 @@ const props = defineProps<{
 </script>
 
 <template>
-    <section class="b-dialog-section">
+    <section
+        class="b-dialog-section"
+        :class="{
+            'b-dialog-section--with-counter': props.counter
+        }"
+    >
         <div
             v-if="props.counter"
             class="section-ctr"
@@ -45,9 +50,15 @@ $ctr-size: 24px;
     }
 
     .section-body {
-        @include flex-width(calc(100% - #{$section-ctr-width}));
+        @include flex-width(100%);
 
         margin-bottom: $indent-x3;
+    }
+
+    &-with-counter {
+        .section-body {
+            @include flex-width(calc(100% - #{$section-ctr-width}));
+        }
     }
 
     &:last-of-type {

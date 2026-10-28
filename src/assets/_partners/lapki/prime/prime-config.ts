@@ -230,6 +230,18 @@ export default {
                 },
             },
         },
+        radiobutton: {
+            colorScheme: {
+                light: {
+                    root: {
+                        background: "{primary.50}",
+                        border:     {
+                            color: "{primary.100}",
+                        },
+                    },
+                },
+            },
+        },
         datepicker: {
             colorScheme: {
                 light: {
