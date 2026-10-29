@@ -83,7 +83,7 @@ const emptyText = computed(() => {
     >
         <b-dialog-section>
             <b-dialog-item
-                label="Введите ИНН / КПП / ОГРН"
+                label="ИНН, КПП, ОГРН"
                 required
             >
                 <b-input-text
@@ -124,8 +124,12 @@ const emptyText = computed(() => {
                                 {{ item.name }}
                             </div>
 
-                            <div class="dadata-result-meta">
-                                ИНН: {{ item.inn }} · ОГРН: {{ item.ogrn }}
+                            <div class="dadata-result-inn">
+                                ИНН: {{ item.inn }}
+                            </div>
+
+                            <div class="dadata-result-ogrn">
+                                ОГРН: {{ item.ogrn }}
                             </div>
 
                             <div class="dadata-result-address">
@@ -150,12 +154,14 @@ const emptyText = computed(() => {
 <style scoped lang="scss">
 .dadata-party-dialog {
     .radio-button-group {
+        width: 100%;
         display: flex;
         flex-direction: column;
         gap: $indent-x1;
     }
 
     .dadata-result {
+        width: 100%;
         display: flex;
         gap: $indent-x2;
         align-items: flex-start;

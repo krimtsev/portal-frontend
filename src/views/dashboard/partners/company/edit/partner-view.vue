@@ -7,7 +7,6 @@ import { useVeeForm } from "@/composables/vee-validate/use-validation"
 import { dashboardPaths } from "@r/dashboard/path"
 import { DashboardRouteName } from "@r/dashboard/route-names"
 import { HttpError } from "@/api"
-import type { PartyData } from "@/api/modules/dadata/dadata"
 import * as partnerGroupsAPI from "@/api/modules/dashboard/partners/partner-groups"
 import * as partnersAPI from "@/api/modules/dashboard/partners/partners"
 import BButtonSecondary from "@c/common/b-button/b-button-secondary.vue"
@@ -19,6 +18,7 @@ import BInputText from "@c/common/b-input/b-input-text.vue"
 import BSelect from "@c/common/b-select/b-select.vue"
 import BSelectButton from "@c/common/b-select-button/b-select-button.vue"
 import DadataPartyDialog from "@c/dadata/dadata-party-dialog.vue"
+import type { PartyData } from "@c/dadata/definitions/dadata.ts"
 import PartnerTelnums from "@v/dashboard/partners/company/edit/components/partner-telnums.vue"
 import type { PartnerData } from "@v/dashboard/partners/company/edit/definitions/partner"
 import { PartnerSchema } from "@v/dashboard/partners/company/edit/schemas/partner.schema"
@@ -55,7 +55,7 @@ function defaultState(): PartnerData {
 const isFirstLoading = ref(true)
 const isLoading = ref(false)
 const partnerGroups = ref<PartnerGroupOptionItem[]>([])
-const isDadataDialogVisible = ref(false)
+const isDaDataPartyDialogVisible = ref(false)
 
 const partnerId = computed(() => route.params.id as string)
 const isNew = computed(() => partnerId.value === "!new")
@@ -197,7 +197,7 @@ const startAt = computed({
     },
 })
 
-function onDadataSelect(data: PartyData) {
+function onDaDataPartySelect(data: PartyData) {
     if (!organizationModel.value && data.name) {
         organizationModel.value = data.name
     }
@@ -228,8 +228,8 @@ function onDadataSelect(data: PartyData) {
         @save="onSave"
     >
         <dadata-party-dialog
-            v-model="isDadataDialogVisible"
-            @select="onDadataSelect"
+            v-model="isDaDataPartyDialogVisible"
+            @select="onDaDataPartySelect"
         />
 
         <template #header-right>
@@ -239,7 +239,7 @@ function onDadataSelect(data: PartyData) {
                 icon="pi pi-database"
                 :disabled="isLoading"
                 class="mr-x2"
-                @click="isDadataDialogVisible = true"
+                @click="isDaDataPartyDialogVisible = true"
             />
         </template>
 

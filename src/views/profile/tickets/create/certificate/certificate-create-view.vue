@@ -12,6 +12,7 @@ import type { UserPartners } from "@/api/modules/partner/partner"
 import * as partnerAPI from "@/api/modules/partner/partner"
 import * as ticketAPI from "@/api/modules/profile/tickets/tickets"
 import BButton from "@c/common/b-button/b-button.vue"
+import BButtonSecondary from "@c/common/b-button/b-button-secondary.vue"
 import BDatePicker from "@c/common/b-date-picker/b-date-picker.vue"
 import BInputNumber from "@c/common/b-input/b-input-number.vue"
 import BInputText from "@c/common/b-input/b-input-text.vue"
@@ -19,6 +20,9 @@ import BSelect from "@c/common/b-select/b-select.vue"
 import BTextarea from "@c/common/b-textarea/b-textarea.vue"
 import BTitle from "@c/common/b-title/b-title.vue"
 import BFileUpload from "@c/common/b-upload-file/b-file-upload.vue"
+import DadataBankDialog from "@c/dadata/dadata-bank-dialog.vue"
+import DadataPartyDialog from "@c/dadata/dadata-party-dialog.vue"
+import type { BankData, PartyData } from "@c/dadata/definitions/dadata"
 import PortalPage from "@c/portal/portal-page/portal-page.vue"
 import type { TicketCertificate } from "@v/profile/tickets/create/certificate/definitions/certificate"
 import { createFormSchema } from "@v/profile/tickets/create/certificate/schemas/certificate.schema"
@@ -36,6 +40,8 @@ const departmentStore = useDepartmentStore()
 const isFirstLoading = ref(true)
 const isLoading = ref(false)
 const isBankRequired = ref(true)
+const isDaDataPartyDialogVisible = ref(false)
+const isDaDataBankDialogVisible = ref(false)
 
 const userPartners = ref<UserPartners>({
     partner_id: null,
@@ -168,6 +174,17 @@ const onSave = handleSubmit(async (formValues) => {
     notify.success(t("mc.ticket.notify.success"))
     await router.push({ name: ProfileRouteName.ProfileTickets })
 })
+
+function onDaDataPartySelect(data: PartyData) {
+    entrepreneurNameModel.value = data.name
+    innModel.value = data.inn
+}
+
+function onDaDataBankSelect(data: BankData) {
+    bankNameModel.value = data.name
+    bikModel.value = data.bic
+    correspondentAccountModel.value = data.correspondent_account
+}
 </script>
 
 <template>
@@ -238,14 +255,35 @@ const onSave = handleSubmit(async (formValues) => {
                     </div>
                 </div>
 
-                <div class="bank-details">
+                <div class="bank-details mt-x1 mb-x1">
                     <b-title
                         title="Реквизиты"
                         variant="sm"
                         class="my-x2"
                     />
 
-                    <PrimeToggleSwitch v-model="isBankRequired" />
+                    <PrimeToggleSwitch
+                        v-model="isBankRequired"
+                        :disabled="isFirstLoading"
+                    />
+
+                    <template v-if="isBankRequired">
+                        <b-button-secondary
+                            v-if="!isFirstLoading"
+                            label="Поиск компании"
+                            icon="pi pi-database"
+                            :disabled="isLoading"
+                            @click="isDaDataPartyDialogVisible = true"
+                        />
+
+                        <b-button-secondary
+                            v-if="!isFirstLoading"
+                            label="Поиск банка"
+                            icon="pi pi-database"
+                            :disabled="isLoading"
+                            @click="isDaDataBankDialogVisible = true"
+                        />
+                    </template>
                 </div>
 
                 <div class="grid grid-reset-rows gap-x-2 gap-y-3">
@@ -348,6 +386,16 @@ const onSave = handleSubmit(async (formValues) => {
                 </div>
             </div>
         </div>
+
+        <dadata-party-dialog
+            v-model="isDaDataPartyDialogVisible"
+            @select="onDaDataPartySelect"
+        />
+
+        <dadata-bank-dialog
+            v-model="isDaDataBankDialogVisible"
+            @select="onDaDataBankSelect"
+        />
     </portal-page>
 </template>
 
