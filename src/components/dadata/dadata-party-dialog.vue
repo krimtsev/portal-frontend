@@ -4,13 +4,13 @@ import RadioButton from "primevue/radiobutton"
 import RadioButtonGroup from "primevue/radiobuttongroup"
 import { useNotify } from "@/composables/notify/use-notify"
 import { HttpError } from "@/api"
-import * as dadataAPI from "@/api/modules/dashboard/dadata/dadata"
-import { type PartyData } from "@/api/modules/dashboard/dadata/dadata"
+import * as dadataAPI from "@/api/modules/dadata/dadata"
 import BButtonIcon from "@c/common/b-button-icon/b-button-icon.vue"
 import BDialogConfirm from "@c/common/b-dialog/b-dialog-confirm.vue"
 import BDialogItem from "@c/common/b-dialog/b-dialog-item.vue"
 import BDialogSection from "@c/common/b-dialog/b-dialog-section.vue"
 import BInputText from "@c/common/b-input/b-input-text.vue"
+import type { PartyData } from "@c/dadata/definitions/dadata"
 
 const model = defineModel<boolean>()
 
@@ -54,7 +54,10 @@ async function onSearch() {
 }
 
 function onConfirm() {
-    if (!selected.value) return
+    if (!selected.value) {
+        model.value = false
+        return
+    }
 
     emit("select", selected.value)
     model.value = false
@@ -73,7 +76,7 @@ const emptyText = computed(() => {
 <template>
     <b-dialog-confirm
         v-model="model"
-        title="Компании"
+        title="Поиск компании"
         class="dadata-party-dialog"
         @confirm="onConfirm"
         @cancel="onCancel"

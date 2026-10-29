@@ -302,7 +302,8 @@
             "build": "Строительство",
             "network_nail": "Ногтевой сервис сети",
             "makeup_artist": "Бровисты и визажисты сети",
-            "stylist": "Стилисты сети"
+            "stylist": "Стилисты сети",
+            "massage_therapist": "Массажист"
         },
         "dashboard": {
             "sidebar": {

@@ -7,7 +7,7 @@ import { useVeeForm } from "@/composables/vee-validate/use-validation"
 import { dashboardPaths } from "@r/dashboard/path"
 import { DashboardRouteName } from "@r/dashboard/route-names"
 import { HttpError } from "@/api"
-import type { PartyData } from "@/api/modules/dashboard/dadata/dadata"
+import type { PartyData } from "@/api/modules/dadata/dadata"
 import * as partnerGroupsAPI from "@/api/modules/dashboard/partners/partner-groups"
 import * as partnersAPI from "@/api/modules/dashboard/partners/partners"
 import BButtonSecondary from "@c/common/b-button/b-button-secondary.vue"
@@ -18,7 +18,7 @@ import BFormItem from "@c/common/b-form/b-form-item.vue"
 import BInputText from "@c/common/b-input/b-input-text.vue"
 import BSelect from "@c/common/b-select/b-select.vue"
 import BSelectButton from "@c/common/b-select-button/b-select-button.vue"
-import DadataPartyDialog from "@v/dashboard/partners/company/edit/components/dadata-party-dialog.vue"
+import DadataPartyDialog from "@c/dadata/dadata-party-dialog.vue"
 import PartnerTelnums from "@v/dashboard/partners/company/edit/components/partner-telnums.vue"
 import type { PartnerData } from "@v/dashboard/partners/company/edit/definitions/partner"
 import { PartnerSchema } from "@v/dashboard/partners/company/edit/schemas/partner.schema"
@@ -232,12 +232,10 @@ function onDadataSelect(data: PartyData) {
             @select="onDadataSelect"
         />
 
-        <template
-            v-if="!isLoading"
-            #header-right
-        >
+        <template #header-right>
             <b-button-secondary
-                label="DaData"
+                v-if="!isFirstLoading"
+                label="Поиск компании"
                 icon="pi pi-database"
                 :disabled="isLoading"
                 class="mr-x2"

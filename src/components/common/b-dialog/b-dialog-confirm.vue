@@ -14,6 +14,7 @@ const props = defineProps<{
     title?:     string
     isLoading?: boolean
     appendTo?:  HTMLElement | "body" | "self"
+    disabled?:  boolean
 }>()
 
 const { t } = useI18n()
@@ -32,6 +33,7 @@ const { t } = useI18n()
             <prime-button
                 type="button"
                 :label="t('mc.dialog.default.confirm')"
+                :disabled="props.disabled"
                 :loading="props.isLoading"
                 @click="emit('confirm')"
             />

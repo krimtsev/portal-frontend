@@ -22,6 +22,7 @@ export const useDepartmentStore = defineStore("departments", () => {
         { id: 10, type: DepartmentType.NetworkNail, allowed: [Partner.Soda] },
         { id: 11, type: DepartmentType.MakeupArtist, allowed: [Partner.Soda] },
         { id: 12, type: DepartmentType.Stylist, allowed: [Partner.Soda] },
+        { id: 13, type: DepartmentType.MassageTherapist, allowed: [Partner.Soda] },
     ]
 
     const departments = computed<DepartmentItem[]>(() => {

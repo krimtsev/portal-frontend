@@ -13,6 +13,7 @@ export enum DepartmentType {
     NetworkNail = "network_nail",
     MakeupArtist = "makeup_artist",
     Stylist = "stylist",
+    MassageTherapist = "massage_therapist",
 }
 
 export interface DepartmentItem {

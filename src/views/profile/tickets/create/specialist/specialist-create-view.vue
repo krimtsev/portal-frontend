@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from "vue"
+import { computed, onMounted, ref, watch } from "vue"
 import { useI18n } from "vue-i18n"
 import { useRoute, useRouter } from "vue-router"
 import { useAppStore } from "@s/app/app"
@@ -19,6 +19,8 @@ import BSelect from "@c/common/b-select/b-select.vue"
 import BTextarea from "@c/common/b-textarea/b-textarea.vue"
 import BFileUpload from "@c/common/b-upload-file/b-file-upload.vue"
 import PortalPage from "@c/portal/portal-page/portal-page.vue"
+import type { SodaQualification } from "@v/profile/tickets/create/specialist/_soda/definitions/specialist"
+import { SODA_QUALIFICATION_DEPARTMENT_MAP } from "@v/profile/tickets/create/specialist/_soda/utils/specialist-utils.ts"
 import type { SpecialistQualification, TicketSpecialist } from "@v/profile/tickets/create/specialist/definitions/specialist"
 import { createFormSchema } from "@v/profile/tickets/create/specialist/schemas/specialist.schema"
 import { specialistQualificationName } from "@v/profile/tickets/create/specialist/utils/specialist-utils"
@@ -44,6 +46,15 @@ const userPartners = ref<UserPartners>({
     partners:   [],
 })
 
+function resolveDepartmentId(qualification: SpecialistQualification): number | null {
+    if (appStore.isSoda) {
+        const deptType = SODA_QUALIFICATION_DEPARTMENT_MAP[qualification as SodaQualification]
+        const id = deptType ? departmentStore.getIdByType(deptType) : null
+        if (id != null) return id
+    }
+    return departmentStore.getIdByType(DepartmentType.Franchise) ?? null
+}
+
 function defaultState(): TicketSpecialist {
     const availableQualifications = getActiveQualifications(appStore.currentPartner)
     const queryQualification = route.query.qualification as string | undefined
@@ -57,7 +68,7 @@ function defaultState(): TicketSpecialist {
         title:         t("mc.ticket.specialist.title"),
         type:          TicketType.Specialist,
         partner_id:    null,
-        department_id: departmentStore.getIdByType(DepartmentType.Franchise),
+        department_id: resolveDepartmentId(qualification),
         message:       "",
         files:         [],
         attributes:    {
@@ -102,6 +113,9 @@ const [experienceModel] = defineLazyField("attributes.experience")
 const [linkToWorksModel] = defineLazyField("attributes.linkToWorks")
 const [statisticsModel] = defineLazyField("attributes.statistics")
 
+watch(qualificationModel, (qualification) => {
+    setFieldValue("department_id", resolveDepartmentId(qualification))
+})
 
 onMounted(async () => {
     isFirstLoading.value = true
