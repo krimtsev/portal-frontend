@@ -40,7 +40,7 @@ async function onSearch() {
     if (!value || isLoading.value) return
 
     isLoading.value = true
-    const response = await dadataAPI.findByIdParty({ query: value })
+    const response = await dadataAPI.suggestParty({ query: value })
     isLoading.value = false
 
     if (response instanceof HttpError) {
@@ -83,7 +83,7 @@ const emptyText = computed(() => {
     >
         <b-dialog-section>
             <b-dialog-item
-                label="ИНН, КПП, ОГРН"
+                label="ИП, ИНН, КПП, ОГРН"
                 required
             >
                 <b-input-text

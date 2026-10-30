@@ -210,9 +210,6 @@ function onDaDataPartySelect(data: PartyData) {
     if (!emailModel.value && data.emails) {
         emailModel.value = data.emails
     }
-    if (!addressModel.value && data.address) {
-        addressModel.value = data.address
-    }
 }
 </script>
 
