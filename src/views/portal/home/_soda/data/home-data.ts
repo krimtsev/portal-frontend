@@ -106,6 +106,23 @@ export const sections = computed((): Section[] => {
             ],
         },
         {
+            title: "Торговые марки",
+            items: [
+                {
+                    label: "Ногтевой сервис",
+                    path:  portalPaths.TrademarksNailService,
+                },
+                {
+                    label: "Стилисты",
+                    path:  portalPaths.TrademarksStylists,
+                },
+                {
+                    label: "Бровисты",
+                    path:  portalPaths.TrademarksEyebrowArtists,
+                },
+            ],
+        },
+        {
             title: "Обязательные интеграции",
             items: [
                 {

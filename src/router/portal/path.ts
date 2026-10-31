@@ -26,4 +26,8 @@ export const portalPaths = {
     ContactPartners:             "/contacts/partners",
     IntegrationVideoAnalytics:   "/integration/video-analytics",
     IntegrationTelephonyQuality: "/integration/telephony-quality",
+    TrademarksNailService:       "/trademarks/nail-service",
+    TrademarksStylists:          "/trademarks/stylists",
+    TrademarksEyebrowArtists:    "/trademarks/eyebrow-artists",
+
 }

@@ -26,4 +26,7 @@ export enum PortalRouteName {
     ContactPartners = "ContactPartners",
     IntegrationVideoAnalytics = "IntegrationVideoAnalytics",
     IntegrationTelephonyQuality = "IntegrationTelephonyQuality",
+    TrademarksNailService = "TrademarksNailService",
+    TrademarksStylists = "TrademarksStylists",
+    TrademarksEyebrowArtists = "TrademarksEyebrowArtists",
 }

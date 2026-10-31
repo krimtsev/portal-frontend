@@ -98,6 +98,31 @@ const routes: RouteRecordRaw[] = [
             roles,
         },
     },
+
+    {
+        path:      portalPaths.TrademarksNailService,
+        name:      PortalRouteName.TrademarksNailService,
+        component: () => import("@v/portal/trademarks/_soda/nail-service/nail-service-view.vue"),
+        meta:      {
+            roles,
+        },
+    },
+    {
+        path:      portalPaths.TrademarksStylists,
+        name:      PortalRouteName.TrademarksStylists,
+        component: () => import("@v/portal/trademarks/_soda/stylists/stylists-view.vue"),
+        meta:      {
+            roles,
+        },
+    },
+    {
+        path:      portalPaths.TrademarksEyebrowArtists,
+        name:      PortalRouteName.TrademarksEyebrowArtists,
+        component: () => import("@v/portal/trademarks/_soda/eyebrow-artists/eyebrow-artists-view.vue"),
+        meta:      {
+            roles,
+        },
+    },
 ]
 
 export default routes
