@@ -11,7 +11,7 @@ import { buttonNavigation } from "@v/portal/trademarks/definitions/trademarks"
 <template>
     <portal-page
         class="eyebrow-artists-view"
-        title="Бровисты: контакты партнеров"
+        title="Бровисты и визажисты: контакты партнеров"
     >
         <template #top-side>
             <portal-button-navigation :buttons="buttonNavigation" />

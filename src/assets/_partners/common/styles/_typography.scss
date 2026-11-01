@@ -33,8 +33,7 @@
     line-height: $line-height-p; // 24px
 }
 
-@mixin p-bold($color: var(--p-primary-contrast-color)) {
-    color: $color;
+@mixin p-bold() {
     font-weight: 600;
     font-size: $font-size-p; // 16px
     line-height: $line-height-p; // 24px

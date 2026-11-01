@@ -39,6 +39,7 @@ $ctr-size: 24px;
         .counter::before {
             @include p-bold();
 
+            color: var(--p-primary-contrast-color);
             content: counter(section);
             display: inline-block;
             width: $ctr-size;

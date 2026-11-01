@@ -11,7 +11,7 @@ export const buttonNavigation: PortalRouteButton[] = [
         route: PortalRouteName.TrademarksStylists,
     },
     {
-        label: "Бровисты",
+        label: "Бровисты и визажисты",
         route: PortalRouteName.TrademarksEyebrowArtists,
     },
 ]
