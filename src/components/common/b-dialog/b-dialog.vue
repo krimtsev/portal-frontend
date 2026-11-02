@@ -5,26 +5,32 @@ import BSvg from "@c/common/b-svg/b-svg.vue"
 
 const visible = defineModel<boolean>("visible", { default: false })
 
+const emit = defineEmits<{ (e: "hide"): void }>()
+
 const props = withDefaults(defineProps<{
-    title?:      string
-    draggable?:  boolean
-    width?:      string
-    style?:      object
-    modal?:      boolean
-    closable?:   boolean
-    iconName?:   string
-    showHeader?: boolean
-    appendTo?:   HTMLElement | "body" | "self"
+    title?:           string
+    draggable?:       boolean
+    width?:           string
+    style?:           object
+    modal?:           boolean
+    closable?:        boolean
+    iconName?:        string
+    showHeader?:      boolean
+    appendTo?:        HTMLElement | "body" | "self"
+    closeOnEscape?:   boolean
+    dismissableMask?: boolean
 }>(), {
-    title:      undefined,
-    style:      undefined,
-    iconName:   undefined,
-    draggable:  false,
-    width:      "624px",
-    modal:      true,
-    closable:   false,
-    showHeader: true,
-    appendTo:   "body",
+    title:           undefined,
+    style:           undefined,
+    iconName:        undefined,
+    draggable:       false,
+    width:           "624px",
+    modal:           true,
+    closable:        false,
+    showHeader:      true,
+    appendTo:        "body",
+    closeOnEscape:   true,
+    dismissableMask: false,
 })
 
 const dialogStyle = computed(() => ({
@@ -50,6 +56,9 @@ const contentStyle = computed(() => {
         :closable="props.closable"
         :show-header="props.showHeader"
         :append-to="appendTo"
+        :close-on-escape="props.closeOnEscape"
+        :dismissable-mask="props.dismissableMask"
+        @hide="emit('hide')"
         position="center"
         class="b-dialog"
     >

@@ -5,6 +5,7 @@ import PrimeToast from "primevue/toast"
 import { useAppStore } from "@s/app/app"
 import { dashboardPaths } from "@r/dashboard/path"
 import { getMeta } from "@r/utils"
+import PromoDialogManager from "@c/promo-dialog/promo-dialog-manager.vue"
 
 
 const DashboardLayout = defineAsyncComponent(() => import("@l/dashboard/DashboardLayout.vue"))
@@ -35,6 +36,7 @@ const layoutComponent = computed(() => ({
 
 <template>
     <prime-toast position="top-center" />
+    <promo-dialog-manager />
     <component :is="layoutComponent">
         <router-view v-slot="{ Component, route: viewRoute }">
             <transition name="layout-fade" mode="out-in">

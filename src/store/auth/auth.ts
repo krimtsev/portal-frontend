@@ -18,6 +18,7 @@ import { isSupportedTimezone } from "@/lib/timezones"
 import { Settings } from "luxon"
 import { useHomeStore } from "@s/home/home"
 import { useMaintenanceStore } from "@s/maintenance/maintenance"
+import { usePromoDialogStore } from "@s/promo-dialog/promo-dialog"
 
 
 function defaultAuthData(): AuthData {
@@ -43,6 +44,7 @@ function defaultUserAccessData(): UserAccessData {
 export const useAuthStore = defineStore("auth", () => {
     const homeStore = useHomeStore()
     const maintenanceStore = useMaintenanceStore()
+    const promoDialogStore = usePromoDialogStore()
 
     const initialData = defaultAuthData()
 
@@ -64,6 +66,8 @@ export const useAuthStore = defineStore("auth", () => {
         user.value = response.user
         userAccess.value = response.access
         partner.value = response.partner
+
+        promoDialogStore.setQueue(response.promoDialogs)
 
         if (response.time_zone_name) {
             timeZoneName.value = response.time_zone_name

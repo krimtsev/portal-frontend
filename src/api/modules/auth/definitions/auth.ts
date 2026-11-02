@@ -1,4 +1,5 @@
 import { Roles } from "@/definitions/roles"
+import type { PromoDialog } from "@/api/modules/promo-dialog/definitions/promo-dialog"
 
 export interface LoginCredentials {
     login:    string
@@ -36,4 +37,5 @@ export interface AuthResponse {
     access:         UserAccessData
     partner:        PartnerData | null
     time_zone_name: string | null
+    promoDialogs:   PromoDialog[]
 }
