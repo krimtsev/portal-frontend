@@ -12,6 +12,7 @@ import { HttpError } from "@/api"
 import * as promoDialogsAPI from "@/api/modules/dashboard/promo-dialogs/promo-dialogs"
 import BButtonSecondary from "@c/common/b-button/b-button-secondary.vue"
 import BEmptyResult from "@c/common/b-empty/b-empty-result.vue"
+import BExport from "@c/common/b-export/b-export.vue"
 import BInputSearch from "@c/common/b-input-search/b-input-search.vue"
 import ListLoadingState from "@c/common/b-loading-state/list-loading-state.vue"
 import BSelect from "@c/common/b-select/b-select.vue"
@@ -20,6 +21,7 @@ import BToolbar from "@c/common/b-toolbar/b-toolbar.vue"
 import BToolbarItem from "@c/common/b-toolbar/b-toolbar-item.vue"
 import PartnerStateTag from "@v/dashboard/partners/company/list/components/partner-state-tag.vue"
 import type { PromoDialogListItem } from "@v/dashboard/promo-dialogs/list/definitions/promo-dialogs"
+import { exportXLS } from "@v/dashboard/promo-dialogs/list/definitions/utils/promo-dialogs"
 import { disabledToStatus, statusToDisabled } from "@/lib/status"
 import { controlOptions } from "@/constants/controls"
 import { Status } from "@/definitions/status"
@@ -33,6 +35,7 @@ const { navigate } = useRouteNavigator()
 const promoDialogsStore = usePromoDialogsStore()
 
 const promoDialogs = ref<PromoDialogListItem[]>([])
+const isExporting = ref<Record<number, boolean>>({})
 
 const paginationInfo = computed(() => {
     return t("mc.pagination.table",
@@ -130,6 +133,25 @@ const promoDialogsState = computed({
         promoDialogsStore.filter.filters.disabled = statusToDisabled(newValue)
     },
 })
+
+async function onExportXLS(id: number) {
+    if (isExporting.value[id]) return
+
+    isExporting.value[id] = true
+
+    try {
+        const promoDialogData = await promoDialogsAPI.exportData(id)
+
+        if (promoDialogData instanceof HttpError) {
+            notify.error()
+            return
+        }
+
+        await exportXLS(promoDialogData)
+    } finally {
+        delete isExporting.value[id]
+    }
+}
 </script>
 
 <template>
@@ -207,7 +229,7 @@ const promoDialogsState = computed({
                     <template #body="{ data }">
                         <b-table-text
                             :text="data?.title"
-                            @click="(e: MouseEvent) => onClick(data?.id, e)"
+                            @click="(e: MouseEvent) => onClick(data.id, e)"
                         />
                     </template>
                 </prime-column>
@@ -218,7 +240,7 @@ const promoDialogsState = computed({
                     class="table-template"
                 >
                     <template #body="{ data }">
-                        <b-table-text :text="data?.template" />
+                        <b-table-text :text="data.template" />
                     </template>
                 </prime-column>
 
@@ -228,7 +250,7 @@ const promoDialogsState = computed({
                     class="table-disabled"
                 >
                     <template #body="{ data }">
-                        <partner-state-tag :active="!data?.disabled" />
+                        <partner-state-tag :active="!data.disabled" />
                     </template>
                 </prime-column>
 
@@ -238,7 +260,20 @@ const promoDialogsState = computed({
                     class="table-created-at"
                 >
                     <template #body="{ data }">
-                        <b-table-text :text="data?.created_at" />
+                        <b-table-text :text="data.created_at" />
+                    </template>
+                </prime-column>
+
+                <prime-column />
+
+                <prime-column class="table-actions">
+                    <template #body="{ data }">
+                        <b-export
+                            :types="{ xls: true }"
+                            :disabled="{ xls: isExporting[data.id] }"
+                            :loading="{ xls: isExporting[data.id] }"
+                            @export-xls="onExportXLS(data.id)"
+                        />
                     </template>
                 </prime-column>
             </prime-data-table>
@@ -261,6 +296,15 @@ const promoDialogsState = computed({
 
         .table-title {
             @include col-fixed(350px);
+        }
+
+        .table-actions {
+            padding-top: 0;
+            padding-bottom: 0;
+
+            :deep(.b-export) {
+                width: 40px;
+            }
         }
     }
 

@@ -23,3 +23,7 @@ export async function update(id: string, data: PromoDialogData) {
 export async function remove(id: string) {
     return await http.delete<null>(`dashboard/promo-dialog/dialog/${id}`)
 }
+
+export async function exportData(id: number) {
+    return await http.get(`dashboard/promo-dialog/dialog/${id}/export`)
+}
