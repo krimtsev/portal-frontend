@@ -4,7 +4,7 @@ import { useRoute, useRouter } from "vue-router"
 import PrimeTab from "primevue/tab"
 import PrimeTabList from "primevue/tablist"
 import PrimeTabs from "primevue/tabs"
-import { useAppStore } from "@s/app/app.ts"
+import { useAppStore } from "@s/app/app"
 import { DashboardRouteName } from "@r/dashboard/route-names"
 
 const route = useRoute()

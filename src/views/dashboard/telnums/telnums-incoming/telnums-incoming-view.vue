@@ -18,7 +18,7 @@ import BMultiSelect from "@c/common/b-select/b-multi-select.vue"
 import BTableText from "@c/common/b-table/b-table-text.vue"
 import BToolbar from "@c/common/b-toolbar/b-toolbar.vue"
 import BToolbarItem from "@c/common/b-toolbar/b-toolbar-item.vue"
-import type { MangoCallsData } from "@v/dashboard/panel/definitions/panel.ts"
+import type { MangoCallsData } from "@v/dashboard/panel/definitions/panel"
 import type { PartnerOptionItem } from "@v/dashboard/partners/company/list/definitions/partners"
 import type { TelnumsIncomingItem } from "@v/dashboard/telnums/telnums-incoming/definitions/telnums-incoming"
 import {

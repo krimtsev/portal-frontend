@@ -3,7 +3,7 @@ import { computed } from "vue"
 import { useI18n } from "vue-i18n"
 import PrimeEditor from "primevue/editor"
 import BInputError from "@c/common/b-input-error/b-input-error.vue"
-import { defaultMaxLength } from "@c/common/b-textarea/definitions/textarea.ts"
+import { defaultMaxLength } from "@c/common/b-textarea/definitions/textarea"
 
 const model = defineModel<string>({ default: "" })
 

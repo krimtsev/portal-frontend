@@ -1,6 +1,6 @@
 import type { Pagination, PaginationFilter } from "@/definitions/pagination"
 import { http } from "@/api"
-import type { RoyaltyFilters } from "@s/dashboard/royalty/royalty-percent.ts"
+import type { RoyaltyFilters } from "@s/dashboard/royalty/royalty-percent"
 import type { RoyaltyListItem } from "@v/dashboard/royalty/percent/definitions/royalty-percent"
 import type {
     RoyaltyRecordsData,

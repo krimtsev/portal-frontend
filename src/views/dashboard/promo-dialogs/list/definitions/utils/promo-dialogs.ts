@@ -1,6 +1,6 @@
 import { DateTime } from "luxon"
 import ExcelJS from "exceljs"
-import { downloadExternalFile } from "@/lib/files.ts"
+import { downloadExternalFile } from "@/lib/files"
 import type { PromoDialogExportResponse } from "@v/dashboard/promo-dialogs/list/definitions/promo-dialogs"
 
 export async function exportXLS(data: PromoDialogExportResponse) {

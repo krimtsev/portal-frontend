@@ -4,7 +4,7 @@ import { useI18n } from "vue-i18n"
 import PrimeButton from "primevue/button"
 import type { PromoDialog } from "@/api/modules/promo-dialog/definitions/promo-dialog"
 import BDialog from "@c/common/b-dialog/b-dialog.vue"
-import { $sanitizeHtml } from "@/lib/sanitize-html.ts"
+import { $sanitizeHtml } from "@/lib/sanitize-html"
 import { promoDialogTemplates } from "./templates"
 
 const emit = defineEmits<{ acknowledge: [] }>()
