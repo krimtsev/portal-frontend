@@ -23,7 +23,7 @@ import { buttonNavigation } from "@v/portal/contacts/definitions/contacts"
                         Яндекс, Наталья Маленко, заявки писать в <b-link label="форму заявки" href="https://forms.yandex.ru/surveys/10034022.63a13acfcba7c7fdf5501636cc161efa6d3c5a3b/" /> (номер рекламной компании 36409936)
                     </li>
                     <li>
-                        2GIS, Данила Егоров, рабочий номер. <b-telnum-link value="74956041055" />  доб. 17715, личный номер <b-telnum-link value="79800052362" />
+                        2GIS, Олег Дергоусов, личный номер <b-telnum-link value="79290034414" />, telegram <b-link label="@mr_dergo" href="https://t.me/mr_dergo" />
                     </li>
                 </ul>
             </div>
