@@ -3,8 +3,8 @@ import { type Component, computed, defineAsyncComponent, ref } from "vue"
 import { useI18n } from "vue-i18n"
 import PrimeButton from "primevue/button"
 import type { PromoDialog } from "@/api/modules/promo-dialog/definitions/promo-dialog"
-import { PromoDialogType } from "@/api/modules/promo-dialog/definitions/promo-dialog"
 import BDialog from "@c/common/b-dialog/b-dialog.vue"
+import { $sanitizeHtml } from "@/lib/sanitize-html.ts"
 import { promoDialogTemplates } from "./templates"
 
 const emit = defineEmits<{ acknowledge: [] }>()
@@ -18,8 +18,8 @@ const { t } = useI18n()
 const visible = ref(true)
 
 const templateComponent = computed<Component | null>(() => {
-    if (props.dialog.type !== PromoDialogType.Template) return null
-    const loader = promoDialogTemplates[props.dialog.code]
+    if (!props.dialog.template) return null
+    const loader = promoDialogTemplates[props.dialog.template]
     return loader ? defineAsyncComponent(loader) : null
 })
 
@@ -43,24 +43,33 @@ function onHide() {
         width="768px"
         min-height="400px"
         append-to="body"
+        class="promo-dialog"
         @hide="onHide"
     >
         <template #body>
-            <template v-if="dialog.type === PromoDialogType.Custom">
-                <p v-if="dialog.description">{{ dialog.description }}</p>
-            </template>
+            <!-- Зарегистрированный: компонент по template -->
 
-            <!-- Зарегистрированный: компонент по code -->
-            <component
-                :is="templateComponent"
-                v-else-if="templateComponent"
-                :dialog="dialog"
-            />
+            <div v-if="templateComponent">
+                <component
+                    :is="templateComponent"
+                    :dialog="dialog"
+                />
+
+                <div
+                    v-if="dialog.description"
+                    class="pre-wrap mt-x2"
+                >
+                    <div v-html="$sanitizeHtml(dialog.description)" />
+                </div>
+            </div>
+
 
             <!-- Fallback: неизвестный code -->
-            <p v-else-if="dialog.description">
-                {{ dialog.description }}
-            </p>
+            <div v-else>
+                <div class="content pre-wrap">
+                    <div v-html="$sanitizeHtml(dialog.description)" />
+                </div>
+            </div>
         </template>
 
         <template #footer>

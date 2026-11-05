@@ -223,6 +223,24 @@ const routes: RouteRecordRaw[] = [
             },
         ],
     },
+    {
+        path:      dashboardPaths.DashboardPromoDialogs,
+        name:      DashboardRouteName.DashboardPromoDialogs,
+        component: () => import("@v/dashboard/promo-dialogs/list/promo-dialogs-list-view.vue"),
+        meta:      {
+            roles:      [Roles.SYSADMIN],
+            breadcrumb: "mc.dashboard.sidebar.promoDialogs",
+        },
+    },
+    {
+        path:      dashboardPaths.DashboardPromoDialog,
+        name:      DashboardRouteName.DashboardPromoDialog,
+        component: () => import("@v/dashboard/promo-dialogs/edit/promo-dialog-view.vue"),
+        meta:      {
+            roles:      [Roles.SYSADMIN],
+            breadcrumb: "mc.dashboard.sidebar.promoDialogs",
+        },
+    },
 ]
 
 export default routes

@@ -4,7 +4,7 @@ import { computed } from "vue"
 const path = "b29933f89d4b11dfcf30883ac87f68831dbe7d58fde61097ee34dead0fe2dd98"
 
 const mapIframeSrc = computed(() => {
-    return `https://yandex.ru/map-widget/v1/?um=constructor%3A${path}&source=constructor&ll=37.617635%2C55.755817&z=12&scroll=false&controls=0`
+    return `https://yandex.ru/map-widget/v1/?um=constructor%3A${path}&source=constructor&ll=37.617635%2C55.733017&z=12&scroll=false&controls=0`
 })
 </script>
 
@@ -34,8 +34,8 @@ const mapIframeSrc = computed(() => {
 
     iframe {
         display: block;
-        height: calc(100% + 50px);
-        margin-bottom: -50px;
+        height: calc(100% + 200px);
+        margin-bottom: -200px;
     }
 }
 </style>

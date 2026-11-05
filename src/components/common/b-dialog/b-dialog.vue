@@ -19,6 +19,7 @@ const props = withDefaults(defineProps<{
     appendTo?:        HTMLElement | "body" | "self"
     closeOnEscape?:   boolean
     dismissableMask?: boolean
+    column?:          boolean
 }>(), {
     title:           undefined,
     style:           undefined,
@@ -31,6 +32,7 @@ const props = withDefaults(defineProps<{
     appendTo:        "body",
     closeOnEscape:   true,
     dismissableMask: false,
+    column:          false,
 })
 
 const dialogStyle = computed(() => ({
@@ -71,7 +73,12 @@ const contentStyle = computed(() => {
             </div>
         </template>
 
-        <div class="dialog-body">
+        <div
+            class="dialog-body"
+            :class="{
+                'dialog-body-column': props.column
+            }"
+        >
             <div
                 v-if="props.iconName"
                 class="dialog-icon"
@@ -102,8 +109,11 @@ const contentStyle = computed(() => {
 
     .dialog-body {
         display: flex;
-        flex-direction: column;
         gap: $indent-x2;
+
+        &-column {
+            flex-direction: column;
+        }
     }
 
     .dialog-icon {

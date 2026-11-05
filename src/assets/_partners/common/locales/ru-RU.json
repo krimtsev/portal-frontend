@@ -321,7 +321,8 @@
                 "statistics": "Статистика",
                 "eventCalendar": "Календарь событий",
                 "settings": "Настройки",
-                "telnums": "Телефония"
+                "telnums": "Телефония",
+                "promoDialogs": "Промо-диалоги"
             },
             "users": {
                 "state": {
@@ -342,6 +343,11 @@
                 },
                 "notify": {
                     "created": "Партнер успешно создан"
+                }
+            },
+            "promoDialog": {
+                "notify": {
+                    "created": "Промо-диалог успешно создан"
                 }
             },
             "partnerGroup": {

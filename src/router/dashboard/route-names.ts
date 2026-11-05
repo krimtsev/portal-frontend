@@ -22,4 +22,6 @@ export enum DashboardRouteName {
     DashboardSettings = "DashboardSettings",
     DashboardMaintenance = "DashboardMaintenance",
     DashboardTelnumsIncoming = "DashboardTelnumsIncoming",
+    DashboardPromoDialogs = "DashboardPromoDialogs",
+    DashboardPromoDialog = "DashboardPromoDialog",
 }
