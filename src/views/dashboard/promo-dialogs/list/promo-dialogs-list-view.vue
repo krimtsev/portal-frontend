@@ -302,8 +302,8 @@ async function onExportXLS(id: number) {
             padding-top: 0;
             padding-bottom: 0;
 
-            :deep(.b-export) {
-                width: 40px;
+            .b-export {
+                justify-content: flex-end;
             }
         }
     }
