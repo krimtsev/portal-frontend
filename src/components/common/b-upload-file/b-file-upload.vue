@@ -53,6 +53,42 @@ const localError = ref<string | null>(null)
 const isDisabled = computed(() => props.disabled || props.isProcessing)
 const maxFileSizeMB = computed(() => bytesToMegabytes(props.maxFileSize))
 
+const dragCounter = ref(0)
+const isDragging = computed(() => dragCounter.value > 0)
+
+const onDragEnter = (event: DragEvent) => {
+    if (isDisabled.value) return
+    event.preventDefault()
+
+    dragCounter.value++
+}
+
+const onDragOver = (event: DragEvent) => {
+    if (isDisabled.value) return
+    event.preventDefault()
+
+    if (event.dataTransfer) {
+        event.dataTransfer.dropEffect = "copy"
+    }
+}
+
+const onDragLeave = (event: DragEvent) => {
+    if (isDisabled.value) return
+    event.preventDefault()
+
+    dragCounter.value = Math.max(0, dragCounter.value - 1)
+}
+
+const onDrop = (event: DragEvent) => {
+    if (isDisabled.value) return
+    event.preventDefault()
+
+    dragCounter.value = 0
+
+    const droppedFiles = Array.from(event.dataTransfer?.files ?? [])
+    processFiles(droppedFiles)
+}
+
 const files = computed(() => {
     if (model.value) {
         if (Array.isArray(model.value)) {
@@ -103,29 +139,30 @@ const validateFiles = (files: File[]): string | null => {
     return null
 }
 
-const onFileSelect = (event: Event) => {
-    const target = event.target as HTMLInputElement
-    if (!target.files?.length) return
+const processFiles = (incoming: File[]) => {
+    if (!incoming.length) return
 
-    const selectedFiles = Array.from(target.files)
+    const selectedFiles = props.multiple ? incoming : incoming.slice(0, 1)
 
     const error = validateFiles(selectedFiles)
-
     if (error) {
         localError.value = error
-        target.value = ""
         return
     }
 
     localError.value = null
 
     if (props.multiple) {
-        const currentFiles = Array.isArray(model.value) ? model.value : []
-        const combinedFiles = [...currentFiles, ...selectedFiles]
+        const currentFiles = Array.isArray(model.value)
+            ? model.value
+            : []
+        const combinedFiles = [
+            ...currentFiles,
+            ...selectedFiles,
+        ]
 
         if (props.limit && combinedFiles.length > props.limit) {
             localError.value = t("mc.common.fileUpload.errors.limit", { limit: props.limit })
-            target.value = ""
             return
         }
 
@@ -133,7 +170,13 @@ const onFileSelect = (event: Event) => {
     } else {
         model.value = selectedFiles[0]
     }
+}
 
+const onFileSelect = (event: Event) => {
+    const target = event.target as HTMLInputElement
+    if (!target.files?.length) return
+
+    processFiles(Array.from(target.files))
     target.value = ""
 }
 
@@ -225,8 +268,15 @@ defineExpose({ clear })
 
         <div
             class="drop-box"
-            :class="{ 'disabled': isDisabled }"
+            :class="{
+                'disabled': isDisabled,
+                'drag-active': isDragging
+            }"
             @click="triggerPicker"
+            @dragenter.prevent="onDragEnter"
+            @dragover.prevent="onDragOver"
+            @dragleave.prevent="onDragLeave"
+            @drop.prevent="onDrop"
         >
             <div class="icon-wrapper">
                 <b-svg
@@ -322,6 +372,10 @@ defineExpose({ clear })
         padding: $indent-x2;
         min-height: 160px;
         cursor: pointer;
+
+        &.drag-active {
+            border: 1px solid var(--p-dropbox-border-color);
+        }
 
         &:hover {
             border-color: var(--p-dropbox-hover-border-color);

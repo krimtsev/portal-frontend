@@ -35,3 +35,6 @@ export async function update(id: string, data: CloudData) {
     return await http.put<null>(`dashboard/cloud/folder/${id}`, data)
 }
 
+export async function remove(id: string) {
+    return await http.delete<null>(`dashboard/cloud/folder/${id}`)
+}

@@ -10,6 +10,7 @@ import { DashboardRouteName } from "@r/dashboard/route-names"
 import { HttpError } from "@/api"
 import * as cloudAPI from "@/api/modules/dashboard/cloud/cloud"
 import * as cloudFilesAPI from "@/api/modules/dashboard/cloud/cloud-files"
+import BDialogRemove from "@c/common/b-dialog/b-dialog-remove.vue"
 import BForm from "@c/common/b-form/b-form.vue"
 import BFormCard from "@c/common/b-form/b-form-card.vue"
 import BFormItem from "@c/common/b-form/b-form-item.vue"
@@ -31,11 +32,13 @@ const { t } = useI18n()
 const isFirstLoading = ref(true)
 const isLoading = ref(false)
 const isProcessing = ref(false)
+const isShowRemoveDialog = ref(false)
 
 const categories = ref<CloudOptionItem[]>([])
 const files = ref<CloudFile[]>([])
 const isRootFolder = ref(false)
 const filesListRef = useTemplateRef<InstanceType<typeof CloudFilesList>>("filesListRef")
+const canRemove = ref(false)
 
 const cloudId = computed(() => route.params.id as string)
 const isNew = computed(() => cloudId.value === "!new")
@@ -107,6 +110,8 @@ onMounted(async () => {
                 category_id: cloud.category_id,
             },
         })
+
+        canRemove.value = cloudData.data.can_remove
 
         files.value = cloud.files
     }
@@ -183,6 +188,23 @@ const fileUpload = uploadForm.handleSubmit(async (formValues) => {
     notify.success(t("mc.dashboard.cloud.notify.filesUploaded"))
     await nextTick(() => filesListRef.value?.scrollToBottom())
 })
+
+const onRemove = async () => {
+    isLoading.value = true
+
+    const cloudResponse = await cloudAPI.remove(cloudId.value)
+
+    if (cloudResponse instanceof HttpError) {
+        notify.error(cloudResponse?.message)
+        return
+    }
+
+    notify.success(t("mc.notify.remove"))
+
+    await router.push({
+        name: DashboardRouteName.DashboardCloudList,
+    })
+}
 </script>
 
 <template>
@@ -190,11 +212,15 @@ const fileUpload = uploadForm.handleSubmit(async (formValues) => {
         :title="isNew
             ? 'Создание каталога'
             : 'Редактирование каталога'"
+        :remove-text="!isNew && canRemove
+            ? 'Удалить каталог'
+            : ''"
         :path-back="dashboardPaths.DashboardCloudList"
         :is-loading="isLoading"
         :is-first-loading="isFirstLoading"
         class="cloud-view"
         @save="onSave"
+        @remove="isShowRemoveDialog = true"
     >
         <b-form-card title="Каталог">
             <b-form-item
@@ -260,6 +286,15 @@ const fileUpload = uploadForm.handleSubmit(async (formValues) => {
                 />
             </b-form-item>
         </b-form-card>
+
+        <b-dialog-remove
+            v-model="isShowRemoveDialog"
+            :is-loading="isLoading"
+            @confirm="onRemove"
+            @cancel="isShowRemoveDialog = false"
+        >
+            <p> Вы действительно хотите удалить каталог <b>"{{ nameModel }}"</b>? </p>
+        </b-dialog-remove>
     </b-form>
 </template>
 

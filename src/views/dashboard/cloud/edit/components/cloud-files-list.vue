@@ -14,6 +14,7 @@ import CloudEditFileDialog from "@v/dashboard/cloud/edit/components/cloud-edit-f
 import CloudRemoveFileDialog from "@v/dashboard/cloud/edit/components/cloud-remove-file-dialog.vue"
 import type { CloudFile } from "@v/dashboard/cloud/edit/definitions/cloud"
 import { downloadExternalFile } from "@/lib/files"
+import { formatBytes } from "@/lib/format-size"
 
 interface PrimeDataTableInstance {
     $refs: {
@@ -140,6 +141,22 @@ defineExpose({ scrollToBottom })
                 class="table-downloads"
             />
 
+            <prime-column
+                header="Размер"
+                field="size"
+                class="table-size"
+            >
+                <template #body="slotProps">
+                    <b-text :value="formatBytes(slotProps.data?.size)" />
+                </template>
+            </prime-column>
+
+            <prime-column
+                header="Дата"
+                field="date"
+                class="table-date"
+            />
+
             <prime-column />
 
             <prime-column class="table-actions">
@@ -207,6 +224,14 @@ $height-row: 48px;
 
         .table-downloads {
             @include col-width(100px);
+        }
+
+        .table-size {
+            @include col-width(120px);
+        }
+
+        .table-date {
+            @include col-width(180px);
         }
 
         .table-actions {

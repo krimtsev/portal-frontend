@@ -241,6 +241,25 @@ const routes: RouteRecordRaw[] = [
             breadcrumb: "mc.dashboard.sidebar.promoDialogs",
         },
     },
+
+    {
+        path:      dashboardPaths.DashboardBankDetails,
+        name:      DashboardRouteName.DashboardBankDetails,
+        component: () => import("@v/dashboard/bank-details/list/bank-details-list-view.vue"),
+        meta:      {
+            roles:      [Roles.SYSADMIN],
+            breadcrumb: "mc.dashboard.sidebar.bankDetails",
+        },
+    },
+    {
+        path:      dashboardPaths.DashboardBankDetail,
+        name:      DashboardRouteName.DashboardBankDetail,
+        component: () => import("@v/dashboard/bank-details/edit/bank-detail-view.vue"),
+        meta:      {
+            roles:      [Roles.SYSADMIN],
+            breadcrumb: "mc.dashboard.sidebar.bankDetails",
+        },
+    },
 ]
 
 export default routes

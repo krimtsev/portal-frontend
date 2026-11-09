@@ -19,6 +19,7 @@ import BText from "@c/common/b-text/b-text.vue"
 import BToolbar from "@c/common/b-toolbar/b-toolbar.vue"
 import BToolbarItem from "@c/common/b-toolbar/b-toolbar-item.vue"
 import { type CloudListItem, CloudType } from "@v/dashboard/cloud/list/definitions/cloud-list"
+import { formatBytes } from "@/lib/format-size"
 
 
 const notify = useNotify()
@@ -169,6 +170,26 @@ const filters = computed(() => {
                     </template>
                 </prime-column>
 
+                <prime-column
+                    field="size"
+                    header="Размер"
+                    class="table-size"
+                >
+                    <template #body="slotProps">
+                        <b-text :value="formatBytes(slotProps.node?.data.size)" />
+                    </template>
+                </prime-column>
+
+                <prime-column
+                    field="date"
+                    header="Дата"
+                    class="table-date"
+                >
+                    <template #body="slotProps">
+                        <b-text :value="slotProps.node?.data.date" />
+                    </template>
+                </prime-column>
+
                 <prime-column />
 
                 <prime-column
@@ -210,6 +231,14 @@ const filters = computed(() => {
         .table-ext {
             @include col-width(150px);
             @include file-colors;
+        }
+
+        .table-size {
+            @include col-width(120px);
+        }
+
+        .table-date {
+            @include col-width(180px);
         }
 
         .table-actions {

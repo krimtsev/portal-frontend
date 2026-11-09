@@ -19,7 +19,7 @@ const props = withDefaults(defineProps<{
     appendTo?:        HTMLElement | "body" | "self"
     closeOnEscape?:   boolean
     dismissableMask?: boolean
-    column?:          boolean
+    direction?:       "column" | "row"
 }>(), {
     title:           undefined,
     style:           undefined,
@@ -32,7 +32,7 @@ const props = withDefaults(defineProps<{
     appendTo:        "body",
     closeOnEscape:   true,
     dismissableMask: false,
-    column:          false,
+    direction:       "column",
 })
 
 const dialogStyle = computed(() => ({
@@ -76,7 +76,7 @@ const contentStyle = computed(() => {
         <div
             class="dialog-body"
             :class="{
-                'dialog-body-column': props.column
+                'dialog-body-row': props.direction == 'row'
             }"
         >
             <div
@@ -110,9 +110,10 @@ const contentStyle = computed(() => {
     .dialog-body {
         display: flex;
         gap: $indent-x2;
+        flex-direction: column;
 
-        &-column {
-            flex-direction: column;
+        &-row {
+            flex-direction: row;
         }
     }
 

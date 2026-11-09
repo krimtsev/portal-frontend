@@ -25,4 +25,6 @@ export const dashboardPaths = {
     DashboardTelnumsIncoming:      "/dashboard/telnums/incoming",
     DashboardPromoDialogs:         "/dashboard/promo-dialogs",
     DashboardPromoDialog:          "/dashboard/promo-dialogs/:id",
+    DashboardBankDetails:          "/dashboard/bank-details",
+    DashboardBankDetail:           "/dashboard/bank-details/:id",
 }

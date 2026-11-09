@@ -5,7 +5,10 @@ export interface CloudData {
 }
 
 export interface CloudResponse {
-    data: CloudData & { files: CloudFile[] }
+    data: CloudData & {
+        files:      CloudFile[]
+        can_remove: boolean
+    }
 }
 
 export interface CloudOptionsTreeParams {
@@ -19,6 +22,7 @@ export interface CloudFile {
     ext:       string
     downloads: number
     isNew?:    boolean
+    date:      string
 }
 
 export interface CloudFilesResponse {

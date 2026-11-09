@@ -25,6 +25,7 @@ const { t } = useI18n()
         :title="props.title"
         :show-header="false"
         :append-to="props.appendTo"
+        direction="row"
         icon-name="pi pi-trash"
         class="b-dialog-remove"
     >

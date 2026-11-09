@@ -3,7 +3,7 @@ import type {
     DaDataBaseParams,
     BankData,
     PartyData,
-} from "@c/dadata/definitions/dadata.ts"
+} from "@c/dadata/definitions/dadata"
 
 // Банки
 export async function suggestBank(params: DaDataBaseParams) {

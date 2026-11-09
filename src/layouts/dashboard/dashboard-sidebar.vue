@@ -136,6 +136,17 @@ const items = computed<DashboardMenuItem[]>(() => {
 
     if (authStore.isSysAdmin) {
         menu.push({
+            key:         "bank-details",
+            label:       t("mc.dashboard.sidebar.bankDetails"),
+            icon:        "pi pi-credit-card",
+            route:       dashboardPaths.DashboardBankDetails,
+            activeNames: [
+                DashboardRouteName.DashboardBankDetails,
+                DashboardRouteName.DashboardBankDetail,
+            ],
+        })
+
+        menu.push({
             key:         "promo-dialogs",
             label:       t("mc.dashboard.sidebar.promoDialogs"),
             icon:        "pi pi-megaphone",

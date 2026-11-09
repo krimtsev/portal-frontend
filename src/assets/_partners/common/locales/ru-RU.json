@@ -64,7 +64,8 @@
             "placeholder": {
                 "period": "Выберите период",
                 "partner": "Выберите филиал",
-                "partners": "Выберите филиалы"
+                "partners": "Выберите филиалы",
+                "users": "Выберите пользователей"
             }
         },
         "timezone": {
@@ -322,7 +323,8 @@
                 "eventCalendar": "Календарь событий",
                 "settings": "Настройки",
                 "telnums": "Телефония",
-                "promoDialogs": "Промо-диалоги"
+                "promoDialogs": "Промо-диалоги",
+                "bankDetails": "Реквизиты банка"
             },
             "users": {
                 "state": {
