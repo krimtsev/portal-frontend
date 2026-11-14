@@ -155,6 +155,22 @@ const routes: RouteRecordRaw[] = [
             partners: [Partner.Soda],
         },
     },
+    {
+        path:      profilePaths.ProfileBankDetails,
+        name:      ProfileRouteName.ProfileBankDetails,
+        component: () => import("@v/profile/bank-details/list/bank-details-list-view.vue"),
+        meta:      {
+            roles,
+        },
+    },
+    {
+        path:      profilePaths.ProfileBankDetail,
+        name:      ProfileRouteName.ProfileBankDetail,
+        component: () => import("@v/profile/bank-details/edit/bank-detail-view.vue"),
+        meta:      {
+            roles,
+        },
+    },
 ]
 
 export default routes

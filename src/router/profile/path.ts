@@ -1,10 +1,14 @@
 export const profilePaths = {
-    Profile:                    "/profile",
-    ProfileUserProfile:         "/profile/user-profile",
-    ProfileChangePassword:      "/profile/change-password",
-    ProfileStatisticsStaff:     "/profile/statistics/staff",
-    ProfileTelnumsIncoming:     "/profile/telnums/incoming",
-    ProfileTeam:                "/profile/team",
+    Profile:                "/profile",
+    ProfileUserProfile:     "/profile/user-profile",
+    ProfileChangePassword:  "/profile/change-password",
+    ProfileStatisticsStaff: "/profile/statistics/staff",
+    ProfileTelnumsIncoming: "/profile/telnums/incoming",
+    ProfileTeam:            "/profile/team",
+    ProfileBankDetails:     "/profile/bank-details",
+    ProfileBankDetail:      "/profile/bank-details/:id",
+
+    // Заявки
     ProfileTicket:              "/profile/ticket/:id",
     ProfileTickets:             "/profile/tickets",
     ProfileTicketGeneral:       "/profile/ticket/general",

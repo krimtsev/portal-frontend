@@ -15,11 +15,11 @@ type TicketRequestParams = TicketAdministrator | TicketBlacklist | TicketCertifi
     TicketFlagman | TicketGeneral | TicketOpening | TicketSpecialist
 
 export async function list(paginationFilter: PaginationFilter) {
-    return await http.post<Pagination<TicketListItem[]>>("profile/tickets/list", paginationFilter)
+    return await http.post<Pagination<TicketListItem[]>>("tickets/list", paginationFilter)
 }
 
 export async function create(params: TicketRequestParams) {
-    return await http.post<any>("profile/tickets/ticket", params, {
+    return await http.post<any>("tickets/ticket", params, {
         headers: {
             "Content-Type": "multipart/form-data",
         },
@@ -27,22 +27,22 @@ export async function create(params: TicketRequestParams) {
 }
 
 export async function remove(id: string | number) {
-    return await http.delete<any>(`profile/tickets/ticket/${id}`)
+    return await http.delete<any>(`tickets/ticket/${id}`)
 }
 
 export async function download(id: string | number, name: string) {
     return await http.getFile({
         fileName: name,
-        url:      `profile/tickets/ticket/${id}/download`,
+        url:      `tickets/ticket/${id}/download`,
     })
 }
 
 export async function get(id: string) {
-    return await http.get<TicketResponse>(`profile/tickets/ticket/${id}`)
+    return await http.get<TicketResponse>(`tickets/ticket/${id}`)
 }
 
 export async function updateMessage(id: string | number, params: TicketRequestParams) {
-    return await http.post<TicketResponse>(`profile/tickets/ticket/${id}/message`, params, {
+    return await http.post<TicketResponse>(`tickets/ticket/${id}/message`, params, {
         headers: {
             "Content-Type": "multipart/form-data",
         },

@@ -21,14 +21,17 @@ export interface BankDetailListItem {
 }
 
 export interface BankDetailExportRow {
-    partner:               string
-    user:                  string
-    entrepreneur_name:     string
-    inn:                   string
-    checking_account:      string
+    id:                    number
     bank_name:             string
     bik:                   string
+    checking_account:      string
     correspondent_account: string
+    entrepreneur_name:     string
+    inn:                   string
+    partner:               string
+    user:                  string
+    created_at:            string
+    updated_at:            string
 }
 
 export interface BankDetailExportResponse {

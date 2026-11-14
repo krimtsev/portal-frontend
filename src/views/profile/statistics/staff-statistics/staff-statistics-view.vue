@@ -9,8 +9,8 @@ import { useNotify } from "@/composables/notify/use-notify"
 import { HttpError } from "@/api"
 import type { UserPartnerItem } from "@/api/modules/partner/partner"
 import * as partnerAPI from "@/api/modules/partner/partner"
-import type { TotalCompareStatistics } from "@/api/modules/profile/statistics/definitions/statistics"
-import * as statisticsAPI from "@/api/modules/profile/statistics/statistics"
+import type { TotalCompareStatistics } from "@/api/modules/statistics/definitions/statistics"
+import * as statisticsAPI from "@/api/modules/statistics/statistics"
 import BAvatar from "@c/common/b-avatar/b-avatar.vue"
 import BButtonIcon from "@c/common/b-button-icon/b-button-icon.vue"
 import BDatePicker from "@c/common/b-date-picker/b-date-picker.vue"
@@ -76,8 +76,8 @@ onMounted(async () => {
     if (userPartner?.id) {
         filterPartner.value = userPartner.id
         userPartners.value = [{
-            partner_id: userPartner.id,
-            name:       userPartner.name,
+            id:   userPartner.id,
+            name: userPartner.name,
         }]
     }
 
@@ -223,7 +223,7 @@ async function onRowExpand(event: { data: StaffStatisticsItem }) {
                         :options="userPartners"
                         :disabled="partnerStatisticsStore.isLoading"
                         option-label="name"
-                        option-value="partner_id"
+                        option-value="id"
                         filter
                         class="filter-partner"
                         @change="onChangeFilter"

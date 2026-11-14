@@ -179,7 +179,7 @@ async function onExportXLS() {
 
             <b-toolbar-item header="Пользователь">
                 <b-multi-select
-                    v-model="bankDetailsStore.filter.filters.partner_id"
+                    v-model="bankDetailsStore.filter.filters.user_id"
                     :options="userOptions"
                     :disabled="bankDetailsStore.isLoading"
                     option-label="name"
@@ -228,7 +228,7 @@ async function onExportXLS() {
 
             <b-empty-result
                 v-else-if="!bankDetailsStore.isLoading && !bankDetails.length"
-                title="Нет диалогов"
+                title="Нет реквизитов"
             />
 
             <prime-data-table

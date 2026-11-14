@@ -53,6 +53,15 @@ const appStore = useAppStore()
                 />
             </div>
 
+            <div class="col-3 tablet-col-4 mobile-col-12">
+                <portal-section-card
+                    icon="pi-credit-card"
+                    title="Реквизиты банка"
+                    description="Сохраняйте банковские реквизиты для быстрого использования на портале и при оформлении заявок на сертификаты."
+                    @click="goTo(ProfileRouteName.ProfileBankDetails)"
+                />
+            </div>
+
             <!--  <div class="col-3 tablet-col-4 mobile-col-12">
                 <portal-section-card
                     icon="pi-users"

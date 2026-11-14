@@ -8,7 +8,7 @@ import { useNotify } from "@/composables/notify/use-notify"
 import { HttpError } from "@/api"
 import type { UserPartnerItem } from "@/api/modules/partner/partner"
 import * as partnerAPI from "@/api/modules/partner/partner"
-import * as telnumsIncomingAPI from "@/api/modules/profile/telnums/telnums-incomgin"
+import * as telnumsIncomingAPI from "@/api/modules/telnums/telnums-incomgin"
 import CallsPeriodChart from "@c/charts/calls-period-chart/calls-period-chart.vue"
 import BDatePicker from "@c/common/b-date-picker/b-date-picker.vue"
 import BEmptyResult from "@c/common/b-empty/b-empty-result.vue"
@@ -39,8 +39,8 @@ onMounted(async () => {
     if (userPartner?.id) {
         telnumsIncomingStore.filter.filters.partner_id = userPartner.id
         userPartners.value = [{
-            partner_id: userPartner.id,
-            name:       userPartner.name,
+            id:   userPartner.id,
+            name: userPartner.name,
         }]
     }
 
@@ -166,7 +166,7 @@ function onDatePickerHide() {
                         :options="userPartners"
                         :disabled="telnumsIncomingStore.isLoading"
                         option-label="name"
-                        option-value="partner_id"
+                        option-value="id"
                         filter
                         class="filter-partner"
                         @change="onChangeFilter"

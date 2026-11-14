@@ -1,8 +1,8 @@
 import { http } from "@/api"
 
 export interface UserPartnerItem {
-    partner_id: number
-    name:       string
+    id:   number
+    name: string
 }
 
 export interface UserPartners {

@@ -39,6 +39,7 @@ export function defaultAnalyticsData(): AnalyticsData {
             yclients_count: 0,
             failed_count:   0,
         },
+        mango_calls: [],
     }
 }
 

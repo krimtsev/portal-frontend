@@ -16,8 +16,8 @@ export async function get(id: string) {
     return await http.get<BankDetailResponse>(`dashboard/bank-detail/record/${id}`)
 }
 
-export async function create(data: BankDetailData) {
-    return await http.post<null>("dashboard/bank-detail/record", data)
+export async function create(id: string, data: BankDetailData) {
+    return await http.post<null>(`dashboard/bank-detail/record/${id}`, data)
 }
 
 export async function update(id: string, data: BankDetailData) {

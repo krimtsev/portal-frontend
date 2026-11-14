@@ -10,7 +10,7 @@ import { ProfileRouteName } from "@r/profile/route-names"
 import { HttpError } from "@/api"
 import * as partnerAPI from "@/api/modules/partner/partner"
 import { type UserPartners } from "@/api/modules/partner/partner"
-import * as ticketAPI from "@/api/modules/profile/tickets/tickets"
+import * as ticketAPI from "@/api/modules/tickets/tickets"
 import BButton from "@c/common/b-button/b-button.vue"
 import BButtonGroups from "@c/common/b-button-groups/b-button-groups.vue"
 import BInputTelnum from "@c/common/b-input/b-input-telnum.vue"
@@ -173,7 +173,7 @@ const onSave = handleSubmit(async (formValues) => {
                             :error="errors['partner_id']"
                             :placeholder="t('mc.common.partner')"
                             option-label="name"
-                            option-value="partner_id"
+                            option-value="id"
                             filter
                             full-width
                         />

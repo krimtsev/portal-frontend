@@ -47,17 +47,15 @@ const BankDetailsSchema = z.object({
         .regex(/^\d{20}$/, { message: "Корреспондентский счет должен содержать 20 цифр" }),
 })
 
-export const createFormSchema = (isBankRequired: boolean) =>
+export const createFormSchema = () =>
     toTypedSchema(
         z.object({
             title:         TitleSchema,
             department_id: DepartmentIdSchema,
             type:          TypeSchema,
-            attributes:    isBankRequired
-                ? BaseAttributesSchema.extend(BankDetailsSchema.shape)
-                : BaseAttributesSchema,
-            message:    MessageSchema,
-            partner_id: PartnerIdSchema,
-            files:      FilesSchema,
+            attributes:    BaseAttributesSchema.extend(BankDetailsSchema.shape),
+            message:       MessageSchema,
+            partner_id:    PartnerIdSchema,
+            files:         FilesSchema,
         }),
     )

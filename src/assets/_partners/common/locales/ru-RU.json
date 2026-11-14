@@ -27,7 +27,8 @@
             },
             "button": {
                 "copy": "Скопировать",
-                "copied": "Скопировано"
+                "copied": "Скопировано",
+                "apply": "Применить"
             },
             "textArea": {
                 "placeholder": "@:(mc.common.input.placeholder)",
@@ -36,6 +37,7 @@
             "fileUpload": {
                 "placeholder": "Добавить файлы",
                 "label": "Выбраны файлы:",
+                "selected": "{current} / {total}",
                 "buttons": {
                     "upload": "Загрузить",
                     "cancel": "Отмена"
@@ -202,7 +204,8 @@
                     "checkingAccount": "Расчетный счет",
                     "bankName": "Наименование банка",
                     "bik": "БИК",
-                    "correspondentAccount": "Корреспондентский счет"
+                    "correspondentAccount": "Корреспондентский счет",
+                    "bankDetail": "Выберите реквизиты банка"
                 }
             },
             "design": {
@@ -292,6 +295,11 @@
             "specialistQualification": {
                 "topMaster": "ТОР-МАСТЕР",
                 "brandMaster": "БРЕНД-МАСТЕР"
+            }
+        },
+        "bankDetail": {
+            "notify": {
+                "created": "Реквизиты успешно созданы"
             }
         },
         "department": {

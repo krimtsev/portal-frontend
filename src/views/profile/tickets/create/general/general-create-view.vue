@@ -9,7 +9,7 @@ import { ProfileRouteName } from "@r/profile/route-names"
 import { HttpError } from "@/api"
 import type { UserPartners } from "@/api/modules/partner/partner"
 import * as partnerAPI from "@/api/modules/partner/partner"
-import * as ticketAPI from "@/api/modules/profile/tickets/tickets"
+import * as ticketAPI from "@/api/modules/tickets/tickets"
 import BButton from "@c/common/b-button/b-button.vue"
 import BInputText from "@c/common/b-input/b-input-text.vue"
 import BSelect from "@c/common/b-select/b-select.vue"
@@ -124,7 +124,7 @@ const onSave = handleSubmit(async (formValues) => {
                             :disabled="isDisabled"
                             :error="errors['partner_id']"
                             option-label="name"
-                            option-value="partner_id"
+                            option-value="id"
                             :placeholder="t('mc.common.partner')"
                             full-width
                         />

@@ -5,7 +5,10 @@ export enum ProfileRouteName {
     ProfileTelnumsIncoming = "ProfileTelnumsIncoming",
     ProfileChangePassword = "ProfileChangePassword",
     ProfileTeam = "ProfileTeam",
+    ProfileBankDetails = "ProfileBankDetails",
+    ProfileBankDetail = "ProfileBankDetail",
 
+    // Заявки
     ProfileTicket = "ProfileTicket",
     ProfileTickets = "ProfileTickets",
     ProfileTicketGeneral = "ProfileTicketGeneral",

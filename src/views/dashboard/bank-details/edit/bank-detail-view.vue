@@ -8,8 +8,8 @@ import { dashboardPaths } from "@r/dashboard/path"
 import { DashboardRouteName } from "@r/dashboard/route-names"
 import { HttpError } from "@/api"
 import * as bankDetailsAPI from "@/api/modules/dashboard/bank-details/bank-details"
-import * as partnersAPI from "@/api/modules/dashboard/partners/partners.ts"
-import * as usersAPI from "@/api/modules/dashboard/users/users.ts"
+import * as partnersAPI from "@/api/modules/dashboard/partners/partners"
+import * as usersAPI from "@/api/modules/dashboard/users/users"
 import BButtonSecondary from "@c/common/b-button/b-button-secondary.vue"
 import BDialogRemove from "@c/common/b-dialog/b-dialog-remove.vue"
 import BForm from "@c/common/b-form/b-form.vue"
@@ -134,7 +134,7 @@ const onSave = handleSubmit(async (formValues) => {
 
     const [bankDetailResponse] = await Promise.all([
         isNew.value
-            ? bankDetailsAPI.create(formValues)
+            ? bankDetailsAPI.create(bankDetailId.value, formValues)
             : bankDetailsAPI.update(bankDetailId.value, formValues),
     ])
 
@@ -147,7 +147,7 @@ const onSave = handleSubmit(async (formValues) => {
     }
 
     if (isNew.value) {
-        notify.success(t("mc.dashboard.bankDetail.notify.created"))
+        notify.success(t("mc.bankDetail.notify.created"))
     } else {
         notify.success(t("mc.notify.success"))
     }
@@ -171,7 +171,7 @@ const onRemove = async () => {
     notify.success(t("mc.notify.remove"))
 
     await router.push({
-        name: DashboardRouteName.DashboardPromoDialogs,
+        name: DashboardRouteName.DashboardBankDetails,
     })
 }
 
@@ -348,5 +348,4 @@ function onDaDataBankSelect(data: BankData) {
         gap: $indent-x1;
     }
 }
-
 </style>

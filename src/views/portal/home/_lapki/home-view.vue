@@ -87,11 +87,11 @@ const hasPartnerName = computed(() => !!partnerName.value)
                 >
                     <div class="buttons-wrapper">
                         <b-button-group
-                            label="Заявка на МАСТЕРА"
+                            label="Заявка на ТОП-МАСТЕРА"
                             @click="router.push({
                                 name: ProfileRouteName.ProfileTicketSpecialist,
                                 query: {
-                                    qualification: DefaultQualification.Master
+                                    qualification: DefaultQualification.TopMaster
                                 }
                             })"
                         />

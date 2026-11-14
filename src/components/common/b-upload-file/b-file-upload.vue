@@ -218,6 +218,15 @@ const clear = () => {
     localError.value = null
 }
 
+const fileProgressValue = computed(() => {
+    if (!props.limit) return 0
+    return Math.min(100, Math.round((files.value.length / props.limit) * 100))
+})
+
+const showFileCount = computed(() => {
+    return props.limit > 0 && files.value.length > 0
+})
+
 defineExpose({ clear })
 </script>
 
@@ -236,35 +245,6 @@ defineExpose({ clear })
             :name="props.name"
             @change="onFileSelect"
         >
-
-        <div
-            v-if="showActions"
-            class="actions"
-        >
-            <div class="buttons">
-                <prime-button
-                    icon="pi pi-cloud-upload"
-                    variant="outlined"
-                    :severity="!hasFiles ? 'secondary' : ''"
-                    :label="t('mc.common.fileUpload.buttons.upload')"
-                    :disabled="isDisabled || !hasFiles"
-                    @click="onUpload"
-                />
-                <prime-button
-                    icon="pi pi-times"
-                    variant="outlined"
-                    severity="secondary"
-                    :label="t('mc.common.fileUpload.buttons.cancel')"
-                    :disabled="isDisabled || !hasFiles"
-                    @click="onClear"
-                />
-            </div>
-
-            <prime-progress-bar
-                :mode="props.isProcessing ? 'indeterminate' : 'determinate'"
-                class="progress"
-            />
-        </div>
 
         <div
             class="drop-box"
@@ -289,9 +269,40 @@ defineExpose({ clear })
         </div>
 
         <div
-            v-if="hasFiles"
-            class="files"
+            v-if="showActions"
+            class="actions"
         >
+            <prime-progress-bar
+                :mode="props.isProcessing ? 'indeterminate' : 'determinate'"
+                :value="showFileCount ? fileProgressValue : 0"
+                class="progress"
+            >
+                <template v-if="showFileCount && !props.isProcessing" #default>
+                    {{ t('mc.common.fileUpload.selected', { current: files.length, total: props.limit }) }}
+                </template>
+            </prime-progress-bar>
+
+            <div class="buttons">
+                <prime-button
+                    icon="pi pi-cloud-upload"
+                    variant="outlined"
+                    :severity="!hasFiles ? 'secondary' : ''"
+                    :label="t('mc.common.fileUpload.buttons.upload')"
+                    :disabled="isDisabled || !hasFiles"
+                    @click="onUpload"
+                />
+                <prime-button
+                    icon="pi pi-times"
+                    variant="outlined"
+                    severity="secondary"
+                    :label="t('mc.common.fileUpload.buttons.cancel')"
+                    :disabled="isDisabled || !hasFiles"
+                    @click="onClear"
+                />
+            </div>
+        </div>
+
+        <div v-if="hasFiles" class="files">
             <div class="file-label">
                 {{ t('mc.common.fileUpload.label') }}
             </div>
@@ -300,22 +311,12 @@ defineExpose({ clear })
                 <div
                     v-for="(file, index) in files"
                     :key="file.name + index"
+                    class="file-item"
+                    :class="{ 'file-item-disabled': isDisabled }"
+                    @click.stop="removeFile(index)"
                 >
-                    <div
-                        class="file-item"
-                        :class="{
-                            'file-item-disabled': isDisabled
-                        }"
-                        @click.stop="removeFile(index)"
-                    >
-                        <span class="file-name">
-                            {{ file.name }}
-                        </span>
-                        <b-svg
-                            name="pi-times"
-                            class="remove-icon"
-                        />
-                    </div>
+                    <span class="file-name">{{ file.name }}</span>
+                    <b-svg name="pi-times" class="remove-icon" />
                 </div>
             </div>
         </div>
@@ -347,6 +348,7 @@ defineExpose({ clear })
 
     .actions {
         width: 100%;
+        margin-bottom: $indent-x1;
 
         .buttons {
             display: flex;
@@ -354,9 +356,9 @@ defineExpose({ clear })
         }
 
         .progress {
-            height: 8px;
+            height: 0.9rem;
             width: 100%;
-            margin-top: $indent-x1;
+            margin-bottom: $indent-x1;
         }
     }
 
@@ -401,22 +403,27 @@ defineExpose({ clear })
 
     .files {
         display: flex;
-        flex-wrap: wrap;
+        align-items: flex-start;
         gap: $indent-x1;
+        flex-wrap: nowrap;
 
         .file-label {
+            flex-shrink: 0;
             color: var(--p-dropbox-files-color);
+            white-space: nowrap;
         }
 
         .file-list {
             display: flex;
             flex-wrap: wrap;
             gap: $indent-x1;
+            flex: 1;
+            min-width: 0;
             color: var(--p-dropbox-files-color);
 
             .file-item {
                 display: flex;
-                align-items: end;
+                align-items: center;   // было end — иконка съезжала
                 gap: $indent-x1;
                 cursor: pointer;
 
