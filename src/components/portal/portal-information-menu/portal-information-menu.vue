@@ -30,8 +30,7 @@ const props = defineProps<{
                     <b-link
                         v-if="item.path"
                         :label="item.label"
-                        :href="item.path"
-                        as-internal
+                        :path="item.path"
                     />
 
                     <b-link

@@ -282,8 +282,7 @@ const onSave = handleSubmit(async (formValues) => {
                         <div class="bank-details-link">
                             <b-link
                                 label="Редактировать реквизиты"
-                                :href="profilePaths.ProfileBankDetails"
-                                as-internal
+                                :path="profilePaths.ProfileBankDetails"
                             />
                         </div>
                     </div>

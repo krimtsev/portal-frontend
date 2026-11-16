@@ -2,30 +2,33 @@
 import { computed } from "vue"
 
 const props = defineProps<{
-    label:       string
-    href?:       string
-    asInternal?: boolean
+    label: string
+    href?: string
+    path?: string
 }>()
 
-const isExternal = computed(() => !!props.href && !props.asInternal)
+const isExternal = computed(() => !!props.href && !props.path)
 
 const componentTag = computed(() => {
-    if (!props.href) return "span"
-    return props.asInternal ? "router-link" : "a"
+    if (props.path) return "router-link"
+    if (props.href) return "a"
+    return "span"
 })
 
 const linkProps = computed(() => {
-    if (!props.href) return {}
-
-    if (props.asInternal) {
-        return { to: props.href }
+    if (props.path) {
+        return { to: props.path }
     }
 
-    return {
-        href:   props.href,
-        target: "_blank",
-        rel:    "noopener noreferrer",
+    if (props.href) {
+        return {
+            href:   props.href,
+            target: "_blank",
+            rel:    "noopener noreferrer",
+        }
     }
+
+    return {}
 })
 </script>
 
