@@ -13,6 +13,11 @@ export interface BankDetailResponse {
     data: BankDetailData
 }
 
+interface BankDetailPartner {
+    id:   number
+    name: string
+}
+
 export interface BankDetailOptionItem {
     id:                    number
     entrepreneur_name:     string
@@ -21,6 +26,7 @@ export interface BankDetailOptionItem {
     bank_name:             string
     bik:                   string
     correspondent_account: string
+    partner:               BankDetailPartner | null
 }
 
 export interface BankDetailOptionsResponse {

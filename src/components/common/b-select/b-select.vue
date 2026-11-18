@@ -114,6 +114,16 @@ const panelStyle = computed(() => {
                     @click.stop="onClear($event, clearCallback)"
                 />
             </template>
+
+            <template
+                v-if="$slots.option"
+                #option="slotProps"
+            >
+                <slot
+                    name="option"
+                    v-bind="slotProps"
+                />
+            </template>
         </prime-select>
 
         <b-input-error :error="props.error" />

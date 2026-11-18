@@ -17,6 +17,10 @@ import BSkeleton from "@c/common/b-skeleton/b-skeleton.vue"
                     height="1rem"
                     width="17rem"
                 />
+                <b-skeleton
+                    height="1rem"
+                    width="8rem"
+                />
             </div>
         </div>
     </div>
@@ -34,6 +38,13 @@ import BSkeleton from "@c/common/b-skeleton/b-skeleton.vue"
         gap: $indent-x2;
         min-height: 35px;
         width: auto;
+
+
+        .name {
+            display: flex;
+            flex-direction: column;
+            gap: $indent-x1;
+        }
     }
 }
 </style>

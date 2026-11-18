@@ -271,7 +271,25 @@ async function onEditBankDetails() {
                                 option-value="id"
                                 :placeholder="t('mc.ticket.certificate.placeholder.bankDetail')"
                                 class="bank-details-select"
-                            />
+                                full-width
+                            >
+                                <template #option="{ option }">
+                                    <div class="bank-detail-option">
+                                        <div class="bank-detail-option-title">
+                                            {{ option.entrepreneur_name }}
+                                        </div>
+                                        <div class="bank-detail-option-subtitle">
+                                            <span>
+                                                р\с: {{ option.checking_account }}
+                                            </span>
+
+                                            <span v-if="option.partner">
+                                                ({{ option.partner.name }})
+                                            </span>
+                                        </div>
+                                    </div>
+                                </template>
+                            </b-select>
 
                             <b-button-secondary
                                 :label="t('mc.common.button.apply')"
@@ -284,7 +302,6 @@ async function onEditBankDetails() {
                                 icon="pi pi-pencil"
                                 variant="outlined"
                                 severity="secondary"
-                                label="Редактировать"
                                 @click="onEditBankDetails"
                             />
                         </div>
@@ -410,6 +427,21 @@ async function onEditBankDetails() {
         display: flex;
         align-items: center;
         height: 100%;
+    }
+
+    .bank-detail-option {
+        display: flex;
+        flex-direction: column;
+
+        &-subtitle {
+            @include small-text;
+
+            display: flex;
+            flex-direction: row;
+            gap: calc($indent-x1 / 2);
+            line-height: inherit;
+            color: var(--p-text-muted-color);
+        }
     }
 }
 </style>
