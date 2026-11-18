@@ -181,6 +181,16 @@ const filters = computed(() => {
                 </prime-column>
 
                 <prime-column
+                    field="author"
+                    header="Автор"
+                    class="table-author"
+                >
+                    <template #body="slotProps">
+                        <b-text :value="slotProps.node?.data?.author" />
+                    </template>
+                </prime-column>
+
+                <prime-column
                     field="date"
                     header="Дата"
                     class="table-date"
@@ -235,6 +245,10 @@ const filters = computed(() => {
 
         .table-size {
             @include col-width(120px);
+        }
+
+        .table-author {
+            @include col-width(150px);
         }
 
         .table-date {

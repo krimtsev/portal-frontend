@@ -18,6 +18,8 @@ export interface CloudFileItem {
     name:             string
     ext:              string
     cloud_folders_id: number
+    size:             number
+    date:             string
 }
 
 export interface CloudData {

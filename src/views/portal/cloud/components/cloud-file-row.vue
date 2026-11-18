@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import { ref } from "vue"
+import { computed, ref } from "vue"
+import PrimeTag from "primevue/tag"
 import { useNotify } from "@/composables/notify/use-notify"
 import { HttpError } from "@/api"
 import * as cloudAPI from "@/api/modules/cloud/cloud"
 import BSpinner from "@c/common/b-spinner/b-spinner.vue"
 import type { CloudFileItem } from "@v/portal/cloud/definitions/cloud"
 import { downloadExternalFile } from "@/lib/files"
+import { formatBytes } from "@/lib/format-size"
 
 const props = defineProps<{
     item: CloudFileItem
@@ -14,6 +16,20 @@ const props = defineProps<{
 const notify = useNotify()
 
 const isLoading = ref(false)
+
+const FIVE_DAYS_MS = 5 * 24 * 60 * 60 * 1000
+const fileSize = computed(() => formatBytes(props.item.size))
+
+const isNew = computed(() => {
+    const date = new Date(props.item.date.replace(" ", "T"))
+    const time = date.getTime()
+
+    if (Number.isNaN(time)) return false
+
+    const diff = Date.now() - time
+
+    return diff >= 0 && diff <= FIVE_DAYS_MS
+})
 
 async function onClick() {
     if (isLoading.value) return
@@ -57,7 +73,22 @@ async function onClick() {
             </div>
 
             <div class="name">
-                {{ props.item.title }}
+                <div class="title-row">
+                    <span class="title">{{ props.item.title }}</span>
+
+                    <prime-tag
+                        v-if="isNew"
+                        value="Новый"
+                        severity="info"
+                    />
+                </div>
+
+                <span
+                    v-if="fileSize"
+                    class="size"
+                >
+                    {{ fileSize }}
+                </span>
             </div>
         </div>
     </div>
@@ -110,8 +141,21 @@ async function onClick() {
 
         .name {
             display: flex;
-            align-items: center;
-            position: relative;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 2px;
+
+            .title-row {
+                display: flex;
+                align-items: center;
+                gap: $indent-x2;
+            }
+
+            .size {
+                @include small-text;
+
+                color: var(--p-text-muted-color);
+            }
         }
 
         @include file-colors;

@@ -152,6 +152,16 @@ defineExpose({ scrollToBottom })
             </prime-column>
 
             <prime-column
+                header="Автор"
+                field="author"
+                class="table-author"
+            >
+                <template #body="slotProps">
+                    <b-text :value="slotProps.data?.author" />
+                </template>
+            </prime-column>
+
+            <prime-column
                 header="Дата"
                 field="date"
                 class="table-date"
@@ -228,6 +238,10 @@ $height-row: 48px;
 
         .table-size {
             @include col-width(120px);
+        }
+
+        .table-author {
+            @include col-width(150px);
         }
 
         .table-date {

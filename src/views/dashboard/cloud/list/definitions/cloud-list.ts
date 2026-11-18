@@ -14,6 +14,7 @@ export interface CloudListItem extends TreeNode {
         downloads?: number
         slug?:      string
         path?:      string
+        author?:    string | null
         date:       string
         size:       number
     }

@@ -133,7 +133,7 @@ function goToNew() {
 
 <template>
     <portal-page
-        title="Список заявок"
+        title="Реквизиты банка"
         class="bank-details-list-view"
     >
         <div class="filter">
@@ -244,7 +244,6 @@ function goToNew() {
                 </prime-column>
 
                 <prime-column
-                    header="БИК"
                     field="bik"
                     class="table-bik"
                 >

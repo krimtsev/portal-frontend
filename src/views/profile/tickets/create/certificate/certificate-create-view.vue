@@ -5,7 +5,6 @@ import { useRouter } from "vue-router"
 import { useDepartmentStore } from "@s/department/department"
 import { useNotify } from "@/composables/notify/use-notify"
 import { useVeeForm } from "@/composables/vee-validate/use-validation"
-import { profilePaths } from "@r/profile/path.ts"
 import { ProfileRouteName } from "@r/profile/route-names"
 import { HttpError } from "@/api"
 import * as bankDetailsAPI from "@/api/modules/bank-details/bank-details"
@@ -14,10 +13,10 @@ import * as partnerAPI from "@/api/modules/partner/partner"
 import * as ticketAPI from "@/api/modules/tickets/tickets"
 import BButton from "@c/common/b-button/b-button.vue"
 import BButtonSecondary from "@c/common/b-button/b-button-secondary.vue"
+import BButtonIcon from "@c/common/b-button-icon/b-button-icon.vue"
 import BDatePicker from "@c/common/b-date-picker/b-date-picker.vue"
 import BInputNumber from "@c/common/b-input/b-input-number.vue"
 import BInputText from "@c/common/b-input/b-input-text.vue"
-import BLink from "@c/common/b-link/b-link.vue"
 import BSelect from "@c/common/b-select/b-select.vue"
 import BTextarea from "@c/common/b-textarea/b-textarea.vue"
 import BTitle from "@c/common/b-title/b-title.vue"
@@ -180,6 +179,10 @@ const onSave = handleSubmit(async (formValues) => {
     notify.success(t("mc.ticket.notify.success"))
     await router.push({ name: ProfileRouteName.ProfileTickets })
 })
+
+async function onEditBankDetails() {
+    await router.push({ name: ProfileRouteName.ProfileBankDetails })
+}
 </script>
 
 <template>
@@ -275,14 +278,14 @@ const onSave = handleSubmit(async (formValues) => {
                                 :disabled="isApplyDisabled || isDisabled"
                                 @click="onApplyBankDetails"
                             />
-                        </div>
-                    </div>
 
-                    <div class="col-6 mobile-col-12">
-                        <div class="bank-details-link">
-                            <b-link
-                                label="Редактировать реквизиты"
-                                :path="profilePaths.ProfileBankDetails"
+                            <b-button-icon
+                                :disabled="isDisabled"
+                                icon="pi pi-pencil"
+                                variant="outlined"
+                                severity="secondary"
+                                label="Редактировать"
+                                @click="onEditBankDetails"
                             />
                         </div>
                     </div>
