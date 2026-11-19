@@ -48,6 +48,9 @@
                     "limit": "Максимум файлов {limit}"
                 }
             },
+            "imageUpload": {
+                "placeholder": "Добавить изображение"
+            },
             "status": {
                 "new": "Новый",
                 "inProgress": "В работе",

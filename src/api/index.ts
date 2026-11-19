@@ -222,20 +222,41 @@ class Http {
     }
 
     async getFile(
-        { fileName, url = "", onDownloadProgress, params = {} }:
-        { fileName: string, url: string, onDownloadProgress?: (progressEvent: any) => void, params?: Record<string, unknown> },
+        {
+            fileName,
+            url = "",
+            onDownloadProgress,
+            params = {},
+        }:
+        {
+            fileName:            string
+            url:                 string
+            onDownloadProgress?: (progressEvent: any) => void
+            params?:             Record<string, unknown>
+        },
+        customConfig?: CustomAxiosRequestConfig,
     ): Promise<Blob | HttpError> {
         try {
             if (!url.endsWith("/")) url += "/"
-            const response = await this.http.get(`${url}${fileName}`, {
+
+            const { config, abortControllerConfig } = pickUpAbortControllerConfigFromCustomConfig(customConfig)
+            const request = this.http.get(`${url}${fileName}`, {
+                ...config,
                 responseType: "blob",
                 onDownloadProgress,
                 params,
             })
+
+            const response = await this.queue.fetch<Blob>(url, HttpMethod.GET, request, abortControllerConfig)
+
             requestsHistory.push(url, HttpMethod.GET, response.status, response.data)
-            return new Blob([response.data])
+
+            return response.data instanceof Blob ? response.data : new Blob([response.data])
         } catch (err: unknown) {
             const error = err as AxiosError<any>
+            if (!customConfig?.skipAuthGuard) {
+                await authGuard(error, customConfig)
+            }
             requestsHistory.push(url, HttpMethod.GET, error.response?.status, error.response?.data)
             return new HttpError(
                 error.response?.status,

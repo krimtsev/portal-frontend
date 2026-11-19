@@ -1,9 +1,6 @@
 import * as z from "zod"
-import {
-    DEFAULT_FILES_LIMIT,
-    DEFAULT_MAX_SIZE_MB,
-    megabytesToBytes,
-} from "@c/common/b-upload-file/utils/b-file-upload"
+import { megabytesToBytes } from "@/lib/format-size"
+import { DEFAULT_FILES_LIMIT, DEFAULT_MAX_SIZE_MB } from "@/constants/files"
 
 const MAX_FILE_SIZE = megabytesToBytes(DEFAULT_MAX_SIZE_MB)
 const MAX_FILES = DEFAULT_FILES_LIMIT

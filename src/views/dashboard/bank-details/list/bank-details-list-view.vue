@@ -327,7 +327,7 @@ async function onExportXLS() {
                     class="table-partner"
                 >
                     <template #body="{ data }">
-                        <b-table-text :text="data.partner.name" />
+                        <b-table-text :text="data?.partner?.name" />
                     </template>
                 </prime-column>
 

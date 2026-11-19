@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from "vue"
+import { computed, onMounted, ref, watch } from "vue"
 import { useI18n } from "vue-i18n"
 import { useRoute, useRouter } from "vue-router"
 import { useNotify } from "@/composables/notify/use-notify"
@@ -12,27 +12,29 @@ import BDialogRemove from "@c/common/b-dialog/b-dialog-remove.vue"
 import BForm from "@c/common/b-form/b-form.vue"
 import BFormCard from "@c/common/b-form/b-form-card.vue"
 import BFormItem from "@c/common/b-form/b-form-item.vue"
+import BImageUpload from "@c/common/b-image-upload/b-image-upload.vue"
 import BInputText from "@c/common/b-input/b-input-text.vue"
 import BSelectButton from "@c/common/b-select-button/b-select-button.vue"
 import BTextarea from "@c/common/b-textarea/b-textarea.vue"
-import type { PromoDialogData } from "@v/dashboard/promo-dialogs/edit/definitions/promo-dialog"
+import type { PromoDialogFormData } from "@v/dashboard/promo-dialogs/edit/definitions/promo-dialog"
 import { PromoDialogSchema } from "@v/dashboard/promo-dialogs/edit/schemas/promo-dialog.schema"
 import { controlOptions } from "@/constants/controls"
 import { maxMessageLength, maxTitleLength } from "@/constants/messages"
 import { Status } from "@/definitions/status"
-
 
 const notify = useNotify()
 const route = useRoute()
 const router = useRouter()
 const { t } = useI18n()
 
-function defaultState(): PromoDialogData {
+function defaultState(): PromoDialogFormData {
     return {
-        title:       "",
-        description: "",
-        template:    null,
-        disabled:    true,
+        title:        "",
+        description:  "",
+        template:     null,
+        disabled:     true,
+        image:        null,
+        remove_image: false,
     }
 }
 
@@ -50,7 +52,7 @@ const {
     defineLazyField,
     meta,
     setErrors,
-} = useVeeForm<PromoDialogData>({
+} = useVeeForm<PromoDialogFormData>({
     validationSchema: PromoDialogSchema,
     initialValues:    defaultState(),
 })
@@ -59,6 +61,8 @@ const [titleModel] = defineLazyField("title")
 const [descriptionModel] = defineLazyField("description")
 const [disabledModel] = defineLazyField("disabled")
 const [templateModel] = defineLazyField("template")
+const [imageModel] = defineLazyField("image")
+const [removeImageModel] = defineLazyField("remove_image")
 
 onMounted(async () => {
     isFirstLoading.value = true
@@ -79,12 +83,21 @@ onMounted(async () => {
 
         resetForm({
             values: {
-                title:       promoDialog.title,
-                description: promoDialog.description,
-                disabled:    promoDialog.disabled,
-                template:    promoDialog.template,
+                title:        promoDialog.title,
+                description:  promoDialog.description,
+                disabled:     promoDialog.disabled,
+                template:     promoDialog.template,
+                image:        null,
+                remove_image: false,
             },
         })
+
+        if (promoDialog.image) {
+            const blob = await promoDialogsAPI.getImage(promoDialogId.value)
+            if (!(blob instanceof HttpError)) {
+                serverImageUrl.value = URL.createObjectURL(blob)
+            }
+        }
     }
 
     isFirstLoading.value = false
@@ -152,6 +165,17 @@ const onRemove = async () => {
         name: DashboardRouteName.DashboardPromoDialogs,
     })
 }
+
+const serverImageUrl = ref<string | null>(null)
+const effectiveServerUrl = computed<string | null>(() => {
+    return removeImageModel.value
+        ? null
+        : serverImageUrl.value
+})
+
+watch(imageModel, (file) => {
+    if (file) removeImageModel.value = false
+})
 </script>
 
 <template>
@@ -206,6 +230,17 @@ const onRemove = async () => {
                     :option-class="{
                         [Status.DISABLED]: 'status-danger',
                     }"
+                />
+            </b-form-item>
+
+            <b-form-item label="Изображение">
+                <b-image-upload
+                    v-model="imageModel"
+                    :server-url="effectiveServerUrl"
+                    :error="errors['image']"
+                    :disabled="isLoading"
+                    @remove="removeImageModel = true"
+                    class="image full-width"
                 />
             </b-form-item>
         </b-form-card>

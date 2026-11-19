@@ -5,13 +5,9 @@ import PrimeButton from "primevue/button"
 import PrimeProgressBar from "primevue/progressbar"
 import BInputError from "@c/common/b-input-error/b-input-error.vue"
 import BSvg from "@c/common/b-svg/b-svg.vue"
-import {
-    bytesToMegabytes,
-    DEFAULT_ACCEPT,
-    DEFAULT_FILES_LIMIT,
-    DEFAULT_MAX_SIZE_MB,
-    megabytesToBytes,
-} from "@c/common/b-upload-file/utils/b-file-upload"
+import { bytesToMegabytes, megabytesToBytes } from "@/lib/format-size"
+import { DEFAULT_FILES_LIMIT, DEFAULT_MAX_SIZE_MB } from "@/constants/files.ts"
+import { ALL_ACCEPT } from "@/constants/mime-types"
 import i18n from "@/plugins/i18n"
 
 const model = defineModel<File | File[] | null>()
@@ -33,7 +29,7 @@ const props = withDefaults(defineProps<{
     showActions?:  boolean
     limit?:        number
 }>(), {
-    accept:      DEFAULT_ACCEPT,
+    accept:      ALL_ACCEPT,
     multiple:    true,
     maxFileSize: megabytesToBytes(DEFAULT_MAX_SIZE_MB),
     name:        "files[]",

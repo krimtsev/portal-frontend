@@ -1,0 +1,4 @@
+export const DEFAULT_MAX_SIZE_MB = 200
+export const DEFAULT_FILES_LIMIT = 5
+export const DEFAULT_TELEGRAM_MAX_SIZE_MB = 20
+export const DEFAULT_IMAGE_MAX_SIZE_MB = 5

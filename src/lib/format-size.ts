@@ -14,3 +14,6 @@ export function formatBytes(bytes?: number, decimals = 1): string | null {
 
     return `${value.toFixed(fixed)} ${units[i]}`
 }
+
+export const megabytesToBytes = (mb: number): number => mb * 1024 * 1024
+export const bytesToMegabytes = (mb: number): number => mb / 1024 / 1024

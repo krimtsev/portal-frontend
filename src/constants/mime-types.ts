@@ -5,7 +5,6 @@ export const MIME_TYPES = {
         "image/png",
         "image/webp",
         "image/tiff",
-        "application/postscript",
     ],
     DOCS: [
         "text/plain",
@@ -15,6 +14,7 @@ export const MIME_TYPES = {
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+        "application/postscript",
     ],
     VIDEO: [
         "video/mp4",
@@ -36,7 +36,9 @@ export const MIME_TYPES = {
     ],
 }
 
-export const DEFAULT_ACCEPT = [
+export const IMAGE_ACCEPT = MIME_TYPES.IMAGES.join(",")
+
+export const ALL_ACCEPT = [
     ...MIME_TYPES.IMAGES,
     ...MIME_TYPES.DOCS,
     ...MIME_TYPES.VIDEO,
@@ -44,9 +46,4 @@ export const DEFAULT_ACCEPT = [
     ...MIME_TYPES.ARCHIVES,
 ].join(",")
 
-export const DEFAULT_MAX_SIZE_MB = 200
-export const DEFAULT_FILES_LIMIT = 5
-export const DEFAULT_TELEGRAM_MAX_SIZE_MB = 20
 
-export const megabytesToBytes = (mb: number): number => mb * 1024 * 1024
-export const bytesToMegabytes = (mb: number): number => mb / 1024 / 1024

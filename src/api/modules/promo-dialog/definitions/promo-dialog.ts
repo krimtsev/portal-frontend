@@ -3,4 +3,5 @@ export interface PromoDialog {
     template:    string
     title:       string
     description: string
+    image:       string | null
 }

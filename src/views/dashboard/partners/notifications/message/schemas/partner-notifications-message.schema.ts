@@ -1,10 +1,8 @@
 import * as z from "zod"
 import { toTypedSchema } from "@vee-validate/zod"
 import { telegramMessageLength } from "@/constants/messages"
-import {
-    DEFAULT_TELEGRAM_MAX_SIZE_MB,
-    megabytesToBytes,
-} from "@c/common/b-upload-file/utils/b-file-upload"
+import { megabytesToBytes } from "@/lib/format-size"
+import { DEFAULT_TELEGRAM_MAX_SIZE_MB } from "@/constants/files"
 
 const MAX_FILE_SIZE = megabytesToBytes(DEFAULT_TELEGRAM_MAX_SIZE_MB)
 
