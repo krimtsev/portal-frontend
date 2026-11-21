@@ -158,9 +158,4 @@ onBeforeUnmount(() => {
         animation: shimmer 1.5s linear infinite;
     }
 }
-
-@keyframes shimmer {
-    0% { background-position: -200px 0; }
-    100% { background-position: calc(200px + 100%) 0; }
-}
 </style>

@@ -158,6 +158,17 @@ const items = computed<DashboardMenuItem[]>(() => {
         })
 
         menu.push({
+            key:         "promotions",
+            label:       t("mc.dashboard.sidebar.promotions"),
+            icon:        "pi pi-wallet",
+            route:       dashboardPaths.DashboardPromotions,
+            activeNames: [
+                DashboardRouteName.DashboardPromotions,
+                DashboardRouteName.DashboardPromotion,
+            ],
+        })
+
+        menu.push({
             key:         "settings",
             label:       t("mc.dashboard.sidebar.settings"),
             icon:        "pi pi-cog",

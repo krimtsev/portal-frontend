@@ -3,11 +3,16 @@ import { cloneDeep, isEqual } from "lodash"
 
 export function useQueryState<T extends Record<string, any>>(initialValues: T) {
     const isLoading = ref<boolean>(false)
+    const isExporting = ref<boolean>(false)
 
     const initialFilter = ref(cloneDeep(initialValues)) as Ref<T>
     const currentFilter = ref(cloneDeep(initialValues)) as Ref<T>
 
     function setIsLoading(value: boolean) {
+        isLoading.value = value
+    }
+
+    function setIsExporting(value: boolean) {
         isLoading.value = value
     }
 
@@ -26,9 +31,11 @@ export function useQueryState<T extends Record<string, any>>(initialValues: T) {
     return {
         filter: currentFilter,
         isLoading,
+        isExporting,
         isChanged,
 
         setIsLoading,
+        setIsExporting,
         commitFilter,
         resetFilter,
     }

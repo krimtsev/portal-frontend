@@ -22,3 +22,27 @@ export function $sanitizeHtml(dirty: string, escape: boolean = false): string {
     })
 }
 
+function normalize(html: string): string {
+    return html.replace(/&nbsp;|\u00A0/g, " ")
+        .replace(/<p>\s*<\/p>/g, "<p><br></p>")
+        .trim()
+}
+
+export function $sanitizeEditorHtml(dirty: string): string {
+    const clean = DOMPurify.sanitize(dirty, {
+        ALLOWED_TAGS: ["br", "p", "strong", "b", "em", "i", "u", "s", "strike", "ol", "ul", "li"],
+
+        // в редакторе нет ссылок/картинок/классов
+        ALLOWED_ATTR: [],
+
+        // никаких href/src
+        ALLOWED_URI_REGEXP: /^$/,
+
+        // текст из запрещённых тегов сохраняем
+        KEEP_CONTENT:        true,
+        WHOLE_DOCUMENT:      false,
+        RETURN_DOM_FRAGMENT: false,
+    })
+
+    return normalize(clean)
+}

@@ -335,6 +335,7 @@
                 "settings": "Настройки",
                 "telnums": "Телефония",
                 "promoDialogs": "Промо-диалоги",
+                "promotions": "Промо-акции",
                 "bankDetails": "Реквизиты банка"
             },
             "users": {
@@ -361,6 +362,11 @@
             "promoDialog": {
                 "notify": {
                     "created": "Промо-диалог успешно создан"
+                }
+            },
+            "promotions": {
+                "notify": {
+                    "created": "Промо-акция успешно создана"
                 }
             },
             "partnerGroup": {

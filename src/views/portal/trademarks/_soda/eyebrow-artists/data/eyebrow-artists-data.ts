@@ -86,8 +86,8 @@ export const partnersData: PartnersData[] = [
     },
     {
         name:    "BrowHenna",
-        manager: "Мария",
-        phone:   "79160513843",
+        manager: "Дарья",
+        phone:   "79160513650",
         details: [
             {
                 label: "Размер скидки",

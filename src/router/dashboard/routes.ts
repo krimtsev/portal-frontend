@@ -241,7 +241,24 @@ const routes: RouteRecordRaw[] = [
             breadcrumb: "mc.dashboard.sidebar.promoDialogs",
         },
     },
-
+    {
+        path:      dashboardPaths.DashboardPromotions,
+        name:      DashboardRouteName.DashboardPromotions,
+        component: () => import("@v/dashboard/promotions/list/promotions-list-view.vue"),
+        meta:      {
+            roles:      [Roles.ADMIN, Roles.SYSADMIN],
+            breadcrumb: "mc.dashboard.sidebar.promotions",
+        },
+    },
+    {
+        path:      dashboardPaths.DashboardPromotion,
+        name:      DashboardRouteName.DashboardPromotion,
+        component: () => import("@v/dashboard/promotions/edit/promotion-view.vue"),
+        meta:      {
+            roles:      [Roles.ADMIN, Roles.SYSADMIN],
+            breadcrumb: "mc.dashboard.sidebar.promotions",
+        },
+    },
     {
         path:      dashboardPaths.DashboardBankDetails,
         name:      DashboardRouteName.DashboardBankDetails,
