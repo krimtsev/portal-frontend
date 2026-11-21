@@ -38,6 +38,8 @@ const fileInputRef = useTemplateRef<HTMLInputElement>("fileInputRef")
 const localError = ref<string | null>(null)
 const dragCounter = ref(0)
 
+const serverImageLoadFailed = ref(false)
+
 const isDisabled = computed(() => props.disabled)
 const isDragging = computed(() => dragCounter.value > 0)
 const maxFileSizeMB = computed(() => bytesToMegabytes(props.maxFileSize))
@@ -55,6 +57,10 @@ watch(model, (file) => {
     }
 }, { immediate: true })
 
+watch(() => props.serverUrl, () => {
+    serverImageLoadFailed.value = false
+})
+
 onBeforeUnmount(() => {
     if (localPreviewUrl.value) {
         URL.revokeObjectURL(localPreviewUrl.value)
@@ -63,9 +69,17 @@ onBeforeUnmount(() => {
 
 const displayUrl = computed<string | null>(() => {
     if (model.value) return localPreviewUrl.value
+    if (serverImageLoadFailed.value) return null
     return props.serverUrl
 })
+
 const hasImage = computed(() => !!displayUrl.value)
+
+function onImageError() {
+    if (!model.value) {
+        serverImageLoadFailed.value = true
+    }
+}
 
 // ----- валидация -----
 function validateFile(file: File): string | null {
@@ -195,6 +209,7 @@ defineExpose({ clear })
                 :src="displayUrl!"
                 alt=""
                 class="preview-image"
+                @error="onImageError"
             >
 
             <div

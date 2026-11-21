@@ -24,7 +24,7 @@ export function $sanitizeHtml(dirty: string, escape: boolean = false): string {
 
 function normalize(html: string): string {
     return html.replace(/&nbsp;|\u00A0/g, " ")
-        .replace(/<p>\s*<\/p>/g, "<p><br></p>")
+        .replace(/<p>\s*<\/p>/g, "<br>")
         .trim()
 }
 
