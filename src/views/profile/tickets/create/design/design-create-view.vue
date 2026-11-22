@@ -179,7 +179,7 @@ const onSave = handleSubmit(async (formValues) => {
                             :disabled="isDisabled"
                             :error="errors['partner_id']"
                             option-label="name"
-                            option-value="partner_id"
+                            option-value="id"
                             :placeholder="t('mc.common.partner')"
                             full-width
                         />
