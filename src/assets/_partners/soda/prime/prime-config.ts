@@ -627,6 +627,35 @@ export default {
                 },
             },
         },
+        editor: {
+            colorScheme: {
+                dark: {
+                    root: {
+                        toolbar: {
+                            item: {
+                                border: {
+                                    color: "transparent",
+                                },
+                                hover: {
+                                    color:      "{primary.500}",
+                                    background: "{surface.600}",
+                                    border:     {
+                                        color: "transparent",
+                                    },
+                                },
+                                active: {
+                                    color: "{primary.500}",
+                                },
+                            },
+                        },
+                        disabled: {
+                            color:      "{inputtext.disabled.color}",
+                            background: "{inputtext.disabled.background}",
+                        },
+                    },
+                },
+            },
+        },
     },
     semantic: {
         typography: {
