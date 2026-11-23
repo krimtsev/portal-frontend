@@ -1,6 +1,6 @@
 import type { CloudData } from "@v/portal/cloud/definitions/cloud"
-
 import { http } from "@/api"
+import { streamFile } from "@/lib/files"
 
 interface CloudParams {
     slug?:   string
@@ -11,9 +11,8 @@ export async function getData(params: CloudParams) {
     return await http.get<CloudData>("cloud/list", { params })
 }
 
-export async function download(folderId: number, name: string) {
-    return await http.getFile({
-        fileName: name,
-        url:      `cloud/folder/${folderId}/download`,
-    })
+export function download(folderId: number, name: string) {
+    const baseURL = (http.defaults.baseURL ?? "").replace(/\/+$/, "")
+    const url = `${baseURL}/cloud/folder/${folderId}/download/${encodeURIComponent(name)}`
+    streamFile(url)
 }

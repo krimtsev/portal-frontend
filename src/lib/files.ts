@@ -27,3 +27,12 @@ export function downloadExternalFile(dataDocument: Blob, filename: string) {
     document.body.removeChild(dummy)
     window.URL.revokeObjectURL(url)
 }
+
+export function streamFile(url: string) {
+    const link = document.createElement("a")
+    link.href = url
+    link.rel = "noopener"
+    document.body.appendChild(link)
+    link.click()
+    link.remove()
+}

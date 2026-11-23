@@ -1,19 +1,14 @@
 <script setup lang="ts">
 import { computed, ref } from "vue"
 import PrimeTag from "primevue/tag"
-import { useNotify } from "@/composables/notify/use-notify"
-import { HttpError } from "@/api"
 import * as cloudAPI from "@/api/modules/cloud/cloud"
 import BSpinner from "@c/common/b-spinner/b-spinner.vue"
 import type { CloudFileItem } from "@v/portal/cloud/definitions/cloud"
-import { downloadExternalFile } from "@/lib/files"
 import { formatBytes } from "@/lib/format-size"
 
 const props = defineProps<{
     item: CloudFileItem
 }>()
-
-const notify = useNotify()
 
 const isLoading = ref(false)
 
@@ -31,23 +26,16 @@ const isNew = computed(() => {
     return diff >= 0 && diff <= FIVE_DAYS_MS
 })
 
-async function onClick() {
+function onClick() {
     if (isLoading.value) return
-
     isLoading.value = true
 
     try {
-        const data = await cloudAPI.download(props.item.cloud_folders_id, props.item.name)
-
-        if (data instanceof HttpError) {
-            notify.error()
-            return
-        }
-
-        const { title, ext } = props.item
-        downloadExternalFile(data, `${title}.${ext}`)
+        cloudAPI.download(props.item.cloud_folders_id, props.item.name)
     } finally {
-        isLoading.value = false
+        setTimeout(() => {
+            isLoading.value = false
+        }, 1500)
     }
 }
 </script>
