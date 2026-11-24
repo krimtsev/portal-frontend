@@ -10,9 +10,9 @@ import { CommonRouteName } from "@r/common/route-names"
 import { PortalRouteName } from "@r/portal/route-names"
 import routes, { addCustomizationRoutes } from "@r/routes"
 import i18n from "@/plugins/i18n"
-import type { Roles } from "@/definitions/roles"
 import { useMaintenanceStore } from "@s/maintenance/maintenance"
 import type { Partner } from "@/definitions/partner"
+import { DashboardSection } from "@/definitions/dashboard"
 
 const scrollBehavior: RouterScrollBehavior = (_to, _from, savedPosition) => {
     if (savedPosition) {
@@ -73,12 +73,15 @@ router.beforeEach(async (to: RouteLocationNormalized, _from, next) => {
             return next({ name: PortalRouteName.Home, replace: true })
         }
 
-        // Проверка ролей
-        const requiredRoles = to.meta?.roles as Roles[] | undefined
-        const userRole = authStore.user?.role
-
-        if (requiredRoles && !requiredRoles.includes(userRole)) {
-            return next({ name: PortalRouteName.Home, replace: true })
+        // Доступ к разделу дашборда
+        const requiredSection = to.meta?.section as DashboardSection | undefined
+        if (requiredSection) {
+            if (!authStore.isDashboardUser) {
+                return next({ name: PortalRouteName.Home, replace: true })
+            }
+            if (!authStore.canSee(requiredSection)) {
+                return next({ name: PortalRouteName.Home, replace: true })
+            }
         }
 
         // Проверка партнера

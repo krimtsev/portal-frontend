@@ -3,6 +3,7 @@ import { dashboardPaths } from "@r/dashboard/path"
 import { DashboardRouteName } from "@r/dashboard/route-names"
 import { Roles } from "@/definitions/roles"
 import { Partner } from "@/definitions/partner"
+import { DashboardSection } from "@/definitions/dashboard"
 
 const routes: RouteRecordRaw[] = [
     {
@@ -10,7 +11,7 @@ const routes: RouteRecordRaw[] = [
         name:      DashboardRouteName.DashboardPanel,
         component: () => import("@v/dashboard/panel/panel-view.vue"),
         meta:      {
-            roles:      [Roles.ADMIN, Roles.SYSADMIN],
+            section:    DashboardSection.Panel,
             breadcrumb: "mc.dashboard.sidebar.home",
         },
     },
@@ -19,7 +20,7 @@ const routes: RouteRecordRaw[] = [
         name:      DashboardRouteName.DashboardTickets,
         component: () => import("@v/dashboard/tickets/list/tickets-list-view.vue"),
         meta:      {
-            roles:      [Roles.ADMIN, Roles.SYSADMIN],
+            section:    DashboardSection.Tickets,
             breadcrumb: "mc.dashboard.sidebar.tickets",
         },
     },
@@ -28,7 +29,7 @@ const routes: RouteRecordRaw[] = [
         name:      DashboardRouteName.DashboardTicket,
         component: () => import("@v/dashboard/tickets/edit/ticket-view.vue"),
         meta:      {
-            roles:      [Roles.ADMIN, Roles.SYSADMIN],
+            section:    DashboardSection.Tickets,
             breadcrumb: "mc.dashboard.sidebar.tickets",
         },
     },
@@ -37,7 +38,7 @@ const routes: RouteRecordRaw[] = [
         name:      DashboardRouteName.DashboardUsers,
         component: () => import("@v/dashboard/users/list/users-list-view.vue"),
         meta:      {
-            roles:      [Roles.SYSADMIN],
+            section:    DashboardSection.Users,
             breadcrumb: "mc.dashboard.sidebar.users",
         },
     },
@@ -46,7 +47,7 @@ const routes: RouteRecordRaw[] = [
         name:      DashboardRouteName.DashboardUser,
         component: () => import("@v/dashboard/users/edit/user-view.vue"),
         meta:      {
-            roles:      [Roles.SYSADMIN],
+            section:    DashboardSection.Users,
             breadcrumb: "mc.dashboard.sidebar.users",
         },
     },
@@ -54,7 +55,6 @@ const routes: RouteRecordRaw[] = [
         path:      dashboardPaths.DashboardPartners,
         component: () => import("@v/dashboard/partners/partners-view.vue"),
         meta:      {
-            roles:      [Roles.SYSADMIN],
             breadcrumb: "mc.dashboard.sidebar.partners",
         },
         children: [
@@ -62,16 +62,25 @@ const routes: RouteRecordRaw[] = [
                 path:      dashboardPaths.DashboardPartners,
                 name:      DashboardRouteName.DashboardPartners,
                 component: () => import("@v/dashboard/partners/company/list/partners-list-view.vue"),
+                meta:      {
+                    section: DashboardSection.Partners,
+                },
             },
             {
                 path:      dashboardPaths.DashboardPartnerGroups,
                 name:      DashboardRouteName.DashboardPartnerGroups,
                 component: () => import("@v/dashboard/partners/groups/list/partner-groups-list-view.vue"),
+                meta:      {
+                    section: DashboardSection.PartnerGroups,
+                },
             },
             {
                 path:      dashboardPaths.DashboardPartnerNotifications,
                 name:      DashboardRouteName.DashboardPartnerNotifications,
                 component: () => import("@v/dashboard/partners/notifications/list/partner-notifications-list-view.vue"),
+                meta:      {
+                    section: DashboardSection.PartnerNotifications,
+                },
             },
         ],
     },
@@ -80,7 +89,7 @@ const routes: RouteRecordRaw[] = [
         name:      DashboardRouteName.DashboardPartner,
         component: () => import("@v/dashboard/partners/company/edit/partner-view.vue"),
         meta:      {
-            roles:      [Roles.SYSADMIN],
+            section:    DashboardSection.Partners,
             breadcrumb: "mc.dashboard.sidebar.partners",
         },
     },
@@ -89,7 +98,7 @@ const routes: RouteRecordRaw[] = [
         name:      DashboardRouteName.DashboardPartnerGroup,
         component: () => import("@v/dashboard/partners/groups/edit/partner-group-view.vue"),
         meta:      {
-            roles:      [Roles.SYSADMIN],
+            section:    DashboardSection.PartnerGroups,
             breadcrumb: "mc.dashboard.sidebar.partners",
         },
     },
@@ -98,7 +107,7 @@ const routes: RouteRecordRaw[] = [
         name:      DashboardRouteName.DashboardPartnerNotification,
         component: () => import("@v/dashboard/partners/notifications/edit/partner-notification-view.vue"),
         meta:      {
-            roles:      [Roles.SYSADMIN],
+            section:    DashboardSection.PartnerNotifications,
             breadcrumb: "mc.dashboard.sidebar.partners",
         },
     },
@@ -107,7 +116,7 @@ const routes: RouteRecordRaw[] = [
         name:      DashboardRouteName.DashboardPartnerMessage,
         component: () => import("@v/dashboard/partners/notifications/message/partner-notification-message-view.vue"),
         meta:      {
-            roles:      [Roles.SYSADMIN],
+            section:    DashboardSection.PartnerMessages,
             breadcrumb: "mc.dashboard.sidebar.partners",
         },
     },
@@ -115,7 +124,7 @@ const routes: RouteRecordRaw[] = [
         path:      dashboardPaths.DashboardRoyaltyPercent,
         component: () => import("@v/dashboard/royalty/royalty-view.vue"),
         meta:      {
-            roles:      [Roles.SYSADMIN],
+            section:    DashboardSection.Royalty,
             breadcrumb: "mc.dashboard.sidebar.royalty",
         },
         children: [
@@ -138,7 +147,7 @@ const routes: RouteRecordRaw[] = [
         path:      dashboardPaths.DashboardStatisticsStaff,
         component: () => import("@v/dashboard/statistics/statistics-view.vue"),
         meta:      {
-            roles:      [Roles.ADMIN, Roles.SYSADMIN],
+            section:    DashboardSection.Statistics,
             breadcrumb: "mc.dashboard.sidebar.statistics",
         },
         children: [
@@ -159,7 +168,7 @@ const routes: RouteRecordRaw[] = [
         name:      DashboardRouteName.DashboardCloudList,
         component: () => import("@v/dashboard/cloud/list/cloud-list-view.vue"),
         meta:      {
-            roles:      [Roles.ADMIN, Roles.SYSADMIN],
+            section:    DashboardSection.Cloud,
             breadcrumb: "mc.dashboard.sidebar.cloud",
         },
     },
@@ -168,7 +177,7 @@ const routes: RouteRecordRaw[] = [
         name:      DashboardRouteName.DashboardCloud,
         component: () => import("@v/dashboard/cloud/edit/cloud-view.vue"),
         meta:      {
-            roles:      [Roles.ADMIN, Roles.SYSADMIN],
+            section:    DashboardSection.Cloud,
             breadcrumb: "mc.dashboard.sidebar.cloud",
         },
     },
@@ -177,7 +186,7 @@ const routes: RouteRecordRaw[] = [
         name:      DashboardRouteName.DashboardEventCalendar,
         component: () => import("@v/dashboard/event-calendar/edit/event-calendar-view.vue"),
         meta:      {
-            roles:      [Roles.ADMIN, Roles.SYSADMIN],
+            section:    DashboardSection.EventCalendar,
             breadcrumb: "mc.dashboard.sidebar.eventCalendar",
         },
     },
@@ -186,7 +195,7 @@ const routes: RouteRecordRaw[] = [
         name:      DashboardRouteName.DashboardEventCalendarList,
         component: () => import("@v/dashboard/event-calendar/list/event-calendar-list-view.vue"),
         meta:      {
-            roles:      [Roles.ADMIN, Roles.SYSADMIN],
+            section:    DashboardSection.EventCalendar,
             breadcrumb: "mc.dashboard.sidebar.eventCalendar",
         },
     },
@@ -195,7 +204,7 @@ const routes: RouteRecordRaw[] = [
         name:      DashboardRouteName.DashboardSettings,
         component: () => import("@v/dashboard/settings/_settings/settings-view.vue"),
         meta:      {
-            roles:      [Roles.SYSADMIN],
+            section:    DashboardSection.Settings,
             breadcrumb: "mc.dashboard.sidebar.settings",
         },
     },
@@ -212,7 +221,7 @@ const routes: RouteRecordRaw[] = [
         path:      dashboardPaths.DashboardTelnumsIncoming,
         component: () => import("@v/dashboard/telnums/telnums-view.vue"),
         meta:      {
-            roles:      [Roles.ADMIN, Roles.SYSADMIN],
+            section:    DashboardSection.Telnums,
             breadcrumb: "mc.dashboard.sidebar.telnums",
         },
         children: [
@@ -228,7 +237,7 @@ const routes: RouteRecordRaw[] = [
         name:      DashboardRouteName.DashboardPromoDialogs,
         component: () => import("@v/dashboard/promo-dialogs/list/promo-dialogs-list-view.vue"),
         meta:      {
-            roles:      [Roles.SYSADMIN],
+            section:    DashboardSection.PromoDialogs,
             breadcrumb: "mc.dashboard.sidebar.promoDialogs",
         },
     },
@@ -237,7 +246,7 @@ const routes: RouteRecordRaw[] = [
         name:      DashboardRouteName.DashboardPromoDialog,
         component: () => import("@v/dashboard/promo-dialogs/edit/promo-dialog-view.vue"),
         meta:      {
-            roles:      [Roles.SYSADMIN],
+            section:    DashboardSection.PromoDialogs,
             breadcrumb: "mc.dashboard.sidebar.promoDialogs",
         },
     },
@@ -246,7 +255,7 @@ const routes: RouteRecordRaw[] = [
         name:      DashboardRouteName.DashboardPromotions,
         component: () => import("@v/dashboard/promotions/list/promotions-list-view.vue"),
         meta:      {
-            roles:      [Roles.ADMIN, Roles.SYSADMIN],
+            section:    DashboardSection.Promotions,
             breadcrumb: "mc.dashboard.sidebar.promotions",
         },
     },
@@ -255,7 +264,7 @@ const routes: RouteRecordRaw[] = [
         name:      DashboardRouteName.DashboardPromotion,
         component: () => import("@v/dashboard/promotions/edit/promotion-view.vue"),
         meta:      {
-            roles:      [Roles.ADMIN, Roles.SYSADMIN],
+            section:    DashboardSection.Promotions,
             breadcrumb: "mc.dashboard.sidebar.promotions",
         },
     },
@@ -264,7 +273,7 @@ const routes: RouteRecordRaw[] = [
         name:      DashboardRouteName.DashboardBankDetails,
         component: () => import("@v/dashboard/bank-details/list/bank-details-list-view.vue"),
         meta:      {
-            roles:      [Roles.SYSADMIN],
+            section:    DashboardSection.BankDetails,
             breadcrumb: "mc.dashboard.sidebar.bankDetails",
         },
     },
@@ -273,7 +282,7 @@ const routes: RouteRecordRaw[] = [
         name:      DashboardRouteName.DashboardBankDetail,
         component: () => import("@v/dashboard/bank-details/edit/bank-detail-view.vue"),
         meta:      {
-            roles:      [Roles.SYSADMIN],
+            section:    DashboardSection.BankDetails,
             breadcrumb: "mc.dashboard.sidebar.bankDetails",
         },
     },

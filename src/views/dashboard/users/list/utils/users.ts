@@ -25,6 +25,18 @@ export const rolesList: { id: Roles, name: string }[] = [
         name: i18n.global.t("mc.roles.user"),
     },
     {
+        id:   Roles.SUPPORT,
+        name: i18n.global.t("mc.roles.support"),
+    },
+    {
+        id:   Roles.MARKETING,
+        name: i18n.global.t("mc.roles.marketing"),
+    },
+    {
+        id:   Roles.OFFICE_MANAGER,
+        name: i18n.global.t("mc.roles.office_manager"),
+    },
+    {
         id:   Roles.ADMIN,
         name: i18n.global.t("mc.roles.admin"),
     },

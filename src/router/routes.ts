@@ -39,8 +39,6 @@ async function lazyLoadRoutes(customization: Customization): Promise<RouteRecord
         customizationRoutes.push(...(module.default || module))
     }
 
-    // TODO: Переделать на динамическое добавление роутов для админа
-    // if (customization.hasDashboard) {}
     const module = await getDashboardRoutes()
     customizationRoutes.push(...(module.default || module))
 
@@ -51,10 +49,9 @@ export async function addCustomizationRoutes(router: Router) {
     const appStore = useAppStore()
 
     const customization: Customization = {
-        hasDashboard: appStore.hasDashboard,
-        isBritva:     appStore.isBritva,
-        isSoda:       appStore.isSoda,
-        isLapki:      appStore.isLapki,
+        isBritva: appStore.isBritva,
+        isSoda:   appStore.isSoda,
+        isLapki:  appStore.isLapki,
     }
 
     const routes = await lazyLoadRoutes(customization)

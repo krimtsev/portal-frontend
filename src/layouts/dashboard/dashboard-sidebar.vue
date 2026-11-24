@@ -9,6 +9,7 @@ import { useAuthStore } from "@s/auth/auth"
 import { dashboardPaths } from "@r/dashboard/path"
 import { DashboardRouteName } from "@r/dashboard/route-names"
 import BImage from "@c/common/b-image/b-image.vue"
+import { DashboardSection } from "@/definitions/dashboard"
 
 interface DashboardMenuItem extends MenuItem {
     activeNames?:       string[]
@@ -27,8 +28,10 @@ const HIGHLIGHT_PARENT = false
 const expandedKeys = ref<Record<string, boolean>>({})
 
 const items = computed<DashboardMenuItem[]>(() => {
-    const menu: DashboardMenuItem[] = [
-        {
+    const menu: DashboardMenuItem[] = []
+
+    if (authStore.canSee(DashboardSection.Panel)) {
+        menu.push({
             key:         "home",
             label:       t("mc.dashboard.sidebar.home"),
             icon:        "pi pi-home",
@@ -36,10 +39,10 @@ const items = computed<DashboardMenuItem[]>(() => {
             activeNames: [
                 DashboardRouteName.DashboardPanel,
             ],
-        },
-    ]
+        })
+    }
 
-    if (authStore.isSysAdmin) {
+    if (authStore.canSee(DashboardSection.Users)) {
         menu.push({
             key:         "users",
             label:       t("mc.dashboard.sidebar.users"),
@@ -50,7 +53,9 @@ const items = computed<DashboardMenuItem[]>(() => {
                 DashboardRouteName.DashboardUser,
             ],
         })
+    }
 
+    if (authStore.canSee(DashboardSection.Partners)) {
         menu.push({
             key:         "partners",
             label:       t("mc.dashboard.sidebar.partners"),
@@ -67,29 +72,33 @@ const items = computed<DashboardMenuItem[]>(() => {
         })
     }
 
-    menu.push({
-        key:         "tickets",
-        label:       t("mc.dashboard.sidebar.tickets"),
-        icon:        "pi pi-comments",
-        route:       dashboardPaths.DashboardTickets,
-        activeNames: [
-            DashboardRouteName.DashboardTickets,
-            DashboardRouteName.DashboardTicket,
-        ],
-    })
+    if (authStore.canSee(DashboardSection.Tickets)) {
+        menu.push({
+            key:         "tickets",
+            label:       t("mc.dashboard.sidebar.tickets"),
+            icon:        "pi pi-comments",
+            route:       dashboardPaths.DashboardTickets,
+            activeNames: [
+                DashboardRouteName.DashboardTickets,
+                DashboardRouteName.DashboardTicket,
+            ],
+        })
+    }
 
-    menu.push({
-        key:         "eventCalendar",
-        label:       t("mc.dashboard.sidebar.eventCalendar"),
-        icon:        "pi pi-calendar-clock",
-        route:       dashboardPaths.DashboardEventCalendarList,
-        activeNames: [
-            DashboardRouteName.DashboardEventCalendarList,
-            DashboardRouteName.DashboardEventCalendar,
-        ],
-    })
+    if (authStore.canSee(DashboardSection.EventCalendar)) {
+        menu.push({
+            key:         "eventCalendar",
+            label:       t("mc.dashboard.sidebar.eventCalendar"),
+            icon:        "pi pi-calendar-clock",
+            route:       dashboardPaths.DashboardEventCalendarList,
+            activeNames: [
+                DashboardRouteName.DashboardEventCalendarList,
+                DashboardRouteName.DashboardEventCalendar,
+            ],
+        })
+    }
 
-    if (authStore.isSysAdmin) {
+    if (authStore.canSee(DashboardSection.Royalty)) {
         menu.push({
             key:         "royalty",
             label:       t("mc.dashboard.sidebar.royalty"),
@@ -102,39 +111,45 @@ const items = computed<DashboardMenuItem[]>(() => {
         })
     }
 
-    menu.push({
-        key:         "statistics",
-        label:       t("mc.dashboard.sidebar.statistics"),
-        icon:        "pi pi-chart-bar",
-        route:       dashboardPaths.DashboardStatisticsStaff,
-        activeNames: [
-            DashboardRouteName.DashboardStatisticsStaff,
-            DashboardRouteName.DashboardStatisticsPartner,
-        ],
-    })
+    if (authStore.canSee(DashboardSection.Statistics)) {
+        menu.push({
+            key:         "statistics",
+            label:       t("mc.dashboard.sidebar.statistics"),
+            icon:        "pi pi-chart-bar",
+            route:       dashboardPaths.DashboardStatisticsStaff,
+            activeNames: [
+                DashboardRouteName.DashboardStatisticsStaff,
+                DashboardRouteName.DashboardStatisticsPartner,
+            ],
+        })
+    }
 
-    menu.push({
-        key:         "telnums",
-        label:       t("mc.dashboard.sidebar.telnums"),
-        icon:        "pi pi-phone",
-        route:       dashboardPaths.DashboardTelnumsIncoming,
-        activeNames: [
-            DashboardRouteName.DashboardTelnumsIncoming,
-        ],
-    })
+    if (authStore.canSee(DashboardSection.Telnums)) {
+        menu.push({
+            key:         "telnums",
+            label:       t("mc.dashboard.sidebar.telnums"),
+            icon:        "pi pi-phone",
+            route:       dashboardPaths.DashboardTelnumsIncoming,
+            activeNames: [
+                DashboardRouteName.DashboardTelnumsIncoming,
+            ],
+        })
+    }
 
-    menu.push({
-        key:         "cloud",
-        label:       t("mc.dashboard.sidebar.cloud"),
-        icon:        "pi pi-folder",
-        route:       dashboardPaths.DashboardCloudList,
-        activeNames: [
-            DashboardRouteName.DashboardCloudList,
-            DashboardRouteName.DashboardCloud,
-        ],
-    })
+    if (authStore.canSee(DashboardSection.Cloud)) {
+        menu.push({
+            key:         "cloud",
+            label:       t("mc.dashboard.sidebar.cloud"),
+            icon:        "pi pi-folder",
+            route:       dashboardPaths.DashboardCloudList,
+            activeNames: [
+                DashboardRouteName.DashboardCloudList,
+                DashboardRouteName.DashboardCloud,
+            ],
+        })
+    }
 
-    if (authStore.isSysAdmin) {
+    if (authStore.canSee(DashboardSection.BankDetails)) {
         menu.push({
             key:         "bank-details",
             label:       t("mc.dashboard.sidebar.bankDetails"),
@@ -145,7 +160,9 @@ const items = computed<DashboardMenuItem[]>(() => {
                 DashboardRouteName.DashboardBankDetail,
             ],
         })
+    }
 
+    if (authStore.canSee(DashboardSection.PromoDialogs)) {
         menu.push({
             key:         "promo-dialogs",
             label:       t("mc.dashboard.sidebar.promoDialogs"),
@@ -156,7 +173,9 @@ const items = computed<DashboardMenuItem[]>(() => {
                 DashboardRouteName.DashboardPromoDialog,
             ],
         })
+    }
 
+    if (authStore.canSee(DashboardSection.Promotions)) {
         menu.push({
             key:         "promotions",
             label:       t("mc.dashboard.sidebar.promotions"),
@@ -167,7 +186,9 @@ const items = computed<DashboardMenuItem[]>(() => {
                 DashboardRouteName.DashboardPromotion,
             ],
         })
+    }
 
+    if (authStore.canSee(DashboardSection.Settings)) {
         menu.push({
             key:         "settings",
             label:       t("mc.dashboard.sidebar.settings"),

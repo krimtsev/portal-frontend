@@ -1,5 +1,7 @@
 import { Roles } from "@/definitions/roles"
 import type { PromoDialog } from "@/api/modules/promo-dialog/definitions/promo-dialog"
+import { DashboardSection } from "@/definitions/dashboard"
+
 
 export interface LoginCredentials {
     login:    string
@@ -11,6 +13,7 @@ export interface AuthData {
     user:         UserData
     partner:      PartnerData | null
     timeZoneName: string
+    sections:     DashboardSection[]
 }
 
 export interface PartnerData {
@@ -38,4 +41,5 @@ export interface AuthResponse {
     partner:        PartnerData | null
     time_zone_name: string | null
     promoDialogs:   PromoDialog[]
+    sections:       DashboardSection[]
 }

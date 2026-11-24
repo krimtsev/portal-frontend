@@ -1,7 +1,6 @@
 import { defineStore } from "pinia"
 import { computed, ref } from "vue"
 import { Partner } from "@/definitions/partner"
-import { Roles } from "@/definitions/roles"
 import { useAuthStore } from "@s/auth/auth"
 import partnerContext from "virtual:partner"
 
@@ -18,7 +17,6 @@ export const useAppStore = defineStore("app", () => {
     const isSoda = computed(() => currentPartner === Partner.Soda)
     const isLapki = computed(() => currentPartner === Partner.Lapki)
 
-    const hasDashboard = computed(() => [Roles.SYSADMIN, Roles.ADMIN].includes(authStore.user?.role))
     const showLocationMap = computed(() => authStore.userAccess.location_map)
 
     function setLoading(value: boolean) {
@@ -40,7 +38,6 @@ export const useAppStore = defineStore("app", () => {
         isBritva,
         isSoda,
         isLapki,
-        hasDashboard,
         showLocationMap,
         currentPartner,
 

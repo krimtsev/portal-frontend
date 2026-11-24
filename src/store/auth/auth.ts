@@ -19,6 +19,7 @@ import { Settings } from "luxon"
 import { useHomeStore } from "@s/home/home"
 import { useMaintenanceStore } from "@s/maintenance/maintenance"
 import { usePromoDialogStore } from "@s/promo-dialog/promo-dialog"
+import { DashboardSection } from "@/definitions/dashboard"
 
 
 function defaultAuthData(): AuthData {
@@ -32,6 +33,7 @@ function defaultAuthData(): AuthData {
         },
         partner:      null,
         timeZoneName: "Europe/Moscow",
+        sections:     [],
     }
 }
 
@@ -53,6 +55,12 @@ export const useAuthStore = defineStore("auth", () => {
     const timeZoneName = ref<string>(initialData.timeZoneName)
     const userAccess = ref<UserAccessData>(defaultUserAccessData())
 
+    const sections = ref<DashboardSection[]>([])
+    const canSee = (section: DashboardSection): boolean => {
+        return sections.value.includes(section)
+    }
+    const isDashboardUser = computed(() => sections.value.length > 0)
+
     const isAuthenticated = ref(false)
     const isLoading = ref(true)
 
@@ -66,6 +74,8 @@ export const useAuthStore = defineStore("auth", () => {
         user.value = response.user
         userAccess.value = response.access
         partner.value = response.partner
+
+        sections.value = response.sections
 
         promoDialogStore.setQueue(response.promoDialogs)
 
@@ -149,6 +159,7 @@ export const useAuthStore = defineStore("auth", () => {
         user.value = defaultData.user
         partner.value = defaultData.partner
         timeZoneName.value = defaultData.timeZoneName
+        sections.value = defaultData.sections
         userAccess.value = defaultUserAccessData()
 
         isAuthenticated.value = false
@@ -187,6 +198,10 @@ export const useAuthStore = defineStore("auth", () => {
         isAuthenticated,
         isLoading,
         isSysAdmin,
+
+        sections,
+        isDashboardUser,
+        canSee,
 
         auth,
         initUserData,

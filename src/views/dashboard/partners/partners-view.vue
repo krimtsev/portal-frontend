@@ -4,30 +4,41 @@ import { useRoute, useRouter } from "vue-router"
 import PrimeTab from "primevue/tab"
 import PrimeTabList from "primevue/tablist"
 import PrimeTabs from "primevue/tabs"
+import { useAuthStore } from "@s/auth/auth"
 import { DashboardRouteName } from "@r/dashboard/route-names"
+import { DashboardSection } from "@/definitions/dashboard"
 
 const route = useRoute()
 const router = useRouter()
+const authStore = useAuthStore()
 
 interface PageTab {
-    id:   string
-    text: string
+    id:      string
+    text:    string
+    section: DashboardSection
 }
 
-const pagesTabs: PageTab[] = [
+const allTabs: PageTab[] = [
     {
-        id:   DashboardRouteName.DashboardPartners,
-        text: "Спиок филиалов",
+        id:      DashboardRouteName.DashboardPartners,
+        text:    "Спиок филиалов",
+        section: DashboardSection.Partners,
     },
     {
-        id:   DashboardRouteName.DashboardPartnerGroups,
-        text: "Группы филиалов",
+        id:      DashboardRouteName.DashboardPartnerGroups,
+        text:    "Группы филиалов",
+        section: DashboardSection.PartnerGroups,
     },
     {
-        id:   DashboardRouteName.DashboardPartnerNotifications,
-        text: "Настройка уведомлений",
+        id:      DashboardRouteName.DashboardPartnerNotifications,
+        text:    "Настройка уведомлений",
+        section: DashboardSection.PartnerNotifications,
     },
 ]
+
+const pagesTabs = computed(() =>
+    allTabs.filter(tab => authStore.canSee(tab.section)),
+)
 
 const activeTab = computed({
     get() {

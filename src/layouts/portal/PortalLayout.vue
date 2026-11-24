@@ -11,7 +11,6 @@ import BAvatar from "@c/common/b-avatar/b-avatar.vue"
 import BImage from "@c/common/b-image/b-image.vue"
 import BLink from "@c/common/b-link/b-link.vue"
 import TechnicalWorks from "@c/technical-works/technical-works.vue"
-import { Roles } from "@/definitions/roles"
 
 
 const router = useRouter()
@@ -33,10 +32,6 @@ function goToDashboard() {
 async function onLogout() {
     await authStore.logout()
 }
-
-const hasDashboard = computed(() => {
-    return [Roles.ADMIN, Roles.SYSADMIN].includes(authStore.user.role)
-})
 
 const avatarLabel = computed(() => {
     const login = authStore.user.login
@@ -77,7 +72,7 @@ const avatarLabel = computed(() => {
                             />
                         </div>
                         <div
-                            v-if="hasDashboard"
+                            v-if="authStore.isDashboardUser"
                             class="right-section-item"
                         >
                             <b-link
