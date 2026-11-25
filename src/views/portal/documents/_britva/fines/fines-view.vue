@@ -9,9 +9,16 @@ import PortalContent from "@c/portal/portal-content/portal-content.vue"
 import PortalPage from "@c/portal/portal-page/portal-page.vue"
 import { buttonNavigation } from "@v/portal/documents/_britva/definitions/documents"
 import { finesData } from "@v/portal/documents/_britva/fines/data/fines-data"
+import type { FinesData } from "@v/portal/documents/_britva/fines/definitions/fines"
 import FinesRightSection from "@v/portal/documents/components/fines-right-section/fines-right-section.vue"
 
 const { n } = useI18n()
+
+const formatPrice = (item: FinesData) => {
+    const price = n(item.price, "currency")
+    const point = item.point ?? ""
+    return `${price} ${point}`.trim()
+}
 </script>
 
 <template>
@@ -40,7 +47,7 @@ const { n } = useI18n()
                 <portal-accordion-header :disable="!data.content">
                     <div class="fines-header">
                         <div class="info">{{ data.header }}</div>
-                        <div class="price">{{ n(data.price, "currency") }}</div>
+                        <div class="price">{{ formatPrice(data) }}</div>
                     </div>
                 </portal-accordion-header>
 

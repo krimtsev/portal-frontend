@@ -6,4 +6,5 @@ export interface FinesData {
     price:        number
     content?:     string | string[]
     contentType?: ContentType
+    point?:       string
 }
